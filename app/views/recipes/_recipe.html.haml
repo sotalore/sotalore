@@ -1,0 +1,64 @@
+.Recipe{ id: dom_id(recipe) }
+  .Recipe-name
+    .Recipe-nameActual
+      = user_recipe_button(recipe)
+      = recipe.name
+    .Recipe-nameControls
+      - unless current_page?(recipe)
+        -# smaller icon for editors
+        - if policy(Recipe).new?
+          = view_icon_to(recipe)
+        - else
+          = view_link_to('details', recipe)
+      = edit_recipe_icon(recipe)
+      = confirmation_icon(recipe)
+
+  .Recipe-detail
+    = image_tag("sota-icons/#{recipe.craft_skill.icon_name}", class: 'Recipe-icon')
+    .Recipe-meta
+      .Recipe-craftSkill
+        .Recipe-craftSkillName
+          = recipe.craft_skill.name.titleize
+          - if recipe.proficiency
+            = "[#{recipe.proficiency}]"
+          %span.Recipe-craftSkillTool
+            (#{recipe.craft_skill.primary_tool})
+          - if recipe.teachable.present?
+            %span.Recipe-teachable
+              #{t recipe.teachable, scope: [ :helpers, :label, :recipe, :teachables ], default: ''}
+
+      .Recipe-production
+        %span.u-label
+          Makes
+        - results = recipe.results.map do |result|
+          - capture do
+            = result.count
+            = link_to(result.item.name.to_s.pluralize(result.count), result.item)
+
+        - if results.present?
+          = to_sentence results
+        - else
+          %em unknown
+
+  .Recipe-ingredients
+    %span.u-label
+      Ingredients:
+  - recipe.ingredients.eager_load(item: { recipes: :results }).each do |ingredient|
+    - item = ingredient.item
+    .Recipe-ingredient
+      - sub_recipes = []
+      .Recipe-ingredientSummary
+        %span.Recipe-count
+          #{ingredient.count}
+        #{link_to(ingredient.name, item)}
+        = item_use_for_recipe_tag(item)
+        = item_price_tag(item)
+        = item_gathering_tag(item)
+        - item.recipes.each_with_index do |r,i|
+          - sub_dom_id = dom_id(item, dom_id(r))
+          - sub_recipes << sub_dom_id
+          = more_link_to(recipe_path(r, into: sub_dom_id),
+          { remote: true, data: { into: sub_dom_id } })
+      .Recipe-ingredientSubDetail
+        - sub_recipes.each do |id|
+          %div{id: id}

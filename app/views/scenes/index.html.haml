@@ -1,0 +1,36 @@
+- page_title('Scenes')
+
+= tile do
+  = tile_heading('All Scenes') do
+    - if policy(Scene).new?
+      = new_button_to('New Scene', new_scene_path)
+
+  = tile_body do
+    = sl_inline_form_for(@filter, url: {action: :index}, method: :get) do |f|
+      = f.select :level_id, Scene::LEVELS, include_blank: '-- all levels --'
+      = f.select :pvp, [['PVP', 0], ['Not PVP', 1]], include_blank: '-- any --'
+      = f.select :region_id, Scene::REGIONS, include_blank: '-- all regions --'
+      = f.select :scene_type_id, Scene::SCENE_TYPES, include_blank: '-- all scene types --'
+      = f.submit('Filter')
+
+    %table.Table
+      %thead
+        %th Name
+        %th Tier
+        %th PVP
+        %th Region
+        %th Type
+        - if policy(Scene).edit?
+          %th
+      %tbody
+        - @scenes.each do |scene|
+          %tr
+            %td= link_to(scene.name, scene)
+            %td= scene_level(scene)
+            %td= icon_tag('check') if scene.pvp
+            %td= scene.region
+            %td= scene.scene_type
+            - if policy(Scene).edit?
+              %td.u-textRight
+                = edit_icon_to(edit_scene_path(scene))
+    = paginate @scenes

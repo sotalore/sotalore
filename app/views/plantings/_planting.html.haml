@@ -1,0 +1,27 @@
+= tile do
+  = tile_heading planting.seed do
+    = destroy_icon_to(planting)
+  = tile_body do
+    - if planting.notes.present?
+      = notice_info do
+        = simple_format planting.notes
+    %p
+      Planted at: #{l planting.planted_at}
+      %strong
+        %em - #{planting.location_type}
+
+    .WateringPlan
+      - days_of_growing = planting.days_of_growing
+      - day_width = 100.0 / planting.total_calendar_days.to_f
+      .WateringPlan-Calendar
+        - days_of_growing.each do |date|
+          .WateringPlan-CalendarDay(style="width: #{day_width}%")
+            = l date, format: :watering_calendar
+
+      .WateringPlan-Steps
+        .WateringPlan-StepBuffer(style="width: #{planting.buffer_width}%")
+          .WateringPlan-StepTime= l(planting.planted_at, format: :watering_step)
+        - planting.step_end_times.each_with_index do |time, idx|
+          .WateringPlan-Step(style="width: #{planting.step_width}%")
+            .WateringPlan-StepHeader Water #{idx + 1}
+            .WateringPlan-StepTime= l(time, format: :watering_step)

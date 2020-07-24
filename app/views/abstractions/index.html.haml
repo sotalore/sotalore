@@ -1,0 +1,16 @@
+- page_title('Items')
+
+= tile do
+  = tile_heading('Abstract Items') do
+    - if policy(Item).edit?
+      = new_button_to('New Item', new_item_path)
+
+  = tile_body do
+    .row
+      - @items.each do |item|
+        .col-sm-4
+          %h3= link_to(item.name, item)
+          %ul
+            - item.instances.each do |instance|
+              %li= link_to(instance.name, instance)
+    = paginate @items

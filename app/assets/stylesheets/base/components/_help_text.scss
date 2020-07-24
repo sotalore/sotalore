@@ -1,0 +1,104 @@
+.HelpText {
+  @include monospace;
+  display: inline-block;
+  margin: 4px;
+  line-height: 16px;
+  width: 16px;
+  font-size: 14px;
+  text-align: center;
+  font-weight: 700;
+  color: #fff;
+  background: $purple3;
+  border-radius: 15px;
+  cursor: pointer;
+  vertical-align: top;
+}
+
+// Tooltips provided by tooltip.js
+// https://github.com/twbs/bootstrap/blob/master/js/tooltip.js
+// TODO: Consider bringing tooltip.js in house after removing bootstrap
+// --------------------------------------------------
+
+// <div class="tooltip top" role="tooltip">
+//   <div class="tooltip-arrow"></div>
+//   <div class="tooltip-inner">
+//     Some tooltip text!
+//   </div>
+// </div>
+
+.tooltip {
+  @include sans;
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: normal;
+  letter-spacing: normal;
+  line-break: auto;
+  line-height: 18px;
+  text-align: left;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  white-space: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  opacity: 0;
+
+  &.in     { opacity: 1; }
+  &.top    { margin-top:  -3px; padding: 6px 0; }
+  &.right  { margin-left:  3px; padding: 0 6px; }
+  &.bottom { margin-top:   3px; padding: 6px 0; }
+  &.left   { margin-left: -3px; padding: 0 6px; }
+
+  &-inner {
+    max-width: 300px;
+    padding: 8px 12px;
+    color: $purple4;
+    text-align: center;
+    background-color: $purple1;
+    border-radius: 3px;
+  }
+
+  &-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+  }
+
+  &.top &-arrow {
+    bottom: 0;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px 6px 0;
+    border-top-color: $purple1;
+  }
+
+  &.right &-arrow {
+    top: 50%;
+    left: 0;
+    margin-top: -6px;
+    border-width: 6px 6px 6px 0;
+    border-right-color: $purple1;
+  }
+
+  &.left &-arrow {
+    top: 50%;
+    right: 0;
+    margin-top: -6px;
+    border-width: 6px 0 6px 6px;
+    border-left-color: $purple1;
+  }
+
+  &.bottom &-arrow {
+    top: 0;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 0 6px 6px;
+    border-bottom-color: $purple1;
+  }
+}

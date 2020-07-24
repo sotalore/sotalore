@@ -1,0 +1,18 @@
+@mixin note-paper($background-color: $grey9, $border-color: $grey6, $over-color: $grey8) {
+  background: $background-color;
+  border: 1px solid $border-color;
+  position: relative;
+  border-radius: 3px;
+
+  &:after {
+    position: absolute;
+    content: "";
+    top: -1px;
+    right: -1px;
+    width: 0;
+    height: 0;
+    border: 6px solid $over-color;
+    border-color: $over-color $over-color $border-color $border-color;
+    border-radius: 0 0 0 3px;
+  }
+}

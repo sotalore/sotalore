@@ -1,0 +1,10 @@
+.CommentFeed
+  .CommentFeed-newComment
+    - if policy(Comment).new?
+      = render partial: 'comments/form', locals: { subject: subject }
+  .CommentFeed-comments
+    - @parent = subject
+    = render subject.comments.includes(:actual_author).for_feed(current_user)
+  - if subject.comments.size > 0
+    .u-textRight
+      = link_to('older comments', [ subject, :comments ])

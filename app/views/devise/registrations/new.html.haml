@@ -1,0 +1,20 @@
+= tile('hero') do
+  = tile_heading('Register')
+  = tile_body do
+    .callout.info
+      %p
+        Registering allows you to leave comments on things.
+        There are more features coming, but that's what you
+        get right now.
+
+    = full_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      = devise_error_messages!
+      = f.email_field :email, autofocus: true, required: true, hint_on_focus: true
+      = f.text_field  :name, required: true, hint_on_focus: true
+      = f.password_field :password, hint_on_focus: true
+      = f.password_field :password_confirmation
+
+      = f.actions do
+        = f.submit('Register for SotA Lore!')
+
+    = render "devise/shared/links"

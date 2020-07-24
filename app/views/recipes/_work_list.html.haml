@@ -1,0 +1,48 @@
+.Recipe-shoppingList
+  - count = params.fetch(:count, 1).to_i
+  %h5 Work List
+  = form_tag(request.path, method: "get", enforce_utf8: false, class: 'Form') do
+    .Field.Field--withSubmit
+      %label.Field-label Show Mats to make:
+      = number_field_tag(:count, count, class: 'Field-input Field-input--numeric')
+      %input.Button.Button--info(type="submit" value="Go")
+
+  .Recipe-ingredients
+    - list = @recipe.work_list(count)
+    %ul
+      - if list.fuels.any?
+        %li
+          %h4 Fuels
+        - list.fuels.each do |item, count|
+          %li
+            #{count} #{item}
+            = item_price_tag(item)
+
+      - if list.tools.any?
+        %li
+          %h4 Tools
+        - list.tools.each do |item, _|
+          %li= item
+
+      - if list.gathered.any?
+        %li
+          %h4 Gathered Materials
+        - list.gathered.each do |item, count|
+          %li
+            #{count} #{item}
+            = item_gathering_tag(item)
+
+      - if list.components.any?
+        %li
+          %h4 Other Components
+        - list.components.each do |item, count|
+          %li
+            #{count} #{item}
+            = item_price_tag(item)
+
+      %li
+        %h4 Recipes to Execute
+      - list.recipes.each do |recipe, count|
+        %li
+          #{count} #{recipe}
+          = craft_skill_tag(recipe.craft_skill)

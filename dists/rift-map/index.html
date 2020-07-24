@@ -1,0 +1,114 @@
+
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>SOTA Lunar Rift Map</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      .LunarRift {
+        font-size: 0.7rem;
+        line-height: 0.9rem;
+        position: relative;
+        text-align: center;
+        color: white;
+      }
+      .LunarRift div.rift {
+        padding: 5px;
+        background-color: rgba(0, 0, 0, 0.4);
+      }
+      .LunarRift div.rift.active {
+        border: 5px solid #7473FA;
+      }
+      .LunarRift div.rift > div {
+        font-size: 0.9rem;
+      }
+      .LunarRift img {
+        width: 100%;
+      }
+      .LunarRift div.rift-1 {
+        position: absolute;
+        bottom: 28%;
+        left: 10%;
+      }
+      .LunarRift div.rift-2 {
+        position: absolute;
+        bottom: 17%;
+        right: 22%;
+      }
+      .LunarRift div.rift-3 {
+        position: absolute;
+        bottom: 40%;
+        left: 25%;
+      }
+      .LunarRift div.rift-4 {
+        position: absolute;
+        top: 45%;
+        right: 20%;
+      }
+      .LunarRift div.rift-5 {
+        position: absolute;
+        top: 5%;
+        right: 15%;
+      }
+      .LunarRift div.rift-6 {
+        position: absolute;
+        bottom: 40%;
+        left: 1%;
+      }
+      .LunarRift div.rift-7 {
+        position: absolute;
+        bottom: 40%;
+        right: 45%;
+      }
+      .LunarRift div.rift-8 {
+        position: absolute;
+        bottom: 15%;
+        left: 28%;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div class="LunarRift">
+      <img src="sota-map-overland.png">
+      <div class="rift rift-1" data-index="1">
+        Blood River
+        <div>XX:XX</div>
+      </div>
+      <div class="rift rift-2" data-index="2">
+        Solace Bridge
+        <div>XX:XX</div>
+      </div>
+      <div class="rift rift-3" data-index="3">
+        Highvale
+        <div>XX:XX</div>
+      </div>
+      <div class="rift rift-4" data-index="4">
+        Brookside
+        <div>XX:XX</div>
+      </div>
+      <div class="rift rift-5" data-index="5">
+        Owl's Head
+        <div>XX:XX</div>
+      </div>
+      <div class="rift rift-6" data-index="6">
+        Westend
+        <div>XX:XX</div>
+      </div>
+      <div class="rift rift-7" data-index="7">
+        Brittany<br>Graveyard
+        <div>XX:XX</div>
+      </div>
+      <div class="rift rift-8 active" data-index="8">
+        Etceter
+        <div>XX:XX</div>
+      </div>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="lunar-rifts.js"></script>
+  </body>
+</html>

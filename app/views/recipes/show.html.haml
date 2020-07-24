@@ -1,0 +1,17 @@
+- page_title @recipe.name
+= tile do
+  = tile_heading(@recipe.name) do
+    = confirmation_tag(@recipe)
+
+  = tile_body do
+    .row
+      .col-sm-8
+        = render @recipe
+        = render partial: 'comments/subject', object: @recipe
+
+      .col-sm-4
+        = render partial: 'recipes/work_list'
+
+- if policy(@recipe).destroy?
+  .u-textRight
+    = destroy_button_to('Delete Recipe', @recipe)

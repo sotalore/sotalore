@@ -1,0 +1,2 @@
+class ScenePolicy < ApplicationPolicy
+end

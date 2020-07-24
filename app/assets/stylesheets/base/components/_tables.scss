@@ -1,0 +1,57 @@
+th {
+  text-align: left;
+  font-weight: bold;
+}
+
+.Table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 24px;
+
+  th, td {
+    padding: 5px 8px 6px;
+    line-height: 24px;
+    vertical-align: top;
+  }
+
+  tbody td,
+  tbody th {
+    border-top: 1px solid $grey6;
+  }
+
+  thead th .fa {
+    display: inline;
+  }
+
+  tbody tr:hover {
+    background: $grey9;
+  }
+
+  thead th {
+    vertical-align: bottom;
+    padding-bottom: 3px;
+    border-bottom: 2px solid $grey6;
+  }
+
+  thead a {
+    color: inherit;
+  }
+
+  &--detail tr:first-child td,
+  &--detail tr:first-child th {
+    border-top: 0;
+  }
+
+  .Tile & {
+    margin-bottom: 0;
+  }
+
+  .Tile & td,
+  .Tile & th {
+    border-color: $grey7;
+  }
+
+  .Tile & tbody tr:hover {
+    background: $grey8;
+  }
+}

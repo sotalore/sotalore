@@ -1,0 +1,76 @@
+@mixin button-color ($color1, $color2, $color3) {
+  background: $color2;
+  border-color: $color1;
+  text-shadow: 0 1px 1px $color1;
+  color: $grey9;
+
+  &:focus,
+  &:hover {
+    background: $color3;
+    border-color: $color2;
+    color: $grey9;
+    text-shadow: 0 1px 1px $color2;
+  }
+
+  &.active,
+  &:active:hover {
+    background: $color1;
+    border-color: $color1;
+    color: $grey9;
+    text-shadow: none;
+  }
+}
+
+.Button {
+  @include user-select-none;
+  border-radius: 2px;
+  border: 1px solid $orange2;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 22px;
+  min-width: 32px;
+  padding: 4px 8px;
+  text-align: center;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+  background: transparent;
+  color: $orange2;
+  font-weight: 400;
+
+  &:focus,
+  &:hover {
+    background: $orange4;
+    border-color: $orange2;
+    color: $orange1;
+    text-decoration: none;
+    outline: 0;
+  }
+
+  &.active,
+  &:active:hover {
+    background: $orange2;
+    border-color: $orange2;
+    color: $orange1;
+  }
+
+  // sm + xs are supported until removing bootstrap
+  &--sm,
+  &--xs,
+  &--small {
+    padding: 0 6px;
+    font-size: 13px;
+    min-width: 24px;
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+  }
+
+  &--primary { @include button-color( $orange1, $orange2, $orange3); }
+  &--danger  { @include button-color(    $red1,    $red2,    $red3); }
+  &--warning { @include button-color( $yellow1, $yellow2, $yellow3); }
+  &--success { @include button-color(  $green1,  $green2,  $green3); }
+  &--info    { @include button-color( $purple1, $purple2, $purple3); }
+}

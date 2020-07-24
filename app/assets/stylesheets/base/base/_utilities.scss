@@ -1,0 +1,35 @@
+.u-monospace          { @include monospace; }
+
+.u-block              { display: block; }
+.u-inlineBlock        { display: inline-block; }
+.u-hidden             { display: none !important; }
+
+// Alignment
+.u-textLeft           { text-align: left; }
+.u-textRight          { text-align: right; }
+.u-textCenter         { text-align: center; }
+.u-textJustify        { text-align: justify; }
+.u-textNowrap         { white-space: nowrap; }
+
+// Transformation
+.u-textLowercase      { text-transform: lowercase; }
+.u-textUppercase      { text-transform: uppercase; }
+.u-textCapitalize     { text-transform: capitalize; }
+
+// Contextual colors
+.u-textMuted          { opacity: 0.8; }
+.u-textDanger         { color: $red2; }
+.u-textWarning        { color: $yellow2; }
+.u-textPrimary        { color: $blue2; }
+.u-textSuccess        { color: $green2; }
+.u-textInfo           { color: $purple2; }
+
+.u-truncate {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.u-pullRight { float: right !important; }
+.u-pullLeft  { float: left !important; }

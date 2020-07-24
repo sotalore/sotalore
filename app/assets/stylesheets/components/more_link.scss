@@ -1,0 +1,9 @@
+.MoreLink {
+  margin-left: 0.5em;
+  &--filled {
+    i.fa {
+      transition: 0.4s;
+      transform: rotate(90deg);
+    }
+  }
+}

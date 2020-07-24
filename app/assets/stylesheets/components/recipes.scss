@@ -1,0 +1,76 @@
+$parchment-color: mix($orange4, $yellow4);
+$parchment-dark: $orange1;
+
+.Recipe {
+  border: 1px solid $parchment-dark;
+  margin-bottom: 16px;
+  background-color: $parchment-color;
+  padding: 8px 8px;
+
+  &-name {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid $parchment-dark;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+
+  &-nameActual {
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-nameControls {
+    flex: 0 1 auto;
+    white-space: nowrap;
+    text-align: right;
+    font-size: 0.9em;
+  }
+
+  &-craftSkillName {
+    opacity: 0.5;
+  }
+  &-teachable {
+    font-style: italic;
+  }
+  &-count {
+    display: inline-block;
+    text-align: right;
+    min-width: 2em;
+  }
+}
+
+.Recipe-detail {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px dashed rgba($parchment-dark, 0.1);
+}
+
+img.Recipe-icon {
+  flex: 1 0;
+  max-width: 48px;
+}
+
+.Recipe-meta {
+  flex: 4 0;
+}
+
+.Recipe-production {
+  font-size: 0.9em;
+}
+
+
+.Recipe-ingredient > .Recipe-ingredientSubDetail {
+  padding-left: 40px;
+  margin-right: -7px;
+  .Recipe {
+    border-right: 0;
+    .Recipe-name {
+      display: none;
+    }
+  }
+}

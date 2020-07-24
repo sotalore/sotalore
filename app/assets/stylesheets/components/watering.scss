@@ -1,0 +1,58 @@
+
+.WateringPlan {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  .WateringPlan-Calendar {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .WateringPlan-CalendarDay {
+    text-align: center;
+    padding: 8px 0px;
+
+    border-top: 2px solid $grey7;
+    border-bottom: 2px solid $grey7;
+    border-left: 2px solid $grey7;
+    &:last-child {
+      border-right: 2px solid $grey7;
+    }
+  }
+
+  .WateringPlan-Steps {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+  }
+
+  .WateringPlan-Step {
+    z-index: 10;
+    .WateringPlan-StepHeader {
+      border-left: 2px solid $grey6;
+      border-bottom: 2px solid $grey6;
+    }
+    &:last-child {
+      .WateringPlan-StepHeader {
+        border-right: 2px solid $grey6;
+      }
+    }
+  }
+
+  .WateringPlan-StepHeader {
+    background: $grey8;
+    text-align: center;
+    font-size: 0.8em;
+    color: $grey5;
+  }
+
+  .WateringPlan-StepTime {
+    background: transparent;
+    margin-right: -2em;
+    font-size: 0.9em;
+    text-align: right;
+    z-index: 1000;
+  }
+}

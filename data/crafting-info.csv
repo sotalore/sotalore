@@ -1,0 +1,1395 @@
+Recipe Name,Ingredients,Cost to Make,Npc Value,Profit,Type,Table
+1Wx1Hx1L Rough Stone Cube Block,"Smelting Tongs, Stone Chisel, (5)Granite Block",25,5,-22.5,Refining,Smelting
+1Wx1Hx2L Rough Stone Rectangle Block,"Smelting Tongs, Stone Chisel, (22)Granite Block",110,20,-100,Refining,Smelting
+1Wx2Hx2L Rough Stone Square Block,"Smelting Tongs, Stone Chisel, (20)Granite Block",100,20,-90,Refining,Smelting
+1Wx4Hx1L Rough Stone Rectangle Block,"Smelting Tongs, Stone Chisel, (15)Granite Block",75,15,-67.5,Refining,Smelting
+1Wx4Hx2L Rough Stone Rectangle Block,"Smelting Tongs, Stone Chisel, (25)Granite Block",125,25,-112.5,Refining,Smelting
+1Wx4Hx4L Rough Stone Square Block,"Smelting Tongs, Stone Chisel, (62)Granite Block",310,60,-280,Refining,Smelting
+1Wx6Hx6L Rough Stone Arch Block,"Smelting Tongs, Stone Chisel, (150)Granite Block",750,35,-732.5,Refining,Smelting
+2Wx2Hx2L Rough Stone Cube Block,"Smelting Tongs, Stone Chisel, (30)Granite Block",150,30,-135,Refining,Smelting
+2Wx4Hx2L Rough Stone Rectangle Block,"Smelting Tongs, Stone Chisel, (52)Granite Block",260,50,-235,Refining,Smelting
+2Wx4Hx4L Rough Stone Square Block,"Smelting Tongs, Stone Chisel, (100)Granite Block",500,100,-450,Refining,Smelting
+4Wx4Hx4L Rough Stone Cube Block,"Smelting Tongs, Stone Chisel, (200)Granite Block",1000,200,-900,Refining,Smelting
+Amethyst Fragment,,1,1,-0.5,Gathering,Gathering
+Amethyst,"Mortar and Pestle, (400)Amethyst Fragment, (10)Mandrake Root",420,200,-320,Production,Alchemy
+Animal Bone,"Cleaver, Sheep Carcass",1,1,-0.5,Refining,Butchery
+Animal Bone,"Cleaver, Pig Carcass",3,,-3,Refining,Butchery
+Animal Bone,"Cleaver, Deer Carcass",1,,-1,Refining,Butchery
+Animal Collar,"Tailoring Scissors, Metal Binding, (2)Strap",36,40,-16,Production,Tailoring
+Animal Hide,,8,8,-4,Gathering,Gathering
+Animal whistle,"Carpentry Hammer, Wood Rasp, Wooden Pole",12,2,-11,Production,Carpentry
+Apple,,1,1,-0.5,Gathering,Gathering
+Aqua Dye,"Tanning Knife, (4)Maple Tree Bark, Pine Resin, (2)Chunk of Coal",174,,-174,Refining,Tanning
+Arrow Head Mold,,0,,0,Tool,Tool
+Arrow,"Carpentry Hammer, Wooden Boards, (5)Bundle of Feathers, Arrowheads",36,0,-36,Production,Carpentry
+Arrowheads,"Smithing Hammer, Arrow Head Mold, Metal Ingot",23,1,-22.5,Production,Blacksmithing
+Atenism Gem,"Mortar and Pestle, Garnet, (10)Mandrake Root",440,100,-390,Production,Alchemy
+Atenism Jewel,"Mortar and Pestle, Garnet, (5)Mandrake Root",430,100,-380,Production,Alchemy
+Augmented Chainmail Boots,"Smithing Hammer, Wire Pliers, (2)Coil of Metal Wire, Strap, (2)Chunk of Coal",109,113,-52.5,Production,Blacksmithing
+Augmented Chainmail Chest Armor,"Smithing Hammer, Wire Pliers, (8)Coil of Metal Wire, (3)Strap, (3)Metal Binding, (3)Chunk of Coal",494,223,-382.5,Production,Blacksmithing
+Augmented Chainmail Chest Half-Armor,"Smithing Hammer, Wire Pliers, (6)Coil of Metal Wire, (2)Strap, (2)Metal Binding, (3)Chunk of Coal",365,,-365,Production,Blacksmithing
+Augmented Chainmail Chest Quarter-Armor,"Smithing Hammer, Wire Pliers, (4)Coil of Metal Wire, (2)Strap, (2)Metal Binding, (3)Chunk of Coal",267,90,-222,Production,Blacksmithing
+Augmented Chainmail Gloves,"Smithing Hammer, Wire Pliers, (2)Coil of Metal Wire, (2)Strap, (2)Chunk of Coal",114,65,-81.5,Production,Blacksmithing
+Augmented Chainmail Helm,"Smithing Hammer, Wire Pliers, (3)Coil of Metal Wire, (2)Strap, Metal Binding, (2)Chunk of Coal",189,80,-149,Production,Blacksmithing
+Augmented Chainmail Leggings Half-Armor,"Smithing Hammer, Wire Pliers, (4)Coil of Metal Wire, (2)Strap, (3)Chunk of Coal",215,,-215,Production,Blacksmithing
+Augmented Chainmail Leggings Quarter-Armor,"Smithing Hammer, Wire Pliers, (3)Coil of Metal Wire, (2)Strap, (3)Chunk of Coal",166,,-166,Production,Blacksmithing
+Augmented Chainmail Leggings,"Smithing Hammer, Wire Pliers, (5)Coil of Metal Wire, (3)Strap, (2)Metal Binding, (3)Chunk of Coal",321,182,-230,Production,Blacksmithing
+Augmented Cloth Boots,"Tailoring Scissors, Bone Needle, (3)Wax, (2)Bolt of Cloth, Metal Binding",156,,-156,Production,Tailoring
+Augmented Cloth Chest Armor,"Tailoring Scissors, Bone Needle, (4)Wax, (9)Bolt of Cloth, (2)Strap, (2)Metal Binding",628,,-628,Production,Tailoring
+Augmented Cloth Chest Half-Armor,"Tailoring Scissors, Bone Needle, (4)Wax, (7)Bolt of Cloth, (2)Metal Binding",494,,-494,Production,Tailoring
+Augmented Cloth Chest Quarter-Armor,"Tailoring Scissors, Bone Needle, (4)Wax, (5)Bolt of Cloth, (2)Metal Binding",370,,-370,Production,Tailoring
+Augmented Cloth Gloves,"Tailoring Scissors, Bone Needle, (3)Wax, (2)Bolt of Cloth, (2)Metal Binding",182,,-182,Production,Tailoring
+Augmented Cloth Helm,"Tailoring Scissors, Bone Needle, (3)Wax, (4)Bolt of Cloth",254,15,-246.5,Production,Tailoring
+Augmented Cloth Leggings Half-Armor,"Tailoring Scissors, Bone Needle, (4)Wax, (5)Bolt of Cloth, (3)Strap",333,,-333,Production,Tailoring
+Augmented Cloth Leggings Quarter-Armor,"Tailoring Scissors, Bone Needle, (3)Wax, (4)Bolt of Cloth, (2)Metal Binding, Yard of Leather",344,,-344,Production,Tailoring
+Augmented Cloth Leggings,"Tailoring Scissors, Bone Needle, (4)Wax, (6)Bolt of Cloth, Strap, (2)Metal Binding",437,,-437,Production,Tailoring
+Augmented Leather Boots,"Tailoring Scissors, Rawhide Mallet, (3)Wax, (2)Yard of Leather, Metal Binding",108,,-108,Production,Tailoring
+Augmented Leather Chest Armor,"Tailoring Scissors, Rawhide Mallet, (4)Wax, (8)Yard of Leather, (5)Metal Binding",442,,-442,Production,Tailoring
+Augmented Leather Chest Half-Armor,"Tailoring Scissors, Rawhide Mallet, (4)Wax, (6)Yard of Leather, (4)Metal Binding",340,,-340,Production,Tailoring
+Augmented Leather Chest Quarter-Armor,"Tailoring Scissors, Rawhide Mallet, (4)Yard of Leather, (4)Iron Binding, (4)Wax",264,60,-234,Production,Tailoring
+Augmented Leather Gloves,"Tailoring Scissors, Rawhide Mallet, (3)Wax, (2)Yard of Leather, (2)Metal Binding",134,,-134,Production,Tailoring
+Augmented Leather Helm,"Tailoring Scissors, Rawhide Mallet, (3)Wax, (3)Yard of Leather, (3)Metal Binding",198,,-198,Production,Tailoring
+Augmented Leather Leggings Half-Armor,"Tailoring Scissors, Rawhide Mallet, (4)Wax, (4)Yard of Leather, (2)Metal Binding",212,,-212,Production,Tailoring
+Augmented Leather Leggings Quarter-Armor,"Tailoring Scissors, Rawhide Mallet, (4)Wax, (3)Yard of Leather, (2)Metal Binding",174,,-174,Production,Tailoring
+Augmented Leather Leggings,"Tailoring Scissors, Rawhide Mallet, (4)Wax, (5)Yard of Leather, (2)Metal Binding, (3)Strap",265,,-265,Production,Tailoring
+Augmented Plate Boots,"Smithing Hammer, Edged Chisel, (2)Metal Sheet, Strap, (2)Chunk of Coal",155,,-155,Production,Blacksmithing
+Augmented Plate Chest Armor,"Smithing Hammer, Edged Chisel, (7)Metal Sheet, (2)Metal Binding, (5)Strap, (3)Chunk of Coal",590,,-590,Production,Blacksmithing
+Augmented Plate Chest Half-Armor,"Smithing Hammer, Edged Chisel, (6)Metal Sheet, (2)Metal Binding, (2)Strap, (3)Chunk of Coal",503,,-503,Production,Blacksmithing
+Augmented Plate Chest Quarter-Armor,"Smithing Hammer, Edged Chisel, (5)Metal Sheet, (2)Strap, (3)Chunk of Coal",379,,-379,Production,Blacksmithing
+Augmented Plate Gauntlets,"Smithing Hammer, Edged Chisel, (2)Metal Sheet, (2)Strap, (2)Chunk of Coal",160,,-160,Production,Blacksmithing
+Augmented Plate Helm,"Smithing Hammer, Edged Chisel, (3)Metal Sheet, (3)Strap, (2)Chunk of Coal",237,,-237,Production,Blacksmithing
+Augmented Plate Leggings Half-Armor,"Smithing Hammer, Edged Chisel, (4)Metal Sheet, (3)Strap, (3)Chunk of Coal",312,,-312,Production,Blacksmithing
+Augmented Plate Leggings Quarter-Armor,"Smithing Hammer, Edged Chisel, (3)Metal Sheet, (3)Strap, (3)Chunk of Coal",240,,-240,Production,Blacksmithing
+Augmented Plate Leggings,"Smithing Hammer, Edged Chisel, (5)Metal Sheet, (4)Strap, (3)Chunk of Coal",389,,-389,Production,Blacksmithing
+Avatar Rug,"Loom Shuttle, (12)Spool of Cotton Thread",240,18,-231,Refining,Textiles
+Axe Head Mold,,0,,0,Tool,Tool
+Backpack,"Tailoring Scissors, (3)Leather, Leather Straps",74,20,-64,Production,Tailoring
+Banana Bread,"Cooking Pot, (4)Sack of Flour, (2)Sack of Sugar, Butter, Banana, Bottle of Milk, Cinnamon Bark, Sack of Salt",77,25,-64.5,Production,Cooking
+Banana,,3,3,-1.5,Gathering,Gathering
+Bar Mold,,0,,0,Tool,Tool
+Bark Bread,"Cooking Pot, Sack of Flour, Maple Tree Bark, Jar of Yeast Culture, Sack of Salt",50,25,-37.5,Production,Cooking
+Basket,"Carpentry Hammer, (3)Wooden Bindings",24,1,-23.5,Production,Carpentry
+Bass Fillet,"Cleaver, Bass",3,3,-1.5,Refining,Butchery
+Bass Trophy,"Tanning Knife, Bass, (3)Wax",9,5,-6.5,Refining,Tanning
+Bass,,3,3,-1.5,Gathering,Gathering
+Bear Hat,"Tailoring Scissors, Bone Needle, Bear Head, (2)Strap, (4)Wax",19,,-19,Production,Tailoring
+Bear Head,,1,1,-0.5,Gathering,Gathering
+Bed,"Carpentry Hammer, Wooden Bed Frame, Cloth Mattress",484,150,-409,Production,Carpentry
+Bedroll,"Tailoring Scissors, (6)Piece of Canvas Fabric, (3)Bolt of Cotton Cloth, Pillow",574,,-574,Production,Tailoring
+Beetle Carapace,,40,40,-20,Gathering,Gathering
+Bench,"Carpentry Hammer, (7)Wooden Boards",21,30,-6,Production,Carpentry
+Big Round Rug,"Loom Shuttle, (20)Spool of Thread",200,30,-185,Refining,Textiles
+Big Rug,"Loom Shuttle, (30)Spool of Thread",300,50,-275,Refining,Textiles
+Black Pearl,,3,3,-1.5,Gathering,Gathering
+Blade Mold,,0,,0,Tool,Tool
+Blank Book,"Tailoring Scissors, (20)Wood Pulp, (5)Spool of Cotton Thread, (4)Leather",272,40,-252,Production,Tailoring
+Blank Hospitaller Book,"Tailoring Scissors, Blank Book, Hospitaller Symbol",272,,-272,Production,Tailoring
+Blank Sheet Music,"Tailoring Scissors, (8)Wood Pulp, (5)Spool of Cotton Thread",140,,-140,Production,Tailoring
+Blue Dye,"Tanning Knife, (8)Maple Tree Bark, (2)Chunk of Coal",262,,-262,Refining,Tanning
+Blue Stall Awning,"Carpentry Hammer, (20)Wooden Boards, (10)Bolt of Cloth, Blue Dye",942,,-942,Production,Carpentry
+Bodice Bottoms,"Tailoring Scissors, Bone Needle, (2)Yard of Leather, Strap, (10)Wax",101,60,-71,Production,Tailoring
+Bodice Top,"Tailoring Scissors, Bone Needle, (3)Yard of Leather, Strap, (10)Wax",139,80,-99,Production,Tailoring
+Bolt of Carapacian Cloth,"Loom Shuttle, (2)Spool of Carapacian Thread, Wax",258,,-258,Refining,Textiles
+Bolt of Cloth,"Loom Shuttle, (6)Spool of Thread, Wax",62,2,-61,Refining,Textiles
+Bolt of Cotton Cloth,"Loom Shuttle, (2)Spool of Cotton Thread, Wax",42,20,-32,Refining,Textiles
+Bolt of Fustian Cloth,"Loom Shuttle, (2)Spool of Fustian Thread, Wax",258,,-258,Refining,Textiles
+Bone Needle,,0,25,12.5,Tool,Tool
+Bookshelf,"Carpentry Hammer, (6)Wooden Boards",18,20,-8,Production,Carpentry
+Bottle of Milk,,11,11,-5.5,Gathering,Gathering
+Bottle of Wine,,20,20,-10,Gathering,Gathering
+Bovine Carcass,,3,3,-1.5,Gathering,Gathering
+Bovine Meat,"Cleaver, Bovine Carcass",3,5,-0.5,Refining,Butchery
+Bowl of Ardoris Coleslaw,"Cooking Pot, Nut Butter, Flask of Cooking Oil, Flask of Vinegar, Lettuce, Carrot, Pecan Nuts, (4)Wooden Bowl",98,25,-85.5,Production,Cooking
+Bowl of Dupre's Duck Stew,"Cooking Pot, (3)Duck Meat, Lemon, Onion, Pepper, Jar of Vegetable Stock, (2)Wooden Bowl",50,25,-37.5,Production,Cooking
+Bowl of Gorn's Venison Roast,"Cooking Pot, (6)Venison Meat, Onion, Garlic, Pepper, Brown Cap Mushroom, Bottle of Milk, (4)Wooden Bowl",96,25,-83.5,Production,Cooking
+Bowl of Grannus Beef Stew,"Cooking Pot, (2)Bovine Meat, Onion, Garlic, Pepper, Bottle of Wine, Sack of Salt, Flask of Beef Stock, (2)Wooden Bowl",105,25,-92.5,Production,Cooking
+Bowl of Iolo's Cat Gut Goulash,"Cooking Pot, (4)Sinew, Lemon, Onion, Butter, Garlic, Jar of Vegetable Stock, Sack of Salt, (2)Wooden Bowl",62,25,-49.5,Production,Cooking
+Bowl of Son of Owan Regicide Stovie,"Cooking Pot, (2)Mutton Meat, (2)Pork Sausage Links, (2)Potato, Onion, Flask of Beef Stock, Pepper, (2)Wooden Bowl",101,25,-88.5,Production,Cooking
+Bowstring,"Tailoring Scissors, (5)Spool of Thread, Wax",52,10,-47,Production,Tailoring
+Brazier,"Smithing Hammer, (4)Iron Ingot, (2)Maple Timber, (3)Chunk of Coal",165,"30,10",#VALUE!,Production,Blacksmithing
+Brazier,"Smithing Hammer, (4)Iron Ingot, (2)Pine Timber, (3)Chunk of Coal",165,,-165,Production,Blacksmithing
+Brazier,"Smithing Hammer, (5)Iron Ingot, (3)Chunk of Coal",124,,-124,Production,Blacksmithing
+Bronze Binding,"Smithing Hammer, Bronze Ingot, Chunk of Coal",135,25,-122.5,Production,Blacksmithing
+Bronze Core,"Smelting Tongs, Core Mold, (3)Bronze Ingot, Chunk of Coal",399,1,-398.5,Refining,Smelting
+Bronze Dagger Blade,"Smithing Hammer, Dagger Blade Mold, (2)Bronze Ingot, Chunk of Coal",267,20,-257,Production,Blacksmithing
+Bronze Great Axe Blade,"Smithing Hammer, Great Axe Head Mold, (6)Bronze Ingot, Chunk of Coal",795,30,-780,Production,Blacksmithing
+Bronze Halberd Blade,"Smithing Hammer, Halberd Blade Mold, (6)Bronze Ingot, Chunk of Coal",795,30,-780,Production,Blacksmithing
+Bronze Hand Axe Blade,"Smithing Hammer, Hand Axe Head Mold, (3)Bronze Ingot, Chunk of Coal",399,30,-384,Production,Blacksmithing
+Bronze Heavy War Hammer Head,"Smithing Hammer, Heavy War Hammer Head Mold, (6)Bronze Ingot, Chunk of Coal",795,10,-790,Production,Blacksmithing
+Bronze Hilt,"Smithing Hammer, Chunk of Coal, (2)Bronze Ingot",267,10,-262,Production,Blacksmithing
+Bronze Ingot,"Smelting Tongs, Ingot Mold, (2)Copper Ingot, (2)Chunk of Coal, (2)Tin",132,60,-102,Refining,Smelting
+Bronze Longsword Blade,"Smithing Hammer, Longsword Blade Mold, (3)Bronze Ingot, Chunk of Coal",399,370,-214,Production,Blacksmithing
+Bronze Mace Head,"Smithing Hammer, Mace Head Mold, (3)Bronze Ingot, Chunk of Coal",399,30,-384,Production,Blacksmithing
+Bronze Sheet,"Smithing Hammer, Sheet Mold, (3)Bronze Ingot, Chunk of Coal",399,190,-304,Production,Blacksmithing
+Bronze Shortsword Blade,"Smithing Hammer, Shortsword Blade Mold, (3)Bronze Ingot, Chunk of Coal",399,30,-384,Production,Blacksmithing
+Bronze Shortsword with Bronze Hilt,"Smithing Hammer, Bronze Shortsword Blade, Bronze Hilt, Chunk of Coal",669,110,-614,Production,Blacksmithing
+Bronze Shortsword with Constantan Hilt,"Smithing Hammer, Bronze Shortsword Blade, Constantan Hilt, Chunk of Coal",669,110,-614,Production,Blacksmithing
+Bronze Shortsword with Copper Hilt,"Smithing Hammer, Bronze Shortsword Blade, Copper Hilt, Chunk of Coal",451,110,-396,Production,Blacksmithing
+Bronze Shortsword with Iron Hilt,"Smithing Hammer, Bronze Shortsword Blade, Iron Hilt, Chunk of Coal",451,110,-396,Production,Blacksmithing
+Bronze Shortsword with Meteoric Iron Hilt,"Smithing Hammer, Bronze Shortsword Blade, Meteoric Iron Hilt, (5)Chunk of Coal",801,110,-746,Production,Blacksmithing
+Bronze Shortsword with White Iron Hilt,"Smithing Hammer, Bronze Shortsword Blade, White Iron Hilt, Chunk of Coal",789,110,-734,Production,Blacksmithing
+Bronze Spear Head,"Smithing Hammer, Spear Head Mold, (3)Bronze Ingot, Chunk of Coal",399,70,-364,Production,Blacksmithing
+Bronze Two-handed Mace Head,"Smithing Hammer, Two-handed Mace Head Mold, (6)Bronze Ingot, Chunk of Coal",795,30,-780,Production,Blacksmithing
+Bronze Two-handed Sword Blade,"Smithing Hammer, Two-handed Sword Blade Mold, (5)Bronze Ingot, Chunk of Coal",663,50,-638,Production,Blacksmithing
+Bronze Two-Handed Sword with Constantan Hilt,"Smithing Hammer, Bronze Two-handed Sword Blade, Constantan Hilt, (5)Chunk of Coal",945,115,-887.5,Production,Blacksmithing
+Bronze Two-Handed Sword with Copper Hilt,"Smithing Hammer, Bronze Two-handed Sword Blade, Copper Hilt, (5)Chunk of Coal",727,115,-669.5,Production,Blacksmithing
+Bronze Two-Handed Sword with Iron Hilt,"Smithing Hammer, Bronze Two-handed Sword Blade, Iron Hilt, (5)Chunk of Coal",727,115,-669.5,Production,Blacksmithing
+Bronze Two-Handed Sword with Meteoric Iron Hilt,"Smithing Hammer, Bronze Two-handed Sword Blade, Meteoric Iron Hilt, (5)Chunk of Coal",1065,115,-1007.5,Production,Blacksmithing
+Bronze War Hammer Head,"Smithing Hammer, War Hammer Head Mold, (2)Bronze Ingot, Chunk of Coal",267,30,-252,Production,Blacksmithing
+Brown Cap Mushroom,,12,12,-6,Gathering,Gathering
+Brown Dye,"Tanning Knife, (5)Pine Tree Bark, (2)Cinnamon Bark, (2)Chunk of Coal",182,,-182,Refining,Tanning
+Brown Fur Hat,"Tailoring Scissors, Bone Needle, (8)Wax, (2)Yard of Leather, Wolf Head",93,,-93,Production,Tailoring
+Brown Suede Arm Chair,"Carpentry Hammer, (3)Wooden Boards, (2)Wooden Pole, (2)Yard of Leather",109,11,-103.5,Production,Carpentry
+Brown Suede Ottoman,"Carpentry Hammer, (2)Wooden Boards, Wooden Pole, Yard of Leather",56,11,-50.5,Production,Carpentry
+Brown Suede Sofa,"Carpentry Hammer, (10)Wooden Boards, (4)Wooden Pole, (7)Yard of Leather",344,11,-338.5,Production,Carpentry
+Brown Suede Wingback Chair,"Carpentry Hammer, (6)Wooden Boards, (2)Wooden Pole, (4)Yard of Leather",194,11,-188.5,Production,Carpentry
+Bucket Helm,"Smithing Hammer, (2)Metal Sheet, Bucket, (3)Chunk of Coal",227,,-227,Production,Blacksmithing
+Bucket,"Carpentry Hammer, (3)Wooden Bindings, Coil of Rope",74,3,-72.5,Production,Carpentry
+Bundle of Feathers,,2,2,-1,Gathering,Gathering
+Bunk Bed,"Carpentry Hammer, (2)Bed, (2)Wooden Bindings",984,400,-784,Production,Carpentry
+Butter,"Cooking Pot, Bottle of Milk",11,7,-7.5,Production,Cooking
+Caltrops,"Smithing Hammer, Small Bag, Coil of Metal Wire",135,100,-85,Production,Blacksmithing
+Caltrops/Copper Caltrops,"Smithing Hammer, Small Bag, Coil of Copper Wire",135,100,-85,Production,Blacksmithing
+Caltrops/Iron Caltrops,"Smithing Hammer, Small Bag, Coil of Iron Wire",135,100,-85,Production,Blacksmithing
+Candle,,1,1,-0.5,Gathering,Gathering
+Carapacian Bow String,"Tailoring Scissors, (5)Spool of Carapacian Thread, Wax",642,1,-641.5,Production,Tailoring
+Carapacian Cloth Boots with Supple Leather,"Tailoring Scissors, Bone Needle, (2)Bolt of Carapacian Cloth, Yard of Supple Leather, (3)Wax",764,70,-729,Production,Tailoring
+Carapacian Cloth Chest Armor with Bronze Binding and Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Carapacian Cloth, (3)Bronze Binding, (2)Yard of Leather, (4)Wax",1779,70,-1744,Production,Tailoring
+Carapacian Cloth Chest Armor with Constantan Binding and Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Carapacian Cloth, (3)Constantan Binding, (2)Yard of Leather, (4)Wax",1779,70,-1744,Production,Tailoring
+Carapacian Cloth Chest Armor with Copper Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Carapacian Cloth, (3)Copper Binding, (2)Yard of Hardened Leather, (4)Wax",1860,70,-1825,Production,Tailoring
+Carapacian Cloth Chest Armor with Iron Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Carapacian Cloth, (3)Iron Binding, (2)Yard of Hardened Leather, (4)Wax",1860,70,-1825,Production,Tailoring
+Carapacian Cloth Chest Armor with Iron Binding and Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Carapacian Cloth, (3)Iron Binding, (2)Yard of Leather, (4)Wax",1452,70,-1417,Production,Tailoring
+Carapacian Cloth Chest Armor with Iron Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Carapacian Cloth, (3)Iron Binding, (2)Yard of Supple Leather, (4)Wax",1860,70,-1825,Production,Tailoring
+Carapacian Cloth Chest Armor with Meteoric Iron Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Carapacian Cloth, (3)Meteoric Iron Binding, (2)Yard of Hardened Leather, (4)Wax",2367,70,-2332,Production,Tailoring
+Carapacian Cloth Straps,"Loom Shuttle, Spool of Carapacian Thread, Wax",130,5,-127.5,Refining,Textiles
+Carpentry Hammer,,0,,0,Tool,Tool
+Carpet,"Loom Shuttle, (10)Spool of Cotton Thread",200,15,-192.5,Refining,Textiles
+Carrot,,1,1,-0.5,Gathering,Gathering
+Catgut Fishing Line,"Tailoring Scissors, (3)Leather, (2)Wax",58,3,-56.5,Production,Tailoring
+Catgut Lute String,"Tailoring Scissors, Leather, (2)Wax",22,3,-20.5,Production,Tailoring
+Chainmail Boots of Defense,"Smithing Hammer, Wire Pliers, (3)Coil of Iron Wire, Chunk of Coal, (4)Cotton Cloth Strap",238,113,-181.5,Production,Blacksmithing
+Chainmail Boots of Dodge,"Smithing Hammer, Wire Pliers, (3)Coil of Copper Wire, Chunk of Coal, (4)Cotton Cloth Strap",238,113,-181.5,Production,Blacksmithing
+Chainmail Boots,"Smithing Hammer, (2)Coil of Metal Wire, Chunk of Coal",101,55,-73.5,Production,Blacksmithing
+Chainmail Chest Armor,"Smithing Hammer, (9)Coil of Metal Wire, (3)Strap, (2)Chunk of Coal",462,120,-402,Production,Blacksmithing
+Chainmail Chest Half-Armor,"Smithing Hammer, (7)Coil of Metal Wire, Strap, (2)Chunk of Coal",354,,-354,Production,Blacksmithing
+Chainmail Chest Quarter-Armor,"Smithing Hammer, (5)Coil of Metal Wire, Strap, (2)Chunk of Coal",256,70,-221,Production,Blacksmithing
+Chainmail Gloves of Defense,"Smithing Hammer, Wire Pliers, (6)Coil of Iron Wire, Cotton Cloth Strap, (2)Chunk of Coal",322,47,-298.5,Production,Blacksmithing
+Chainmail Gloves of Dodge,"Smithing Hammer, Wire Pliers, (2)Coil of Copper Wire, Cotton Cloth Strap, (2)Chunk of Coal",126,47,-102.5,Production,Blacksmithing
+Chainmail Gloves,"Smithing Hammer, (2)Coil of Metal Wire, Strap, Chunk of Coal",106,47,-82.5,Production,Blacksmithing
+Chainmail Helm,"Smithing Hammer, (4)Coil of Metal Wire, Chunk of Coal",199,60,-169,Production,Blacksmithing
+Chainmail Leggings Half-Armor,"Smithing Hammer, (5)Coil of Metal Wire, (2)Chunk of Coal",251,,-251,Production,Blacksmithing
+Chainmail Leggings of Defense,"Smithing Hammer, Wire Pliers, (5)Coil of Iron Wire, (2)Cotton Cloth Strap, Copper Sheet, (2)Chunk of Coal",367,105,-314.5,Production,Blacksmithing
+Chainmail Leggings of Dodge,"Smithing Hammer, Wire Pliers, (5)Coil of Copper Wire, (2)Cotton Cloth Strap, Iron Sheet, (2)Chunk of Coal",367,105,-314.5,Production,Blacksmithing
+Chainmail Leggings Quarter-Armor,"Smithing Hammer, (4)Coil of Metal Wire, (2)Chunk of Coal",202,,-202,Production,Blacksmithing
+Chainmail Leggings,"Smithing Hammer, (6)Coil of Metal Wire, Strap, (2)Chunk of Coal",305,65,-272.5,Production,Blacksmithing
+Chair,"Carpentry Hammer, (3)Wooden Boards, Wooden Pole",21,25,-8.5,Production,Carpentry
+Chair,"Carpentry Hammer, (4)Wooden Boards, Wooden Pole",24,,-24,Production,Carpentry
+Chair,"Carpentry Hammer, (2)Wooden Boards, Wooden Pole",18,,-18,Production,Carpentry
+Cheese Bread,"Cooking Pot, (6)Sack of Flour, Flask of Cooking Oil, (2)Sack of Salt, (2)Sack of Sugar, Wedge of Cheese",90,25,-77.5,Production,Cooking
+Chest Mechanism,,45,45,-22.5,Gathering,Gathering
+Chicken Carcass,,3,3,-1.5,Gathering,Gathering
+Chicken Meat,"Cleaver, Chicken Carcass",3,3,-1.5,Refining,Butchery
+Chunk of Coal,,3,3,-1.5,Gathering,Gathering
+Cinnamon Bark,,8,8,-4,Gathering,Gathering
+Citrine Fragment,,1,1,-0.5,Gathering,Gathering
+Citrine,"Mortar and Pestle, (400)Citrine Fragment, (10)Mandrake Root",420,200,-320,Production,Alchemy
+Clay Block,,1,1,-0.5,Gathering,Gathering
+Clay Pipe,"Smelting Tongs, (4)Clay Block, (2)Chunk of Coal",10,,-10,Production,Blacksmithing
+Cleaver,,0,,0,Tool,Tool
+Cloth Boots,"Tailoring Scissors, (2)Bolt of Cloth, (2)Wax",128,28,-114,Production,Tailoring
+Cloth Bow String,"Tailoring Scissors, Wax, (5)Spool of Thread",52,,-52,Production,Tailoring
+Cloth Chest Armor,"Tailoring Scissors, (6)Bolt of Cloth, Strap, (3)Wax",383,70,-348,Production,Tailoring
+Cloth Gambeson,"Tailoring Scissors, (6)Wax, (5)Bolt of Cloth",322,100,-272,Production,Tailoring
+Cloth Gloves,"Tailoring Scissors, (2)Bolt of Cloth, Strap, (2)Wax",133,28,-119,Production,Tailoring
+Cloth Helm,"Tailoring Scissors, (3)Bolt of Cloth, Strap, (2)Wax",195,15,-187.5,Production,Tailoring
+Cloth Leggings,"Tailoring Scissors, (3)Bolt of Cloth, (3)Wax, (2)Strap",202,28,-188,Production,Tailoring
+Cloth Mattress,"Tailoring Scissors, (10)Bolt of Cotton Cloth, (10)Bundle of Feathers",440,90,-395,Production,Tailoring
+Cloth Tunic,"Tailoring Scissors, (4)Bolt of Cloth, (6)Wax",260,,-260,Production,Tailoring
+Coconut Bra,"Tailoring Scissors, Rawhide Mallet, Yard of Leather, Metal Binding, Wearable Coconut, Wax",107,110,-52,Production,Tailoring
+Coconut,,5,5,-2.5,Gathering,Gathering
+Coil of Bronze Wire,"Wire Mold, Smelting Tongs, (2)Bronze Ingot, Chunk of Coal",267,125,-204.5,Refining,Smelting
+Coil of Constantan Wire,"Wire Mold, Smelting Tongs, (2)Constantan Ingot, Chunk of Coal",267,125,-204.5,Refining,Smelting
+Coil of Copper Wire,"Wire Mold, Smelting Tongs, (2)Copper Ingot, Chunk of Coal",49,45,-26.5,Refining,Smelting
+Coil of Iron Wire,"Wire Mold, Smelting Tongs, (2)Iron Ingot, Chunk of Coal",49,125,13.5,Refining,Smelting
+Coil of Metal Wire,"Smelting Tongs, Wire Mold, (2)Metal Ingot, Chunk of Coal",49,5,-46.5,Refining,Smelting
+Coil of Meteoric Iron Wire,"Wire Mold, Smelting Tongs, (2)Meteoric Iron Ingot, Chunk of Coal",387,125,-324.5,Refining,Smelting
+Coil of Rope,"Loom Shuttle, (5)Spool of Thread",50,1,-49.5,Refining,Textiles
+Coil of White Iron Wire,"Wire Mold, Smelting Tongs, (2)White Iron Ingot, Chunk of Coal",387,125,-324.5,Refining,Smelting
+Constantan Binding,"Smithing Hammer, Constantan Ingot, Chunk of Coal",135,25,-122.5,Production,Blacksmithing
+Constantan Core,"Smelting Tongs, Core Mold, (3)Constantan Ingot, Chunk of Coal",399,1,-398.5,Refining,Smelting
+Constantan Dagger Blade,"Smithing Hammer, Dagger Blade Mold, (2)Constantan Ingot, Chunk of Coal",267,20,-257,Production,Blacksmithing
+Constantan Great Axe Blade,"Smithing Hammer, Great Axe Head Mold, (6)Constantan Ingot, Chunk of Coal",795,30,-780,Production,Blacksmithing
+Constantan Halberd Blade,"Smithing Hammer, Halberd Blade Mold, (6)Constantan Ingot, Chunk of Coal",795,30,-780,Production,Blacksmithing
+Constantan Hand Axe Blade,"Smithing Hammer, Hand Axe Head Mold, (3)Constantan Ingot, Chunk of Coal",399,30,-384,Production,Blacksmithing
+Constantan Heavy War Hammer Head,"Smithing Hammer, Heavy War Hammer Head Mold, (6)Constantan Ingot, Chunk of Coal",795,10,-790,Production,Blacksmithing
+Constantan Hilt,"Smithing Hammer, Chunk of Coal, (2)Constantan Ingot",267,10,-262,Production,Blacksmithing
+Constantan Ingot,"Smelting Tongs, Ingot Mold, (2)Copper Ingot, (2)Chunk of Coal, (2)Nickel",132,100,-82,Refining,Smelting
+Constantan Longsword Blade,"Smithing Hammer, Longsword Blade Mold, (3)Constantan Ingot, Chunk of Coal",399,370,-214,Production,Blacksmithing
+Constantan Mace Head,"Smithing Hammer, Mace Head Mold, (3)Constantan Ingot, Chunk of Coal",399,30,-384,Production,Blacksmithing
+Constantan Sheet,"Smithing Hammer, Sheet Mold, (3)Constantan Ingot, Chunk of Coal",399,190,-304,Production,Blacksmithing
+Constantan Shortsword Blade,"Smithing Hammer, Shortsword Blade Mold, (3)Constantan Ingot, Chunk of Coal",399,30,-384,Production,Blacksmithing
+Constantan Shortsword with Bronze Hilt,"Smithing Hammer, Constantan Shortsword Blade, Bronze Hilt, Chunk of Coal",669,110,-614,Production,Blacksmithing
+Constantan Shortsword with Constantan Hilt,"Smithing Hammer, Constantan Shortsword Blade, Constantan Hilt, Chunk of Coal",669,110,-614,Production,Blacksmithing
+Constantan Shortsword with Copper Hilt,"Smithing Hammer, Constantan Shortsword Blade, Copper Hilt, Chunk of Coal",451,110,-396,Production,Blacksmithing
+Constantan Shortsword with Iron Hilt,"Smithing Hammer, Constantan Shortsword Blade, Iron Hilt, Chunk of Coal",451,110,-396,Production,Blacksmithing
+Constantan Shortsword with Meteoric Iron Hilt,"Smithing Hammer, Constantan Shortsword Blade, Meteoric Iron Hilt, Chunk of Coal",789,110,-734,Production,Blacksmithing
+Constantan Shortsword with White Iron Hilt,"Smithing Hammer, Constantan Shortsword Blade, White Iron Hilt, Chunk of Coal",789,110,-734,Production,Blacksmithing
+Constantan Spear Head,"Smithing Hammer, Spear Head Mold, (3)Constantan Ingot, Chunk of Coal",399,70,-364,Production,Blacksmithing
+Constantan Two-handed Mace Head,"Smithing Hammer, Two-handed Mace Head Mold, (6)Constantan Ingot, Chunk of Coal",795,30,-780,Production,Blacksmithing
+Constantan Two-handed Sword Blade,"Smithing Hammer, Two-handed Sword Blade Mold, (5)Constantan Ingot, Chunk of Coal",663,50,-638,Production,Blacksmithing
+Constantan Two-Handed Sword with Bronze Hilt,"Smithing Hammer, Constantan Two-handed Sword Blade, Bronze Hilt, (5)Chunk of Coal",945,115,-887.5,Production,Blacksmithing
+Constantan Two-Handed Sword with Constantan Hilt,"Smithing Hammer, Constantan Two-handed Sword Blade, Constantan Hilt, (5)Chunk of Coal",945,115,-887.5,Production,Blacksmithing
+Constantan Two-Handed Sword with Copper Hilt,"Smithing Hammer, Constantan Two-handed Sword Blade, Copper Hilt, (5)Chunk of Coal",727,115,-669.5,Production,Blacksmithing
+Constantan Two-Handed Sword with Iron Hilt,"Smithing Hammer, Constantan Two-handed Sword Blade, Iron Hilt, (5)Chunk of Coal",727,115,-669.5,Production,Blacksmithing
+Constantan Two-Handed Sword with Meteoric Iron Hilt,"Smithing Hammer, Constantan Two-handed Sword Blade, Meteoric Iron Hilt, (5)Chunk of Coal",1065,115,-1007.5,Production,Blacksmithing
+Constantan War Hammer Head,"Smithing Hammer, War Hammer Head Mold, (2)Constantan Ingot, Chunk of Coal",267,30,-252,Production,Blacksmithing
+Cooking Pot,,0,,0,Tool,Tool
+Copper Binding,"Smithing Hammer, Copper Ingot, Chunk of Coal",26,5,-23.5,Production,Blacksmithing
+Copper Core,"Smelting Tongs, Core Mold, (3)Copper Ingot, Chunk of Coal",72,1,-71.5,Refining,Smelting
+Copper Dagger Blade,"Smithing Hammer, Dagger Blade Mold, (2)Copper Ingot, Chunk of Coal",49,20,-39,Production,Blacksmithing
+Copper Great Axe Blade,"Smithing Hammer, Great Axe Head Mold, (6)Copper Ingot, Chunk of Coal",141,30,-126,Production,Blacksmithing
+Copper Halberd Blade,"Smithing Hammer, Halberd Blade Mold, (6)Copper Ingot, Chunk of Coal",141,30,-126,Production,Blacksmithing
+Copper Hand Axe Blade,"Smithing Hammer, Hand Axe Head Mold, (3)Copper Ingot, Chunk of Coal",72,30,-57,Production,Blacksmithing
+Copper Heavy War Hammer Head,"Smithing Hammer, Heavy War Hammer Head Mold, (6)Copper Ingot, Chunk of Coal",141,10,-136,Production,Blacksmithing
+Copper Heavy War Hammer,"Smithing Hammer, Copper Heavy War Hammer Head, Maple Handle, Chunk of Coal",178,225,-65.5,Production,Blacksmithing
+Copper Hilt,"Smithing Hammer, Chunk of Coal, (2)Copper Ingot",49,10,-44,Production,Blacksmithing
+Copper Ingot,"Smelting Tongs, Ingot Mold, (12)Metal Scrap, (2)Copper Ore, Chunk of Coal",13,,-13,Refining,Smelting
+Copper Ingot,"Smelting Tongs, Ingot Mold, (4)Copper Ore, Chunk of Coal",23,60,7,Refining,Smelting
+Copper Longsword Blade,"Smithing Hammer, Longsword Blade Mold, (3)Copper Ingot, Chunk of Coal",72,370,113,Production,Blacksmithing
+Copper Mace Head,"Smithing Hammer, Mace Head Mold, (3)Copper Ingot, Chunk of Coal",72,30,-57,Production,Blacksmithing
+Copper Mace with Maple Handle,"Carpentry Hammer, Copper Mace Head, Maple Handle, (3)Wax",112,75,-74.5,Production,Carpentry
+Copper Mace with Pine Handle,"Smithing Hammer, Copper Mace Head, Pine Handle, Chunk of Coal",109,75,-71.5,Production,Blacksmithing
+Copper Ore,,5,5,-2.5,Gathering,Gathering
+Copper Plate Boots,"Smithing Hammer, Hot Chisel, Chunk of Coal, (2)Copper Sheet, Leather Straps",167,1140,403,Production,Blacksmithing
+Copper Plate Leggings with Cotton Straps,"Smithing Hammer, Hot Chisel, (5)Copper Sheet, (2)Cotton Cloth Strap, Copper Binding, (2)Chunk of Coal",436,90,-391,Production,Blacksmithing
+Copper Plate Leggings with Leather Straps,"Smithing Hammer, Hot Chisel, (5)Copper Sheet, (2)Leather Straps, Iron Binding, (2)Chunk of Coal",432,90,-387,Production,Blacksmithing
+Copper Sheet,"Smithing Hammer, Sheet Mold, (3)Copper Ingot, Chunk of Coal",72,190,23,Production,Blacksmithing
+Copper Shortsword Blade,"Smithing Hammer, Shortsword Blade Mold, (3)Copper Ingot, Chunk of Coal",72,30,-57,Production,Blacksmithing
+Copper Shortsword with Bronze Hilt,"Smithing Hammer, Copper Shortsword Blade, Bronze Hilt, Chunk of Coal",342,110,-287,Production,Blacksmithing
+Copper Shortsword with Constantan Hilt,"Smithing Hammer, Copper Shortsword Blade, Constantan Hilt, Chunk of Coal",342,110,-287,Production,Blacksmithing
+Copper Shortsword with Copper Hilt,"Smithing Hammer, Copper Shortsword Blade, Copper Hilt, (3)Chunk of Coal",130,110,-75,Production,Blacksmithing
+Copper Shortsword with Iron Hilt,"Smithing Hammer, Copper Shortsword Blade, Iron Hilt, Chunk of Coal",124,110,-69,Production,Blacksmithing
+Copper Shortsword with Meteoric Iron Hilt,"Smithing Hammer, Copper Shortsword Blade, Meteoric Iron Hilt, Chunk of Coal",462,110,-407,Production,Blacksmithing
+Copper Shortsword with White Iron Hilt,"Smithing Hammer, Copper Shortsword Blade, White Iron Hilt, Chunk of Coal",462,110,-407,Production,Blacksmithing
+Copper Spear Head,"Smithing Hammer, Spear Head Mold, (3)Copper Ingot, Chunk of Coal",72,70,-37,Production,Blacksmithing
+Copper Two-handed Mace Head,"Smithing Hammer, Two-handed Mace Head Mold, (6)Copper Ingot, Chunk of Coal",141,30,-126,Production,Blacksmithing
+Copper Two-handed Sword Blade,"Smithing Hammer, Two-handed Sword Blade Mold, (5)Copper Ingot, Chunk of Coal",118,105,-65.5,Production,Blacksmithing
+Copper Two-Handed Sword with Bronze Hilt,"Smithing Hammer, Copper Two-handed Sword Blade, Bronze Hilt, (5)Chunk of Coal",400,115,-342.5,Production,Blacksmithing
+Copper Two-Handed Sword with Constantan Hilt,"Smithing Hammer, Copper Two-handed Sword Blade, Constantan Hilt, (5)Chunk of Coal",400,115,-342.5,Production,Blacksmithing
+Copper Two-Handed Sword with Copper Hilt,"Smithing Hammer, Copper Two-handed Sword Blade, Copper Hilt, (5)Chunk of Coal",182,115,-124.5,Production,Blacksmithing
+Copper Two-Handed Sword with Iron Hilt,"Smithing Hammer, Copper Two-handed Sword Blade, Iron Hilt, (5)Chunk of Coal",182,115,-124.5,Production,Blacksmithing
+Copper Two-Handed Sword with Meteoric Iron Hilt,"Smithing Hammer, Copper Two-handed Sword Blade, Meteoric Iron Hilt, (5)Chunk of Coal",520,115,-462.5,Production,Blacksmithing
+Copper War Hammer Head,"Smithing Hammer, War Hammer Head Mold, (2)Copper Ingot, Chunk of Coal",49,30,-34,Production,Blacksmithing
+Core Mold,,0,,0,Tool,Tool
+Corner Rough Stone Fence,"Smelting Tongs, (20)Granite Block, (2)Metal Binding",152,50,-127,Refining,Smelting
+Corner Rough Wooden Fence,"Carpentry Hammer, (9)Maple Wood, (2)Metal Binding",97,0,-97,Production,Carpentry
+Corner Rough Wooden Fence,"Carpentry Hammer, (9)Pine Wood, (2)Metal Binding",97,,-97,Production,Carpentry
+Corner Tall Rough Stone Fence,"Smelting Tongs, (30)Granite Block, (2)Metal Binding",202,,-202,Refining,Smelting
+Corpse Wax,,3,3,-1.5,Gathering,Gathering
+Cotton Bow String,"Tailoring Scissors, (5)Spool of Cotton Thread, Wax",102,,-102,Production,Tailoring
+Cotton Cloth Boots with Leather,"Tailoring Scissors, Bone Needle, (2)Bolt of Cotton Cloth, Yard of Leather, (3)Wax",128,70,-93,Production,Tailoring
+Cotton Cloth Chest Armor with Bronze Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Cotton Cloth, (3)Bronze Binding, (2)Yard of Hardened Leather, (4)Wax",1107,70,-1072,Production,Tailoring
+Cotton Cloth Chest Armor with Constantan Binding and Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Cotton Cloth, (3)Constantan Binding, (2)Yard of Leather, (4)Wax",699,70,-664,Production,Tailoring
+Cotton Cloth Chest Armor with Copper Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Cotton Cloth, (3)Copper Binding, (2)Yard of Supple Leather, (4)Wax",780,70,-745,Production,Tailoring
+Cotton Cloth Chest Armor with Iron Bindings and Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Cotton Cloth, (3)Iron Binding, (2)Yard of Leather, (4)Wax",372,70,-337,Production,Tailoring
+Cotton Cloth Chest Armor with Meteoric Iron Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Cotton Cloth, (3)Meteoric Iron Binding, (2)Yard of Supple Leather, (4)Wax",1287,70,-1252,Production,Tailoring
+Cotton Cloth Leggings with Bronze Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Cotton Cloth, (2)Bronze Binding, Yard of Hardened Leather, (3)Wax",686,70,-651,Production,Tailoring
+Cotton Cloth Leggings with Bronze Binding and Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Cotton Cloth, (2)Bronze Binding, Yard of Leather, (3)Wax",482,70,-447,Production,Tailoring
+Cotton Cloth Leggings with Bronze Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Cotton Cloth, (2)Bronze Binding, Yard of Supple Leather, (3)Wax",686,70,-651,Production,Tailoring
+Cotton Cloth Leggings with Copper Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Cotton Cloth, (2)Copper Binding, Yard of Hardened Leather, (3)Wax",468,70,-433,Production,Tailoring
+Cotton Cloth Leggings with Copper Binding and Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Cotton Cloth, (2)Copper Binding, Yard of Leather, (3)Wax",264,70,-229,Production,Tailoring
+Cotton Cloth Leggings with Copper Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Cotton Cloth, (2)Copper Binding, Yard of Supple Leather, (3)Wax",468,70,-433,Production,Tailoring
+Cotton Cloth Leggings with Iron Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Cotton Cloth, (2)Iron Binding, Yard of Hardened Leather, (3)Wax",468,70,-433,Production,Tailoring
+Cotton Cloth Leggings with Iron Binding and Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Cotton Cloth, (2)Iron Binding, Yard of Leather, (3)Wax",264,70,-229,Production,Tailoring
+Cotton Cloth Leggings with Iron Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Cotton Cloth, (2)Iron Binding, Yard of Supple Leather, (3)Wax",468,70,-433,Production,Tailoring
+Cotton Cloth Strap,"Loom Shuttle, Spool of Cotton Thread, Wax",22,5,-19.5,Refining,Textiles
+Cotton Cloth Straps,"Loom Shuttle, Spool of Thread, Wax",12,5,-9.5,Refining,Textiles
+Crafted Chest Armor,,0,,0,Gathering,Gathering
+Crafted Equipable,,0,,0,Gathering,Gathering
+Crafted Ring or Necklace,,0,,0,Gathering,Gathering
+Crafted Two-handed Weapon,,0,,0,Gathering,Gathering
+Crafted Weapon,,75,,-75,Gathering,Gathering
+Creosote,,1,1,-0.5,Gathering,Gathering
+Crimson Pine Binding,"Wood Rasp, Crimson Pine Timber, (3)Wax",178,5,-175.5,Production,Carpentry
+Crimson Pine Board,"Cubit Measure, Crimson Pine Timber, Creosote",173,,-173,Refining,Milling
+Crimson Pine Handle,"Carpentry Hammer, Crimson Pine Timber, Wax",174,90,-129,Production,Carpentry
+Crimson Pine Heartwood,"Wood Rasp, (4)Crimson Pine Timber, Wax",690,30,-675,Production,Carpentry
+Crimson Pine Long Bow with Carapacian Bow String,"Carpentry Hammer, Long Crimson Pine Bowstave, (2)Carapacian Bow String, (5)Wax",3016,200,-2916,Production,Carpentry
+Crimson Pine Long Bow with Fustian Bow String,"Carpentry Hammer, Long Crimson Pine Bowstave, (2)Fustian Bow String, (5)Wax",3016,200,-2916,Production,Carpentry
+Crimson Pine Long Bow with Hardened Leather Bow String,"Carpentry Hammer, Long Crimson Pine Bowstave, (2)Hardened Leather Bow String, (5)Wax",2936,200,-2836,Production,Carpentry
+Crimson Pine Long Bow with Leather Bow String,"Carpentry Hammer, Long Crimson Pine Bowstave, (2)Leather Bow String, (5)Wax",1916,200,-1816,Production,Carpentry
+Crimson Pine Long Bow with Supple Leather Bow String,"Carpentry Hammer, Long Crimson Pine Bowstave, (2)Supple Leather Bow String, (5)Wax",2936,200,-2836,Production,Carpentry
+Crimson Pine Pole,"Cubit Measure, (6)Crimson Pine Timber, Wax",1034,20,-1024,Refining,Milling
+Crimson Pine Short Bow with Carapacian Bow String,"Carpentry Hammer, Crimson Pine Short Bowstave, Carapacian Bow String, (5)Wax",2030,150,-1955,Production,Carpentry
+Crimson Pine Short Bow with Cotton Bow String,"Carpentry Hammer, Crimson Pine Short Bowstave, Cotton Bow String, (5)Wax",1490,150,-1415,Production,Carpentry
+Crimson Pine Short Bow with Fustian Bow String,"Carpentry Hammer, Crimson Pine Short Bowstave, Fustian Bow String, (5)Wax",2030,150,-1955,Production,Carpentry
+Crimson Pine Short Bow with Hardened Leather Bow String,"Carpentry Hammer, Crimson Pine Short Bowstave, Hardened Leather Bow String, (5)Wax",1990,150,-1915,Production,Carpentry
+Crimson Pine Short Bow with Leather Bow String,"Carpentry Hammer, Crimson Pine Short Bowstave, Leather Bow String, (5)Wax",1480,150,-1405,Production,Carpentry
+Crimson Pine Short Bow with Supple Leather Bow String,"Carpentry Hammer, Crimson Pine Short Bowstave, Supple Leather Bow String, (5)Wax",1990,150,-1915,Production,Carpentry
+Crimson Pine Short Bowstave,"Wood Rasp, (8)Crimson Pine Timber, Wax",1378,170,-1293,Production,Carpentry
+Crimson Pine Strip,"Cubit Measure, (4)Crimson Pine Timber, Wax",690,24,-678,Refining,Milling
+Crimson Pine Timber,"Cubit Measure, (4)Pine Timber, (4)Creosote, Sooty Bark",172,20,-162,Refining,Milling
+Crimson Pine Wand with Bronze Core,"Carpentry Hammer, Crimson Pine Heartwood, Bronze Core, Wax",1091,50,-1066,Production,Carpentry
+Cubit Measure,,0,0,0,,Tool
+Cubit Measure,"Cubit Measure, Maple Board",33,,-33,Refining,Milling
+Cure Plague Potion,"Mortar and Pestle, (10)Garlic, (5)Corpse Wax, Empty Flask",35,100,15,Production,Alchemy
+Cure Poison Potion,"Mortar and Pestle, (10)Garlic, (5)Nightshade, Empty Flask",30,100,20,Production,Alchemy
+Curing Salt,,2,2,-1,Gathering,Gathering
+Cut Gem,,0,,0,Gathering,Gathering
+Dagger Blade Mold,,0,,0,Tool,Tool
+Dagger of Crushing/Iron Dagger with Copper Hilt,"Smithing Hammer, Iron Dagger Blade, Copper Hilt, Chunk of Coal",101,40,-81,Production,Blacksmithing
+Dagger of Crushing/Iron Dagger with Iron Hilt,"Smithing Hammer, Iron Dagger Blade, Iron Hilt, Chunk of Coal",101,40,-81,Production,Blacksmithing
+Dagger of Crushing/Iron Dagger with White Iron Hilt,"Smithing Hammer, Iron Dagger Blade, White Iron Hilt, Chunk of Coal",439,40,-419,Production,Blacksmithing
+Dagger of Dexterity/Constantan Dagger with Bronze Hilt,"Smithing Hammer, Constantan Dagger Blade, Bronze Hilt, Chunk of Coal",537,40,-517,Production,Blacksmithing
+Dagger of Dexterity/Constantan Dagger with Constantan Hilt,"Smithing Hammer, Constantan Dagger Blade, Constantan Hilt, Chunk of Coal",537,40,-517,Production,Blacksmithing
+Dagger of Dexterity/Constantan Dagger with Copper Hilt,"Smithing Hammer, Constantan Dagger Blade, Copper Hilt, Chunk of Coal",319,40,-299,Production,Blacksmithing
+Dagger of Dexterity/Constantan Dagger with Iron Hilt,"Smithing Hammer, Constantan Dagger Blade, Iron Hilt, Chunk of Coal",319,40,-299,Production,Blacksmithing
+Dagger of Dexterity/Constantan Dagger with Meteoric Iron Hilt,"Smithing Hammer, Constantan Dagger Blade, Meteoric Iron Hilt, Chunk of Coal",657,40,-637,Production,Blacksmithing
+Dagger of Dexterity/Constantan Dagger with White Iron Hilt,"Smithing Hammer, Constantan Dagger Blade, White Iron Hilt, Chunk of Coal",657,40,-637,Production,Blacksmithing
+Dagger of Dexterity/Copper Dagger with Constantan Hilt,"Smithing Hammer, Copper Dagger Blade, Constantan Hilt, Chunk of Coal",319,40,-299,Production,Blacksmithing
+Dagger of Dexterity/Iron Dagger with Constantan Hilt,"Smithing Hammer, Iron Dagger Blade, Constantan Hilt, Chunk of Coal",319,40,-299,Production,Blacksmithing
+Dagger of Dexterity/White Iron Dagger with Constantan Hilt,"Smithing Hammer, White Iron Dagger Blade, Constantan Hilt, Chunk of Coal",657,40,-637,Production,Blacksmithing
+Dagger of Greater Crushing/Copper Dagger with Meteoric Iron Hilt,"Smithing Hammer, Copper Dagger Blade, Meteoric Iron Hilt, Chunk of Coal",439,40,-419,Production,Blacksmithing
+Dagger of Greater Crushing/Iron Dagger with Meteoric Iron Hilt,"Smithing Hammer, Iron Dagger Blade, Meteoric Iron Hilt, Chunk of Coal",439,40,-419,Production,Blacksmithing
+Dagger of Greater Crushing/Meteoric Iron Dagger with Bronze Hilt,"Smithing Hammer, Meteoric Iron Dagger Blade, Bronze Hilt, Chunk of Coal",657,40,-637,Production,Blacksmithing
+Dagger of Greater Crushing/Meteoric Iron Dagger with Constantan Hilt,"Smithing Hammer, Meteoric Iron Dagger Blade, Constantan Hilt, Chunk of Coal",657,40,-637,Production,Blacksmithing
+Dagger of Greater Crushing/Meteoric Iron Dagger with Copper Hilt,"Smithing Hammer, Meteoric Iron Dagger Blade, Copper Hilt, Chunk of Coal",439,40,-419,Production,Blacksmithing
+Dagger of Greater Crushing/Meteoric Iron Dagger with Iron Hilt,"Smithing Hammer, Meteoric Iron Dagger Blade, Iron Hilt, Chunk of Coal",439,40,-419,Production,Blacksmithing
+Dagger of Greater Crushing/Meteoric Iron Dagger with Meteoric Iron Hilt,"Smithing Hammer, Meteoric Iron Dagger Blade, Meteoric Iron Hilt, Chunk of Coal",777,40,-757,Production,Blacksmithing
+Dagger of Greater Crushing/Meteoric Iron Dagger with White Iron Hilt,"Smithing Hammer, Meteoric Iron Dagger Blade, White Iron Hilt, Chunk of Coal",777,40,-757,Production,Blacksmithing
+Dagger of Greater Crushing/White Iron Dagger with Meteoric Iron Hilt,"Smithing Hammer, White Iron Dagger Blade, Meteoric Iron Hilt, Chunk of Coal",777,40,-757,Production,Blacksmithing
+Dagger of Greater Haste/Bronze Dagger with Bronze Hilt,"Smithing Hammer, Bronze Dagger Blade, Bronze Hilt, Chunk of Coal",537,40,-517,Production,Blacksmithing
+Dagger of Greater Haste/Bronze Dagger with Constantan Hilt,"Smithing Hammer, Bronze Dagger Blade, Constantan Hilt, Chunk of Coal",537,40,-517,Production,Blacksmithing
+Dagger of Greater Haste/Bronze Dagger with Copper Hilt,"Smithing Hammer, Bronze Dagger Blade, Copper Hilt, Chunk of Coal",319,40,-299,Production,Blacksmithing
+Dagger of Greater Haste/Bronze Dagger with Iron Hilt,"Smithing Hammer, Bronze Dagger Blade, Iron Hilt, Chunk of Coal",319,40,-299,Production,Blacksmithing
+Dagger of Greater Haste/Bronze Dagger with Meteoric Iron Hilt,"Smithing Hammer, Bronze Dagger Blade, Meteoric Iron Hilt, Chunk of Coal",657,40,-637,Production,Blacksmithing
+Dagger of Greater Haste/Bronze Dagger with White Iron Hilt,"Smithing Hammer, Bronze Dagger Blade, White Iron Hilt, Chunk of Coal",657,40,-637,Production,Blacksmithing
+Dagger of Greater Haste/Copper Dagger with Bronze Hilt,"Smithing Hammer, Copper Dagger Blade, Bronze Hilt, Chunk of Coal",319,40,-299,Production,Blacksmithing
+Dagger of Greater Haste/Iron Dagger with Bronze Hilt,"Smithing Hammer, Iron Dagger Blade, Bronze Hilt, Chunk of Coal",319,40,-299,Production,Blacksmithing
+Dagger of Greater Haste/White Iron Dagger with Bronze Hilt,"Smithing Hammer, White Iron Dagger Blade, Bronze Hilt, Chunk of Coal",657,40,-637,Production,Blacksmithing
+Dagger of Haste/Copper Dagger with Copper Hilt,"Smithing Hammer, Copper Dagger Blade, Copper Hilt, Chunk of Coal",101,1040,419,Production,Blacksmithing
+Dagger of Haste/Copper Dagger with Iron Hilt,"Smithing Hammer, Copper Dagger Blade, Iron Hilt, Chunk of Coal",101,40,-81,Production,Blacksmithing
+Dagger of Haste/Copper Dagger with White Iron Hilt,"Smithing Hammer, Copper Dagger Blade, White Iron Hilt, Chunk of Coal",439,40,-419,Production,Blacksmithing
+Dagger of Thumping/White Iron Dagger with Copper Hilt,"Smithing Hammer, White Iron Dagger Blade, Copper Hilt, Chunk of Coal",439,40,-419,Production,Blacksmithing
+Dagger of Thumping/White Iron Dagger with Iron Hilt,"Smithing Hammer, White Iron Dagger Blade, Iron Hilt, Chunk of Coal",439,40,-419,Production,Blacksmithing
+Dagger of Thumping/White Iron Dagger with White Iron Hilt,"Smithing Hammer, White Iron Dagger Blade, White Iron Hilt, Chunk of Coal",777,40,-757,Production,Blacksmithing
+Dagger,"Smithing Hammer, Metal Dagger Blade, Metal Hilt, (3)Chunk of Coal",107,50,-82,Production,Blacksmithing
+Dark Aqua Dye,"Tanning Knife, (4)Maple Tree Bark, Pine Resin, Creosote, (2)Chunk of Coal",175,,-175,Refining,Tanning
+Dark Blue Dye,"Tanning Knife, (8)Maple Tree Bark, Creosote, (2)Chunk of Coal",263,,-263,Refining,Tanning
+Dark Brown Dye,"Tanning Knife, (5)Pine Tree Bark, (2)Cinnamon Bark, Creosote, (2)Chunk of Coal",183,,-183,Refining,Tanning
+Dark Green Dye,"Tanning Knife, (8)Pine Tree Bark, Creosote, (2)Chunk of Coal",263,,-263,Refining,Tanning
+Dark Grey Dye,"Tanning Knife, (4)Maple Tree Bark, (4)Pine Tree Bark, Creosote, (2)Chunk of Coal",263,,-263,Refining,Tanning
+Dark Orange Dye,"Tanning Knife, (5)Pumpkin, Creosote, (2)Chunk of Coal",12,,-12,Refining,Tanning
+Dark Pink Dye,"Tanning Knife, (20)Tomato, Creosote, (2)Chunk of Coal",47,,-47,Refining,Tanning
+Dark Purple Dye,"Tanning Knife, (5)Maple Tree Bark, (2)Cinnamon Bark, Creosote, (2)Chunk of Coal",183,,-183,Refining,Tanning
+Dark Red Dye,"Tanning Knife, (15)Apple, Creosote, (2)Chunk of Coal",22,,-22,Refining,Tanning
+Dark Yellow Dye,"Tanning Knife, (10)Banana, Creosote, (2)Chunk of Coal",37,5,-34.5,Refining,Tanning
+Deer Carcass,,5,5,-2.5,Gathering,Gathering
+Diamond Fragment,,1,1,-0.5,Gathering,Gathering
+Diamond,"Mortar and Pestle, (400)Diamond Fragment, (10)Mandrake Root",420,200,-320,Production,Alchemy
+Dinner Bench,"Carpentry Hammer, (5)Wooden Boards, (3)Wooden Pole",51,11,-45.5,Production,Carpentry
+Dinner Chair,"Carpentry Hammer, (7)Wooden Boards, (3)Wooden Pole",57,10,-52,Production,Carpentry
+Dresser,"Carpentry Hammer, (13)Wooden Boards",39,30,-24,Production,Carpentry
+Duck Carcass,,0,,0,Gathering,Gathering
+Duck Meat,"Cleaver, Duck Carcass",0,,0,Refining,Butchery
+Edged Chisel,,0,25,12.5,Tool,Tool
+Egg,,4,4,-2,Gathering,Gathering
+Emerald Fragment,,1,1,-0.5,Gathering,Gathering
+Emerald Gem,,0,,0,Gathering,Gathering
+Emerald,"Mortar and Pestle, (400)Emerald Fragment, (10)Mandrake Root",420,200,-320,Production,Alchemy
+Empty Flask,,0,,0,Gathering,Gathering
+Empty Glass Jar,,5,5,-2.5,Gathering,Gathering
+Enchantment,"Mortar and Pestle, Crafted Equipable, (10)Mandrake Root, (5)Gold Ingot",135,,-135,Production,Alchemy
+Epic Cloth Boots,"Tailoring Scissors, Bone Needle, (3)Bolt of Cloth, (3)Wax",192,35,-174.5,Production,Tailoring
+Epic Cloth Chest Armor,"Tailoring Scissors, Bone Needle, (10)Bolt of Cloth, (4)Wax",628,70,-593,Production,Tailoring
+Epic Cloth Chest Quarter-Armor,"Tailoring Scissors, Bone Needle, (6)Bolt of Cloth, Strap, (4)Wax",385,,-385,Production,Tailoring
+Epic Cloth Gauntlets,"Tailoring Scissors, Bone Needle, (3)Bolt of Cloth, (3)Wax, SStrap",192,20,-182,Production,Tailoring
+Epic Cloth Helm,"Tailoring Scissors, Bone Needle, (4)Bolt of Cloth, (2)Strap, (3)Wax",264,30,-249,Production,Tailoring
+Epic Cloth Leggings Quarter-Armor,"Tailoring Scissors, Bone Needle, (5)Bolt of Cloth, (4)Wax",318,,-318,Production,Tailoring
+Epic Cloth Leggings,"Tailoring Scissors, Bone Needle, (7)Bolt of Cloth, (4)Wax, Strap",447,56,-419,Production,Tailoring
+Epic Iron Plate Helm,"Smithing Hammer, Edged Chisel, (4)Metal Sheet, (2)Metal Binding, (3)Chunk of Coal",349,106,-296,Production,Blacksmithing
+Epic Leather Boots,"Tailoring Scissors, Rawhide Mallet, (2)Yard of Leather, Strap, (3)Wax",87,40,-67,Production,Tailoring
+Epic Leather Chest Armor,"Tailoring Scissors, Rawhide Mallet, (8)Yard of Leather, (2)Metal Binding, (4)Strap, (4)Wax",384,80,-344,Production,Tailoring
+Epic Leather Chest Quarter-Armor,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Leather, (3)Strap, (4)Wax",213,,-213,Production,Tailoring
+Epic Leather Gloves,"Tailoring Scissors, Rawhide Mallet, (2)Strap, (2)Yard of Leather, (3)Wax",92,,-92,Production,Tailoring
+Epic Leather Helm,"Tailoring Scissors, Rawhide Mallet, (3)Strap, (3)Wax, (3)Yard of Leather",135,35,-117.5,Production,Tailoring
+Epic Leather Leggings Quarter-Armor,"Tailoring Scissors, Rawhide Mallet, (3)Yard of Leather, (3)Strap, (4)Wax",137,,-137,Production,Tailoring
+Epic Leather Leggings,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Leather, (5)Strap, (4)Wax",223,62,-192,Production,Tailoring
+Epic Plate Boots,"Smithing Hammer, Edged Chisel, (3)Metal Sheet, (2)Chunk of Coal",222,136,-154,Production,Blacksmithing
+Epic Plate Chest Armor,"Smithing Hammer, Edged Chisel, (8)Metal Sheet, (4)Metal Binding, (2)Strap, (3)Chunk of Coal",699,190,-604,Production,Blacksmithing
+Epic Plate Chest Half-Armor,"Smithing Hammer, Edged Chisel, (6)Metal Sheet, (4)Metal Binding, (3)Chunk of Coal",545,170,-460,Production,Blacksmithing
+Epic Plate Chest Quarter-Armor,"Smithing Hammer, Edged Chisel, (4)Metal Sheet, (4)Metal Binding, (3)Chunk of Coal",401,,-401,Production,Blacksmithing
+Epic Plate Gauntlets,"Smithing Hammer, Edged Chisel, (2)Metal Sheet, (3)Metal Binding, (3)Chunk of Coal",231,114,-174,Production,Blacksmithing
+Epic Plate Helm,"Smithing Hammer, Edged Chisel, (4)Metal Sheet, (2)Metal Binding, (3)Chunk of Coal",349,,-349,Production,Blacksmithing
+Epic Plate Leggings Half-Armor,"Smithing Hammer, Edged Chisel, (4)Metal Sheet, (3)Metal Binding, (3)Chunk of Coal",375,135,-307.5,Production,Blacksmithing
+Epic Plate Leggings Quarter-Armor,"Smithing Hammer, Edged Chisel, (3)Metal Sheet, (3)Metal Binding, (3)Chunk of Coal",303,,-303,Production,Blacksmithing
+Epic Plate Leggings,"Smithing Hammer, Edged Chisel, (5)Metal Sheet, (3)Metal Binding, (2)Strap, (3)Chunk of Coal",457,135,-389.5,Production,Blacksmithing
+Explosive Potion,"Mortar and Pestle, (10)Sulfurous Ash, (3)Black Pearl, Empty Flask",39,100,11,Production,Alchemy
+Fabric Scrap,,0,,0,Gathering,Gathering
+Fabric,"Loom Shuttle, (15)Spool of Cotton Thread",300,25,-287.5,Refining,Textiles
+Fancy Bed,"Carpentry Hammer, (2)Wooden Bed Frame, Cloth Mattress, (10)Wooden Boards",558,150,-483,Production,Carpentry
+Fancy Stool,"Carpentry Hammer, (2)Wooden Boards, (4)Wooden Pole",54,11,-48.5,Production,Carpentry
+Fancy Tiara,"Smithing Hammer, Wire Pliers, Edged Chisel, (3)Coil of Metal Wire, (3)Chunk of Coal",156,100,-106,Production,Blacksmithing
+Fat,"Cleaver, Deer Carcass",5,1,-4.5,Refining,Butchery
+Fat,"Cleaver, Sheep Carcass",3,,-3,Refining,Butchery
+Fat,"Cleaver, Pig Carcass",3,,-3,Refining,Butchery
+Fishing Line,"Tailoring Scissors, (3)Leather, (2)Wax",58,10,-53,Production,Tailoring
+Fishing Rod Shaft,"Cubit Measure, (4)Maple Wood, Wax",22,20,-12,Refining,Milling
+Fishing Rod Shaft,"Cubit Measure, (4)Pine Wood, Wax",22,,-22,Refining,Milling
+Fishing Rod,"Carpentry Hammer, Fishing Rod Shaft, Fishing Line, Wax",82,20,-72,Production,Carpentry
+Flask of Beef Stock,"Cooking Pot, (10)Animal Bone, Bovine Meat, Flask of Cooking Oil, (2)Onion, Garlic, Pepper, Empty Flask",52,25,-39.5,Production,Cooking
+Flask of Cooking Oil,"Cooking Pot, (12)Pecan Nuts, Empty Flask",24,25,-11.5,Production,Cooking
+Flask of Vinegar,"Cooking Pot, Bottle of Wine, Jar of Yeast Culture, Empty Flask",30,25,-17.5,Production,Cooking
+Flute,"Carpentry Hammer, Wood Chisel, Wooden Pole, (5)Wax",22,5,-19.5,Production,Carpentry
+Focus Potion,"Mortar and Pestle, (10)Mandrake Root, (3)Sulfurous Ash, Empty Flask",29,40,-9,Production,Alchemy
+Fustian Bow String,"Tailoring Scissors, (5)Spool of Fustian Thread, Wax",642,,-642,Production,Tailoring
+Fustian Cloth Boots with Hardened Leather,"Tailoring Scissors, Bone Needle, (2)Bolt of Fustian Cloth, Yard of Hardened Leather, (3)Wax",764,70,-729,Production,Tailoring
+Fustian Cloth Chest Armor with Bronze Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Fustian Cloth, (3)Bronze Binding, (2)Yard of Hardened Leather, (4)Wax",2187,70,-2152,Production,Tailoring
+Fustian Cloth Chest Armor with Copper Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Fustian Cloth, (3)Copper Binding, (2)Yard of Hardened Leather, (4)Wax",1860,70,-1825,Production,Tailoring
+Fustian Cloth Chest Armor with Copper Binding and Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Fustian Cloth, (3)Copper Binding, (2)Yard of Leather, (4)Wax",1452,70,-1417,Production,Tailoring
+Fustian Cloth Chest Armor with Copper Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Fustian Cloth, (3)Copper Binding, (2)Yard of Supple Leather, (4)Wax",1860,70,-1825,Production,Tailoring
+Fustian Cloth Chest Armor with Iron Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Fustian Cloth, (3)Iron Binding, (2)Yard of Hardened Leather, (4)Wax",1860,70,-1825,Production,Tailoring
+Fustian Cloth Chest Armor with Iron Binding and Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Fustian Cloth, (3)Iron Binding, (2)Yard of Leather, (4)Wax",1452,70,-1417,Production,Tailoring
+Fustian Cloth Chest Armor with Iron Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Fustian Cloth, (3)Iron Binding, (2)Yard of Supple Leather, (4)Wax",1860,70,-1825,Production,Tailoring
+Fustian Cloth Chest Armor with White Iron Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (5)Bolt of Fustian Cloth, (3)White Iron Binding, (2)Yard of Supple Leather, (4)Wax",2367,70,-2332,Production,Tailoring
+Fustian Cloth Leggings with Bronze Binding and Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Fustian Cloth, (2)Bronze Binding, Yard of Leather, (3)Wax",1346,70,-1311,Production,Tailoring
+Fustian Cloth Leggings with Bronze Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Fustian Cloth, (2)Bronze Binding, Yard of Supple Leather, (3)Wax",1550,70,-1515,Production,Tailoring
+Fustian Cloth Leggings with Copper Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Fustian Cloth, (2)Copper Binding, Yard of Hardened Leather, (3)Wax",1332,70,-1297,Production,Tailoring
+Fustian Cloth Leggings with Copper Binding and Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Fustian Cloth, (2)Copper Binding, Yard of Leather, (3)Wax",1128,70,-1093,Production,Tailoring
+Fustian Cloth Leggings with Copper Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Fustian Cloth, (2)Copper Binding, Yard of Supple Leather, (3)Wax",1332,70,-1297,Production,Tailoring
+Fustian Cloth Leggings with Iron Binding and Hardened Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Fustian Cloth, (2)Iron Binding, Yard of Hardened Leather, (3)Wax",1332,70,-1297,Production,Tailoring
+Fustian Cloth Leggings with Iron Binding and Supple Leather,"Tailoring Scissors, Bone Needle, (4)Bolt of Fustian Cloth, (2)Iron Binding, Yard of Supple Leather, (3)Wax",1332,70,-1297,Production,Tailoring
+Fustian Cloth Straps,"Loom Shuttle, Spool of Fustian Thread, Wax",130,5,-127.5,Refining,Textiles
+Gaiaism Gem,"Mortar and Pestle, Emerald, (10)Mandrake Root",440,100,-390,Production,Alchemy
+Gaiaism Jewel,"Mortar and Pestle, Emerald, (5)Mandrake Root",430,100,-380,Production,Alchemy
+Garlic Cheese Bread,"Cooking Pot, (4)Sack of Flour, Wedge of Cheese, Butter, Onion, Flask of Cooking Oil, Sack of Salt, Garlic",79,25,-66.5,Production,Cooking
+Garlic,,2,2,-1,Gathering,Gathering
+Garnet Fragment,,1,1,-0.5,Gathering,Gathering
+Garnet Gem,,0,,0,Gathering,Gathering
+Garnet,"Mortar and Pestle, (400)Garnet Fragment, (10)Mandrake Root",420,200,-320,Production,Alchemy
+Gated Rough Stone Fence,"Smelting Tongs, (25)Granite Block, (5)Metal Binding",255,50,-230,Refining,Smelting
+Gated Rough Wooden Fence,"Carpentry Hammer, (12)Maple Wood, (5)Metal Binding",190,0,-190,Production,Carpentry
+Gated Rough Wooden Fence,"Carpentry Hammer, (12)Pine Wood, (5)Metal Binding",190,,-190,Production,Carpentry
+Gated Tall Rough Stone Fence,"Smelting Tongs, (35)Granite Block, (5)Metal Binding",305,,-305,Refining,Smelting
+Gem Fragment,,0,,0,Gathering,Gathering
+Gem Socketed Chest Armor,"Mortar and Pestle, Cut Gem, Crafted Chest Armor, (10)Mandrake Root",20,1,-19.5,Production,Alchemy
+Gem Socketed One-handed Weapon,"Mortar and Pestle, Cut Gem, Crafted Weapon, (10)Mandrake Root",95,,-95,Production,Alchemy
+Gem Socketed Two-handed Weapon,"Mortar and Pestle, (2)Cut Gem, Crafted Two-handed Weapon, (10)Mandrake Root",20,1,-19.5,Production,Alchemy
+Giant Rough Stone Paver,"Smelting Tongs, Stone Chisel, (23)Granite Block",115,,-115,Refining,Smelting
+Gold Ingot,"Smelting Tongs, Ingot Mold, (4)Gold Ore, Chunk of Coal",23,1,-22.5,Refining,Smelting
+Gold Ore,,5,5,-2.5,Gathering,Gathering
+Goldenrod Timber,"Cubit Measure, (2)Pine Timber, Sooty Bark, (4)Creosote",108,10,-103,Refining,Milling
+Gothic Chair,"Carpentry Hammer, Wood Chisel, Sturdy Chair, (2)Wooden Boards",15,25,-2.5,Production,Carpentry
+Gothic Table,"Carpentry Hammer, Wood Chisel, Sturdy Table, (4)Wooden Boards",27,,-27,Production,Carpentry
+Granite Block,,5,5,-2.5,Gathering,Gathering
+Gravestone,"Smelting Tongs, Stone Chisel, (11)Granite Block",55,,-55,Refining,Smelting
+Great Axe Head Mold,,0,,0,Tool,Tool
+Great Sword,"Smithing Hammer, Iron Great Sword Blade, Iron Hilt, Chunk of Coal",193,188,-99,Production,Blacksmithing
+Green Dye,"Tanning Knife, (8)Pine Tree Bark, (2)Chunk of Coal",262,,-262,Refining,Tanning
+Green Stall Awning,"Carpentry Hammer, (20)Wooden Boards, (10)Bolt of Cloth, Green Dye",942,,-942,Production,Carpentry
+Grey Dye,"Tanning Knife, (4)Maple Tree Bark, (4)Pine Tree Bark, (2)Chunk of Coal",262,,-262,Refining,Tanning
+Grey Pine Binding,"Wood Rasp, Grey Pine Timber, (3)Wax",178,5,-175.5,Production,Carpentry
+Grey Pine Board,"Cubit Measure, Grey Pine Timber, Creosote",173,,-173,Refining,Milling
+Grey Pine Handle,"Carpentry Hammer, Grey Pine Timber, Wax",174,90,-129,Production,Carpentry
+Grey Pine Heartwood,"Wood Rasp, (4)Grey Pine Timber, Wax",690,30,-675,Production,Carpentry
+Grey Pine Long Bow with Carapacian Bow String,"Carpentry Hammer, Long Grey Pine Bowstave, (2)Carapacian Bow String, (5)Wax",3016,200,-2916,Production,Carpentry
+Grey Pine Long Bow with Fustian Bow String,"Carpentry Hammer, Long Grey Pine Bowstave, (2)Fustian Bow String, (5)Wax",3016,200,-2916,Production,Carpentry
+Grey Pine Long Bow with Hardened Leather Bow String,"Carpentry Hammer, Long Grey Pine Bowstave, (2)Hardened Leather Bow String, (5)Wax",2936,200,-2836,Production,Carpentry
+Grey Pine Long Bow with Leather Bow String,"Carpentry Hammer, Long Grey Pine Bowstave, (2)Leather Bow String, (5)Wax",1916,200,-1816,Production,Carpentry
+Grey Pine Long Bow with Supple Leather Bow String,"Carpentry Hammer, Long Grey Pine Bowstave, (2)Supple Leather Bow String, (5)Wax",2936,200,-2836,Production,Carpentry
+Grey Pine Pole,"Cubit Measure, (6)Grey Pine Timber, Wax",1034,20,-1024,Refining,Milling
+Grey Pine Short Bow with Carapacian Bow String,"Carpentry Hammer, Grey Pine Short Bowstave, Carapacian Bow String, (5)Wax",2030,150,-1955,Production,Carpentry
+Grey Pine Short Bow with Cotton Bow String,"Carpentry Hammer, Grey Pine Short Bowstave, Cotton Bow String, (5)Wax",1490,150,-1415,Production,Carpentry
+Grey Pine Short Bow with Fustian Bow String,"Carpentry Hammer, Grey Pine Short Bowstave, Fustian Bow String, (5)Wax",2030,150,-1955,Production,Carpentry
+Grey Pine Short Bow with Hardened Leather Bow String,"Carpentry Hammer, Grey Pine Short Bowstave, Hardened Leather Bow String, (5)Wax",1990,150,-1915,Production,Carpentry
+Grey Pine Short Bow with Leather Bow String,"Carpentry Hammer, Grey Pine Short Bowstave, Leather Bow String, (5)Wax",1480,150,-1405,Production,Carpentry
+Grey Pine Short Bow with Supple Leather Bow String,"Carpentry Hammer, Grey Pine Short Bowstave, Supple Leather Bow String, (5)Wax",1990,150,-1915,Production,Carpentry
+Grey Pine Short Bowstave,"Wood Rasp, (8)Grey Pine Timber, Wax",1378,170,-1293,Production,Carpentry
+Grey Pine Strip,"Cubit Measure, (4)Grey Pine Timber, Wax",690,24,-678,Refining,Milling
+Grey Pine Timber,"Cubit Measure, (4)Pine Timber, (4)Creosote, Pine Resin",172,70,-137,Refining,Milling
+Grey Pine Wand with Bronze Core,"Carpentry Hammer, Grey Pine Heartwood, Bronze Core, Wax",1091,1,-1090.5,Production,Carpentry
+Grey Pine Wand with Constantan Core,"Carpentry Hammer, Grey Pine Heartwood, Constantan Core, Wax",1091,1,-1090.5,Production,Carpentry
+Grey Pine Wand with Copper Core,"Carpentry Hammer, Grey Pine Heartwood, Copper Core, Wax",764,1,-763.5,Production,Carpentry
+Grey Pine Wand with Iron Core,"Carpentry Hammer, Grey Pine Heartwood, Iron Core, Wax",764,1,-763.5,Production,Carpentry
+Grey Pine Wand with Meteoric Iron Core,"Carpentry Hammer, Grey Pine Heartwood, Meteoric Iron Core, Wax",1271,1,-1270.5,Production,Carpentry
+Grey Pine Wand with White Iron Core,"Carpentry Hammer, Grey Pine Heartwood, White Iron Core, Wax",1271,1,-1270.5,Production,Carpentry
+Guillotine,"Carpentry Hammer, (3)Pine Board, (3)Wood Scrap, Coil of Rope, Iron Great Axe Blade",290,75,-252.5,Production,Carpentry
+Guillotine,"Carpentry Hammer, (3)Maple Board, (3)Wood Scrap, Coil of Rope, Iron Great Axe Blade",290,,-290,Production,Carpentry
+Halberd Blade Mold,,0,,0,Tool,Tool
+Halberd,"Carpentry Hammer, Metal Halberd Blade, Wooden Handle, (5)Wax",155,115,-97.5,Production,Carpentry
+Hammer Head Mold,,0,,0,Tool,Tool
+Hand Axe Head Mold,,0,,0,Tool,Tool
+Hand Axe,"Smithing Hammer, Metal Hand Axe Blade, Wooden Handle, Chunk of Coal",79,77,-40.5,Production,Blacksmithing
+Hard Maple Binding,"Wood Rasp, Hard Maple Timber, (3)Wax",178,5,-175.5,Production,Carpentry
+Hard Maple Board,"Cubit Measure, Hard Maple Timber, Creosote",173,,-173,Refining,Milling
+Hard Maple Bowstave,"Wood Rasp, (10)Hard Maple Timber, Wax",1722,,-1722,Production,Carpentry
+Hard Maple Handle,"Carpentry Hammer, (5)Hard Maple Timber, Wax",862,90,-817,Production,Carpentry
+Hard Maple Heartwood,"Wood Rasp, (4)Hard Maple Timber, Wax",690,30,-675,Production,Carpentry
+Hard Maple Long Bow with Carapacian Bow String,"Carpentry Hammer, Long Hard Maple Bowstave, (2)Carapacian Bow String, (5)Wax",3016,200,-2916,Production,Carpentry
+Hard Maple Long Bow with Fustian Bow String,"Carpentry Hammer, Hard Maple Bowstave, (2)Fustian Bow String, (5)Wax",3016,200,-2916,Production,Carpentry
+Hard Maple Long Bow with Hardened Leather Bow String,"Carpentry Hammer, Long Hard Maple Bowstave, (2)Hardened Leather Bow String, (5)Wax",2936,200,-2836,Production,Carpentry
+Hard Maple Long Bow with Leather Bow String,"Carpentry Hammer, Long Hard Maple Bowstave, (2)Leather Bow String, (5)Wax",1916,200,-1816,Production,Carpentry
+Hard Maple Long Bow with Supple Leather Bow String,"Carpentry Hammer, Long Hard Maple Bowstave, (2)Supple Leather Bow String, (5)Wax",2936,200,-2836,Production,Carpentry
+Hard Maple Pole,"Cubit Measure, (6)Hard Maple Timber, Wax",1034,20,-1024,Refining,Milling
+Hard Maple Short Bow with Carapacian Bow String,"Carpentry Hammer, Hard Maple Short Bowstave, Carapacian Bow String, (5)Wax",2030,150,-1955,Production,Carpentry
+Hard Maple Short Bow with Cotton Bow String,"Carpentry Hammer, Hard Maple Short Bowstave, Cotton Bow String, (5)Wax",1490,150,-1415,Production,Carpentry
+Hard Maple Short Bow with Fustian Bow String,"Carpentry Hammer, Hard Maple Short Bowstave, Fustian Bow String, (5)Wax",2030,150,-1955,Production,Carpentry
+Hard Maple Short Bow with Hardened Leather Bow String,"Carpentry Hammer, Hard Maple Short Bowstave, Hardened Leather Bow String, (5)Wax",1990,150,-1915,Production,Carpentry
+Hard Maple Short Bow with Leather Bow String,"Carpentry Hammer, Hard Maple Short Bowstave, Leather Bow String, (5)Wax",1480,150,-1405,Production,Carpentry
+Hard Maple Short Bow with Supple Leather Bow String,"Carpentry Hammer, Hard Maple Short Bowstave, Supple Leather Bow String, (5)Wax",1990,150,-1915,Production,Carpentry
+Hard Maple Short Bowstave,"Wood Rasp, (8)Hard Maple Timber, Wax",1378,170,-1293,Production,Carpentry
+Hard Maple Strip,"Cubit Measure, (4)Hard Maple Timber, Wax",690,24,-678,Refining,Milling
+Hard Maple Timber,"Cubit Measure, (4)Maple Timber, (4)Creosote, Sooty Bark",172,,-172,Refining,Milling
+Hard Maple Wand with Bronze Core,"Carpentry Hammer, Hard Maple Heartwood, Bronze Core, Wax",1091,200,-991,Production,Carpentry
+Hard Maple Wand with Constantan Core,"Carpentry Hammer, Hard Maple Heartwood, Constantan Core, Wax",1091,200,-991,Production,Carpentry
+Hard Maple Wand with Copper Core,"Carpentry Hammer, Hard Maple Heartwood, Copper Core, Wax",764,1,-763.5,Production,Carpentry
+Hard Maple Wand with Cotton Cloth Strap,"Carpentry Hammer, Hard Maple Heartwood, Cotton Cloth Strap, (3)Wax",718,50,-693,Production,Carpentry
+Hard Maple Wand with Meteoric Iron Core,"Carpentry Hammer, Hard Maple Heartwood, Meteoric Iron Core, Wax",1271,200,-1171,Production,Carpentry
+Hard Maple Wand with White Iron Core,"Carpentry Hammer, Hard Maple Heartwood, White Iron Core, Wax",1271,200,-1171,Production,Carpentry
+Hard Maple Wood Staff,"Wood Rasp, (6)Hard Maple Timber, Wax",1034,,-1034,Production,Carpentry
+Hardened Leather Bow String,"Tailoring Scissors, (5)Hardened Leather, Curing Salt",602,1,-601.5,Production,Tailoring
+Hardened Leather Gloves,"Tailoring Scissors, Yard of Hardened Leather, (3)Hardened Leather Straps, Wax",610,11,-604.5,Production,Tailoring
+Hardened Leather Straps,"Tanning Knife, Hardened Leather, Curing Salt",122,1,-121.5,Refining,Tanning
+Hardened Leather,"Tanning Knife, (4)Leather, (4)Curing Salt, Beetle Carapace",120,80,-80,Refining,Tanning
+Harp,"Carpentry Hammer, (5)Wooden Boards, (21)Lute String, (4)Wax",485,,-485,Production,Carpentry
+Haste Potion,"Mortar and Pestle, (8)Sulfurous Ash, (8)Mandrake Root, Empty Flask",40,100,10,Production,Alchemy
+Headstone,"Smelting Tongs, Stone Chisel, (4)Granite Block",20,10,-15,Refining,Smelting
+Health Potion,"Mortar and Pestle, (10)Garlic, (3)Corpse Wax, Empty Flask",29,40,-9,Production,Alchemy
+Heartwood,"Wood Rasp, (4)Wooden Timber, Wax",10,5,-7.5,Production,Carpentry
+Heavy War Hammer Head Mold,,0,,0,Tool,Tool
+Heavy War Hammer,"Smithing Hammer, Metal Heavy War Hammer Head, Wooden Handle, Chunk of Coal",148,130,-83,Production,Blacksmithing
+Hedge Archway,"Carpentry Hammer, (6)Plant, (3)Pine Wood",27,50,-2,Production,Carpentry
+Hedge Archway,"Carpentry Hammer, (6)Plant, (3)Maple Wood",27,,-27,Production,Carpentry
+Hedge Layer Cake,"Carpentry Hammer, (20)Plant, (2)Maple Wood",50,100,0,Production,Carpentry
+Hedge Layer Cake,"Carpentry Hammer, (20)Plant, (2)Pine Wood",50,,-50,Production,Carpentry
+Hedge Sphere Tree,"Carpentry Hammer, (12)Plant, (2)Granite Block",34,50,-9,Production,Carpentry
+Hedge Spiral Tree,"Carpentry Hammer, (10)Plant, (2)Granite Block",30,50,-5,Production,Carpentry
+Holly Wreath Hat,"Tailoring Scissors, Bone Needle, Plant, (2)Strap, (8)Wax",28,,-28,Production,Tailoring
+Hospitaller Symbol,,0,,0,Gathering,Gathering
+Hot Chisel,,0,,0,Tool,Tool
+Huge Rug,"Loom Shuttle, (40)Spool of Cotton Thread",800,70,-765,Refining,Textiles
+Ingot Mold,,0,,0,Tool,Tool
+Iron Bar,"Smelting Tongs, Bar Mold, Chunk of Coal, Iron Ingot",26,,-26,Refining,Smelting
+Iron Bar,"Smelting Tongs, Bar Mold, Chunk of Coal, (4)Iron Ore",23,4,-21,Refining,Smelting
+Iron Battle Axe Blade,"Smithing Hammer, Iron Battle Axe Blank",72,35,-54.5,Production,Blacksmithing
+Iron Battle Axe Blank,"Smelting Tongs, Axe Head Mold, (3)Iron Bar, Chunk of Coal",72,30,-57,Refining,Smelting
+Iron Battle Axe,"Smithing Hammer, Iron Battle Axe Blade, Maple Handle",106,90,-61,Production,Blacksmithing
+Iron Binding,"Smithing Hammer, Iron Ingot, Chunk of Coal",26,5,-23.5,Production,Blacksmithing
+Iron Chainmail Gloves,"Smithing Hammer, Wire Pliers, (6)Coil of Iron Wire, Hardened Leather Straps, (2)Chunk of Coal",422,47,-398.5,Production,Blacksmithing
+Iron Core,"Smelting Tongs, Core Mold, (3)Iron Ingot, Chunk of Coal",72,1,-71.5,Refining,Smelting
+Iron Cutlass Blade,"Smithing Hammer, Iron Cutlass Blank",95,,-95,Production,Blacksmithing
+Iron Cutlass Blank,"Smelting Tongs, Blade Mold, Chunk of Coal, (2)Iron Bar, (2)Iron Ingot",95,,-95,Refining,Smelting
+Iron Cutlass,"Smithing Hammer, Chunk of Coal, Iron Cutlass Blade, Iron Hilt",147,,-147,Production,Blacksmithing
+Iron Dagger Blade,"Smithing Hammer, Dagger Blade Mold, (2)Iron Ingot, Chunk of Coal",49,20,-39,Production,Blacksmithing
+Iron Great Axe Blade,"Smithing Hammer, Great Axe Head Mold, (6)Iron Ingot, Chunk of Coal",141,50,-116,Production,Blacksmithing
+Iron Great Sword Blade,"Smithing Hammer, Iron Great Sword Blank",141,60,-111,Production,Blacksmithing
+Iron Great Sword Blank,"Blade Mold, Smelting Tongs, (6)Iron Bar, Chunk of Coal",141,53,-114.5,Refining,Smelting
+Iron Halberd Blade,"Smithing Hammer, Halberd Blade Mold, (6)Iron Ingot, Chunk of Coal",141,30,-126,Production,Blacksmithing
+Iron Halberd with Maple Handle,"Carpentry Hammer, Iron Halberd Blade, Maple Handle, (5)Wax",185,130,-120,Production,Carpentry
+Iron Hand Axe Blade,"Smithing Hammer, Hand Axe Head Mold, (3)Iron Ingot, Chunk of Coal",72,30,-57,Production,Blacksmithing
+Iron Heavy War Hammer Head,"Smithing Hammer, Heavy War Hammer Head Mold, (6)Iron Ingot, Chunk of Coal",141,10,-136,Production,Blacksmithing
+Iron Heavy War Hammer with Maple Handle,"Carpentry Hammer, Iron Heavy War Hammer Head, Maple Handle, (5)Wax",185,225,-72.5,Production,Carpentry
+Iron Hilt,"Smithing Hammer, Chunk of Coal, (2)Iron Ingot",49,10,-44,Production,Blacksmithing
+Iron Ingot,"Smelting Tongs, Ingot Mold, (4)Iron Ore, Chunk of Coal",23,1,-22.5,Refining,Smelting
+Iron Ingot,"Smelting Tongs, Ingot Mold, (12)Metal Scrap, (2)Iron Ore, Chunk of Coal",13,,-13,Refining,Smelting
+Iron Lantern,"Smithing Hammer, (3)Iron Ingot, (3)Chunk of Coal",78,50,-53,Production,Blacksmithing
+Iron Longsword Blade,"Smithing Hammer, Longsword Blade Mold, (3)Iron Ingot, Chunk of Coal",72,130,-7,Production,Blacksmithing
+Iron Mace Head,"Smithing Hammer, Mace Head Mold, (3)Iron Ingot, Chunk of Coal",72,20,-62,Production,Blacksmithing
+Iron Mace with Maple Handle,"Smithing Hammer, Iron Mace Head, Maple Handle, Chunk of Coal",109,75,-71.5,Production,Blacksmithing
+Iron Mace with Pine Handle,"Smithing Hammer, Iron Mace Head, Pine Handle, Chunk of Coal",109,75,-71.5,Production,Blacksmithing
+Iron Ore,,5,5,-2.5,Gathering,Gathering
+Iron Plate Boots,"Smithing Hammer, Hot Chisel, Chunk of Coal, (2)Iron Sheet, Leather Straps",167,1140,403,Production,Blacksmithing
+Iron Plate Gauntlets,"Smithing Hammer, Hot Chisel, (2)Iron Sheet, Cotton Cloth Strap, (2)Chunk of Coal",172,90,-127,Production,Blacksmithing
+Iron Plate Helm,"Smithing Hammer, Hot Chisel, Chunk of Coal, (3)Iron Sheet, Leather Straps",239,53,-212.5,Production,Blacksmithing
+Iron Plate Leggings with Cotton Straps,"Smithing Hammer, Hot Chisel, (5)Iron Sheet, (2)Cotton Cloth Strap, Iron Binding, (2)Chunk of Coal",436,90,-391,Production,Blacksmithing
+Iron Plate Leggings with Leather Straps,"Smithing Hammer, Hot Chisel, (5)Iron Sheet, (2)Leather Straps, Iron Binding, (2)Chunk of Coal",432,90,-387,Production,Blacksmithing
+Iron Rectangle Shield,"Smithing Hammer, Chunk of Coal, (2)Iron Binding, Iron Sheet, Leather Straps",147,80,-107,Production,Blacksmithing
+Iron Round Shield,"Smithing Hammer, (2)Iron Sheet, Iron Binding, Leather Straps, Chunk of Coal",193,53,-166.5,Production,Blacksmithing
+Iron Scimitar Blade,"Smithing Hammer, Iron Scimitar Blank",118,,-118,Production,Blacksmithing
+Iron Scimitar Blank,"Smelting Tongs, Blade Mold, Chunk of Coal, (3)Iron Bar, (2)Iron Ingot",118,,-118,Refining,Smelting
+Iron Scimitar,"Smithing Hammer, Chunk of Coal, Iron Scimitar Blade, Iron Hilt",170,141,-99.5,Production,Blacksmithing
+Iron Sheet,"Smithing Hammer, Sheet Mold, (3)Iron Ingot, Chunk of Coal",72,190,23,Production,Blacksmithing
+Iron Shortsword Blade,"Smithing Hammer, Shortsword Blade Mold, (2)Iron Ingot, Chunk of Coal",49,30,-34,Production,Blacksmithing
+Iron Shortsword with Bronze Hilt,"Smithing Hammer, Iron Shortsword Blade, Bronze Hilt, Chunk of Coal",319,110,-264,Production,Blacksmithing
+Iron Shortsword with Constantan Hilt,"Smithing Hammer, Iron Shortsword Blade, Constantan Hilt, Chunk of Coal",319,110,-264,Production,Blacksmithing
+Iron Shortsword with Copper Hilt,"Smithing Hammer, Iron Shortsword Blade, Copper Hilt, Chunk of Coal",101,110,-46,Production,Blacksmithing
+Iron Shortsword with Iron Hilt,"Smithing Hammer, Iron Shortsword Blade, Iron Hilt, (3)Chunk of Coal",107,110,-52,Production,Blacksmithing
+Iron Shortsword with Meteoric Iron Hilt,"Smithing Hammer, Iron Shortsword Blade, Meteoric Iron Hilt, Chunk of Coal",439,110,-384,Production,Blacksmithing
+Iron Shortsword with White Iron Hilt,"Smithing Hammer, Iron Shortsword Blade, White Iron Hilt, Chunk of Coal",439,110,-384,Production,Blacksmithing
+Iron Spear Head,"Smithing Hammer, Spear Head Mold, (3)Iron Ingot, Chunk of Coal",72,70,-37,Production,Blacksmithing
+Iron Spear with Maple Pole,"Carpentry Hammer, Iron Spear Head, Maple Pole, (3)Wax",150,53,-123.5,Production,Carpentry
+Iron Triangle Shield,"Smithing Hammer, Chunk of Coal, Iron Binding, Iron Sheet, Leather Straps",121,53,-94.5,Production,Blacksmithing
+Iron Two-handed Axe,"Carpentry Hammer, Iron Great Axe Blade, Maple Handle, (5)Wax",185,128,-121,Production,Carpentry
+Iron Two-handed Hammer Head,"Smithing Hammer, Hammer Head Mold, Chunk of Coal, (6)Iron Ingot",141,45,-118.5,Production,Blacksmithing
+Iron Two-handed Mace Head,"Smithing Hammer, Two-handed Mace Head Mold, (6)Iron Ingot, Chunk of Coal",141,30,-126,Production,Blacksmithing
+Iron Two-handed Mace with Maple Handle,"Smithing Hammer, Iron Two-handed Mace Head, Maple Handle, Chunk of Coal",178,75,-140.5,Production,Blacksmithing
+Iron Two-handed Sword Blade,"Smithing Hammer, Two-handed Sword Blade Mold, (5)Iron Ingot, Chunk of Coal",118,50,-93,Production,Blacksmithing
+Iron Two-Handed Sword with Bronze Hilt,"Smithing Hammer, Iron Two-handed Sword Blade, Bronze Hilt, (5)Chunk of Coal",400,115,-342.5,Production,Blacksmithing
+Iron Two-Handed Sword with Constantan Hilt,"Smithing Hammer, Iron Two-handed Sword Blade, Constantan Hilt, (5)Chunk of Coal",400,115,-342.5,Production,Blacksmithing
+Iron Two-Handed Sword with Copper Hilt,"Smithing Hammer, Iron Two-handed Sword Blade, Copper Hilt, (5)Chunk of Coal",182,115,-124.5,Production,Blacksmithing
+Iron Two-handed Sword with Iron Hilt,"Smithing Hammer, Iron Two-handed Sword Blade, Iron Hilt, (5)Chunk of Coal",182,115,-124.5,Production,Blacksmithing
+Iron Two-Handed Sword with Meteoric Iron Hilt,"Smithing Hammer, Iron Two-handed Sword Blade, Meteoric Iron Hilt, (5)Chunk of Coal",520,115,-462.5,Production,Blacksmithing
+Iron War Hammer Head,"Smithing Hammer, War Hammer Head Mold, (2)Iron Ingot, Chunk of Coal",49,30,-34,Production,Blacksmithing
+Iron War Hammer with Maple Handle,"Smithing Hammer, Iron War Hammer Head, Maple Handle, Chunk of Coal",86,77,-47.5,Production,Blacksmithing
+Jack-o'-lantern,"Cooking Pot, Candle, Pumpkin",2,,-2,Production,Cooking
+Jar of Vegetable Stock,"Cooking Pot, (2)Onion, (3)Carrot, Lettuce, Pepper, Empty Glass Jar",22,8,-18,Production,Cooking
+Jar of Yeast Culture,,10,10,-5,,Gathering
+Jar of Yeast Culture,"Cooking Pot, (3)Sack of Flour, Jar of Yeast Culture, Empty Glass Jar",39,,-39,Production,Cooking
+Jewel Cut Gem,,0,,0,Gathering,Gathering
+Jewel Socketed Ring or Amulet,"Mortar and Pestle, Jewel Cut Gem, Crafted Ring or Necklace, (5)Mandrake Root",10,,-10,Production,Alchemy
+Jewelled Longsword,"Smithing Hammer, Chunk of Coal, (2)Garnet Gem, (2)Emerald Gem, Longsword of Crushing/Iron Longsword with Iron Hilt",133,0,-133,Production,Blacksmithing
+Large Cabinet,"Carpentry Hammer, Wardrobe, (4)Wooden Boards, (2)Iron Binding",106,80,-66,Production,Carpentry
+Large Lumber Pile,"Cubit Measure, (20)Maple Wood",100,10,-95,Refining,Milling
+Large Lumber Pile,"Cubit Measure, (20)Pine Wood",100,,-100,Refining,Milling
+Large Rough Stone Paver,"Smelting Tongs, Stone Chisel, (13)Granite Block",65,20,-55,Refining,Smelting
+Large Rough Wood Paver,"Carpentry Hammer, Wood Chisel, (12)Maple Wood",60,20,-50,Production,Carpentry
+Large Rough Wood Paver,"Carpentry Hammer, Wood Chisel, (12)Pine Wood",60,,-60,Production,Carpentry
+Large Writing Desk,"Carpentry Hammer, (18)Wooden Boards",54,,-54,Production,Carpentry
+Leather Boots,"Tailoring Scissors, (2)Yard of Leather, (2)Wax",80,1170,505,Production,Tailoring
+Leather Bow String,"Tailoring Scissors, (5)Leather, Curing Salt",92,1,-91.5,Production,Tailoring
+Leather Bracers,"Tailoring Scissors, Rawhide Mallet, Yard of Leather, (3)Leather Straps, (2)Wax",102,11,-96.5,Production,Tailoring
+Leather Chest Armor with Bronze Binding and Fustian,"Tailoring Scissors, Rawhide Mallet, (2)Yard of Leather, (3)Bronze Binding, (2)Bolt of Fustian Cloth, (4)Wax",1005,70,-970,Production,Tailoring
+Leather Chest Armor with Constantan Binding and Carapacian,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Supple Leather, (3)Constantan Binding, (2)Bolt of Carapacian Cloth, (4)Wax",2139,70,-2104,Production,Tailoring
+Leather Chest Armor with Constantan Binding and Fustian,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Leather, (3)Constantan Binding, (2)Bolt of Fustian Cloth, (4)Wax",1119,70,-1084,Production,Tailoring
+Leather Chest Armor with Copper Binding and Carapacian,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Leather, (3)Copper Binding, (2)Bolt of Carapacian Cloth, (4)Wax",792,70,-757,Production,Tailoring
+Leather Chest Armor with Copper Binding and Fustian,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Hardened Leather, (3)Copper Binding, (2)Bolt of Fustian Cloth, (4)Wax",1812,70,-1777,Production,Tailoring
+Leather Chest Armor with Iron Binding and Cotton,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Leather, (3)Iron Binding, (2)Bolt of Cotton Cloth, (4)Wax",360,70,-325,Production,Tailoring
+Leather Chest Armor with Meteoric Iron Binding and Cotton,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Supple Leather, (3)Meteoric Iron Binding, (2)Bolt of Cotton Cloth, (4)Wax",1887,70,-1852,Production,Tailoring
+Leather Chest Armor with White Iron Binding and Fustian,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Leather, (3)White Iron Binding, (2)Bolt of Fustian Cloth, (4)Wax",1299,80,-1259,Production,Tailoring
+Leather Chest Armor,"Tailoring Scissors, (7)Yard of Leather, (2)Metal Binding, (2)Strap, (3)Wax",334,40,-314,Production,Tailoring
+Leather Chest Quarter-Armor,"Tailoring Scissors, Rawhide Mallet, (5)Yard of Leather, (3)Metal Binding, (2)Bolt of Cloth, (4)Wax",400,,-400,Production,Tailoring
+Leather Gloves,"Tailoring Scissors, Yard of Leather, (3)Strap, (2)Wax",57,,-57,Production,Tailoring
+Leather Helm with Hardened Leather & Carapacian Cloth,"Tailoring Scissors, Rawhide Mallet, (2)Yard of Hardened Leather, Bolt of Carapacian Cloth, (4)Wax",750,35,-732.5,Production,Tailoring
+Leather Helm,"Tailoring Scissors, (4)Yard of Leather, (2)Wax",156,20,-146,Production,Tailoring
+Leather Leggings Quarter-Armor,"Tailoring Scissors, Rawhide Mallet, (4)Yard of Leather, (2)Metal Binding, Bolt of Cloth, (3)Wax",272,,-272,Production,Tailoring
+Leather Leggings with Constantan Binding and Fustian,"Tailoring Scissors, Rawhide Mallet, (4)Yard of Hardened Leather, (2)Constantan Binding, Bolt of Fustian Cloth, (3)Wax",1502,40,-1482,Production,Tailoring
+Leather Leggings with Copper Binding and Cotton,"Tailoring Scissors, Rawhide Mallet, (4)Yard of Supple Leather, (2)Copper Binding, Bolt of Cotton Cloth, (3)Wax",1068,40,-1048,Production,Tailoring
+Leather Leggings with Copper Binding and Fustian,"Tailoring Scissors, Rawhide Mallet, (4)Yard of Leather, (2)Copper Binding, Bolt of Fustian Cloth, (3)Wax",468,40,-448,Production,Tailoring
+Leather Leggings with Iron Binding and Cotton,"Tailoring Scissors, Rawhide Mallet, (4)Yard of Leather, (2)Iron Binding, Bolt of Cotton Cloth, (3)Wax",252,40,-232,Production,Tailoring
+Leather Leggings with White Iron Binding and Fustian,"Tailoring Scissors, Rawhide Mallet, (4)Yard of Leather, (2)White Iron Binding, Bolt of Fustian Cloth, (3)Wax",806,62,-775,Production,Tailoring
+Leather Leggings,"Tailoring Scissors, (5)Yard of Leather, (3)Strap, (3)Wax",211,40,-191,Production,Tailoring
+Leather Scrap,,0,,0,Gathering,Gathering
+Leather Straps,"Tanning Knife, Leather, Curing Salt",20,24,-8,Refining,Tanning
+Leather,"Tanning Knife, (12)Leather Scrap, Animal Hide, Curing Salt",10,,-10,Refining,Tanning
+Leather,"Tanning Knife, (2)Animal Hide, Curing Salt",18,1,-17.5,Refining,Tanning
+Lemon,,3,3,-1.5,Gathering,Gathering
+Lettuce,,1,1,-0.5,Gathering,Gathering
+Light Aqua Dye,"Tanning Knife, (4)Maple Tree Bark, Pine Resin, (2)Wax, (2)Chunk of Coal",178,,-178,Refining,Tanning
+Light Blue Dye,"Tanning Knife, (8)Maple Tree Bark, (2)Wax, (2)Chunk of Coal",266,,-266,Refining,Tanning
+Light Brown Dye,"Tanning Knife, (5)Pine Tree Bark, (2)Cinnamon Bark, (2)Wax, (2)Chunk of Coal",186,,-186,Refining,Tanning
+Light Green Dye,"Tanning Knife, (8)Pine Tree Bark, (2)Wax, (2)Chunk of Coal",266,,-266,Refining,Tanning
+Light Grey Dye,"Tanning Knife, (4)Maple Tree Bark, (4)Pine Tree Bark, (2)Wax, (2)Chunk of Coal",266,,-266,Refining,Tanning
+Light Orange Dye,"Tanning Knife, (5)Pumpkin, (2)Wax, (2)Chunk of Coal",15,,-15,Refining,Tanning
+Light Pink Dye,"Tanning Knife, (20)Tomato, (2)Wax, (2)Chunk of Coal",50,,-50,Refining,Tanning
+Light Purple Dye,"Tanning Knife, (5)Maple Tree Bark, (2)Cinnamon Bark, (2)Wax, (2)Chunk of Coal",186,,-186,Refining,Tanning
+Light Red Dye,"Tanning Knife, (15)Apple, (2)Wax, (2)Chunk of Coal",25,,-25,Refining,Tanning
+Light Yellow Dye,"Tanning Knife, (10)Banana, (2)Wax, (2)Chunk of Coal",40,5,-37.5,Refining,Tanning
+Long Bowstave,"Wood Rasp, (3)Wooden Pole",36,2,-35,Production,Carpentry
+Long Crimson Pine Bowstave,"Wood Rasp, (10)Crimson Pine Timber, Wax",1722,2,-1721,Production,Carpentry
+Long Grey Pine Bowstave,"Wood Rasp, (10)Grey Pine Timber, Wax",1722,2,-1721,Production,Carpentry
+Long Hard Maple Bowstave,"Wood Rasp, (10)Hard Maple Timber, Wax",1722,2,-1721,Production,Carpentry
+Long Kilt,"Tailoring Scissors, (4)Bolt of Cloth, (2)Strap, (6)Wax",270,,-270,Production,Tailoring
+Long Rock Maple Bowstave,"Wood Rasp, (10)Rock Maple Timber, Wax",1722,2,-1721,Production,Carpentry
+Long Rough Stone Fence,"Smelting Tongs, (22)Granite Block, (2)Metal Binding",162,50,-137,Refining,Smelting
+Long Rough Wooden Fence,"Carpentry Hammer, (10)Maple Wood, (2)Metal Binding",102,0,-102,Production,Carpentry
+Long Rough Wooden Fence,"Carpentry Hammer, (10)Pine Wood, (2)Metal Binding",102,,-102,Production,Carpentry
+Long Tall Rough Stone Fence,"Smelting Tongs, (32)Granite Block, (2)Metal Binding",212,,-212,Refining,Smelting
+Longsword Blade Mold,,0,,0,Tool,Tool
+Longsword of Crushing/Iron Longsword with Copper Hilt,"Smithing Hammer, Iron Longsword Blade, Copper Hilt, Chunk of Coal",124,60,-94,Production,Blacksmithing
+Longsword of Crushing/Iron Longsword with Iron Hilt,"Smithing Hammer, Iron Longsword Blade, Iron Hilt, (3)Chunk of Coal",130,60,-100,Production,Blacksmithing
+Longsword of Crushing/Iron Longsword with White Iron Hilt,"Smithing Hammer, Iron Longsword Blade, White Iron Hilt, Chunk of Coal",462,60,-432,Production,Blacksmithing
+Longsword of Dexterity/Constantan Longsword with Bronze Hilt,"Smithing Hammer, Constantan Longsword Blade, Bronze Hilt, Chunk of Coal",669,60,-639,Production,Blacksmithing
+Longsword of Dexterity/Constantan Longsword with Constantan Hilt,"Smithing Hammer, Constantan Longsword Blade, Constantan Hilt, Chunk of Coal",669,60,-639,Production,Blacksmithing
+Longsword of Dexterity/Constantan Longsword with Copper Hilt,"Smithing Hammer, Constantan Longsword Blade, Copper Hilt, Chunk of Coal",451,60,-421,Production,Blacksmithing
+Longsword of Dexterity/Constantan Longsword with Iron Hilt,"Smithing Hammer, Constantan Longsword Blade, Iron Hilt, Chunk of Coal",451,60,-421,Production,Blacksmithing
+Longsword of Dexterity/Constantan Longsword with Meteoric Iron Hilt,"Smithing Hammer, Constantan Longsword Blade, Meteoric Iron Hilt, Chunk of Coal",789,60,-759,Production,Blacksmithing
+Longsword of Dexterity/Constantan Longsword with White Iron Hilt,"Smithing Hammer, Constantan Longsword Blade, White Iron Hilt, Chunk of Coal",789,60,-759,Production,Blacksmithing
+Longsword of Dexterity/Copper Longsword with Constantan Hilt,"Smithing Hammer, Copper Longsword Blade, Constantan Hilt, Chunk of Coal",342,60,-312,Production,Blacksmithing
+Longsword of Dexterity/Iron Longsword with Constantan Hilt,"Smithing Hammer, Iron Longsword Blade, Constantan Hilt, Chunk of Coal",342,60,-312,Production,Blacksmithing
+Longsword of Dexterity/White Iron Longsword with Constantan Hilt,"Smithing Hammer, White Iron Longsword Blade, Constantan Hilt, Chunk of Coal",849,60,-819,Production,Blacksmithing
+Longsword of Greater Crushing/Copper Longsword with Meteoric Iron Hilt,"Smithing Hammer, Copper Longsword Blade, Meteoric Iron Hilt, Chunk of Coal",462,60,-432,Production,Blacksmithing
+Longsword of Greater Crushing/Iron Longsword with Meteoric Iron Hilt,"Smithing Hammer, Iron Longsword Blade, Meteoric Iron Hilt, Chunk of Coal",462,60,-432,Production,Blacksmithing
+Longsword of Greater Crushing/Meteoric Iron Longsword with Bronze Hilt,"Smithing Hammer, Meteoric Iron Longsword Blade, Bronze Hilt, Chunk of Coal",849,60,-819,Production,Blacksmithing
+Longsword of Greater Crushing/Meteoric Iron Longsword with Constantan Hilt,"Smithing Hammer, Meteoric Iron Longsword Blade, Constantan Hilt, Chunk of Coal",849,60,-819,Production,Blacksmithing
+Longsword of Greater Crushing/Meteoric Iron Longsword with Copper Hilt,"Smithing Hammer, Meteoric Iron Longsword Blade, Copper Hilt, Chunk of Coal",631,60,-601,Production,Blacksmithing
+Longsword of Greater Crushing/Meteoric Iron Longsword with Iron Hilt,"Smithing Hammer, Meteoric Iron Longsword Blade, Iron Hilt, Chunk of Coal",631,60,-601,Production,Blacksmithing
+Longsword of Greater Crushing/Meteoric Iron Longsword with Meteoric Iron Hilt,"Smithing Hammer, Meteoric Iron Longsword Blade, Meteoric Iron Hilt, Chunk of Coal",969,60,-939,Production,Blacksmithing
+Longsword of Greater Crushing/Meteoric Iron Longsword with White Iron Hilt,"Smithing Hammer, Meteoric Iron Longsword Blade, White Iron Hilt, Chunk of Coal",969,60,-939,Production,Blacksmithing
+Longsword of Greater Crushing/White Iron Longsword with Meteoric Iron Hilt,"Smithing Hammer, White Iron Longsword Blade, Meteoric Iron Hilt, Chunk of Coal",969,60,-939,Production,Blacksmithing
+Longsword of Greater Haste/Bronze Longsword with Bronze Hilt,"Smithing Hammer, Bronze Longsword Blade, Bronze Hilt, Chunk of Coal",669,60,-639,Production,Blacksmithing
+Longsword of Greater Haste/Bronze Longsword with Constantan Hilt,"Smithing Hammer, Bronze Longsword Blade, Constantan Hilt, Chunk of Coal",669,60,-639,Production,Blacksmithing
+Longsword of Greater Haste/Bronze Longsword with Copper Hilt,"Smithing Hammer, Bronze Longsword Blade, Copper Hilt, Chunk of Coal",451,60,-421,Production,Blacksmithing
+Longsword of Greater Haste/Bronze Longsword with Iron Hilt,"Smithing Hammer, Bronze Longsword Blade, Iron Hilt, Chunk of Coal",451,60,-421,Production,Blacksmithing
+Longsword of Greater Haste/Bronze Longsword with Meteoric Iron Hilt,"Smithing Hammer, Bronze Longsword Blade, Meteoric Iron Hilt, Chunk of Coal",789,60,-759,Production,Blacksmithing
+Longsword of Greater Haste/Bronze Longsword with White Iron Hilt,"Smithing Hammer, Bronze Longsword Blade, White Iron Hilt, Chunk of Coal",789,60,-759,Production,Blacksmithing
+Longsword of Greater Haste/Copper Longsword with Bronze Hilt,"Smithing Hammer, Copper Longsword Blade, Bronze Hilt, Chunk of Coal",342,60,-312,Production,Blacksmithing
+Longsword of Greater Haste/Iron Longsword with Bronze Hilt,"Smithing Hammer, Iron Longsword Blade, Bronze Hilt, Chunk of Coal",342,60,-312,Production,Blacksmithing
+Longsword of Greater Haste/White Iron Longsword with Bronze Hilt,"Smithing Hammer, White Iron Longsword Blade, Bronze Hilt, Chunk of Coal",849,60,-819,Production,Blacksmithing
+Longsword of Haste/Copper Longsword with Copper Hilt,"Smithing Hammer, Copper Longsword Blade, Copper Hilt, (3)Chunk of Coal",130,60,-100,Production,Blacksmithing
+Longsword of Haste/Copper Longsword with Iron Hilt,"Smithing Hammer, Copper Longsword Blade, Iron Hilt, Chunk of Coal",124,60,-94,Production,Blacksmithing
+Longsword of Haste/Copper Longsword with White Iron Hilt,"Smithing Hammer, Copper Longsword Blade, White Iron Hilt, Chunk of Coal",462,60,-432,Production,Blacksmithing
+Longsword of Thumping/White Iron Longsword with Copper Hilt,"Smithing Hammer, White Iron Longsword Blade, Copper Hilt, Chunk of Coal",631,60,-601,Production,Blacksmithing
+Longsword of Thumping/White Iron Longsword with Iron Hilt,"Smithing Hammer, White Iron Longsword Blade, Iron Hilt, Chunk of Coal",631,60,-601,Production,Blacksmithing
+Longsword of Thumping/White Iron Longsword with White Iron Hilt,"Smithing Hammer, White Iron Longsword Blade, White Iron Hilt, Chunk of Coal",969,60,-939,Production,Blacksmithing
+Longsword,"Smithing Hammer, Metal Longsword Blade, Metal Hilt, (3)Chunk of Coal",58,130,7,Production,Blacksmithing
+Loom Shuttle,,0,,0,Tool,Tool
+Lumber Pile,"Cubit Measure, (10)Maple Wood",50,5,-47.5,Refining,Milling
+Lumber Pile,"Cubit Measure, (10)Pine Wood",50,,-50,Refining,Milling
+Lunaism Gem,"Mortar and Pestle, Amethyst, (10)Mandrake Root",440,100,-390,Production,Alchemy
+Lunaism Jewel,"Mortar and Pestle, Amethyst, (5)Mandrake Root",430,100,-380,Production,Alchemy
+Lute String,"Tailoring Scissors, Leather, (2)Wax",22,3,-20.5,Production,Tailoring
+Mace Head Mold,,0,,0,Tool,Tool
+Mace,"Smithing Hammer, Metal Mace Head, Wooden Handle, Chunk of Coal",7,75,30.5,Production,Blacksmithing
+Mandrake Root,,2,2,-1,Gathering,Gathering
+Maple Binding,"Carpentry Hammer, Wood Rasp, Maple Timber, (3)Wax",38,5,-35.5,Production,Carpentry
+Maple Board,"Cubit Measure, Maple Timber, Creosote",33,,-33,Refining,Milling
+Maple Bowstave,"Wood Rasp, (10)Maple Timber, Wax",322,,-322,Production,Carpentry
+Maple Handle,"Carpentry Hammer, Maple Timber, Wax",34,90,11,Production,Carpentry
+Maple Heartwood,"Wood Rasp, (4)Maple Timber, Wax",130,30,-115,Production,Carpentry
+Maple Long Bow with Carapacian Bow String,"Carpentry Hammer, Maple Long Bowstave, (2)Carapacian Bow String, (5)Wax",1616,200,-1516,Production,Carpentry
+Maple Long Bow with Fustian Bow String,"Carpentry Hammer, Maple Long Bowstave, (2)Fustian Bow String, (5)Wax",1616,200,-1516,Production,Carpentry
+Maple Long Bow with Hardened Leather Bow String,"Carpentry Hammer, Maple Long Bowstave, (2)Hardened Leather Bow String, (5)Wax",1536,200,-1436,Production,Carpentry
+Maple Long Bow with Leather Bow String,"Carpentry Hammer, Maple Long Bowstave, (2)Leather Bow String, (5)Wax",516,175,-428.5,Production,Carpentry
+Maple Long Bow with Supple Leather Bow String,"Carpentry Hammer, Maple Long Bowstave, (2)Supple Leather Bow String, (5)Wax",1536,175,-1448.5,Production,Carpentry
+Maple Long Bowstave,"Carpentry Hammer, Wood Rasp, (10)Maple Timber, Wax",322,175,-234.5,Production,Carpentry
+Maple Pole,"Cubit Measure, (2)Maple Timber, (4)Wax",72,20,-62,Refining,Milling
+Maple Short Bow with Carapacian Bow String,"Carpentry Hammer, Maple Short Bowstave, Carapacian Bow String, (5)Wax",750,150,-675,Production,Carpentry
+Maple Short Bow with Cotton Bow String,"Carpentry Hammer, Maple Short Bowstave, Cotton Bow String, (5)Wax",210,150,-135,Production,Carpentry
+Maple Short Bow with Fustian Bow String,"Carpentry Hammer, Maple Short Bowstave, Fustian Bow String, (5)Wax",750,150,-675,Production,Carpentry
+Maple Short Bow with Hardened Leather Bow String,"Carpentry Hammer, Maple Short Bowstave, Hardened Leather Bow String, (5)Wax",710,150,-635,Production,Carpentry
+Maple Short Bow with Leather Bow String,"Carpentry Hammer, Maple Short Bowstave, Leather Bow String, (5)Wax",200,125,-137.5,Production,Carpentry
+Maple Short Bow with Supple Leather Bow String,"Carpentry Hammer, Maple Short Bowstave, Supple Leather Bow String, (5)Wax",710,150,-635,Production,Carpentry
+Maple Short Bowstave,"Carpentry Hammer, Wood Rasp, (3)Maple Timber, Wax",98,90,-53,Production,Carpentry
+Maple Staff with Cotton Strap,"Carpentry Hammer, (2)Maple Heartwood, (2)Cotton Cloth Strap, (5)Wax",314,20,-304,Production,Carpentry
+Maple Staff with Leather Strap,"Carpentry Hammer, (2)Maple Heartwood, (2)Leather Straps, (5)Wax",310,20,-300,Production,Carpentry
+Maple Strip,"Cubit Measure, (4)Maple Timber, Wax",130,24,-118,Refining,Milling
+Maple Timber,"Cubit Measure, (3)Maple Wood, Creosote, (8)Wood Scrap",16,,-16,Refining,Milling
+Maple Timber,"Cubit Measure, (6)Maple Wood, (2)Creosote",32,10,-27,Refining,Milling
+Maple Tree Bark,"Cubit Measure, (6)Maple Wood, (2)Creosote",32,1,-31.5,Refining,Milling
+Maple Wand with Bronze Core,"Carpentry Hammer, Maple Heartwood, Bronze Core, Wax",531,1,-530.5,Production,Carpentry
+Maple Wand with Constantan Core,"Carpentry Hammer, Maple Heartwood, Constantan Core, Wax",531,1,-530.5,Production,Carpentry
+Maple Wand with Copper Core,"Carpentry Hammer, Maple Heartwood, Copper Core, Wax",204,1,-203.5,Production,Carpentry
+Maple Wand with Iron Core,"Carpentry Hammer, Maple Heartwood, Iron Core, Wax",204,1,-203.5,Production,Carpentry
+Maple Wand with Meteoric Iron Core,"Carpentry Hammer, Maple Heartwood, Meteoric Iron Core, Wax",711,1,-710.5,Production,Carpentry
+Maple Wand with White Iron Core,"Carpentry Hammer, Maple Heartwood, White Iron Core, Wax",711,1,-710.5,Production,Carpentry
+Maple Wood Staff,"Wood Rasp, (6)Maple Timber, Wax",194,,-194,Production,Carpentry
+Maple Wood,,5,5,-2.5,Gathering,Gathering
+Massive Fabric,"Loom Shuttle, (50)Spool of Cotton Thread",1000,75,-962.5,Refining,Textiles
+Masterwork Blacksmithing Upgrade,"Smithing Hammer, Crafted Equipable, (5)Silver Ingot",75,,-75,Production,Blacksmithing
+Masterwork Carpentry Upgrade,"Carpentry Hammer, Crafted Equipable, (5)Silver Ingot",75,,-75,Production,Carpentry
+Masterwork Tailoring Upgrade,"Tailoring Scissors, Crafted Equipable, (5)Silver Ingot",75,,-75,Production,Tailoring
+Masterwork,"Smithing Hammer, Crafted Equipable, (5)Silver Ingot",75,,-75,Production,Blacksmithing
+Masterwork,"Tailoring Scissors, Crafted Equipable, (5)Silver Ingot",75,,-75,Production,Tailoring
+Masterwork,"Carpentry Hammer, Crafted Equipable, (5)Silver Ingot",75,,-75,Production,Carpentry
+Medium Rough Stone Fence,"Smelting Tongs, (11)Granite Block, (2)Metal Binding",107,25,-94.5,Refining,Smelting
+Medium Rough Wooden Fence,"Carpentry Hammer, (6)Pine Wood, (2)Metal Binding",82,0,-82,Production,Carpentry
+Medium Rough Wooden Fence,"Carpentry Hammer, (6)Maple Wood, (2)Metal Binding",82,,-82,Production,Carpentry
+Medium Tall Rough Stone Fence,"Smelting Tongs, (21)Granite Block, (2)Metal Binding",157,,-157,Refining,Smelting
+Metal Binding,"Smithing Hammer, Metal Ingot, Chunk of Coal",26,,-26,Production,Blacksmithing
+Metal Core,"Smelting Tongs, Core Mold, (3)Metal Ingot, Chunk of Coal",72,10,-67,Refining,Smelting
+Metal Dagger Blade,"Smithing Hammer, Dagger Blade Mold, (2)Metal Ingot, Chunk of Coal",49,,-49,Production,Blacksmithing
+Metal Great Axe Blade,"Smithing Hammer, Great Axe Head Mold, (6)Metal Ingot, Chunk of Coal",141,,-141,Production,Blacksmithing
+Metal Halberd Blade,"Smithing Hammer, Halberd Blade Mold, (6)Metal Ingot, Chunk of Coal",141,,-141,Production,Blacksmithing
+Metal Hand Axe Blade,"Smithing Hammer, Hand Axe Head Mold, (3)Metal Ingot, Chunk of Coal",72,,-72,Production,Blacksmithing
+Metal Heavy War Hammer Head,"Smithing Hammer, Heavy War Hammer Head Mold, (6)Metal Ingot, Chunk of Coal",141,,-141,Production,Blacksmithing
+Metal Hilt,"Smithing Hammer, (2)Metal Ingot, Chunk of Coal",49,,-49,Production,Blacksmithing
+Metal Ingot,"Smelting Tongs, Ingot Mold, (4)Metal Ore, Chunk of Coal",23,1,-22.5,Refining,Smelting
+Metal Longsword Blade,,0,,0,Gathering,Gathering
+Metal Mace Head,,0,,0,Gathering,Gathering
+Metal Ore,,5,5,-2.5,Gathering,Gathering
+Metal Scrap,,0,,0,Gathering,Gathering
+Metal Sheet,"Smithing Hammer, Sheet Mold, (3)Metal Ingot, Chunk of Coal",72,,-72,Production,Blacksmithing
+Metal Shortsword Blade,,0,,0,Gathering,Gathering
+Metal Spear Head,,0,,0,Gathering,Gathering
+Metal Two-handed Mace Head,,0,,0,Gathering,Gathering
+Metal Two-handed Sword Blade,,0,,0,Gathering,Gathering
+Metal War Hammer Head,,0,,0,Gathering,Gathering
+Meteoric Iron Binding,"Smithing Hammer, Meteoric Iron Ingot, Chunk of Coal",195,25,-182.5,Production,Blacksmithing
+Meteoric Iron Core,"Smelting Tongs, Core Mold, (3)Meteoric Iron Ingot, Chunk of Coal",579,1,-578.5,Refining,Smelting
+Meteoric Iron Dagger Blade,"Smithing Hammer, Dagger Blade Mold, (2)Meteoric Iron Ingot, Chunk of Coal",387,20,-377,Production,Blacksmithing
+Meteoric Iron Great Axe Blade,"Smithing Hammer, Great Axe Head Mold, (6)Meteoric Iron Ingot, Chunk of Coal",1155,30,-1140,Production,Blacksmithing
+Meteoric Iron Halberd Blade,"Smithing Hammer, Halberd Blade Mold, (6)Meteoric Iron Ingot, Chunk of Coal",1155,30,-1140,Production,Blacksmithing
+Meteoric Iron Hand Axe Blade,"Smithing Hammer, Hand Axe Head Mold, (3)Meteoric Iron Ingot, Chunk of Coal",579,30,-564,Production,Blacksmithing
+Meteoric Iron Heavy War Hammer Head,"Smithing Hammer, Heavy War Hammer Head Mold, (6)Meteoric Iron Ingot, Chunk of Coal",1155,10,-1150,Production,Blacksmithing
+Meteoric Iron Hilt,"Smithing Hammer, Chunk of Coal, (2)Meteoric Iron Ingot",387,10,-382,Production,Blacksmithing
+Meteoric Iron Ingot,"Smelting Tongs, Ingot Mold, (2)Iron Ingot, Nickel, Tungsten, (2)Chunk of Coal",192,100,-142,Refining,Smelting
+Meteoric Iron Longsword Blade,"Smithing Hammer, Longsword Blade Mold, (3)Meteoric Iron Ingot, Chunk of Coal",579,370,-394,Production,Blacksmithing
+Meteoric Iron Mace Head,"Smithing Hammer, Mace Head Mold, (3)Meteoric Iron Ingot, Chunk of Coal",579,30,-564,Production,Blacksmithing
+Meteoric Iron Sheet,"Smithing Hammer, Sheet Mold, (3)Meteoric Iron Ingot, Chunk of Coal",579,190,-484,Production,Blacksmithing
+Meteoric Iron Shortsword Blade,"Smithing Hammer, Shortsword Blade Mold, (3)Meteoric Iron Ingot, Chunk of Coal",579,30,-564,Production,Blacksmithing
+Meteoric Iron Shortsword with Bronze Hilt,"Smithing Hammer, Meteoric Iron Shortsword Blade, Bronze Hilt, Chunk of Coal",849,110,-794,Production,Blacksmithing
+Meteoric Iron Shortsword with Constantan Hilt,"Smithing Hammer, Meteoric Iron Shortsword Blade, Constantan Hilt, Chunk of Coal",849,110,-794,Production,Blacksmithing
+Meteoric Iron Shortsword with Copper Hilt,"Smithing Hammer, Meteoric Iron Shortsword Blade, Copper Hilt, Chunk of Coal",631,110,-576,Production,Blacksmithing
+Meteoric Iron Shortsword with Iron Hilt,"Smithing Hammer, Meteoric Iron Shortsword Blade, Iron Hilt, Chunk of Coal",631,110,-576,Production,Blacksmithing
+Meteoric Iron Shortsword with Meteoric Iron Hilt,"Smithing Hammer, Meteoric Iron Shortsword Blade, Meteoric Iron Hilt, Chunk of Coal",969,110,-914,Production,Blacksmithing
+Meteoric Iron Shortsword with White Iron Hilt,"Smithing Hammer, Meteoric Iron Shortsword Blade, White Iron Hilt, Chunk of Coal",969,110,-914,Production,Blacksmithing
+Meteoric Iron Spear Head,"Smithing Hammer, Spear Head Mold, (3)Meteoric Iron Ingot, Chunk of Coal",579,70,-544,Production,Blacksmithing
+Meteoric Iron Two-handed Mace Head,"Smithing Hammer, Two-handed Mace Head Mold, (6)Meteoric Iron Ingot, Chunk of Coal",1155,30,-1140,Production,Blacksmithing
+Meteoric Iron Two-handed Sword Blade,"Smithing Hammer, Two-handed Sword Blade Mold, (5)Meteoric Iron Ingot, Chunk of Coal",963,50,-938,Production,Blacksmithing
+Meteoric Iron War Hammer Head,"Smithing Hammer, War Hammer Head Mold, (2)Meteoric Iron Ingot, Chunk of Coal",387,30,-372,Production,Blacksmithing
+Mortar and Pestle,,0,,0,Tool,Tool
+Mounted Antlers,"Carpentry Hammer, Wooden Boards, Stag Head",8,50,17,Production,Carpentry
+Mounted Bass,"Carpentry Hammer, Wooden Boards, Bass Trophy",12,50,13,Production,Carpentry
+Mounted Salmon,"Carpentry Hammer, Wooden Boards, Salmon Trophy",12,50,13,Production,Carpentry
+Mounted Trout,"Carpentry Hammer, Wooden Boards, Trout Trophy",12,50,13,Production,Carpentry
+Mug,"Carpentry Hammer, Wooden Bindings",8,1,-7.5,Production,Carpentry
+Mustard Seeds,,13,13,-6.5,Gathering,Gathering
+Mutton Meat,"Cleaver, Sheep Carcass",3,5,-0.5,Refining,Butchery
+Necklace,"Smithing Hammer, (5)Metal Binding, Chunk of Coal",133,,-133,Production,Blacksmithing
+Necromancy Gem,"Mortar and Pestle, Onyx, (10)Mandrake Root",440,100,-390,Production,Alchemy
+Necromancy Jewel,"Mortar and Pestle, Onyx, (5)Mandrake Root",430,100,-380,Production,Alchemy
+Nickel,,40,40,-20,Gathering,Gathering
+Nightshade,,2,2,-1,Gathering,Gathering
+Nut Butter,,8,8,-4,Gathering,Gathering
+Obsidian Axe Blade,"Smithing Hammer, Hand Axe Head Mold, (3)Obsidian Ingot, (10)Chunk of Coal",30,,-30,Production,Blacksmithing
+Obsidian Ingot,,0,,0,Gathering,Gathering
+Obsidian Plate Chest Armor/Obsidian Plate Chest Armor with Meteoric Iron Binding,"Smithing Hammer, (8)Obsidian Sheet, (5)Meteoric Iron Binding, (10)Chunk of Coal",1005,190,-910,Production,Blacksmithing
+Obsidian Plate Leggings/Obsidian Plate Leggings with Meteoric Iron Binding,"Smithing Hammer, (4)Obsidian Sheet, (4)Meteoric Iron Binding, (10)Chunk of Coal",810,135,-742.5,Production,Blacksmithing
+Obsidian Sheet,,0,,0,Gathering,Gathering
+Onion,,4,4,-2,Gathering,Gathering
+Onyx Fragment,,1,1,-0.5,Gathering,Gathering
+Onyx,"Mortar and Pestle, (400)Onyx Fragment, (10)Mandrake Root",420,200,-320,Production,Alchemy
+Orange Dye,"Tanning Knife, (5)Pumpkin, (2)Chunk of Coal",11,,-11,Refining,Tanning
+Pecan Nuts,,2,2,-1,Gathering,Gathering
+Pepper,,5,5,-2.5,Gathering,Gathering
+Phonograph,"Carpentry Hammer, (7)Maple Board, (8)Lute String, (2)Wax, (4)Metal Binding",515,0,-515,Production,Carpentry
+Phonograph,"Carpentry Hammer, (7)Pine Board, (8)Lute String, (2)Wax, (4)Metal Binding",515,,-515,Production,Carpentry
+Piano,"Carpentry Hammer, (88)Coil of Metal Wire, (48)Wooden Boards, (8)Iron Binding, (5)Wax",4674,20,-4664,Production,Carpentry
+Pie Dough,"Cooking Pot, Sack of Flour, Sack of Salt, Sack of Sugar, Butter",25,10,-20,Production,Cooking
+Piece of Canvas Fabric,"Loom Shuttle, Wooden Bark, (3)Spool of Cotton Thread",60,,-60,Refining,Textiles
+Pig Carcass,,3,3,-1.5,Gathering,Gathering
+Pillow,"Tailoring Scissors, (2)Bolt of Cotton Cloth, (2)Bundle of Feathers",88,25,-75.5,Production,Tailoring
+Pine Binding,"Carpentry Hammer, Cubit Measure, (2)Pine Timber, Wax",66,5,-63.5,Production,Carpentry
+Pine Board,"Cubit Measure, Pine Timber, Creosote",33,,-33,Refining,Milling
+Pine Handle,"Carpentry Hammer, Pine Timber, Wax",34,90,11,Production,Carpentry
+Pine Heartwood,"Wood Rasp, (4)Pine Timber, Wax",130,30,-115,Production,Carpentry
+Pine Long Bow with Carapacian Bow String,"Carpentry Hammer, Pine Long Bowstave, (2)Carapacian Bow String, (5)Wax",1616,200,-1516,Production,Carpentry
+Pine Long Bow with Fustian Bow String,"Carpentry Hammer, Pine Long Bowstave, (2)Fustian Bow String, (5)Wax",1616,200,-1516,Production,Carpentry
+Pine Long Bow with Hardened Leather Bow String,"Carpentry Hammer, Pine Long Bowstave, (2)Hardened Leather Bow String, (5)Wax",1536,200,-1436,Production,Carpentry
+Pine Long Bow with Leather Bow String,"Carpentry Hammer, Pine Long Bowstave, (2)Leather Bow String, (5)Wax",516,200,-416,Production,Carpentry
+Pine Long Bow with Supple Leather Bow String,"Carpentry Hammer, Pine Long Bowstave, (2)Supple Leather Bow String, Wax",1528,200,-1428,Production,Carpentry
+Pine Long Bowstave,"Carpentry Hammer, Wood Rasp, (10)Pine Timber, Wax",322,175,-234.5,Production,Carpentry
+Pine Pole,"Cubit Measure, (2)Pine Timber, (4)Wax",72,20,-62,Refining,Milling
+Pine Resin,,40,40,-20,Gathering,Gathering
+Pine Short Bow with Carapacian Bow String,"Carpentry Hammer, Pine Short Bowstave, Carapacian Bow String, (5)Wax",750,150,-675,Production,Carpentry
+Pine Short Bow with Cotton Bow String,"Carpentry Hammer, Pine Short Bowstave, Cotton Bow String, (5)Wax",210,150,-135,Production,Carpentry
+Pine Short Bow with Fustian Bow String,"Carpentry Hammer, Pine Short Bowstave, Fustian Bow String, (5)Wax",750,150,-675,Production,Carpentry
+Pine Short Bow with Hardened Leather Bow String,"Carpentry Hammer, Pine Short Bowstave, Hardened Leather Bow String, (5)Wax",710,150,-635,Production,Carpentry
+Pine Short Bow with Leather Bow String,"Carpentry Hammer, Pine Short Bowstave, Leather Bow String, (5)Wax",200,150,-125,Production,Carpentry
+Pine Short Bow with Supple Leather Bow String,"Carpentry Hammer, Pine Short Bowstave, Supple Leather Bow String, (5)Wax",710,150,-635,Production,Carpentry
+Pine Short Bowstave,"Carpentry Hammer, Wood Rasp, (3)Pine Timber, Wax",98,,-98,Production,Carpentry
+Pine Staff with Cotton Strap,"Carpentry Hammer, (2)Pine Heartwood, (2)Cotton Cloth Strap, (5)Wax",314,20,-304,Production,Carpentry
+Pine Staff with Leather Strap,"Carpentry Hammer, (2)Pine Heartwood, (2)Leather Straps, (5)Wax",310,20,-300,Production,Carpentry
+Pine Strip,"Cubit Measure, (4)Pine Timber, Wax",130,24,-118,Refining,Milling
+Pine Tar,,2,,-2,Gathering,Gathering
+Pine Timber,"Cubit Measure, (3)Pine Wood, Creosote, (8)Wood Scrap",16,,-16,Refining,Milling
+Pine Timber,"Cubit Measure, (6)Pine Wood, (2)Creosote",32,10,-27,Refining,Milling
+Pine Tree Bark,"Cubit Measure, (6)Pine Wood, (2)Creosote",32,1,-31.5,Refining,Milling
+Pine Wand with Bronze Core,"Carpentry Hammer, Pine Heartwood, Bronze Core, Wax",531,1,-530.5,Production,Carpentry
+Pine Wand with Constantan Core,"Carpentry Hammer, Pine Heartwood, Constantan Core, Wax",531,1,-530.5,Production,Carpentry
+Pine Wand with Copper Core,"Carpentry Hammer, Pine Heartwood, Copper Core, Wax",204,1,-203.5,Production,Carpentry
+Pine Wand with Iron Core,"Carpentry Hammer, Pine Heartwood, Iron Core, Wax",204,1,-203.5,Production,Carpentry
+Pine Wand with Meteoric Iron Core,"Carpentry Hammer, Pine Heartwood, Meteoric Iron Core, Wax",711,1,-710.5,Production,Carpentry
+Pine Wand with White Iron Core,"Carpentry Hammer, Pine Heartwood, White Iron Core, Wax",711,1,-710.5,Production,Carpentry
+Pine Wood Staff,"Wood Rasp, (4)Pine Timber, Wax",130,,-130,Refining,Milling
+Pine Wood,,5,5,-2.5,Gathering,Gathering
+Pink Dye,"Tanning Knife, (20)Tomato, (2)Chunk of Coal",46,,-46,Refining,Tanning
+Plain Wood Hospitaller Ground Sign,"Carpentry Hammer, (10)Wooden Boards, Hospitaller Symbol, (2)Creosote",32,,-32,Production,Carpentry
+Plain Wood Hospitaller Hanging Sign,"Carpentry Hammer, (10)Wooden Boards, Hospitaller Symbol, (2)Creosote",32,,-32,Production,Carpentry
+Plain Wood Hospitaller Wall Sign,"Carpentry Hammer, (10)Wooden Boards, Hospitaller Symbol, (2)Creosote",32,,-32,Production,Carpentry
+Plank of Salmon,"Cooking Pot, (2)Salmon Fillet, Pepper, Garlic, Mustard Seeds, Sack of Sugar, Maple Board",65,25,-52.5,Production,Cooking
+Plant,,2,10,3,Gathering,Gathering
+Plate Boots,"Smithing Hammer, Hot Chisel, (2)Metal Sheet, Strap, Chunk of Coal",152,80,-112,Production,Blacksmithing
+Plate Chest Armor of Defense/Iron Plate Chest Armor with Cotton Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Cotton Cloth Strap, (2)Copper Binding, (2)Chunk of Coal",556,300,-406,Production,Blacksmithing
+Plate Chest Armor of Defense/Iron Plate Chest Armor with Cotton Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Cotton Cloth Strap, (2)Iron Binding, (2)Chunk of Coal",556,300,-406,Production,Blacksmithing
+Plate Chest Armor of Defense/Iron Plate Chest Armor with Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Leather Straps, (2)Copper Binding, (2)Chunk of Coal",550,300,-400,Production,Blacksmithing
+Plate Chest Armor of Defense/Iron Plate Chest Armor with Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Leather Straps, (2)Iron Binding, (2)Chunk of Coal",550,300,-400,Production,Blacksmithing
+Plate Chest Armor of Dodge/Copper Plate Chest Armor with Cotton Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Cotton Cloth Strap, (2)Copper Binding, (2)Chunk of Coal",556,300,-406,Production,Blacksmithing
+Plate Chest Armor of Dodge/Copper Plate Chest Armor with Cotton Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Cotton Cloth Strap, (2)Iron Binding, (2)Chunk of Coal",556,300,-406,Production,Blacksmithing
+Plate Chest Armor of Dodge/Copper Plate Chest Armor with Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Leather Straps, (2)Copper Binding, (2)Chunk of Coal",550,300,-400,Production,Blacksmithing
+Plate Chest Armor of Dodge/Copper Plate Chest Armor with Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Leather Straps, (2)Iron Binding, (2)Chunk of Coal",550,300,-400,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Copper Plate Chest Armor with Cotton Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Cotton Cloth Strap, (2)Meteoric Iron Binding, (2)Chunk of Coal",894,300,-744,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Copper Plate Chest Armor with Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",888,300,-738,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Copper Plate Chest Armor with Supple Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Supple Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",1074,300,-924,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Copper Plate Chest Armor with Supple Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Supple Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",1074,300,-924,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Copper Plate Chest Armor with Supple Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Supple Leather Straps, (2)Copper Binding, (2)Chunk of Coal",856,300,-706,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Copper Plate Chest Armor with Supple Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Supple Leather Straps, (2)Iron Binding, (2)Chunk of Coal",856,300,-706,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Copper Plate Chest Armor with Supple Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Supple Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",1194,300,-1044,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Copper Plate Chest Armor with Supple Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Supple Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",1194,300,-1044,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Iron Plate Chest Armor with Cotton Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Cotton Cloth Strap, (2)Meteoric Iron Binding, (2)Chunk of Coal",894,300,-744,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Iron Plate Chest Armor with Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",888,300,-738,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Iron Plate Chest Armor with Supple Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Supple Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",1074,300,-924,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Iron Plate Chest Armor with Supple Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Supple Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",1074,300,-924,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Iron Plate Chest Armor with Supple Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Supple Leather Straps, (2)Copper Binding, (2)Chunk of Coal",856,300,-706,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Iron Plate Chest Armor with Supple Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Supple Leather Straps, (2)Iron Binding, (2)Chunk of Coal",856,300,-706,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Iron Plate Chest Armor with Supple Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Supple Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",1194,300,-1044,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Iron Plate Chest Armor with Supple Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Supple Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",1194,300,-1044,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Carapacian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Carapacian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",4140,300,-3990,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Carapacian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Carapacian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",4140,300,-3990,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Carapacian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Carapacian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",3922,300,-3772,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Carapacian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Carapacian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",3922,300,-3772,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Carapacian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Carapacian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",4260,300,-4110,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Carapacian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Carapacian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",4260,300,-4110,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Cotton Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Cotton Cloth Strap, (2)Bronze Binding, (2)Chunk of Coal",3816,300,-3666,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Cotton Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Cotton Cloth Strap, (2)Constantan Binding, (2)Chunk of Coal",3816,300,-3666,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Cotton Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Cotton Cloth Strap, (2)Copper Binding, (2)Chunk of Coal",3598,300,-3448,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Cotton Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Cotton Cloth Strap, (2)Iron Binding, (2)Chunk of Coal",3598,300,-3448,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Cotton Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Cotton Cloth Strap, (2)Meteoric Iron Binding, (2)Chunk of Coal",3936,300,-3786,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Cotton Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Cotton Cloth Strap, (2)White Iron Binding, (2)Chunk of Coal",3936,300,-3786,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Fustian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Fustian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",4140,300,-3990,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Fustian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Fustian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",4140,300,-3990,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Fustian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Fustian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",3922,300,-3772,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Fustian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Fustian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",3922,300,-3772,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Fustian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Fustian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",4260,300,-4110,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Fustian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Fustian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",4260,300,-4110,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Hardened Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Hardened Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",4116,300,-3966,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Hardened Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Hardened Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",4116,300,-3966,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Hardened Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Hardened Leather Straps, (2)Copper Binding, (2)Chunk of Coal",3898,300,-3748,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Hardened Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Hardened Leather Straps, (2)Iron Binding, (2)Chunk of Coal",3898,300,-3748,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Hardened Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Hardened Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",4236,300,-4086,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Hardened Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Hardened Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",4236,300,-4086,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",3810,300,-3660,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",3810,300,-3660,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Leather Straps, (2)Copper Binding, (2)Chunk of Coal",3592,300,-3442,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Leather Straps, (2)Iron Binding, (2)Chunk of Coal",3592,300,-3442,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3930,300,-3780,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",3930,300,-3780,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Supple Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Supple Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",4116,300,-3966,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Supple Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Supple Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",4116,300,-3966,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Supple Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Supple Leather Straps, (2)Copper Binding, (2)Chunk of Coal",3898,300,-3748,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Supple Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Supple Leather Straps, (2)Iron Binding, (2)Chunk of Coal",3898,300,-3748,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Supple Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Supple Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",4236,300,-4086,Production,Blacksmithing
+Plate Chest Armor of Greater Defense/Meteoric Iron Plate Chest Armor with Supple Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Meteoric Iron Sheet, (3)Supple Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",4236,300,-4086,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Carapacian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Carapacian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",3060,300,-2910,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Carapacian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Carapacian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",3060,300,-2910,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Carapacian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Carapacian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",2842,300,-2692,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Carapacian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Carapacian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",2842,300,-2692,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Carapacian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Carapacian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3180,300,-3030,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Carapacian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Carapacian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",3180,300,-3030,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Cotton Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Cotton Cloth Strap, (2)Bronze Binding, (2)Chunk of Coal",2736,300,-2586,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Cotton Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Cotton Cloth Strap, (2)Constantan Binding, (2)Chunk of Coal",2736,300,-2586,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Cotton Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Cotton Cloth Strap, (2)Copper Binding, (2)Chunk of Coal",2518,300,-2368,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Cotton Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Cotton Cloth Strap, (2)Iron Binding, (2)Chunk of Coal",2518,300,-2368,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Cotton Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Cotton Cloth Strap, (2)Meteoric Iron Binding, (2)Chunk of Coal",2856,300,-2706,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Cotton Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Cotton Cloth Strap, (2)White Iron Binding, (2)Chunk of Coal",2856,300,-2706,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Fustian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Fustian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",3060,300,-2910,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Fustian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Fustian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",3060,300,-2910,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Fustian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Fustian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",2842,300,-2692,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Fustian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Fustian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",2842,300,-2692,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Fustian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Fustian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3180,300,-3030,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Fustian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Fustian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",3180,300,-3030,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Hardened Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Hardened Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",3036,300,-2886,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Hardened Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Hardened Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",3036,300,-2886,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Hardened Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Hardened Leather Straps, (2)Copper Binding, (2)Chunk of Coal",2818,300,-2668,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Hardened Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Hardened Leather Straps, (2)Iron Binding, (2)Chunk of Coal",2818,300,-2668,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Hardened Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Hardened Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3156,300,-3006,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Hardened Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Hardened Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",3156,300,-3006,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",2730,300,-2580,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",2730,300,-2580,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Leather Straps, (2)Copper Binding, (2)Chunk of Coal",2512,300,-2362,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Leather Straps, (2)Iron Binding, (2)Chunk of Coal",2512,300,-2362,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",2850,300,-2700,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",2850,300,-2700,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Supple Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Supple Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",3036,300,-2886,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Supple Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Supple Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",3036,300,-2886,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Supple Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Supple Leather Straps, (2)Copper Binding, (2)Chunk of Coal",2818,300,-2668,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Supple Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Supple Leather Straps, (2)Iron Binding, (2)Chunk of Coal",2818,300,-2668,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Supple Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Supple Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3156,300,-3006,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Bronze Plate Chest Armor with Supple Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Bronze Sheet, (3)Supple Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",3156,300,-3006,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Copper Plate Chest Armor with Cotton Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Cotton Cloth Strap, (2)Bronze Binding, (2)Chunk of Coal",774,300,-624,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Copper Plate Chest Armor with Hardened Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Hardened Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",1074,300,-924,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Copper Plate Chest Armor with Hardened Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Hardened Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",1074,300,-924,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Copper Plate Chest Armor with Hardened Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Hardened Leather Straps, (2)Copper Binding, (2)Chunk of Coal",856,300,-706,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Copper Plate Chest Armor with Hardened Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Hardened Leather Straps, (2)Iron Binding, (2)Chunk of Coal",856,300,-706,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Copper Plate Chest Armor with Hardened Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Hardened Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",1194,300,-1044,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Copper Plate Chest Armor with Hardened Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Hardened Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",1194,300,-1044,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Copper Plate Chest Armor with Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",768,300,-618,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Iron Plate Chest Armor with Cotton Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Cotton Cloth Strap, (2)Bronze Binding, (2)Chunk of Coal",774,300,-624,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Iron Plate Chest Armor with Hardened Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Hardened Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",1074,300,-924,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Iron Plate Chest Armor with Hardened Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Hardened Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",1074,300,-924,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Iron Plate Chest Armor with Hardened Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Hardened Leather Straps, (2)Copper Binding, (2)Chunk of Coal",856,300,-706,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Iron Plate Chest Armor with Hardened Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Hardened Leather Straps, (2)Iron Binding, (2)Chunk of Coal",856,300,-706,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Iron Plate Chest Armor with Hardened Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Hardened Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",1194,300,-1044,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Iron Plate Chest Armor with Hardened Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Hardened Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",1194,300,-1044,Production,Blacksmithing
+Plate Chest Armor of Greater Dodge/Iron Plate Chest Armor with Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",768,300,-618,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Copper Plate Chest Armor with Carapacian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Carapacian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",1098,300,-948,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Copper Plate Chest Armor with Carapacian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Carapacian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",1098,300,-948,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Copper Plate Chest Armor with Carapacian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Carapacian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",880,300,-730,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Copper Plate Chest Armor with Carapacian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Carapacian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",880,300,-730,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Copper Plate Chest Armor with Carapacian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Carapacian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",1218,300,-1068,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Copper Plate Chest Armor with Carapacian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Carapacian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",1218,300,-1068,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Iron Plate Chest Armor with Carapacian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Carapacian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",1098,300,-948,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Iron Plate Chest Armor with Carapacian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Carapacian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",1098,300,-948,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Iron Plate Chest Armor with Carapacian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Carapacian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",880,300,-730,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Iron Plate Chest Armor with Carapacian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Carapacian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",880,300,-730,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Iron Plate Chest Armor with Carapacian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Carapacian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",1218,300,-1068,Production,Blacksmithing
+Plate Chest Armor of Greater Power/Iron Plate Chest Armor with Carapacian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Carapacian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",1218,300,-1068,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Copper Plate Chest Armor with Fustian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Fustian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",1098,300,-948,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Copper Plate Chest Armor with Fustian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Fustian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",1098,300,-948,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Copper Plate Chest Armor with Fustian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Fustian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",880,300,-730,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Copper Plate Chest Armor with Fustian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Fustian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",880,300,-730,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Copper Plate Chest Armor with Fustian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Fustian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",1218,300,-1068,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Copper Plate Chest Armor with Fustian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Fustian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",1218,300,-1068,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Iron Plate Chest Armor with Fustian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Fustian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",1098,300,-948,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Iron Plate Chest Armor with Fustian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Fustian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",1098,300,-948,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Iron Plate Chest Armor with Fustian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Fustian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",880,300,-730,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Iron Plate Chest Armor with Fustian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Fustian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",880,300,-730,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Iron Plate Chest Armor with Fustian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Fustian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",1218,300,-1068,Production,Blacksmithing
+Plate Chest Armor of Intelligence/Iron Plate Chest Armor with Fustian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Fustian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",1218,300,-1068,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Carapacian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Carapacian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",3060,300,-2910,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Carapacian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Carapacian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",3060,300,-2910,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Carapacian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Carapacian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",2842,300,-2692,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Carapacian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Carapacian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",2842,300,-2692,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Carapacian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Carapacian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3180,300,-3030,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Carapacian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Carapacian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",3180,300,-3030,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Cotton Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Cotton Cloth Strap, (2)Bronze Binding, (2)Chunk of Coal",2736,300,-2586,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Cotton Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Cotton Cloth Strap, (2)Constantan Binding, (2)Chunk of Coal",2736,300,-2586,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Cotton Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Cotton Cloth Strap, (2)Copper Binding, (2)Chunk of Coal",2518,300,-2368,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Cotton Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Cotton Cloth Strap, (2)Iron Binding, (2)Chunk of Coal",2518,300,-2368,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Cotton Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Cotton Cloth Strap, (2)Meteoric Iron Binding, (2)Chunk of Coal",2856,300,-2706,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Cotton Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Cotton Cloth Strap, (2)White Iron Binding, (2)Chunk of Coal",2856,300,-2706,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Fustian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Fustian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",3060,300,-2910,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Fustian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Fustian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",3060,300,-2910,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Fustian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Fustian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",2842,300,-2692,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Fustian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Fustian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",2842,300,-2692,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Fustian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Fustian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3180,300,-3030,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Fustian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Fustian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",3180,300,-3030,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Hardened Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Hardened Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",3036,300,-2886,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Hardened Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Hardened Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",3036,300,-2886,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Hardened Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Hardened Leather Straps, (2)Copper Binding, (2)Chunk of Coal",2818,300,-2668,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Hardened Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Hardened Leather Straps, (2)Iron Binding, (2)Chunk of Coal",2818,300,-2668,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Hardened Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Hardened Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3156,300,-3006,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Hardened Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Hardened Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",3156,300,-3006,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",2730,300,-2580,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",2730,300,-2580,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Leather Straps, (2)Copper Binding, (2)Chunk of Coal",2512,300,-2362,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Leather Straps, (2)Iron Binding, (2)Chunk of Coal",2512,300,-2362,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",2850,300,-2700,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",2850,300,-2700,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Supple Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Supple Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",3036,300,-2886,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Supple Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Supple Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",3036,300,-2886,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Supple Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Supple Leather Straps, (2)Copper Binding, (2)Chunk of Coal",2818,300,-2668,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Supple Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Supple Leather Straps, (2)Iron Binding, (2)Chunk of Coal",2818,300,-2668,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Supple Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Supple Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3156,300,-3006,Production,Blacksmithing
+Plate Chest Armor of Quickness/Constantan Plate Chest Armor with Supple Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Constantan Sheet, (3)Supple Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",3156,300,-3006,Production,Blacksmithing
+Plate Chest Armor of Quickness/Copper Plate Chest Armor with Cotton Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Cotton Cloth Strap, (2)Constantan Binding, (2)Chunk of Coal",774,300,-624,Production,Blacksmithing
+Plate Chest Armor of Quickness/Copper Plate Chest Armor with Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",768,300,-618,Production,Blacksmithing
+Plate Chest Armor of Quickness/Iron Plate Chest Armor with Cotton Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Cotton Cloth Strap, (2)Constantan Binding, (2)Chunk of Coal",774,300,-624,Production,Blacksmithing
+Plate Chest Armor of Quickness/Iron Plate Chest Armor with Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",768,300,-618,Production,Blacksmithing
+Plate Chest Armor of Strength/Copper Plate Chest Armor with Cotton Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Cotton Cloth Strap, (2)White Iron Binding, (2)Chunk of Coal",894,300,-744,Production,Blacksmithing
+Plate Chest Armor of Strength/Copper Plate Chest Armor with Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Copper Sheet, (3)Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",888,300,-738,Production,Blacksmithing
+Plate Chest Armor of Strength/Iron Plate Chest Armor with Cotton Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Cotton Cloth Strap, (2)White Iron Binding, (2)Chunk of Coal",894,300,-744,Production,Blacksmithing
+Plate Chest Armor of Strength/Iron Plate Chest Armor with Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)Iron Sheet, (3)Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",888,300,-738,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Carapacian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Carapacian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",4140,300,-3990,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Carapacian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Carapacian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",4140,300,-3990,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Carapacian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Carapacian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",3922,300,-3772,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Carapacian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Carapacian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",3922,300,-3772,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Carapacian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Carapacian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",4260,300,-4110,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Carapacian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Carapacian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",4260,300,-4110,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Cotton Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Cotton Cloth Strap, (2)Bronze Binding, (2)Chunk of Coal",3816,300,-3666,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Cotton Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Cotton Cloth Strap, (2)Constantan Binding, (2)Chunk of Coal",3816,300,-3666,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Cotton Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Cotton Cloth Strap, (2)Copper Binding, (2)Chunk of Coal",3598,300,-3448,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Cotton Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Cotton Cloth Strap, (2)Iron Binding, (2)Chunk of Coal",3598,300,-3448,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Cotton Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Cotton Cloth Strap, (2)Meteoric Iron Binding, (2)Chunk of Coal",3936,300,-3786,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Cotton Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Cotton Cloth Strap, (2)White Iron Binding, (2)Chunk of Coal",3936,300,-3786,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Fustian Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Fustian Cloth Straps, (2)Bronze Binding, (2)Chunk of Coal",4140,300,-3990,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Fustian Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Fustian Cloth Straps, (2)Constantan Binding, (2)Chunk of Coal",4140,300,-3990,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Fustian Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Fustian Cloth Straps, (2)Copper Binding, (2)Chunk of Coal",3922,300,-3772,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Fustian Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Fustian Cloth Straps, (2)Iron Binding, (2)Chunk of Coal",3922,300,-3772,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Fustian Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Fustian Cloth Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",4260,300,-4110,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Fustian Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Fustian Cloth Straps, (2)White Iron Binding, (2)Chunk of Coal",4260,300,-4110,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Hardened Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Hardened Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",4116,300,-3966,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Hardened Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Hardened Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",4116,300,-3966,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Hardened Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Hardened Leather Straps, (2)Copper Binding, (2)Chunk of Coal",3898,300,-3748,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Hardened Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Hardened Leather Straps, (2)Iron Binding, (2)Chunk of Coal",3898,300,-3748,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Hardened Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Hardened Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",4236,300,-4086,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Hardened Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Hardened Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",4236,300,-4086,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",3810,300,-3660,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",3810,300,-3660,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Leather Straps, (2)Copper Binding, (2)Chunk of Coal",3592,300,-3442,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Leather Straps, (2)Iron Binding, (2)Chunk of Coal",3592,300,-3442,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",3930,300,-3780,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",3930,300,-3780,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Supple Leather Strap and Bronze Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Supple Leather Straps, (2)Bronze Binding, (2)Chunk of Coal",4116,300,-3966,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Supple Leather Strap and Constantan Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Supple Leather Straps, (2)Constantan Binding, (2)Chunk of Coal",4116,300,-3966,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Supple Leather Strap and Copper Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Supple Leather Straps, (2)Copper Binding, (2)Chunk of Coal",3898,300,-3748,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Supple Leather Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Supple Leather Straps, (2)Iron Binding, (2)Chunk of Coal",3898,300,-3748,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Supple Leather Strap and Meteoric Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Supple Leather Straps, (2)Meteoric Iron Binding, (2)Chunk of Coal",4236,300,-4086,Production,Blacksmithing
+Plate Chest Armor of Strength/White Iron Plate Chest Armor with Supple Leather Strap and White Iron Binding,"Smithing Hammer, Hot Chisel, (6)White Iron Sheet, (3)Supple Leather Straps, (2)White Iron Binding, (2)Chunk of Coal",4236,300,-4086,Production,Blacksmithing
+Plate Chest Armor,"Smithing Hammer, (10)Metal Sheet, Metal Binding, (2)Chunk of Coal",752,300,-602,Production,Blacksmithing
+Plate Gauntlets,"Smithing Hammer, Hot Chisel, (2)Metal Sheet, Strap, (2)Chunk of Coal",155,57,-126.5,Production,Blacksmithing
+Plate Helm,"Smithing Hammer, Hot Chisel, (3)Metal Sheet, Strap, Chunk of Coal",224,53,-197.5,Production,Blacksmithing
+Plate Leggings of Defense/Iron Plate Leggings with Cotton Strap and Iron Binding,"Smithing Hammer, Hot Chisel, (5)Iron Sheet, (2)Cotton Cloth Strap, Iron Binding, (2)Chunk of Coal",436,180,-346,Production,Blacksmithing
+Plate Leggings,"Smithing Hammer, Hot Chisel, (5)Metal Sheet, (2)Strap, Metal Binding, (2)Chunk of Coal",402,180,-312,Production,Blacksmithing
+Plate of Apple Pie,"Cooking Pot, Apple, Butter, Sack of Flour, Sack of Sugar, Cinnamon Bark, (4)Wooden Plate",50,25,-37.5,Production,Cooking
+Plate of Baked Trout,"Cooking Pot, (2)Trout Fillet, Pepper, Flask of Cooking Oil, Bottle of Wine, (2)Wooden Plate",63,25,-50.5,Production,Cooking
+Plate of Carmelized Onion Quiche,"Cooking Pot, Flask of Cooking Oil, Bottle of Milk, (2)Onion, Sack of Salt, Pepper, Flask of Vinegar, (3)Egg, Wedge of Cheese, (4)Wooden Plate",112,25,-99.5,Production,Cooking
+Plate of Chaox Pork and Beef Loaf,"Cooking Pot, (2)Bovine Meat, (2)Pork Meat, Garlic, Sack of Salt, Onion, (2)Egg, Bottle of Milk, Tomato, Pepper, (4)Wooden Plate",60,25,-47.5,Production,Cooking
+Plate of Crackling and Oil,"Cooking Pot, (3)Fat, Wooden Plate, Flask of Cooking Oil",43,25,-30.5,Production,Cooking
+Plate of Darkstarr Smoked Duck,"Cooking Pot, (4)Duck Meat, Bottle of Wine, Sack of Salt, Flask of Cooking Oil, Tea Leaves, Sack of Sugar, Cinnamon Bark, (2)Wooden Plate",69,25,-56.5,Production,Cooking
+Plate of Pumpkin Pie,"Cooking Pot, Pie Dough, Cinnamon Bark, Pumpkin, (4)Wooden Plate",50,25,-37.5,Production,Cooking
+Plate of Sauteed Bass,"Cooking Pot, (2)Bass Fillet, Flask of Cooking Oil, (2)Wooden Plate",38,,-38,Production,Cooking
+Plate of Sugar Cookies,"Cooking Pot, Sack of Flour, Wooden Plate, Sack of Salt, Sack of Sugar, Butter",29,,-29,Production,Cooking
+Plate of White Cake,"Cooking Pot, Sack of Flour, Sack of Sugar, Butter, Vanilla Bean, Bottle of Milk, Jar of Yeast Culture, (4)Wooden Plate",72,,-72,Production,Cooking
+Podium,"Carpentry Hammer, (11)Wooden Boards",33,30,-18,Production,Carpentry
+Poison Potion,"Mortar and Pestle, (8)Nightshade, (8)Corpse Wax, Empty Flask",40,,-40,Production,Alchemy
+Pork Meat,"Cleaver, Pig Carcass",3,4,-1,Refining,Butchery
+Pork Sausage Links,,8,8,-4,Gathering,Gathering
+Potato,,1,1,-0.5,Gathering,Gathering
+Protractor Angle Finder,,25,25,-12.5,Gathering,Gathering
+Pumpkin,,1,1,-0.5,Gathering,Gathering
+Purple Dye,"Tanning Knife, (5)Maple Tree Bark, (2)Cinnamon Bark, (2)Chunk of Coal",182,,-182,Refining,Tanning
+Rabbit Carcass,,2,2,-1,Gathering,Gathering
+Rabbit Meat,"Cleaver, Rabbit Carcass",2,,-2,Refining,Butchery
+Raw Cotton,,4,4,-2,Gathering,Gathering
+Rawhide Mallet,,0,2,1,Tool,Tool
+Recall Scroll,"Mortar and Pestle, (5)Wood Pulp, (10)Nightshade, (10)Black Pearl",75,15,-67.5,Production,Alchemy
+Rectangle Shield,"Smithing Hammer, Metal Sheet, (2)Metal Binding, Strap, Chunk of Coal",132,20,-122,Production,Blacksmithing
+Red Dye,"Tanning Knife, (15)Apple, (2)Chunk of Coal",21,,-21,Refining,Tanning
+Red Pine Timber,"Cubit Measure, (4)Pine Timber, (4)Creosote, Pine Tar",134,,-134,Refining,Milling
+Red Stall Awning,"Carpentry Hammer, (20)Wooden Boards, (10)Bolt of Cloth, Blue Dye",942,,-942,Production,Carpentry
+Red Wood Timber,"Cubit Measure, (2)Maple Timber, (4)Creosote, Pine Tar",70,,-70,Refining,Milling
+Repair Kit - Blacksmithing,"Smithing Hammer, (3)Iron Ingot, (2)Leather",105,50,-80,Production,Blacksmithing
+Repair Kit - Blacksmithing,"Smithing Hammer, (3)Copper Ingot, (2)Leather",105,,-105,Production,Blacksmithing
+Repair Kit - Carpentry,"Carpentry Hammer, (2)Wooden Bindings, (2)Metal Binding",68,50,-43,Production,Carpentry
+Repair Kit - Tailoring,"Tailoring Scissors, (2)Bolt of Cotton Cloth, (2)Leather",120,50,-95,Production,Tailoring
+Ring of Tempestry,"Mortar and Pestle, Ring, Tempestry Jewel, (5)Mandrake Root",688,10,-683,Production,Alchemy
+Ring,"Smithing Hammer, (5)Coil of Metal Wire, Chunk of Coal",248,10,-243,Production,Blacksmithing
+Rock Maple Binding,"Wood Rasp, Rock Maple Timber, (3)Wax",178,5,-175.5,Production,Carpentry
+Rock Maple Board,"Cubit Measure, Rock Maple Timber, Creosote",173,,-173,Refining,Milling
+Rock Maple Handle,"Carpentry Hammer, Rock Maple Timber, Wax",174,90,-129,Production,Carpentry
+Rock Maple Heartwood,"Wood Rasp, (4)Rock Maple Timber, Wax",690,30,-675,Production,Carpentry
+Rock Maple Long Bow with Carapacian Bow String,"Carpentry Hammer, Long Rock Maple Bowstave, (2)Carapacian Bow String, (5)Wax",3016,200,-2916,Production,Carpentry
+Rock Maple Long Bow with Fustian Bow String,"Carpentry Hammer, Long Rock Maple Bowstave, (2)Fustian Bow String, (5)Wax",3016,200,-2916,Production,Carpentry
+Rock Maple Long Bow with Hardened Leather Bow String,"Carpentry Hammer, Long Rock Maple Bowstave, (2)Hardened Leather Bow String, (5)Wax",2936,200,-2836,Production,Carpentry
+Rock Maple Long Bow with Leather Bow String,"Carpentry Hammer, Long Rock Maple Bowstave, (2)Leather Bow String, (5)Wax",1916,200,-1816,Production,Carpentry
+Rock Maple Long Bow with Supple Leather Bow String,"Carpentry Hammer, Long Rock Maple Bowstave, (2)Supple Leather Bow String, (5)Wax",2936,200,-2836,Production,Carpentry
+Rock Maple Pole,"Cubit Measure, (6)Rock Maple Timber, Wax",1034,20,-1024,Refining,Milling
+Rock Maple Short Bow with Carapacian Bow String,"Carpentry Hammer, Rock Maple Short Bowstave, Carapacian Bow String, (5)Wax",2030,150,-1955,Production,Carpentry
+Rock Maple Short Bow with Fustian Bow String,"Carpentry Hammer, Rock Maple Short Bowstave, Fustian Bow String, (5)Wax",2030,150,-1955,Production,Carpentry
+Rock Maple Short Bow with Hardened Leather Bow String,"Carpentry Hammer, Rock Maple Short Bowstave, Hardened Leather Bow String, (5)Wax",1990,150,-1915,Production,Carpentry
+Rock Maple Short Bow with Leather Bow String,"Carpentry Hammer, Rock Maple Short Bowstave, Leather Bow String, (5)Wax",1480,150,-1405,Production,Carpentry
+Rock Maple Short Bowstave,"Wood Rasp, (8)Rock Maple Timber, Wax",1378,170,-1293,Production,Carpentry
+Rock Maple Strip,"Cubit Measure, (4)Rock Maple Timber, Wax",690,24,-678,Refining,Milling
+Rock Maple Timber,"Cubit Measure, (4)Maple Timber, (4)Creosote, Pine Resin",172,70,-137,Refining,Milling
+Round Shield,"Smithing Hammer, (2)Metal Sheet, Metal Binding, Strap, Chunk of Coal",178,53,-151.5,Production,Blacksmithing
+Royal Elderberry,,0,,0,Gathering,Gathering
+Royal Purple Dye,"Tanning Knife, Royal Elderberry, (2)Chunk of Coal",6,500,244,Refining,Tanning
+Ruby Fragment,,1,1,-0.5,Gathering,Gathering
+Ruby,"Mortar and Pestle, (400)Ruby Fragment, (10)Mandrake Root",420,200,-320,Production,Alchemy
+Rusted Iron Large Greenhouse,"Smelting Tongs, Stone Chisel, (10)Granite Block, (50)Iron Ingot",1200,,-1200,Refining,Smelting
+Sack of Flour,"Cooking Pot, Sack of Wheat Grain",8,3,-6.5,Production,Cooking
+Sack of Salt,"Mortar and Pestle, Salt Ingot",0,2,1,Production,Cooking
+Sack of Sugar,,6,6,-3,Gathering,Gathering
+Sack of Wheat Grain,,8,8,-4,Gathering,Gathering
+Sack,"Tailoring Scissors, (5)Piece of Canvas Fabric, Coil of Rope",350,,-350,Production,Tailoring
+Salmon Fillet,"Cleaver, Salmon",3,3,-1.5,Refining,Butchery
+Salmon Trophy,"Tanning Knife, Salmon, (3)Wax",9,5,-6.5,Refining,Tanning
+Salmon,,3,3,-1.5,Gathering,Gathering
+Salt Ingot,,0,,0,Gathering,Gathering
+Sapphire Fragment,,1,1,-0.5,Gathering,Gathering
+Sapphire,"Mortar and Pestle, (400)Sapphire Fragment, (10)Mandrake Root",420,200,-320,Production,Alchemy
+Sheep Carcass,,3,3,-1.5,Gathering,Gathering
+Sheet Mold,,0,,0,Tool,Tool
+Sheet of Iron Chain Links,"Smithing Hammer, (2)Coil of Iron Wire",98,10,-93,Production,Blacksmithing
+Shelf,"Carpentry Hammer, (6)Wooden Boards",18,20,-8,Production,Carpentry
+Shingle-Roof Two-Story w/Balcony Village Home,"Carpentry Hammer, (120)Wooden Timber, (50)Granite Block",490,,-490,Production,Carpentry
+Short Bow of Long Shot/Rock Maple Short Bow with Supple Leather Bow String,"Carpentry Hammer, Rock Maple Short Bowstave, Supple Leather Bow String, (5)Wax",1990,150,-1915,Production,Carpentry
+Short Bow,"Carpentry Hammer, Wooden Short Bowstave, Bowstring, (5)Wax",70,30,-55,Production,Carpentry
+Short Corner Hedge,"Carpentry Hammer, (7)Plant, (7)Maple Wood",49,15,-41.5,Production,Carpentry
+Short Corner Hedge,"Carpentry Hammer, (7)Plant, (7)Pine Wood",49,,-49,Production,Carpentry
+Short Corner Stone Wall,"Smelting Tongs, Stone Chisel, (14)Granite Block",70,15,-62.5,Refining,Smelting
+Short Kilt,"Tailoring Scissors, (3)Bolt of Cloth, (2)Strap, (6)Wax",208,,-208,Production,Tailoring
+Short Little Hedge,"Carpentry Hammer, (3)Plant, (3)Maple Wood",21,5,-18.5,Production,Carpentry
+Short Little Hedge,"Carpentry Hammer, (3)Plant, (3)Pine Wood",21,,-21,Production,Carpentry
+Short Little Stone Wall,"Smelting Tongs, Stone Chisel, (6)Granite Block",30,5,-27.5,Refining,Smelting
+Short Long Hedge,"Carpentry Hammer, (6)Plant, (6)Pine Wood",42,25,-29.5,Production,Carpentry
+Short Long Hedge,"Carpentry Hammer, (6)Plant, (6)Maple Wood",42,,-42,Production,Carpentry
+Short Long Stone Wall,"Smelting Tongs, Stone Chisel, (12)Granite Block",60,25,-47.5,Refining,Smelting
+Short Medium Hedge,"Carpentry Hammer, (4)Plant, (4)Maple Wood",28,10,-23,Production,Carpentry
+Short Medium Hedge,"Carpentry Hammer, (4)Plant, (4)Pine Wood",28,,-28,Production,Carpentry
+Short Medium Stone Wall,"Smelting Tongs, Stone Chisel, (8)Granite Block",40,15,-32.5,Refining,Smelting
+Shortsword Blade Mold,,0,,0,Tool,Tool
+Shortsword,"Smithing Hammer, Metal Shortsword Blade, Metal Hilt, Chunk of Coal",52,130,13,Production,Blacksmithing
+Silver Candlestick,"Smithing Hammer, (2)Silver Ingot, (3)Wax",36,10,-31,Production,Blacksmithing
+Silver Ingot,"Smelting Tongs, Ingot Mold, Chunk of Coal, (4)Silver Ore",15,1,-14.5,Refining,Smelting
+Silver Ore,,3,3,-1.5,Gathering,Gathering
+Simple Tiara,"Smithing Hammer, Wire Pliers, Edged Chisel, (2)Coil of Metal Wire, (3)Chunk of Coal",107,100,-57,Production,Blacksmithing
+Sinew,,1,1,-0.5,Gathering,Gathering
+Skull Candle,"Smithing Hammer, (3)Wax, Skull",6,2,-5,Production,Blacksmithing
+Skull,,0,,0,Gathering,Gathering
+Small Bag,"Tailoring Scissors, Coil of Rope, (2)Leather",86,10,-81,Production,Tailoring
+Small Cabinet,"Carpentry Hammer, Dresser, (2)Wooden Boards, Iron Binding",71,60,-41,Production,Carpentry
+Small Plain Longboat,"Carpentry Hammer, (50)Wooden Boards, (5)Metal Binding",280,100,-230,Production,Carpentry
+Small Rough Stone Paver,"Smelting Tongs, Stone Chisel, (3)Granite Block",15,5,-12.5,Refining,Smelting
+Small Rough Wood Paver,"Carpentry Hammer, Wood Chisel, (3)Pine Wood",15,5,-12.5,Production,Carpentry
+Small Rough Wood Paver,"Carpentry Hammer, Wood Chisel, (3)Maple Wood",15,,-15,Production,Carpentry
+Small Rug,"Loom Shuttle, (9)Spool of Cotton Thread",180,1,-179.5,Refining,Textiles
+Small Writing Desk,"Carpentry Hammer, (16)Wooden Boards",48,,-48,Production,Carpentry
+Smelling Salts,"Mortar and Pestle, (2)Creosote, (10)Sack of Salt, (10)Curing Salt",22,100,28,Production,Alchemy
+Smelting Tongs,,0,,0,Tool,Tool
+Smithing Hammer,,0,0,0,Tool,Tool
+Sooty Bark,,40,40,-20,Gathering,Gathering
+Sorcery Gem,"Mortar and Pestle, Ruby, (10)Mandrake Root",440,100,-390,Production,Alchemy
+Sorcery Jewel,"Mortar and Pestle, Ruby, (5)Mandrake Root",430,100,-380,Production,Alchemy
+Spear Head Mold,,0,,0,Tool,Tool
+Spear,"Carpentry Hammer, Metal Spear Head, Wooden Handle, (3)Wax",10,53,16.5,Production,Carpentry
+Spool of Carapacian Thread,"Loom Shuttle, (4)Spool of Cotton Thread, (4)Wax, Beetle Carapace",128,,-128,Refining,Textiles
+Spool of Cotton Thread,"Loom Shuttle, (2)Wax, (4)Raw Cotton",20,10,-15,Refining,Textiles
+Spool of Cotton Thread,"Loom Shuttle, Wax, Raw Cotton, (12)Fabric Scrap",6,,-6,Refining,Textiles
+Spool of Fustian Thread,"Loom Shuttle, (4)Spool of Cotton Thread, (4)Wax, Suet",128,,-128,Refining,Textiles
+Spool of Thread,,10,20,0,Gathering,Gathering
+SStrap,,0,,0,Gathering,Gathering
+Staff,"Carpentry Hammer, (2)Heartwood, (2)Strap, (5)Wax",40,50,-15,Production,Carpentry
+Stag Head,,5,5,-2.5,Gathering,Gathering
+Stone Castle Wall Stairs Left,"Smelting Tongs, Stone Chisel, (48)Granite Block",240,10,-235,Refining,Smelting
+Stone Castle Wall Stairs Right,"Smelting Tongs, Stone Chisel, Protractor Angle Finder, (48)Granite Block",265,1,-264.5,Refining,Smelting
+Stone Chisel,,0,1,0.5,Tool,Tool
+Stone Corner Castle Wall,"Smelting Tongs, Stone Chisel, Protractor Angle Finder, (50)Granite Block",275,1,-274.5,Refining,Smelting
+Stone Corner Tower Castle Wall,"Smelting Tongs, Stone Chisel, Protractor Angle Finder, (70)Granite Block, (5)Iron Ingot, (10)Wooden Boards",520,1,-519.5,Refining,Smelting
+Stone Inward Corner Castle Wall,"Smelting Tongs, Stone Chisel, (50)Granite Block",250,1,-249.5,Refining,Smelting
+Stone Inward Corner Tower Castle Wall,"Smelting Tongs, Stone Chisel, (70)Granite Block, (5)Iron Ingot, (10)Wooden Boards",495,1,-494.5,Refining,Smelting
+Stone Ladder Corner Castle Wall,"Smelting Tongs, Stone Chisel, Protractor Angle Finder, (50)Granite Block, (10)Wooden Boards",305,1,-304.5,Refining,Smelting
+Stone Ladder Corner Tower Castle Wall,"Smelting Tongs, Stone Chisel, Protractor Angle Finder, (70)Granite Block, (5)Iron Ingot, (20)Wooden Boards",550,1,-549.5,Refining,Smelting
+Stone Ladder Inward Corner Castle Wall,"Smelting Tongs, Stone Chisel, (50)Granite Block, (10)Wooden Boards",280,1,-279.5,Refining,Smelting
+Stone Ladder Inward Corner Tower Castle Wall,"Smelting Tongs, Stone Chisel, (70)Granite Block, (5)Iron Ingot, (20)Wooden Boards",525,1,-524.5,Refining,Smelting
+Stone Ladder Left Junction Castle Wall,"Smelting Tongs, Stone Chisel, (68)Granite Block, (10)Wooden Boards",370,1,-369.5,Refining,Smelting
+Stone Ladder Long Gated Castle Wall,"Smelting Tongs, Stone Chisel, (80)Granite Block, (10)Iron Ingot, (10)Wooden Boards",660,1,-659.5,Refining,Smelting
+Stone Ladder Right Junction Castle Wall,"Smelting Tongs, Stone Chisel, Protractor Angle Finder, (68)Granite Block, (10)Wooden Boards",395,1,-394.5,Refining,Smelting
+Stone Ladder Straight Tower Castle Wall,"Smelting Tongs, Stone Chisel, (60)Granite Block, (5)Iron Ingot, (20)Wooden Boards",475,1,-474.5,Refining,Smelting
+Stone Left Junction Castle Wall,"Smelting Tongs, Stone Chisel, (68)Granite Block",340,1,-339.5,Refining,Smelting
+Stone Long Gated Castle Wall,"Smelting Tongs, Stone Chisel, (80)Granite Block, (10)Iron Ingot",630,1,-629.5,Refining,Smelting
+Stone Right Junction Castle Wall,"Smelting Tongs, Stone Chisel, Protractor Angle Finder, (68)Granite Block",365,1,-364.5,Refining,Smelting
+Stone Short Gated Castle Wall,"Smelting Tongs, Stone Chisel, (50)Granite Block, (10)Iron Ingot",480,1,-479.5,Refining,Smelting
+Stone Straight Castle Wall,"Smelting Tongs, Stone Chisel, (45)Granite Block",225,1,-224.5,Refining,Smelting
+Stone Straight Castle Wall,"Smelting Tongs, Stone Chisel, (45)Granite Block, (10)Wooden Boards",255,,-255,Refining,Smelting
+Stone Straight Tower Castle Wall,"Smelting Tongs, Stone Chisel, (60)Granite Block, (10)Wooden Boards, (5)Iron Ingot",445,1,-444.5,Refining,Smelting
+Stone Wedge Castle Wall,"Smelting Tongs, Stone Chisel, (9)Granite Block",45,1,-44.5,Refining,Smelting
+Strap,,5,5,-2.5,Gathering,Gathering
+Sturdy Bench,"Carpentry Hammer, (6)Wooden Boards, (2)Wooden Pole",42,20,-32,Production,Carpentry
+Sturdy Chair,"Carpentry Hammer, (3)Wooden Boards",9,11,-3.5,Production,Carpentry
+Sturdy Stool,"Carpentry Hammer, Wooden Boards, Wooden Pole",15,10,-10,Production,Carpentry
+Sturdy Table,"Carpentry Hammer, (5)Wooden Boards",15,19,-5.5,Production,Carpentry
+Suet,,40,40,-20,Gathering,Gathering
+Sulfurous Ash,,3,3,-1.5,Gathering,Gathering
+Summoning Whistle,"Mortar and Pestle, Animal whistle, (2)Silver Ingot",42,1,-41.5,Production,Alchemy
+Supple Leather Bow String,"Tailoring Scissors, (5)Supple Leather, Curing Salt",602,45,-579.5,Production,Tailoring
+Supple Leather Straps,"Tanning Knife, Supple Leather, Curing Salt",122,24,-110,Refining,Tanning
+Supple Leather,"Tanning Knife, (4)Leather, (4)Curing Salt, Suet",120,40,-100,Refining,Tanning
+Table,"Carpentry Hammer, (4)Wooden Boards, (2)Wooden Pole",36,30,-21,Production,Carpentry
+Tabor Drum,"Carpentry Hammer, (8)Wooden Boards, (4)Yard of Leather, (4)Wax",184,,-184,Production,Carpentry
+Tailoring Scissors,,0,,0,Tool,Tool
+Tall Corner Hedge,"Carpentry Hammer, (9)Plant, (9)Maple Wood",63,25,-50.5,Production,Carpentry
+Tall Corner Hedge,"Carpentry Hammer, (9)Plant, (9)Pine Wood",63,,-63,Production,Carpentry
+Tall Corner Stone Wall,"Smelting Tongs, Stone Chisel, (18)Granite Block",90,25,-77.5,Refining,Smelting
+Tall Little Hedge,"Carpentry Hammer, (5)Plant, (5)Pine Wood",35,10,-30,Production,Carpentry
+Tall Little Hedge,"Carpentry Hammer, (5)Plant, (5)Maple Wood",35,,-35,Production,Carpentry
+Tall Little Stone Wall,"Smelting Tongs, Stone Chisel, (10)Granite Block",50,10,-45,Refining,Smelting
+Tall Long Hedge,"Carpentry Hammer, (12)Plant, (12)Maple Wood",84,50,-59,Production,Carpentry
+Tall Long Hedge,"Carpentry Hammer, (12)Plant, (12)Pine Wood",84,,-84,Production,Carpentry
+Tall Long Stone Wall,"Smelting Tongs, Stone Chisel, (24)Granite Block",120,50,-95,Refining,Smelting
+Tall Medium Hedge,"Carpentry Hammer, (8)Plant, (8)Pine Wood",56,25,-43.5,Production,Carpentry
+Tall Medium Hedge,"Carpentry Hammer, (8)Plant, (8)Maple Wood",56,,-56,Production,Carpentry
+Tall Medium Stone Wall,"Smelting Tongs, Stone Chisel, (16)Granite Block",80,35,-62.5,Refining,Smelting
+Tall Silver Candlestick,"Smithing Hammer, (3)Silver Ingot, (4)Wax",53,15,-45.5,Production,Blacksmithing
+Taming Collar,"Mortar and Pestle, Animal Collar, Silver Ingot",51,20,-41,Production,Alchemy
+Taming Whistle,"Mortar and Pestle, Animal whistle, (2)Silver Ingot",42,1,-41.5,Production,Alchemy
+Tanning Knife,,0,,0,Tool,Tool
+Tea Leaves,,3,3,-1.5,Gathering,Gathering
+Teleport Scroll,"Mortar and Pestle, (5)Wood Pulp, (10)Mandrake Root, (10)Black Pearl",75,15,-67.5,Production,Alchemy
+Tempestry Gem,"Mortar and Pestle, Sapphire, (10)Mandrake Root",440,210,-335,Production,Alchemy
+Tempestry Jewel,"Mortar and Pestle, Sapphire, (5)Mandrake Root",430,75,-392.5,Production,Alchemy
+Tent,"Tailoring Scissors, (16)Piece of Canvas Fabric, (6)Coil of Rope, (4)Wooden Pole",1308,,-1308,Production,Tailoring
+Thaumaturgy Gem,"Mortar and Pestle, Diamond, (10)Mandrake Root",440,100,-390,Production,Alchemy
+Thaumaturgy Jewel,"Mortar and Pestle, Diamond, (5)Mandrake Root",430,100,-380,Production,Alchemy
+Theurgy Gem,"Mortar and Pestle, Citrine, (10)Mandrake Root",440,100,-390,Production,Alchemy
+Theurgy Jewel,"Mortar and Pestle, Citrine, (5)Mandrake Root",430,100,-380,Production,Alchemy
+Tin,,40,40,-20,Gathering,Gathering
+Tomato,,2,4,0,Gathering,Gathering
+Tombstone,"Smelting Tongs, Stone Chisel, (7)Granite Block",35,10,-30,Refining,Smelting
+Tool Engraving Kit - Gold,"Mortar and Pestle, (2)Gold Ingot, (10)Mandrake Root",66,45,-43.5,Production,Alchemy
+Tool Engraving Kit - Heavy Iron,"Mortar and Pestle, Meteoric Iron Ingot, White Iron Ingot, (10)Mandrake Root",404,45,-381.5,Production,Alchemy
+Tool Engraving Kit - Silver,"Mortar and Pestle, (2)Silver Ingot, (10)Mandrake Root",50,45,-27.5,Production,Alchemy
+Tool Engraving Kit - True Bronze,"Mortar and Pestle, Bronze Ingot, Constantan Ingot, (10)Mandrake Root",284,45,-261.5,Production,Alchemy
+Torch,,0,,0,Gathering,Gathering
+Triangle Shield,"Smithing Hammer, Metal Sheet, Metal Binding, Strap, Chunk of Coal",106,53,-79.5,Production,Blacksmithing
+Trout Fillet,"Cleaver, Trout",3,3,-1.5,Refining,Butchery
+Trout Trophy,"Tanning Knife, Trout, (3)Wax",9,5,-6.5,Refining,Tanning
+Trout,,3,3,-1.5,Gathering,Gathering
+True Bronze Ingot,"Mortar and Pestle, Constantan Ingot, Bronze Ingot, (10)Mandrake Root",284,,-284,Production,Alchemy
+Trunk,"Carpentry Hammer, Wood Chisel, (5)Wooden Boards",15,15,-7.5,Production,Carpentry
+Tungsten,,100,100,-50,Gathering,Gathering
+Two-handed Mace Head Mold,,0,,0,Tool,Tool
+Two-handed Mace,"Smithing Hammer, Metal Two-handed Mace Head, Wooden Handle, Chunk of Coal",7,115,50.5,Production,Blacksmithing
+Two-handed Sword Blade Mold,,0,,0,Tool,Tool
+Two-handed Sword of Greater Haste,"Smithing Hammer, Bronze Two-handed Sword Blade, Bronze Hilt, Chunk of Coal",933,115,-875.5,Production,Blacksmithing
+Two-handed Sword,"Smithing Hammer, Metal Two-handed Sword Blade, Metal Hilt, (5)Chunk of Coal",64,115,-6.5,Production,Blacksmithing
+Uncut Gem,"Mortar and Pestle, (400)Gem Fragment, (10)Mandrake Root",20,200,80,Production,Alchemy
+Vanilla Bean,,10,10,-5,Gathering,Gathering
+Venison Meat,"Cleaver, Deer Carcass",5,10,0,Refining,Butchery
+Walking Cane,"Carpentry Hammer, Heartwood, Metal Binding, (5)Wax",46,1,-45.5,Production,Carpentry
+Wall Candle,"Smithing Hammer, (2)Iron Ingot, (3)Chunk of Coal, (4)Wax",63,5,-60.5,Production,Blacksmithing
+Wall Shelf,"Carpentry Hammer, (2)Wooden Boards",6,10,-1,Production,Carpentry
+Wall Torch,"Smithing Hammer, (2)Iron Ingot, (3)Chunk of Coal, Torch",55,100,-5,Production,Blacksmithing
+Wand,"Carpentry Hammer, Heartwood, Strap, (3)Wax",21,125,41.5,Production,Carpentry
+War Hammer Head Mold,,0,,0,Tool,Tool
+War Hammer,"Smithing Hammer, Metal War Hammer Head, Wooden Handle, Chunk of Coal",7,130,58,Production,Blacksmithing
+Wardrobe,"Carpentry Hammer, (14)Wooden Boards",42,35,-24.5,Production,Carpentry
+Wax,,2,2,-1,Gathering,Gathering
+Wearable Coconut,"Tailoring Scissors, (2)Leather, Coconut",41,110,14,Production,Tailoring
+Wedge of Cheese,,6,6,-3,Gathering,Gathering
+White Iron Binding,"Smithing Hammer, White Iron Ingot, Chunk of Coal",195,25,-182.5,Production,Blacksmithing
+White Iron Core,"Smelting Tongs, Core Mold, (3)White Iron Ingot, Chunk of Coal",579,1,-578.5,Refining,Smelting
+White Iron Dagger Blade,"Smithing Hammer, Dagger Blade Mold, (2)White Iron Ingot, Chunk of Coal",387,20,-377,Production,Blacksmithing
+White Iron Great Axe Blade,"Smithing Hammer, Great Axe Head Mold, (6)White Iron Ingot, Chunk of Coal",1155,30,-1140,Production,Blacksmithing
+White Iron Halberd Blade,"Smithing Hammer, Halberd Blade Mold, (6)White Iron Ingot, Chunk of Coal",1155,30,-1140,Production,Blacksmithing
+White Iron Hand Axe Blade,"Smithing Hammer, Hand Axe Head Mold, (3)White Iron Ingot, Chunk of Coal",579,30,-564,Production,Blacksmithing
+White Iron Heavy War Hammer Head,"Smithing Hammer, Heavy War Hammer Head Mold, (6)White Iron Ingot, Chunk of Coal",1155,10,-1150,Production,Blacksmithing
+White Iron Hilt,"Smithing Hammer, Chunk of Coal, (2)White Iron Ingot",387,10,-382,Production,Blacksmithing
+White Iron Ingot,"Smelting Tongs, Ingot Mold, (2)Iron Ingot, Tin, Tungsten, (2)Chunk of Coal",192,100,-142,Refining,Smelting
+White Iron Longsword Blade,"Smithing Hammer, Longsword Blade Mold, (3)White Iron Ingot, Chunk of Coal",579,370,-394,Production,Blacksmithing
+White Iron Mace Head,"Smithing Hammer, Mace Head Mold, (3)White Iron Ingot, Chunk of Coal",579,30,-564,Production,Blacksmithing
+White Iron Sheet,"Smithing Hammer, Sheet Mold, (3)White Iron Ingot, Chunk of Coal",579,190,-484,Production,Blacksmithing
+White Iron Shortsword Blade,"Smithing Hammer, Shortsword Blade Mold, (3)White Iron Ingot, Chunk of Coal",579,30,-564,Production,Blacksmithing
+White Iron Shortsword with Bronze Hilt,"Smithing Hammer, White Iron Shortsword Blade, Bronze Hilt, Chunk of Coal",849,110,-794,Production,Blacksmithing
+White Iron Shortsword with Constantan Hilt,"Smithing Hammer, White Iron Shortsword Blade, Constantan Hilt, Chunk of Coal",849,110,-794,Production,Blacksmithing
+White Iron Shortsword with Copper Hilt,"Smithing Hammer, White Iron Shortsword Blade, Copper Hilt, Chunk of Coal",631,110,-576,Production,Blacksmithing
+White Iron Shortsword with Iron Hilt,"Smithing Hammer, White Iron Shortsword Blade, Iron Hilt, Chunk of Coal",631,110,-576,Production,Blacksmithing
+White Iron Shortsword with Meteoric Iron Hilt,"Smithing Hammer, White Iron Shortsword Blade, Meteoric Iron Hilt, Chunk of Coal",969,110,-914,Production,Blacksmithing
+White Iron Shortsword with White Iron Hilt,"Smithing Hammer, White Iron Shortsword Blade, White Iron Hilt, Chunk of Coal",969,110,-914,Production,Blacksmithing
+White Iron Spear Head,"Smithing Hammer, Spear Head Mold, (3)White Iron Ingot, Chunk of Coal",579,70,-544,Production,Blacksmithing
+White Iron Two-handed Mace Head,"Smithing Hammer, Two-handed Mace Head Mold, (6)White Iron Ingot, Chunk of Coal",1155,30,-1140,Production,Blacksmithing
+White Iron Two-handed Sword Blade,"Smithing Hammer, Two-handed Sword Blade Mold, (5)White Iron Ingot, Chunk of Coal",963,50,-938,Production,Blacksmithing
+White Iron War Hammer Head,"Smithing Hammer, War Hammer Head Mold, (2)White Iron Ingot, Chunk of Coal",387,30,-372,Production,Blacksmithing
+Wire Mold,,0,10,5,Tool,Tool
+Wire Pliers,,0,25,12.5,Tool,Tool
+Wolf Hat,"Tailoring Scissors, Bone Needle, Wolf Head, (2)Strap, (4)Wax",19,100,31,Production,Tailoring
+Wolf Head,,1,1,-0.5,Gathering,Gathering
+Wood Chisel,,0,100,50,Tool,Tool
+Wood Pulp,"Cubit Measure, Wood Rasp, Maple Wood",5,1,-4.5,Refining,Milling
+Wood Pulp,"Cubit Measure, Wood Rasp, Pine Wood",5,,-5,Refining,Milling
+Wood Rasp,,0,25,12.5,Tool,Tool
+Wood Scrap,,0,,0,Gathering,Gathering
+Wood,,0,,0,Gathering,Gathering
+Wooden Bark,,0,,0,Gathering,Gathering
+Wooden Bed Frame,"Carpentry Hammer, (4)Wooden Bindings, (4)Wooden Boards",44,25,-31.5,Production,Carpentry
+Wooden Bindings,"Wood Rasp, Wooden Timber, (3)Wax",8,5,-5.5,Production,Carpentry
+Wooden Boards,"Cubit Measure, Wooden Timber, Creosote",3,5,-0.5,Refining,Milling
+Wooden Bowl,,8,8,-4,Gathering,Gathering
+Wooden Bowstave,"Wood Rasp, (10)Wooden Timber, Wax",22,10,-17,Production,Carpentry
+Wooden Handle,"Carpentry Hammer, Wooden Timber, Wax",4,5,-1.5,Production,Carpentry
+Wooden Long Bow,"Carpentry Hammer, Wooden Long Bowstave, (2)Bowstring, (5)Wax",136,30,-121,Production,Carpentry
+Wooden Long Bowstave,"Wood Rasp, (10)Wooden Timber, Wax",22,175,65.5,Production,Carpentry
+Wooden Phonograph,"Carpentry Hammer, (7)Wooden Boards, (8)Lute String, (4)Metal Binding, (2)Wax",305,,-305,Production,Carpentry
+Wooden Pipe,"Carpentry Hammer, Heartwood, (5)Wax",20,,-20,Production,Carpentry
+Wooden Plate,,4,4,-2,Gathering,Gathering
+Wooden Pole,"Cubit Measure, (2)Wooden Timber, (4)Wax",12,,-12,Refining,Milling
+Wooden Short Bowstave,"Carpentry Hammer, Wood Rasp, (3)Wooden Timber, Wax",8,10,-3,Production,Carpentry
+Wooden Storage Chest,"Carpentry Hammer, Chest Mechanism, (5)Wooden Boards",60,100,-10,Production,Carpentry
+Wooden Streetlamp,"Carpentry Hammer, (3)Wooden Boards, Silver Candlestick",45,150,30,Production,Carpentry
+Wooden Timber,"Cubit Measure, (6)Wood, (2)Creosote",2,20,8,Refining,Milling
+Wooden Wall,"Carpentry Hammer, (9)Wooden Boards",27,25,-14.5,Production,Carpentry
+Yard of Hardened Leather,"Tanning Knife, (2)Hardened Leather, Curing Salt",242,,-242,Refining,Tanning
+Yard of Leather,"Tanning Knife, (2)Leather, Curing Salt",38,,-38,Refining,Tanning
+Yard of Supple Leather,"Tanning Knife, (2)Supple Leather, Curing Salt",242,,-242,Refining,Tanning
+Yellow Dye,"Tanning Knife, (10)Banana, (2)Chunk of Coal",36,5,-33.5,Refining,Tanning

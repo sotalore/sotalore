@@ -1,0 +1,54 @@
+@mixin ItemSummaryTag {
+  padding: 2px $line-height / 2;
+  border-radius: $line-height / 2;
+  font-size: 0.7em;
+  background-color: $grey6;
+  border: 1px solid $grey5;
+  &--large {
+    font-size: 1.1em;
+    padding: 4px $line-height;
+    border-radius: $line-height;
+    margin-right: 5px;
+  }
+}
+
+.Item-useTag {
+  @include ItemSummaryTag;
+  color: $blue1;
+}
+
+.Item-sourceTag {
+  @include ItemSummaryTag;
+  color: $purple2;
+}
+
+.Item-priceTag {
+  @include ItemSummaryTag;
+  color: $yellow4;
+}
+
+.Item-weightTag {
+  @include ItemSummaryTag;
+  color: $blue2;
+}
+
+.Item-gatheringTag {
+  @include ItemSummaryTag;
+  text-transform: lowercase;
+  color: $green2;
+
+}
+
+@each $skill in $gathering-skills {
+  .Item-gatheringTag--#{$skill} {
+    padding-left: 16px;
+    background-image: image-url('sota-icons/craft_#{$skill}_small.png');
+    background-size: 16px;
+    background-repeat: no-repeat;
+  }
+
+  .Item-gatheringTag--large.Item-gatheringTag--#{$skill} {
+    padding-left: 32px;
+    background-size: 32px;
+  }
+}

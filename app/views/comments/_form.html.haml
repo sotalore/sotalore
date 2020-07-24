@@ -1,0 +1,15 @@
+= full_form_for([ subject, @comment || Comment.new ]) do |f|
+  ~ f.text_area :body
+  - if current_user.null?
+    = notice_warning do
+      You can post comments anonymously, or you can
+      #{link_to 'sign-up', new_user_registration_path}.
+      Anonymous comments aren't visible until they are moderated
+      by a site editor.
+  = f.actions do
+    - if require_recaptcha?
+      - if @show_checkbox_recaptcha
+        = recaptcha_tags
+      - else
+        = recaptcha_v3(action: [ "new-comment", subject.class.name ].compact.join('-'))
+    = f.submit

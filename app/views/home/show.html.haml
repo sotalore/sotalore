@@ -1,0 +1,60 @@
+= entire_page do
+  = tile('primary') do
+    = tile_body do
+      %p
+        Thanks for visiting SotA Lore. We're still a work
+        in progress, but feel free to check out what's here.
+      %p
+        If you want to reach out to us, please leave a note for Gravidy on the
+        #{link_to("SotA official forums", 'https://www.shroudoftheavatar.com/forum/index.php?members/gravidy.6235/', target: '_blank')}.
+        If you use discord, please feel free to join my server here:
+        #{link_to('https://discord.gg/HcDyH4b', 'https://discord.gg/HcDyH4b', target: :blank)}.
+
+  .row
+    .col-sm-6
+      - if @top_post
+        = tile do
+          = tile_body do
+            = render @top_post
+            = render partial: 'comments/subject', object: @top_post
+      - else
+        = tile('success') do
+          = tile_heading('A better work list')
+          = tile_body do
+            %p
+              We've taken a finely-honed chisel to what was called
+              the "shopping list." It's now called the "work list"
+              and it does a much better job of displaying all the
+              steps required to execute a recipe.
+            %p
+              Check out the #{link_to("Guillotine, for a great example", recipe_path(id: 450))}.
+
+        = tile('info') do
+          = tile_heading('Added confirmation info')
+          = tile_body do
+            %p
+              We can now confirm that the data here matches
+              what's in-game (keeping a time stamp, since it
+              can get out of date).
+            %p
+              <strong>If you'd like to help out</strong>, please contact
+              #{link_to("Gravidy", 'https://www.shroudoftheavatar.com/forum/index.php?members/gravidy.6235/', target: '_blank')}.
+              We're more than willing to have people help us
+              manage the correctness of all this data.
+
+
+        = tile('info') do
+          = tile_heading('You can now star recipes')
+          = tile_body do
+            %p
+              Just click or tap the star beside the recipe name.
+              The top nav bar will has a
+              = link_to_if(current_user, 'My Recipes', user_recipes_path)
+              link, to show you our starred recipes.
+              - if current_user.blank?
+                You do have to register with the site to star recipes.
+            = image_tag('user_recipe.png')
+
+    .col-sm-6
+      = tile_with_heading("Here's some random recipes") do
+        = render Recipe.random(3)

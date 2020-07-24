@@ -1,0 +1,56 @@
+Rails.application.routes.draw do
+
+  ActiveAdmin.routes(self)
+  devise_for :users
+
+  root to: 'home#show', as: :root
+  get 'roadmap', to: 'home#roadmap'
+  get 'lunar-rifts', to: 'home#lunar_rifts'
+
+  resources :comments, except: [ :new, :create, :show ]
+  resources :items, :seeds, controller: 'items' do
+    resources :comments, except: [ :new ]
+    resources :data_confirmations, only: [ :create ]
+  end
+  resources :recipes do
+    resources :comments, except: [ :new ]
+    resources :data_confirmations, only: [ :create ]
+    # collection do
+    #   get ':craft_skill/:key', to: 'recipes#lookup'
+    # end
+  end
+
+  resources :abstractions, only: [ :index ]
+
+  resources :scenes do
+    resources :comments, except: [ :new ]
+  end
+
+  resource :farming
+  resources :plantings
+
+  resources :top_posts, path: 'chat' do
+    resources :comments, except: [ :new ]
+  end
+  resolve("TopPost") do
+    [:root]
+  end
+
+
+  resource :searches, path: 'search' do
+    member do
+      get :items
+    end
+  end
+
+  namespace :user, path: 'avatar' do
+    resources :user_recipes, only: [ :create, :destroy ]
+    resources :recipes, only: [ :index, :show ]
+  end
+
+  namespace :adm do
+    resources :users, except: [ :new, :create ]
+    resources :comments, except: [ :new, :create ]
+    resources :top_posts, except: [ :new ]
+  end
+end

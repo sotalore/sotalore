@@ -1,0 +1,14 @@
+.row
+  - if @plantings
+    .col-sm-8
+      = render @plantings
+  .col-sm-4
+    = sl_form_for(@planting || Planting.with_defaults) do |f|
+      = f.select :seed_id, seeds_grouped_by_speed_options, include_blank: true
+      = f.select :location_type, Planting.location_types.keys, label: 'Location Type'
+      = f.text_field :planted_at, hint: 'When did you plant?'
+      ~ f.text_area :notes, placeholder: 'Just something you need to remember'
+      = f.submit
+
+%script
+  :plain

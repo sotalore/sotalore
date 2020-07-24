@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=pgpassword
+    ports:
+      - 5432:5432
+    volumes:
+      - sota-postgres:/var/lib/postgresql/data/pgdata
+
+volumes:
+  sota-postgres:

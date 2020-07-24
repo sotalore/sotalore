@@ -1,0 +1,48 @@
+- page_title('Recipes')
+
+= tile do
+  = tile_body do
+    = form_tag(url_for(action: :index), enforce_utf8: false, method: "get", class: 'Form--inline') do |f|
+      .Field
+        = text_field_tag(:rq, params[:rq], class: 'Field-input', placeholder: 'filter by name')
+      .Field
+        = select_tag(:skill, options_for_select(CraftSkill::WITH_RECIPES.map { |s| [ s.name, s.key ] }, params[:skill]),
+        include_blank: '-- any skill --', class: 'Field-input')
+      .Field
+        = number_field_tag(:rsmin, params[:rsmin], class: 'Field-input', placeholder: 'min skill')
+      .Field
+        = number_field_tag(:rsmax, params[:rsmax], class: 'Field-input', placeholder: 'max skill')
+
+      - if policy(Recipe).create?
+        .Field
+          %label
+            = check_box_tag(:unconfirmed, "1", params[:unconfirmed] == '1')
+            Show unconfirmed recipes
+
+      .Field
+        = submit_tag('Filter', name: '', class: 'Button Button--primary')
+        - if policy(Recipe).create?
+          = new_button_to('Add Recipe', new_recipe_path, class: 'button middle secondary')
+
+
+= tile do
+  = tile_body do
+    = paginate @recipes
+    %table.Table
+      %thead
+        %th Name
+        %th Skill
+        %th.u-textRight Proficiency
+        %th.u-textRight Ingredients
+        %th Produces
+      %tbody
+        - @recipes.each do |recipe|
+          %tr
+            %td= link_to(recipe.name, recipe)
+            %td= recipe.craft_skill
+            %td.u-textRight= recipe.proficiency
+            %td.u-textRight= recipe.ingredients_count
+            %td
+              - recipe.results.each do |result|
+                = link_to(result.to_s, result.item)
+    = paginate @recipes

@@ -1,0 +1,5 @@
+= tile do
+  = tile_heading('Add New Recipe') do
+    = default_button_to(action: :index) { 'Cancel' }
+  = tile_body do
+    = render 'form'

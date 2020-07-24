@@ -1,0 +1,19 @@
+- page_title("Comments for #{@parent}")
+= single_centered_column do
+  - if TopPost === @parent
+    = render @parent
+  = tile do
+    - case @parent
+    - when TopPost
+    - when nil
+      = tile_heading("All Comments")
+    - else
+      = tile_heading("Comments for #{@parent}") do
+        = back_button_to('Cancel', @parent)
+
+    = tile_body do
+      - if @parent && policy(Comment).new?
+        = render partial: 'comments/form', locals: { subject: @parent }
+
+      = render @comments
+      = paginate @comments

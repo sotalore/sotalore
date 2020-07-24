@@ -1,0 +1,185 @@
+@import 'font-awesome';
+
+$line-height: 16px;
+
+@import 'base/base';
+
+// SotA specific things
+
+$gathering-skills: field_dressing fishing foraging forestry mining;
+
+@import 'flexboxgrid.min';
+@import 'components/autocomplete';
+@import 'components/recipes';
+@import 'components/items';
+@import 'components/simple_form';
+@import 'components/comment_feed';
+@import 'components/lists';
+@import 'components/more_link';
+@import 'components/user_recipe';
+@import 'components/farming';
+@import 'components/watering';
+
+html {
+  background-color: $grey7;
+
+  body {
+    background-color: transparent;
+  }
+
+  #main-content {
+    min-height: 100%;
+    padding-top: 16px;
+    background-color: $grey7;
+  }
+}
+
+a.ControlLink {
+  padding: 2px 4px;
+  color: $grey3;
+}
+
+.u-label {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+.UserFlair {
+  font-size: 0.70em;
+  color: $grey8;
+  padding: 2px 4px;
+  border-radius: 4px;
+  &.UserFlair--developer {
+    background-color: $purple3;
+  }
+  &.UserFlair--editor {
+    background-color: $orange3;
+  }
+}
+
+.LunarRift {
+  font-size: 0.7rem;
+  line-height: 0.9rem;
+  position: relative;
+  text-align: center;
+  color: white;
+
+  div.rift {
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    &.active {
+      border: 5px solid #7473FA;
+    }
+  }
+
+  div.rift > div {
+    font-size: 0.9rem;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  div.rift-1 {
+    position: absolute;
+    bottom: 28%;
+    left: 10%;
+  }
+
+  div.rift-2 {
+    position: absolute;
+    bottom: 17%;
+    right: 22%;
+  }
+
+  div.rift-3 {
+    position: absolute;
+    bottom: 40%;
+    left: 25%;
+  }
+
+  div.rift-4 {
+    position: absolute;
+    top: 45%;
+    right: 20%;
+  }
+
+  div.rift-5 {
+    position: absolute;
+    top: 5%;
+    right: 15%;
+  }
+
+  div.rift-6 {
+    position: absolute;
+    bottom: 40%;
+    left:1%;
+  }
+
+  div.rift-7 {
+    position: absolute;
+    bottom: 40%;
+    right: 45%;
+  }
+
+  div.rift-8 {
+    position: absolute;
+    bottom: 15%;
+    left: 28%;
+  }
+
+
+}
+
+.heading-container {
+  display: flex;
+  align-content: space-between;
+  .heading {
+    flex: 2 0 0;
+  }
+  .heading-controls {
+    flex: 2 0 0;
+    text-align: right;
+  }
+}
+
+@mixin callout($background-color: $grey8, $color: $grey0, $border-color: $grey3) {
+  background: $background-color;
+  border: 1px solid $border-color;
+  color: $color;
+  position: relative;
+  border-radius: 3px;
+  padding: ($line-height) ($line-height * 2);
+  margin-bottom: $line-height;
+}
+
+.callout.default {
+  @include callout;
+}
+.callout.primary {
+  @include callout($orange4, $orange2, $orange3);
+}
+.callout.notice {
+  @include callout($blue4, $blue2, $blue3);
+}
+.callout.info {
+  @include callout($purple4, $purple2, $purple3);
+}
+.DeviseContent {
+
+  #error_explanation {
+    h2 {
+      font-size: 1.2rem;
+    }
+    ul {
+      font-size: 1.0rem;
+    }
+  }
+  .DeviseLinks {
+    font-size: 1rem;
+    a {
+      margin-right: 1em;
+    }
+  }
+}

@@ -1,0 +1,74 @@
+- page_title(@item.name)
+= tile do
+  = tile_heading(@item.name) do
+    - if policy(@item).destroy?
+      = destroy_button_to('Delete', @item)
+    - if policy(@item).edit?
+      = edit_button_to('Edit', edit_item_path(@item))
+      = confirmation_button(@item)
+
+  = tile_body do
+    .row
+      .col-xs-12
+        .callout.primary
+          .row
+            .col-xs
+              = item_use_tag @item, large: true
+              = item_price_tag @item, large: true
+              = item_gathering_tag @item, large: true
+              = item_weight_tag @item, large: true
+            .col-xs.u-textRight
+              = confirmation_tag(@item)
+
+        - if @item.abstract
+          .row
+            .col-xs
+              %strong Abstraction of:
+              = to_sentence(@item.instances.map { |i| link_to(i, i) })
+        - elsif @item.instance_of
+          .row
+            .col-xs
+              %p
+                %strong Instance of:
+                = link_to(@item.instance_of, @item.instance_of)
+
+        .row
+          - if @item.effects
+            .col-sm-6
+              = tile_with_heading('Effects') do
+                = formatted_body @item.effects
+          - if @item.notes
+            .col-sm-6
+              = tile_with_heading('Notes') do
+                = formatted_body @item.notes
+
+    %hr
+    .row
+      .col-sm-12.col-md-6.col-lg-4
+        %em
+          - if @item.recipes.length > 0
+            Recipes to make this:
+            = render @item.recipes
+            - if policy(Recipe).new?
+              %p
+                = link_to('add another', new_recipe_path(item_id: @item.id))
+          - else
+            .u-textCenter
+              no recipes make this.
+              - if policy(Recipe).new?
+                = link_to('add one', new_recipe_path(item_id: @item.id))
+      .col-sm-12.col-md-6.col-lg-3
+        - if !@used_in.empty?
+          %em
+            = pluralize(@used_in.total_count, 'Recipe')
+            use#{@used_in.total_count == 1 ? 's' : ''} this
+          %ul.List--plain
+            - @used_in.each do |recipe|
+              %li= link_to(recipe.name, recipe)
+          = paginate(@used_in)
+
+        - if @used_in.empty?
+          .u-textCenter
+            %em no recipes use this item.
+      .col-sm-12.col-md-12.col-lg-5
+        = render partial: 'comments/subject', object: @item

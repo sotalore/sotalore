@@ -1,0 +1,97 @@
+@include reset;
+
+html, body {
+  height: 100%;
+  color: $grey2;
+  background: $grey8;
+}
+
+body {
+  @include sans;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+a {
+  color: $orange2;
+  text-decoration: none;
+}
+
+a:hover, a:focus {
+  color: $orange1;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: 5px auto -webkit-focus-ring-color;
+  outline-offset: -2px;
+}
+
+hr {
+  margin: 15px 0;
+  border-top: 2px solid $grey7;
+}
+
+h1, .h1, h2, .h2, h3, .h3, h4, .h4, b, strong {
+  font-weight: 700;
+}
+
+em, i {
+  font-style: italic;
+}
+
+h1, .h1 {
+  font-size: 28px;
+  line-height: 48px;
+  padding: 12px 0;
+  margin: 0; // Override bootstrap
+}
+
+h2, .h2 {
+  font-size: 23px;
+  line-height: 24px;
+  padding: 24px 0;
+  margin: 0; // Override bootstrap
+}
+
+h3, .h3 {
+  font-size: 19px;
+  line-height: 24px;
+  padding: 12px 0;
+  margin: 0; // Override bootstrap
+}
+
+h4, .h4 {
+  font-size: 16px;
+  line-height: 24px;
+  padding: 12px 0;
+  margin: 0; // Override bootstrap
+}
+
+p, ul, ol, pre, table, blockquote {
+  margin-top: 0;
+  margin-bottom: 24px;
+}
+
+small {
+  font-size: 13px;
+}
+
+ul ul, ol ol, ul ol, ol ul {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.Prose {
+  ol li {
+    list-style: decimal outside;
+    margin-left: 24px;
+  }
+
+  ul li {
+    list-style: disc outside;
+    margin-left: 24px;
+  }
+}

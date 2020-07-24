@@ -1,0 +1,13 @@
+= sl_form_for(@scene) do |f|
+  = f.text_field    :name, autofocus: true
+  = f.select        :level_id, Scene::LEVELS, include_blank: true
+  = f.check_box     :level_plus
+  = f.select        :scene_type_id, Scene::SCENE_TYPES, include_blank: true
+  = f.select        :region_id, Scene::REGIONS, include_blank: true
+  = f.select        :parent_id, Scene.by_name_overworld_first.map { |s| [ s.name, s.id ] }, include_blank: true
+  = f.check_box     :pvp
+  = f.number_field  :sota_map_id
+  = f.number_field  :sota_map_parent_poi_id
+  = f.actions do
+    = f.cancel('Cancel', f.object)
+    = f.submit

@@ -1,0 +1,2 @@
+$("#<%= params[:into] %>").find("#<%= dom_id @recipe %>").remove();
+$("#<%= params[:into] %>").append("<%= j render(@recipe) %>")

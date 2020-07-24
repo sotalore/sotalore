@@ -1,0 +1,27 @@
+- page_title('Items')
+
+= tile do
+  = tile_heading('Items') do
+    - if policy(Item).edit?
+      = link_to('Abstract Items', abstractions_path)
+      = new_button_to('New Item', new_item_path)
+
+  = tile_body do
+    %table.Table
+      %thead
+        %th Name
+        %th
+        %th
+      %tbody
+        - @items.each do |item|
+          %tr
+            %td= link_to(item.name, item)
+            %td
+              = item_use_tag(item)
+              = item_price_tag(item)
+            %td
+              - if item.ingredients_count > 0
+                Used in #{pluralize(item.ingredients_count, 'recipe')}.
+              - if item.results_count > 0
+                Made from #{pluralize(item.results_count, 'recipe')}.
+    = paginate @items

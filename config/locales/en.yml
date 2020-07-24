@@ -1,0 +1,62 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  version: Pre-Alpha R00011
+  date:
+    formats:
+      watering_calendar: "%a %b %-d"
+  time:
+    formats:
+      default: "%b %-d, %Y %-l:%M%P"
+      watering_step: "%-l:%M%P"
+
+  activerecord:
+    errors:
+      models:
+        item:
+          attributes:
+  helpers:
+    label:
+      recipe:
+        item_name: Name of produced item
+        name: Name of recipe
+        teachables:
+          teachable: Teachable
+          re_teachable: Re-Teachable
+          not_teachable: Not Teachable
+      comment:
+        body: Post a comment
+    hint:
+      user:
+        email:
+          "This is for signing in, and resetting your password.
+          We won't do anything else with it. You will have to
+          confirm access to this email address."
+        name:
+          "Using your Avatar's name or your official forum name
+          would make you recognizable (if you want that).
+          Just don't impersonate anyone, that makes us mad."
+        password: 8 characters minimum, please make it a good one.
+    submit:
+      comment:
+        create: Post Your Comment
+        update: Update Comment

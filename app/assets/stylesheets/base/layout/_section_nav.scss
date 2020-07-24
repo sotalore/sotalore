@@ -1,0 +1,70 @@
+.SectionNav {
+  &-header {
+    padding: 16px 16px 0 16px;
+    background: $grey9;
+    border-bottom: 1px solid $grey7;
+  }
+
+  &-title {
+    margin: 0 0 16px;
+    padding: 0;
+    line-height: 32px;
+    font-weight: bold;
+  }
+
+  &-subtitle {
+    margin: -16px 0 16px;
+  }
+
+  &-buttons {
+    float: right;
+    text-align: right;
+  }
+
+  &-tabs {
+    @include microfix;
+    clear: right;
+    margin-bottom: -1px;
+  }
+
+  &-tab {
+    display: block;
+    border: 1px solid transparent;
+    border-bottom: 0;
+    float: left;
+    padding: 3px 8px 4px;
+    margin-right: 2px;
+    font-size: 14px;
+
+    &.is-disabled {
+      opacity: 0.3;
+    }
+
+    &:hover,
+    &.active {
+      background: $grey8;
+      border-color: $grey7;
+      opacity: 1;
+    }
+
+    &:hover {
+      border-top-color: $grey6;
+      text-decoration: none;
+    }
+
+    &.active {
+      border-top-color: $grey4;
+      color: $grey4;
+    }
+
+  }
+
+  &-content {
+    margin: 18px;
+  }
+
+  &-centered {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}

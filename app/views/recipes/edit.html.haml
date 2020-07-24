@@ -1,0 +1,5 @@
+= tile do
+  = tile_heading("Edit Recipe: #{@recipe.name}") do
+    = cancel_button_to('Cancel', @recipe)
+  = tile_body do
+    = render 'form'
