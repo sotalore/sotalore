@@ -13,12 +13,6 @@
       .Field
         = number_field_tag(:rsmax, params[:rsmax], class: 'Field-input', placeholder: 'max skill')
 
-      - if policy(Recipe).create?
-        .Field
-          %label
-            = check_box_tag(:unconfirmed, "1", params[:unconfirmed] == '1')
-            Show unconfirmed recipes
-
       .Field
         = submit_tag('Filter', name: '', class: 'Button Button--primary')
         - if policy(Recipe).create?

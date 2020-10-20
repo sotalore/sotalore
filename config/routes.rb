@@ -10,11 +10,9 @@ Rails.application.routes.draw do
   resources :comments, except: [ :new, :create, :show ]
   resources :items, :seeds, controller: 'items' do
     resources :comments, except: [ :new ]
-    resources :data_confirmations, only: [ :create ]
   end
   resources :recipes do
     resources :comments, except: [ :new ]
-    resources :data_confirmations, only: [ :create ]
     # collection do
     #   get ':craft_skill/:key', to: 'recipes#lookup'
     # end

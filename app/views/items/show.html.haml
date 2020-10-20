@@ -5,7 +5,6 @@
       = destroy_button_to('Delete', @item)
     - if policy(@item).edit?
       = edit_button_to('Edit', edit_item_path(@item))
-      = confirmation_button(@item)
 
   = tile_body do
     .row
@@ -17,8 +16,6 @@
               = item_price_tag @item, large: true
               = item_gathering_tag @item, large: true
               = item_weight_tag @item, large: true
-            .col-xs.u-textRight
-              = confirmation_tag(@item)
 
         - if @item.abstract
           .row

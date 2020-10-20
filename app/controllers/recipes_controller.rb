@@ -6,9 +6,6 @@ class RecipesController < ApplicationController
     if params[:rq].present?
       @recipes = @recipes.search_by_name(params[:rq])
     end
-    if params[:unconfirmed] == '1'
-      @recipes = @recipes.where(last_confirmed_at: nil)
-    end
     if skill = CraftSkill.find(params[:skill])
       @recipes = @recipes.where(craft_skill: skill)
     end
@@ -100,6 +97,6 @@ class RecipesController < ApplicationController
   end
 
   def build_search
-    RecipeSearch.new(params.slice(:q, :unconfirmed, :skill))
+    RecipeSearch.new(params.slice(:q, :skill))
   end
 end
