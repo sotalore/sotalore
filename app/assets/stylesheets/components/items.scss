@@ -32,6 +32,12 @@
   color: $blue2;
 }
 
+.Item-abstractTag {
+  @include ItemSummaryTag;
+  color: $blue1;
+}
+
+
 .Item-gatheringTag {
   @include ItemSummaryTag;
   text-transform: lowercase;

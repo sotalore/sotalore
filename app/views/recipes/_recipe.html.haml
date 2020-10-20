@@ -53,6 +53,7 @@
         = item_use_for_recipe_tag(item)
         = item_price_tag(item)
         = item_gathering_tag(item)
+        = item_abstract_tag(item)
         - item.recipes.each_with_index do |r,i|
           - sub_dom_id = dom_id(item, dom_id(r))
           - sub_recipes << sub_dom_id
