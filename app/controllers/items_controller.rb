@@ -2,9 +2,6 @@ class ItemsController < ApplicationController
 
   def index
     @items = Item.all
-    if params.key?(:unconfirmed)
-      @items = @items.where(last_confirmed_at: nil)
-    end
     @items = @items.by_name.page(params[:page]).per(200)
     authorize Item
   end

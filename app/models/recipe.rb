@@ -21,8 +21,6 @@ class Recipe < ApplicationRecord
 
   has_many :user_recipes, dependent: :delete_all, inverse_of: :recipe
 
-  belongs_to :last_confirmed_by, class_name: 'User'
-
   scope :by_name, -> { order(Arel.sql('lower(name)')) }
 
   def self.random(count=1)

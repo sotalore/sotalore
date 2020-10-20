@@ -7,6 +7,28 @@
 
   = tile_body do
     .row
+      .col-xs-12
+        .callout.primary
+          %p
+            There are a lot of "items" that are not real, actual items.
+            These items are referred to as <em>Abstract Items</em> (or <em>Abstractions</em>).
+          %p
+            These Abstract Items will often appear in a recipe, where
+            any number of items (of all similar "type") can be used to
+            execute the recipe.
+
+          %p
+            E.g., if you are asked for a "Metal Binding" you could use
+            a "Iron Binding" or a "Copper Binding" (or many others).
+            However, you will never find an actual item in the game named
+            a "Metal Binding."
+
+          %p
+            Below are (most) all of the known Abstractions and corresponding
+            items.
+
+
+    .row
       - @items.each do |item|
         .col-sm-4
           %h3= link_to(item.name, item)

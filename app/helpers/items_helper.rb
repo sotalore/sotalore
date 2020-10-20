@@ -86,6 +86,18 @@ module ItemsHelper
     craft_skill_tag(item.gathering_skill, options)
   end
 
+  def item_abstract_tag(item, options={})
+    if item.abstract
+      css_class = "Item-abstractTag"
+      css_class += " Item-abstractTag--large" if options[:large]
+      content_tag(:a, href: abstractions_url) do
+        content_tag(:span, class: css_class) do
+          content_tag(:span, 'abstract', class: "Item-abstractTag-abstract")
+        end
+      end
+    end
+  end
+
   def craft_skill_tag(skill, options={})
     if skill
       css_class = "Item-gatheringTag"
