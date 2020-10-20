@@ -52,6 +52,10 @@ class Item < ApplicationRecord
     results_count > 0
   end
 
+  def component?
+    ingredients_count > 0
+  end
+
   def gatherable?
     !!gathering_skill
   end
