@@ -18,8 +18,6 @@ class Item < ApplicationRecord
   has_many   :instances, class_name: 'Item', inverse_of: :instance_of, foreign_key: 'instance_id'
   belongs_to :instance_of, class_name: 'Item', inverse_of: :instances, foreign_key: 'instance_id'
 
-  belongs_to :last_confirmed_by, class_name: 'User'
-
   scope :with_data, -> {
     eager_load(:ingredients, :results)
       .preload(ingredients: { recipe: :results })
