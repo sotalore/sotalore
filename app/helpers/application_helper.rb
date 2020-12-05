@@ -38,9 +38,12 @@ module ApplicationHelper
 
   def formatted_body(str)
     return nil if str.blank?
-    Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(hard_wrap: true))
-      .render(str).html_safe
+    content_tag(:div, class: 'Prose') do
+      Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(hard_wrap: true))
+        .render(str).html_safe
+    end
   end
+
 
   def teachable_options
     Recipe.teachables.keys.map { |k| [ t(k, scope: [ :helpers, :label, :recipe, :teachables ]), k ] }
