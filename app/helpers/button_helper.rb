@@ -75,12 +75,12 @@ module ButtonHelper
   end
 
   def edit_icon_to(path, options={})
-    simple_icon_only_button(path, 'pencil', 'edit', options)
+    simple_icon_only_button(path, 'pencil-alt', 'edit', options)
   end
 
   def edit_button_to(label, path, options={})
     options[:style] ||= 'primary'
-    simple_button_with_icon(label, path, 'pencil', options)
+    simple_button_with_icon(label, path, 'pencil-alt', options)
   end
 
   def back_button_to(label, path, options={})
@@ -111,12 +111,12 @@ module ButtonHelper
     options[:style] ||= 'default'
     add_button_css_classes(options)
     link_to(path, options) do
-      content_tag(:i, '', class: "fa fa-#{icon}")
+      content_tag(:i, '', class: "fas fa-#{icon}")
     end
   end
 
   def icon_tag(icon, options={})
-    options[:class] = "fa fa-#{icon} #{options[:class]}".strip
+    options[:class] = "fas fa-#{icon} #{options[:class]}".strip
     content_tag(:i, "", options)
   end
 
@@ -160,7 +160,7 @@ module ButtonHelper
     options[:style] ||= 'default'
     add_button_css_classes(options)
     link_to(path, options) do
-      content_tag(:i, '', class: "fa fa-#{icon}") << " #{label}".html_safe
+      content_tag(:i, '', class: "fas fa-#{icon}") << " #{label}".html_safe
     end
   end
 
@@ -168,7 +168,7 @@ module ButtonHelper
     options[:style] ||= 'default'
     add_link_css_classes(options)
     link_to(path, options) do
-      content_tag(:i, '', class: "fa fa-#{icon}") << " #{label}".html_safe
+      content_tag(:i, '', class: "fas fa-#{icon}") << " #{label}".html_safe
     end
   end
 
