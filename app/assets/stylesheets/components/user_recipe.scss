@@ -1,18 +1,19 @@
 
 .UserRecipeStar {
   i {
-    @extend .fa;
     color: $yellow1;
   }
 
   &--exists {
     i {
+      @extend .fas;
       @extend .fa-star;
     }
   }
   &:not(.UserRecipeStar--exists) {
     i {
-      @extend .fa-star-o;
+      @extend .far;
+      @extend .fa-star;
     }
   }
 }

@@ -24,7 +24,7 @@
       .PortalNav-header
         .PortalNav-search
           %form.PortalNav-search{:action => "/search", :method => "GET"}
-            %i.fa.fa-search.PortalNav-searchIcon
+            %i.fas.fa-search.PortalNav-searchIcon
             %input#global-search.PortalNav-searchInput{:name => "q", :placeholder => "Search", :type => "text"}/
 
       %nav.PortalNav-links
@@ -40,13 +40,13 @@
         = portal_nav_link_to('Rifts', lunar_rifts_path, 'map-marker')
         = portal_nav_link_to('Farming', farming_path, 'leaf')
         - if current_user.not_null?
-          = portal_nav_link_to('Planting', plantings_path, 'envira')
-        = portal_nav_link_to('Comments', comments_path, 'comment-o')
+          = portal_nav_link_to('Planting', plantings_path, 'seedling')
+        = portal_nav_link_to('Comments', comments_path, 'comment')
         %hr
         - if current_user.not_null?
-          = portal_nav_link_to('Sign Out', destroy_user_session_path, 'sign-out')
+          = portal_nav_link_to('Sign Out', destroy_user_session_path, 'sign-out-alt')
         - else
-          = portal_nav_link_to('Sign In', new_user_session_path, 'sign-in')
+          = portal_nav_link_to('Sign In', new_user_session_path, 'sign-in-alt')
           = portal_nav_link_to('Register', new_user_registration_path, 'user-plus')
 
       .PortalNav-content

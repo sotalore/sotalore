@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby "2.7.2"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.1.0'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use Puma as the app server
@@ -40,7 +40,7 @@ gem 'bootsnap'
 # gem 'capistrano-rails', group: :development
 
 gem 'haml-rails'
-gem 'font-awesome-rails'
+gem 'font-awesome-sass', '~> 5.15'
 gem 'kaminari'
 gem 'local_time'
 gem 'active_link_to'
