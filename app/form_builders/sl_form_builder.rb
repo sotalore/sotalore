@@ -32,18 +32,6 @@ class SLFormBuilder < BasicFormBuilder
     end
   end
 
-  def chosen_select(method, choices=nil, options={}, html_options={})
-    html_options[:multiple] = options.fetch(:multiple, true)
-    html_options[:data] = html_options.fetch(:data, {}).merge(
-      { placeholder: options.fetch(:placeholder, "") } ).stringify_keys
-    html_options[:class] = "#{html_options[:class]} ChosenSelect".strip
-    form_group_with_label(method, options) do
-      input_with_hint_and_errors(method, options) do
-        basic_select(method, choices, options, html_options)
-      end
-    end
-  end
-
   alias :basic_date_select :date_select
   def date_select(method, options={}, html_options={})
     form_group_with_label(method, options) do
