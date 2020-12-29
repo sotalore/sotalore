@@ -92,7 +92,7 @@ module ItemsHelper
       css_class += " Item-abstractTag--large" if options[:large]
       content_tag(:a, href: abstractions_url) do
         content_tag(:span, class: css_class) do
-          content_tag(:span, 'abstract', class: "Item-abstractTag-abstract")
+          icon_tag('draw-polygon') + " " + content_tag(:span, 'abstract', class: "Item-abstractTag-abstract")
         end
       end
     end

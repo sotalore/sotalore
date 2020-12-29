@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   end
   resources :recipes do
     resources :comments, except: [ :new ]
+    collection do
+      get 'for_item/:item_id', to: 'recipes#for_item', as: :item
+    end
     # collection do
     #   get ':craft_skill/:key', to: 'recipes#lookup'
     # end

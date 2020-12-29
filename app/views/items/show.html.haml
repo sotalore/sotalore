@@ -13,6 +13,7 @@
           .row
             .col-xs
               = item_use_tag @item, large: true
+              = item_abstract_tag @item, large: true
               = item_price_tag @item, large: true
               = item_gathering_tag @item, large: true
               = item_weight_tag @item, large: true
@@ -42,18 +43,35 @@
     %hr
     .row
       .col-sm-12.col-md-6.col-lg-4
-        %em
-          - if @item.craftable?
+        - if @item.craftable?
+          - if @item.abstract
+            %h3 Template #{'recipe'.pluralize(@item.recipes.length)} to craft abstract item...
+            = render @item.recipes
+            - if policy(Recipe).new?
+              %p
+                = link_to('add another', new_recipe_path(item_id: @item.id))
+          
+          - else
             %h3 Crafted from #{pluralize(@item.recipes.length, 'Recipe')}...
             = render @item.recipes
             - if policy(Recipe).new?
               %p
                 = link_to('add another', new_recipe_path(item_id: @item.id))
-          - else
-            .u-textCenter
-              no recipes make this.
-              - if policy(Recipe).new?
-                = link_to('add one', new_recipe_path(item_id: @item.id))
+
+
+        - else
+          .u-textCenter
+            %em no recipes make this.
+            - if policy(Recipe).new?
+              = link_to('add one', new_recipe_path(item_id: @item.id))
+
+        - if @item.abstract
+          %h3 Actual Items...
+          %ul
+            - @item.instances.each do |actual_item|
+              %li{data: {"controller": "recipe", "recipe-url-value": item_recipes_url(item_id: actual_item)}}
+                = link_to(actual_item, actual_item, data: { 'action': 'recipe#load' })
+
       .col-sm-12.col-md-6.col-lg-3
         - if !@used_in.empty?
           %h3
