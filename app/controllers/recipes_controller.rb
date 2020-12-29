@@ -18,6 +18,13 @@ class RecipesController < ApplicationController
     @recipes = @recipes.by_name.includes(results: :item).page(params[:page])
   end
 
+  def for_item
+    @item = Item.find(params[:item_id])
+    @recipes = @item.recipes
+    authorize @recipes
+    render @recipes
+  end
+
   def show
     @recipe = find_recipe
     authorize @recipe

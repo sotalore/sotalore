@@ -55,6 +55,13 @@ RSpec.describe RecipesController, type: :controller do
       end
     end
 
+    describe 'GET for_item' do
+      it 'works' do
+        get :for_item, params: { item_id: recipe.results.first.item }
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
     describe 'GET show' do
       it 'works' do
         get :show, params: { id: recipe }
