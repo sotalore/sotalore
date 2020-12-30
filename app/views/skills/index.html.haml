@@ -1,0 +1,42 @@
+- page_title('Skills')
+
+= tile do
+  - if @on_crafting
+    = tile_heading('Crafting Skills') do
+      = primary_button_to('Adventure Skills', skills_path)
+  - else
+    = tile_heading('Adventure Skills') do
+      = primary_button_to('Crafting Skills', crafting_skills_path)
+
+  = tile_body do
+    %table.Table.SkillTable
+      %tr
+        %th Skill
+        %th.u-textRight Cost
+        %th.u-textRight Current Level
+        %th.u-textRight Current XP
+        %th.u-textRight Target Level
+        %th.u-textRight Total XP
+        %th.u-textRight Remaining XP
+      - @skills.each do |category, schools|
+        %tr
+          %th.u-textCenter(colspan=7)= category.upcase
+        - schools.each do |school, school_skills|
+          %tr
+            %th.u-textCenter
+              = school.titleize
+            %th(colspan=6)
+          - school_skills.each do |skill|
+            %tr{ data: { controller: 'skills' } }
+              %td.skill-name= skill.name
+              %td= skill.xp_factor
+              %td
+                %input.Field-input{ type: 'number', data: { 'skills-target': 'from', action: 'skills#calculateFrom' } }
+              %td
+                %span.xp-field{ data: { 'skills-target': 'invested' }}
+              %td
+                %input.Field-input{ type: 'number', data: { 'skills-target': 'to', action: 'skills#calculateTo' } }
+              %td
+                %span.xp-field{ data: { 'skills-target': 'total' }}
+              %td
+                %span.xp-field{ data: { 'skills-target': 'remaining' }}

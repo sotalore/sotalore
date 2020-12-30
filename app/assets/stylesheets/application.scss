@@ -20,6 +20,8 @@ $gathering-skills: field_dressing fishing foraging forestry mining;
 @import 'components/user_recipe';
 @import 'components/farming';
 @import 'components/watering';
+@import 'components/skills';
+
 
 html {
   background-color: $grey7;
