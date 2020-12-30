@@ -1,0 +1,1154 @@
+{
+  "combat": {
+    "shield": [
+      {
+        "name": "Deflect",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Bolster Balance",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Angles",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Shield Bash",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Dig In",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Redirection",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Shield Preservation",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Charge",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Testudo",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Stand your ground",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Shield Specialization",
+        "xp_factor": 20.0
+      }
+    ],
+    "polearm": [
+      {
+        "name": "Polearm Combat",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Push",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Puncture",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Reach",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Pull",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Spinning Attack",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Defensive Positions",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Bec de Faucon",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Leg Sweep",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Polearm Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Skewer",
+        "xp_factor": 1.0
+      }
+    ],
+    "blade": [
+      {
+        "name": "Bladed Combat",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Thrust",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Double Slash",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Blade Speed",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Riposte",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Rend",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Vital Points",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Blade Mastery",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Whirlwind Blades",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Blade Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Coup de Grace",
+        "xp_factor": 2.0
+      }
+    ],
+    "heavy armor": [
+      {
+        "name": "Glancing Blow",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Body Slam",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Inner Strength",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Deflection",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Absorb Impacts",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Taunt",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Hard Headed",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Endurance",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Knight's Grace",
+        "xp_factor": 3.0
+      },
+      {
+        "name": "Valiant Warden",
+        "xp_factor": 3.0
+      },
+      {
+        "name": "Provoking Shout",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Heavy Armor Specialization",
+        "xp_factor": 20.0
+      }
+    ],
+    "light armor": [
+      {
+        "name": "Dodge",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Evasion",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Escape",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Swiftness",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Flurry",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Sprint",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Acrobatics",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Light Armor Specialization",
+        "xp_factor": 20.0
+      }
+    ],
+    "bludgeon": [
+      {
+        "name": "Bludgeon Combat",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Crushing Blow",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Break Weapon",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Stunner",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Knockback",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Knockdown",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Break Armor",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Crusher",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Breaker",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Berserk",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Bludgeon Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Ground Pound",
+        "xp_factor": 1.0
+      }
+    ],
+    "ranged": [
+      {
+        "name": "Ranged Combat",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Aimed Shot",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Disabling Shot",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Ammo Scavenger",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Piercing Shot",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Blinding Shot",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Eagle Eye",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Rapid Fire",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Range",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Multi Shot",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Draw Strength",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Ranged Specialization",
+        "xp_factor": 20.0
+      }
+    ]
+  },
+  "magic": {
+    "sun": [
+      {
+        "name": "Light",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Searing Ray",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Enlightenment",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Blind",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Sun Worship",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Reveal Hidden",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Dazzling Rays",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Sun Eater",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Summon Phoenix",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Elysian Illumination",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Solar Flare",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Sun Magic Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Moon Warding",
+        "xp_factor": 20.0
+      }
+    ],
+    "fire": [
+      {
+        "name": "Flame Fist",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Fire Arrow",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Ignite Weapon",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Highly Flammable",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Fireball",
+        "xp_factor": 3.0
+      },
+      {
+        "name": "Immolation",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Fire Speed",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Fire Proof",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Ring of Fire",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Fire Magic Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Water Warding",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Summon Fire Elemental",
+        "xp_factor": 4.0
+      }
+    ],
+    "earth": [
+      {
+        "name": "Stone Fist",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Root",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Stone Arrow",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Strength of Earth",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Sympathy of Stone",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Shield of Crystal",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Earthquake",
+        "xp_factor": 3.0
+      },
+      {
+        "name": "Earth's Embrace",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Bulwark of Earth",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Summon Earth Elemental",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Torpor",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Earth Magic Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Air Warding",
+        "xp_factor": 20.0
+      }
+    ],
+    "death": [
+      {
+        "name": "Tap Soul",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Corpse Explosion",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Death Touch",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Death Mastery",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Summon Skeleton",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Death Ray",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Undead Mastery",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Mummified Undead",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Death Shield",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Death Field",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Death Magic Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Life Warding",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Summon Lich",
+        "xp_factor": 6.0
+      }
+    ],
+    "chaos": [
+      {
+        "name": "Confusion",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Chaos Bolt",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Juxtapose",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Chaotic Clone",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Torpid Torment",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Tabula Rasa",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Chaotic Step",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Chaotic Shield",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Chaotic Feedback",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Summon Daemon",
+        "xp_factor": 6.0
+      },
+      {
+        "name": "Chaos Magic Specialization",
+        "xp_factor": 20.0
+      }
+    ],
+    "life": [
+      {
+        "name": "Healing Touch",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Healing Ray",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Purify",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Beneficent Blessing",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Healing Burst",
+        "xp_factor": 3.0
+      },
+      {
+        "name": "Purify Burst",
+        "xp_factor": 3.0
+      },
+      {
+        "name": "Banish Undead",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Life Power",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Life Reach",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Healing Grace",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Resurrection",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Life Magic Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Death Warding",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Healing Blast",
+        "xp_factor": 2.0
+      }
+    ],
+    "air": [
+      {
+        "name": "Gust",
+        "xp_factor": 0.5
+      },
+      {
+        "name": "Discharge",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Air's Embrace",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Dash",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Rapid Discharge",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Lightning",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Shield of Air",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Blink",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Well Grounded",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Chain Lightning",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Air Magic Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Earth Warding",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Summon Air Elemental",
+        "xp_factor": 2.0
+      }
+    ],
+    "water": [
+      {
+        "name": "Ice Fist",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Ice Arrow",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Douse",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Icy Breath",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Ice Field",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Soothing Rain",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Shield of Ice",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Blue Blooded",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Summon Water Elemental",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Water Magic Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Fire Warding",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Summon Ice Elemental",
+        "xp_factor": 1.0
+      }
+    ],
+    "lunar": [
+      {
+        "name": "Night Vision",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Vanish",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Celestial Blessing",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Fireflies",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Animal Charm",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Moon Worship",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Shadow Form",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Cocoon of Night",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Meteor Shower",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Shooting Star",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Moon Beams",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Moon Eater",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Night Step",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Summon Will-O-Wisp",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Lunar Magic Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Sun Warding",
+        "xp_factor": 20.0
+      }
+    ]
+  },
+  "strategy": {
+    "tactics": [
+      {
+        "name": "Healthy",
+        "xp_factor": 5.0
+      },
+      {
+        "name": "Armor Preservation",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Reckless Stance",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Defensive Stance",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Horsemanship",
+        "xp_factor": 10.0
+      },
+      {
+        "name": "Train Strength",
+        "xp_factor": 10.0
+      },
+      {
+        "name": "Parry",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Weapon Preservation",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Berserker's Stance",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Passive Stance",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Horse Gallop Speed",
+        "xp_factor": 10.0
+      },
+      {
+        "name": "Tactics Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Heavy Lifter",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Offhand Attack",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Elixir Extension",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Fortify Defenses",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Horse Cary Capacity Focus",
+        "xp_factor": 10.0
+      },
+      {
+        "name": "Horse Speed Focus",
+        "xp_factor": 10.0
+      },
+      {
+        "name": "Magic Warding",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Offhand Defense",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Offhand Power",
+        "xp_factor": 4.0
+      }
+    ],
+    "subterfuge": [
+      {
+        "name": "Distract",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Engage Opponent",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Trip",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Camouflage",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Train Dexterity",
+        "xp_factor": 10.0
+      },
+      {
+        "name": "Pugilism",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Poison Weapon",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Silent Movement",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Armor Weak Points",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Safe Fall",
+        "xp_factor": 5.0
+      },
+      {
+        "name": "Subterfuge Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Sneak Attack",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Sap",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Pick Pockets",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Pick Locks",
+        "xp_factor": 2.0
+      },
+      {
+        "name": "Backstab",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Opportunity Strike",
+        "xp_factor": 2.0
+      }
+    ],
+    "bard": [
+      {
+        "name": "Melody of Mending",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Atonal Aria",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Anthem of Alacrity",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Rhythmic Readiness",
+        "xp_factor": 5.0
+      },
+      {
+        "name": "Psalm of Stagnation",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Concussive Canticle",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Savage Sonata",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Resounding Reach",
+        "xp_factor": 5.0
+      },
+      {
+        "name": "Musical Fortitude",
+        "xp_factor": 5.0
+      },
+      {
+        "name": "Mesmerizing Melody",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Rhapsody of Recovery",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Refrain of Resistance",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Bard Specialization",
+        "xp_factor": 20.0
+      }
+    ],
+    "taming": [
+      {
+        "name": "Tame Creature",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Heal Creature",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Summoning",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Obedience",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Collar Recovery",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Resurrect Creature",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Frenzy",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Combat Training",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Pet Speed Training",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Pet Strength Training",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Concentration",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Refresh",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Taming Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Pet Taunting Training",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Pet Attack Precision Training",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Pet Hide Toughness Training",
+        "xp_factor": 1.0
+      }
+    ],
+    "focus": [
+      {
+        "name": "Heightened Awareness",
+        "xp_factor": 5.0
+      },
+      {
+        "name": "Mind Wipe",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Train Intelligence",
+        "xp_factor": 10.0
+      },
+      {
+        "name": "Quick Swapping",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Elixir Receptive",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Train Summoned Pet Health",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Mind Lock",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Spellbinder Stance",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Focus Specialization",
+        "xp_factor": 20.0
+      },
+      {
+        "name": "Inner Calm",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Train Summoned Pet Resistance",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Train Summoned Pet Damage",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Aetheric Feedback",
+        "xp_factor": 1.0
+      },
+      {
+        "name": "Follow Through",
+        "xp_factor": 4.0
+      },
+      {
+        "name": "Tranquility",
+        "xp_factor": 4.0
+      }
+    ]
+  }
+}

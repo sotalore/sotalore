@@ -1,0 +1,20 @@
+.SkillTable {
+  td {
+    text-align: right;
+  }
+
+  td.skill-name {
+    text-align: left;
+  }
+
+  input {
+    width: 6rem;
+    text-align: right;
+    float: right;
+  }
+
+  span.xp-field {
+    display: inline-block;
+    padding: 4px 8px; 
+  }
+}

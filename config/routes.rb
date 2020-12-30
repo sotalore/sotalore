@@ -28,6 +28,13 @@ Rails.application.routes.draw do
   end
 
   resource :farming
+
+  resources :skills do
+    collection do
+      get :crafting, to: 'skills#crafting', as: :crafting
+    end
+  end
+
   resources :plantings
 
   resources :top_posts, path: 'chat' do
