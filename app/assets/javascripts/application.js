@@ -24,8 +24,6 @@
 //= require components/more_link
 //= require components/farming
 
-//= require turbolinks
-
 SotaLore.pageLoad(SotaLore.Recipes.pageLoad);
 SotaLore.pageLoad(SotaLore.Search.pageLoad);
 SotaLore.pageLoad(SotaLore.MoreLink.pageLoad);
