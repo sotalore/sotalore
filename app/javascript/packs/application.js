@@ -7,6 +7,7 @@
 // To reference this file, add <%= javascript_pack_tag 'application' %> to the appropriate
 // layout file, like app/views/layouts/application.html.erb
 
+require("@rails/ujs").start()
 require("turbolinks").start()
 
 import SotaLore from "js/sota_lore";

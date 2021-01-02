@@ -11,7 +11,6 @@
 // about supported directives.
 //
 //= require jquery
-//= require rails-ujs
 //= require jquery.autocomplete.min
 //= require local-time
 //= require moment-with-locales.min
