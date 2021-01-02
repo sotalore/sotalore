@@ -14,11 +14,9 @@
 //= require rails-ujs
 //= require jquery.autocomplete.min
 //= require local-time
-//= require mousetrap.min
 //= require moment-with-locales.min
 
 //= require sota_stuff
-//= require mousetrap_config
 //= require recipes
 //= require search
 //= require components/more_link
