@@ -24,9 +24,3 @@ SotaLore.pageLoad(SotaLore.Recipes.pageLoad);
 SotaLore.pageLoad(SotaLore.Search.pageLoad);
 SotaLore.pageLoad(SotaLore.Farming.pageLoad);
 SotaLore.pageLoad(function () { LocalTime.run(); });
-SotaLore.pageLoad(function (event) {
-  if (typeof ga === "function") {
-    ga("set", "location", event.data.url);
-    ga('send', 'pageview');
-  }
-});
