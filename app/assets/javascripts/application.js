@@ -18,12 +18,10 @@
 //= require sota_stuff
 //= require recipes
 //= require search
-//= require components/more_link
 //= require components/farming
 
 SotaLore.pageLoad(SotaLore.Recipes.pageLoad);
 SotaLore.pageLoad(SotaLore.Search.pageLoad);
-SotaLore.pageLoad(SotaLore.MoreLink.pageLoad);
 SotaLore.pageLoad(SotaLore.Farming.pageLoad);
 SotaLore.pageLoad(function () { LocalTime.run(); });
 SotaLore.pageLoad(function (event) {

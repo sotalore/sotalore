@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     resources :comments, except: [ :new ]
   end
   resources :recipes do
+    member do
+      get 'show_partial', to: 'recipes#show_partial'
+    end
     resources :comments, except: [ :new ]
     collection do
       get 'for_item/:item_id', to: 'recipes#for_item', as: :item
