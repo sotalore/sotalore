@@ -10,9 +10,10 @@
 require("@rails/ujs").start()
 require("turbolinks").start()
 
-import SotaLore from "js/sota_lore";
-import mousetrap from "js/mousetrap_config";
+import SotaLore from "js/sota_lore"
+import mousetrap from "js/mousetrap_config"
 import LocalTime from "local-time"
+import Farming from "js/farming"
 
 import { Application } from "stimulus"
 import { definitionsFromContext } from "stimulus/webpack-helpers"
@@ -23,4 +24,6 @@ application.load(definitionsFromContext(context))
 
 LocalTime.start()
 
-SotaLore.pageLoad(mousetrap);
+SotaLore.pageLoad(mousetrap)
+const farming = new Farming()
+SotaLore.pageLoad(() => farming.pageLoad())

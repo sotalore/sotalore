@@ -17,8 +17,6 @@
 //= require sota_stuff
 //= require recipes
 //= require search
-//= require components/farming
 
 SotaLore.pageLoad(SotaLore.Recipes.pageLoad);
 SotaLore.pageLoad(SotaLore.Search.pageLoad);
-SotaLore.pageLoad(SotaLore.Farming.pageLoad);
