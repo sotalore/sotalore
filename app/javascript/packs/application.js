@@ -12,6 +12,7 @@ require("turbolinks").start()
 
 import SotaLore from "js/sota_lore";
 import mousetrap from "js/mousetrap_config";
+import LocalTime from "local-time"
 
 import { Application } from "stimulus"
 import { definitionsFromContext } from "stimulus/webpack-helpers"
@@ -19,5 +20,7 @@ import { definitionsFromContext } from "stimulus/webpack-helpers"
 const application = Application.start()
 const context = require.context("controllers", true, /.js$/)
 application.load(definitionsFromContext(context))
+
+LocalTime.start()
 
 SotaLore.pageLoad(mousetrap);

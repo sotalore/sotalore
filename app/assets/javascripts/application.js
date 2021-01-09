@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery.autocomplete.min
-//= require local-time
 //= require moment-with-locales.min
 
 //= require sota_stuff
@@ -23,4 +22,3 @@
 SotaLore.pageLoad(SotaLore.Recipes.pageLoad);
 SotaLore.pageLoad(SotaLore.Search.pageLoad);
 SotaLore.pageLoad(SotaLore.Farming.pageLoad);
-SotaLore.pageLoad(function () { LocalTime.run(); });
