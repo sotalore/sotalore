@@ -1,4 +1,6 @@
 
+var moment = require('moment')
+
 export default class {
 
   pageLoad() {

@@ -9,9 +9,8 @@
     = csrf_meta_tags
     %meta{:charset => "utf-8"}/
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: 'defer'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload', defer: 'defer'
 
     %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
     %link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
@@ -21,10 +20,11 @@
   %body
     .PortalNav
       .PortalNav-header
-        .PortalNav-search
-          %form.PortalNav-search{:action => "/search", :method => "GET"}
+        .PortalNav-search{ data: {controller: 'autocomplete', 'autocomplete-url' => '/search/global' }}
+          %form.PortalNav-searchForm{:action => "/search", :method => "GET"}
             %i.fas.fa-search.PortalNav-searchIcon
-            %input#global-search.PortalNav-searchInput{:name => "q", :placeholder => "Search", :type => "text"}/
+            %input#global-search.PortalNav-searchInput{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
+          %div.PortalNav-searchResults{ data: { 'autocomplete-target' => 'results' }}
 
       %nav.PortalNav-links
         = link_to('/', class: 'PortalNav-logo') do

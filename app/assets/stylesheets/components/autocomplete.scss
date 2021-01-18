@@ -1,33 +1,20 @@
 .autocomplete-suggestions {
   border: 1px solid $grey3;
+  margin-top: -15px;
   background: $grey8;
   overflow: auto;
+  position: absolute;
+  z-index: 1000;
+  list-style-type: none;
 
   .autocomplete-suggestion {
-    padding: 2px 5px;
+    padding: 2px 40px 2px 10px;
     white-space: nowrap;
     overflow: hidden;
-  }
-  .autocomplete-selected {
-    background: $grey6;
-  }
-  .autocomplete-suggestions strong {
-    font-weight: normal;
-    color: $grey9;
-  }
-  .autocomplete-group {
-    padding: 2px 5px;
-  }
-  .autocomplete-group strong {
-    display: block;
-    border-bottom: 1px solid $grey0;
-  }
 
-  &.global-search {
-    color: $grey8;
-    background: $orange1;
-    .autocomplete-selected {
-      background: $orange0;
+    &.active {
+      background: $grey6;
     }
   }
+
 }

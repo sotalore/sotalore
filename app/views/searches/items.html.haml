@@ -1,0 +1,3 @@
+- @searches.each do |result|
+  %li.autocomplete-suggestion(role="option"){ data: { 'autocomplete-value' => result.searchable.id }}
+    = result.searchable.name

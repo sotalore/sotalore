@@ -1,0 +1,21 @@
+.global-search {
+  padding: 10px;
+
+  .global-search-results {
+    background: $grey9;
+    border: 1px solid $grey6;
+    position: absolute;
+    max-height: 400px;
+    overflow-y: scroll;
+
+    a {
+      display: block;
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+
+    a.active {
+      background: $grey6;
+    }
+  }
+ }

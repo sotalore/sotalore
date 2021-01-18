@@ -2,8 +2,12 @@
   "dependencies": {
     "@rails/ujs": "^6.1.0",
     "@rails/webpacker": "^4.2.2",
+    "jquery": "^3.5.1",
     "local-time": "^2.1.0",
+    "moment": "^2.29.1",
+    "mousetrap": "^1.6.5",
     "stimulus": "^2.0.0",
+    "stimulus-autocomplete": "^1.4.2",
     "turbolinks": "^5.2.0"
   },
   "devDependencies": {

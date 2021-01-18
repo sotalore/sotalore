@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root to: 'home#show', as: :root
   get 'roadmap', to: 'home#roadmap'
   get 'lunar-rifts', to: 'home#lunar_rifts'
+  get 'incoming', to: 'home#incoming'
 
   resources :comments, except: [ :new, :create, :show ]
   resources :items, :seeds, controller: 'items' do
@@ -51,6 +52,7 @@ Rails.application.routes.draw do
   resource :searches, path: 'search' do
     member do
       get :items
+      get :global # for stimulus
     end
   end
 

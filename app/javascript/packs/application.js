@@ -10,8 +10,10 @@
 require("@rails/ujs").start()
 require("turbolinks").start()
 
+import { Autocomplete } from 'stimulus-autocomplete'
+
 import SotaLore from "js/sota_lore"
-import mousetrap from "js/mousetrap_config"
+import mousetrap_config from "js/mousetrap_config"
 import LocalTime from "local-time"
 import Farming from "js/farming"
 
@@ -21,9 +23,11 @@ import { definitionsFromContext } from "stimulus/webpack-helpers"
 const application = Application.start()
 const context = require.context("controllers", true, /.js$/)
 application.load(definitionsFromContext(context))
+application.register('autocomplete', Autocomplete)
 
 LocalTime.start()
 
-SotaLore.pageLoad(mousetrap)
+SotaLore.pageLoad(mousetrap_config)
+
 const farming = new Farming()
 SotaLore.pageLoad(() => farming.pageLoad())
