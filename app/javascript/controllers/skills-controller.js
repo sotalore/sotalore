@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static values = { xp_factor: Number, fromLevel: Number, toLevel: Number }
+  static values = { xpFactor: Number }
 
   static targets = [ 'from', 'to', 'invested', 'total', 'remaining' ]
 
@@ -41,6 +41,6 @@ export default class extends Controller {
     if (level == 0) {
       return 0
     }
-    return Math.ceil(((1.099711**(level-1)) - 1) * 100)
+    return (this.xpFactorValue * (Math.ceil(((1.099711**(level-1)) - 1) * 100)))
   }
 }

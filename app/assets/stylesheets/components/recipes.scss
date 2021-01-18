@@ -63,12 +63,26 @@ img.Recipe-icon {
   font-size: 0.9em;
 }
 
+.Recipe-ingredient i {
+  transform: rotate(0deg);
+  transition: transform 100ms linear;
+}
+
+.Recipe-ingredient i.Displayed {
+  transform: rotate(90deg);
+  transition: transform 100ms linear;
+}
 
 .Recipe-ingredient > .Recipe-ingredientSubDetail {
-  padding-left: 40px;
-  margin-right: -7px;
+  padding-left: 10px;
+  margin-right: -5px;
+
+  div.MoreHidden {
+    display: none;
+  }
+
   .Recipe {
-    border-right: 0;
+    // border-right: 0;
     .Recipe-name {
       display: none;
     }

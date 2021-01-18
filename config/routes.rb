@@ -6,12 +6,16 @@ Rails.application.routes.draw do
   root to: 'home#show', as: :root
   get 'roadmap', to: 'home#roadmap'
   get 'lunar-rifts', to: 'home#lunar_rifts'
+  get 'incoming', to: 'home#incoming'
 
   resources :comments, except: [ :new, :create, :show ]
   resources :items, :seeds, controller: 'items' do
     resources :comments, except: [ :new ]
   end
   resources :recipes do
+    member do
+      get 'show_partial', to: 'recipes#show_partial'
+    end
     resources :comments, except: [ :new ]
     collection do
       get 'for_item/:item_id', to: 'recipes#for_item', as: :item
@@ -48,6 +52,7 @@ Rails.application.routes.draw do
   resource :searches, path: 'search' do
     member do
       get :items
+      get :global # for stimulus
     end
   end
 

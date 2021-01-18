@@ -1,4 +1,4 @@
-.Recipe{ id: dom_id(recipe) }
+.Recipe
   .Recipe-name
     .Recipe-nameActual
       = user_recipe_button(recipe)
@@ -43,8 +43,9 @@
     %span.u-label
       Ingredients:
   - recipe.ingredients.eager_load(item: { recipes: :results }).each do |ingredient|
+    - ingredient_dom_id = dom_id(ingredient)
     - item = ingredient.item
-    .Recipe-ingredient
+    .Recipe-ingredient{ data: { 'controller': 'more-link' }}
       - sub_recipes = []
       .Recipe-ingredientSummary
         %span.Recipe-count
@@ -55,10 +56,7 @@
         = item_gathering_tag(item)
         = item_abstract_tag(item)
         - item.recipes.each_with_index do |r,i|
-          - sub_dom_id = dom_id(item, dom_id(r))
-          - sub_recipes << sub_dom_id
-          = more_link_to(recipe_path(r, into: sub_dom_id),
-          { remote: true, data: { into: sub_dom_id } })
-      .Recipe-ingredientSubDetail
-        - sub_recipes.each do |id|
-          %div{id: id}
+          - next if recipe == r
+          = link_to( icon_tag('caret-right'), recipe_path(r),
+          { data: { action: 'more-link#load', url: show_partial_recipe_path(r), more_id: dom_id(r, ingredient_dom_id) } })
+      .Recipe-ingredientSubDetail{ data: { 'more-link-target': 'subDetail' }}

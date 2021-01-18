@@ -1,0 +1,3 @@
+- @searches.each do |result|
+  %a.list-group-item(role="option"){href: url_for(result.searchable) }
+    = result.searchable.name

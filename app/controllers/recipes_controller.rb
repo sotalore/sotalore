@@ -30,8 +30,13 @@ class RecipesController < ApplicationController
     authorize @recipe
     respond_to do |format|
       format.html { }
-      format.js { }
+      format.js { render @recipe }
     end
+  end
+
+  def show_partial
+    show
+    render @recipe
   end
 
   def new

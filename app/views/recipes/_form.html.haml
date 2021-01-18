@@ -14,24 +14,27 @@
 
       - index = 1
       = f.fields_for(:results) do |ri|
-        .row.recipe-item-container
-          .col-sm-10
-            = ri.text_field :name, class: 'recipe-item-lookup', label: "Output #{index}", tabindex: (index == 1 ? 0 : (100 + index))
-            = ri.hidden_field :item_id, class: 'recipe-item-id'
+        .row
+          .col-sm-10{data: { controller: 'autocomplete', 'autocomplete-url' => '/search/items' }}
+            = ri.text_field(:name, label: "Output #{index}", tabindex: (index == 1 ? 0 : (100 + index)),
+            data: { 'autocomplete-target' => 'input' })
+            = ri.hidden_field :item_id, data: { 'autocomplete-target' => 'hidden' }
+            %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
           .col-sm-2
-            = ri.text_field :count, class: 'recipe-item-count', tabindex: (index == 1 ? 0 : (101 + index))
+            = ri.text_field :count, tabindex: (index == 1 ? 0 : (101 + index))
             - index += 1
 
     .col-sm-6
       - index = 1
       = f.fields_for(:ingredients) do |fi|
-        .row.recipe-item-container
-          .col-sm-10
-            = fi.text_field :name, class: 'recipe-item-lookup', label: "Ingredient #{index}"
+        .row
+          .col-sm-10{data: { controller: 'autocomplete', 'autocomplete-url' => '/search/items' }}
+            = fi.text_field :name, label: "Ingredient #{index}", data: { 'autocomplete-target' => 'input' }
             - index += 1
-            = fi.hidden_field :item_id, class: 'recipe-item-id'
+            = fi.hidden_field :item_id, data: { 'autocomplete-target' => 'hidden' }
+            %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
           .col-sm-2
-            = fi.text_field :count, class: 'recipe-item-count'
+            = fi.text_field :count
 
   = f.actions do
     = f.cancel('Cancel', f.object)

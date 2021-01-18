@@ -36,6 +36,10 @@ html, body {
 
   &-search {
     display: inline-block;
+  }
+
+  &-searchForm {
+    display: inline-block;
     border-left: 1px solid rgba($orange0, 0.3);
     border-right: 1px solid rgba($orange0, 0.3);
 
@@ -43,6 +47,7 @@ html, body {
       color: $orange4;
     }
     position: relative;
+    overflow: auto;
   }
 
   &-searchInput {
@@ -82,6 +87,26 @@ html, body {
     width: 20px;
     text-align: center;
     z-index: 1;
+  }
+  
+  &-searchResults {
+    margin: 0;
+    margin-top: -7px;
+    background: $grey9;
+    border: 1px solid $grey6;
+    position: absolute;
+    max-height: 600px;
+    overflow-y: scroll;
+    z-index: 1000;
+
+    a {
+      display: block;
+      padding: 5px 45px 5px 15px;
+    }
+
+    a.active {
+      background: $grey6;
+    }
   }
 
   &-content {

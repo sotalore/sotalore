@@ -10,6 +10,7 @@ $line-height: 16px;
 $gathering-skills: field_dressing fishing foraging forestry mining;
 
 @import 'flexboxgrid.min';
+@import 'components/global_search';
 @import 'components/autocomplete';
 @import 'components/recipes';
 @import 'components/items';
