@@ -27,7 +27,7 @@
               = school.titleize
             %th(colspan=6)
           - school_skills.each do |skill|
-            %tr{ data: { controller: 'skills' } }
+            %tr{ data: { controller: 'skills', 'skills-xp-factor-value' => skill.xp_factor } }
               %td.skill-name= skill.name
               %td= skill.xp_factor
               %td
