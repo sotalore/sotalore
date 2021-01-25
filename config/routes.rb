@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   end
 
   resources :plantings
+  resources :avatars, except: [ :show ]
 
   resources :top_posts, path: 'chat' do
     resources :comments, except: [ :new ]

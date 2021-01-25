@@ -1,0 +1,16 @@
+.row
+  .col-sm-12.col-md-8.col-lg-6
+    = tile_with_heading('Your Avatars Information') do
+      - if @avatars
+        - @avatars.each do |avatar|
+          - next unless avatar.persisted?
+          .row.Field
+            .col-sm-8= avatar.name
+            .col-sm-4.u-textRight
+              = edit_icon_to(edit_avatar_path(id: avatar))
+              = destroy_icon_to(avatar_path(id: avatar))
+      - else
+        %p You have no Avatars yet, add one below!
+
+    = tile_with_heading('Add An Avatar') do
+      = render partial: 'form', locals: { avatar: (@avatar || Avatar.new) }

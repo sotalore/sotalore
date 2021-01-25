@@ -33,6 +33,7 @@
 
         - if current_user.not_null?
           = portal_nav_link_to('My Recipes', user_recipes_path, 'book')
+          = portal_nav_link_to('My Avatars', avatars_path, 'user-shield')
         = portal_nav_link_to('Items', items_path, 'object-group')
         = portal_nav_link_to('Recipes', recipes_path, 'gavel')
         = portal_nav_link_to('Scenes', scenes_path, 'map')
