@@ -33,14 +33,14 @@ Rails.application.routes.draw do
 
   resource :farming
 
-  resources :skills do
-    collection do
-      get :crafting, to: 'skills#crafting', as: :crafting
-    end
+  get 'skills/:activity', to: 'skills#index', as: 'skills', defaults: { activity: 'adventuring' }
+  resources :avatars, except: [ :show ] do
+    get 'skills/:activity', to: 'skills#index', as: 'skills', defaults: { activity: 'adventuring' }
+    resources :skills, only: [ :update ]
   end
 
+
   resources :plantings
-  resources :avatars, except: [ :show ]
 
   resources :top_posts, path: 'chat' do
     resources :comments, except: [ :new ]

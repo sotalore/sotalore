@@ -1,20 +1,62 @@
 require 'rails_helper'
 
-RSpec.describe SkillsController, type: :controller do
+RSpec.describe 'Skills', type: :request do
 
-  describe "GET #index" do
-    it "returns http success" do
-      get :index
+  describe "INDEX with no user" do
+    it "adventuring returns success" do
+      get skills_path(activity: 'adventuring')
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "crafting returns success" do
+      get skills_path(activity: 'crafting')
       expect(response).to have_http_status(:ok)
     end
   end
 
-  describe "GET #crafting" do
-  it "returns http success" do
-    get :crafting
-    expect(response).to have_http_status(:ok)
-  end
-end
 
+  describe 'A logged in user with a current avatar' do
+    let!(:user) { create :user }
+    let!(:avatar) { create :avatar, user: user }
+
+    let(:skill) { Skill::BY_KEY.values.first }
+
+    before        { sign_in user }
+
+    describe "INDEX" do
+      it "adventuring returns success" do
+        get avatar_skills_path(avatar, activity: 'adventuring')
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "crafting returns success" do
+        get avatar_skills_path(avatar, activity: 'crafting')
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    describe 'PATCH a not-yet-set EarnedSkill' do
+
+      it 'creates a new EarnedSkill' do
+        expect(avatar.skills).to be_empty
+
+        patch avatar_skill_path(avatar, id: skill.key), params: { skill: { current: 123 }}
+        expect(response).to have_http_status(:ok)
+
+        earned_skill = avatar.skills.reload.first
+        expect(earned_skill).to be_present
+      end
+
+
+      it 'does not create an EarnedSkill for a bad key' do
+        expect(avatar.skills).to be_empty
+
+        patch avatar_skill_path(avatar, id: 'bad~key'), params: { skill: { current: 123 }}
+        expect(response).to have_http_status(:bad_request)
+
+        expect(avatar.skills).to be_empty
+      end
+    end
+  end
 
 end
