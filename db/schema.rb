@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_23_180443) do
+ActiveRecord::Schema.define(version: 2021_01_25_005908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -48,6 +48,16 @@ ActiveRecord::Schema.define(version: 2021_01_23_180443) do
     t.boolean "visible", default: true, null: false
     t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["subject_type", "subject_id"], name: "index_comments_on_subject_type_and_subject_id"
+  end
+
+  create_table "earned_skills", force: :cascade do |t|
+    t.bigint "avatar_id", null: false
+    t.string "skill_key", null: false
+    t.integer "current", limit: 2
+    t.integer "target", limit: 2
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["avatar_id"], name: "index_earned_skills_on_avatar_id"
   end
 
   create_table "ingredients", id: :serial, force: :cascade do |t|
@@ -187,6 +197,7 @@ ActiveRecord::Schema.define(version: 2021_01_23_180443) do
 
   add_foreign_key "avatars", "users"
   add_foreign_key "comments", "users", column: "author_id"
+  add_foreign_key "earned_skills", "avatars"
   add_foreign_key "ingredients", "items"
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "items", "users", column: "last_confirmed_by_id"
