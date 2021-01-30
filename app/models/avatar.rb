@@ -1,6 +1,7 @@
 class Avatar < ApplicationRecord
 
   belongs_to :user, inverse_of: :avatars
+  has_many :skills, class_name: 'EarnedSkill', inverse_of: :avatar
 
   validates :name, presence: true
 

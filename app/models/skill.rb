@@ -15,16 +15,22 @@ class Skill
             container[category] ||= {}
             container[category][school] ||= []
             container[category][school] << s
+            BY_KEY[s.key] = s
           end
         end
       end
+    end
+
+    def find(key)
+      BY_KEY[key]
     end
   end
 
   ADVENTURING = {}
   CRAFTING = {}
+  BY_KEY = {}
 
-  attr_accessor :name, :xp_factor, :category, :school
+  attr_accessor :key, :name, :xp_factor, :category, :school
 
   def xp_to_level(level)
     if level == 0

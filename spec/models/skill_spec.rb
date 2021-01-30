@@ -23,5 +23,25 @@ RSpec.describe Skill, type: :model do
     it 'loads all the crafting skills' do
       expect(Skill::CRAFTING.length).to eq 3
     end
+
+    it 'loads all the data from the json' do
+      skill = Skill::ADVENTURING['combat']['shield'].third
+      expect(skill.category).to eq 'combat'
+      expect(skill.school).to eq 'shield'
+      expect(skill.name).to eq 'Angles'
+      expect(skill.xp_factor).to eq 4.0
+      expect(skill.key).to eq 'combat~shield~angles'
+    end
   end
+
+  describe 'finding skills' do
+    it 'finds a skill by a key' do
+      expect(Skill.find("combat~shield~dig-in")).to be_present
+    end
+
+    it 'simply returns nil with no key' do
+      expect(Skill.find('foo|bar|baz')).to be_nil
+    end
+  end
+
 end
