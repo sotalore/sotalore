@@ -2,9 +2,14 @@
   = tile_heading('Updates')
   = tile_body do
     %p
-      The farming calculator now allows you to select one of three locations:
-      Outside, Greenhouse, and Inside. The inside speed is 0.1 of normal, so
-      it's very slow, but can be quite useful.
+      %strong
+        The skills calculator now saves skill information for your avatars!
+
+    %p
+      Once you #{link_to_if(current_user.null?, 'register', new_user_registration_path)} for an account,
+      you can #{link_to('create an Avatar', avatars_path)}. Then from the
+      #{link_to('skills calculator', skills_path)}, select an Avatar from the
+      top-right select box, and any skill levels you enter will be saved.
 
     %p
       I could still use lots of feedback on what to do next. I've made it
