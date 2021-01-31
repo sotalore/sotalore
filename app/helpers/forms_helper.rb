@@ -1,8 +1,11 @@
-# frozen-string-literal: true
-
 module FormsHelper
 
-  def sl_form_for(object, options={}, &block)
+  def sl_form_with(model: nil, scope: nil, url: nil, format: nil, **options, &block)
+    options[:builder] ||= SLFormBuilder
+    form_with(model: model, scope: scope, url: url, format: format, **options, &block)
+  end
+
+    def sl_form_for(object, options={}, &block)
     options[:builder] ||= SLFormBuilder
     form_for(object, options, &block)
   end
@@ -25,12 +28,21 @@ module FormsHelper
     form_for(object, options, &block)
   end
 
+  # deprecated, use the _form_with version
   def basic_inline_form_for(object, options={}, &block)
     options[:builder] ||= BasicFormBuilder
     html                = (options[:html] ||= {})
     html[:class]        = "#{html[:class]} Form--inline".strip
     form_for(object, options, &block)
   end
+
+  def sl_inline_form_with(model: nil, scope: nil, url: nil, format: nil, **options, &block)
+    options[:builder] ||= SLFormBuilder
+    html                = (options[:html] ||= {})
+    html[:class]        = "#{html[:class]} Form--inline".strip
+    form_with(model: model, scope: scope, url: url, format: format, **options, &block)
+  end
+
 
   def form_group(options={}, &block)
     form_group(method) { label << capture(&block) }

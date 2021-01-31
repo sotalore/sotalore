@@ -33,6 +33,8 @@
 
         - if current_user.not_null?
           = portal_nav_link_to('My Recipes', user_recipes_path, 'book')
+        = portal_nav_link_to('My Avatars', avatars_path, 'user-shield')
+        = portal_nav_link_to('Skills', skills_path, 'dice-d20')
         = portal_nav_link_to('Items', items_path, 'object-group')
         = portal_nav_link_to('Recipes', recipes_path, 'gavel')
         = portal_nav_link_to('Scenes', scenes_path, 'map')
@@ -40,7 +42,6 @@
         = portal_nav_link_to('Farming', farming_path, 'leaf')
         - if current_user.not_null?
           = portal_nav_link_to('Planting', plantings_path, 'seedling')
-        = portal_nav_link_to('Skills', skills_path, 'dice-d20')
         = portal_nav_link_to('Comments', comments_path, 'comment')
         %hr
         - if current_user.not_null?

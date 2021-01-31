@@ -1,0 +1,31 @@
+.row
+  .col-sm-12.col-md-8.col-lg-6
+    = tile_with_heading('Your Avatars Information') do
+      - if current_user.not_null?
+        - if @avatars
+          - @avatars.each do |avatar|
+            - next unless avatar.persisted?
+            .row.Field
+              .col-sm-6= avatar.name
+              .col-sm-3= default_button_to('View Skills', avatar_skills_path(avatar))
+              .col-sm-3.u-textRight
+                = edit_icon_to(edit_avatar_path(id: avatar))
+                = destroy_icon_to(avatar_path(id: avatar))
+        - else
+          %p You have no Avatars yet, add one below!
+
+      - else
+        %p
+          If you sign-up for an account in SotA Lore, you can create avatars and
+          track their skill levels on the skills calculator. There isn't much
+          beyond that functionality, at the moment.
+
+        %p
+          Creating an account is simple, but it does require an email and password.
+          The only emails the site sends is for resetting a lost password. You can
+          = link_to('sign up here.', new_user_registration_path)
+
+
+    - if current_user.not_null?
+      = tile_with_heading('Add An Avatar') do
+        = render partial: 'form', locals: { avatar: (@avatar || Avatar.new) }
