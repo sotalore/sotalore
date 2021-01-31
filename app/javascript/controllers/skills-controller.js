@@ -8,6 +8,8 @@ export default class extends Controller {
   connect() {
     this.originalFromValue = this.fromTarget.value
     this.originalToValue = this.toTarget.value
+    this.calculateFrom()
+    this.calculateTo()
   }
 
   calculateFrom() {

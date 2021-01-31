@@ -1,7 +1,7 @@
 class Avatar < ApplicationRecord
 
   belongs_to :user, inverse_of: :avatars
-  has_many :skills, class_name: 'EarnedSkill', inverse_of: :avatar
+  has_many :skills, class_name: 'EarnedSkill', inverse_of: :avatar, dependent: :delete_all
 
   validates :name, presence: true
 

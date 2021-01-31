@@ -43,14 +43,15 @@
                   'skills-xp-factor-value' => skill.xp_factor,
                   'skills-avatar-update-url-value' => (@avatar ? avatar_skill_path(@avatar.id, skill.key) : nil)
                   } }
+                - current_skill = @current_skills[skill.key]
                 %td.skill-name= skill.name
                 %td= skill.xp_factor
                 %td
-                  %input.Field-input{ type: 'number', data: { 'skills-target': 'from', action: 'skills#calculateFrom blur->skills#updateFrom' } }
+                  %input.Field-input{ type: 'number', value: current_skill.current, data: { 'skills-target': 'from', action: 'skills#calculateFrom blur->skills#updateFrom' } }
                 %td
                   %span.xp-field{ data: { 'skills-target': 'invested' }}
                 %td
-                  %input.Field-input{ type: 'number', data: { 'skills-target': 'to', action: 'skills#calculateTo  blur->skills#updateTo' } }
+                  %input.Field-input{ type: 'number', value: current_skill.target, data: { 'skills-target': 'to', action: 'skills#calculateTo  blur->skills#updateTo' } }
                 %td
                   %span.xp-field{ data: { 'skills-target': 'total' }}
                 %td

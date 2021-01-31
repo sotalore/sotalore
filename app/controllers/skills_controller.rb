@@ -23,10 +23,16 @@ class SkillsController < ApplicationController
   end
 
   def setup_avatar
+    @current_skills = Hash.new(EarnedSkill.new)
     if current_user.not_null?
       @avatars = current_user.avatars
       if @avatars.present?
         @avatar = @avatars.find(params[:avatar_id]) if params[:avatar_id]
+        if @avatar
+          @avatar.skills.each do |earned_skill|
+            @current_skills[earned_skill.skill_key] = earned_skill
+          end
+        end
       end
     end
   end
