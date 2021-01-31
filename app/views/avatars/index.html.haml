@@ -5,8 +5,9 @@
         - @avatars.each do |avatar|
           - next unless avatar.persisted?
           .row.Field
-            .col-sm-8= avatar.name
-            .col-sm-4.u-textRight
+            .col-sm-6= avatar.name
+            .col-sm-3= default_button_to('View Skills', avatar_skills_path(avatar))
+            .col-sm-3.u-textRight
               = edit_icon_to(edit_avatar_path(id: avatar))
               = destroy_icon_to(avatar_path(id: avatar))
       - else
