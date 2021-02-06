@@ -1,58 +1,62 @@
 - page_title('Skills')
 
-= entire_page do
-  = tile do
 
-    - other_activity_path = @avatar ? avatar_skills_path(@avatar, activity: other_activity) : skills_path(activity: other_activity)
-    - sub_heading = primary_button_to("#{other_activity} Skills".titleize, other_activity_path)
+.SkillTable
+  - other_activity_path = @avatar ? avatar_skills_path(@avatar, activity: other_activity) : skills_path(activity: other_activity)
+  - sub_heading = primary_button_to("#{other_activity} Skills".titleize, other_activity_path)
 
-    = tile_heading("#{@activity} Skills".titleize, sub_heading) do
-      - if @avatars
-        = sl_inline_form_with(url: '#', data: { controller: 'select-nav' }) do |form|
-          = form.label('Avatar: ')
-          &nbsp;
-          = form.basic_select('destination',
-                        [['~ none ~', skills_path]] + @avatars.map { |a| [a.name, avatar_skills_path(avatar_id: a, activity: @activity)] },
-                        selected: request.path,
-                        label: false)
-      - else
-        = link_to('create an avatar to save skills', avatars_path)
+  .SkillTable--pageHeading
+    %div.pageTabs
+      = link_to_unless(@activity == 'adventuring', 'Adventuring Skills', [ @avatar, :skills, activity: 'adventuring']) do |name|
+        %span.currentTab= name
+      = link_to_unless(@activity == 'crafting', 'Crafting Skills', [ @avatar, :skills, activity: 'crafting']) do |name|
+        %span.currentTab= name
 
+    - if @avatars
+      %form{ data: { controller: 'select-nav' }}
+        %strong Avatar:
+        = select_tag('avatar',
+            options_for_select([['~ none ~', skills_path]] + @avatars.map { |a| [a.name, avatar_skills_path(avatar_id: a, activity: @activity)] },
+                             request.path), class: 'Field-input')
+    - else
+      = link_to('create an avatar to save skills', avatars_path)
 
-    = tile_body do
-      %table.Table.SkillTable
-        %tr
-          %th Skill
-          %th.u-textRight Cost
-          %th.u-textRight Current Level
-          %th.u-textRight Current XP
-          %th.u-textRight Target Level
-          %th.u-textRight Total XP
-          %th.u-textRight Remaining XP
-        - @skills.each do |category, schools|
-          %tr{id: category}
-            %th.u-textCenter(colspan=7)= category.upcase
-          - schools.each do |school, school_skills|
-            %tr{id: "#{category}-#{school}"}
-              %th.u-textCenter
-                = school.titleize
-              %th(colspan=6)
-            - school_skills.each do |skill|
-              %tr{ data: {
-                  controller: 'skills',
-                  'skills-xp-factor-value' => skill.xp_factor,
-                  'skills-avatar-update-url-value' => (@avatar ? avatar_skill_path(@avatar.id, skill.key) : nil)
-                  } }
-                - current_skill = @current_skills[skill.key]
-                %td.skill-name= skill.name
-                %td= skill.xp_factor
-                %td
-                  %input.Field-input{ type: 'number', value: current_skill.current, data: { 'skills-target': 'from', action: 'skills#calculateFrom blur->skills#updateFrom' } }
-                %td
-                  %span.xp-field{ data: { 'skills-target': 'invested' }}
-                %td
-                  %input.Field-input{ type: 'number', value: current_skill.target, data: { 'skills-target': 'to', action: 'skills#calculateTo  blur->skills#updateTo' } }
-                %td
-                  %span.xp-field{ data: { 'skills-target': 'total' }}
-                %td
-                  %span.xp-field{ data: { 'skills-target': 'remaining' }}
+  %table.Table.SkillTable
+    %tr
+      %th skill
+      %th.u-textRight cost
+      %th.u-textCenter current level / xp
+      %th.u-textCenter target level / xp
+      %th.u-textRight remaining xp
+    - @skills.each do |category, schools|
+      %tr.categoryHeadingRow{id: category}
+        %th(colspan=2)= category.upcase
+        %td.currentTotal
+        %td.targetTotal
+        %td.remainingTotal
+      - schools.each do |school, school_skills|
+        %tr.categorySchoolRow{id: "#{category}-#{school}"}
+          %th(colspan=2)
+            = school.titleize
+          %td.currentTotal
+          %td.targetTotal
+          %td.remainingTotal
+        - school_skills.each do |skill|
+          %tr{ data: {
+              controller: 'skills',
+              'skills-xp-factor-value' => skill.xp_factor,
+              'skills-avatar-update-url-value' => (@avatar ? avatar_skill_path(@avatar.id, skill.key) : nil)
+              } }
+            - current_skill = @current_skills[skill.key]
+            %td.skill-name= skill.name
+            %td.xp-factor= skill.xp_factor.to_s.sub(/.0$/, "")
+            %td.xp-current
+              %div
+                %input.Field-input{ type: 'number', value: current_skill.current, data: { 'skills-target': 'from', action: 'skills#calculateFrom blur->skills#updateFrom' } }
+                %span.xp-field{ data: { 'skills-target': 'invested' }}
+            %td.xp-target
+              %div
+                %input.Field-input{ type: 'number', value: current_skill.target, data: { 'skills-target': 'to', action: 'skills#calculateTo  blur->skills#updateTo' } }
+                %span.xp-field{ data: { 'skills-target': 'total' }}
+            %td.xp-remaining
+              %span.xp-field{ data: { 'skills-target': 'remaining' }}
