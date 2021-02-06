@@ -1,20 +1,104 @@
 .SkillTable {
-  td {
-    text-align: right;
+
+  &--pageHeading {
+    div.pageTabs {
+      font-weight: bold;
+      font-size: 1.15rem;
+      display: inline-block;
+      height: 100%;
+      background-color: $grey9;
+
+      a, span.currentTab {
+        display: inline-block;
+        height: 100%;
+        padding: 0.5rem 16px;
+      }
+
+      a {
+        background-color: $grey7;
+      }
+    }
+
+    form {
+      float: right;
+      select {
+        display: inline-block;
+        width: auto;
+      }
+    }
   }
 
-  td.skill-name {
-    text-align: left;
-  }
+  table {
 
-  input {
-    width: 6rem;
-    text-align: right;
-    float: right;
-  }
+    th, td {
+      vertical-align: middle;
+    }
 
-  span.xp-field {
-    display: inline-block;
-    padding: 4px 8px; 
+    tr.categoryHeadingRow {
+      background-color: $parchment-shaded;
+    }
+
+    tr.categorySchoolRow {
+      background-color: $parchment-color;
+      th {
+        padding-left: 1rem;
+      }
+    }
+
+    background-color: $grey9;
+
+    tbody tr:hover {
+      background-color: $grey8;
+    }
+
+    td.skill-name {
+      text-align: left;
+    }
+
+    td.xp-factor, td.xp-remaining {
+      text-align: right;
+    }
+
+    td.xp-current > div, td.xp-target > div {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    input {
+      display: inline-block;
+      width: 4rem;
+      text-align: right;
+      &::-webkit-inner-spin-button,
+      &::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      -moz-appearance:textfield;
+    }
+
+    span.xp-field {
+      display: inline-block;
+      padding: 4px 8px;
+    }
+  }
+}
+
+@media only screen and (max-width: $grid-md) {
+  .SkillTable {
+    &--pageHeading {
+      div.pageTabs {
+        font-size: 1rem;
+      }
+    }
+
+    td, th {
+      font-size: 0.8rem;
+    }
+
+    th {
+      overflow-x: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 }
