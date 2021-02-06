@@ -19,7 +19,7 @@
             options_for_select([['~ none ~', skills_path]] + @avatars.map { |a| [a.name, avatar_skills_path(avatar_id: a, activity: @activity)] },
                              request.path), class: 'Field-input')
     - else
-      = link_to('create an avatar to save skills', avatars_path)
+      = primary_button_to('create an avatar', avatars_path)
 
   %table.Table.SkillTable
     %tr
