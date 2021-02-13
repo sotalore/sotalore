@@ -21,42 +21,69 @@
     - else
       = primary_button_to('create an avatar', avatars_path)
 
-  %table.Table.SkillTable
+  %table.Table.SkillTable{id: 'skillTable', data: { controller: 'skills-rollup' }}
     %tr
       %th skill
       %th.u-textRight cost
       %th.u-textCenter current level / xp
       %th.u-textCenter target level / xp
       %th.u-textRight remaining xp
+
+    %tr.headingRow.totalsHeadingRow{id: 'totals'}
+      %th(colspan=2)= "#{@activity.upcase} TOTALS"
+      %td
+        %span.xpField.currentXP
+      %td
+        %span.xpField.totalXP
+      %td
+        %span.xpField.remainingXP
+
     - @skills.each do |category, schools|
-      %tr.categoryHeadingRow{id: category}
+      %tr.headingRow.categoryHeadingRow{id: category, data: {
+            'skills-rollup-target': 'member',
+            'rollup-target': 'totals'
+          } }
         %th(colspan=2)= category.upcase
-        %td.currentTotal
-        %td.targetTotal
-        %td.remainingTotal
+        %td
+          %span.xpField.currentXP
+        %td
+          %span.xpField.totalXP
+        %td
+          %span.xpField.remainingXP
+
       - schools.each do |school, school_skills|
-        %tr.categorySchoolRow{id: "#{category}-#{school}"}
+        - school_rollup_target = "#{category}-#{school}"
+        %tr.headingRow.categorySchoolRow{id: school_rollup_target, data: {
+            'skills-rollup-target': 'member',
+            'rollup-target': category
+          } }
           %th(colspan=2)
             = school.titleize
-          %td.currentTotal
-          %td.targetTotal
-          %td.remainingTotal
+          %td
+            %span.xpField.currentXP
+          %td
+            %span.xpField.totalXP
+          %td
+            %span.xpField.remainingXP
+
         - school_skills.each do |skill|
           %tr{ data: {
               controller: 'skills',
               'skills-xp-factor-value' => skill.xp_factor,
-              'skills-avatar-update-url-value' => (@avatar ? avatar_skill_path(@avatar.id, skill.key) : nil)
+              'skills-avatar-update-url-value' => (@avatar ? avatar_skill_path(@avatar.id, skill.key) : nil),
+              'skills-rollup-target' => 'member',
+              'rollup-target' => school_rollup_target
               } }
             - current_skill = @current_skills[skill.key]
-            %td.skill-name= skill.name
-            %td.xp-factor= skill.xp_factor.to_s.sub(/.0$/, "")
-            %td.xp-current
+            %td.skillName= skill.name
+            %td.xpFactor= skill.xp_factor.to_s.sub(/.0$/, "")
+            %td.xpCurrent
               %div
-                %input.Field-input{ type: 'number', value: current_skill.current, data: { 'skills-target': 'from', action: 'skills#calculateFrom blur->skills#updateFrom' } }
-                %span.xp-field{ data: { 'skills-target': 'invested' }}
-            %td.xp-target
+                %input.Field-input{ type: 'number', value: current_skill.current, data: { 'skills-target': 'from', action: 'skills#calculateCurrent blur->skills#updateFrom' } }
+                %span.xpField{ data: { 'skills-target': 'current' }}
+            %td.xpTarget
               %div
-                %input.Field-input{ type: 'number', value: current_skill.target, data: { 'skills-target': 'to', action: 'skills#calculateTo  blur->skills#updateTo' } }
-                %span.xp-field{ data: { 'skills-target': 'total' }}
-            %td.xp-remaining
-              %span.xp-field{ data: { 'skills-target': 'remaining' }}
+                %input.Field-input{ type: 'number', value: current_skill.target, data: { 'skills-target': 'to', action: 'skills#calculateTotal  blur->skills#updateTo' } }
+                %span.xpField{ data: { 'skills-target': 'total' }}
+            %td.xpRemaining
+              %span.xpField{ data: { 'skills-target': 'remaining' }}
