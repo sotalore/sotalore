@@ -59,4 +59,5 @@ $purple4: #f5eefa;
 
 $parchment-color: mix($orange4, $yellow4);
 $parchment-shaded: darken($parchment-color, 10);
+$parchment-double-shaded: darken($parchment-shaded, 10);
 $parchment-dark: $orange1;

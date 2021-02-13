@@ -3,49 +3,58 @@ import { Controller } from "stimulus"
 export default class extends Controller {
   static values = { xpFactor: Number, avatarUpdateUrl: String }
 
-  static targets = [ 'from', 'to', 'invested', 'total', 'remaining' ]
+  static targets = [ 'from', 'to', 'current', 'total', 'remaining' ]
 
   connect() {
     this.originalFromValue = this.fromTarget.value
     this.originalToValue = this.toTarget.value
-    this.calculateFrom()
-    this.calculateTo()
+    this.calculateCurrent()
+    this.calculateTotal()
   }
 
-  calculateFrom() {
-    this.investedTarget.innerHTML = ''
-    this.investedXP = null
-
-    const fromLevel = parseInt(this.fromTarget.value, 10)
-    if (Number.isInteger(fromLevel) && fromLevel > 0) {
-      this.investedXP = this.XPToLevel(fromLevel)
-      this.investedTarget.innerHTML = Intl.NumberFormat().format(this.investedXP)
-    }
+  calculateCurrent() {
+    this.currentXP = this.calculateXPForLevel(this.fromTarget.value)
+    this.setXPValue('currentXP', this.currentTarget, this.currentXP)
     this.calculateRemaining()
   }
 
-  calculateTo() {
-    this.totalTarget.innerHTML = ''
-    this.totalXP = null
-
-    const toLevel = parseInt(this.toTarget.value, 10)
-    if (Number.isInteger(toLevel) && toLevel > 0) {
-      this.totalXP = this.XPToLevel(toLevel)
-      this.totalTarget.innerHTML = Intl.NumberFormat().format(this.totalXP)
-    }
+  calculateTotal() {
+    this.totalXP = this.calculateXPForLevel(this.toTarget.value)
+    this.setXPValue('totalXP', this.totalTarget, this.totalXP)
     this.calculateRemaining()
   }
 
   calculateRemaining() {
-    this.remainingTarget.innerHTML = ''
-    if (this.investedXP && this.totalXP) {
-      this.remainingTarget.innerHTML = Intl.NumberFormat().format(this.totalXP - this.investedXP)
+    let remainingXP = null
+    if (this.currentXP && this.totalXP) {
+      remainingXP = this.totalXP - this.currentXP
+    } else if (this.totalXP) {
+      remainingXP = this.totalXP
+    } else if (this.currentXP) {
+      remainingXP = -this.currentXP
     }
+    this.setXPValue('remainingXP', this.remainingTarget, remainingXP)
   }
 
+  setXPValue(field, targetElement, xp) {
+    if (xp !== null) {
+      targetElement.innerHTML = Intl.NumberFormat().format(xp)
+      this.element.dataset[field] = xp
+    } else {
+      delete this.element.dataset[field]
+      targetElement.innerHTML = ''
+    }
+    const event = new CustomEvent('skill:change', { bubbles: true })
+    this.element.dispatchEvent(event)
+  }
 
-  XPToLevel(level) {
-    if (level == 0) {
+  calculateXPForLevel(level) {
+    level = parseInt(level, 10)
+    if (!Number.isInteger(level)) {
+      return null
+    }
+
+    if (level === 0) {
       return 0
     }
     return (this.xpFactorValue * (Math.ceil(((1.099711**(level-1)) - 1) * 100)))

@@ -29,9 +29,14 @@
   }
 
   table {
+    background-color: $grey9;
 
     th, td {
       vertical-align: middle;
+    }
+
+    tr.totalsHeadingRow {
+      background-color: $parchment-double-shaded;
     }
 
     tr.categoryHeadingRow {
@@ -45,21 +50,25 @@
       }
     }
 
-    background-color: $grey9;
+    tr.headingRow {
+      td {
+        text-align: right;
+      }
+    }
 
-    tbody tr:hover {
+    tbody tr:not(.headingRow):hover {
       background-color: $grey8;
     }
 
-    td.skill-name {
+    td.skillName {
       text-align: left;
     }
 
-    td.xp-factor, td.xp-remaining {
+    td.xpFactor, td.xpRemaining {
       text-align: right;
     }
 
-    td.xp-current > div, td.xp-target > div {
+    td.xpCurrent > div, td.xpTarget > div {
       display: flex;
       justify-content: space-between;
     }
@@ -76,9 +85,9 @@
       -moz-appearance:textfield;
     }
 
-    span.xp-field {
+    span.xpField {
       display: inline-block;
-      padding: 4px 8px;
+      padding-right: 8px;
     }
   }
 }
