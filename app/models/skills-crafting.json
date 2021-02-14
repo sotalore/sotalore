@@ -105,14 +105,14 @@
         "key": "gathering~fishing~freshwater-fishing"
       },
       {
-        "name": "Saltwater Fishing",
-        "xp_factor": 1.0,
-        "key": "gathering~fishing~saltwater-fishing"
-      },
-      {
         "name": "Fetid Water Fishing",
         "xp_factor": 1.0,
         "key": "gathering~fishing~fetid-water-fishing"
+      },
+      {
+        "name": "Saltwater Fishing",
+        "xp_factor": 1.0,
+        "key": "gathering~fishing~saltwater-fishing"
       },
       {
         "name": "Lava Fishing",
