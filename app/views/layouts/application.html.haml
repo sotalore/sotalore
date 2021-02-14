@@ -33,13 +33,13 @@
 
         - if current_user.not_null?
           = portal_nav_link_to('My Recipes', user_recipes_path, 'book')
-        = portal_nav_link_to('My Avatars', avatars_path, 'user-shield')
+        = portal_nav_link_to('My Avatars', avatars_path, 'user-shield', active: [['avatars'],[]])
 
         - if current_user.not_null? && default_avatar = current_user.avatars.select(&:is_default)
           - curr_skills_path = avatar_skills_path(default_avatar)
         - else
           - curr_skills_path = skills_path
-        = portal_nav_link_to('Skills', curr_skills_path, 'dice-d20')
+        = portal_nav_link_to('Skills', curr_skills_path, 'dice-d20', active: [['skills'], []])
 
         = portal_nav_link_to('Items', items_path, 'object-group')
         = portal_nav_link_to('Recipes', recipes_path, 'gavel')
