@@ -6,14 +6,21 @@
           - @avatars.each do |avatar|
             - next unless avatar.persisted?
             .row.Field
-              .col-sm-6= avatar.name
-              .col-sm-3= default_button_to('View Skills', avatar_skills_path(avatar))
+              .col-sm-5= avatar.name
+              .col-sm-4.u-textRight
+                - if avatar.is_default
+                  = flair_info('default')
+                = default_button_to('View Skills', avatar_skills_path(avatar))
               .col-sm-3.u-textRight
                 = edit_icon_to(edit_avatar_path(id: avatar))
                 = destroy_icon_to(avatar_path(id: avatar))
         - else
           %p You have no Avatars yet, add one below!
 
+        - if @avatars && @avatars.none?(&:is_default)
+          = notice_info do
+            You have no default avatar. Edit an avatar, and you can make them the
+            <strong>default</strong> for things like the skills calculator.
       - else
         %p
           If you sign-up for an account in SotA Lore, you can create avatars and

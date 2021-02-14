@@ -114,7 +114,7 @@
         "key": "combat~polearm~skewer"
       }
     ],
-    "blade": [
+    "blades": [
       {
         "name": "Bladed Combat",
         "xp_factor": 1.0,
@@ -126,9 +126,9 @@
         "key": "combat~blade~thrust"
       },
       {
-        "name": "Double Slash",
+        "name": "Riposte",
         "xp_factor": 1.0,
-        "key": "combat~blade~double-slash"
+        "key": "combat~blade~riposte"
       },
       {
         "name": "Blade Speed",
@@ -136,9 +136,9 @@
         "key": "combat~blade~blade-speed"
       },
       {
-        "name": "Riposte",
+        "name": "Double Slash",
         "xp_factor": 1.0,
-        "key": "combat~blade~riposte"
+        "key": "combat~blade~double-slash"
       },
       {
         "name": "Rend",
@@ -1028,7 +1028,7 @@
         "key": "strategy~tactics~defensive-stance"
       },
       {
-        "name": "Horsemanship",
+        "name": "Mounted Proficiency",
         "xp_factor": 10.0,
         "key": "strategy~tactics~horsemanship"
       },
@@ -1058,14 +1058,14 @@
         "key": "strategy~tactics~passive-stance"
       },
       {
-        "name": "Horse Gallop Speed",
+        "name": "Mounted Gallop Speed",
         "xp_factor": 10.0,
         "key": "strategy~tactics~horse-gallop-speed"
       },
       {
-        "name": "Tactics Specialization",
+        "name": "Magic Warding",
         "xp_factor": 20.0,
-        "key": "strategy~tactics~tactics-specialization"
+        "key": "strategy~tactics~magic-warding"
       },
       {
         "name": "Heavy Lifter",
@@ -1088,19 +1088,19 @@
         "key": "strategy~tactics~fortify-defenses"
       },
       {
-        "name": "Horse Cary Capacity Focus",
+        "name": "mounted Carry Capacity Focus",
         "xp_factor": 10.0,
         "key": "strategy~tactics~horse-cary-capacity-focus"
       },
       {
-        "name": "Horse Speed Focus",
+        "name": "Mounted Speed Focus",
         "xp_factor": 10.0,
         "key": "strategy~tactics~horse-speed-focus"
       },
       {
-        "name": "Magic Warding",
+        "name": "Tactics Specialization",
         "xp_factor": 20.0,
-        "key": "strategy~tactics~magic-warding"
+        "key": "strategy~tactics~tactics-specialization"
       },
       {
         "name": "Offhand Defense",
@@ -1183,11 +1183,6 @@
         "name": "Pick Pockets",
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~pick-pockets"
-      },
-      {
-        "name": "Pick Locks",
-        "xp_factor": 2.0,
-        "key": "strategy~subterfuge~pick-locks"
       },
       {
         "name": "Backstab",
@@ -1371,14 +1366,14 @@
         "key": "strategy~focus~quick-swapping"
       },
       {
-        "name": "Elixir Receptive",
-        "xp_factor": 4.0,
-        "key": "strategy~focus~elixir-receptive"
-      },
-      {
         "name": "Train Summoned Pet Health",
         "xp_factor": 4.0,
         "key": "strategy~focus~train-summoned-pet-health"
+      },
+      {
+        "name": "Elixir Receptive",
+        "xp_factor": 4.0,
+        "key": "strategy~focus~elixir-receptive"
       },
       {
         "name": "Mind Lock",

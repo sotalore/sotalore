@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_25_005908) do
+ActiveRecord::Schema.define(version: 2021_02_14_211130) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 2021_01_25_005908) do
     t.string "name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "is_default", default: false, null: false
     t.index ["user_id"], name: "index_avatars_on_user_id"
   end
 

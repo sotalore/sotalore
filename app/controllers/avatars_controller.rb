@@ -46,6 +46,6 @@ class AvatarsController < ApplicationController
   end
 
   def permitted_params
-    params.require(:avatar).permit(:name)
+    params.require(:avatar).permit(:name, :is_default)
   end
 end
