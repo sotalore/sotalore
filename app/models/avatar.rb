@@ -5,4 +5,9 @@ class Avatar < ApplicationRecord
 
   validates :name, presence: true
 
+  before_save do
+    if is_default
+      user.avatars.where.not(id: id).update(is_default: false)
+    end
+  end
 end
