@@ -49,6 +49,9 @@
         - if current_user.not_null?
           = portal_nav_link_to('Planting', plantings_path, 'seedling')
         = portal_nav_link_to('Comments', comments_path, 'comment')
+        - if policy(:default_admin).index?
+          %hr
+          = portal_nav_link_to('Admin', admin_root_path, 'key')
         %hr
         - if current_user.not_null?
           = portal_nav_link_to('Sign Out', destroy_user_session_path, 'sign-out-alt')
