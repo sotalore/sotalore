@@ -352,7 +352,6 @@ DEPENDENCIES
   guard-rspec
   haml-rails
   jbuilder (~> 2.5)
-  jquery-rails
   kaminari
   libnotify
   listen
