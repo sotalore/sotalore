@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 
   resources :comments, except: [ :new, :create, :show ]
   resources :items, :seeds, controller: 'items' do
+    collection do
+      get 'use/:use', to: 'items#by_use', as: 'by_use'
+    end
     resources :comments, except: [ :new ]
   end
   resources :recipes do

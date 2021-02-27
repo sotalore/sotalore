@@ -1,0 +1,18 @@
+- page_title("#{params[:use]} Items")
+
+%h1= "#{params[:use]} Items".titleize
+
+.row
+  - @items.each do |item|
+    .col-sm-12.col-md-6.col-lg-4
+      = tile do
+        = tile_heading(link_to(item.name, item))
+        = tile_body do
+          - if item.results_count > 0
+            %p
+              Made from #{pluralize(item.results_count, 'recipe')}.
+          - if item.effects.present?
+            %h4 Effects
+            = formatted_body(item.effects)
+
+= paginate @items

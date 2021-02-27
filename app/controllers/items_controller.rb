@@ -6,6 +6,13 @@ class ItemsController < ApplicationController
     authorize Item
   end
 
+  def by_use
+    use = params[:use]
+    @items = Item.where(use: use)
+    @items = @items.by_name.page(params[:page]).per(200)
+    authorize Item
+  end
+
   def show
     @item = find_item
     authorize @item

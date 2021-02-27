@@ -2,8 +2,9 @@
 
 = tile do
   = tile_heading('Items') do
+    = primary_button_to('Food Items', by_use_items_path(use: 'food'))
+    = primary_button_to('Abstract Items', abstractions_path)
     - if policy(Item).edit?
-      = link_to('Abstract Items', abstractions_path)
       = new_button_to('New Item', new_item_path)
 
   = tile_body do
