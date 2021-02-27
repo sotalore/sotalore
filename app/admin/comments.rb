@@ -14,5 +14,5 @@ ActiveAdmin.register Comment do
   end
 
   filter :author_id
-  
+
 end
