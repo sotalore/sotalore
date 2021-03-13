@@ -3,6 +3,10 @@
 class Seed < Item
   store_accessor :type_data, :yield
 
+  def self.model_name
+    ActiveModel::Name.new(self, nil, "Item")
+  end
+
   validates :yield, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
 
   private
