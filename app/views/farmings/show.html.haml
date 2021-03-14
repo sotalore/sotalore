@@ -136,14 +136,14 @@
     = notice_info do
       When known, the expected average yield from complete watering is shown in <em>(parentheses)</em>.
     .row
-      - seeds = Seed.all.order(:price, 'lower(name)').to_a
+      - seeds = Item.use_is_seed.all.order(:price, 'lower(name)').to_a
       .col-sm-4
         %h4 Quick
         %ul
           - seeds.select { |s| s.price && s.price < 16 }.each do |seed|
             %li
-              - if policy(Seed).edit?
-                = edit_icon_to(edit_seed_path(seed), size: :small)
+              - if policy(Item).edit?
+                = edit_icon_to(edit_item_path(seed), size: :small)
               = link_to seed, seed
               - if seed.yield.present?
                 %em (#{seed.yield})
@@ -153,8 +153,8 @@
         %ul
           - seeds.select { |s| s.price == 16 }.each do |seed|
             %li
-              - if policy(Seed).edit?
-                = edit_icon_to(edit_seed_path(seed), size: :small)
+              - if policy(Item).edit?
+                = edit_icon_to(edit_item_path(seed), size: :small)
               = link_to seed, seed
               - if seed.yield.present?
                 %em (#{seed.yield})
@@ -164,8 +164,8 @@
         %ul
           - seeds.select { |s| s.price && s.price > 16 }.each do |seed|
             %li
-              - if policy(Seed).edit?
-                = edit_icon_to(edit_seed_path(seed), size: :small)
+              - if policy(Item).edit?
+                = edit_icon_to(edit_item_path(seed), size: :small)
               = link_to seed, seed
               - if seed.yield.present?
                 %em (#{seed.yield})

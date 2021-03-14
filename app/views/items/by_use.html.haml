@@ -1,6 +1,10 @@
 - page_title("#{params[:use]} Items")
 
-%h1= "#{params[:use]} Items".titleize
+.row
+  .col-sm-12.col-md-4
+    %h1= "#{params[:use]} Items".titleize
+  .col.sm-12.col-md-8.u-textRight
+    = render partial: 'item_nav'
 
 .row
   - @items.each do |item|
@@ -11,6 +15,10 @@
           - if item.results_count > 0
             %p
               Made from #{pluralize(item.results_count, 'recipe')}.
+          - if item.buff_slots_used.present?
+            %p
+              %strong Buff Slots:
+              = item.buff_slots_used
           - if item.effects.present?
             %h4 Effects
             = formatted_body(item.effects)
