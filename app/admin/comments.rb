@@ -15,4 +15,13 @@ ActiveAdmin.register Comment do
 
   filter :author_id
 
+  filter :author_id_present, as: :boolean
+
+  batch_action :delete do |ids|
+    batch_action_collection.find(ids).each do |comment|
+      comment.destroy
+    end
+    redirect_to collection_path, alert: "The comments have been deleted."
+  end
+
 end

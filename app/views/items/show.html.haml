@@ -13,6 +13,7 @@
           .row
             .col-xs
               = item_use_tag @item, large: true
+              = item_use_specific_tags @item
               = item_abstract_tag @item, large: true
               = item_price_tag @item, large: true
               = item_gathering_tag @item, large: true
@@ -50,7 +51,7 @@
             - if policy(Recipe).new?
               %p
                 = link_to('add another', new_recipe_path(item_id: @item.id))
-          
+
           - else
             %h3 Crafted from #{pluralize(@item.recipes.length, 'Recipe')}...
             = render @item.recipes

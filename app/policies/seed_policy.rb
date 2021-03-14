@@ -1,3 +1,0 @@
-class SeedPolicy < ItemPolicy
-
-end

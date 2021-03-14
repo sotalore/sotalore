@@ -8,7 +8,8 @@ FactoryBot.define do
     end
   end
 
-  factory :seed, class: 'Seed' do
+  factory :seed, parent: :item do
     sequence(:name) { |i| "Seed #{i}" }
+    use { "seed" }
   end
 end

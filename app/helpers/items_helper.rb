@@ -18,7 +18,8 @@ module ItemsHelper
     'food' => 'apple-alt',
     'potion' => 'flask',
     'house' => 'home',
-    'seed' => 'leaf'
+    'seed' => 'leaf',
+    'pet-food' => 'bone',
   }.freeze
 
   USES_FOR_RECIPES = %w[ fuel tool ]
@@ -107,6 +108,22 @@ module ItemsHelper
       content_tag(:span, class: css_class) do
         content_tag(:span, name, class: "Item-gatheringTag-name")
       end
+    end
+  end
+
+  def item_use_specific_tags(item)
+    case item.use
+    when 'seed'
+      generic_item_use_tag('yield: ', item.yield)
+    when 'food', 'pet-food'
+      generic_item_use_tag('buff slots used: ', item.buff_slots_used)
+    end
+  end
+
+  def generic_item_use_tag(label, value)
+    css_class = "Item-useTag Item-useTag--large"
+    content_tag(:span, class: css_class) do
+      h(label) + content_tag(:strong, value)
     end
   end
 end

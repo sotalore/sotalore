@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get 'incoming', to: 'home#incoming'
 
   resources :comments, except: [ :new, :create, :show ]
-  resources :items, :seeds, controller: 'items' do
+  resources :items, controller: 'items' do
     collection do
       get 'use/:use', to: 'items#by_use', as: 'by_use'
     end

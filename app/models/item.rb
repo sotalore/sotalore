@@ -1,11 +1,34 @@
 class Item < ApplicationRecord
+
+  self.ignored_columns = [:type]
+
   include PgSearch::Model
   multisearchable against: [ :name ]
 
   serialize :gathering_skill, CraftSkill
 
-  enum use: %w[ unknown tool fuel component armor weapon decoration food potion house seed ], _prefix: 'use_is'
+  ITEM_USES = {
+    unknown: 0,
+    armor: 4,
+    component: 3,
+    decoration: 6,
+    'fishing-bait': 12,
+    food: 7,
+    fuel: 2,
+    house: 9,
+    'pet-food': 11,
+    potion: 8,
+    seed: 10,
+    tool: 1,
+    weapon: 5,
+  }
+
+  enum use: ITEM_USES, _prefix: 'use_is'
   enum source: %w[ unknown merchant gathering drop recipe ], _prefix: 'source_is'
+
+  # TYPE DATA
+  store_accessor :type_data, :yield
+  store_accessor :type_data, :buff_slots_used
 
   has_many :comments, as: :subject, dependent: :delete_all
   # TODO items shouldn't be deleteable if they are ingredients.
@@ -20,8 +43,8 @@ class Item < ApplicationRecord
 
   scope :with_data, -> {
     eager_load(:ingredients, :results)
-      .preload(ingredients: { recipe: :results })
-      .preload(results: :item)
+    .preload(ingredients: { recipe: :results })
+    .preload(results: :item)
   }
 
   scope :by_name, -> { order('lower(name)') }
@@ -32,12 +55,15 @@ class Item < ApplicationRecord
   end
 
   before_validation :nilify_blanks
-  before_validation :set_type_from_use, on: :create
 
   validates :name, presence: true, uniqueness: { case_sensitive: false, allow_blank: true }
 
   validate  :gathering_skill_is_gathering
   validates :price, absence: { if: ->(i) { i.abstract }, message: 'does not apply to abstract items' }
+
+  # TYPE DATA VALIDATIONS
+  validates :yield, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
+  validates :buff_slots_used, numericality: { only_integer: true, greater_than: 0, less_than: 4 }, allow_nil: true
 
   before_destroy  :cannot_be_deleted_if_ingredient, prepend: true
   before_destroy  :destroy_recipes_with_identical_names, prepend: true
@@ -79,12 +105,6 @@ class Item < ApplicationRecord
   def gathering_skill_is_gathering
     if gathering_skill && !gathering_skill.gathering?
       errors.add(:gathering_skill, 'must be a gathering skill')
-    end
-  end
-
-  def set_type_from_use
-    if use == 'seed'
-      self.type = 'Seed'
     end
   end
 

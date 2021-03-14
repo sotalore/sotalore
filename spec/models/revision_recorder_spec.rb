@@ -51,8 +51,8 @@ RSpec.describe RevisionRecorder do
         expect(comment.body).to eq(expected)
       end
 
-      context 'Given a Seed' do
-        let(:seed) { Seed.create!(name: 'Random Sedd') }
+      context 'Given a Item that is a seed' do
+        let(:seed) { Item.create!(name: 'Random Seed', use: 'seed') }
 
         it 'Properly checks yield changes' do
           seed.update!(yield: 10)

@@ -1,19 +1,35 @@
-= sl_form_for(@item) do |f|
-  = f.error_messages
-  = f.text_field    :name, autofocus: true
-  = f.select        :use, Item.uses.keys
-  = f.select        :source, Item.sources.keys
-  = f.check_box     :abstract
-  = f.select        :instance_id, abstract_items_options, include_blank: true
-  = f.number_field  :price, min: 1
-  = f.number_field  :weight, step: '0.01'
-  = f.select        :gathering_skill, CraftSkill.gathering.map { |s| [ s.name, s.key ]},
-  include_blank: true, selected: @item.gathering_skill&.key
-  - if @item.is_a?(Seed)
-    = field_set_tag("Seed Information") do
-      = f.number_field :yield, min: 1
-  = f.text_area :effects
-  = f.text_area :notes
+= sl_form_for(@item, data: { controller: 'item-form' }) do |f|
+  .row
+    .col-xs-12
+      = f.error_messages
+  .row
+    .col-xs-12.col-lg-6
+      = f.text_field    :name, autofocus: true
+      = f.select        :use, Item.uses.keys, {}, html_options={ data: { 'item-form-target': 'useSelect', 'action': 'item-form#change_use' }}
 
-  = f.actions do
-    = f.submit
+      = field_set_tag("Seed Information", data: {'item-form-target': 'useSpecific', 'for-use': 'seed'}) do
+        = f.number_field :yield, min: 1
+
+      = field_set_tag("Food Information", data: {'item-form-target': 'useSpecific', 'for-use': 'food,pet-food'}) do
+        = f.number_field :buff_slots_used, min: 1, max: 3
+
+      = f.select :source, Item.sources.keys
+      .row
+        .col-xs-12.col-md-6
+          = f.check_box :abstract
+        .col-xs-12.col-md-6
+          = f.select :instance_id, abstract_items_options, include_blank: true
+      .row
+        .col-xs-12.col-md-6
+          = f.number_field :price, min: 1
+        .col-xs-12.col-md-6
+          = f.number_field :weight, step: '0.01'
+
+      = f.select        :gathering_skill, CraftSkill.gathering.map { |s| [ s.name, s.key ]},
+      include_blank: true, selected: @item.gathering_skill&.key
+    .col-xs-12.col-lg-6
+      = f.text_area :effects
+      = f.text_area :notes
+
+      = f.actions do
+        = f.submit

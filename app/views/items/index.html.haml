@@ -2,10 +2,7 @@
 
 = tile do
   = tile_heading('Items') do
-    = primary_button_to('Food Items', by_use_items_path(use: 'food'))
-    = primary_button_to('Abstract Items', abstractions_path)
-    - if policy(Item).edit?
-      = new_button_to('New Item', new_item_path)
+    = render partial: 'item_nav'
 
   = tile_body do
     %table.Table
