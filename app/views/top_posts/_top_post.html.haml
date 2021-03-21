@@ -3,6 +3,19 @@
   = tile_body do
     %p
       %strong
+        A lot of the new Food has been updated!
+
+    %p
+      We're working hard to get all the Food and related Recipes updated
+      as the dev-team continues to push out these changes. Check out the
+      = primary_button_to('Food', by_use_items_path(use: 'food'), size: 'small')
+      and
+      = primary_button_to('pet Food', by_use_items_path(use: 'pet-food'), size: 'small')
+      areas in the "Items" sectio of the site.
+
+
+    %p
+      %strong
         The skills calculator now saves skill information for your avatars!
 
     %p
@@ -15,12 +28,3 @@
       <strong>Latest update:</strong> An Avatar can be set as your <em>default</em>
       Avatar. This will make the skills calculator default to them. From there, you
       select another Avatar, or <em>~none~</em> for just a scratchpad.
-
-    %p
-      I could still use lots of feedback on what to do next. I've made it
-      possible to leave anonymous comments, so feel free to send me a message
-      that way.
-
-    %p
-      If you want to chat on Discord, you can join my server here:
-      = link_to('https://discord.gg/HcDyH4b', 'https://discord.gg/HcDyH4b', target: :blank)
