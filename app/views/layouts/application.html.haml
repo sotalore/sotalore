@@ -18,6 +18,7 @@
     %link(rel="manifest" href="/site.webmanifest")
 
   %body
+    = render partial: '/layouts/github'
     .PortalNav
       .PortalNav-header
         .PortalNav-search{ data: {controller: 'autocomplete', 'autocomplete-url' => '/search/global' }}

@@ -2,6 +2,13 @@ require 'rails_helper'
 
 RSpec.describe Item do
 
+  describe 'USE_TAG uniqueness' do
+    it 'has no duplicates' do
+      expect(Item::ITEM_USES.values.length)
+        .to eq(Item::ITEM_USES.values.uniq.length)
+    end
+  end
+
   describe 'destruction' do
     let!(:item) { create :item }
 

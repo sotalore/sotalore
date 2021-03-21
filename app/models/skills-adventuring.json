@@ -1088,7 +1088,7 @@
         "key": "strategy~tactics~fortify-defenses"
       },
       {
-        "name": "mounted Carry Capacity Focus",
+        "name": "Mounted Carry Capacity Focus",
         "xp_factor": 10.0,
         "key": "strategy~tactics~horse-cary-capacity-focus"
       },
@@ -1255,6 +1255,11 @@
         "name": "Refrain of Resistance",
         "xp_factor": 1.0,
         "key": "strategy~bard~refrain-of-resistance"
+      },
+      {
+        "name": "Voice Training",
+        "xp_factor": 20.0,
+        "key": "strategy~bard~voice-training"
       },
       {
         "name": "Bard Specialization",
