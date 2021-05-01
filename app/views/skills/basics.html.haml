@@ -1,0 +1,71 @@
+- page_title('Skill Basics')
+
+%script{ src: "https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js" }
+
+.SkillTable
+
+  .SkillTable--pageHeading
+    %div.pageTabs
+      = link_to_unless(@activity == 'adventuring', 'Adventuring Skills', [ @avatar, :skills, activity: 'adventuring']) do |name|
+        %span.currentTab= name
+      = link_to_unless(@activity == 'crafting', 'Crafting Skills', [ @avatar, :skills, activity: 'crafting']) do |name|
+        %span.currentTab= name
+      = link_to_unless(!@activity, 'Basics', skills_basics_path) do |name|
+        %span.currentTab= name
+
+  %div.SkillBasics
+    %h3 What Skills Cost to Level
+
+    .row
+      .col-sm-12.col-md-6
+        %p
+          Raising skill levels costs <em>Adventure</em> or <em>Crafting</em> Experience (XP).
+          The amount of XP required is exponential in nature, causing higher-levels to cost
+          considerably more than lower-levels.
+
+        %p
+          The chart below can help visualize the cost of raising skills. Change the
+          <strong>Max Skill Level</strong> and <strong>Factor Cost</strong> to get
+          an idea of the XP requirements to get a skill to a particular level.
+
+      .col-sm-12.col-md-6
+        %p
+          Along with the base XP cost, each skill also has a <strong>Factor Cost</strong>.
+          This is a simple multiplier to the calculated XP cost.
+
+        %p
+          Most skills have a <strong>Factor Cost of 1</strong>. This commonly applies to active
+          skills (e.g., red, yellow, or blue glyphs).
+
+        %p
+          Passive skills (i.e., grey glyphs) quite often have a <strong>Factor Cost of 4</strong>.
+
+        %p
+          Specializations and wardings (and a couple others) have a <strong>Factor Cost of 20</strong>.
+
+        %p
+          Check the <em>Adventure</em> and <em>Crafting</em> tabs above for the cost of
+          each individual skill.
+
+  %div.SkillBasics{id: 'skillsBasics', data: { controller: 'skills-basics' }}
+    %strong Max Skill Level:
+    %input{ type: 'number', value: 200, data: { 'action': 'skills-basics#setLevel', 'skills-basics-target': 'toLevel' }}
+    %strong Factor Cost:
+    %input{ type: 'number', value: 1, data: { 'action': 'skills-basics#setLevel', 'skills-basics-target': 'xpFactor' }}
+    %canvas#skillBasicsChart
+
+  %div.SkillBasicsNotes
+    %h3 Notes About Skill XP Math
+    %p
+      The calcuations used on this site differ from other tools I've seen. A lot of other tools use a
+      "lookup" table to calculate the total amount of XP for a particular skill level between
+      1 and 200. In my testing, some of these appeared to be inaccurate (although, still very useful,
+      as the inaccuracies are relatively small).  So, instead, I've chosen to use a function to calculate
+      required XP. I'm convinced this function is also slightly inaccurate, but close enough to be
+      useful.
+
+    %p
+      That XP required function for a skill level is as follows (note that <em>**</em> is the power operator)...
+
+    %pre
+      XP = (xpFactorValue * (Math.ceil(((1.099711**(level-1)) - 1) * 100)))

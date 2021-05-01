@@ -2,14 +2,14 @@
 
 
 .SkillTable
-  - other_activity_path = @avatar ? avatar_skills_path(@avatar, activity: other_activity) : skills_path(activity: other_activity)
-  - sub_heading = primary_button_to("#{other_activity} Skills".titleize, other_activity_path)
 
   .SkillTable--pageHeading
     %div.pageTabs
       = link_to_unless(@activity == 'adventuring', 'Adventuring Skills', [ @avatar, :skills, activity: 'adventuring']) do |name|
         %span.currentTab= name
       = link_to_unless(@activity == 'crafting', 'Crafting Skills', [ @avatar, :skills, activity: 'crafting']) do |name|
+        %span.currentTab= name
+      = link_to_unless(@activity == nil, 'Basics', skills_basics_path) do |name|
         %span.currentTab= name
 
     - if @avatars

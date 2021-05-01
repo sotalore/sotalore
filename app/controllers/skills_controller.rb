@@ -1,11 +1,14 @@
 class SkillsController < ApplicationController
   skip_after_action :verify_authorized
 
-  before_action :set_activity
-  before_action :setup_avatar
+  before_action :set_activity, only: [ :index ]
+  before_action :setup_avatar, except: [ :basics ]
 
   def index
     @skills = @activity.adventuring? ? Skill::ADVENTURING : Skill::CRAFTING
+  end
+
+  def basics
   end
 
   def update
