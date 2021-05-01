@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
   resource :farming
 
+  get 'skills', to: redirect('/skills/adventuring'), as: 'skills_redirect'
   get 'skills/:activity', to: 'skills#index', as: 'skills', defaults: { activity: 'adventuring' }
   resources :avatars, except: [ :show ] do
     get 'skills/:activity', to: 'skills#index', as: 'skills', defaults: { activity: 'adventuring' }
