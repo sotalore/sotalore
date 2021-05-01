@@ -1,6 +1,33 @@
 import { Controller } from "stimulus"
 
+import {
+  Chart,
+  LineElement,
+  PointElement,
+  LineController,
+  CategoryScale,
+  LinearScale,
+  Filler,
+  Legend,
+  Title,
+  Tooltip
+} from 'chart.js';
+
+Chart.register(
+  LineElement,
+  PointElement,
+  LineController,
+  CategoryScale,
+  LinearScale,
+  Filler,
+  Legend,
+  Title,
+  Tooltip
+);
+
+
 export default class extends Controller {
+
 
   static targets = [ 'toLevel', 'xpFactor' ]
 
