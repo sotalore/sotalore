@@ -2,7 +2,7 @@
   = tile_heading('Forgot your password?')
   = tile_body do
     = full_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
-      = devise_error_messages!
+      = render "devise/shared/error_messages", resource: resource
       = f.email_field :email
       %p.help-text
         The email you used to sign-up.
