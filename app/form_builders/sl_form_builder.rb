@@ -317,8 +317,8 @@ class SLFormBuilder < BasicFormBuilder
   end
 
   def translate_hint(method, options = {})
-    I18n.translate("#{object_name}.#{method}",
-      { scope: 'helpers.hint', default: '' }.merge(options))
+    kwargs = { scope: 'helpers.hint', default: '' }.merge(options)
+    I18n.translate("#{object_name}.#{method}", **kwargs)
   end
 
 end

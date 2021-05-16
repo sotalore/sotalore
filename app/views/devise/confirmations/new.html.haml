@@ -2,7 +2,7 @@
   = tile_heading('Resend confirmation')
   = tile_body do
     = full_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f|
-      = devise_error_messages!
+      = render "devise/shared/error_messages", resource: resource
       = f.email_field :email, autofocus: true, value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email), hint: 'The email you used to register'
       = f.actions do
         = f.submit "Resend confirmation instructions"
