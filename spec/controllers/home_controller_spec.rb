@@ -33,4 +33,13 @@ RSpec.describe HomeController do
       end
     end
   end
+
+  describe 'GET master_trainers' do
+    render_views
+    it 'works' do
+      get :master_trainers
+      expect(response).to have_http_status(:ok)
+    end
+
+  end
 end
