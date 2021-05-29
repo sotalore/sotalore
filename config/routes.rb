@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   root to: 'home#show', as: :root
   get 'roadmap', to: 'home#roadmap'
   get 'lunar-rifts', to: 'home#lunar_rifts'
+  get 'master-trainers', to: 'home#master_trainers'
   get 'incoming', to: 'home#incoming'
 
   resources :comments, except: [ :new, :create, :show ]

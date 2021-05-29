@@ -1,0 +1,74 @@
+.LunarRift {
+  font-size: 0.7rem;
+  line-height: 0.9rem;
+  position: relative;
+  text-align: center;
+  color: white;
+
+  div.rift {
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.4);
+
+    &.active {
+      border: 5px solid #7473FA;
+    }
+  }
+
+  div.rift > div {
+    font-size: 0.9rem;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  div.rift-1 {
+    position: absolute;
+    bottom: 28%;
+    left: 10%;
+  }
+
+  div.rift-2 {
+    position: absolute;
+    bottom: 17%;
+    right: 22%;
+  }
+
+  div.rift-3 {
+    position: absolute;
+    bottom: 40%;
+    left: 25%;
+  }
+
+  div.rift-4 {
+    position: absolute;
+    top: 45%;
+    right: 20%;
+  }
+
+  div.rift-5 {
+    position: absolute;
+    top: 5%;
+    right: 15%;
+  }
+
+  div.rift-6 {
+    position: absolute;
+    bottom: 40%;
+    left:1%;
+  }
+
+  div.rift-7 {
+    position: absolute;
+    bottom: 40%;
+    right: 45%;
+  }
+
+  div.rift-8 {
+    position: absolute;
+    bottom: 15%;
+    left: 28%;
+  }
+
+
+}
