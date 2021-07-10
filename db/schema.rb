@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_02_14_211130) do
+ActiveRecord::Schema.define(version: 2021_05_30_154335) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -71,6 +71,13 @@ ActiveRecord::Schema.define(version: 2021_02_14_211130) do
     t.index ["recipe_id", "item_id"], name: "index_ingredients_on_recipe_id_and_item_id", unique: true
   end
 
+  create_table "item_salvages", force: :cascade do |t|
+    t.bigint "salvage_source_id"
+    t.bigint "salvage_result_id"
+    t.index ["salvage_result_id"], name: "index_item_salvages_on_salvage_result_id"
+    t.index ["salvage_source_id", "salvage_result_id"], name: "index_item_salvages_on_salvage_source_id_and_salvage_result_id", unique: true
+  end
+
   create_table "items", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "use", default: 0, null: false
@@ -91,6 +98,8 @@ ActiveRecord::Schema.define(version: 2021_02_14_211130) do
     t.decimal "weight", precision: 6, scale: 2
     t.text "effects"
     t.text "notes"
+    t.integer "salvage_result_count", limit: 2, default: 0
+    t.integer "salvage_source_count", limit: 2, default: 0
   end
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|
@@ -201,6 +210,8 @@ ActiveRecord::Schema.define(version: 2021_02_14_211130) do
   add_foreign_key "earned_skills", "avatars"
   add_foreign_key "ingredients", "items"
   add_foreign_key "ingredients", "recipes"
+  add_foreign_key "item_salvages", "items", column: "salvage_result_id"
+  add_foreign_key "item_salvages", "items", column: "salvage_source_id"
   add_foreign_key "items", "users", column: "last_confirmed_by_id"
   add_foreign_key "plantings", "users"
   add_foreign_key "recipes", "users", column: "last_confirmed_by_id"
