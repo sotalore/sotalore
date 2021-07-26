@@ -326,3 +326,8 @@ ActiveAdmin.setup do |config|
   #
   # config.order_clause = MyOrderClause
 end
+
+Rails.application.config.after_initialize do
+  ActiveAdmin.application.stylesheets.delete('active_admin/print.css')
+  ActiveAdmin.application.stylesheets['active_admin/print'] = { media: 'print' }
+end
