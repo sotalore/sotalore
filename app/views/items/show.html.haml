@@ -53,14 +53,19 @@
                   <strong>Salvages to:</strong>
                   = @item.salvages_to.map { |i| link_to(i, i) }.join(", ").html_safe
 
-              = sl_form_for(ItemSalvage.new()) do |f|
-                = f.error_messages
-                = f.hidden_field :salvage_from_id, value: @item.id
-                %div{data: { controller: 'autocomplete', 'autocomplete-url' => '/search/items' }}
-                  = f.text_field(:salvage_to_name, label: "this salvages to...", data: { 'autocomplete-target' => 'input' })
-                  = f.hidden_field :salvage_to_id, data: { 'autocomplete-target' => 'hidden' }
-                  %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
-                = f.submit('Add')
+              - if (@item.salvages_from.length + @item.salvages_to.length) == 0
+                %p
+                  No salvage info
+
+              - if policy(:item_salvage).create?
+                = sl_form_for(ItemSalvage.new()) do |f|
+                  = f.error_messages
+                  = f.hidden_field :salvage_from_id, value: @item.id
+                  %div{data: { controller: 'autocomplete', 'autocomplete-url' => '/search/items' }}
+                    = f.text_field(:salvage_to_name, label: "this salvages to...", data: { 'autocomplete-target' => 'input' })
+                    = f.hidden_field :salvage_to_id, data: { 'autocomplete-target' => 'hidden' }
+                    %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
+                  = f.submit('Add')
 
     %hr
     .row
