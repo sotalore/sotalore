@@ -8,26 +8,26 @@ RSpec.describe ItemSalvage, type: :model do
   describe 'The basics' do
 
     it 'does not salvage' do
-      expect(item1.salvage_source_count).to eq 0
-      expect(item1.salvage_result_count).to eq 0
+      expect(item1.salvage_from_count).to eq 0
+      expect(item1.salvage_to_count).to eq 0
     end
 
     it 'salvages to and from' do
-      item1.salvage_results << item2
+      item1.salvages_to << item2
 
       item1.reload
       item2.reload
 
-      expect(item1.salvage_source_count).to eq 1
-      expect(item1.salvage_result_count).to eq 0
+      expect(item1.salvage_from_count).to eq 1
+      expect(item1.salvage_to_count).to eq 0
 
-      expect(item2.salvage_source_count).to eq 0
-      expect(item2.salvage_result_count).to eq 1
+      expect(item2.salvage_from_count).to eq 0
+      expect(item2.salvage_to_count).to eq 1
     end
 
     it 'cannot salvage into self' do
 
-      item_salvage = item1.item_salvages_as_source.build(salvage_result: item1)
+      item_salvage = item1.item_salvages_as_source.build(salvage_to: item1)
       expect(item_salvage).to_not be_valid
     end
   end

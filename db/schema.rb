@@ -72,10 +72,10 @@ ActiveRecord::Schema.define(version: 2021_05_30_154335) do
   end
 
   create_table "item_salvages", force: :cascade do |t|
-    t.bigint "salvage_source_id"
-    t.bigint "salvage_result_id"
-    t.index ["salvage_result_id"], name: "index_item_salvages_on_salvage_result_id"
-    t.index ["salvage_source_id", "salvage_result_id"], name: "index_item_salvages_on_salvage_source_id_and_salvage_result_id", unique: true
+    t.bigint "salvage_from_id", null: false
+    t.bigint "salvage_to_id", null: false
+    t.index ["salvage_from_id", "salvage_to_id"], name: "index_item_salvages_on_salvage_from_id_and_salvage_to_id", unique: true
+    t.index ["salvage_to_id"], name: "index_item_salvages_on_salvage_to_id"
   end
 
   create_table "items", id: :serial, force: :cascade do |t|
@@ -98,8 +98,8 @@ ActiveRecord::Schema.define(version: 2021_05_30_154335) do
     t.decimal "weight", precision: 6, scale: 2
     t.text "effects"
     t.text "notes"
-    t.integer "salvage_result_count", limit: 2, default: 0
-    t.integer "salvage_source_count", limit: 2, default: 0
+    t.integer "salvage_from_count", limit: 2, default: 0, null: false
+    t.integer "salvage_to_count", limit: 2, default: 0, null: false
   end
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|
@@ -210,8 +210,8 @@ ActiveRecord::Schema.define(version: 2021_05_30_154335) do
   add_foreign_key "earned_skills", "avatars"
   add_foreign_key "ingredients", "items"
   add_foreign_key "ingredients", "recipes"
-  add_foreign_key "item_salvages", "items", column: "salvage_result_id"
-  add_foreign_key "item_salvages", "items", column: "salvage_source_id"
+  add_foreign_key "item_salvages", "items", column: "salvage_from_id"
+  add_foreign_key "item_salvages", "items", column: "salvage_to_id"
   add_foreign_key "items", "users", column: "last_confirmed_by_id"
   add_foreign_key "plantings", "users"
   add_foreign_key "recipes", "users", column: "last_confirmed_by_id"

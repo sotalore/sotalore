@@ -33,13 +33,34 @@
 
         .row
           - if @item.effects
-            .col-sm-6
+            .col-sm-12.col-lg-4
               = tile_with_heading('Effects') do
                 = formatted_body @item.effects
           - if @item.notes
-            .col-sm-6
+            .col-sm-12.col-lg-4
               = tile_with_heading('Notes') do
                 = formatted_body @item.notes
+
+          .col-sm-12.col-lg-4
+            = tile_with_heading('Salvage') do
+              - if @item.salvages_from.length > 0
+                %p
+                  <strong>Salvages from:</strong>
+                  = @item.salvages_from.map { |i| link_to(i, i) }.join(", ").html_safe
+
+              - if @item.salvages_to.length > 0
+                %p
+                  <strong>Salvages to:</strong>
+                  = @item.salvages_to.map { |i| link_to(i, i) }.join(", ").html_safe
+
+              = sl_form_for(ItemSalvage.new()) do |f|
+                = f.error_messages
+                = f.hidden_field :salvage_from_id, value: @item.id
+                %div{data: { controller: 'autocomplete', 'autocomplete-url' => '/search/items' }}
+                  = f.text_field(:salvage_to_name, label: "this salvages to...", data: { 'autocomplete-target' => 'input' })
+                  = f.hidden_field :salvage_to_id, data: { 'autocomplete-target' => 'hidden' }
+                  %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
+                = f.submit('Add')
 
     %hr
     .row
@@ -61,7 +82,7 @@
 
 
         - else
-          .u-textCenter
+          %p.u-textCenter
             %em no recipes make this.
             - if policy(Recipe).new?
               = link_to('add one', new_recipe_path(item_id: @item.id))

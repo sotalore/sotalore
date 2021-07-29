@@ -1,0 +1,2 @@
+class ItemSalvagePolicy < ApplicationPolicy
+end

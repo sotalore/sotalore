@@ -16,6 +16,9 @@ Rails.application.routes.draw do
     end
     resources :comments, except: [ :new ]
   end
+
+  resources :item_salvages, controller: 'item_salvages'
+
   resources :recipes do
     member do
       get 'show_partial', to: 'recipes#show_partial'
