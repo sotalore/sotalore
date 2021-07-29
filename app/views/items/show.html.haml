@@ -33,13 +33,49 @@
 
         .row
           - if @item.effects
-            .col-sm-6
+            .col-sm-12.col-lg-4
               = tile_with_heading('Effects') do
                 = formatted_body @item.effects
           - if @item.notes
-            .col-sm-6
+            .col-sm-12.col-lg-4
               = tile_with_heading('Notes') do
                 = formatted_body @item.notes
+
+          .col-sm-12.col-lg-4
+            = tile_with_heading('Salvage') do
+              - if @item.salvage_as_result_count > 0
+                %p
+                  <strong>Potentially obtain this item by salvaging:</strong>
+                %ul.List--plain
+                  - @item.item_salvages_as_result.each do |item_salvage|
+                    %li
+                      = link_to(item_salvage.salvage_from, item_salvage.salvage_from)
+                      - if policy(:item_salvage).destroy?
+                        = destroy_icon_to(item_salvage, size: :small)
+
+              - if @item.salvage_as_source_count > 0
+                %p
+                  <strong>Salvage this item to potentially get:</strong>
+                %ul.List--plain
+                  - @item.item_salvages_as_source.each do |item_salvage|
+                    %li
+                      = link_to(item_salvage.salvage_to, item_salvage.salvage_to)
+                      - if policy(:item_salvage).destroy?
+                        = destroy_icon_to(item_salvage, size: :small)
+
+              - if (@item.salvage_as_result_count + @item.salvage_as_source_count) == 0
+                %p
+                  No salvage info
+
+              - if policy(:item_salvage).create?
+                = sl_form_for(ItemSalvage.new()) do |f|
+                  = f.error_messages
+                  = f.hidden_field :salvage_from_id, value: @item.id
+                  %div{data: { controller: 'autocomplete', 'autocomplete-url' => '/search/items' }}
+                    = f.text_field(:salvage_to_name, label: "this salvages to...", data: { 'autocomplete-target' => 'input' })
+                    = f.hidden_field :salvage_to_id, data: { 'autocomplete-target' => 'hidden' }
+                    %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
+                  = f.submit('Add')
 
     %hr
     .row
@@ -61,7 +97,7 @@
 
 
         - else
-          .u-textCenter
+          %p.u-textCenter
             %em no recipes make this.
             - if policy(Recipe).new?
               = link_to('add one', new_recipe_path(item_id: @item.id))

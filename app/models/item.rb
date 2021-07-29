@@ -10,6 +10,7 @@ class Item < ApplicationRecord
   ITEM_USES = {
     unknown: 0,
     armor: 4,
+    artifact: 17,
     component: 3,
     decoration: 6,
     dye: 13,
@@ -22,6 +23,10 @@ class Item < ApplicationRecord
     'pet-food': 11,
     potion: 8,
     scroll: 16,
+    'socketable-gem': 18,
+    'socketable-jewel': 19,
+    'socketable-imbued-gem': 20,
+    'socketable-imbued-jewel': 21,
     seed: 10,
     tool: 1,
     weapon: 5,
@@ -44,6 +49,12 @@ class Item < ApplicationRecord
 
   has_many   :instances, class_name: 'Item', inverse_of: :instance_of, foreign_key: 'instance_id'
   belongs_to :instance_of, class_name: 'Item', inverse_of: :instances, foreign_key: 'instance_id'
+
+  has_many :item_salvages_as_source, class_name: 'ItemSalvage', foreign_key: 'salvage_from_id', dependent: :delete_all
+  has_many :item_salvages_as_result, class_name: 'ItemSalvage', foreign_key: 'salvage_to_id', dependent: :delete_all
+
+  has_many :salvages_to, through: :item_salvages_as_source, source: :salvage_to
+  has_many :salvages_from, through: :item_salvages_as_result, source: :salvage_from
 
   scope :with_data, -> {
     eager_load(:ingredients, :results)
