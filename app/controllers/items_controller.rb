@@ -10,6 +10,9 @@ class ItemsController < ApplicationController
     use = params[:use]
     @items = Item.where(use: use)
     @items = @items.by_name.page(params[:page]).per(200)
+    if use == 'artifact'
+      @items = @items.includes(:salvages_to)
+    end
     authorize Item
   end
 
