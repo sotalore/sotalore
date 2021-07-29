@@ -8,8 +8,8 @@ RSpec.describe ItemSalvage, type: :model do
   describe 'The basics' do
 
     it 'does not salvage' do
-      expect(item1.salvage_from_count).to eq 0
-      expect(item1.salvage_to_count).to eq 0
+      expect(item1.salvage_as_result_count).to eq 0
+      expect(item1.salvage_as_source_count).to eq 0
     end
 
     it 'salvages to and from' do
@@ -18,11 +18,15 @@ RSpec.describe ItemSalvage, type: :model do
       item1.reload
       item2.reload
 
-      expect(item1.salvage_from_count).to eq 1
-      expect(item1.salvage_to_count).to eq 0
+      expect(item1.salvage_as_result_count).to eq 0
+      expect(item1.salvages_from).to be_empty
+      expect(item1.salvage_as_source_count).to eq 1
+      expect(item1.salvages_to).to eq [item2]
 
-      expect(item2.salvage_from_count).to eq 0
-      expect(item2.salvage_to_count).to eq 1
+      expect(item2.salvage_as_result_count).to eq 1
+      expect(item2.salvages_from).to eq [item1]
+      expect(item2.salvage_as_source_count).to eq 0
+      expect(item2.salvages_to).to be_empty
     end
 
     it 'cannot salvage into self' do

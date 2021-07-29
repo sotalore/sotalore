@@ -1,7 +1,7 @@
 class ItemSalvage < ApplicationRecord
 
-  belongs_to :salvage_from, class_name: 'Item', counter_cache: :salvage_from_count
-  belongs_to :salvage_to, class_name: 'Item', counter_cache: :salvage_to_count
+  belongs_to :salvage_from, class_name: 'Item', counter_cache: :salvage_as_source_count
+  belongs_to :salvage_to, class_name: 'Item', counter_cache: :salvage_as_result_count
 
   validates :salvage_from, :salvage_to, presence: true
 

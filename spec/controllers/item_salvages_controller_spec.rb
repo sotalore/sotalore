@@ -32,4 +32,16 @@ RSpec.describe ItemSalvagesController, type: :controller do
     end
   end
 
+  describe 'DELETE destroy' do
+
+    it 'removes the ItemSalvage' do
+      item1.salvages_to << item2
+      item_salvage = item1.item_salvages_as_source.first
+      expect {
+        delete :destroy, params: { id: item_salvage }
+      }.to change { ItemSalvage.count }.by(-1)
+      expect(response).to redirect_to item1
+    end
+  end
+
 end

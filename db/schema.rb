@@ -98,8 +98,8 @@ ActiveRecord::Schema.define(version: 2021_05_30_154335) do
     t.decimal "weight", precision: 6, scale: 2
     t.text "effects"
     t.text "notes"
-    t.integer "salvage_from_count", limit: 2, default: 0, null: false
-    t.integer "salvage_to_count", limit: 2, default: 0, null: false
+    t.integer "salvage_as_result_count", limit: 2, default: 0, null: false
+    t.integer "salvage_as_source_count", limit: 2, default: 0, null: false
   end
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|

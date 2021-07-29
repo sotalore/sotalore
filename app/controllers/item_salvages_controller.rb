@@ -2,11 +2,17 @@ class ItemSalvagesController < ApplicationController
 
   def create
     @item_salvage = ItemSalvage.new(permitted_params)
-    authorize(@item_salvage)
+    authorize @item_salvage
     @item_salvage.save
     redirect_to @item_salvage.salvage_from
   end
 
+  def destroy
+    @item_salvage = ItemSalvage.find(params[:id])
+    authorize @item_salvage
+    @item_salvage.destroy
+    redirect_to @item_salvage.salvage_from
+  end
 
   private
   def permitted_params

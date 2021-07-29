@@ -43,17 +43,27 @@
 
           .col-sm-12.col-lg-4
             = tile_with_heading('Salvage') do
-              - if @item.salvages_from.length > 0
+              - if @item.salvage_as_result_count > 0
                 %p
-                  <strong>Salvages from:</strong>
-                  = @item.salvages_from.map { |i| link_to(i, i) }.join(", ").html_safe
+                  <strong>Potentially obtain this item by salvaging:</strong>
+                %ul.List--plain
+                  - @item.item_salvages_as_result.each do |item_salvage|
+                    %li
+                      = link_to(item_salvage.salvage_from, item_salvage.salvage_from)
+                      - if policy(:item_salvage).destroy?
+                        = destroy_icon_to(item_salvage, size: :small)
 
-              - if @item.salvages_to.length > 0
+              - if @item.salvage_as_source_count > 0
                 %p
-                  <strong>Salvages to:</strong>
-                  = @item.salvages_to.map { |i| link_to(i, i) }.join(", ").html_safe
+                  <strong>Salvage this item to potentially get:</strong>
+                %ul.List--plain
+                  - @item.item_salvages_as_source.each do |item_salvage|
+                    %li
+                      = link_to(item_salvage.salvage_to, item_salvage.salvage_to)
+                      - if policy(:item_salvage).destroy?
+                        = destroy_icon_to(item_salvage, size: :small)
 
-              - if (@item.salvages_from.length + @item.salvages_to.length) == 0
+              - if (@item.salvage_as_result_count + @item.salvage_as_source_count) == 0
                 %p
                   No salvage info
 
