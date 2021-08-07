@@ -36,7 +36,7 @@
           = portal_nav_link_to('My Recipes', user_recipes_path, 'book')
         = portal_nav_link_to('My Avatars', avatars_path, 'user-shield', active: [['avatars'],[]])
 
-        - if current_user.not_null? && default_avatar = current_user.avatars.select(&:is_default)
+        - if current_user.not_null? && default_avatar = current_user.avatars.detect(&:is_default)
           - curr_skills_path = avatar_skills_path(default_avatar)
         - else
           - curr_skills_path = skills_path
