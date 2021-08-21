@@ -13,7 +13,7 @@ class Planting < ApplicationRecord
   belongs_to :user, inverse_of: :plantings
   belongs_to :seed, class_name: 'Item'
 
-  validates :seed, presence: :true
+  validates :seed, :planted_at, presence: :true
   validate :seed_is_a_seed
 
   def self.with_defaults
