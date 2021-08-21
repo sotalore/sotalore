@@ -6,7 +6,7 @@ RSpec.describe Planting, type: :model do
   let(:item) { create :item, use: :seed }
 
   it 'creates' do
-    user.plantings.create!(seed: item)
+    user.plantings.create!(seed: item, planted_at: Time.zone.now)
   end
 
 
