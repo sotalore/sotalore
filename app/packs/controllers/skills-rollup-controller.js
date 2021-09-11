@@ -40,7 +40,7 @@ export default class extends Controller {
         sum = sum + parseInt(e.dataset[field], 10)
       }
     })
-    if (sum > 0) {
+    if (sum != 0) {
       rollupTarget.dataset[field] = sum
       ele.innerHTML = Intl.NumberFormat().format(sum)
     } else {
