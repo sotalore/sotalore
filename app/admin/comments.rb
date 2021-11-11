@@ -3,6 +3,8 @@ ActiveAdmin.register Comment do
 
   actions :index, :show, :destroy
 
+  scope :needs_moderation
+
   index do
     selectable_column
     id_column
@@ -16,6 +18,7 @@ ActiveAdmin.register Comment do
   filter :author_id
 
   filter :author_id_present, as: :boolean
+  filter :visible, as: :boolean
 
   batch_action :delete do |ids|
     batch_action_collection.find(ids).each do |comment|
