@@ -15,6 +15,13 @@ ActiveAdmin.register_page "Dashboard" do
       end
 
       column do
+        panel "Quick Links" do
+          ul do
+            li link_to "Moderate Comments", admin_comments_path(scope: :needs_moderation)
+            li link_to "View All Users", admin_users_path
+            li link_to "View All Comments", admin_comments_path
+          end
+        end
         panel "Avatar and Skills Activity" do
           para "Avatars Last Week: #{Avatar.where('created_at > ?', 1.week.ago).count}."
           para "Skills Last Week: #{EarnedSkill.where('updated_at > ?', 1.week.ago).count}."

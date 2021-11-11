@@ -18,6 +18,8 @@ class Comment < ApplicationRecord
   }
   scope :most_recent, -> { order(id: :desc) }
 
+  scope :needs_moderation, -> { where(visible: false, author_id: nil) }
+
   before_validation :not_visible_for_null_user
   before_validation :user_key_from_null_user
 
