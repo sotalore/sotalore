@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Skill, type: :model do
- 
+
   describe 'xp_to_level' do
     subject { Skill.new(name: 'Test Skill', xp_factor: 1.0) }
 
@@ -41,6 +41,62 @@ RSpec.describe Skill, type: :model do
 
     it 'simply returns nil with no key' do
       expect(Skill.find('foo|bar|baz')).to be_nil
+    end
+  end
+
+  describe 'validating adventuring data' do
+    it 'has no duplicate keys' do
+      keys = []
+      Skill::ADVENTURING.each do |category, schools|
+        schools.each do |school, skills|
+          skills.each do |skill|
+            keys << skill.key
+          end
+        end
+      end
+
+      expect(keys.uniq.length).to eq keys.length
+    end
+
+    it 'has no duplicate names' do
+      names = []
+      Skill::ADVENTURING.each do |category, schools|
+        schools.each do |school, skills|
+          skills.each do |skill|
+            names << skill.name
+          end
+        end
+      end
+
+      expect(names.uniq.length).to eq names.length
+    end
+  end
+
+  describe 'validating crafting data' do
+    it 'has no duplicate keys' do
+      keys = []
+      Skill::CRAFTING.each do |category, schools|
+        schools.each do |school, skills|
+          skills.each do |skill|
+            keys << skill.key
+          end
+        end
+      end
+
+      expect(keys.uniq.length).to eq keys.length
+    end
+
+    it 'has no duplicate names' do
+      names = []
+      Skill::CRAFTING.each do |category, schools|
+        schools.each do |school, skills|
+          skills.each do |skill|
+            names << skill.name
+          end
+        end
+      end
+
+      expect(names.uniq.length).to eq names.length
     end
   end
 
