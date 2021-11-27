@@ -860,9 +860,9 @@
         "key": "magic~air~earth-warding"
       },
       {
-        "name": "Chain Lightning",
+        "name": "Lightning Storm",
         "xp_factor": 4.0,
-        "key": "magic~air~chain-lightning"
+        "key": "magic~air~lightning-storm"
       },
       {
         "name": "Summon Air Elemental",
