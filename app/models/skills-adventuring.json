@@ -861,7 +861,7 @@
       },
       {
         "name": "Lightning Storm",
-        "xp_factor": 4.0,
+        "xp_factor": 2.0,
         "key": "magic~air~lightning-storm"
       },
       {
