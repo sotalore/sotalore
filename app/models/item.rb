@@ -21,6 +21,7 @@ class Item < ApplicationRecord
     instrument: 14,
     pattern: 15,
     'pet-food': 11,
+    'pet-gear': 22,
     potion: 8,
     scroll: 16,
     'socketable-gem': 18,
@@ -33,7 +34,18 @@ class Item < ApplicationRecord
   }
 
   enum use: ITEM_USES, _prefix: 'use_is'
-  enum source: %w[ unknown merchant gathering drop recipe ], _prefix: 'source_is'
+
+  ITEM_SOURCES = {
+    unknown: 0,
+    drop: 3,
+    gathering: 2,
+    merchant: 1,
+    quest: 6,
+    recipe: 4,
+    salvage: 5,
+  }
+
+  enum source: ITEM_SOURCES, _prefix: 'source_is'
 
   # TYPE DATA
   store_accessor :type_data, :yield
