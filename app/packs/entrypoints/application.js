@@ -17,8 +17,8 @@ import mousetrap_config from "js/mousetrap_config"
 import LocalTime from "local-time"
 import Farming from "js/farming"
 
-import { Application } from "stimulus"
-import { definitionsFromContext } from "stimulus/webpack-helpers"
+import { Application } from "@hotwired/stimulus"
+import { definitionsFromContext } from "@hotwired/stimulus-webpack-helpers"
 
 const application = Application.start()
 const context = require.context("controllers", true, /.js$/)
