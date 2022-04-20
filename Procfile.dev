@@ -1,3 +1,4 @@
 web: bundle exec rails server --binding=0.0.0.0
 mailhog: MailHog
 js: yarn build --watch
+css: yarn build:css --watch

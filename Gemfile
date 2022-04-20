@@ -14,6 +14,7 @@ gem 'sass-rails', '~> 6.0'
 gem 'uglifier', '>= 1.3.0'
 
 gem 'jsbundling-rails'
+gem "cssbundling-rails"
 
 # Use CoffeeScript for .coffee assets and views
 # gem 'coffee-rails', '~> 4.2'

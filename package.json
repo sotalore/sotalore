@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "@activeadmin/activeadmin": "^2.9.0",
+    "@fortawesome/fontawesome-free": "^6.1.1",
     "@hotwired/stimulus": "^3.0.0",
     "@rails/ujs": "^6.1.0",
+    "autoprefixer": "^10.4.4",
     "chart.js": "^3.2.1",
     "css-loader": "^6.2.0",
     "esbuild": "^0.14.36",
@@ -11,7 +13,7 @@
     "moment": "^2.29.1",
     "mousetrap": "^1.6.5",
     "polyfill-nodelist-foreach": "^1.0.1",
-    "postcss": "^8.3.6",
+    "postcss": "^8.4.12",
     "postcss-browser-reporter": "^0.6.0",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^14.0.2",
@@ -20,9 +22,10 @@
     "postcss-preset-env": "^7.4.3",
     "postcss-reporter": "^7.0.2",
     "postcss-svgo": "^5.0.2",
-    "sass": "^1.36.0",
+    "sass": "^1.50.1",
     "sass-loader": "^12.1.0",
     "stimulus-autocomplete": "^3.0.0",
+    "tailwindcss": "^3.0.24",
     "turbolinks": "^5.2.0"
   },
   "devDependencies": {},
@@ -33,6 +36,7 @@
     "defaults"
   ],
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds"
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules"
   }
 }
