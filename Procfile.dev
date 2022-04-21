@@ -1,3 +1,5 @@
 web: bundle exec rails server --binding=0.0.0.0
-webpacker: yarn install && ./bin/webpack-dev-server
 mailhog: MailHog
+js: yarn build --watch
+css: yarn build:css --watch
+active_admin_css: yarn build:active_admin:css --watch

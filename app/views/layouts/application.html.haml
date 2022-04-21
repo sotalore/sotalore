@@ -10,7 +10,8 @@
     %meta{:charset => "utf-8"}/
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: 'defer'
+    = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+
 
     %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
     %link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
@@ -21,7 +22,7 @@
     = render partial: '/layouts/github'
     .PortalNav
       .PortalNav-header
-        .PortalNav-search{ data: {controller: 'autocomplete', 'autocomplete-url' => '/search/global' }}
+        .PortalNav-search{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
           %form.PortalNav-searchForm{:action => "/search", :method => "GET"}
             %i.fas.fa-search.PortalNav-searchIcon
             %input#global-search.PortalNav-searchInput{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/

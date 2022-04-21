@@ -1,5 +1,9 @@
-@import "font-awesome-sprockets";
-@import "font-awesome";
+$fa-font-path: "/webfonts";
+
+@import "@fortawesome/fontawesome-free/scss/fontawesome";
+@import "@fortawesome/fontawesome-free/scss/brands";
+@import "@fortawesome/fontawesome-free/scss/regular";
+@import "@fortawesome/fontawesome-free/scss/solid";
 
 $line-height: 16px;
 
@@ -9,7 +13,7 @@ $line-height: 16px;
 
 $gathering-skills: field_dressing fishing foraging forestry mining;
 
-@import 'flexboxgrid.min';
+@import 'vendor/flexboxgrid.min';
 @import 'components/global_search';
 @import 'components/autocomplete';
 @import 'components/recipes';

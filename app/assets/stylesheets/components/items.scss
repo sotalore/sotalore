@@ -1,6 +1,8 @@
+@use 'sass:math';
+
 @mixin ItemSummaryTag {
-  padding: 2px $line-height / 2;
-  border-radius: $line-height / 2;
+  padding: 2px math.div($line-height, 2);
+  border-radius: math.div($line-height, 2);
   font-size: 0.7em;
   background-color: $grey6;
   border: 1px solid $grey5;

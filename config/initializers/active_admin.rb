@@ -1,7 +1,5 @@
 ActiveAdmin.setup do |config|
 
-  config.use_webpacker = true
-
   # == Site Title
   #
   # Set the title that is displayed on the main layout
@@ -228,6 +226,7 @@ ActiveAdmin.setup do |config|
   #
   # To load a javascript file:
   #   config.register_javascript 'my_javascript.js'
+  config.register_javascript 'active_admin.js'
 
   # == CSV options
   #
