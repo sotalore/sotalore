@@ -17,20 +17,14 @@
 .byebug_history
 
 .rspec
-/public/packs
-/public/packs-test
+
 /node_modules
 yarn-debug.log*
 .yarn-integrity
+/yarn-error.log
 
 .overmind.sock
 .vs/*
-/public/packs
-/public/packs-test
-/node_modules
-/yarn-error.log
-yarn-debug.log*
-.yarn-integrity
 
 /app/assets/builds/*
 !/app/assets/builds/.keep

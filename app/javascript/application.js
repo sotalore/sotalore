@@ -1,9 +1,10 @@
 /* eslint no-console:0 */
 
+import "./js/jquery"
+
 require("@rails/ujs").start()
 require("turbolinks").start()
 
-import { Autocomplete } from 'stimulus-autocomplete'
 
 import SotaLore from "./js/sota_lore"
 import mousetrap_config from "./js/mousetrap_config"
@@ -12,6 +13,9 @@ import Farming from "./js/farming"
 
 import { Application } from "@hotwired/stimulus"
 const application = Application.start()
+
+import { Autocomplete } from 'stimulus-autocomplete'
+application.register('autocomplete', Autocomplete)
 
 import ItemFormController from "./controllers/item_form_controller"
 import LunarRiftController from "./controllers/lunar_rift_controller"
@@ -31,7 +35,6 @@ application.register("skills-basics", SkillsBasicsController)
 application.register("skills", SkillsController)
 application.register("skills-rollup", SkillsRollupController)
 
-application.register('autocomplete', Autocomplete)
 
 LocalTime.start()
 

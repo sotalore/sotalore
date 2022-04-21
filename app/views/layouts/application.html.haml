@@ -22,7 +22,7 @@
     = render partial: '/layouts/github'
     .PortalNav
       .PortalNav-header
-        .PortalNav-search{ data: {controller: 'autocomplete', 'autocomplete-url' => '/search/global' }}
+        .PortalNav-search{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
           %form.PortalNav-searchForm{:action => "/search", :method => "GET"}
             %i.fas.fa-search.PortalNav-searchIcon
             %input#global-search.PortalNav-searchInput{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
