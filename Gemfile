@@ -40,7 +40,6 @@ gem 'bootsnap'
 # gem 'capistrano-rails', group: :development
 
 gem 'haml-rails'
-gem 'font-awesome-sass', '~> 5.15'
 gem 'kaminari'
 gem 'local_time'
 gem 'active_link_to'

@@ -110,8 +110,6 @@ GEM
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
     ffi (1.15.5)
-    font-awesome-sass (5.15.1)
-      sassc (>= 1.11)
     formatador (1.1.0)
     formtastic (4.0.0)
       actionpack (>= 5.2.0)
@@ -312,8 +310,6 @@ GEM
     ruby2_keywords (0.0.5)
     ruby_parser (3.19.1)
       sexp_processor (~> 4.16)
-    sassc (2.4.0)
-      ffi (~> 1.9)
     scout_apm (5.1.1)
       parser
     sexp_processor (4.16.1)
@@ -354,7 +350,6 @@ DEPENDENCIES
   cssbundling-rails
   devise
   factory_bot_rails
-  font-awesome-sass (~> 5.15)
   guard
   guard-rspec
   haml-rails
