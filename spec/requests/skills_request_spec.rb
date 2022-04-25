@@ -54,7 +54,7 @@ RSpec.describe 'Skills', type: :request do
         patch avatar_skill_path(avatar, id: 'bad~key'), params: { skill: { current: 123 }}
         expect(response).to have_http_status(:bad_request)
 
-        expect(avatar.skills).to be_empty
+        expect(avatar.skills.select(&:persisted?)).to be_empty
       end
     end
   end
