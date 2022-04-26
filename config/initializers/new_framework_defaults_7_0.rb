@@ -28,7 +28,21 @@ Rails.application.config.action_view.apply_stylesheet_media_default = false
 # Change the digest class for ActiveSupport::Digest.
 # Changing this default means that for example Etags change and
 # various cache keys leading to cache invalidation.
-# Rails.application.config.active_support.hash_digest_class = OpenSSL::Digest::SHA256
+Rails.application.config.active_support.hash_digest_class = OpenSSL::Digest::SHA256
+
+Rails.application.config.action_dispatch.cookies_rotations.tap do |cookies|
+  salt = Rails.application.config.action_dispatch.authenticated_encrypted_cookie_salt
+  secret_key_base = Rails.application.secrets.secret_key_base
+
+  key_generator = ActiveSupport::KeyGenerator.new(
+    secret_key_base, iterations: 1000, hash_digest_class: OpenSSL::Digest::SHA1
+  )
+  key_len = ActiveSupport::MessageEncryptor.key_len
+  secret = key_generator.generate_key(salt, key_len)
+
+  cookies.rotate :encrypted, secret
+end
+
 
 # Don't override ActiveSupport::TimeWithZone.name and use the default Ruby
 # implementation.
@@ -39,7 +53,7 @@ Rails.application.config.active_support.remove_deprecated_time_with_zone_name = 
 # will have a different format that is not supported by Rails 6.1 applications.
 # Only change this value after your application is fully deployed to Rails 7.0
 # and you have no plans to rollback.
-# Rails.application.config.active_support.cache_format_version = 7.0
+Rails.application.config.active_support.cache_format_version = 7.0
 
 # Calls `Rails.application.executor.wrap` around test cases.
 # This makes test cases behave closer to an actual request or job.
