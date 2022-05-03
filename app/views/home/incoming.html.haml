@@ -1,11 +1,13 @@
 %h1 Hi
 
-.row
+.flex.justify-center
   .col-xs-6
-    %h2 Left column
+    %h2.title Left column
+
+    = image_tag("sota-icons/combat_bludgeon", class: 'rounded-full', size: '100x100')
 
     = tile_with_heading('Other stuff') do
-      %p
+      .mx-4.self-center.text-center
         The throbbing stomach comes from a capeskin vise. Authors often misinterpret the hat as a throwback crime,
         when in actuality it feels more like a ternate kimberly. One cannot separate clauses from whacky teeths.
         A pelican can hardly be considered a freeborn appeal without also being a magazine.
@@ -16,6 +18,8 @@
         %input{:name => "q", :placeholder => "Search", :type => "text", data: { 'global-search-target' => 'input' }}/
         %div.global-search-results{ data: { 'global-search-target' => 'results' }}
 
+      %button.bg-green-500.text-white.font-bold.py-3.px-4.rounded-lg.text-center.hover:underline Hi There
+
       %p
         The throbbing stomach comes from a capeskin vise. Authors often misinterpret the hat as a throwback crime,
         when in actuality it feels more like a ternate kimberly. One cannot separate clauses from whacky teeths.
@@ -26,4 +30,8 @@
         A pelican can hardly be considered a freeborn appeal without also being a magazine.
 
   .col-xs-6
-    %h2 Right column
+    %h2.title.text-3xl Right column
+    %p
+      The throbbing stomach comes from a capeskin vise. Authors often misinterpret the hat as a throwback crime,
+      when in actuality it feels more like a ternate kimberly. One cannot separate clauses from whacky teeths.
+      A pelican can hardly be considered a freeborn appeal without also being a magazine.

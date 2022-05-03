@@ -28,6 +28,8 @@
   ],
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/active_admin.sass.scss:./app/assets/builds/active_admin.css ./app/assets/stylesheets/active_admin/print.sass.scss:./app/assets/builds/active_admin/print.css --no-source-map --load-path=node_modules"
+    "build:css": "yarn build:css:main & yarn build:css:tailwind",
+    "build:css:main": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css ./app/assets/stylesheets/active_admin.sass.scss:./app/assets/builds/active_admin.css ./app/assets/stylesheets/active_admin/print.sass.scss:./app/assets/builds/active_admin/print.css --no-source-map --load-path=node_modules",
+    "build:css:tailwind": "tailwindcss -i ./app/assets/stylesheets/application.tailwind.css -o ./app/assets/builds/application-tailwind.css --minify"
   }
 }
