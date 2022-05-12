@@ -4,6 +4,12 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include Pundit::Authorization
 
+  layout :determine_layout
+
+  def determine_layout
+    cookies[:incoming_layout] ? 'application_incoming' : 'application'
+  end
+
   after_action :verify_authorized, unless: -> { in_active_admin? }
 
   if Rails.env.production?

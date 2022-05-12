@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'lunar-rifts', to: 'home#lunar_rifts'
   get 'master-trainers', to: 'home#master_trainers'
   get 'incoming', to: 'home#incoming'
+  get 'switch-layout', to: 'home#switch_layout'
 
   resources :comments, except: [ :new, :create, :show ]
   resources :items, controller: 'items' do

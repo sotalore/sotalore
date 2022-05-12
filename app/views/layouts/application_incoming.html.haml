@@ -1,5 +1,5 @@
 !!!
-%html
+%html.bg-neutral-300
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title
@@ -19,20 +19,21 @@
 
   %body
     %div.outer-wrapper
-      %div.sitewide-header.sticky.top-0.z-50.bg-orange-800.p-4
-        .PortalNav-search{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
-          %form.PortalNav-searchForm{:action => "/search", :method => "GET"}
-            %i.fas.fa-search.PortalNav-searchIcon
-            %input#global-search.PortalNav-searchInput{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
-          %div.PortalNav-searchResults{ data: { 'autocomplete-target' => 'results' }}
+      %div.sitewide-header.flex.flex-row.sticky.top-0.z-50.bg-orange-800.h-12
+        .site-title.my-auto
+          = link_to('/', class: 'text-2xl text-center px-4') do
+            %span.hidden.lg:inline SOTA LORE
+            %span.inline.lg:hidden SL
+        .header-search-container.inline-block.pl-12.text-zinc-200{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
+          %form.block.h-12.px-4.bg-orange-800.border-x-2.border-orange-900{:action => "/search", :method => "GET"}
+            %input#global-search.bg-orange-800.text-xl.h-full.outline-none{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
+            %i &#128269;
+          %div#global-search-results.bg-orange-800.shadow-xl.border-2.border-orange-900{ data: { 'autocomplete-target' => 'results' }}
 
-      %div.content-wrapper.bg-grey-200.flex.flex-row
+      %div.content-wrapper.flex.flex-row
 
         %div.navigation-container
-          %nav.main-navigation.border-2.rounded-2xl.border-orange-900.bg-orange-800.m-4.p-4.shadow-xl.text-grey-200
-            = link_to('/', class: 'text-xl block text-center') do
-              %span.hidden.lg:inline SotA Lore
-              %span.inline.lg:hidden SL
+          %nav.main-navigation.border-2.rounded-2xl.border-orange-900.bg-orange-800.m-2.p-4.shadow-xl.text-zinc-200
 
             - if current_user.not_null?
               = site_nav_link_to('My Recipes', user_recipes_path, hero_icon_book)
@@ -56,6 +57,7 @@
             - if policy(:default_admin).index?
               %hr.my-2
               = site_nav_link_to('Admin', admin_root_path, hero_icon_key)
+              = link_to('Old Layout', switch_layout_path, data: { turbolinks: "false" })
             %hr.my-2
             - if current_user.not_null?
               = site_nav_link_to('Sign Out', destroy_user_session_path, hero_icon_sign_out)

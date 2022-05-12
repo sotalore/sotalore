@@ -11,3 +11,8 @@
     @apply block whitespace-nowrap
   }
 }
+
+div#global-search-results {
+  max-height: 400px;
+  overflow-y: scroll;
+}

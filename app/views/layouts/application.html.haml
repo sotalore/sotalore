@@ -56,6 +56,7 @@
         - if policy(:default_admin).index?
           %hr
           = portal_nav_link_to('Admin', admin_root_path, 'key')
+          = link_to('New Layout', switch_layout_path, data: { turbolinks: "false" })
         %hr
         - if current_user.not_null?
           = portal_nav_link_to('Sign Out', destroy_user_session_path, 'sign-out-alt')
