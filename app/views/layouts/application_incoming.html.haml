@@ -30,38 +30,38 @@
 
         %div.navigation-container
           %nav.main-navigation.border-2.rounded-2xl.border-orange-900.bg-orange-800.m-4.p-4.shadow-xl.text-grey-200
-            = link_to('/', class: 'PortalNav-logo') do
-              %span.full SotA Lore
-              %span.small SL
+            = link_to('/', class: 'text-xl block text-center') do
+              %span.hidden.lg:inline SotA Lore
+              %span.inline.lg:hidden SL
 
             - if current_user.not_null?
-              = portal_nav_link_to('My Recipes', user_recipes_path, 'book')
-            = portal_nav_link_to('My Avatars', avatars_path, 'user-shield', active: [['avatars'],[]])
+              = site_nav_link_to('My Recipes', user_recipes_path, hero_icon_book)
+            = site_nav_link_to('My Avatars', avatars_path, hero_icon_shield, active: [['avatars'],[]])
 
             - if current_user.not_null? && default_avatar = current_user.avatars.detect(&:is_default)
               - curr_skills_path = avatar_skills_path(default_avatar)
             - else
               - curr_skills_path = skills_path
-            = portal_nav_link_to('Skills', curr_skills_path, 'dice-d20', active: [['skills'], []])
+            = site_nav_link_to('Skills', curr_skills_path, hero_icon_jewel, active: [['skills'], []])
 
-            = portal_nav_link_to('Items', items_path, 'object-group')
-            = portal_nav_link_to('Recipes', recipes_path, 'gavel')
-            = portal_nav_link_to('Scenes', scenes_path, 'map')
-            = portal_nav_link_to('Rifts', lunar_rifts_path, 'map-marker')
-            = portal_nav_link_to('Trainers', master_trainers_path, 'map-marker')
-            = portal_nav_link_to('Farming', farming_path, 'leaf')
+            = site_nav_link_to('Items', items_path, hero_icon_box)
+            = site_nav_link_to('Recipes', recipes_path, hero_icon_recipe)
+            = site_nav_link_to('Scenes', scenes_path, hero_icon_map)
+            = site_nav_link_to('Rifts', lunar_rifts_path, hero_icon_location_marker)
+            = site_nav_link_to('Trainers', master_trainers_path, hero_icon_location_marker)
+            = site_nav_link_to('Farming', farming_path, hero_icon_hoe)
             - if current_user.not_null?
-              = portal_nav_link_to('Planting', plantings_path, 'seedling')
-            = portal_nav_link_to('Comments', comments_path, 'comment')
+              = site_nav_link_to('Planting', plantings_path, hero_icon_seedling)
+            = site_nav_link_to('Comments', comments_path, hero_icon_chat)
             - if policy(:default_admin).index?
               %hr.my-2
-              = portal_nav_link_to('Admin', admin_root_path, 'key')
+              = site_nav_link_to('Admin', admin_root_path, hero_icon_key)
             %hr.my-2
             - if current_user.not_null?
-              = portal_nav_link_to('Sign Out', destroy_user_session_path, 'sign-out-alt')
+              = site_nav_link_to('Sign Out', destroy_user_session_path, hero_icon_sign_out)
             - else
-              = portal_nav_link_to('Sign In', new_user_session_path, 'sign-in-alt')
-              = portal_nav_link_to('Register', new_user_registration_path, 'user-plus')
+              = site_nav_link_to('Sign In', new_user_session_path, hero_icon_sign_in)
+              = site_nav_link_to('Register', new_user_registration_path, hero_icon_user_plus)
 
         %div.content
           #flash-messages-container
