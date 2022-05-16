@@ -1,5 +1,9 @@
 # frozen-string-literal: true
 
+TILE_TAILWIND = {
+  info: 'border border-purple-500',
+}.with_indifferent_access
+
 module TileHelper
 
   def lead_in(&block)
@@ -17,8 +21,8 @@ module TileHelper
   end
 
   def tile(type=nil, options={}, &block)
-    css_class = "#{options[:class]} Tile"
-    css_class += " Tile--#{type}" if type
+    css_class = "#{options[:class]} Tile p-4 my-2 bg-grey-100"
+    css_class += " Tile--#{type} #{TILE_TAILWIND[type].to_s}" if type
     options[:class] = css_class
     content_tag(:div, options, &block)
   end

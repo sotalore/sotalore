@@ -9,7 +9,7 @@
     = csrf_meta_tags
     %meta{:charset => "utf-8"}/
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    = stylesheet_link_tag 'application-tailwind', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application-incoming', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
 
     %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
@@ -32,8 +32,8 @@
 
       %div.content-wrapper.flex.flex-row
 
-        %div.navigation-container
-          %nav.main-navigation.border-2.rounded-2xl.border-orange-900.bg-orange-800.m-2.p-4.shadow-xl.text-zinc-200
+        %div.navigation-container.grow-0.m-2
+          %nav.main-navigation.border-2.rounded-2xl.border-orange-900.bg-orange-800.p-4.shadow-xl.text-zinc-200
 
             - if current_user.not_null?
               = site_nav_link_to('My Recipes', user_recipes_path, hero_icon_book)
@@ -65,7 +65,7 @@
               = site_nav_link_to('Sign In', new_user_session_path, hero_icon_sign_in)
               = site_nav_link_to('Register', new_user_registration_path, hero_icon_user_plus)
 
-        %div.content
+        %div.content.grow
           #flash-messages-container
             = render_flash_messages
 
