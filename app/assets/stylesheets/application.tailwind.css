@@ -1,7 +1,7 @@
 
 /* Entry point for your PostCSS build */
 @import "tailwindcss/base";
-/* @import "./custom-base-styles.css"; */
+@import "./custom-base-styles.css";
 
 @import "tailwindcss/components";
 /* @import "./custom-components.css"; */

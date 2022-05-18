@@ -2,7 +2,7 @@
 
 module LayoutHelper
   def entire_page
-    content_tag(:div, class: 'row') do
+    content_tag(:div, class: 'row mx-2') do
       content_tag(:div, class: 'col-xs-12') do
         yield
       end
