@@ -11,6 +11,7 @@
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+    = javascript_include_tag 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true
 
 
     %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")

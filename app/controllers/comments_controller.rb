@@ -1,7 +1,8 @@
 # frozen-string-literal: true
 
 class CommentsController < ApplicationController
-  include RecaptchaHelper
+  include TurnstileHelper
+  include CloudflareTurnstile
 
   before_action :find_parent
 
@@ -21,11 +22,9 @@ class CommentsController < ApplicationController
     @comment.comment_type = 'message'
     authorize @comment
 
-    action = [ "new-comment", @parent.class.name ].compact.join('-')
-    success = !require_recaptcha? || verify_recaptcha(action: action, minimum_score: 0.5)
-    checkbox_success = verify_recaptcha unless success
+    submit_allowed = !require_turnstile? || verify_turnstile(params)
 
-    if success || checkbox_success
+    if submit_allowed
       if @comment.save
         redirect_to url_for_parent
       else
@@ -33,9 +32,6 @@ class CommentsController < ApplicationController
         render :index
       end
     else
-      if !success
-        @show_checkbox_recaptcha = true
-      end
       @comments = find_comments_index
       render :index
     end

@@ -48,9 +48,9 @@ gem 'redcarpet'
 gem 'devise'
 gem 'pg_search'
 gem 'pundit'
+gem 'faraday'
 
 gem 'scout_apm'
-gem 'recaptcha'
 
 gem 'activeadmin'
 
