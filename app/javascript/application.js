@@ -10,6 +10,7 @@ import SotaLore from "./js/sota_lore"
 import mousetrap_config from "./js/mousetrap_config"
 import LocalTime from "local-time"
 import Farming from "./js/farming"
+import turnstilePageLoad from "./js/turnstile"
 
 import { Application } from "@hotwired/stimulus"
 const application = Application.start()
@@ -42,3 +43,5 @@ SotaLore.pageLoad(mousetrap_config)
 
 const farming = new Farming()
 SotaLore.pageLoad(() => farming.pageLoad())
+
+SotaLore.pageLoad(turnstilePageLoad)

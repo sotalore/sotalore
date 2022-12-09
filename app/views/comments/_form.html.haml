@@ -7,9 +7,6 @@
       Anonymous comments aren't visible until they are moderated
       by a site editor.
   = f.actions do
-    - if require_recaptcha?
-      - if @show_checkbox_recaptcha
-        = recaptcha_tags
-      - else
-        = recaptcha_v3(action: [ "new-comment", subject.class.name ].compact.join('-'))
+    - if require_turnstile?
+      .cf-turnstile{ data: { sitekey: CloudflareTurnstile.site_key, theme: 'light' }}
     = f.submit
