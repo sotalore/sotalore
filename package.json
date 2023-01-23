@@ -6,7 +6,7 @@
     "@rails/ujs": "^7.0.3",
     "autoprefixer": "^10.4.4",
     "chart.js": "^4.1.2",
-    "esbuild": "^0.16.15",
+    "esbuild": "^0.17.4",
     "jquery": "^3.6.0",
     "jquery-ui": "^1.13.1",
     "local-time": "^2.1.0",
