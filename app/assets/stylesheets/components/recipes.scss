@@ -65,7 +65,8 @@ img.Recipe-icon {
   transition: transform 100ms linear;
 }
 
-.Recipe-ingredient i.Displayed {
+.Recipe-ingredient > .Recipe-ingredientSummary > a.Displayed > i,
+.Recipe-ingredient > .Recipe-ingredientSummary > a.Displayed > svg {
   transform: rotate(90deg);
   transition: transform 100ms linear;
 }
@@ -79,7 +80,6 @@ img.Recipe-icon {
   }
 
   .Recipe {
-    // border-right: 0;
     .Recipe-name {
       display: none;
     }

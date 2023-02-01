@@ -31,7 +31,7 @@ module NavHelper
 
     options = {
       active: options.fetch(:active, nil),
-      class: "PortalNav-link py-1 whitespace-nowrap",
+      class: "PortalNav-link py-1 text-white font-medium whitespace-nowrap",
       class_active: "is-active"
     }
 

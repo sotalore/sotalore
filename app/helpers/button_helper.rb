@@ -2,6 +2,14 @@
 
 module ButtonHelper
 
+  # migrated icons mapped from legacy font-awesome IDs
+  ICONS = {
+    info: HeroIconHelper::INFORMATION_CIRLCE,
+    'caret-right': HeroIconHelper::CHEVRON_RIGHT,
+    'pencil-alt': HeroIconHelper::PENCIL_ALT,
+  }.with_indifferent_access
+
+
   def more_link_to(path, options={})
     options[:class] = 'MoreLink'
     link_to(path, options) do
@@ -111,13 +119,18 @@ module ButtonHelper
     options[:style] ||= 'default'
     add_button_css_classes(options)
     link_to(path, options) do
-      content_tag(:i, '', class: "fas fa-#{icon}")
+      icon_tag(icon)
     end
   end
 
   def icon_tag(icon, options={})
-    options[:class] = "fas fa-#{icon} #{options[:class]}".strip
-    content_tag(:i, "", options)
+    if ICONS[icon]
+      raise "Options passed to icon_tag" unless options == {}
+      ICONS[icon]
+    else
+      options[:class] = "fas fa-#{icon} #{options[:class]}".strip
+      content_tag(:i, "", options)
+    end
   end
 
   def help_text_tag(text=nil, &block)
@@ -159,17 +172,20 @@ module ButtonHelper
   def simple_button_with_icon(label, path, icon, options={})
     options[:style] ||= 'default'
     add_button_css_classes(options)
-    link_to(path, options) do
-      content_tag(:i, '', class: "fas fa-#{icon}") << " #{label}".html_safe
-    end
+    link_to(path, options) { icon_plus_label(icon, label) }
   end
 
   def simple_link_with_icon(label, path, icon, options={})
     options[:style] ||= 'default'
     add_link_css_classes(options)
-    link_to(path, options) do
+    link_to(path, options) { icon_plus_label(icon, label) }
+  end
+
+  def icon_plus_label(icon, label)
+    if ICONS[icon]
+      ICONS[icon] + " #{label}".html_safe
+    else
       content_tag(:i, '', class: "fas fa-#{icon}") << " #{label}".html_safe
     end
   end
-
 end

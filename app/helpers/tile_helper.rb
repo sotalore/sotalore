@@ -25,7 +25,7 @@ module TileHelper
   end
 
   def tile(type=nil, options={}, &block)
-    css_class = "#{options[:class]} Tile my-2 bg-grey-100 border"
+    css_class = "#{options[:class]} Tile m-2 bg-grey-100 border"
     css_class += " Tile--#{type}" if type
     css_class += TILE_TAILWIND[type]
 

@@ -2,9 +2,10 @@
 /* Entry point for your PostCSS build */
 @import "tailwindcss/base";
 @import "./custom-base-styles.css";
+@import "./base/base/_colors.scss";
 
 @import "tailwindcss/components";
-/* @import "./custom-components.css"; */
+@import "./custom-component-styles.css";
 
 @import "tailwindcss/utilities";
 /* @import "./custom-utilities.css"; */
@@ -13,16 +14,8 @@
 
 @import './components/lunar_rifts.scss';
 @import './components/master_trainers.scss';
-
-@layer components {
-  .title { @apply text-6xl font-bold }
-  .subtitle { @apply text-4xl font-semibold }
-  .subsubtitle { @apply text-lg font-medium italic }
-
-  a.PortalNav-link {
-    @apply block whitespace-nowrap
-  }
-}
+@import './components/recipes.scss';
+@import './base/components/_pagination.scss';
 
 div#global-search-results {
   max-height: 400px;

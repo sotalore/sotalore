@@ -7,4 +7,12 @@
   p {
     @apply mb-4;
   }
+
+  a { @apply text-orange-700 }
+
+  table { @apply my-4 w-full border-y-2 border-grey-400 }
+  th { @apply p-2 font-semibold text-left }
+  tbody > tr { @apply hover:bg-grey-200 border-b border-grey-300 }
+  tbody > tr > td { @apply p-2 }
+
 }
