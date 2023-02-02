@@ -4,10 +4,11 @@ module ButtonHelper
 
   # migrated icons mapped from legacy font-awesome IDs
   ICONS = {
-    info: HeroIconHelper::INFORMATION_CIRLCE,
+    info: HeroIconHelper::INFORMATION_CIRCLE,
     'caret-right': HeroIconHelper::CHEVRON_RIGHT,
     'pencil-alt': HeroIconHelper::PENCIL_ALT,
     'trash': HeroIconHelper::TRASH,
+    'info-circle': HeroIconHelper::INFORMATION_CIRCLE,
   }.with_indifferent_access
 
 

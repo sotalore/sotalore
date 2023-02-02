@@ -199,14 +199,14 @@ module HeroIconHelper
     BADGE_CHECK
   end
 
-  INFORMATION_CIRLCE = <<~ICON.html_safe
+  INFORMATION_CIRCLE = <<~ICON.html_safe
     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
       <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
     </svg>
   ICON
 
   def hero_icon_information_circle
-    INFORMATION_CIRLCE
+    INFORMATION_CIRCLE
   end
 
   CHEVRON_RIGHT = <<~ICON.html_safe
