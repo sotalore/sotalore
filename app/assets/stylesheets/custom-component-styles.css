@@ -35,4 +35,23 @@
   .Tile .Tile-heading .Tile-controls {
     @apply grow-0;
   }
+
+  .Callout {
+    @apply rounded-xl border mb-4 relative p-4;
+  }
+
+  .Callout-default {
+    @apply bg-grey-400 text-grey-800 border-grey-600;
+  }
+  .Callout-primary {
+    @apply bg-orange-200 text-orange-800 border-orange-800;
+  }
+  .Callout-notice {
+    @apply bg-yellow-200 text-yellow-800 border-yellow-400;
+  }
+  .Callout-info {
+    @apply bg-purple-300 text-purple-800 border-purple-500;
+  }
+
+
 }
