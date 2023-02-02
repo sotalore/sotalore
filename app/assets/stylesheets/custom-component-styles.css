@@ -22,7 +22,7 @@
 
   .Button {
     /* @apply w-32 h-10 bg-red-300 p-2 rounded-xl hover:bg-red-500 text-white font-semibold; */
-    @apply h-full inline-block py-1 px-3 border border-orange-700 rounded-xl text-white bg-orange-400;
+    @apply inline-block py-1 px-3 border border-orange-700 rounded-xl text-white bg-orange-400;
   }
 
 

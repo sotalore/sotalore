@@ -1,35 +1,34 @@
 - page_title("Items: #{params[:use]}")
 
-.row
-  .col-sm-12.col-md-4
+.m-4.grid.md:grid-cols-2.grid-cols-1
+  %div
     %h1= "Items: #{params[:use]}".titleize
-  .col.sm-12.col-md-8.u-textRight
+  .md:text-right.text-sm
     = render partial: 'item_nav'
 
-.row
+.grid.gap-4.grid-cols-1.md:grid-cols-2.lg:grid-cols-3
   - @items.each do |item|
-    .col-sm-12.col-md-6.col-lg-4
-      = tile do
-        = tile_heading(link_to(item.name, item))
-        = tile_body do
-          - if item.results_count > 0
+    = tile do
+      = tile_heading(link_to(item.name, item))
+      = tile_body do
+        - if item.results_count > 0
+          %p
+            Made from #{pluralize(item.results_count, 'recipe')}.
+
+        - if ['food', 'pet-food'].include?(params[:use])
+          - if item.buff_slots_used.present?
             %p
-              Made from #{pluralize(item.results_count, 'recipe')}.
+              %strong Buff Slots:
+              = item.buff_slots_used
 
-          - if ['food', 'pet-food'].include?(params[:use])
-            - if item.buff_slots_used.present?
-              %p
-                %strong Buff Slots:
-                = item.buff_slots_used
+        - if item.effects.present?
+          %h4 Effects
+          = formatted_body(item.effects)
 
-          - if item.effects.present?
-            %h4 Effects
-            = formatted_body(item.effects)
-
-          - if ['artifact'].include?(params[:use]) && item.salvage_as_source_count > 0
-            %h4 Salvages to:
-            %ul.List--plain
-              - item.salvages_to.each do |i|
-                %li= link_to(i, i)
+        - if ['artifact'].include?(params[:use]) && item.salvage_as_source_count > 0
+          %h4 Salvages to:
+          %ul.List--plain
+            - item.salvages_to.each do |i|
+              %li= link_to(i, i)
 
 = paginate @items
