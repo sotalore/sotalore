@@ -80,39 +80,6 @@ class SLFormBuilder < BasicFormBuilder
     data
   end
 
-  def basic_percentage_field(method, options={})
-    content_tag(:div, class: 'Field-group') do
-      content_tag(:div, '%', class: 'Field-groupHint') <<
-        basic_number_field(method, options)
-    end
-  end
-
-  def percentage_field(method, options={})
-    options[:min] = 0 unless options.key?(:min)
-    options[:step] = 0.01 unless options.key?(:step)
-    form_group_with_label(method, options) do
-      input_with_hint_and_errors(method, options) do
-        basic_percentage_field(method, options)
-      end
-    end
-  end
-
-  def basic_money_field(method, options={})
-    content_tag(:div, class: 'Field-group format-as-currency') do
-      content_tag(:div, '$', class: 'Field-groupHint') <<
-        basic_text_field(method, options)
-    end
-  end
-
-  def money_field(method, options={})
-    options[:min] = 0 unless options.key?(:min)
-    form_group_with_label(method, options) do
-      input_with_hint_and_errors(method, options) do
-        basic_money_field(method, options)
-      end
-    end
-  end
-
   def static_field(method, options={}, &block)
     form_group_with_label(method, options) do
       input_with_hint_and_errors(method, options) do
@@ -243,7 +210,7 @@ class SLFormBuilder < BasicFormBuilder
 
   def actions
     content_tag(:div, class: 'row') do
-      content_tag(:div, class: 'col-xs u-textRight') do
+      content_tag(:div, class: 'col-xs u-textRight text-right') do
         yield
       end
     end

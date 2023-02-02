@@ -7,6 +7,7 @@ module ButtonHelper
     info: HeroIconHelper::INFORMATION_CIRLCE,
     'caret-right': HeroIconHelper::CHEVRON_RIGHT,
     'pencil-alt': HeroIconHelper::PENCIL_ALT,
+    'trash': HeroIconHelper::TRASH,
   }.with_indifferent_access
 
 

@@ -16,6 +16,7 @@
 @import './components/master_trainers.scss';
 @import './components/recipes.scss';
 @import './base/components/_pagination.scss';
+@import './base/components/_fields.scss';
 
 div#global-search-results {
   max-height: 400px;

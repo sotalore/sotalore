@@ -55,19 +55,6 @@ a.ControlLink {
   font-style: italic;
 }
 
-.UserFlair {
-  font-size: 0.70em;
-  color: $grey8;
-  padding: 2px 4px;
-  border-radius: 4px;
-  &.UserFlair--developer {
-    background-color: $purple3;
-  }
-  &.UserFlair--editor {
-    background-color: $orange3;
-  }
-}
-
 .heading-container {
   display: flex;
   align-content: space-between;
