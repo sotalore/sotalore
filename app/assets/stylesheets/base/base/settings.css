@@ -1,3 +1,4 @@
 :root {
     --line-height: 16px;
+    --grid-md: calc(64 * 16px);
 }

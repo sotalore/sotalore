@@ -1,10 +1,10 @@
 - page_title('Skills')
 
 
-.SkillTable
+.SkillTable.my-8.mx-4
 
   .SkillTable--pageHeading
-    %div.pageTabs
+    %div.pageTabs.mb-0
       = link_to_unless(@activity == 'adventuring', 'Adventuring Skills', [ @avatar, :skills, activity: 'adventuring']) do |name|
         %span.currentTab= name
       = link_to_unless(@activity == 'crafting', 'Crafting Skills', [ @avatar, :skills, activity: 'crafting']) do |name|
@@ -17,11 +17,11 @@
         %strong Avatar:
         = select_tag('avatar',
             options_for_select([['~ none ~', skills_path]] + @avatars.map { |a| [a.name, avatar_skills_path(avatar_id: a, activity: @activity)] },
-                             request.path), class: 'Field-input')
+                             request.path), class: 'form-select')
     - else
       = primary_button_to('create an avatar', avatars_path)
 
-  %table.Table.SkillTable{id: 'skillTable', data: { controller: 'skills-rollup' }}
+  %table.Table.mt-0.SkillTable{id: 'skillTable', data: { controller: 'skills-rollup' }}
     %tr
       %th skill
       %th.u-textRight cost

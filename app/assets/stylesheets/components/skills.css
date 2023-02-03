@@ -6,7 +6,7 @@
       font-size: 1.15rem;
       display: inline-block;
       height: 100%;
-      background-color: $grey9;
+      background-color: var(--grey9);
 
       a, span.currentTab {
         display: inline-block;
@@ -15,7 +15,7 @@
       }
 
       a {
-        background-color: $grey7;
+        background-color: var(--grey7);
       }
     }
 
@@ -29,13 +29,13 @@
   }
 
   div.SkillBasics, div.SkillBasicsNotes {
-    background-color: $grey9;
+    background-color: var(--grey9);
     margin-bottom: 1rem;
 
     padding: 8px;
 
     input {
-      border: 1px solid $grey7;
+      border: 1px solid var(--grey7);
       width: auto;
       max-width: 6rem;
       text-align: right;
@@ -53,22 +53,22 @@
   }
 
   table {
-    background-color: $grey9;
+    background-color: var(--grey9);
 
     th, td {
       vertical-align: middle;
     }
 
     tr.totalsHeadingRow {
-      background-color: $parchment-double-shaded;
+      background-color: var(--parchment-double-shaded);
     }
 
     tr.categoryHeadingRow {
-      background-color: $parchment-shaded;
+      background-color: var(--parchment-shaded);
     }
 
     tr.categorySchoolRow {
-      background-color: $parchment-color;
+      background-color: var(--parchment-color);
       th {
         padding-left: 1rem;
       }
@@ -81,7 +81,7 @@
     }
 
     tbody tr:not(.headingRow):hover {
-      background-color: $grey8;
+      background-color: var(grey8);
     }
 
     td.skillName {
@@ -116,7 +116,7 @@
   }
 }
 
-@media only screen and (max-width: $grid-md) {
+@media only screen and (max-width: var(--grid-md)) {
   .SkillTable {
     &--pageHeading {
       div.pageTabs {

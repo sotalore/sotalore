@@ -16,6 +16,8 @@
 @import './base/components/_pagination.css';
 @import './base/components/_fields.css';
 @import './base/components/_flair.scss';
+@import './components/skills.css';
+
 
 @import "tailwindcss/utilities";
 /* @import "./custom-utilities.css"; */
