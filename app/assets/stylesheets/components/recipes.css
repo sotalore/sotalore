@@ -1,14 +1,14 @@
 .Recipe {
-  border: 1px solid $parchment-dark;
+  border: 1px solid var(--parchment-dark);
   margin-bottom: 16px;
-  background-color: $parchment-color;
+  background-color: var(--parchment-color);
   padding: 8px 8px;
 
   &-name {
     display: flex;
     align-items: flex-end;
     flex-wrap: nowrap;
-    border-bottom: 1px solid $parchment-dark;
+    border-bottom: 1px solid var(--parchment-dark);
     padding-bottom: 8px;
     margin-bottom: 8px;
     font-weight: bold;
@@ -44,7 +44,7 @@
 .Recipe-detail {
   display: flex;
   align-items: flex-start;
-  border-bottom: 1px dashed rgba($parchment-dark, 0.1);
+  border-bottom: 1px dashed rgba(var(--parchment-dark), 0.1);
 }
 
 img.Recipe-icon {

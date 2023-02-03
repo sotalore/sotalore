@@ -1,25 +1,31 @@
 
+/* @import './custom.scss'; */
+
 /* Entry point for your PostCSS build */
 @import "tailwindcss/base";
+@import "./base/base/settings.css";
+@import "./base/base/_colors.css";
 @import "./custom-base-styles.css";
-@import "./base/base/_colors.scss";
 
 @import "tailwindcss/components";
 @import "./custom-component-styles.css";
+@import './components/lunar_rifts.css';
+@import './components/master_trainers.css';
+@import './components/recipes.css';
+@import './components/items.css';
+@import './base/components/_pagination.css';
+@import './base/components/_fields.css';
+@import './base/components/_flair.scss';
 
 @import "tailwindcss/utilities";
 /* @import "./custom-utilities.css"; */
 
-@import './custom.scss';
-
-@import './components/lunar_rifts.scss';
-@import './components/master_trainers.scss';
-@import './components/recipes.scss';
-@import './base/components/_pagination.scss';
-@import './base/components/_fields.scss';
-@import './base/components/_flair.scss';
-
 div#global-search-results {
   max-height: 400px;
   overflow-y: scroll;
+}
+
+.u-label {
+  opacity: 0.7;
+  font-style: italic;
 }

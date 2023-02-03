@@ -13,7 +13,7 @@
 .Flair {
   border-radius: 3px;
   border: 1px solid transparent;
-  color: $grey9;
+  color: var(--grey9);
   display: inline-block;
   font-size: 12px;
   line-height: 18px;
@@ -32,9 +32,9 @@
     border-radius: 2px 0 0 2px;
   }
 
-  &--primary { @include flair-color(  $blue1,   $blue3,   $blue4); }
-  &--danger  { @include flair-color(   $red1,    $red3,    $red4); }
-  &--warning { @include flair-color($yellow1, $yellow3, $yellow4); }
-  &--success { @include flair-color( $green1,  $green3,  $green4); }
-  &--info    { @include flair-color($purple1, $purple3, $purple4); }
+  &--primary { @include flair-color(  var(--blue1),   var(--blue3),   var(--blue4)); }
+  &--danger  { @include flair-color(   var(--red1),    var(--red3),    var(--red4)); }
+  &--warning { @include flair-color(var(--yellow1), var(--yellow3), var(--yellow4)); }
+  &--success { @include flair-color( var(--green1),  var(--green3),  var(--green4)); }
+  &--info    { @include flair-color(var(--purple1), var(--purple3), var(--purple4)); }
 }

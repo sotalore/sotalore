@@ -1,0 +1,74 @@
+
+@mixin ItemSummaryTag {
+  padding: 2px calc(var(--line-height) / 2);
+  border-radius: calc(var(--line-height) / 2);
+  font-size: 0.7em;
+  background-color: var(--grey6);
+  border: 1px solid var(--grey5);
+  &--large {
+    font-size: 1.1em;
+    padding: 4px var(--line-height);
+    border-radius: var(--line-height);
+    margin-right: 5px;
+  }
+}
+
+.Item-useTag {
+  @include ItemSummaryTag;
+  color: var(--blue1);
+}
+
+.Item-sourceTag {
+  @include ItemSummaryTag;
+  color: var(--purple2);
+}
+
+.Item-priceTag {
+  @include ItemSummaryTag;
+  color: var(--yellow4);
+}
+
+.Item-weightTag {
+  @include ItemSummaryTag;
+  color: var(--blue2);
+}
+
+.Item-abstractTag {
+  @include ItemSummaryTag;
+  color: var(--blue1);
+}
+
+
+.Item-gatheringTag {
+  @include ItemSummaryTag;
+  text-transform: lowercase;
+  color: var(--green2);
+  padding-left: 16px;
+  background-size: 16px;
+  background-repeat: no-repeat;
+}
+
+.Item-gatheringTag--large {
+  padding-left: 32px;
+  background-size: 32px;
+}
+
+.Item-gatheringTag--field_dressing {
+  background-image: image-url('sota-icons/craft_field_dressing_small.png');
+}
+
+.Item-gatheringTag--fishing {
+  background-image: image-url('sota-icons/craft_fishing_small.png');
+}
+
+.Item-gatheringTag--foraging {
+  background-image: image-url('sota-icons/craft_foraging_small.png');
+}
+
+.Item-gatheringTag--forestry {
+  background-image: image-url('sota-icons/craft_forestry_small.png');
+}
+
+.Item-gatheringTag--mining {
+  background-image: image-url('sota-icons/craft_mining_small.png');
+}

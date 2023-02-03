@@ -30,10 +30,10 @@
   }
 
   select optgroup{
-    color: $grey4;
+    color: var(--grey4);
 
     option {
-      color: $grey2;
+      color: var(--grey2);
       padding-left: 15px;
     }
   }
@@ -60,15 +60,15 @@
     padding: 4px 8px;
     font-size: 16px;
     line-height: 22px;
-    color: $grey2;
-    background: $grey9;
-    border: 1px solid $grey6;
+    color: var(--grey2);
+    background: var(--grey9);
+    border: 1px solid var(--grey6);
     border-radius: 3px;
 
     &:focus {
-      border-color: $grey4;
+      border-color: var(--grey4);
       outline: 0;
-      box-shadow: inset 0 1px 3px $grey7;
+      box-shadow: inset 0 1px 3px var(--grey7);
     }
 
     /*
@@ -81,8 +81,8 @@
     &[disabled],
     &[readonly],
     fieldset[disabled] & {
-      background-color: $grey7;
-      color: $grey4;
+      background-color: var(--grey7);
+      color: var(--grey4);
       opacity: 1; /* iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655 */
     }
 
@@ -92,9 +92,9 @@
     }
 
     &.is-autoFilled {
-      background-color: $blue4;
-      border-color: $blue0;
-      color: $blue1;
+      background-color: var(--blue4);
+      border-color: var(--blue0);
+      color: var(--blue1);
     }
 
     &--numeric {
@@ -119,7 +119,7 @@
 
   &-hint {
     font-size: 14px;
-    color: $grey4;
+    color: var(--grey4);
     display: block;
     position: relative;
     top: 2px;
@@ -131,8 +131,8 @@
     left: 0;
     right: 0;
     margin-top: 16px;
-    color: $purple4;
-    background: $purple1;
+    color: var(--purple4);
+    background: var(--purple1);
     border-radius: 3px;
     z-index: 1;
     padding: 8px 12px;
@@ -145,7 +145,7 @@
 
   &-hintOnFocus:before {
     border: 6px solid transparent;
-    border-bottom-color: $purple1;
+    border-bottom-color: var(--purple1);
     content: "";
     display: block;
     position: absolute;
@@ -165,13 +165,13 @@
   }
 
   &--error {
-    color: $red2;
+    color: var(--red2);
   }
 
   &--error &-input {
-    color: $red1;
-    background: $red4;
-    border: 1px solid $red1;
+    color: var(--red1);
+    background: var(--red4);
+    border: 1px solid var(--red1);
   }
 
   &-error {
@@ -205,8 +205,8 @@
   &-toggle {
     display: flex;
     padding: 2px 2px 2px 0;
-    background: $grey9;
-    border: 1px solid $grey6;
+    background: var(--grey9);
+    border: 1px solid var(--grey6);
     border-radius: 3px;
   }
 
@@ -233,24 +233,24 @@
     line-height: 24px;
     padding: 0 8px;
     border: 1px solid transparent;
-    color: $grey4;
+    color: var(--grey4);
 
     &:hover {
-      background: $grey8;
+      background: var(--grey8);
     }
 
     :checked + & {
-      background: $grey7;
-      border-color: $grey6;
-      color: $grey1;
+      background: var(--grey7);
+      border-color: var(--grey6);
+      color: var(--grey1);
     }
   }
 
   &-softRequired {
-    color: $yellow2;
+    color: var(--yellow2);
   }
 
   &-required {
-    color: $red2;
+    color: var(--red2);
   }
 }

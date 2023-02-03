@@ -5,11 +5,11 @@
   margin-bottom: 0;
 
   &-page a {
-    background: $grey9;
+    background: var(--grey9);
     position: relative;
     margin-left: -1px;
     text-align: center;
-    border: 1px solid $grey6;
+    border: 1px solid var(--grey6);
     color: inherit;
     display: block;
     line-height: 22px;
@@ -23,7 +23,7 @@
 
   &-page.is-active a,
   &-page a[href]:hover {
-    background: $grey7;
+    background: var(--grey7);
     z-index: 1;
     text-decoration: none;
   }
