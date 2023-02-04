@@ -1,0 +1,113 @@
+
+@mixin tile-color($background, $border, $text) {
+  &,
+  .Tile-heading,
+  .Tile-body {
+    border-color: $border;
+  }
+
+  .Tile-heading {
+    background: $background;
+    color: $text;
+  }
+}
+
+@mixin tile-body-color($background, $border, $text) {
+  border-color: $border;
+  background: $background;
+  color: $text;
+}
+
+.Tile {
+  background: var(--grey9);
+  border: 1px solid var(--grey6);
+  margin-bottom: 22px;
+  box-shadow: 0 1px 4px rgba(#000, 0.08);
+
+  &-heading {
+    display: flex;
+    align-items: center;
+    padding: 7px 7px 8px 11px;
+    min-height: 49px;
+    border-top: 1px solid var(--grey6);
+    margin-top: -1px;
+  }
+
+  &-heading h3 {
+    flex: 1 1 auto;
+    padding: 0;
+    margin: 0;
+  }
+
+  &-subheading {
+    font-weight: normal;
+    color: var(--grey4);
+  }
+
+  &-controls {
+    display: flex;
+    align-items: center;
+  }
+
+  &-controls .Button {
+    margin: 0 0 0 4px;
+  }
+
+  &-controls .Button--small,
+  &-controls .Button--sm,
+  &-controls .Button--xs {
+    margin: 0 4px 0 0;
+  }
+
+  &-body {
+    border-top: 1px dashed var(--grey6);
+    padding: 12px 11px;
+    margin-top: -1px;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  p {
+    margin: 0;
+  }
+
+  p + p {
+    margin-top: 24px;
+  }
+
+  &-leadIn {
+    background: var(--purple4);
+    border: 1px solid var(--purple3);
+    border-bottom: 0;
+    color: var(--purple1);
+    margin: 0 8px;
+    padding: 11px 16px 12px;
+    border-radius: 3px 3px 0 0;
+
+    p {
+      margin: 0;
+    }
+  }
+
+  &--disabled {
+    opacity: 0.5;
+  }
+
+  &-body--disabled {
+    opacity: 0.3;
+  }
+
+  &--primary { @include tile-color(   var(--blue4),    var(--blue3),    var(--blue2)); }
+  &--danger  { @include tile-color(    var(--red4),     var(--red3),     var(--red2)); }
+  &--warning { @include tile-color( var(--yellow4),  var(--yellow3),  var(--yellow2)); }
+  &--success { @include tile-color(  var(--green4),   var(--green3),   var(--green2)); }
+  &--info    { @include tile-color( var(--purple4),  var(--purple3),  var(--purple2)); }
+
+  &-body--primary { @include tile-body-color(   var(--blue4),    var(--blue3),    var(--blue2)); }
+  &-body--danger  { @include tile-body-color(    var(--red4),     var(--red3),     var(--red2)); }
+  &-body--warning { @include tile-body-color( var(--yellow4),  var(--yellow3),  var(--yellow2)); }
+  &-body--success { @include tile-body-color(  var(--green4),   var(--green3),   var(--green2)); }
+  &-body--info    { @include tile-body-color( var(--purple4),  var(--purple3),  var(--purple2)); }
+}

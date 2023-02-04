@@ -20,7 +20,6 @@
     "postcss-custom-properties": "^13.1.1",
     "postcss-hexrgba": "^2.1.0",
     "postcss-import": "^15.1.0",
-    "postcss-nested": "^6.0.0",
     "postcss-preset-env": "^8.0.1",
     "postcss-sassy-mixins": "^2.1.0",
     "sass": "^1.50.1",

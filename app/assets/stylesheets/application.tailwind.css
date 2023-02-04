@@ -9,6 +9,7 @@
 
 @import "tailwindcss/components";
 @import "./custom-component-styles.css";
+@import './base/components/tile.css';
 @import './components/lunar_rifts.css';
 @import './components/master_trainers.css';
 @import './components/recipes.css';
