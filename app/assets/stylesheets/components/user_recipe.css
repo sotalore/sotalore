@@ -1,0 +1,18 @@
+
+.UserRecipeStar {
+  i::before {
+    color: var(--yellow1);
+    font-size: calc(var(--line-height) * 1.5);
+    font-style: normal;
+  }
+  &--exists {
+    i::before {
+      content: '★';
+    }
+  }
+  &:not(.UserRecipeStar--exists) {
+    i::before {
+      content: '☆';
+    }
+  }
+}

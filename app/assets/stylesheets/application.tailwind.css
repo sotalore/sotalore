@@ -14,6 +14,7 @@
 @import './components/master_trainers.css';
 @import './components/recipes.css';
 @import './components/items.css';
+@import './components/user_recipe.css';
 @import './base/components/_pagination.css';
 @import './base/components/_fields.css';
 @import './base/components/_flair.scss';

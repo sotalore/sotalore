@@ -12,7 +12,7 @@
     %ul
       - if list.fuels.any?
         %li
-          %h4 Fuels
+          %h4.my-2 Fuels
         - list.fuels.each do |item, count|
           %li
             #{count} #{item}
@@ -20,13 +20,13 @@
 
       - if list.tools.any?
         %li
-          %h4 Tools
+          %h4.my-2 Tools
         - list.tools.each do |item, _|
           %li= item
 
       - if list.gathered.any?
         %li
-          %h4 Gathered Materials
+          %h4.my-2 Gathered Materials
         - list.gathered.each do |item, count|
           %li
             #{count} #{item}
@@ -34,14 +34,14 @@
 
       - if list.components.any?
         %li
-          %h4 Other Components
+          %h4.my-2 Other Components
         - list.components.each do |item, count|
           %li
             #{count} #{item}
             = item_price_tag(item)
 
       %li
-        %h4 Recipes to Execute
+        %h4.my-2 Recipes to Execute
       - list.recipes.each do |recipe, count|
         %li
           #{count} #{recipe}
