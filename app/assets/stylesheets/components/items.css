@@ -54,21 +54,21 @@
 }
 
 .Item-gatheringTag--field_dressing {
-  background-image: image-url('sota-icons/craft_field_dressing_small.png');
+  background-image: url('sota-icons/craft_field_dressing_small.png');
 }
 
 .Item-gatheringTag--fishing {
-  background-image: image-url('sota-icons/craft_fishing_small.png');
+  background-image: url('sota-icons/craft_fishing_small.png');
 }
 
 .Item-gatheringTag--foraging {
-  background-image: image-url('sota-icons/craft_foraging_small.png');
+  background-image: url('sota-icons/craft_foraging_small.png');
 }
 
 .Item-gatheringTag--forestry {
-  background-image: image-url('sota-icons/craft_forestry_small.png');
+  background-image: url('sota-icons/craft_forestry_small.png');
 }
 
 .Item-gatheringTag--mining {
-  background-image: image-url('sota-icons/craft_mining_small.png');
+  background-image: url('sota-icons/craft_mining_small.png');
 }
