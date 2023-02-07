@@ -14,12 +14,4 @@ class HomeController < ApplicationController
   def incoming
   end
 
-  def switch_layout
-    if cookies[:incoming_layout]
-      cookies.delete :incoming_layout
-    else
-      cookies[:incoming_layout] = '1'
-    end
-    redirect_back_or_to(root_url)
-  end
 end

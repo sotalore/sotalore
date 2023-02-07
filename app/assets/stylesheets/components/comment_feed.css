@@ -14,15 +14,15 @@
   border: 1px solid $grey6;
   margin-bottom: 32px;
   .Comment-author {
-    padding: math.div($line-height, 4) math.div($line-height, 2);
+    padding: calc($line-height / 4) calc($line-height / 2);
     border-bottom: 1px solid $grey6;
   }
 
   .Comment-body--message {
-    padding: ($line-height) math.div($line-height, 2);
+    padding: ($line-height) calc($line-height / 2);
   }
   .Comment-body--revision {
-    padding: 0 math.div($line-height, 2);
+    padding: 0 calc($line-height / 2);
     table.Table {
       margin-bottom: 0;
       tr:first-child th {
@@ -58,9 +58,9 @@
 
   .Comment-controls {
     text-align: right;
-    padding: math.div($line-height, 4) math.div($line-height, 2);
+    padding: calc($line-height / 4) calc($line-height / 2);
     background-color: $grey7;
-    margin-bottom: -(math.div($line-height, 4));
+    margin-bottom: -(calc($line-height / 4));
   }
 
   .Comment-body--message .Comment-controls {

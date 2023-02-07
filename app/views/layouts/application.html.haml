@@ -1,5 +1,5 @@
 !!!
-%html
+%html.bg-neutral-300
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
     %title
@@ -9,10 +9,8 @@
     = csrf_meta_tags
     %meta{:charset => "utf-8"}/
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application-incoming', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
-    = javascript_include_tag 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true
-
 
     %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
     %link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
@@ -20,59 +18,57 @@
     %link(rel="manifest" href="/site.webmanifest")
 
   %body
-    = render partial: '/layouts/github'
-    .PortalNav
-      .PortalNav-header
-        .PortalNav-search{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
-          %form.PortalNav-searchForm{:action => "/search", :method => "GET"}
-            %i.fas.fa-search.PortalNav-searchIcon
-            %input#global-search.PortalNav-searchInput{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
-          %div.PortalNav-searchResults{ data: { 'autocomplete-target' => 'results' }}
+    %div.outer-wrapper
+      %div.sitewide-header.flex.flex-row.sticky.top-0.z-50.bg-orange-800.h-12
+        .site-title.my-auto
+          = link_to('/', class: 'text-2xl font-bold text-white text-center px-4') do
+            %span.hidden.lg:inline SOTA LORE
+            %span.inline.lg:hidden SL
+        .header-search-container.inline-block.pl-12.text-zinc-200{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
+          %form.block.h-12.px-4.bg-orange-800.border-x-2.border-orange-900{:action => "/search", :method => "GET"}
+            %input#global-search.bg-orange-800.text-xl.h-full.outline-none{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
+            %i &#128269;
+          %div#global-search-results.bg-orange-800.shadow-xl.border-2.border-orange-900{ data: { 'autocomplete-target' => 'results' }}
 
-      %nav.PortalNav-links
-        = link_to('/', class: 'PortalNav-logo') do
-          %span.full SotA Lore
-          %span.small SL
+      %div.content-wrapper.flex.flex-row
 
-        - if current_user.not_null?
-          = portal_nav_link_to('My Recipes', user_recipes_path, 'book')
-        = portal_nav_link_to('My Avatars', avatars_path, 'user-shield', active: [['avatars'],[]])
+        %div.navigation-container.grow-0.m-2
+          %nav.main-navigation.border-2.rounded-2xl.border-orange-900.bg-orange-800.p-4.shadow-xl.text-zinc-200
 
-        - if current_user.not_null? && default_avatar = current_user.avatars.detect(&:is_default)
-          - curr_skills_path = avatar_skills_path(default_avatar)
-        - else
-          - curr_skills_path = skills_path
-        = portal_nav_link_to('Skills', curr_skills_path, 'dice-d20', active: [['skills'], []])
+            - if current_user.not_null?
+              = site_nav_link_to('My Recipes', user_recipes_path, hero_icon_book)
+            = site_nav_link_to('My Avatars', avatars_path, hero_icon_shield, active: [['avatars'],[]])
 
-        = portal_nav_link_to('Items', items_path, 'object-group')
-        = portal_nav_link_to('Recipes', recipes_path, 'gavel')
-        = portal_nav_link_to('Scenes', scenes_path, 'map')
-        = portal_nav_link_to('Rifts', lunar_rifts_path, 'map-marker')
-        = portal_nav_link_to('Trainers', master_trainers_path, 'map-marker')
-        = portal_nav_link_to('Farming', farming_path, 'leaf')
-        - if current_user.not_null?
-          = portal_nav_link_to('Planting', plantings_path, 'seedling')
-        = portal_nav_link_to('Comments', comments_path, 'comment')
-        - if policy(:default_admin).index?
-          %hr
-          = portal_nav_link_to('Admin', admin_root_path, 'key')
-          = link_to('New Layout', switch_layout_path, data: { turbolinks: "false" })
-        %hr
-        - if current_user.not_null?
-          = portal_nav_link_to('Sign Out', destroy_user_session_path, 'sign-out-alt')
-        - else
-          = portal_nav_link_to('Sign In', new_user_session_path, 'sign-in-alt')
-          = portal_nav_link_to('Register', new_user_registration_path, 'user-plus')
+            - if current_user.not_null? && default_avatar = current_user.avatars.detect(&:is_default)
+              - curr_skills_path = avatar_skills_path(default_avatar)
+            - else
+              - curr_skills_path = skills_path
+            = site_nav_link_to('Skills', curr_skills_path, hero_icon_jewel, active: [['skills'], []])
 
-      .PortalNav-content
-        .DivisionNav
-          .DivisionNav-content
-            .SectionNav
-              .SectionNav-content
-                #flash-messages-container
-                  = render_flash_messages
+            = site_nav_link_to('Items', items_path, hero_icon_box)
+            = site_nav_link_to('Recipes', recipes_path, hero_icon_recipe)
+            = site_nav_link_to('Scenes', scenes_path, hero_icon_map)
+            = site_nav_link_to('Rifts', lunar_rifts_path, hero_icon_location_marker)
+            = site_nav_link_to('Trainers', master_trainers_path, hero_icon_location_marker)
+            = site_nav_link_to('Farming', farming_path, hero_icon_hoe)
+            - if current_user.not_null?
+              = site_nav_link_to('Planting', plantings_path, hero_icon_seedling)
+            = site_nav_link_to('Comments', comments_path, hero_icon_chat)
+            - if policy(:default_admin).index?
+              %hr.my-2
+              = site_nav_link_to('Admin', admin_root_path, hero_icon_key)
+            %hr.my-2
+            - if current_user.not_null?
+              = site_nav_link_to('Sign Out', destroy_user_session_path, hero_icon_sign_out)
+            - else
+              = site_nav_link_to('Sign In', new_user_session_path, hero_icon_sign_in)
+              = site_nav_link_to('Register', new_user_registration_path, hero_icon_user_plus)
 
-                - if content_for(:content)
-                  = yield(:content)
-                - else
-                  = yield
+        %div.content.grow
+          #flash-messages-container
+            = render_flash_messages
+
+          - if content_for(:content)
+            = yield(:content)
+          - else
+            = yield

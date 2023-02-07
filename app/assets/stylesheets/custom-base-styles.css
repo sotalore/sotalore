@@ -1,8 +1,15 @@
 @layer base {
-  h1 { @apply text-4xl font-bold }
-  h2 { @apply text-2xl font-semibold }
-  h3 { @apply text-xl font-medium }
-  h4 { @apply text-lg font-medium italic }
+
+  html {
+    @apply text-grey-800 font-sans;
+  }
+
+  h1 { @apply text-4xl m-4 text-grey-800 font-bold }
+  h2 { @apply text-2xl m-4 text-grey-800 font-semibold }
+  h3 { @apply text-xl m-4 text-grey-800 font-medium }
+  h4 { @apply text-lg m-4 text-grey-800 font-medium italic }
+  h5 { @apply m-4 text-grey-800 font-medium italic }
+  h6 { @apply text-sm m-4 text-grey-800 font-medium italic }
 
   p {
     @apply mb-4;

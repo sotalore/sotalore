@@ -19,6 +19,7 @@
 @import './base/components/_fields.css';
 @import './base/components/_flair.scss';
 @import './components/skills.css';
+@import './components/farming.css';
 
 
 @import "tailwindcss/utilities";
