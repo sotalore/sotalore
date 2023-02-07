@@ -209,10 +209,8 @@ class SLFormBuilder < BasicFormBuilder
   end
 
   def actions
-    content_tag(:div, class: 'row') do
-      content_tag(:div, class: 'col-xs u-textRight text-right') do
-        yield
-      end
+    content_tag(:div, class: 'text-right') do
+      yield
     end
   end
 
