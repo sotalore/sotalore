@@ -7,21 +7,20 @@
         = simple_format planting.notes
     %p
       Planted at: #{l planting.planted_at}
-      %strong
-        %em - #{planting.location_type}
+      %em - #{planting.location_type}
 
-    .WateringPlan
+    .flex.flex-col.justify-between
       - days_of_growing = planting.days_of_growing
       - day_width = 100.0 / planting.total_calendar_days.to_f
-      .WateringPlan-Calendar
+      .flex.flex-row
         - days_of_growing.each do |date|
-          .WateringPlan-CalendarDay(style="width: #{day_width}%")
+          .text-center.py-2.mt-2.border-2.border-grey-400.border-r-0.last:border-r-2(style="width: #{day_width}%")
             = l date, format: :watering_calendar
 
-      .WateringPlan-Steps
-        .WateringPlan-StepBuffer(style="width: #{planting.buffer_width}%")
-          .WateringPlan-StepTime= l(planting.planted_at, format: :watering_step)
+      .flex.flex-row.items-end
+        %div(style="width: #{planting.buffer_width}%")
+          .bg-transparent.-mr-4.text-sm.text-right= l(planting.planted_at, format: :watering_step)
         - planting.step_end_times.each_with_index do |time, idx|
-          .WateringPlan-Step(style="width: #{planting.step_width}%")
-            .WateringPlan-StepHeader Water #{idx + 1}
-            .WateringPlan-StepTime= l(time, format: :watering_step)
+          %div(style="width: #{planting.step_width}%")
+            .border-2.border-t-0.border-grey-400.bg-grey-100.text-center.text-xs.md:text-sm{class: idx == Planting::WATERING_STEPS-1 ? 'border-r-2' : 'border-r-0' } Water #{idx + 1}
+            .bg-transparent.-mr-4.text-sm.text-right= l(time, format: :watering_step)

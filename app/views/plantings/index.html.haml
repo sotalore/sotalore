@@ -1,14 +1,16 @@
-.row
-  - if @plantings
-    .col-sm-8
+.grid.grid-cols-3
+  .col-span-3.lg:col-span-1
+    = tile_with_heading('Add a new planting') do
+      = sl_form_for(@planting || Planting.with_defaults) do |f|
+        = f.select :seed_id, seeds_grouped_by_speed_options, include_blank: true
+        = f.select :location_type, Planting.location_types.keys, label: 'Location Type'
+        = f.text_field :planted_at, hint: 'When did you plant?'
+        ~ f.text_area :notes, placeholder: 'Just something you need to remember'
+        = f.actions do
+          = f.submit
+  - if @plantings.any?
+    .col-span-3.lg:col-span-2
       = render @plantings
-  .col-sm-4
-    = sl_form_for(@planting || Planting.with_defaults) do |f|
-      = f.select :seed_id, seeds_grouped_by_speed_options, include_blank: true
-      = f.select :location_type, Planting.location_types.keys, label: 'Location Type'
-      = f.text_field :planted_at, hint: 'When did you plant?'
-      ~ f.text_area :notes, placeholder: 'Just something you need to remember'
-      = f.submit
 
 %script
   :plain
