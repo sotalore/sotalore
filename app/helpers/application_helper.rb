@@ -23,16 +23,15 @@ module ApplicationHelper
     puts "Do something with the title"
   end
 
-  def render_flash_messages
-    types = {
-      alert: :warning,
-      error: :danger,
-      notice: :info
-    }
+  FLASH_TYPES = {
+    alert: :warning,
+    error: :danger,
+    notice: :info
+  }.with_indifferent_access.freeze
 
+  def render_flash_messages
     flash.map { |type, message|
-      type = type.to_sym
-      notice_tag(types[type] || type, message)
+      notice_tag(FLASH_TYPES[type] || type, message)
     }.join.html_safe
   end
 

@@ -1,4 +1,4 @@
-@mixin notice-color ($dark, $border, $light) {
+@mixin notice-color($dark, $border, $light) {
   .Notice-icon {
     background: $border;
     color: $light;
@@ -12,10 +12,9 @@
 }
 
 .Notice {
-  margin-bottom: 16px;
+  margin: 16px 8px;
   border-radius: 3px;
   display: flex;
-  // Override Bootstrap
   border: 0;
   padding: 0;
 
@@ -42,8 +41,9 @@
     margin-top: 12px;
   }
 
-  &--info    { @include notice-color($purple1, $purple3, $purple4); }
-  &--success { @include notice-color( $green1,  $green3,  $green4); }
-  &--warning { @include notice-color($yellow1, $yellow3, $yellow4); }
-  &--danger  { @include notice-color(   $red1,    $red3,    $red4); }
+  &--info    { @include notice-color(var(--purple1), var(--purple3), var(--purple4)); }
+  &--success { @include notice-color( var(--green1),  var(--green3),  var(--green4)); }
+  &--warning { @include notice-color(var(--yellow1), var(--yellow3), var(--yellow4)); }
+  &--danger  { @include notice-color(   var(--red1),    var(--red3),    var(--red4)); }
+
 }

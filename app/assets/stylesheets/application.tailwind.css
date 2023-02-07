@@ -20,6 +20,7 @@
 @import './base/components/_flair.scss';
 @import './components/skills.css';
 @import './components/farming.css';
+@import './base/components/notice.css';
 
 
 @import "tailwindcss/utilities";

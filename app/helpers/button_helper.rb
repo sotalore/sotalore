@@ -9,6 +9,9 @@ module ButtonHelper
     'pencil-alt': HeroIconHelper::PENCIL_ALT,
     'trash': HeroIconHelper::TRASH,
     'info-circle': HeroIconHelper::INFORMATION_CIRCLE,
+    'check': HeroIconHelper::BADGE_CHECK,
+    'warning': HeroIconHelper::WARNING,
+    'error': HeroIconHelper::ERROR,
   }.with_indifferent_access
 
 

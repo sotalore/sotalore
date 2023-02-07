@@ -6,8 +6,9 @@ module NoticeHelper
     info: "info-circle",
     success: "check",
     warning: "warning",
-    danger: "ban"
-  }
+    danger: "error",
+    error: "error",
+  }.with_indifferent_access.freeze
 
   def notice_info(message = nil, &block)
     notice_tag(:info, message, &block)
@@ -23,6 +24,10 @@ module NoticeHelper
 
   def notice_danger(message = nil, &block)
     notice_tag(:danger, message, &block)
+  end
+
+  def notice_error(message = nil, &block)
+    notice_tag(:error, message, &block)
   end
 
   def notice_tag(type, message = nil, &block)
