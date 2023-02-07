@@ -1,16 +1,10 @@
 - page_title('Skill Basics')
 
+
+= render partial: 'page_heading', locals: {with_avatar_controls: false}
+
+
 .SkillTable
-
-  .SkillTable--pageHeading
-    %div.pageTabs
-      = link_to_unless(@activity == 'adventuring', 'Adventuring Skills', [ @avatar, :skills, activity: 'adventuring']) do |name|
-        %span.currentTab= name
-      = link_to_unless(@activity == 'crafting', 'Crafting Skills', [ @avatar, :skills, activity: 'crafting']) do |name|
-        %span.currentTab= name
-      = link_to_unless(!@activity, 'Basics', skills_basics_path) do |name|
-        %span.currentTab= name
-
   %div.SkillBasics
     %h3 What Skills Cost to Level
 

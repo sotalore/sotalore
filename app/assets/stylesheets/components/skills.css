@@ -1,33 +1,5 @@
 .SkillTable {
 
-  &--pageHeading {
-    div.pageTabs {
-      font-weight: bold;
-      font-size: 1.15rem;
-      display: inline-block;
-      height: 100%;
-      background-color: var(--grey9);
-
-      a, span.currentTab {
-        display: inline-block;
-        height: 100%;
-        padding: 0.5rem 16px;
-      }
-
-      a {
-        background-color: var(--grey7);
-      }
-    }
-
-    form {
-      float: right;
-      select {
-        display: inline-block;
-        width: auto;
-      }
-    }
-  }
-
   div.SkillBasics, div.SkillBasicsNotes {
     background-color: var(--grey9);
     margin-bottom: 1rem;
