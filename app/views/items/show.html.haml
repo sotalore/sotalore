@@ -89,7 +89,7 @@
 
 
         - else
-          %p.u-textCenter
+          %p.text-center
             %em no recipes make this.
             - if policy(Recipe).new?
               = link_to('add one', new_recipe_path(item_id: @item.id))
@@ -112,7 +112,7 @@
           = paginate(@used_in)
 
         - if @used_in.empty?
-          .u-textCenter
+          .text-center
             %em no recipes use this item.
       .col-sm-12.col-md-12.col-lg-5
         = render partial: 'comments/subject', object: @item

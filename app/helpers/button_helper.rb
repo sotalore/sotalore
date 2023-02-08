@@ -138,15 +138,6 @@ module ButtonHelper
     end
   end
 
-  def help_text_tag(text=nil, &block)
-    if block_given?
-      text = capture(&block)
-    end
-    if text.present?
-      content_tag(:span, '?', class: 'HelpText', title: text, data: { toggle: 'tooltip' })
-    end
-  end
-
   def add_button_css_classes(options)
     str = "Button #{options[:class]}".strip
     if options.key?(:size)

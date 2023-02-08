@@ -17,10 +17,6 @@ module ApplicationHelper
     content_tag(:div, 'heading-controls', &block)
   end
 
-  def logo_tag
-    link_to(raw("Sota Lore <small>#{t :version}</small>"), '/', class: 'PortalNav-logo')
-  end
-
   def title(title)
     puts "Do something with the title"
   end

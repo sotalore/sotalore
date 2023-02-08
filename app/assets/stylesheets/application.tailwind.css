@@ -3,24 +3,25 @@
 
 /* Entry point for your PostCSS build */
 @import "tailwindcss/base";
-@import "./base/base/settings.css";
-@import "./base/base/_colors.css";
-@import "./custom-base-styles.css";
+@import "./base/settings.css";
+@import "./base/colors.css";
+@import "./base/custom.css";
 
 @import "tailwindcss/components";
 @import "./custom-component-styles.css";
-@import './base/components/tile.css';
+@import './components/tile.css';
 @import './components/lunar_rifts.css';
 @import './components/master_trainers.css';
 @import './components/recipes.css';
 @import './components/items.css';
 @import './components/user_recipe.css';
-@import './base/components/_pagination.css';
-@import './base/components/_fields.css';
-@import './base/components/_flair.scss';
+@import './components/pagination.css';
+@import './components/forms.css';
+@import './components/fields.css';
+@import './components/flair.css';
 @import './components/skills.css';
 @import './components/farming.css';
-@import './base/components/notice.css';
+@import './components/notice.css';
 
 
 @import "tailwindcss/utilities";

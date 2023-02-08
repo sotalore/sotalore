@@ -41,45 +41,6 @@ class SLFormBuilder < BasicFormBuilder
     end
   end
 
-  def date_picker(method, options = {})
-    current_value = object.send(method)
-
-    form_group_with_label(method, options) do
-      input_with_hint_and_errors(method, options) do
-        basic_text_field(method, {
-          value: current_value && current_value.to_date.iso8601,
-          data: date_picker_data(current_value, options),
-          placeholder: "YYYY-MM-DD"
-        }.merge(options))
-      end
-    end
-  end
-
-  def date_picker_data(current_value, options = {})
-    data = {
-      date_format: "yyyy-mm-dd",
-      date_autoclose: true,
-      date_today_highlight: true,
-      date_max_view_mode: "years",
-      date_start_view: options[:start_view],
-      provide: "datepicker"
-    }
-
-    if options[:only_future]
-      data[:date_start_date] = [current_value, Time.zone.now].compact.min.to_date.iso8601
-    end
-
-    if options[:only_past]
-      data[:date_end_date] = Time.zone.now.to_date.iso8601
-    end
-
-    if options[:only_weekdays]
-      data[:date_days_of_week_disabled] = "0,6"
-    end
-
-    data
-  end
-
   def static_field(method, options={}, &block)
     form_group_with_label(method, options) do
       input_with_hint_and_errors(method, options) do

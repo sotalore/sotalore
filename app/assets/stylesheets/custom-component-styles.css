@@ -3,10 +3,6 @@
   .subtitle { @apply text-4xl font-semibold }
   .subsubtitle { @apply text-lg font-medium italic }
 
-  a.PortalNav-link {
-    @apply block whitespace-nowrap
-  }
-
   form.Form--inline {
     @apply flex flex-row align-middle;
 
