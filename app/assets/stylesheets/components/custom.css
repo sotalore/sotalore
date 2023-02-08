@@ -16,15 +16,6 @@
 
   }
 
-  .Button {
-    /* @apply w-32 h-10 bg-red-300 p-2 rounded-xl hover:bg-red-500 text-white font-semibold; */
-    @apply inline-block py-1 px-3 border border-orange-900 rounded text-white bg-orange-600 hover:cursor-pointer shadow-md;
-  }
-
-  .Button--danger {
-    @apply bg-red-600 border-red-900;
-  }
-
   .Tile > .Tile-heading {
     @apply flex;
   }

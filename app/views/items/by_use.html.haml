@@ -27,7 +27,7 @@
 
         - if ['artifact'].include?(params[:use]) && item.salvage_as_source_count > 0
           %h4 Salvages to:
-          %ul.List--plain
+          %ul
             - item.salvages_to.each do |i|
               %li= link_to(i, i)
 

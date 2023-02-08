@@ -1,14 +1,14 @@
-@mixin button-color ($color1, $color2, $color3) {
+@mixin button-color($color1, $color2, $color3) {
   background: $color2;
   border-color: $color1;
   text-shadow: 0 1px 1px $color1;
-  color: $grey9;
+  color: var(--grey9);
 
   &:focus,
   &:hover {
     background: $color3;
     border-color: $color2;
-    color: $grey9;
+    color: var(--grey9);
     text-shadow: 0 1px 1px $color2;
   }
 
@@ -22,9 +22,9 @@
 }
 
 .Button {
-  @include user-select-none;
+  user-select: none;
   border-radius: 2px;
-  border: 1px solid $orange2;
+  border: 1px solid var(--orange2);
   cursor: pointer;
   display: inline-block;
   line-height: 22px;
@@ -35,26 +35,25 @@
   vertical-align: top;
   white-space: nowrap;
   background: transparent;
-  color: $orange2;
+  color: var(--orange2);
   font-weight: 400;
 
   &:focus,
   &:hover {
-    background: $orange4;
-    border-color: $orange2;
-    color: $orange1;
+    background: var(--orange4);
+    border-color: var(--orange2);
+    color: var(--orange1);
     text-decoration: none;
     outline: 0;
   }
 
   &.active,
   &:active:hover {
-    background: $orange2;
-    border-color: $orange2;
-    color: $orange1;
+    background: var(--orange2);
+    border-color: var(--orange2);
+    color: var(--orange1);
   }
 
-  // sm + xs are supported until removing bootstrap
   &--sm,
   &--xs,
   &--small {
@@ -68,9 +67,9 @@
     width: 100%;
   }
 
-  &--primary { @include button-color( $orange1, $orange2, $orange3); }
-  &--danger  { @include button-color(    $red1,    $red2,    $red3); }
-  &--warning { @include button-color( $yellow1, $yellow2, $yellow3); }
-  &--success { @include button-color(  $green1,  $green2,  $green3); }
-  &--info    { @include button-color( $purple1, $purple2, $purple3); }
+  &--primary { @include button-color( var(--orange1), var(--orange2), var(--orange3)); }
+  &--danger  { @include button-color(    var(--red1),    var(--red2),    var(--red3)); }
+  &--warning { @include button-color( var(--yellow1), var(--yellow2), var(--yellow3)); }
+  &--success { @include button-color(  var(--green1),  var(--green2),  var(--green3)); }
+  &--info    { @include button-color( var(--purple1), var(--purple2), var(--purple3)); }
 }

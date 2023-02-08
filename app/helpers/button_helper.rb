@@ -16,7 +16,6 @@ module ButtonHelper
 
 
   def more_link_to(path, options={})
-    options[:class] = 'MoreLink'
     link_to(path, options) do
       icon_tag('caret-right')
     end

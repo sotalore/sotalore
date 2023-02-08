@@ -1,7 +1,7 @@
 .autocomplete-suggestions {
-  border: 1px solid $grey3;
+  border: 1px solid var(--grey3);
   margin-top: -15px;
-  background: $grey8;
+  background: var(--grey8);
   overflow: auto;
   position: absolute;
   z-index: 1000;
@@ -13,8 +13,7 @@
     overflow: hidden;
 
     &.active {
-      background: $grey6;
+      background: var(--grey6);
     }
   }
-
 }

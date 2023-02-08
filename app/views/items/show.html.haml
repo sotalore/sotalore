@@ -40,7 +40,7 @@
           - if @item.salvage_as_result_count > 0
             %p
               <strong>Potentially obtain this item by salvaging:</strong>
-            %ul.List--plain
+            %ul
               - @item.item_salvages_as_result.each do |item_salvage|
                 %li
                   = link_to(item_salvage.salvage_from, item_salvage.salvage_from)
@@ -50,7 +50,7 @@
           - if @item.salvage_as_source_count > 0
             %p
               <strong>Salvage this item to potentially get:</strong>
-            %ul.List--plain
+            %ul
               - @item.item_salvages_as_source.each do |item_salvage|
                 %li
                   = link_to(item_salvage.salvage_to, item_salvage.salvage_to)
@@ -106,7 +106,7 @@
           %h3
             Used in
             = pluralize(@used_in.total_count, 'Recipe')
-          %ul.List--plain
+          %ul
             - @used_in.each do |recipe|
               %li= link_to(recipe.name, recipe)
           = paginate(@used_in)

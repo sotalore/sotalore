@@ -1,12 +1,11 @@
 .global-search {
-  padding: 10px;
-
   .global-search-results {
-    background: $grey9;
-    border: 1px solid $grey6;
+    background: var(--grey9);
+    border: 1px solid var(--grey6);
     position: absolute;
     max-height: 400px;
     overflow-y: scroll;
+    z-index: 1000;
 
     a {
       display: block;
@@ -15,7 +14,7 @@
     }
 
     a.active {
-      background: $grey6;
+      background: var(--grey6);
     }
   }
  }

@@ -58,11 +58,11 @@
       .flex-1.flex.overflow-hidden
         .flex-1.overflow-y-scroll
           .flex-grow.flex.flex-col.z-50.bg-orange-800.h-12
-            .inline-block.text-slate-200.relative{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
+            .inline-block.global-search.text-slate-200.relative{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
               %form.block.h-12.px-4{:action => "/search", :method => "GET"}
                 %input#global-search.bg-orange-700.border-0.focus:shadow-none.placeholder:text-slate-400.placeholder:italic.h-12.outline-none{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
                 %i.-ml-9.text-slate-400= hero_icon_magnifying_glass
-              %div#global-search-results.absolute.bg-grey-200.border-2.border-orange-900.min-w-128{ data: { 'autocomplete-target' => 'results' }}
+              %div#global-search-results.global-search-results{ data: { 'autocomplete-target' => 'results' }}
 
             %div.content.grow
               #flash-messages-container
