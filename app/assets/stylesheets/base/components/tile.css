@@ -19,6 +19,7 @@
 }
 
 .Tile {
+  @apply m-2;
   background: var(--grey9);
   border: 1px solid var(--grey6);
   margin-bottom: 22px;
@@ -66,6 +67,11 @@
 
     img {
       max-width: 100%;
+    }
+
+    > .Tile {
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 

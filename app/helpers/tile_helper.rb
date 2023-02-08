@@ -1,14 +1,14 @@
 # frozen-string-literal: true
 
-TILE_TAILWIND = Hash.new('border-grey-300').merge({
-  info: ' border-purple-500',
-}).with_indifferent_access
-
-TILE_HEADING_TAILWIND = Hash.new(' border-grey-300').merge({
-  info: ' bg-purple-100 border-purple-500 text-purple-500',
-}).with_indifferent_access
-
 module TileHelper
+
+  TILE_TAILWIND = Hash.new(' border-grey-300').merge({
+    info: ' border-purple-500',
+  }).with_indifferent_access
+
+  TILE_HEADING_TAILWIND = Hash.new(' border-grey-300').merge({
+    info: ' bg-purple-100 border-purple-500 text-purple-500',
+  }).with_indifferent_access
 
   def lead_in(&block)
     content_tag(:div, class: "tile-lead-in Tile-leadIn", &block)
@@ -25,7 +25,7 @@ module TileHelper
   end
 
   def tile(type=nil, options={}, &block)
-    css_class = "#{options[:class]} Tile m-2 white border"
+    css_class = "#{options[:class]} Tile border"
     css_class += " Tile--#{type}" if type
     css_class += TILE_TAILWIND[type]
 

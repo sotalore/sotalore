@@ -7,44 +7,40 @@
 
   = tile_body do
 
-    .row
-      .col-xs-12
-        .callout.primary
-          - if @scene.level
-            %strong= scene_level(@scene)
-          - if @scene.pvp?
-            %strong PVP
-          - if @scene.scene_type
-            %em= @scene.scene_type
-          - if @scene.region
-            in
-            %strong= @scene.region
-          - parent = @scene.parent
-          - if parent && !parent.overworld?
-            &mdash; nested in: 
-            - while parent && !parent.overworld?
-              = link_to(parent.name, parent)
-              - parent = parent.parent
+    .Callout.Callout-primary
+      - if @scene.level
+        %strong= scene_level(@scene)
+      - if @scene.pvp?
+        %strong PVP
+      - if @scene.scene_type
+        %em= @scene.scene_type
+      - if @scene.region
+        in
+        %strong= @scene.region
+      - parent = @scene.parent
+      - if parent && !parent.overworld?
+        &mdash; nested in:
+        - while parent && !parent.overworld?
+          = link_to(parent.name, parent)
+          - parent = parent.parent
 
-    .row
-      .col-xs-12
-        = tile do
-          = tile_body do
-            %p
-              = link_to(@scene.sota_map_url, target: '_blank') do
-                View SotA map of <strong>#{@scene.name}</strong>
-                = icon_tag('external-link')
+    = tile do
+      = tile_body do
+        %p
+          = link_to(@scene.sota_map_url, target: '_blank') do
+            View SotA map of <strong>#{@scene.name}</strong>
+            = icon_tag('external-link')
 
-          - parent, scene = @scene.parent, @scene
-          - while parent && scene.has_parent_location_info?
-            = tile_body do
-              %p
-                = link_to(scene.sota_map_in_parent_url, target: '_blank') do
-                  View location of <strong>#{scene.name}</strong> in <strong>#{parent.name}</strong>
-                  = icon_tag('external-link')
-              - parent, scene = parent.parent, parent
+      - parent, scene = @scene.parent, @scene
+      - while parent && scene.has_parent_location_info?
+        = tile_body do
+          %p
+            = link_to(scene.sota_map_in_parent_url, target: '_blank') do
+              View location of <strong>#{scene.name}</strong> in <strong>#{parent.name}</strong>
+              = icon_tag('external-link')
+          - parent, scene = parent.parent, parent
 
 
-    .row
-      .col-xs-12.col-sm-6
+    .grid.grid-cols-2
+      .col-span-2.sm:col-span-1
         = render partial: 'comments/subject', object: @scene
