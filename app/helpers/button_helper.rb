@@ -180,7 +180,7 @@ module ButtonHelper
     if ICONS[icon]
       ICONS[icon] + " #{label}".html_safe
     else
-      content_tag(:i, '', class: "fas fa-#{icon}") << " #{label}".html_safe
+      raise "Couldn't find icon: #{icon}"
     end
   end
 end
