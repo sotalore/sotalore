@@ -11,3 +11,26 @@
     %p A purest persian without quiets is truly a reason of reptant wines. Few can name an unchanged rock that isn't a valgus title. Framed in a different way, those locusts are nothing more than rifles. Nowhere is it disputed that the feather is a bengal.
     %p Some helmless mailmen are thought of simply as cellos. An olive can hardly be considered a ferine pvc without also being a psychology. A windchime sees a boundary as an osmic pepper. The segments could be said to resemble outraged mexicos.
 
+
+= tile do
+  %h3 Tailwind Colors
+  - shades = (1..9).to_a.map { |i| "#{i * 100}" }
+  - colors = %w[slorange red orange yellow green blue purple]
+  - colors.each do |color|
+    .flex.flex-row
+      - shades.each do |shade|
+        %div{ class: "px-2 py-4 flex-grow text-center bg-#{color}-#{shade} inline-block" }= "#{color}-#{shade}"
+
+  %h3.mt-4 Old Colors
+  - shades = (0..4).to_a
+  - colors = %w[red yellow green orange blue purple]
+  - colors.each do |color|
+    .flex.flex-row
+      - shades.each do |shade|
+        %div{ class: "px-2 py-4 flex-grow text-center inline-block #{'text-white' if shade < 3}", style: "background-color: var(--#{color}#{shade})" }= "#{color}#{shade}"
+
+  %h3.mt-4 Greys
+  - shades = (0..9).to_a
+  .flex.flex-row
+    - shades.each do |shade|
+      %div{ class: "px-2 py-4 flex-grow text-center inline-block #{'text-white' if shade < 5}", style: "background-color: var(--grey#{shade})" }= "grey#{shade}"

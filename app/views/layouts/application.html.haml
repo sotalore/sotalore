@@ -9,7 +9,7 @@
     = csrf_meta_tags
     %meta{:charset => "utf-8"}/
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    = stylesheet_link_tag 'application-incoming', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
 
     %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
@@ -19,13 +19,13 @@
 
   %body
     .flex.h-screen
-      .bg-orange-800.w-16.lg:w-40
+      .bg-slorange-700.w-16.lg:w-40
         .h-12.p-3.text-center
           = link_to('/', class: 'text-xl font-bold text-zinc-200') do
             %span.hidden.lg:inline SOTA LORE
             %span.inline.lg:hidden SL
         %div
-          %nav.main-navigation.p-4.text-zinc-200
+          %nav.main-navigation.text-center.lg:text-left
             - if current_user.not_null?
               = site_nav_link_to('My Recipes', user_recipes_path, hero_icon_book)
             = site_nav_link_to('My Avatars', avatars_path, hero_icon_shield, active: [['avatars'],[]])
@@ -48,6 +48,7 @@
             - if policy(:default_admin).index?
               %hr.my-2
               = site_nav_link_to('Admin', admin_root_path, hero_icon_key)
+              = site_nav_link_to('Styles', styles_path, hero_icon_key)
             %hr.my-2
             - if current_user.not_null?
               = site_nav_link_to('Sign Out', destroy_user_session_path, hero_icon_sign_out)
@@ -57,10 +58,10 @@
 
       .flex-1.flex.overflow-hidden
         .flex-1.overflow-y-scroll
-          .flex-grow.flex.flex-col.z-50.bg-orange-800.h-12
+          .flex-grow.flex.flex-col.z-50.bg-slorange-700.h-12
             .inline-block.global-search.text-slate-200.relative{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
               %form.block.h-12.px-4{:action => "/search", :method => "GET"}
-                %input#global-search.bg-orange-700.border-0.focus:shadow-none.placeholder:text-slate-400.placeholder:italic.h-12.outline-none{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
+                %input#global-search.global-search-input{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
                 %i.-ml-9.text-slate-400= hero_icon_magnifying_glass
               %div#global-search-results.global-search-results{ data: { 'autocomplete-target' => 'results' }}
 

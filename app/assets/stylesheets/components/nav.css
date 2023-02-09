@@ -1,0 +1,9 @@
+@layer components {
+    .site-nav-link {
+        @apply p-2 text-zinc-200 font-medium block whitespace-nowrap;
+
+        &.is-active {
+            @apply bg-slorange-800;
+        }
+    }
+}

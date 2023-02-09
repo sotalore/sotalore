@@ -1,8 +1,13 @@
 class SkillsController < ApplicationController
+  include NavHelper
   skip_after_action :verify_authorized
 
   before_action :set_activity, only: [ :index ]
   before_action :setup_avatar, except: [ :basics ]
+
+  before_action do
+    site_nav_activate_link(skills_path)
+  end
 
   def index
     @skills = @activity.adventuring? ? Skill::ADVENTURING : Skill::CRAFTING

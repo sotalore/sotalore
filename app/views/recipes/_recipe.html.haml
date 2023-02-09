@@ -27,7 +27,7 @@
               #{t recipe.teachable, scope: [ :helpers, :label, :recipe, :teachables ], default: ''}
 
       .Recipe-production
-        %span.u-label
+        %span.opacity-75.italic
           Makes
         - results = recipe.results.map do |result|
           - capture do
@@ -40,7 +40,7 @@
           %em unknown
 
   .Recipe-ingredients
-    %span.u-label
+    %span.opacity-75.italic
       Ingredients:
   - recipe.ingredients.eager_load(item: { recipes: :results }).each do |ingredient|
     - ingredient_dom_id = dom_id(ingredient)

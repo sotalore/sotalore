@@ -6,12 +6,14 @@ module NavHelper
 
     options = {
       active: options.fetch(:active, nil),
-      class: "py-1 text-white font-medium block whitespace-nowrap",
+      class: "site-nav-link",
       class_active: "is-active"
     }
 
     if defined?(@portal_nav_active_link)
       options[:active] ||= url == @portal_nav_active_link
+    else
+      options[:active] = :inclusive
     end
 
     active_link_to(url, options) do
@@ -19,7 +21,7 @@ module NavHelper
     end
   end
 
-  def portal_nav_activate_link(url)
+  def site_nav_activate_link(url)
     @portal_nav_active_link = url
     nil
   end
