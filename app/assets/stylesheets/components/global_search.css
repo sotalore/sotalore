@@ -14,14 +14,15 @@
       }
 
       a.active {
-        background: var(--grey6);
+        @apply bg-orange-900 text-zinc-100;
       }
     }
   }
 
   .global-search-input {
-    @apply bg-slorange-700 focus:bg-slorange-800 transition-colors;
-    @apply inline-block h-12 w-32 focus:w-96 transition-transform;
+    @apply transition-all ease-in-out duration-300;
+    @apply bg-slorange-700 focus:bg-slorange-800;
+    @apply inline-block h-12 w-32 focus:w-96;
     @apply placeholder:text-slate-400 placeholder:italic outline-none;
     @apply border-0 border-x border-slorange-900 focus:border-slorange-800 focus:shadow-none;
   }
