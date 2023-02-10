@@ -1,13 +1,13 @@
 - page_title @recipe.name
-= tile do
-  = tile_body do
-    .grid.grid-cols-3.gap-4
-      .col-span-2
+.grid.grid-cols-3.gap-2
+  .col-span-2
+    = tile do
+      = tile_body do
         = render @recipe
         = render partial: 'comments/subject', object: @recipe
 
-      %div
-        = render partial: 'recipes/work_list'
+  .col-span-1
+    = render partial: 'recipes/work_list'
 
 - if policy(@recipe).destroy?
   .text-right.m-2

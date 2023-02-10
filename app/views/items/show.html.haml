@@ -28,7 +28,7 @@
               %strong Instance of:
               = link_to(@item.instance_of, @item.instance_of)
 
-      .grid.grid-cols-1.md:grid-cols-3.gap-4
+      .grid.grid-cols-1.md:grid-cols-3.gap-2
         - if @item.effects
           = tile_with_heading('Effects') do
             = formatted_body @item.effects
@@ -72,7 +72,7 @@
               = f.submit('Add')
 
     %hr
-    .grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-4.mt-4
+    .grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-2.mt-4
       .col-sm-12.col-md-6.col-lg-4
         - if @item.craftable?
           - if @item.abstract

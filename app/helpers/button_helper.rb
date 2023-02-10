@@ -101,7 +101,7 @@ module ButtonHelper
     options[:style] ||= 'default'
     add_button_css_classes(options)
     link_to(path, options) do
-      render_icon(icon)
+      render_icon(icon, size: :sm)
     end
   end
 
@@ -145,6 +145,6 @@ module ButtonHelper
   end
 
   def icon_plus_label(icon, label)
-    render_icon(icon) + " #{label}".html_safe
+    render_icon(icon, size: :sm) + " #{label}".html_safe
   end
 end

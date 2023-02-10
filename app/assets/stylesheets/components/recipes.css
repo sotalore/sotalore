@@ -65,8 +65,7 @@ img.Recipe-icon {
   transition: transform 100ms linear;
 }
 
-.Recipe-ingredient > .Recipe-ingredientSummary > a.Displayed > i,
-.Recipe-ingredient > .Recipe-ingredientSummary > a.Displayed > svg {
+.Recipe-ingredient > .Recipe-ingredientSummary > a.Displayed > span > svg {
   transform: rotate(90deg);
   transition: transform 100ms linear;
 }

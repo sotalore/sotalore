@@ -1,6 +1,6 @@
 
 @mixin ItemSummaryTag {
-  padding: 2px calc(var(--line-height) / 2);
+  padding: 4px calc(var(--line-height) / 4);
   border-radius: calc(var(--line-height) / 2);
   font-size: 0.7em;
   background-color: var(--grey6);

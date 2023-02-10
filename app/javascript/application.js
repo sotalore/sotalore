@@ -45,3 +45,4 @@ const farming = new Farming()
 SotaLore.pageLoad(() => farming.pageLoad())
 
 SotaLore.pageLoad(turnstilePageLoad)
+import "@hotwired/turbo-rails"

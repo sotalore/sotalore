@@ -135,13 +135,13 @@
   = tile_body do
     = notice_info do
       When known, the expected average yield from complete watering is shown in <em>(parentheses)</em>.
-    .flex.flex-row.flex-wrap.gap-4
+    .flex.flex-row.flex-wrap.gap-2
       - seeds = Item.use_is_seed.all.order(:price, 'lower(name)').to_a
       %div.flex-grow.min-w-fit
         %h3 Quick Growing Seeds
         %ul
           - seeds.select { |s| s.price && s.price < 16 }.each do |seed|
-            %li
+            %li.my-1
               - if policy(Item).edit?
                 = edit_icon_to(edit_item_path(seed), size: :small)
               = link_to seed, seed
@@ -152,7 +152,7 @@
         %h3 Medium Growing Seeds
         %ul
           - seeds.select { |s| s.price == 16 }.each do |seed|
-            %li
+            %li.my-1
               - if policy(Item).edit?
                 = edit_icon_to(edit_item_path(seed), size: :small)
               = link_to seed, seed
@@ -163,7 +163,7 @@
         %h3 Slow Growing Seeds
         %ul
           - seeds.select { |s| s.price && s.price > 16 }.each do |seed|
-            %li
+            %li.my-1
               - if policy(Item).edit?
                 = edit_icon_to(edit_item_path(seed), size: :small)
               = link_to seed, seed

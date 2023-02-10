@@ -11,6 +11,8 @@
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+    = action_cable_meta_tag
+    = hotwire_livereload_tags if Rails.env.development?
 
     %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
     %link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
@@ -63,7 +65,7 @@
               %form.block.h-12.px-4{:action => "/search", :method => "GET"}
                 %input#global-search.global-search-input{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
                 %i.-ml-9.text-slate-400= render_icon('magnifying_glass', color: :current)
-              %div#global-search-results.global-search-results{ data: { 'autocomplete-target' => 'results' }}
+                %div#global-search-results.global-search-results{ data: { 'autocomplete-target' => 'results' }}
 
             %div.content.grow
               #flash-messages-container

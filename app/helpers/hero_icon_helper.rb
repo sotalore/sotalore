@@ -327,10 +327,8 @@ module HeroIconHelper
   add_icon :bone, BONE
 
   FLASK = <<~ICON.html_safe
-    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="currentColor">
-      <path d="M15 5V11.6972C15 11.8946 15.0584 12.0877 15.1679 12.2519L19.9635 19.4453C20.4066 20.1099 19.9302 21 19.1315 21H4.86852C4.06982 21 3.59343 20.1099 4.03647 19.4453L8.83205 12.2519C8.94156 12.0877 9 11.8946 9 11.6972V5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"></path>
-      <path d="M16.9 18.2L14.8 15.4C14.6111 15.1482 14.3148 15 14 15H10C9.68524 15 9.38885 15.1482 9.2 15.4L7.1 18.2C6.85279 18.5296 7.08798 19 7.5 19H16.5C16.912 19 17.1472 18.5296 16.9 18.2Z" fill="currentColor"></path>
-      <path d="M7 5H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
     </svg>
   ICON
   add_icon :flask, FLASK
