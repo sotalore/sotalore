@@ -1,5 +1,8 @@
 @layer components {
     .site-nav-link {
+        span {
+            @apply mx-1;
+        }
         @apply p-2 text-zinc-200 font-medium block whitespace-nowrap;
 
         &.is-active {

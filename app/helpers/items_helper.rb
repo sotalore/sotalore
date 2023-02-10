@@ -12,13 +12,13 @@ module ItemsHelper
     'fuel' => 'fire',
     'tool' => 'wrench',
     'component' => 'cogs',
-    'armor' => 'shield-alt',
-    'weapon' => 'long-arrow-alt-right',
-    'decoration' => 'image',
-    'food' => 'apple-alt',
+    'armor' => 'shield',
+    'weapon' => 'sword',
+    'decoration' => 'photo',
+    'food' => 'apple_alt',
     'potion' => 'flask',
     'house' => 'home',
-    'seed' => 'leaf',
+    'seed' => 'seedling',
     'pet-food' => 'bone',
   }.freeze
 
@@ -34,8 +34,9 @@ module ItemsHelper
       label = item.use_is_unknown? ? 'unknown use' : item.use
       css_class = "Item-useTag Item-useTag--#{item.use}"
       css_class += " Item-useTag--large" if options[:large]
+      icon_size = options[:large] ? :md : :xs
       content_tag(:span, class: css_class) do
-        icon_tag(icon) + " " + label
+        render_icon(icon, size: icon_size, color: :current) + " " + label
       end
     end
   end
@@ -47,17 +48,6 @@ module ItemsHelper
     'drop' => 'bullseye',
     'recipe' => 'book',
   }.freeze
-
-  def item_source_tag(item, options={})
-    if icon = SOURCE_ICONS[item.source]
-      label = item.source_is_unknown? ? 'unknown source' : item.source
-      css_class = "Item-sourceTag Item-sourceTag--#{item.source}"
-      css_class += " Item-sourceTag--large" if options[:large]
-      content_tag(:span, class: css_class) do
-        icon_tag(icon) + " " + label
-      end
-    end
-  end
 
   def item_price_tag(item, options={})
     if item.price
@@ -93,7 +83,7 @@ module ItemsHelper
       css_class += " Item-abstractTag--large" if options[:large]
       content_tag(:a, href: abstractions_url) do
         content_tag(:span, class: css_class) do
-          icon_tag('draw-polygon') + " " + content_tag(:span, 'abstract', class: "Item-abstractTag-abstract")
+          render_icon(:cube_transparent) + " " + content_tag(:span, 'abstract', class: "Item-abstractTag-abstract")
         end
       end
     end

@@ -11,7 +11,7 @@ module FlairHelper
   end
 
   def flair_info(text)
-    flair_tag("info", :'info-circle', text)
+    flair_tag("info", :'information_circle', text)
   end
 
   def flair_warning(text)
@@ -22,7 +22,7 @@ module FlairHelper
 
   def flair_tag(modifier, icon, text)
     content_tag(:span, class: "Flair Flair--#{modifier}") do
-      content_tag(:span, icon_tag(icon), class: "Flair-icon") + text
+      content_tag(:span, render_icon(icon), class: "Flair-icon") + text
     end
   end
 

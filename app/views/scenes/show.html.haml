@@ -29,7 +29,7 @@
         %p
           = link_to(@scene.sota_map_url, target: '_blank') do
             View SotA map of <strong>#{@scene.name}</strong>
-            = icon_tag('external-link')
+            = icon_external_link
 
       - parent, scene = @scene.parent, @scene
       - while parent && scene.has_parent_location_info?
@@ -37,7 +37,7 @@
           %p
             = link_to(scene.sota_map_in_parent_url, target: '_blank') do
               View location of <strong>#{scene.name}</strong> in <strong>#{parent.name}</strong>
-              = icon_tag('external-link')
+              = icon_external_link
           - parent, scene = parent.parent, parent
 
 

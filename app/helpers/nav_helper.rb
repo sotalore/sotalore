@@ -17,7 +17,7 @@ module NavHelper
     end
 
     active_link_to(url, options) do
-      icon + content_tag(:span, text, class: 'hidden lg:inline')
+      render_icon(icon, color: :current) + content_tag(:span, text, class: 'hidden lg:inline')
     end
   end
 

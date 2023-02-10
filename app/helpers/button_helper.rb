@@ -2,22 +2,9 @@
 
 module ButtonHelper
 
-  # migrated icons mapped from legacy font-awesome IDs
-  ICONS = {
-    info: HeroIconHelper::INFORMATION_CIRCLE,
-    'caret-right': HeroIconHelper::CHEVRON_RIGHT,
-    'pencil-alt': HeroIconHelper::PENCIL_ALT,
-    'trash': HeroIconHelper::TRASH,
-    'info-circle': HeroIconHelper::INFORMATION_CIRCLE,
-    'check': HeroIconHelper::BADGE_CHECK,
-    'warning': HeroIconHelper::WARNING,
-    'error': HeroIconHelper::ERROR,
-  }.with_indifferent_access
-
-
   def more_link_to(path, options={})
     link_to(path, options) do
-      icon_tag('caret-right')
+      render_icon(:chevron_right)
     end
   end
 
@@ -64,12 +51,7 @@ module ButtonHelper
   end
 
   def view_icon_to(path, options={})
-    simple_icon_only_button(path, 'info', 'view', options)
-  end
-
-  def view_button_to(label, path, options={})
-    options[:style] ||= 'primary'
-    simple_button_with_icon(label, path, 'info', options)
+    simple_icon_only_button(path, 'arrow_right_circle', 'view', options)
   end
 
   def view_link_to(label, path, options={})
@@ -87,16 +69,16 @@ module ButtonHelper
   end
 
   def edit_icon_to(path, options={})
-    simple_icon_only_button(path, 'pencil-alt', 'edit', options)
+    simple_icon_only_button(path, 'pencil_alt', 'edit', options)
   end
 
   def edit_button_to(label, path, options={})
     options[:style] ||= 'primary'
-    simple_button_with_icon(label, path, 'pencil-alt', options)
+    simple_button_with_icon(label, path, 'pencil_alt', options)
   end
 
   def back_button_to(label, path, options={})
-    simple_button_with_icon(label, path, 'chevron-left', options)
+    simple_button_with_icon(label, path, 'chevron_left', options)
   end
 
   def destroy_button_to(label, path, options={})
@@ -113,27 +95,13 @@ module ButtonHelper
     simple_icon_only_button(path, 'trash', 'delete', {style: 'danger'}.merge(options))
   end
 
-  def delete_button_to(label, path, options={})
-    simple_button_with_icon(label, path, 'trash', {style: 'danger'}.merge(options))
-  end
-
   def simple_icon_only_button(path, icon, title=nil, options={})
     options[:alt]   ||= title
     options[:title] ||= title
     options[:style] ||= 'default'
     add_button_css_classes(options)
     link_to(path, options) do
-      icon_tag(icon)
-    end
-  end
-
-  def icon_tag(icon, options={})
-    if ICONS[icon]
-      raise "Options passed to icon_tag" unless options == {}
-      ICONS[icon]
-    else
-      options[:class] = "fas fa-#{icon} #{options[:class]}".strip
-      content_tag(:i, "", options)
+      render_icon(icon)
     end
   end
 
@@ -177,10 +145,6 @@ module ButtonHelper
   end
 
   def icon_plus_label(icon, label)
-    if ICONS[icon]
-      ICONS[icon] + " #{label}".html_safe
-    else
-      raise "Couldn't find icon: #{icon}"
-    end
+    render_icon(icon) + " #{label}".html_safe
   end
 end

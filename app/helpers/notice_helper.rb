@@ -3,8 +3,8 @@
 module NoticeHelper
 
   ICON_FOR_TYPE = {
-    info: "info-circle",
-    success: "check",
+    info: "information_circle",
+    success: "badge_check",
     warning: "warning",
     danger: "error",
     error: "error",
@@ -36,7 +36,7 @@ module NoticeHelper
     end
 
     content_tag(:div, class: "Notice Notice--#{type}") do
-      content_tag(:span, icon_tag(ICON_FOR_TYPE[type]), class: "Notice-icon") +
+      content_tag(:span, render_icon(ICON_FOR_TYPE[type]), class: "Notice-icon") +
       content_tag(:span, " #{message}".html_safe, class: "Notice-text")
     end
   end

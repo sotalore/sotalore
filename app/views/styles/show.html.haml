@@ -11,6 +11,26 @@
     %p A purest persian without quiets is truly a reason of reptant wines. Few can name an unchanged rock that isn't a valgus title. Framed in a different way, those locusts are nothing more than rifles. Nowhere is it disputed that the feather is a bengal.
     %p Some helmless mailmen are thought of simply as cellos. An olive can hardly be considered a ferine pvc without also being a psychology. A windchime sees a boundary as an osmic pepper. The segments could be said to resemble outraged mexicos.
 
+= tile_with_heading('Icons') do
+  .flex.flex-row.flex-wrap
+    - HeroIconHelper::ICONS.keys.each do |icon|
+      .flex.flex-col.inline-block.text-center.p-2.m-2.border.rounded
+        %div= render_icon(icon)
+        %div= icon
+
+
+  %h3 Icon Variations
+  .flex.flex-row
+    - HeroIconHelper::SIZES.keys.each do |size|
+      .flex.flex-col.inline-block.text-center.p-2.m-2.border.rounded
+        %div= icon_book(size: size, color: :orange)
+        %div= size
+
+  .flex.flex-row
+    - HeroIconHelper::COLORS.keys.each do |color|
+      %div{ class: "flex flex-col inline-block text-center p-2 m-2 border rounded #{'text-white bg-grey-700' if color == 'white'}" }
+        %div= icon_book(size: :md, color: color)
+        %div= color
 
 = tile do
   %h3 Tailwind Colors
@@ -34,3 +54,9 @@
   .flex.flex-row
     - shades.each do |shade|
       %div{ class: "px-2 py-4 flex-grow text-center inline-block #{'text-white' if shade < 5}", style: "background-color: var(--grey#{shade})" }= "grey#{shade}"
+
+
+= tile_with_heading('Item Use Icons') do
+  .flex.flex-row.flex-wrap
+    - Item::ITEM_USES.keys.each do |use|
+      %div= item_use_tag(Item.new(use: use))
