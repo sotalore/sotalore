@@ -10,8 +10,8 @@ module LayoutHelper
   end
 
   def single_column
-    content_tag(:div, class: 'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4') do
-      content_tag(:div, class: 'col-span-2') do
+    content_tag(:div, class: 'grid grid-cols-12') do
+      content_tag(:div, class: 'col-span-12 md:col-span-10 lg:col-span-8') do
         yield
       end
     end

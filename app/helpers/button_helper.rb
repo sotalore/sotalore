@@ -56,7 +56,7 @@ module ButtonHelper
 
   def view_link_to(label, path, options={})
     options[:style] ||= 'primary'
-    simple_link_with_icon(label, path, 'info', options)
+    simple_link_with_icon(label, path, 'information_circle', options)
   end
 
   def cancel_button_to(label, path, options={})

@@ -21,7 +21,7 @@
 @layer components {
 
   .Tile {
-    @apply m-2 mb-4 border border-grey-300 bg-white shadow-md;
+    @apply m-2 mb-4 border border-grey-300 bg-white shadow-md rounded;
 
     &-heading {
       @apply px-2 h-12 flex items-center border-b;

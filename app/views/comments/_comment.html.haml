@@ -1,9 +1,9 @@
-.Comment.border.border-grey-300.mb-6
-  .Comment-author.border-b.border-grey-400.px-2.py-1.flex.flex-row.flex-wrap.gap-2
-    .Comment-authorName.whitespace-nowrap.text-ellipsis
-      %span.text-semibold.text-lg= comment.author_name
+.Comment
+  .Comment-author
+    .Comment-authorName
+      %span.text-semibold= comment.author_name
       = user_flair_tag(comment.author)
-    .Comment-subject.text-lg.flex-grow.whitespace-nowrap.text-ellipsis
+    .Comment-subject
       - unless comment.subject == @parent
         = link_to(comment.subject, comment.subject)
     .Comment-authorTime
@@ -14,7 +14,7 @@
       = simple_format comment.body
   - elsif comment.revision?
     %table.my-0.border-0
-      %tr.border-0.border-t.border-slate-200
+      %tr
         %th.text-centered(colspan="4") Updates to this item
       - comment.revision_changes.each do |name, (from, to)|
         %tr.border-0.border-t.border-slate-200

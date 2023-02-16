@@ -35,7 +35,7 @@ module ApplicationHelper
 
   def formatted_body(str)
     return nil if str.blank?
-    content_tag(:div, class: 'Prose') do
+    content_tag(:div, class: 'prose') do
       Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(hard_wrap: true))
         .render(str).html_safe
     end
