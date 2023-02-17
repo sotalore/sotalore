@@ -1,9 +1,9 @@
 - page_title("Items: #{params[:use]}")
 
-.m-4.grid.md:grid-cols-2.grid-cols-1
+.grid.grid-cols-1.md:grid-cols-2.items-center
   %div
     %h1= "Items: #{params[:use]}".titleize
-  .md:text-right.text-sm
+  .md:text-right.text-sm.mr-2
     = render partial: 'item_nav'
 
 .grid.gap-1.grid-cols-1.md:grid-cols-2.lg:grid-cols-3

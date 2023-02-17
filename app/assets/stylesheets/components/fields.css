@@ -48,7 +48,7 @@
   &-label {
     display: block;
     max-width: 100%;
-    font-weight: bold;
+    font-weight: 500;
     position: relative;
     top: -2px;
   }
