@@ -1,0 +1,156 @@
+.MasterTrainers {
+  font-size: 0.7rem;
+  line-height: 0.9rem;
+  position: relative;
+  text-align: center;
+  color: white;
+
+  div.trainer {
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0);
+
+    &.active {
+      border: 5px solid #7473FA;
+    }
+  }
+
+  div.trainer > div {
+    font-size: 0.9rem;
+  }
+
+  img {
+    width: 100%;
+  }
+
+  .trainer img {
+    width: 40px;
+  }
+
+  div.trainer-shield {
+    position: absolute;
+    bottom: 3%;
+    right: 34%;
+  }
+
+  div.trainer-polearm {
+    position: absolute;
+    bottom: 27%;
+    left: 26%;
+  }
+
+  div.trainer-blades {
+    position: absolute;
+    bottom: 5%;
+    right: 32%;
+  }
+
+  div.trainer-heavy-armor {
+    position: absolute;
+    top: 4%;
+    right: 20%;
+  }
+
+  div.trainer-light-armor {
+    position: absolute;
+    bottom: 14%;
+    right: 36%;
+  }
+
+  div.trainer-bludgeon {
+    position: absolute;
+    bottom: 12%;
+    left: 26%;
+  }
+
+  div.trainer-ranged {
+    position: absolute;
+    bottom: 10%;
+    right: 22%;
+  }
+
+  div.trainer-sun {
+    position: absolute;
+    bottom: 30%;
+    right: 28%;
+  }
+
+  div.trainer-fire {
+    position: absolute;
+    bottom: 29%;
+    right: 26%;
+  }
+
+  div.trainer-earth {
+    position: absolute;
+    bottom: 29%;
+    left: 28%;
+  }
+
+  div.trainer-death {
+    position: absolute;
+    bottom: 6%;
+    left: 43%;
+  }
+
+  div.trainer-chaos {
+    position: absolute;
+    bottom: 13%;
+    left: 29%;
+  }
+
+  div.trainer-life {
+    position: absolute;
+    bottom: 4%;
+    right: 29%;
+  }
+
+  div.trainer-air {
+    position: absolute;
+    top: 15%;
+    right: 10%;
+  }
+
+  div.trainer-water {
+    position: absolute;
+    bottom: 1%;
+    right: 30%;
+  }
+
+  div.trainer-lunar {
+    position: absolute;
+    top: 12%;
+    right: 14%;
+  }
+
+  div.trainer-tactics {
+    position: absolute;
+    bottom: 27%;
+    right: 27%;
+  }
+
+  div.trainer-subterfuge {
+    position: absolute;
+    bottom: 1%;
+    right: 33%;
+  }
+
+  div.trainer-bard {
+    position: absolute;
+    top: 15%;
+    left: 30%;
+  }
+
+  div.trainer-taming {
+    position: absolute;
+    top: 24%;
+    right: 17%;
+  }
+
+  div.trainer-focus {
+    position: absolute;
+    top: 5%;
+    right: 18%;
+  }
+
+
+}

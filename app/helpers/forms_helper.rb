@@ -5,7 +5,7 @@ module FormsHelper
     form_with(model: model, scope: scope, url: url, format: format, **options, &block)
   end
 
-    def sl_form_for(object, options={}, &block)
+  def sl_form_for(object, options={}, &block)
     options[:builder] ||= SLFormBuilder
     form_for(object, options, &block)
   end

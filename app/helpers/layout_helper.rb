@@ -2,7 +2,7 @@
 
 module LayoutHelper
   def entire_page
-    content_tag(:div, class: 'row') do
+    content_tag(:div, class: 'row mx-2') do
       content_tag(:div, class: 'col-xs-12') do
         yield
       end
@@ -10,8 +10,8 @@ module LayoutHelper
   end
 
   def single_column
-    content_tag(:div, class: 'row') do
-      content_tag(:div, class: 'col-xs-12 col-md-8 col-lg-6') do
+    content_tag(:div, class: 'grid grid-cols-12') do
+      content_tag(:div, class: 'col-span-12 md:col-span-10 lg:col-span-8') do
         yield
       end
     end

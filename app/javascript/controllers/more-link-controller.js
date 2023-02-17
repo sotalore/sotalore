@@ -9,9 +9,7 @@ export default class extends Controller {
     let url = event.currentTarget.dataset.url
     let more_id = event.currentTarget.dataset.moreId
 
-    // event.currentTarget.classList.toggle('Displayed')
-    console.log(event.currentTarget.getElementsByClassName('fas')[0])
-    event.currentTarget.getElementsByClassName('fas')[0].classList.toggle('Displayed')
+    event.currentTarget.classList.toggle('Displayed')
 
     let curr_element = document.getElementById(more_id)
     if (curr_element) {

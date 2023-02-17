@@ -1,0 +1,38 @@
+.Pagination {
+  display: flex;
+  justify-content: center;
+  padding: 8px 0;
+  margin-bottom: 0;
+
+  &-page a {
+    background: var(--grey9);
+    position: relative;
+    margin-left: -1px;
+    text-align: center;
+    border: 1px solid var(--grey6);
+    color: inherit;
+    display: block;
+    line-height: 22px;
+    min-width: 30px;
+    padding: 4px 8px;
+  }
+
+  &-page a:hover {
+    text-decoration: none;
+  }
+
+  &-page.is-active a,
+  &-page a[href]:hover {
+    background: var(--grey7);
+    z-index: 1;
+    text-decoration: none;
+  }
+
+  &-page:first-child a {
+    border-radius: 3px 0 0 3px;
+  }
+
+  &-page:last-child a {
+    border-radius: 0 3px 3px 0;
+  }
+}

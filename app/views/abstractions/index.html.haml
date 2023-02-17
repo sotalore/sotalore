@@ -8,7 +8,7 @@
   = tile_body do
     .row
       .col-xs-12
-        .callout.primary
+        .Callout.Callout-primary
           %p
             There are a lot of "items" that are not real, actual items.
             These items are referred to as <em>Abstract Items</em> (or <em>Abstractions</em>).
@@ -19,7 +19,7 @@
 
           %p
             E.g., if you are asked for a "Metal Binding" you could use
-            a "Iron Binding" or a "Copper Binding" (or many others).
+            an "Iron Binding" or a "Copper Binding" (or many others).
             However, you will never find an actual item in the game named
             a "Metal Binding."
 
@@ -28,11 +28,14 @@
             items.
 
 
-    .row
-      - @items.each do |item|
-        .col-sm-4
-          %h3= link_to(item.name, item)
-          %ul
-            - item.instances.each do |instance|
-              %li= link_to(instance.name, instance)
-    = paginate @items
+
+.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3
+  - @items.each do |item|
+    = tile do
+      = tile_heading(link_to(item.name, item))
+      = tile_body do
+        %ul
+          - item.instances.each do |instance|
+            %li= link_to(instance.name, instance)
+
+= paginate @items

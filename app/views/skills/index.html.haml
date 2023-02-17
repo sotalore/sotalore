@@ -1,33 +1,15 @@
 - page_title('Skills')
 
+= render partial: 'page_heading', locals: {with_avatar_controls: true}
 
-.SkillTable
-
-  .SkillTable--pageHeading
-    %div.pageTabs
-      = link_to_unless(@activity == 'adventuring', 'Adventuring Skills', [ @avatar, :skills, activity: 'adventuring']) do |name|
-        %span.currentTab= name
-      = link_to_unless(@activity == 'crafting', 'Crafting Skills', [ @avatar, :skills, activity: 'crafting']) do |name|
-        %span.currentTab= name
-      = link_to_unless(@activity == nil, 'Basics', skills_basics_path) do |name|
-        %span.currentTab= name
-
-    - if @avatars
-      %form{ data: { controller: 'select-nav' }}
-        %strong Avatar:
-        = select_tag('avatar',
-            options_for_select([['~ none ~', skills_path]] + @avatars.map { |a| [a.name, avatar_skills_path(avatar_id: a, activity: @activity)] },
-                             request.path), class: 'Field-input')
-    - else
-      = primary_button_to('create an avatar', avatars_path)
-
-  %table.Table.SkillTable{id: 'skillTable', data: { controller: 'skills-rollup' }}
-    %tr
+.SkillTable.mt-0.mb-8.mx-2
+  %table.Table.mt-0.border-t-0.SkillTable{id: 'skillTable', data: { controller: 'skills-rollup' }}
+    %tr.hover:bg-transparent
       %th skill
-      %th.u-textRight cost
-      %th.u-textCenter current level / xp
-      %th.u-textCenter target level / xp
-      %th.u-textRight remaining xp
+      %th.text-right cost
+      %th.text-center current level / xp
+      %th.text-center target level / xp
+      %th.text-right remaining xp
 
     %tr.headingRow.totalsHeadingRow{id: 'totals'}
       %th(colspan=2)= "#{@activity.upcase} TOTALS"

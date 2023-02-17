@@ -1,0 +1,256 @@
+.Field {
+  margin-bottom: 16px;
+  position: relative;
+
+  .Form--inline & {
+    margin-bottom: 0;
+    flex: 1 1 auto;
+  }
+
+  &--withSubmit {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-end;
+
+    label {
+      flex: 1 100%;
+    }
+
+    & > * {
+      flex: 1 0px;
+    }
+
+    & :last-child {
+      flex: 0 1 auto;
+    }
+  }
+
+  select[multiple] {
+    height: 32px;
+  }
+
+  select optgroup{
+    color: var(--grey4);
+
+    option {
+      color: var(--grey2);
+      padding-left: 15px;
+    }
+  }
+
+  div.date-select {
+    select {
+      display: inline;
+      max-width: 32%;
+    }
+  }
+
+  &-label {
+    display: block;
+    max-width: 100%;
+    font-weight: 500;
+    position: relative;
+    top: -2px;
+  }
+
+  &-input {
+    display: block;
+    width: 100%;
+    height: 32px;
+    padding: 4px 8px;
+    font-size: 16px;
+    line-height: 22px;
+    color: var(--grey2);
+    background: var(--grey9);
+    border: 1px solid var(--grey6);
+    border-radius: 3px;
+
+    &:focus {
+      border-color: var(--grey4);
+      outline: 0;
+      box-shadow: inset 0 1px 3px var(--grey7);
+    }
+
+    /*
+    // Disabled and read-only inputs
+
+    // HTML5 says that controls under a fieldset > legend:first-child won't be
+    // disabled if the fieldset is disabled. Due to implementation difficulty, we
+    // don't honor that edge case; we style them as disabled anyway.
+    */
+    &[disabled],
+    &[readonly],
+    fieldset[disabled] & {
+      background-color: var(--grey7);
+      color: var(--grey4);
+      opacity: 1; /* iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655 */
+    }
+
+    &[disabled],
+    fieldset[disabled] & {
+      cursor: not-allowed;
+    }
+
+    &.is-autoFilled {
+      background-color: var(--blue4);
+      border-color: var(--blue0);
+      color: var(--blue1);
+    }
+
+    &--numeric {
+      text-align: right;
+    }
+  }
+
+  textarea {
+    height: auto;
+    min-height: 104px;
+    line-height: 24px;
+    padding: 3px 8px;
+  }
+
+  &-group {
+    position: relative;
+  }
+
+  &-group &-input {
+    padding-left: 40px;
+  }
+
+  &-hint {
+    font-size: 14px;
+    color: var(--grey4);
+    display: block;
+    position: relative;
+    top: 2px;
+  }
+
+  &-hintOnFocus {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 16px;
+    color: var(--purple4);
+    background: var(--purple1);
+    border-radius: 3px;
+    z-index: 1;
+    padding: 8px 12px;
+    opacity: 0;
+    visibility: hidden;
+    transition-duration: 100ms;
+    transition-property: opacity, margin-top, visibility;
+    transition-timing-function: linear, ease-out, step-end;
+  }
+
+  &-hintOnFocus:before {
+    border: 6px solid transparent;
+    border-bottom-color: var(--purple1);
+    content: "";
+    display: block;
+    position: absolute;
+    top: -12px;
+    left: 32px;
+    width: 0;
+    height: 0;
+  }
+
+  &.is-focused &-hintOnFocus,
+  &-input:focus ~ &-hintOnFocus {
+    display: block;
+    transition-timing-function: linear, ease-in-out, step-start;
+    opacity: 1;
+    visibility: visible;
+    margin-top: 8px;
+  }
+
+  &--error {
+    color: var(--red2);
+  }
+
+  &--error &-input {
+    color: var(--red1);
+    background: var(--red4);
+    border: 1px solid var(--red1);
+  }
+
+  &-error {
+    position: relative;
+    top: 2px;
+    font-weight: bold;
+  }
+
+  &-checkbox {
+    cursor: pointer;
+    display: block;
+    font-weight: normal;
+  }
+
+  &-checkboxPadding {
+    padding: 4px 0;
+  }
+
+  &-checkboxPadding & {
+    margin: 0;
+  }
+
+  &-checkboxPadding &-checkboxPadding {
+    padding: 0;
+  }
+
+  &-checkbox input {
+    margin-right: 8px;
+  }
+
+  &-toggle {
+    display: flex;
+    padding: 2px 2px 2px 0;
+    background: var(--grey9);
+    border: 1px solid var(--grey6);
+    border-radius: 3px;
+  }
+
+  &-toggleOption {
+    flex: 1 1 0%;
+    align-items: stretch;
+    display: flex;
+
+    input {
+      display: none;
+    }
+  }
+
+  &-toggleText {
+    display: block;
+    flex: 1 1 0%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 2px;
+    margin-left: 2px;
+    cursor: pointer;
+    line-height: 24px;
+    padding: 0 8px;
+    border: 1px solid transparent;
+    color: var(--grey4);
+
+    &:hover {
+      background: var(--grey8);
+    }
+
+    :checked + & {
+      background: var(--grey7);
+      border-color: var(--grey6);
+      color: var(--grey1);
+    }
+  }
+
+  &-softRequired {
+    color: var(--yellow2);
+  }
+
+  &-required {
+    color: var(--red2);
+  }
+}

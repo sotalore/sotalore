@@ -1,0 +1,86 @@
+.Recipe {
+  border: 1px solid var(--parchment-dark);
+  margin-bottom: 16px;
+  background-color: var(--parchment-color);
+  padding: 8px 8px;
+
+  &-name {
+    display: flex;
+    align-items: flex-end;
+    flex-wrap: nowrap;
+    border-bottom: 1px solid var(--parchment-dark);
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+
+  &-nameActual {
+    flex: 1 1 auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-nameControls {
+    flex: 0 1 auto;
+    white-space: nowrap;
+    text-align: right;
+    font-size: 0.9em;
+  }
+
+  &-craftSkillName {
+    opacity: 0.5;
+  }
+  &-teachable {
+    font-style: italic;
+  }
+  &-count {
+    display: inline-block;
+    text-align: right;
+    min-width: 2em;
+  }
+}
+
+.Recipe-detail {
+  display: flex;
+  align-items: flex-start;
+  border-bottom: 1px dashed rgba(var(--parchment-dark), 0.1);
+}
+
+img.Recipe-icon {
+  flex: 1 0;
+  max-width: 48px;
+}
+
+.Recipe-meta {
+  flex: 4 0;
+}
+
+.Recipe-production {
+  font-size: 0.9em;
+}
+
+.Recipe-ingredient i {
+  transform: rotate(0deg);
+  transition: transform 100ms linear;
+}
+
+.Recipe-ingredient > .Recipe-ingredientSummary > a.Displayed > span > svg {
+  transform: rotate(90deg);
+  transition: transform 100ms linear;
+}
+
+.Recipe-ingredient > .Recipe-ingredientSubDetail {
+  padding-left: 10px;
+  margin-right: -5px;
+
+  div.MoreHidden {
+    display: none;
+  }
+
+  .Recipe {
+    .Recipe-name {
+      display: none;
+    }
+  }
+}

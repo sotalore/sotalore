@@ -71,9 +71,6 @@ Rails.application.routes.draw do
     resources :recipes, only: [ :index, :show ]
   end
 
-  namespace :adm do
-    resources :users, except: [ :new, :create ]
-    resources :comments, except: [ :new, :create ]
-    resources :top_posts, except: [ :new ]
-  end
+  resource :styles, only: [ :show ]
+
 end

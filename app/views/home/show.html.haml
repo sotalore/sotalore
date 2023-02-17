@@ -1,6 +1,6 @@
 = entire_page do
-  .row
-    .col-sm-6
+  .grid.grid-cols-2.gap-1
+    .col-span-2.md:col-span-1
       - if @top_post
         = tile do
           = tile_body do
@@ -44,7 +44,7 @@
                 You do have to register with the site to star recipes.
             = image_tag('user_recipe.png')
 
-    .col-sm-6
+    .col-sm-6.col-span-2.md:col-span-1
       = tile_with_heading('Contact Us') do
         %p
           %strong

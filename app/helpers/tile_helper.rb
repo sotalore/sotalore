@@ -2,16 +2,12 @@
 
 module TileHelper
 
-  def lead_in(&block)
-    content_tag(:div, class: "tile-lead-in Tile-leadIn", &block)
-  end
-
   def tile_with_heading(heading, subheading = nil, options={}, &block)
     if Hash === subheading
       options, subheading = subheading, nil
     end
     tile(options[:type]) do
-      tile_heading(heading, subheading) +
+      tile_heading(heading, subheading: subheading, type: options[:type]) +
       tile_body(&block)
     end
   end
@@ -19,17 +15,18 @@ module TileHelper
   def tile(type=nil, options={}, &block)
     css_class = "#{options[:class]} Tile"
     css_class += " Tile--#{type}" if type
+
     options[:class] = css_class
     content_tag(:div, options, &block)
   end
 
   def tile_body(type=nil, &block)
     css_class = "Tile-body"
-    css_class += "Tile-body--#{type}" if type
+    css_class += " Tile-body--#{type}" if type
     content_tag(:div, class: css_class, &block)
   end
 
-  def tile_heading(heading, subheading = nil, &block)
+  def tile_heading(heading, subheading: nil, type: nil, &block)
     if block_given?
       controls = content_tag(:div, class: "Tile-controls", &block)
     end

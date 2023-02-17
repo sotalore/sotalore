@@ -1,39 +1,39 @@
 - @recipe.setup_for_view
 = sl_form_for(@recipe) do |f|
   = f.error_messages
-  .row
-    .col-sm-6
+  .grid.grid-cols-2.gap-2
+    %div
       = f.text_field :name, autofocus: true
-      .row
-        .col-sm-5
+      .grid.grid-cols-12.gap-2
+        .col-span-5
           = f.select :craft_skill, craft_skills_for_recipe_options, include_blank: true
-        .col-sm-3
+        .col-span-3
           = f.number_field :proficiency
-        .col-sm-4
+        .col-span-4
           = f.select :teachable, teachable_options, include_blank: true
 
       - index = 1
       = f.fields_for(:results) do |ri|
-        .row
-          .col-sm-10{data: { controller: 'autocomplete', 'autocomplete-url-value' => '/search/items' }}
+        .grid.grid-cols-12.gap-2
+          .col-span-10{data: { controller: 'autocomplete', 'autocomplete-url-value' => '/search/items' }}
             = ri.text_field(:name, label: "Output #{index}", tabindex: (index == 1 ? 0 : (100 + index)),
             data: { 'autocomplete-target' => 'input' })
             = ri.hidden_field :item_id, data: { 'autocomplete-target' => 'hidden' }
             %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
-          .col-sm-2
+          .col-span-2
             = ri.text_field :count, tabindex: (index == 1 ? 0 : (101 + index))
             - index += 1
 
-    .col-sm-6
+    %div
       - index = 1
       = f.fields_for(:ingredients) do |fi|
-        .row
-          .col-sm-10{data: { controller: 'autocomplete', 'autocomplete-url-value' => '/search/items' }}
+        .grid.grid-cols-12.gap-2
+          .col-span-10{data: { controller: 'autocomplete', 'autocomplete-url-value' => '/search/items' }}
             = fi.text_field :name, label: "Ingredient #{index}", data: { 'autocomplete-target' => 'input' }
             - index += 1
             = fi.hidden_field :item_id, data: { 'autocomplete-target' => 'hidden' }
             %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
-          .col-sm-2
+          .col-span-2
             = fi.text_field :count
 
   = f.actions do

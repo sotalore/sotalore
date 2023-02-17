@@ -1,0 +1,75 @@
+@mixin button-color($color1, $color2, $color3) {
+  background: $color2;
+  border-color: $color1;
+  text-shadow: 0 1px 1px $color1;
+  color: var(--grey9);
+
+  &:focus,
+  &:hover {
+    background: $color3;
+    border-color: $color2;
+    color: var(--grey9);
+    text-shadow: 0 1px 1px $color2;
+  }
+
+  &.active,
+  &:active:hover {
+    background: $color1;
+    border-color: $color1;
+    color: $grey9;
+    text-shadow: none;
+  }
+}
+
+.Button {
+  user-select: none;
+  border-radius: 2px;
+  border: 1px solid var(--orange2);
+  cursor: pointer;
+  display: inline-block;
+  line-height: 22px;
+  min-width: 32px;
+  padding: 4px 8px;
+  text-align: center;
+  touch-action: manipulation;
+  vertical-align: top;
+  white-space: nowrap;
+  background: transparent;
+  color: var(--orange2);
+  font-weight: 400;
+
+  &:focus,
+  &:hover {
+    background: var(--orange4);
+    border-color: var(--orange2);
+    color: var(--orange1);
+    text-decoration: none;
+    outline: 0;
+  }
+
+  &.active,
+  &:active:hover {
+    background: var(--orange2);
+    border-color: var(--orange2);
+    color: var(--orange1);
+  }
+
+  &--sm,
+  &--xs,
+  &--small {
+    padding: 0 6px;
+    font-size: 13px;
+    min-width: 24px;
+  }
+
+  &--block {
+    display: block;
+    width: 100%;
+  }
+
+  &--primary { @include button-color( var(--orange1), var(--orange2), var(--orange3)); }
+  &--danger  { @include button-color(    var(--red1),    var(--red2),    var(--red3)); }
+  &--warning { @include button-color( var(--yellow1), var(--yellow2), var(--yellow3)); }
+  &--success { @include button-color(  var(--green1),  var(--green2),  var(--green3)); }
+  &--info    { @include button-color( var(--purple1), var(--purple2), var(--purple3)); }
+}

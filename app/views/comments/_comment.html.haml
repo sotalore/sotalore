@@ -1,60 +1,61 @@
 .Comment
   .Comment-author
     .Comment-authorName
-      %span= comment.author_name
+      %span.text-semibold= comment.author_name
       = user_flair_tag(comment.author)
-    - unless comment.subject == @parent
-      .Comment-subject
+    .Comment-subject
+      - unless comment.subject == @parent
         = link_to(comment.subject, comment.subject)
     .Comment-authorTime
       = local_time_ago(comment.created_at)
-  .Comment-body{ class: "Comment-body--#{comment.comment_type}" }
-    - if comment.message?
+
+  - if comment.message?
+    .prose.p-2
       = simple_format comment.body
-    - elsif comment.revision?
-      %table.Table
-        %tr
-          %th.text-centered(colspan="4") Updates to this item
-        - comment.revision_changes.each do |name, (from, to)|
-          %tr
+  - elsif comment.revision?
+    %table.my-0.border-0
+      %tr
+        %th.text-centered(colspan="4") Updates to this item
+      - comment.revision_changes.each do |name, (from, to)|
+        %tr.border-0.border-t.border-slate-200
+          %th.text-right= name
+          %td= from || content_tag(:em, 'none')
+          %td &rarr;
+          %td= to || content_tag(:em, 'none')
+
+      - if comment.revision_result_changes.present?
+        %tr.border-0.border-t.border-slate-200
+          %th.text-left(colspan="4") result changes
+        - [ 'added', 'removed' ].each do |action|
+          - Array(comment.revision_result_changes[action]).each do |(name, count)|
+            %tr.border-0.border-t.border-slate-200
+              %td.text-right
+                %em= action
+              %td(colspan="3")
+                #{count} #{name}
+        - Array(comment.revision_result_changes['changes']).each do |name,(from, to)|
+          %tr.border-0.border-t.border-slate-200
             %th.text-right= name
-            %td= from || content_tag(:em, 'none')
+            %td= from
             %td &rarr;
-            %td= to || content_tag(:em, 'none')
+            %td= to
 
-        - if comment.revision_result_changes.present?
-          %tr
-            %th.text-left(colspan="4") result changes
-          - [ 'added', 'removed' ].each do |action|
-            - Array(comment.revision_result_changes[action]).each do |(name, count)|
-              %tr
-                %td.text-right
-                  %em= action
-                %td(colspan="3")
-                  #{count} #{name}
-          - Array(comment.revision_result_changes['changes']).each do |name,(from, to)|
-            %tr
-              %th.text-right= name
-              %td= from
-              %td &rarr;
-              %td= to
-
-        - if comment.revision_ingredient_changes.present?
-          %tr
-            %th.text-left(colspan="4") ingredient changes
-          - [ 'added', 'removed' ].each do |action|
-            - Array(comment.revision_ingredient_changes[action]).each do |(name, count)|
-              %tr
-                %td.text-right
-                  %em= action
-                %td(colspan="3")
-                  #{count} #{name}
-          - Array(comment.revision_ingredient_changes['changes']).each do |name,(from, to)|
-            %tr
-              %th.text-right= name
-              %td= from
-              %td &rarr;
-              %td= to
+      - if comment.revision_ingredient_changes.present?
+        %tr.border-0.border-t.border-slate-200
+          %th.text-left(colspan="4") ingredient changes
+        - [ 'added', 'removed' ].each do |action|
+          - Array(comment.revision_ingredient_changes[action]).each do |(name, count)|
+            %tr.border-0.border-t.border-slate-200
+              %td.text-right
+                %em= action
+              %td(colspan="3")
+                #{count} #{name}
+        - Array(comment.revision_ingredient_changes['changes']).each do |name,(from, to)|
+          %tr.border-0.border-t.border-slate-200
+            %th.text-right= name
+            %td= from
+            %td &rarr;
+            %td= to
 
 
 
@@ -62,7 +63,7 @@
   - can_edit   = policy(comment).edit?
   - invisible  = !comment.visible
   - if can_delete || can_edit || invisible
-    .Comment-controls
+    .Comment-controls.border-t.border-grey-300.px-2.py-1.text-right.bg-grey-100
       = comment_visibility_button(comment)
       - if can_delete
         = destroy_icon_to([ comment.subject, comment ], control: true)

@@ -1,0 +1,92 @@
+
+@mixin tile-color($background, $border, $text) {
+  &,
+  .Tile-heading,
+  .Tile-body {
+    border-color: $border;
+  }
+
+  .Tile-heading {
+    background: $background;
+    color: $text;
+  }
+}
+
+@mixin tile-body-color($background, $border, $text) {
+  border-color: $border;
+  background: $background;
+  color: $text;
+}
+
+@layer components {
+
+  .Tile {
+    @apply m-2 mb-4 border border-grey-300 bg-white shadow-md rounded;
+
+    &-heading {
+      @apply px-2 h-12 flex items-center border-b;
+    }
+
+    &-heading h3 {
+      @apply m-0;
+    }
+
+    &-subheading {
+      @apply font-normal text-grey-500;
+    }
+
+    &-controls {
+      @apply flex items-center;
+    }
+
+    &-controls .Button {
+      @apply ml-1;
+    }
+
+    &-controls .Button--small,
+    &-controls .Button--sm,
+    &-controls .Button--xs {
+      @apply mr-1;
+    }
+
+    &-body {
+      @apply p-2;
+
+      img {
+        @apply max-w-full;
+      }
+
+      > .Tile {
+        @apply mx-0;
+      }
+    }
+
+    p {
+      @apply m-0;
+    }
+
+    p + p {
+      @apply mt-2;
+    }
+
+    &--disabled {
+      @apply opacity-50;
+    }
+
+    &-body--disabled {
+      @apply opacity-30;
+    }
+
+    &--primary { @include tile-color(   var(--blue4),    var(--blue3),    var(--blue2)); }
+    &--danger  { @include tile-color(    var(--red4),     var(--red3),     var(--red2)); }
+    &--warning { @include tile-color( var(--yellow4),  var(--yellow3),  var(--yellow2)); }
+    &--success { @include tile-color(  var(--green4),   var(--green3),   var(--green2)); }
+    &--info    { @include tile-color( var(--purple4),  var(--purple3),  var(--purple2)); }
+
+    &-body--primary { @include tile-body-color(   var(--blue4),    var(--blue3),    var(--blue2)); }
+    &-body--danger  { @include tile-body-color(    var(--red4),     var(--red3),     var(--red2)); }
+    &-body--warning { @include tile-body-color( var(--yellow4),  var(--yellow3),  var(--yellow2)); }
+    &-body--success { @include tile-body-color(  var(--green4),   var(--green3),   var(--green2)); }
+    &-body--info    { @include tile-body-color( var(--purple4),  var(--purple3),  var(--purple2)); }
+  }
+}

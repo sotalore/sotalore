@@ -1,0 +1,32 @@
+/* Entry point for your PostCSS build */
+@import "tailwindcss/base";
+@import "./base/settings.css";
+@import "./base/colors.css";
+@import "./base/custom.css";
+
+@import "tailwindcss/components";
+@import './components/notice.css';
+@import './components/tile.css';
+@import './components/forms.css';
+@import './components/buttons.css';
+@import './components/fields.css';
+@import './components/flair.css';
+@import './components/autocomplete.css';
+
+@import './components/pagination.css';
+@import './components/nav.css';
+@import './components/global_search.css';
+@import './components/comments.css';
+@import './components/lunar_rifts.css';
+@import './components/master_trainers.css';
+@import './components/recipes.css';
+@import './components/items.css';
+@import './components/user_recipe.css';
+@import './components/skills.css';
+@import './components/farming.css';
+
+@import "./components/custom.css";
+
+
+@import "tailwindcss/utilities";
+/* @import "./utilities/custom.css"; */

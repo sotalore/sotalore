@@ -3,9 +3,8 @@
 module ButtonHelper
 
   def more_link_to(path, options={})
-    options[:class] = 'MoreLink'
     link_to(path, options) do
-      icon_tag('caret-right')
+      render_icon(:chevron_right)
     end
   end
 
@@ -52,17 +51,12 @@ module ButtonHelper
   end
 
   def view_icon_to(path, options={})
-    simple_icon_only_button(path, 'info', 'view', options)
-  end
-
-  def view_button_to(label, path, options={})
-    options[:style] ||= 'primary'
-    simple_button_with_icon(label, path, 'info', options)
+    simple_icon_only_button(path, 'arrow_right_circle', 'view', options)
   end
 
   def view_link_to(label, path, options={})
     options[:style] ||= 'primary'
-    simple_link_with_icon(label, path, 'info', options)
+    simple_link_with_icon(label, path, 'information_circle', options)
   end
 
   def cancel_button_to(label, path, options={})
@@ -75,16 +69,16 @@ module ButtonHelper
   end
 
   def edit_icon_to(path, options={})
-    simple_icon_only_button(path, 'pencil-alt', 'edit', options)
+    simple_icon_only_button(path, 'pencil_alt', 'edit', options)
   end
 
   def edit_button_to(label, path, options={})
     options[:style] ||= 'primary'
-    simple_button_with_icon(label, path, 'pencil-alt', options)
+    simple_button_with_icon(label, path, 'pencil_alt', options)
   end
 
   def back_button_to(label, path, options={})
-    simple_button_with_icon(label, path, 'chevron-left', options)
+    simple_button_with_icon(label, path, 'chevron_left', options)
   end
 
   def destroy_button_to(label, path, options={})
@@ -101,31 +95,13 @@ module ButtonHelper
     simple_icon_only_button(path, 'trash', 'delete', {style: 'danger'}.merge(options))
   end
 
-  def delete_button_to(label, path, options={})
-    simple_button_with_icon(label, path, 'trash', {style: 'danger'}.merge(options))
-  end
-
   def simple_icon_only_button(path, icon, title=nil, options={})
     options[:alt]   ||= title
     options[:title] ||= title
     options[:style] ||= 'default'
     add_button_css_classes(options)
     link_to(path, options) do
-      content_tag(:i, '', class: "fas fa-#{icon}")
-    end
-  end
-
-  def icon_tag(icon, options={})
-    options[:class] = "fas fa-#{icon} #{options[:class]}".strip
-    content_tag(:i, "", options)
-  end
-
-  def help_text_tag(text=nil, &block)
-    if block_given?
-      text = capture(&block)
-    end
-    if text.present?
-      content_tag(:span, '?', class: 'HelpText', title: text, data: { toggle: 'tooltip' })
+      render_icon(icon, size: :sm)
     end
   end
 
@@ -159,17 +135,16 @@ module ButtonHelper
   def simple_button_with_icon(label, path, icon, options={})
     options[:style] ||= 'default'
     add_button_css_classes(options)
-    link_to(path, options) do
-      content_tag(:i, '', class: "fas fa-#{icon}") << " #{label}".html_safe
-    end
+    link_to(path, options) { icon_plus_label(icon, label) }
   end
 
   def simple_link_with_icon(label, path, icon, options={})
     options[:style] ||= 'default'
     add_link_css_classes(options)
-    link_to(path, options) do
-      content_tag(:i, '', class: "fas fa-#{icon}") << " #{label}".html_safe
-    end
+    link_to(path, options) { icon_plus_label(icon, label) }
   end
 
+  def icon_plus_label(icon, label)
+    render_icon(icon, size: :sm) + " #{label}".html_safe
+  end
 end

@@ -1,0 +1,25 @@
+@layer base {
+
+  html {
+    @apply text-grey-800 font-sans;
+  }
+
+  h1 { @apply text-4xl m-4 text-grey-800 font-bold }
+  h2 { @apply text-2xl m-4 text-grey-800 font-semibold }
+  h3 { @apply text-xl m-4 text-grey-800 font-medium }
+  h4 { @apply text-lg m-4 text-grey-800 font-medium italic }
+  h5 { @apply m-4 text-grey-800 font-medium italic }
+  h6 { @apply text-sm m-4 text-grey-800 font-medium italic }
+
+  p {
+    @apply mb-4;
+  }
+
+  a { @apply text-orange-700 }
+
+  table { @apply my-4 w-full border-y-2 border-grey-400 }
+  th { @apply p-2 font-semibold text-left }
+  tbody > tr { @apply hover:bg-grey-200 border-b border-grey-300 }
+  tbody > tr > td { @apply p-2 }
+
+}

@@ -11,7 +11,7 @@
       = f.select :pvp, [['PVP', 0], ['Not PVP', 1]], include_blank: '-- any --'
       = f.select :region_id, Scene::REGIONS, include_blank: '-- all regions --'
       = f.select :scene_type_id, Scene::SCENE_TYPES, include_blank: '-- all scene types --'
-      = f.submit('Filter')
+      = f.submit('Filter', class: 'self-end inline-block h-8')
 
     %table.Table
       %thead
@@ -27,7 +27,7 @@
           %tr
             %td= link_to(scene.name, scene)
             %td= scene_level(scene)
-            %td= icon_tag('check') if scene.pvp
+            %td= icon_badge_check if scene.pvp
             %td= scene.region
             %td= scene.scene_type
             - if policy(Scene).edit?

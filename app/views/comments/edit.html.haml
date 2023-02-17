@@ -7,9 +7,9 @@
       .Comment
         .Comment-author
           .Comment-authorName
-            %span.Comment-authorName= @comment.author_name
+            %span.text-semibold= @comment.author_name
             = user_flair_tag(@comment.author)
           .Comment-authorTime
             = local_time_ago(@comment.created_at)
-        .Comment-body
+        .Comment-body.p-2
           = render partial: 'comments/form', locals: { subject: @comment.subject }

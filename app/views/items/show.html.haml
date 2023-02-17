@@ -7,97 +7,89 @@
       = edit_button_to('Edit', edit_item_path(@item))
 
   = tile_body do
-    .row
-      .col-xs-12
-        .callout.primary
-          .row
-            .col-xs
-              = item_use_tag @item, large: true
-              = item_use_specific_tags @item
-              = item_abstract_tag @item, large: true
-              = item_price_tag @item, large: true
-              = item_gathering_tag @item, large: true
-              = item_weight_tag @item, large: true
+    %div
+      .Callout.Callout-primary
+        = item_use_tag @item, large: true
+        = item_use_specific_tags @item
+        = item_abstract_tag @item, large: true
+        = item_price_tag @item, large: true
+        = item_gathering_tag @item, large: true
+        = item_weight_tag @item, large: true
 
-        - if @item.abstract
-          .row
-            .col-xs
-              %strong Abstraction of:
-              = to_sentence(@item.instances.map { |i| link_to(i, i) })
-        - elsif @item.instance_of
-          .row
-            .col-xs
-              %p
-                %strong Instance of:
-                = link_to(@item.instance_of, @item.instance_of)
-
+      - if @item.abstract
         .row
-          - if @item.effects
-            .col-sm-12.col-lg-4
-              = tile_with_heading('Effects') do
-                = formatted_body @item.effects
-          - if @item.notes
-            .col-sm-12.col-lg-4
-              = tile_with_heading('Notes') do
-                = formatted_body @item.notes
+          .col-xs
+            %strong Abstraction of:
+            = to_sentence(@item.instances.map { |i| link_to(i, i) })
+      - elsif @item.instance_of
+        .row
+          .col-xs
+            %p
+              %strong Instance of:
+              = link_to(@item.instance_of, @item.instance_of)
 
-          .col-sm-12.col-lg-4
-            = tile_with_heading('Salvage') do
-              - if @item.salvage_as_result_count > 0
-                %p
-                  <strong>Potentially obtain this item by salvaging:</strong>
-                %ul.List--plain
-                  - @item.item_salvages_as_result.each do |item_salvage|
-                    %li
-                      = link_to(item_salvage.salvage_from, item_salvage.salvage_from)
-                      - if policy(:item_salvage).destroy?
-                        = destroy_icon_to(item_salvage, size: :small)
+      .grid.grid-cols-1.md:grid-cols-3.gap-2
+        - if @item.effects
+          = tile_with_heading('Effects') do
+            = formatted_body @item.effects
+        - if @item.notes
+          = tile_with_heading('Notes') do
+            = formatted_body @item.notes
 
-              - if @item.salvage_as_source_count > 0
-                %p
-                  <strong>Salvage this item to potentially get:</strong>
-                %ul.List--plain
-                  - @item.item_salvages_as_source.each do |item_salvage|
-                    %li
-                      = link_to(item_salvage.salvage_to, item_salvage.salvage_to)
-                      - if policy(:item_salvage).destroy?
-                        = destroy_icon_to(item_salvage, size: :small)
+        = tile_with_heading('Salvage') do
+          - if @item.salvage_as_result_count > 0
+            %p
+              <strong>Potentially obtain this item by salvaging:</strong>
+            %ul
+              - @item.item_salvages_as_result.each do |item_salvage|
+                %li
+                  = link_to(item_salvage.salvage_from, item_salvage.salvage_from)
+                  - if policy(:item_salvage).destroy?
+                    = destroy_icon_to(item_salvage, size: :small)
 
-              - if (@item.salvage_as_result_count + @item.salvage_as_source_count) == 0
-                %p
-                  No salvage info
+          - if @item.salvage_as_source_count > 0
+            %p
+              <strong>Salvage this item to potentially get:</strong>
+            %ul
+              - @item.item_salvages_as_source.each do |item_salvage|
+                %li
+                  = link_to(item_salvage.salvage_to, item_salvage.salvage_to)
+                  - if policy(:item_salvage).destroy?
+                    = destroy_icon_to(item_salvage, size: :small)
 
-              - if policy(:item_salvage).create?
-                = sl_form_for(ItemSalvage.new()) do |f|
-                  = f.error_messages
-                  = f.hidden_field :salvage_from_id, value: @item.id
-                  %div{data: { controller: 'autocomplete', 'autocomplete-url-value' => '/search/items' }}
-                    = f.text_field(:salvage_to_name, label: "this salvages to...", data: { 'autocomplete-target' => 'input' })
-                    = f.hidden_field :salvage_to_id, data: { 'autocomplete-target' => 'hidden' }
-                    %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
-                  = f.submit('Add')
+          - if (@item.salvage_as_result_count + @item.salvage_as_source_count) == 0
+            %p
+              No salvage info
+
+          - if policy(:item_salvage).create?
+            = sl_form_for(ItemSalvage.new()) do |f|
+              = f.error_messages
+              = f.hidden_field :salvage_from_id, value: @item.id
+              %div{data: { controller: 'autocomplete', 'autocomplete-url-value' => '/search/items' }}
+                = f.text_field(:salvage_to_name, label: "this salvages to...", data: { 'autocomplete-target' => 'input' })
+                = f.hidden_field :salvage_to_id, data: { 'autocomplete-target' => 'hidden' }
+                %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
+              = f.submit('Add')
 
     %hr
-    .row
+    .grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-2.mt-4
       .col-sm-12.col-md-6.col-lg-4
         - if @item.craftable?
           - if @item.abstract
             %h3 Template #{'recipe'.pluralize(@item.recipes.length)} to craft abstract item...
             = render @item.recipes
-            - if policy(Recipe).new?
-              %p
-                = link_to('add another', new_recipe_path(item_id: @item.id))
 
           - else
             %h3 Crafted from #{pluralize(@item.recipes.length, 'Recipe')}...
             = render @item.recipes
-            - if policy(Recipe).new?
-              %p
-                = link_to('add another', new_recipe_path(item_id: @item.id))
+
+          - if policy(Recipe).new?
+            .text-right
+              = link_to('add another', new_recipe_path(item_id: @item.id))
 
 
         - else
-          %p.u-textCenter
+          %p.text-center
             %em no recipes make this.
             - if policy(Recipe).new?
               = link_to('add one', new_recipe_path(item_id: @item.id))
@@ -114,13 +106,13 @@
           %h3
             Used in
             = pluralize(@used_in.total_count, 'Recipe')
-          %ul.List--plain
+          %ul
             - @used_in.each do |recipe|
               %li= link_to(recipe.name, recipe)
           = paginate(@used_in)
 
         - if @used_in.empty?
-          .u-textCenter
+          .text-center
             %em no recipes use this item.
       .col-sm-12.col-md-12.col-lg-5
         = render partial: 'comments/subject', object: @item

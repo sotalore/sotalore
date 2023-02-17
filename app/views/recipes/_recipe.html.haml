@@ -27,7 +27,7 @@
               #{t recipe.teachable, scope: [ :helpers, :label, :recipe, :teachables ], default: ''}
 
       .Recipe-production
-        %span.u-label
+        %span.opacity-75.italic
           Makes
         - results = recipe.results.map do |result|
           - capture do
@@ -40,7 +40,7 @@
           %em unknown
 
   .Recipe-ingredients
-    %span.u-label
+    %span.opacity-75.italic
       Ingredients:
   - recipe.ingredients.eager_load(item: { recipes: :results }).each do |ingredient|
     - ingredient_dom_id = dom_id(ingredient)
@@ -57,6 +57,6 @@
         = item_abstract_tag(item)
         - item.recipes.each_with_index do |r,i|
           - next if recipe == r
-          = link_to( icon_tag('caret-right'), recipe_path(r),
+          = more_link_to(recipe_path(r),
           { data: { action: 'more-link#load', url: show_partial_recipe_path(r), more_id: dom_id(r, ingredient_dom_id) } })
       .Recipe-ingredientSubDetail{ data: { 'more-link-target': 'subDetail' }}

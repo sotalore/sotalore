@@ -1,0 +1,49 @@
+@mixin notice-color($dark, $border, $light) {
+  .Notice-icon {
+    background: $border;
+    color: $light;
+  }
+
+  .Notice-text {
+    background: $light;
+    color: $dark;
+    border-color: $border;
+  }
+}
+
+.Notice {
+  margin: 16px 8px;
+  border-radius: 3px;
+  display: flex;
+  border: 0;
+  padding: 0;
+
+  &-icon {
+    flex: 0 0 32px;
+    border-radius: 3px 0 0 3px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &-text {
+    padding: 8px 12px;
+    border: 1px solid transparent;
+    border-radius: 0 3px 3px 0;
+    flex-grow: 1;
+  }
+
+  &-text * {
+    margin: 0;
+  }
+
+  &-text * + * {
+    margin-top: 12px;
+  }
+
+  &--info    { @include notice-color(var(--purple1), var(--purple3), var(--purple4)); }
+  &--success { @include notice-color( var(--green1),  var(--green3),  var(--green4)); }
+  &--warning { @include notice-color(var(--yellow1), var(--yellow3), var(--yellow4)); }
+  &--danger  { @include notice-color(   var(--red1),    var(--red3),    var(--red4)); }
+
+}

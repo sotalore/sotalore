@@ -1,0 +1,23 @@
+@layer components {
+    .Comment {
+        @apply border border-grey-300 mb-6 text-grey-700 shadow-md;
+
+        &-author {
+            @apply border-b border-grey-300 px-2 py-1 flex flex-row flex-wrap gap-2;
+        }
+
+        &-authorName {
+            @apply flex-grow whitespace-nowrap text-ellipsis;
+        }
+
+        &-subject {
+            @apply text-lg flex-grow whitespace-nowrap text-ellipsis;
+        }
+
+        &-authorTime {
+            @apply text-sm opacity-50 italic;
+        }
+
+
+    }
+}

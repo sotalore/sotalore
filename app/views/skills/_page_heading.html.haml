@@ -1,0 +1,17 @@
+.flex.flex-row.mt-2.mb-0.mx-2.items-end
+  .mb-0.align-bottom
+    = page_heading_tab(@activity == 'adventuring', 'Adventuring Skills', [ @avatar, :skills, activity: 'adventuring'])
+    = page_heading_tab(@activity == 'crafting', 'Crafting Skills', [ @avatar, :skills, activity: 'crafting'])
+    = page_heading_tab(@activity == nil, 'Basics', skills_basics_path)
+
+  - if with_avatar_controls
+    %div.text-right.flex-grow.pb-2
+      - if @avatars
+        %form{ data: { controller: 'select-nav' }}
+          %strong Avatar:
+          = select_tag('avatar',
+              options_for_select([['~ none ~', skills_path]] + @avatars.map { |a| [a.name, avatar_skills_path(avatar_id: a, activity: @activity)] },
+                              request.path), class: 'form-select')
+      - else
+        = primary_button_to('create an avatar', avatars_path)
+

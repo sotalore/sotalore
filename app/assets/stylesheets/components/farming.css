@@ -1,0 +1,73 @@
+.FarmingPlan {
+  display: flex;
+  flex-direction: column;
+
+  justify-content: space-between;
+
+  &Section {
+    width: 100%;
+    flex: 0 1 auto;
+    border: 1px solid red;
+  }
+
+  .FarmingPlanInput {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+
+    margin-bottom: 8px;
+
+    select, input {
+      display: inline-block;
+      width: auto;
+    }
+
+    &-seedType {
+    }
+
+    &-plantingLocation {
+      margin-left: 3rem;
+
+      label {
+        display: inline-block;
+      }
+      input {
+        position: relative;
+        vertical-align: bottom;
+        width: 32px;
+      }
+    }
+
+  }
+
+  .FarmingPlanStep {
+    display: flex;
+    flex-direction: row;
+  }
+  .FarmingPlanLabel {
+    text-align: right;
+    width: 10em;
+    padding-right: 16px;
+  }
+
+  .FarmingPlanStep-full {
+    text-align: left;
+  }
+
+  .FarmingPlanStep-time {
+    text-align: right;
+    width: 16em;
+    white-space: nowrap;
+  }
+
+  .FarmingPlanStep-time + .FarmingPlanStep-time {
+    text-align: left;
+    margin-left: 2em;
+
+    &:before {
+      margin-left: -2em;
+      padding: 0 1em;
+      content: "\2192";
+    }
+  }
+}
