@@ -1,11 +1,11 @@
-.flex.flex-row.mt-8.mb-0.mx-2
-  .mb-0
+.flex.flex-row.mt-2.mb-0.mx-2.items-end
+  .mb-0.align-bottom
     = page_heading_tab(@activity == 'adventuring', 'Adventuring Skills', [ @avatar, :skills, activity: 'adventuring'])
     = page_heading_tab(@activity == 'crafting', 'Crafting Skills', [ @avatar, :skills, activity: 'crafting'])
     = page_heading_tab(@activity == nil, 'Basics', skills_basics_path)
 
   - if with_avatar_controls
-    %div.text-right.flex-grow
+    %div.text-right.flex-grow.pb-2
       - if @avatars
         %form{ data: { controller: 'select-nav' }}
           %strong Avatar:

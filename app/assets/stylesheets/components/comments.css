@@ -7,10 +7,10 @@
         }
 
         &-authorName {
-            @apply whitespace-nowrap text-ellipsis;
+            @apply flex-grow whitespace-nowrap text-ellipsis;
         }
 
-        &-authorSubject {
+        &-subject {
             @apply text-lg flex-grow whitespace-nowrap text-ellipsis;
         }
 
