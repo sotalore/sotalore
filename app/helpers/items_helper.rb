@@ -81,9 +81,10 @@ module ItemsHelper
     if item.abstract
       css_class = "Item-abstractTag"
       css_class += " Item-abstractTag--large" if options[:large]
+      icon_size = options[:large] ? :md : :xs
       content_tag(:a, href: abstractions_url) do
         content_tag(:span, class: css_class) do
-          render_icon(:cube_transparent) + " " + content_tag(:span, 'abstract', class: "Item-abstractTag-abstract")
+          render_icon(:rectangles, size: icon_size) + " " + content_tag(:span, 'abstract', class: "Item-abstractTag-abstract")
         end
       end
     end

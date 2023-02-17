@@ -1,10 +1,14 @@
 
 @mixin ItemSummaryTag {
-  padding: 4px calc(var(--line-height) / 4);
-  border-radius: calc(var(--line-height) / 2);
+  padding: 2px 4px;
+  border-radius: 10px;
   font-size: 0.7em;
-  background-color: var(--grey6);
+  background-color: var(--grey7);
   border: 1px solid var(--grey5);
+  display: inline-block;
+  /* margin-left: 2px;
+  margin-right: 2px; */
+  whitespace: nowrap;
   &--large {
     font-size: 1.1em;
     padding: 4px var(--line-height);
@@ -25,12 +29,12 @@
 
 .Item-priceTag {
   @include ItemSummaryTag;
-  color: var(--yellow4);
+  color: var(--yellow1);
 }
 
 .Item-weightTag {
   @include ItemSummaryTag;
-  color: var(--blue2);
+  color: var(--grey3);
 }
 
 .Item-abstractTag {
@@ -42,10 +46,11 @@
 .Item-gatheringTag {
   @include ItemSummaryTag;
   text-transform: lowercase;
-  color: var(--green2);
+  color: var(--green1);
   padding-left: 16px;
   background-size: 16px;
   background-repeat: no-repeat;
+  background-position: left;
 }
 
 .Item-gatheringTag--large {
@@ -58,7 +63,8 @@
 }
 
 .Item-gatheringTag--fishing {
-  background-image: url('sota-icons/craft_fishing_small.png');
+  padding-left: calc(var(--line-height) / 4);
+  /* background-image: url('sota-icons/craft_fishing_small.png'); */
 }
 
 .Item-gatheringTag--foraging {
