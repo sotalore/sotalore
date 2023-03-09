@@ -20,15 +20,14 @@ export default class extends Controller {
   refresh() {
     let e = this.elapsed();
     for (let rift of this.riftTargets) {
-      let el = $(rift)
-      let idx = parseInt(el.data("index"), 10)
+      let idx = parseInt(rift.dataset.index, 10)
       let w = this.where_is(idx, e);
       if (w < 0) {
-        el.addClass('active')
-        el.find('div').html(this.minutes_and_seconds(-1 * w))
+        rift.classList.add('active')
+        rift.querySelector('div').innerHTML = this.minutes_and_seconds(-1 * w)
       } else {
-        el.removeClass('active')
-        el.find('div').html(this.minutes_and_seconds(w))
+        rift.classList.remove('active')
+        rift.querySelector('div').innerHTML = this.minutes_and_seconds(w)
       }
     }
   }
