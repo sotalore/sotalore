@@ -2,12 +2,6 @@
 
 import "@hotwired/turbo-rails"
 
-import "./js/jquery"
-
-require("@rails/ujs").start()
-require("turbolinks").start()
-
-
 import SotaLore from "./js/sota_lore"
 import mousetrap_config from "./js/mousetrap_config"
 import LocalTime from "local-time"

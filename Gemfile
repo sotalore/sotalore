@@ -2,15 +2,10 @@ source 'https://rubygems.org'
 
 ruby "3.2.1"
 
-# Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.0.2'
 gem 'sprockets-rails'
-# Use postgresql as the database for Active Record
 gem 'pg'
-# Use Puma as the app server
 gem 'puma', '~> 5.0'
-# Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
 
 gem 'jsbundling-rails'
 gem "cssbundling-rails"
@@ -20,15 +15,6 @@ gem 'turbo-rails'
 
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
-
-
-# Use CoffeeScript for .coffee assets and views
-# gem 'coffee-rails', '~> 4.2'
-# See https://github.com/rails/execjs#readme for more supported runtimes
-# gem 'therubyracer', platforms: :ruby
-
-# Use jquery as the JavaScript library
-# gem 'jquery-rails'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'
@@ -40,10 +26,6 @@ gem 'redis', '~> 4.0'
 gem 'lograge'
 
 gem 'bootsnap'
-
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
 
 gem 'haml-rails'
 gem 'kaminari'
@@ -65,15 +47,11 @@ group :test do
 end
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  #  gem 'byebug', platform: :mri
   gem 'rspec-rails', ">= 4.0.0.beta"
   gem 'factory_bot_rails'
 end
 
 group :development do
-  # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
-  # gem 'web-console'
   gem 'hotwire-livereload'
   gem 'listen'
   gem 'guard'
