@@ -10,6 +10,7 @@ class User::UserRecipesController < ApplicationController
         current_user.user_recipes
           .create!(recipe: @recipe)
       end
+      render :create, layout: false
     else
       render status: :not_acceptable
     end
@@ -20,7 +21,7 @@ class User::UserRecipesController < ApplicationController
     if ur = find_user_recipe
       ur.destroy
     end
-    render :create
+    render :create, layout: false
   end
 
   private

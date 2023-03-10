@@ -1,0 +1,53 @@
+#FarmingPlanner
+  .FarmingPlan{data: { controller: 'farming' }}
+    %form.FarmingPlanInput
+      .FarmingPlanInput-seedType
+        %label
+          What type of seed?
+          %select.seedType.form-select{data: { action: 'change->farming#updateSeedTime' }}
+            = options_for_select([[ "Quick", (24/3) ], [ "Medium", (48/3) ], [ "Slow", (72/3) ]])
+      .FarmingPlanInput-plantingLocation
+        %label
+          Plannting Location:
+          %select.plantingLocation.form-select{data: { action: 'change->farming#updateLocationFactor' }}
+            = options_for_select([[ "Normal / Outside (1.0)", 1/1 ], [ "Greenhouse (2.0)", "0.5" ], [ "Inside (0.1)", "10.0" ]])
+
+    .FarmingPlanStep
+      .FarmingPlanLabel.FarmingPlanLabel--one
+        Planting at:
+      .FarmingPlanStep-time.startTime{ data: { 'farming-target': 'startTime' }}
+        = local_time Time.zone.now
+
+    .FarmingPlanStep
+      .FarmingPlanLabel.FarmingPlanLabel--one
+        First Water:
+      .FarmingPlanStep-full
+        %em happens with planting
+
+    .FarmingPlanStep
+      .FarmingPlanLabel.FarmingPlanLabel--two
+        Second Water:
+      .FarmingPlanStep-full
+        %em do this immediately after planting
+
+    .FarmingPlanStep
+      .FarmingPlanLabel.FarmingPlanLabel--two
+        Third Water:
+      .FarmingPlanStep-time.segment1{ data: { 'farming-target': 'segment1' }}
+        = local_time 8.hours.from_now
+      .FarmingPlanStep-time.segment2{ data: { 'farming-target': 'segment2' }}
+        = local_time 16.hours.from_now
+
+    .FarmingPlanStep
+      .FarmingPlanLabel.FarmingPlanLabel--three
+        Fourth Water:
+      .FarmingPlanStep-time.segment2{ data: { 'farming-target': 'segment2' }}
+        = local_time 16.hours.from_now
+      .FarmingPlanStep-time.endTime{ data: { 'farming-target': 'endTime' }}
+        = local_time 24.hours.from_now
+
+    .FarmingPlanStep
+      .FarmingPlanLabel.FarmingPlanLabel--four
+        Harvest after:
+      .FarmingPlanStep-time.endTime{ data: { 'farming-target': 'endTime' }}
+        = local_time 24.hours.from_now

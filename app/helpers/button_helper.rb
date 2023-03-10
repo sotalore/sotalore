@@ -8,22 +8,6 @@ module ButtonHelper
     end
   end
 
-  def user_recipe_button(recipe)
-    return unless current_user
-    exists = current_user.user_recipes.find_by(recipe: recipe)
-    css_class = "UserRecipeStar #{dom_id(recipe)}"
-    if exists
-      css_class += " UserRecipeStar--exists"
-      link_to(user_user_recipe_path(exists, recipe_id: recipe), method: :delete, class: css_class, remote: true) do
-        content_tag(:i, raw('&nbsp;'))
-      end
-    else
-      link_to(user_user_recipes_path(recipe_id: recipe), method: :post, class: css_class, remote: true) do
-        content_tag(:i, raw('&nbsp;'))
-      end
-    end
-  end
-
   def edit_recipe_icon(recipe)
     if policy(recipe).edit?
       edit_icon_to(edit_recipe_path(recipe))
