@@ -3,7 +3,7 @@
 module UserRecipesHelper
 
   def user_recipe_button(recipe)
-    return unless current_user
+    return if current_user.null?
     exists = current_user.user_recipes.find_by(recipe: recipe)
     css_class = "UserRecipeStar"
     turbo_frame_tag([dom_id(current_user), dom_id(recipe)].join("-")) do
