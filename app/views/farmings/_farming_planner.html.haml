@@ -58,3 +58,17 @@
       %input.form-input{ type: "text", value: "SOTA Farm Watering", maxlength: "80", data: { 'farming-target': 'exportName' } }
       %a.inline-block.align-baseline.Button.Button--primary{href: '#', data: { 'farming-target': 'exportCalendar' }} Download
       %a.inline-block.align-baseline.Button.Button--primary{href: '#', data: { 'farming-target': 'copyCalendarUrl', action: 'click->farming#copyCalendarUrl' }} Copy Link
+      %span.text-green-500.opacity-0.hidden.transition-all.duration-500{ data: { 'farming-target': 'copyCalendarUrlMessage' }}
+        Copied
+        = render_icon('badge_check')
+      %a.inline-block.align-baseline{href: '#', data: { action: 'click->farming#showCalendarHelp' }} what is this?
+      .hidden{data: { 'farming-target': 'calendarHelp' }}
+        = notice_info do
+          %p
+            This will create a calendar that you can import into your calendar app of choice.
+            If it's easier to use a URL/link to import, you can <strong>copy the link</strong> above. Otherwise,
+            you can <strong>download</strong> the "ICS" file and import it into your calendar app.
+
+          %p
+            We're not sure how well this is going to work for all the different calendaring apps out there. So,
+            please provide any and all feedback you have.

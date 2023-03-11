@@ -3,7 +3,8 @@ import { Controller } from "@hotwired/stimulus"
 var moment = require('moment')
 
 export default class extends Controller {
-  static targets = [ 'startTime', 'segment1', 'segment2', 'endTime', 'exportCalendar', 'exportName' ]
+  static targets = [ 'startTime', 'segment1', 'segment2', 'endTime',
+  'exportCalendar', 'exportName', 'copyCalendarUrlMessage', 'calendarHelp' ]
 
   static values = {
     seedTime: { type: Number, default: 8 },
@@ -69,6 +70,10 @@ export default class extends Controller {
     event.stopPropagation()
     event.preventDefault()
     navigator.clipboard.writeText(this.exportCalendarUrlValue)
+    this.copyCalendarUrlMessageTarget.classList.remove('opacity-0', 'hidden')
+    setTimeout(() => {
+      this.copyCalendarUrlMessageTarget.classList.add('opacity-0', 'hidden')
+    }, 3500)
   }
 
   updateTargets(targets, time) {
@@ -85,6 +90,10 @@ export default class extends Controller {
     }
   }
 
-
+  showCalendarHelp(event) {
+    event.stopPropagation()
+    event.preventDefault()
+    this.calendarHelpTarget.classList.remove('hidden')
+  }
 
 }

@@ -10,8 +10,8 @@ module NoticeHelper
     error: "error",
   }.with_indifferent_access.freeze
 
-  def notice_info(message = nil, &block)
-    notice_tag(:info, message, &block)
+  def notice_info(message = nil, css_class: '', &block)
+    notice_tag(:info, message, css_class: css_class, &block)
   end
 
   def notice_success(message = nil, &block)
@@ -30,12 +30,12 @@ module NoticeHelper
     notice_tag(:error, message, &block)
   end
 
-  def notice_tag(type, message = nil, &block)
+  def notice_tag(type, message = nil, css_class: '', &block)
     if block_given?
       message = capture(&block)
     end
 
-    content_tag(:div, class: "Notice Notice--#{type}") do
+    content_tag(:div, class: "Notice Notice--#{type} #{css_class}") do
       content_tag(:span, render_icon(ICON_FOR_TYPE[type]), class: "Notice-icon") +
       content_tag(:span, " #{message}".html_safe, class: "Notice-text")
     end
