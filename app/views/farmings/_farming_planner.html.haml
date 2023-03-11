@@ -1,5 +1,5 @@
 #FarmingPlanner
-  .FarmingPlan{data: { controller: 'farming' }}
+  .FarmingPlan{data: { controller: 'farming', 'farming-export-calendar-base-url-value': farming_calendar_path }}
     %form.FarmingPlanInput
       .FarmingPlanInput-seedType
         %label
@@ -51,3 +51,10 @@
         Harvest after:
       .FarmingPlanStep-time.endTime{ data: { 'farming-target': 'endTime' }}
         = local_time 24.hours.from_now
+
+    %div.align-baseline.border-t.pt-2
+      %label
+        Calendar:
+      %input.form-input{ type: "text", value: "SOTA Farm Watering", maxlength: "80", data: { 'farming-target': 'exportName' } }
+      %a.inline-block.align-baseline.Button.Button--primary{href: '#', data: { 'farming-target': 'exportCalendar' }} Download
+      %a.inline-block.align-baseline.Button.Button--primary{href: '#', data: { 'farming-target': 'copyCalendarUrl', action: 'click->farming#copyCalendarUrl' }} Copy Link
