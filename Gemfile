@@ -42,6 +42,8 @@ gem 'scout_apm'
 
 gem 'activeadmin'
 
+gem 'icalendar'
+
 group :test do
   gem 'rails-controller-testing'
 end

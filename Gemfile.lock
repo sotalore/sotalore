@@ -149,6 +149,9 @@ GEM
       rails (>= 6.0.0)
     i18n (1.12.0)
       concurrent-ruby (~> 1.0)
+    icalendar (2.8.0)
+      ice_cube (~> 0.16)
+    ice_cube (0.16.4)
     inherited_resources (1.13.1)
       actionpack (>= 5.2, < 7.1)
       has_scope (~> 0.6)
@@ -348,6 +351,7 @@ DEPENDENCIES
   guard-rspec
   haml-rails
   hotwire-livereload
+  icalendar
   jbuilder (~> 2.5)
   jsbundling-rails
   kaminari

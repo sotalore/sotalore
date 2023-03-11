@@ -39,6 +39,7 @@ Rails.application.routes.draw do
   end
 
   resource :farming
+  resource :farming_calendar, only: [ :show ]
 
   get 'skills', to: redirect('/skills/adventuring'), as: 'skills_redirect'
   get 'skills/basics', to: 'skills#basics', as: 'skills_basics'

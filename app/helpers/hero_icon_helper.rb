@@ -32,7 +32,7 @@ module HeroIconHelper
     end
   end
 
-  def render_icon(name, size: :md, color: :current)
+  def render_icon(name, size: :md, color: :current, css_class: '')
     raise "Invalid icon: #{name}" unless ICONS.key?(name)
     raise "Invalid size: #{size}" unless SIZES.key?(size)
     raise "Invalid color: #{color}" unless COLORS.key?(color)
@@ -40,7 +40,7 @@ module HeroIconHelper
     svg = ICONS[name]
     size = SIZES[size]
     color = COLORS[color]
-    content_tag(:span, svg, class: "inline-block #{color} #{size}")
+    content_tag(:span, svg, class: "inline-block #{color} #{size} #{css_class}")
   end
 
 # <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
