@@ -10,11 +10,14 @@ RSpec.describe "FarmingCalendars", type: :request do
       body = response.body
       body.split
       starts = body.split.select { |l| l.starts_with?('DTSTART') }
-      expect(starts.size).to eq(4)
-      expect(starts[0]).to eq("DTSTART:#{start_time.strftime('%Y%m%dT%H%M%S')}")
-      expect(starts[1]).to eq("DTSTART:#{(start_time + 80.hours).strftime('%Y%m%dT%H%M%S')}")
-      expect(starts[2]).to eq("DTSTART:#{(start_time + 160.hours).strftime('%Y%m%dT%H%M%S')}")
-      expect(starts[3]).to eq("DTSTART:#{(start_time + 240.hours).strftime('%Y%m%dT%H%M%S')}")
+      expect(starts.size).to eq(5)
+
+      start_time = start_time.utc
+      expect(starts[0]).to eq("DTSTART:19700101T000000")
+      expect(starts[1]).to eq("DTSTART:#{start_time.strftime('%Y%m%dT%H%M%S')}")
+      expect(starts[2]).to eq("DTSTART:#{(start_time + 80.hours).strftime('%Y%m%dT%H%M%S')}")
+      expect(starts[3]).to eq("DTSTART:#{(start_time + 160.hours).strftime('%Y%m%dT%H%M%S')}")
+      expect(starts[4]).to eq("DTSTART:#{(start_time + 240.hours).strftime('%Y%m%dT%H%M%S')}")
     end
   end
 end
