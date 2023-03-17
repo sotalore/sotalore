@@ -9,6 +9,8 @@ Rails.application.routes.draw do
   get 'master-trainers', to: 'home#master_trainers'
   get 'incoming', to: 'home#incoming'
 
+  resource :profile, only: [ :show, :update ]
+
   resources :comments, except: [ :new, :create, :show ]
   resources :items, controller: 'items' do
     collection do

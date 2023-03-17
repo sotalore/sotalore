@@ -1,0 +1,14 @@
+.flex.flex-row.mx-2
+  .grow
+    = tile_with_heading('Your Profile') do
+      - if @user.picture.present?
+        = image_tag(url_for(@user.picture), width: 320)
+      - else
+        %p
+          No picture uploaded yet.
+  .grow
+    = tile_with_heading('Edit Your Profile') do
+      = sl_form_with(model: @user, url: profile_path) do |form|
+        = form.file_field :picture, direct_upload: true
+        = form.actions do
+          = form.submit
