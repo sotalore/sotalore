@@ -35,7 +35,7 @@ Rails.application.configure do
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
   # config.active_storage.service = :local
-  config.active_storage.service = :amazon
+  config.active_storage.service = :cloudflare_r2
 
   # ActionMailer Config
   config.action_mailer.default_url_options = { :host => 'localhost:3000' }

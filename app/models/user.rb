@@ -6,6 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable, :confirmable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_one_attached :picture
+
   has_many :avatars, dependent: :destroy, inverse_of: :user
   has_many :user_recipes, dependent: :delete_all, inverse_of: :user
   has_many :recipes, through: :user_recipes

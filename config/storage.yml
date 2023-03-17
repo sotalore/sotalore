@@ -6,7 +6,9 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-# Use rails credentials:edit to set the AWS secrets (as aws:access_key_id|secret_access_key)
-amazon:
+cloudflare_r2:
   service: S3
-  bucket: your_own_bucket
+  endpoint: <%= Rails.application.secrets.r2_endpoint %>
+  bucket: <%= Rails.application.secrets.r2_bucket %>
+  access_key_id: <%= Rails.application.secrets.r2_access_key_id %>
+  secret_access_key: <%= Rails.application.secrets.r2_secret_access_key %>
