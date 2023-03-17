@@ -29,11 +29,11 @@ class CommentsController < ApplicationController
         redirect_to url_for_parent
       else
         @comments = find_comments_index
-        render :index
+        render :index, status: :unprocessable_entity
       end
     else
       @comments = find_comments_index
-      render :index
+      render :index, status: :unprocessable_entity
     end
   end
 
