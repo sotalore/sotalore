@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_20_155837) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_20_181157) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -160,6 +160,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_20_155837) do
     t.index ["user_id"], name: "index_plantings_on_user_id"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "author_id", null: false
+    t.string "title"
+    t.integer "status", limit: 2, default: 0
+    t.index ["author_id"], name: "index_posts_on_author_id"
+  end
+
   create_table "recipes", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "craft_skill", null: false
@@ -253,6 +262,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_20_155837) do
   add_foreign_key "item_salvages", "items", column: "salvage_to_id"
   add_foreign_key "items", "users", column: "last_confirmed_by_id"
   add_foreign_key "plantings", "users"
+  add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "recipes", "users", column: "last_confirmed_by_id"
   add_foreign_key "results", "items"
   add_foreign_key "results", "recipes"

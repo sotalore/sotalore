@@ -1,0 +1,19 @@
+.border.my-4
+  .border-b.flex.items-center.px-2
+    %h4.my-2.px-0.mx-0.flex-grow
+      = link_to post.title, post
+    %div.text-sm.text-gray-600
+      by #{post.author.name}
+      = time_ago_in_words(post.created_at)
+
+    - editable = policy(post).edit?
+    - destroyable = policy(post).destroy?
+    - if editable || destroyable
+      %div.ml-2
+        - if editable
+          = edit_icon_to(edit_post_path(post))
+        - if destroyable
+          = destroy_icon_to(post_path(post))
+
+  .p-2
+    = post.content

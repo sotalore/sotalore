@@ -1,0 +1,48 @@
+class PostsController < ApplicationController
+
+  def index
+    @posts = Post.all
+    authorize Post
+  end
+
+  def show
+    @post = Post.find(params[:id])
+    authorize @post
+  end
+
+  def new
+    @post = Post.new
+    authorize @post
+  end
+
+  def create
+    @post = Post.new(post_params)
+    @post.author = current_user
+    authorize @post
+    if @post.save
+      redirect_to posts_path
+    else
+      render :new, status: :unprocessable_entity
+    end
+  end
+
+  def edit
+    @post = Post.find(params[:id])
+    authorize @post
+  end
+
+  def update
+    @post = Post.find(params[:id])
+    authorize @post
+    if @post.update(post_params)
+      redirect_to posts_path
+    else
+      render :edit, status: :unprocessable_entity
+    end
+  end
+
+  protected
+  def post_params
+    params.require(:post).permit(:title, :content, :status)
+  end
+end

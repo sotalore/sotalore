@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get 'incoming', to: 'home#incoming'
 
   resource :profile, only: [ :show, :update ]
+  resources :posts
 
   resources :comments, except: [ :new, :create, :show ]
   resources :items, controller: 'items' do

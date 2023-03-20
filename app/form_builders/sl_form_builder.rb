@@ -24,6 +24,15 @@ class SLFormBuilder < BasicFormBuilder
     end
   end
 
+  alias :basic_rich_text_area :rich_text_area
+  def rich_text_area(method, options={})
+    form_group_with_label(method, options) do
+      input_with_hint_and_errors(method, options) do
+        basic_rich_text_area(method, options)
+      end
+    end
+  end
+
   def select(method, choices=nil, options={}, html_options={})
     form_group_with_label(method, options) do
       input_with_hint_and_errors(method, options) do
