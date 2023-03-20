@@ -1,6 +1,8 @@
 /* eslint no-console:0 */
 
 import "@hotwired/turbo-rails"
+import "trix"
+import "@rails/actiontext"
 
 import SotaLore from "./js/sota_lore"
 import mousetrap_config from "./js/mousetrap_config"
@@ -36,10 +38,7 @@ window.Stimulus.register("skills-basics", SkillsBasicsController)
 window.Stimulus.register("skills", SkillsController)
 window.Stimulus.register("skills-rollup", SkillsRollupController)
 
-
 LocalTime.start()
 
 SotaLore.pageLoad(mousetrap_config)
-
 SotaLore.pageLoad(turnstilePageLoad)
-import "@hotwired/turbo-rails"
