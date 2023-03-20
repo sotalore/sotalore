@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
 
   def index
-    @posts = Post.all
+    @posts = Post.order(id: :desc).page(params[:page])
     authorize Post
   end
 
@@ -39,6 +39,13 @@ class PostsController < ApplicationController
     else
       render :edit, status: :unprocessable_entity
     end
+  end
+
+  def destroy
+    @post = Post.find(params[:id])
+    authorize @post
+    @post.destroy
+    redirect_to posts_path
   end
 
   protected

@@ -16,4 +16,7 @@
           = destroy_icon_to(post_path(post))
 
   .p-2
-    = post.content
+    - if local_assigns[:truncate]
+      = post.truncated
+    - else
+      = post.content

@@ -30,4 +30,11 @@ trix-editor {
 .trix-content action-text-attachment .attachment {
   padding: 0 !important;
   max-width: 100% !important;
+  border-radius: 0.25rem;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.trix-content action-text-attachment .attachment img {
+  border-radius: 0.5rem;
 }

@@ -10,4 +10,7 @@ class Post < ApplicationRecord
   validates :title, presence: true
   validates :author, presence: true
 
+  def truncated
+    self.content.body.to_plain_text.truncate(600, seperator: /\s/)
+  end
 end

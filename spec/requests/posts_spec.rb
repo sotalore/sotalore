@@ -63,4 +63,12 @@ RSpec.describe "Posts", type: :request do
     end
   end
 
+  describe "DELETE /destroy" do
+    let!(:post) { create(:post, author: user) }
+    it 'works' do
+      delete post_path(post)
+      expect(response).to redirect_to(posts_path)
+    end
+  end
+
 end
