@@ -65,7 +65,7 @@ namespace :heroku do
       end
     end
 
-    url = "https://gitlab.com/sota-stuff/sota-stuff/compare?from=#{current_sha}&to=#{next_sha}"
+    url = "https://github.com/sotalore/sotalore/compare?from=#{current_sha}&to=#{next_sha}"
     user = ENV['USER']
 
     git_command  = 'push'
@@ -77,11 +77,6 @@ namespace :heroku do
       msg << ", with migrations"
     end
     msg << ". See <#{url}|the deploy diff>.*"
-
-    if migrate
-      heroku "run rake db:migrate -r #{heroku_remote}"
-      heroku "restart -r #{heroku_remote}"
-    end
 
     puts msg
   end
