@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_16_190805) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_20_181157) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
+
+  create_table "action_text_rich_texts", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "body"
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
+  end
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -150,6 +160,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_16_190805) do
     t.index ["user_id"], name: "index_plantings_on_user_id"
   end
 
+  create_table "posts", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "author_id", null: false
+    t.string "title"
+    t.integer "status", limit: 2, default: 0
+    t.index ["author_id"], name: "index_posts_on_author_id"
+  end
+
   create_table "recipes", id: :serial, force: :cascade do |t|
     t.string "name", null: false
     t.string "craft_skill", null: false
@@ -243,6 +262,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_16_190805) do
   add_foreign_key "item_salvages", "items", column: "salvage_to_id"
   add_foreign_key "items", "users", column: "last_confirmed_by_id"
   add_foreign_key "plantings", "users"
+  add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "recipes", "users", column: "last_confirmed_by_id"
   add_foreign_key "results", "items"
   add_foreign_key "results", "recipes"

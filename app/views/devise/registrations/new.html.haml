@@ -1,11 +1,9 @@
 = tile('hero') do
   = tile_heading('Register')
   = tile_body do
-    .callout.info
-      %p
-        Registering allows you to leave comments on things.
-        There are more features coming, but that's what you
-        get right now.
+    = notice_info do
+      Registering allows you to leave comments on things as well as
+      saving your skill levels for your avatars.
 
     = full_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
       = render "devise/shared/error_messages", resource: resource
@@ -15,6 +13,8 @@
       = f.password_field :password_confirmation
 
       = f.actions do
+        = turnstile_tag
         = f.submit('Register for SotA Lore!')
 
-    = render "devise/shared/links"
+    .mt-2
+      = render "devise/shared/links"
