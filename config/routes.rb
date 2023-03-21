@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
-  devise_for :users
+  devise_for :users, controllers: {
+    registrations: 'users/registrations',
+  }
 
   root to: 'home#show', as: :root
   get 'roadmap', to: 'home#roadmap'

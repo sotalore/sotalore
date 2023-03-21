@@ -7,7 +7,6 @@ import "@rails/actiontext"
 import SotaLore from "./js/sota_lore"
 import mousetrap_config from "./js/mousetrap_config"
 import LocalTime from "local-time"
-import turnstilePageLoad from "./js/turnstile"
 
 import { Application } from "@hotwired/stimulus"
 window.Stimulus = Application.start()
@@ -27,6 +26,7 @@ import SelectNavController from "./controllers/select-nav-controller"
 import SkillsBasicsController from "./controllers/skills_basics_controller"
 import SkillsController from "./controllers/skills-controller"
 import SkillsRollupController from "./controllers/skills-rollup-controller"
+import TurnstileController from "./controllers/turnstile_controller"
 
 window.Stimulus.register("farming", FarmingController)
 window.Stimulus.register("item-form", ItemFormController)
@@ -37,8 +37,6 @@ window.Stimulus.register("select-nav", SelectNavController)
 window.Stimulus.register("skills-basics", SkillsBasicsController)
 window.Stimulus.register("skills", SkillsController)
 window.Stimulus.register("skills-rollup", SkillsRollupController)
+window.Stimulus.register("turnstile", TurnstileController)
 
 LocalTime.start()
-
-SotaLore.pageLoad(mousetrap_config)
-SotaLore.pageLoad(turnstilePageLoad)

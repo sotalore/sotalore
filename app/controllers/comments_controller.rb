@@ -4,6 +4,8 @@ class CommentsController < ApplicationController
   include TurnstileHelper
   include CloudflareTurnstile
 
+  respond_to :html
+
   before_action :find_parent
 
   def index

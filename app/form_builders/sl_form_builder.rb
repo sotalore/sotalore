@@ -179,7 +179,7 @@ class SLFormBuilder < BasicFormBuilder
   end
 
   def actions
-    content_tag(:div, class: 'text-right') do
+    content_tag(:div, class: 'flex flex-row place-content-end') do
       yield
     end
   end

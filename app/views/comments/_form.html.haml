@@ -8,5 +8,5 @@
       by a site editor.
   = f.actions do
     - if require_turnstile?
-      .cf-turnstile{ data: { sitekey: CloudflareTurnstile.site_key, theme: 'light' }}
+      = turnstile_tag
     = f.submit
