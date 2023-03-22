@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
 
   ActiveAdmin.routes(self)
+
+  namespace :adm do
+    resources :users, except: [ :show, :new, :create, :destroy ]
+  end
+
   devise_for :users, controllers: {
     registrations: 'users/registrations',
   }

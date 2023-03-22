@@ -5,6 +5,11 @@ module FormsHelper
     form_with(model: model, scope: scope, url: url, format: format, **options, &block)
   end
 
+  def adm_form_with(model: nil, scope: nil, url: nil, format: nil, **options, &block)
+    options[:builder] ||= AdmFormBuilder
+    form_with(model: model, scope: scope, url: url, format: format, **options, &block)
+  end
+
   def sl_form_for(object, options={}, &block)
     options[:builder] ||= SLFormBuilder
     form_for(object, options, &block)

@@ -179,7 +179,7 @@ class SLFormBuilder < BasicFormBuilder
   end
 
   def actions
-    content_tag(:div, class: 'flex flex-row place-content-end') do
+    content_tag(:div, class: 'flex flex-row gap-2 place-content-end') do
       yield
     end
   end
@@ -252,8 +252,11 @@ class SLFormBuilder < BasicFormBuilder
   end
 
   def translate_hint(method, options = {})
-    kwargs = { scope: 'helpers.hint', default: '' }.merge(options)
+    kwargs = { scope: hint_scope, default: '' }.merge(options)
     I18n.translate("#{object_name}.#{method}", **kwargs)
   end
 
+  def hint_scope
+    'helpers.hint'
+  end
 end

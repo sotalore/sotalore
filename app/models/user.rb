@@ -47,6 +47,19 @@ class User < ApplicationRecord
     true
   end
 
+  def disabled?
+    disabled_at.present?
+  end
+  alias_method :disabled, :disabled?
+
+  def disabled=(val)
+    if disabled_at && !truthy?(val)
+      self.disabled_at = nil
+    elsif !disabled_at && truthy?(val)
+      self.disabled_at = Time.now
+    end
+  end
+
   private
   def nilify_blanks
     self.roles = [] if roles.nil?

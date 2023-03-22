@@ -1,0 +1,32 @@
+.m-2.bg-white
+  = paginate @users
+
+  %table.table-auto
+    %thead
+      %tr.border-b-2.border-grey-400
+        %th.text-right ID
+        %th Name
+        %th.text-sm Email
+        %th Disabled
+        %th Roles
+        %th.text-center.text-sm Created
+        %th.text-center.text-sm Updated
+        %th.text-center.text-sm Current Sign-In
+        %th.text-center.text-sm Current IP
+        %th.text-right &nbsp;
+
+    %tbody
+      - @users.each do |user|
+        %tr.hover:bg-grey-300
+          %td.text-right= user.id
+          %td= user.name
+          %td.text-sm= user.email
+          %td.text-sm= flair_danger(time_ago_tag(user.disabled_at)) if user.disabled_at
+          %td= user.roles.join(",")
+          %td.text-center.text-sm= time_ago_tag user.created_at
+          %td.text-center.text-sm= time_ago_tag user.updated_at
+          %td.text-center.text-sm= time_ago_tag user.current_sign_in_at
+          %td.text-center.text-sm= user.current_sign_in_ip
+          %td.text-right= edit_icon_to(edit_adm_user_path(user))
+
+  = paginate @users

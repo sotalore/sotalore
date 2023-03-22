@@ -1,0 +1,15 @@
+.m-2.bg-white
+  .grid.grid-cols-2
+    .p-4
+      = adm_form_with(model: @user, url: [ :adm, @user ]) do |form|
+        = form.text_field :name
+        = form.email_field :email
+        = form.select :disabled, [ [ "Enabled", false ], [ "Disabled", true ] ]
+        = form.actions do
+          = default_button_to "Back", adm_users_path, class: "btn btn-secondary"
+          = form.submit
+    .p-4
+      - @user.attributes.each do |key, value|
+        %p
+          %strong.block= key
+          = value

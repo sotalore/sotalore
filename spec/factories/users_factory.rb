@@ -1,5 +1,6 @@
 FactoryBot.define do
   factory(:user) do
+    after(:build)    { |u| u.skip_confirmation_notification! }
     sequence(:email) { |i| "user-#{i}@test.host" }
     sequence(:name)  { |i| "Avatar #{i}" }
     password         { "password" }
