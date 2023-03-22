@@ -4,12 +4,11 @@ import "@hotwired/turbo-rails"
 import "trix"
 import "@rails/actiontext"
 
-import SotaLore from "./js/sota_lore"
-import mousetrap_config from "./js/mousetrap_config"
-import LocalTime from "local-time"
-
 import { Application } from "@hotwired/stimulus"
 window.Stimulus = Application.start()
+
+import LocalTime from "local-time"
+LocalTime.start()
 
 import { Autocomplete } from 'stimulus-autocomplete'
 window.Stimulus.register('autocomplete', Autocomplete)
@@ -27,6 +26,7 @@ import SkillsBasicsController from "./controllers/skills_basics_controller"
 import SkillsController from "./controllers/skills-controller"
 import SkillsRollupController from "./controllers/skills-rollup-controller"
 import TurnstileController from "./controllers/turnstile_controller"
+import MousetrapController from "./controllers/mousetrap_controller"
 
 window.Stimulus.register("farming", FarmingController)
 window.Stimulus.register("item-form", ItemFormController)
@@ -38,5 +38,4 @@ window.Stimulus.register("skills-basics", SkillsBasicsController)
 window.Stimulus.register("skills", SkillsController)
 window.Stimulus.register("skills-rollup", SkillsRollupController)
 window.Stimulus.register("turnstile", TurnstileController)
-
-LocalTime.start()
+window.Stimulus.register("mousetrap", MousetrapController)
