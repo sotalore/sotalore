@@ -20,4 +20,19 @@ RSpec.describe Recipe do
     end
   end
 
+
+  describe 'random' do
+    context 'With no recipes' do
+      it 'returns an empty array' do
+        expect(Recipe.random).to eq []
+      end
+    end
+
+    context 'With a recipe to find' do
+      let!(:recipe) { create :recipe }
+      it 'returns some of them' do
+        expect(Recipe.random).to eq [recipe]
+      end
+    end
+  end
 end

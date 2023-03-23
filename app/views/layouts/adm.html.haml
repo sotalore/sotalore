@@ -1,0 +1,52 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title
+      - if page_title
+        #{page_title} --
+      SOTA LORE: ADM
+    = csrf_meta_tags
+    %meta{:charset => "utf-8"}/
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'actiontext', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+    = javascript_include_tag 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true
+    = action_cable_meta_tag
+    = hotwire_livereload_tags if Rails.env.development?
+
+    %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
+    %link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
+    %link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
+    %link(rel="manifest" href="/site.webmanifest")
+
+  %body.bg-zinc-200{data: { 'controller' => 'mousetrap' }}
+    .flex.h-screen
+      .bg-slorange-700.w-16.lg:w-40
+        .h-12.p-3.text-center
+          = link_to('/', class: 'text-xl font-bold text-zinc-200') do
+            %span.hidden.lg:inline SOTA LORE
+            %span.inline.lg:hidden SL
+        %div
+          %nav.main-navigation.text-center.lg:text-left
+            = site_nav_link_to('Users', adm_users_path, 'book')
+            %hr.my-2
+            = site_nav_link_to('Admin', admin_root_path, 'key')
+            = site_nav_link_to('Styles', styles_path, 'key')
+            %hr.my-2
+            = site_nav_link_to('Sign Out', destroy_user_session_path, 'sign_out')
+
+      .flex-1.flex.overflow-hidden
+        .flex-1.overflow-y-scroll
+          .flex-grow.flex.flex-col.z-50.bg-blue-700.h-12
+            %h2.h-12.text-white ADM
+
+            %div.content.grow
+              #flash-messages-container
+                = render_flash_messages
+
+              - if content_for(:content)
+                = yield(:content)
+              - else
+                = yield

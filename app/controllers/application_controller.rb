@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include Pundit::Authorization
 
   after_action :verify_authorized, unless: -> { in_active_admin? }
+  after_action :record_last_request_at
 
   if Rails.env.production?
     before_action :redirect_herokuapp_url
@@ -43,6 +44,11 @@ class ApplicationController < ActionController::Base
 
   def unauthorized_admin_access(*args)
     redirect_to root_url
+  end
+
+  def record_last_request_at
+    return if current_user.null?
+    current_user.update(last_request_at: Time.now)
   end
 
   private

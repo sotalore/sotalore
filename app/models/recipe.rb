@@ -24,7 +24,10 @@ class Recipe < ApplicationRecord
   scope :by_name, -> { order(Arel.sql('lower(name)')) }
 
   def self.random(count=1)
-    max_id = maximum(:id) - count
+    max_id = maximum(:id)
+    return [] if max_id.nil?
+
+    max_id -= count
     where('id > ?', rand(0..max_id)).take(count)
   end
 
