@@ -38,11 +38,12 @@
               View location of <strong>#{scene.name}</strong> in <strong>#{parent.name}</strong>
               = icon_external_link
           - parent, scene = parent.parent, parent
-      %div
-        = sl_form_with(model: @scene) do |form|
-          = form.file_field :images, multiple: true, direct_upload: true
-          = form.actions do
-            = form.submit("Upload")
+      - if policy(@scene).edit?
+        %div
+          = sl_form_with(model: @scene) do |form|
+            = form.file_field :images, multiple: true, direct_upload: true
+            = form.actions do
+              = form.submit("Upload")
 
 .m-3.bg-white.rounded
   .grid.grid-cols-2
