@@ -60,6 +60,10 @@ class User < ApplicationRecord
     end
   end
 
+  def active_for_authentication?
+    super && !disabled?
+  end
+
   private
   def nilify_blanks
     self.roles = [] if roles.nil?
