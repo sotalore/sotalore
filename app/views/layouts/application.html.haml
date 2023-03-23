@@ -51,6 +51,7 @@
             = site_nav_link_to('Comments', comments_path, 'chat')
             - if policy(:default_admin).index?
               %hr.my-2
+              = site_nav_link_to('ADM', adm_users_path, 'key')
               = site_nav_link_to('Admin', admin_root_path, 'key')
               = site_nav_link_to('Styles', styles_path, 'key')
             %hr.my-2

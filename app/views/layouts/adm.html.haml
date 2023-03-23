@@ -30,44 +30,17 @@
             %span.inline.lg:hidden SL
         %div
           %nav.main-navigation.text-center.lg:text-left
-            - if current_user.not_null?
-              = site_nav_link_to('My Recipes', user_recipes_path, 'book')
-            = site_nav_link_to('My Avatars', avatars_path, 'shield', active: [['avatars'],[]])
-
-            - if current_user.not_null? && default_avatar = current_user.avatars.detect(&:is_default)
-              - curr_skills_path = avatar_skills_path(default_avatar)
-            - else
-              - curr_skills_path = skills_path
-            = site_nav_link_to('Skills', curr_skills_path, 'jewel', active: [['skills'], []])
-
-            = site_nav_link_to('Items', items_path, 'box')
-            = site_nav_link_to('Recipes', recipes_path, 'recipe')
-            = site_nav_link_to('Scenes', scenes_path, 'map')
-            = site_nav_link_to('Rifts', lunar_rifts_path, 'location_marker')
-            = site_nav_link_to('Trainers', master_trainers_path, 'location_marker')
-            = site_nav_link_to('Farming', farming_path, 'hoe')
-            - if current_user.not_null?
-              = site_nav_link_to('Planting', plantings_path, 'seedling')
-            = site_nav_link_to('Comments', comments_path, 'chat')
-            - if policy(:default_admin).index?
-              %hr.my-2
-              = site_nav_link_to('Admin', admin_root_path, 'key')
-              = site_nav_link_to('Styles', styles_path, 'key')
+            = site_nav_link_to('Users', adm_users_path, 'book')
             %hr.my-2
-            - if current_user.not_null?
-              = site_nav_link_to('Sign Out', destroy_user_session_path, 'sign_out')
-            - else
-              = site_nav_link_to('Sign In', new_user_session_path, 'sign_in')
-              = site_nav_link_to('Register', new_user_registration_path, 'user_plus')
+            = site_nav_link_to('Admin', admin_root_path, 'key')
+            = site_nav_link_to('Styles', styles_path, 'key')
+            %hr.my-2
+            = site_nav_link_to('Sign Out', destroy_user_session_path, 'sign_out')
 
       .flex-1.flex.overflow-hidden
         .flex-1.overflow-y-scroll
-          .flex-grow.flex.flex-col.z-50.bg-slorange-700.h-12
-            .inline-block.global-search.text-slate-200.relative{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
-              %form.block.h-12.px-4{:action => "/search", :method => "GET"}
-                %input#global-search.global-search-input{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
-                %i.-ml-9.text-slate-400= render_icon('magnifying_glass', color: :current)
-                %div#global-search-results.global-search-results{ data: { 'autocomplete-target' => 'results' }}
+          .flex-grow.flex.flex-col.z-50.bg-blue-700.h-12
+            %h2.h-12.text-white ADM
 
             %div.content.grow
               #flash-messages-container
