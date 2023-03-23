@@ -24,23 +24,35 @@
           = link_to(parent.name, parent)
           - parent = parent.parent
 
-    = tile do
-      = tile_body do
+    .grid.grid-cols-2
+      %div
         %p
           = link_to(@scene.sota_map_url, target: '_blank') do
-            View SotA map of <strong>#{@scene.name}</strong>
+            View map of <strong>#{@scene.name}</strong>
             = icon_external_link
 
-      - parent, scene = @scene.parent, @scene
-      - while parent && scene.has_parent_location_info?
-        = tile_body do
+        - parent, scene = @scene.parent, @scene
+        - while parent && scene.has_parent_location_info?
           %p
             = link_to(scene.sota_map_in_parent_url, target: '_blank') do
               View location of <strong>#{scene.name}</strong> in <strong>#{parent.name}</strong>
               = icon_external_link
           - parent, scene = parent.parent, parent
+      %div
+        = sl_form_with(model: @scene) do |form|
+          = form.file_field :images, multiple: true, direct_upload: true
+          = form.actions do
+            = form.submit("Upload")
 
-
-    .grid.grid-cols-2
-      .col-span-2.sm:col-span-1
-        = render partial: 'comments/subject', object: @scene
+.m-3.bg-white.rounded
+  .grid.grid-cols-2
+    .p-2.col-span-2.sm:col-span-1
+      = render partial: 'comments/subject', object: @scene
+    - if @scene.images.any?
+      .p-2.col-span-2.sm:col-span-1
+        - @scene.images.each do |image|
+          = turbo_frame_tag(image) do
+            = image_tag(image.variant(:preview), class: 'max-w-full mx-auto rounded-md shadow-md my-2')
+            - if policy(@scene).destroy?
+              .text-right
+                = destroy_button_to('remove', scene_path(attachment_id: image.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' })
