@@ -1,9 +1,13 @@
 # frozen_string_literal: true
 
 class Adm::UsersController < AdmController
+  include SortingHelper
+
+  SORT_FIELDS = %w[id last_request_at].freeze
 
   def index
-    @users = User.page(params[:page]).order('updated_at DESC')
+    order_field, direction = get_sort_field_and_direction(SORT_FIELDS, 'id', 'desc')
+    @users = User.page(params[:page]).order({ order_field => direction })
     authorize(User)
   end
 
