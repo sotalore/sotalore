@@ -1,4 +1,4 @@
 
 import "./js/jquery"
-import "./js/jquery-ui.min"
+import "jquery-ui/dist/jquery-ui.min"
 import "@activeadmin/activeadmin";
