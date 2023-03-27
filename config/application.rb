@@ -22,5 +22,7 @@ module SotaLore
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.active_record.belongs_to_required_by_default = false
+
+    config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
   end
 end

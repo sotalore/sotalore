@@ -53,7 +53,6 @@
               %hr.my-2
               = site_nav_link_to('ADM', adm_users_path, 'key')
               = site_nav_link_to('Admin', admin_root_path, 'key')
-              = site_nav_link_to('Styles', styles_path, 'key')
             %hr.my-2
             - if current_user.not_null?
               = site_nav_link_to('Sign Out', destroy_user_session_path, 'sign_out')

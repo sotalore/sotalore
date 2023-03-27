@@ -6,14 +6,6 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
     form_group(method, options, &block)
   end
 
-  def inline_errors_for(method)
-    if has_errors_on?(method)
-      content_tag(:p, class: 'in-form-error-messages') do
-        error_messages_for(method)
-      end
-    end
-  end
-
   alias :base_submit :submit
   def submit(value  = nil, options={})
     get_button_css_class(options)
@@ -42,16 +34,6 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  def money_field(method, options={})
-    options[:inputmode] = 'numeric'
-    with_errors(method) do
-      content_tag(:div, class: 'input-group format-as-currency') do
-        content_tag(:div, '$', class: 'input-group-addon') <<
-          basic_text_field(method, options)
-      end
-    end
-  end
-
   def text_area(method, options={})
     options[:rows] ||= scale_rows_to_value(object.send(method))
 
@@ -71,8 +53,6 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
     end
   end
 
-  # FIXME form_group_with_label is only implemented in SLFormBuilder,
-  # which is not an ancestor of this class.
   def radio_buttons(method, options={}, html_options={})
     form_group_with_label(method, html_options) do
       content_tag(:div, class: 'btn-group btn-group-justified', 'data-toggle' => "buttons") do
@@ -164,18 +144,14 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
 
   protected
 
-  def label_css_class(*extras)
-    (extras.compact.flatten << 'control-label').join(' ')
+  def label_css_class(*)
+    'Field-label'
   end
 
-  def form_group(method=nil, options={}, &block)
-    css_class  = 'form-group'
+  def form_group(method=nil, _options={}, &block)
+    css_class  = 'Field'
+    css_class += ' Field--error' if has_errors_on?(method)
     content_tag(:div, class: css_class, &block)
-  end
-
-  def with_errors(method, &block)
-    str = capture(&block)
-    str << inline_errors_for(method).to_s
   end
 
   def has_errors_on?(method)
@@ -189,7 +165,6 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def add_form_control_options(options)
-    options[:class] = "form-control #{options[:class]}".strip
     options
   end
 
@@ -212,5 +187,18 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
                    scope: 'helpers.label',
                    default: method.to_s.humanize)
   end
+
+  def form_group_with_label(method=nil, options={}, &block)
+    skip_label = method.nil? || options.fetch(:skip_label, false)
+    label = skip_label ? "".html_safe : label(*[method, options[:label]].compact)
+
+    if options[:required]
+      tag = content_tag(:span, "*", class: "Field-required")
+      label = label.sub("</label>", "&nbsp;#{tag}</label>").html_safe
+    end
+
+    form_group(method) { label << capture(&block) }
+  end
+
 
 end

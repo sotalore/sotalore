@@ -62,12 +62,6 @@ class SLFormBuilder < BasicFormBuilder
     end
   end
 
-  def labelled_group(method, options={}, &block)
-    form_group_with_label(method, options) do
-      input_with_hint_and_errors(method, options, &block)
-    end
-  end
-
   def inline_errors_for(method)
     if has_errors_on?(method)
       content_tag(:div, error_messages_for(method), class: 'Field-error')
@@ -195,29 +189,6 @@ class SLFormBuilder < BasicFormBuilder
     end
     hint_and_errors << inline_errors_for(method).to_s
     capture(&block) << hint_and_errors
-  end
-
-  def form_group(method=nil, _options={}, &block)
-    css_class  = 'Field'
-    css_class += ' Field--error' if has_errors_on?(method)
-    content_tag(:div, class: css_class, &block)
-  end
-
-  def form_group_with_label(method=nil, options={}, &block)
-    skip_label = method.nil? || options.fetch(:skip_label, false)
-    label = skip_label ? "".html_safe : label(*[method, options[:label]].compact)
-
-    if options[:soft_required] || (object.respond_to?(:soft_required?) && object.soft_required?(method))
-      tag = content_tag(:span, "*", class: "Field-softRequired")
-      label = label.sub("</label>", "&nbsp;#{tag}</label>").html_safe
-    end
-
-    if options[:required]
-      tag = content_tag(:span, "*", class: "Field-required")
-      label = label.sub("</label>", "&nbsp;#{tag}</label>").html_safe
-    end
-
-    form_group(method) { label << capture(&block) }
   end
 
   def label_css_class(*)
