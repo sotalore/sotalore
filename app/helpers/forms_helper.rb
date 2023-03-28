@@ -1,5 +1,10 @@
 module FormsHelper
 
+  def basic_form_with(model: nil, scope: nil, url: nil, format: nil, **options, &block)
+    options[:builder] ||= BasicFormBuilder
+    form_with(model: model, scope: scope, url: url, format: format, **options, &block)
+  end
+
   def sl_form_with(model: nil, scope: nil, url: nil, format: nil, **options, &block)
     options[:builder] ||= SLFormBuilder
     form_with(model: model, scope: scope, url: url, format: format, **options, &block)
@@ -46,11 +51,6 @@ module FormsHelper
     html                = (options[:html] ||= {})
     html[:class]        = "#{html[:class]} Form--inline".strip
     form_with(model: model, scope: scope, url: url, format: format, **options, &block)
-  end
-
-
-  def form_group(options={}, &block)
-    form_group(method) { label << capture(&block) }
   end
 
   def no_yes_options

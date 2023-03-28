@@ -4,6 +4,11 @@ Rails.application.routes.draw do
 
   namespace :adm do
     resources :users, except: [ :show, :new, :create, :destroy ]
+    resource :styles, only: [ :show ] do
+      member do
+        get :forms
+      end
+    end
   end
 
   devise_for :users, controllers: {
@@ -81,7 +86,5 @@ Rails.application.routes.draw do
     resources :user_recipes, only: [ :create, :destroy ]
     resources :recipes, only: [ :index, :show ]
   end
-
-  resource :styles, only: [ :show ]
 
 end
