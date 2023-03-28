@@ -54,17 +54,15 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
   end
 
   def radio_buttons(method, options={}, html_options={})
-    form_group_with_label(method, html_options) do
-      content_tag(:div, class: 'btn-group btn-group-justified', 'data-toggle' => "buttons") do
-        options.map do |label, value|
-          current = object.send(method).to_s == value.to_s
-          content_tag(:label, class: "btn btn-default #{current ? 'active' : ''}") do
-            radio_button(method, value,
-              checked: current, class: html_options[:class]).html_safe + label
-          end
-        end.join.html_safe
+    cur_val = object.send(method).to_s
+    options.map do |label, value|
+      content_tag(:div, class: 'Field-check') do
+        current = cur_val == value.to_s
+        content_tag(:label, class: "Field-checkbox #{current ? 'active' : ''}") do
+          radio_button(method, value, checked: current).html_safe + label
+        end
       end
-    end
+    end.join.html_safe
   end
 
   alias :base_check_box :check_box
@@ -79,32 +77,6 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
         base_check_box(method, options, checked_value, unchecked_value) <<
           label
       end
-    end
-  end
-
-  def multiple_check_box(method, options={}, checked_value="1", unchecked_value="0")
-    options[:multiple] = true
-    content_tag(:div, class: 'checkbox') do
-      if block_given?
-        label = capture { yield }
-      else
-        label = options.delete(:label) { translate_label(method) }
-      end
-      content_tag(:label) do
-        base_check_box(method, options, checked_value, unchecked_value) <<
-          label
-      end
-    end
-  end
-
-  alias :base_collection_check_boxes :collection_check_boxes
-  def collection_check_boxes(method, collection, value, label, &block)
-    content_tag(:div, class: "basic") do
-      if !block_given?
-        block = ->(b) { b.label { b.check_box + b.text } }
-      end
-
-      base_collection_check_boxes(method, collection, value, label, &block)
     end
   end
 
@@ -186,18 +158,6 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
     I18n.translate("#{object_name}.#{method}",
                    scope: 'helpers.label',
                    default: method.to_s.humanize)
-  end
-
-  def form_group_with_label(method=nil, options={}, &block)
-    skip_label = method.nil? || options.fetch(:skip_label, false)
-    label = skip_label ? "".html_safe : label(*[method, options[:label]].compact)
-
-    if options[:required]
-      tag = content_tag(:span, "*", class: "Field-required")
-      label = label.sub("</label>", "&nbsp;#{tag}</label>").html_safe
-    end
-
-    form_group(method) { label << capture(&block) }
   end
 
 
