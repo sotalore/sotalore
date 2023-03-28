@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby "3.2.1"
 
 gem 'rails', '~> 7.0.2'
-gem 'sprockets-rails'
+gem 'propshaft'
 gem 'pg'
 gem 'puma', '~> 5.0'
 

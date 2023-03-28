@@ -249,6 +249,11 @@ GEM
     pg_search (2.3.6)
       activerecord (>= 5.2)
       activesupport (>= 5.2)
+    propshaft (0.7.0)
+      actionpack (>= 7.0.0)
+      activesupport (>= 7.0.0)
+      rack
+      railties (>= 7.0.0)
     pry (0.14.2)
       coderay (~> 1.1)
       method_source (~> 1.0)
@@ -333,13 +338,6 @@ GEM
     scout_apm (5.3.3)
       parser
     shellany (0.0.1)
-    sprockets (4.2.0)
-      concurrent-ruby (~> 1.0)
-      rack (>= 2.2.4, < 4)
-    sprockets-rails (3.4.2)
-      actionpack (>= 5.2)
-      activesupport (>= 5.2)
-      sprockets (>= 3.0.0)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
     temple (0.10.0)
@@ -386,6 +384,7 @@ DEPENDENCIES
   lograge
   pg
   pg_search
+  propshaft
   puma (~> 5.0)
   pundit
   rails (~> 7.0.2)
@@ -394,7 +393,6 @@ DEPENDENCIES
   redis (~> 4.0)
   rspec-rails (>= 4.0.0.beta)
   scout_apm
-  sprockets-rails
   stimulus-rails
   turbo-rails
 
