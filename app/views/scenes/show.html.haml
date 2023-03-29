@@ -41,23 +41,27 @@
           - parent, scene = parent.parent, parent
 
 .grid.grid-cols-6
-  = tile_with_heading('Gallery', class: 'col-span-6 md:col-span-3 lg:col-span-4') do
-    - if @scene.images.any?
-      .grid.grid-cols-2.md:grid-cols-3.xl:grid-cols-4.gap-4.items-center{data: { controller: 'lightbox', 'lightbox-options-value': '{"selector": ".gallery-image"}' }}
-        - @scene.images.each do |image|
-          = turbo_frame_tag(image, class: 'inline-block relative') do
-            %a.gallery-image{ href: rails_blob_path(image) }
-              = image_tag(image.variant(:preview), class: 'h-auto max-w-full rounded-md drop-shadow-lg')
-            - if policy(@scene).destroy?
-              .absolute.bottom-1.right-1.opacity-30.hover:opacity-100
-                = destroy_icon_to(scene_path(attachment_id: image.id), size: :xs, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' })
+  - can_upload = policy(@scene).edit?
+  - have_images = @scene.images.any?
 
-    - if policy(@scene).edit?
-      .mt-8.border-t-2.border-gray-200.pt-4
-        = sl_form_with(model: @scene) do |form|
-          = form.file_field :images, multiple: true, direct_upload: true, label: 'Upload images'
-          = form.actions do
-            = form.submit("Upload")
+  - if can_upload || have_images
+    = tile_with_heading('Gallery', class: 'col-span-6 md:col-span-3 lg:col-span-4') do
+      - if have_images
+        .grid.grid-cols-2.md:grid-cols-3.xl:grid-cols-4.gap-4.items-center{data: { controller: 'lightbox', 'lightbox-options-value': '{"selector": ".gallery-image"}' }}
+          - @scene.images.each do |image|
+            = turbo_frame_tag(image, class: 'inline-block relative') do
+              %a.gallery-image{ href: rails_blob_path(image) }
+                = image_tag(image.variant(:preview), class: 'h-auto max-w-full rounded-md drop-shadow-lg')
+              - if policy(@scene).destroy?
+                .absolute.bottom-1.right-1.opacity-30.hover:opacity-100
+                  = destroy_icon_to(scene_path(attachment_id: image.id), size: :xs, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' })
+
+      - if can_upload
+        .mt-8.border-t-2.border-gray-200.pt-4
+          = sl_form_with(model: @scene) do |form|
+            = form.file_field :images, multiple: true, direct_upload: true, label: 'Upload images'
+            = form.actions do
+              = form.submit("Upload")
 
   = tile_with_heading('Comments', class: 'col-span-6 md:col-span-3 lg:col-span-2') do
     = render partial: 'comments/subject', object: @scene

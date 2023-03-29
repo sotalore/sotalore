@@ -106,7 +106,7 @@ class SLFormBuilder < BasicFormBuilder
   end
 
   def actions
-    content_tag(:div, class: 'flex flex-row gap-2 place-content-end') do
+    content_tag(:div, class: 'flex flex-row flex-wrap gap-2 place-content-end') do
       yield
     end
   end
