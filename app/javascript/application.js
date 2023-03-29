@@ -16,6 +16,8 @@ window.Stimulus.register('autocomplete', Autocomplete)
 import * as ActiveStorage from "@rails/activestorage"
 ActiveStorage.start()
 
+import Lightbox from "stimulus-lightbox"
+
 import FarmingController from "./controllers/farming_controller"
 import ItemFormController from "./controllers/item_form_controller"
 import LunarRiftController from "./controllers/lunar_rift_controller"
@@ -27,6 +29,8 @@ import SkillsController from "./controllers/skills-controller"
 import SkillsRollupController from "./controllers/skills-rollup-controller"
 import TurnstileController from "./controllers/turnstile_controller"
 import MousetrapController from "./controllers/mousetrap_controller"
+
+window.Stimulus.register("lightbox", Lightbox)
 
 window.Stimulus.register("farming", FarmingController)
 window.Stimulus.register("item-form", ItemFormController)
