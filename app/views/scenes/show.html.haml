@@ -50,11 +50,11 @@
     .p-2.col-span-2.sm:col-span-1
       = render partial: 'comments/subject', object: @scene
     - if @scene.images.any?
-      .p-2.col-span-2.sm:col-span-1{data: { controller: 'lightbox', 'lightbox-options-value': '{"selector": ".gallery-image"}' }}
+      .p-2.grid.grid-cols-2.lg:grid-cols-3.gap-4.items-center{data: { controller: 'lightbox', 'lightbox-options-value': '{"selector": ".gallery-image"}' }}
         - @scene.images.each do |image|
-          = turbo_frame_tag(image) do
+          = turbo_frame_tag(image, class: 'inline-block relative max-w-xs ') do
             %a.gallery-image{ href: rails_blob_path(image) }
-              = image_tag(image.variant(:preview), class: 'max-w-full mx-auto rounded-md shadow-md my-2')
+              = image_tag(image.variant(:preview), class: 'h-auto max-w-full rounded-md drop-shadow-lg')
             - if policy(@scene).destroy?
-              .text-right
-                = destroy_button_to('remove', scene_path(attachment_id: image.id), data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' })
+              .absolute.bottom-1.right-1.opacity-30.hover:opacity-100
+                = destroy_icon_to(scene_path(attachment_id: image.id), size: :xs, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' })
