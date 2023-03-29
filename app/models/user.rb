@@ -13,7 +13,7 @@ class User < ApplicationRecord
   has_many :recipes, through: :user_recipes
   has_many :plantings, inverse_of: :user, dependent: :delete_all
 
-  ROLES = %w[ root editor ]
+  ROLES = %w[ root editor moderator ]
 
   before_validation :nilify_blanks
 
@@ -26,9 +26,17 @@ class User < ApplicationRecord
     roles.include?(role) || roles.include?('root')
   end
 
+  def root?
+    has_role?('root')
+  end
+
+  def editor?
+    has_role?('editor') || root?
+  end
+
   # Can cleanup comments
   def moderator?
-    has_role?('root')
+    has_role?('moderator') || root?
   end
 
   def to_s
