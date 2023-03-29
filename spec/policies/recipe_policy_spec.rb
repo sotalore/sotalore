@@ -1,28 +1,44 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe RecipePolicy do
-
-  let(:user) { User.new }
+  let(:user) { build :user }
+  let(:root) { build :user, :root }
 
   subject { described_class }
 
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
   permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it "allows access to all" do
+      expect(subject).to permit(user, Recipe.new)
+    end
   end
 
   permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it "disallows access to non-root" do
+      expect(subject).to_not permit(user, Recipe.new)
+    end
+
+    it "allows access to root" do
+      expect(subject).to permit(root, Recipe.new)
+    end
   end
 
   permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it "disallows access to non-root" do
+      expect(subject).to_not permit(user, Recipe.new)
+    end
+
+    it "allows access to root" do
+      expect(subject).to permit(root, Recipe.new)
+    end
   end
 
   permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
+    it "disallows access to non-root" do
+      expect(subject).to_not permit(user, Recipe.new)
+    end
+
+    it "allows access to root" do
+      expect(subject).to permit(root, Recipe.new)
+    end
   end
 end
