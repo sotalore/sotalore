@@ -6,7 +6,7 @@ module TileHelper
     if Hash === subheading
       options, subheading = subheading, nil
     end
-    tile(options[:type]) do
+    tile(options[:type], options) do
       tile_heading(heading, subheading: subheading, type: options[:type]) +
       tile_body(&block)
     end

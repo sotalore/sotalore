@@ -38,11 +38,27 @@ class ScenesController < ApplicationController
   def update
     @scene = find_scene
     authorize @scene
+    images = params[:scene][:images]
     if @scene.update(permitted_params)
+      if images
+        images.each { |image| @scene.images.attach(image) }
+      end
       flash.notice = "Scene: '#{@scene.name}' updated successfully."
       redirect_to @scene
     else
       render :edit
+    end
+  end
+
+  def destroy
+    @scene = authorize find_scene
+    respond_to do |format|
+      if att_id = params[:attachment_id]
+        image = @scene.images.find(att_id)
+        image.purge_later
+        format.turbo_stream { render html: helpers.turbo_frame_tag(image), layout: false }
+      end
+      format.html { redirect_to @scene }
     end
   end
 

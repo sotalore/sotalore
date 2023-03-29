@@ -23,7 +23,7 @@
 
 .Button {
   user-select: none;
-  border-radius: 2px;
+  border-radius: 0.25rem;
   border: 1px solid var(--orange2);
   cursor: pointer;
   display: inline-block;

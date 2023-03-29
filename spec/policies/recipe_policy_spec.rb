@@ -1,28 +1,7 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe RecipePolicy do
-
-  let(:user) { User.new }
-
   subject { described_class }
 
-  permissions ".scope" do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :show? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :create? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :update? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
-
-  permissions :destroy? do
-    pending "add some examples to (or delete) #{__FILE__}"
-  end
+  it_behaves_like "a standard root-only editable policy", Recipe
 end

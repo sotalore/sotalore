@@ -1,5 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe UserRecipe, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+
+  let(:user) { create :user }
+  let(:recipe) { create :recipe }
+
+  it 'creates' do
+    expect { UserRecipe.create user: user, recipe: recipe }.to change { UserRecipe.count }.by(1)
+  end
+
 end
