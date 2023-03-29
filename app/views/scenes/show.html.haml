@@ -6,26 +6,27 @@
       = edit_button_to('Edit', edit_scene_path(@scene))
 
   = tile_body do
+    .grid.grid-cols-2.gap-4
 
-    .Callout.Callout-primary
-      - if @scene.level
-        %strong= scene_level(@scene)
-      - if @scene.pvp?
-        %strong PVP
-      - if @scene.scene_type
-        %em= @scene.scene_type
-      - if @scene.region
-        in
-        %strong= @scene.region
-      - parent = @scene.parent
-      - if parent && !parent.overworld?
-        &mdash; nested in:
-        - while parent && !parent.overworld?
-          = link_to(parent.name, parent)
-          - parent = parent.parent
+      .col-span-2.md:col-span-1
+        .Callout.Callout-primary
+          - if @scene.level
+            %strong= scene_level(@scene)
+          - if @scene.pvp?
+            %strong PVP
+          - if @scene.scene_type
+            %em= @scene.scene_type
+          - if @scene.region
+            in
+            %strong= @scene.region
+          - parent = @scene.parent
+          - if parent && !parent.overworld?
+            &mdash; nested in:
+            - while parent && !parent.overworld?
+              = link_to(parent.name, parent)
+              - parent = parent.parent
 
-    .grid.grid-cols-2
-      %div
+      .col-span-2.md:col-span-1
         %p
           = link_to(@scene.sota_map_url, target: '_blank') do
             View map of <strong>#{@scene.name}</strong>
@@ -38,23 +39,25 @@
               View location of <strong>#{scene.name}</strong> in <strong>#{parent.name}</strong>
               = icon_external_link
           - parent, scene = parent.parent, parent
-      - if policy(@scene).edit?
-        %div
-          = sl_form_with(model: @scene) do |form|
-            = form.file_field :images, multiple: true, direct_upload: true
-            = form.actions do
-              = form.submit("Upload")
 
-.m-3.bg-white.rounded
-  .grid.grid-cols-2
-    .p-2.col-span-2.sm:col-span-1
-      = render partial: 'comments/subject', object: @scene
+.grid.grid-cols-6
+  = tile_with_heading('Gallery', class: 'col-span-6 md:col-span-3 lg:col-span-4') do
     - if @scene.images.any?
-      .p-2.grid.grid-cols-2.lg:grid-cols-3.gap-4.items-center{data: { controller: 'lightbox', 'lightbox-options-value': '{"selector": ".gallery-image"}' }}
+      .grid.grid-cols-2.md:grid-cols-3.xl:grid-cols-4.gap-4.items-center{data: { controller: 'lightbox', 'lightbox-options-value': '{"selector": ".gallery-image"}' }}
         - @scene.images.each do |image|
-          = turbo_frame_tag(image, class: 'inline-block relative max-w-xs ') do
+          = turbo_frame_tag(image, class: 'inline-block relative') do
             %a.gallery-image{ href: rails_blob_path(image) }
               = image_tag(image.variant(:preview), class: 'h-auto max-w-full rounded-md drop-shadow-lg')
             - if policy(@scene).destroy?
               .absolute.bottom-1.right-1.opacity-30.hover:opacity-100
                 = destroy_icon_to(scene_path(attachment_id: image.id), size: :xs, data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' })
+
+    - if policy(@scene).edit?
+      .mt-8.border-t-2.border-gray-200.pt-4
+        = sl_form_with(model: @scene) do |form|
+          = form.file_field :images, multiple: true, direct_upload: true, label: 'Upload images'
+          = form.actions do
+            = form.submit("Upload")
+
+  = tile_with_heading('Comments', class: 'col-span-6 md:col-span-3 lg:col-span-2') do
+    = render partial: 'comments/subject', object: @scene
