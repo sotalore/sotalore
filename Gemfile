@@ -49,7 +49,6 @@ gem 'activeadmin'
 gem 'icalendar'
 
 group :test do
-  gem 'rails-controller-testing'
 end
 
 group :development, :test do

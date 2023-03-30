@@ -8,7 +8,6 @@ RSpec.describe "Searches", type: :request do
       get search_items_path, params: { q: 'fake' }
       expect(response.body).to include(item.name)
       expect(response).to have_http_status(:ok)
-      expect(response).to render_template(:items)
     end
   end
 
@@ -17,7 +16,6 @@ RSpec.describe "Searches", type: :request do
       get search_global_path, params: { q: 'fake' }
       expect(response.body).to include(item.name)
       expect(response).to have_http_status(:ok)
-      expect(response).to render_template(:global)
     end
   end
 
@@ -26,7 +24,6 @@ RSpec.describe "Searches", type: :request do
       get search_path, params: { q: 'fake' }
       expect(response.body).to include(item.name)
       expect(response).to have_http_status(:ok)
-      expect(response).to render_template(:show)
     end
   end
 

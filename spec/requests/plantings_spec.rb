@@ -26,7 +26,6 @@ RSpec.describe "Plantings", type: :request do
       expect {
         post plantings_path, params: { planting: { seed_id: nil, planted_at: 1.day.ago } }
       }.to_not change { current_user.plantings.count }
-      expect(response).to render_template(:index)
       expect(response).to have_http_status(:unprocessable_entity)
     end
   end

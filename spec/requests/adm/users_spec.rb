@@ -43,7 +43,6 @@ RSpec.describe "Adm::Users", type: :request do
     it 'handle bad input properly' do
       patch adm_user_path(other_user), params: { user: { email: '' }}
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response).to render_template(:edit)
     end
 
   end

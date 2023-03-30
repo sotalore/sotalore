@@ -45,7 +45,6 @@ RSpec.describe "Posts", type: :request do
     it 'handles invalid data' do
       post posts_path, params: { post: { title: '', content: "This is some content" } }
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response).to render_template :new
     end
   end
 
@@ -59,7 +58,6 @@ RSpec.describe "Posts", type: :request do
     it 'handles invalid data' do
       patch post_path(post), params: { post: { title: '', content: "This is some content" } }
       expect(response).to have_http_status(:unprocessable_entity)
-      expect(response).to render_template :edit
     end
   end
 

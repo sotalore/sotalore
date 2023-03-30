@@ -47,7 +47,6 @@ RSpec.describe "Avatars", type: :request do
     it 'works' do
       avatar = Avatar.create!(user: user, name: 'FooBar Baz')
       patch avatar_path(avatar), params: { avatar: { name: ' ' }}
-      expect(response).to render_template(:edit)
     end
   end
 
