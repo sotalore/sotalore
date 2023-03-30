@@ -31,7 +31,7 @@ Rails.application.routes.draw do
     resources :comments, except: [ :new ]
   end
 
-  resources :item_salvages, controller: 'item_salvages'
+  resources :item_salvages, only: [ :create, :destroy ]
 
   resources :recipes do
     member do
