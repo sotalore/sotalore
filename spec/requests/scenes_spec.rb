@@ -1,13 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe "Scenes", type: :request do
-  # TODO Move controller specs here
-
   let(:current_user) { create :user, :root }
   before { sign_in current_user }
 
   describe "DELETE /scenes/:id" do
-
     let!(:scene) { create :scene }
 
     it "won't delete a scene" do
@@ -30,4 +27,11 @@ RSpec.describe "Scenes", type: :request do
       end
     end
   end
+
+  it_behaves_like "a standard root-only editable resource", except: [:destroy] do
+    let(:model) { Scene }
+    let(:fixture) { :scene }
+    let(:invalid_attributes) { { name: '' } }
+  end
+
 end
