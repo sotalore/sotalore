@@ -19,7 +19,6 @@ Rails.application.routes.draw do
   get 'roadmap', to: 'home#roadmap'
   get 'lunar-rifts', to: 'home#lunar_rifts'
   get 'master-trainers', to: 'home#master_trainers'
-  get 'incoming', to: 'home#incoming'
 
   resource :profile, only: [ :show, :update ]
   resources :posts
