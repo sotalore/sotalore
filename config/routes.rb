@@ -74,13 +74,9 @@ Rails.application.routes.draw do
     [:root]
   end
 
-
-  resource :searches, path: 'search' do
-    member do
-      get :items
-      get :global # for stimulus
-    end
-  end
+  get 'search/items', to: 'searches#items', as: 'search_items'
+  get 'search/global', to: 'searches#global', as: 'search_global'
+  get 'search', to: 'searches#show', as: 'search'
 
   namespace :user, path: 'avatar' do
     resources :user_recipes, only: [ :create, :destroy ]

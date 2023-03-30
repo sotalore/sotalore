@@ -64,8 +64,8 @@
       .flex-1.flex.overflow-hidden
         .flex-1.overflow-y-scroll
           .flex-grow.flex.flex-col.z-50.bg-slorange-700.h-12
-            .inline-block.global-search.text-slate-200.relative{ data: {controller: 'autocomplete', 'autocomplete-url-value' => '/search/global' }}
-              %form.block.h-12.px-4{:action => "/search", :method => "GET"}
+            .inline-block.global-search.text-slate-200.relative{ data: {controller: 'autocomplete', 'autocomplete-url-value' => search_global_path }}
+              %form.block.h-12.px-4{:action => search_path, :method => "GET"}
                 %input#global-search.global-search-input{:name => "q", :placeholder => "Search", :type => "text", data: { 'autocomplete-target' => 'input' }}/
                 %i.-ml-9.text-slate-400= render_icon('magnifying_glass', color: :current)
                 %div#global-search-results.global-search-results{ data: { 'autocomplete-target' => 'results' }}
