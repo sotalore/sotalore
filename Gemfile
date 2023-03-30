@@ -58,6 +58,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'guard-rspec', require: false
   gem 'hotwire-livereload'
   gem 'listen'
   gem 'guard'
