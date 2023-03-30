@@ -52,7 +52,7 @@ Rails.application.routes.draw do
     resources :comments, except: [ :new ]
   end
 
-  resource :farming
+  resource :farming, only: [ :show ]
   resource :farming_calendar, only: [ :show ]
 
   get 'skills', to: redirect('/skills/adventuring'), as: 'skills_redirect'
