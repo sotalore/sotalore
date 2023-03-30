@@ -39,7 +39,7 @@ class ItemsController < ApplicationController
       RevisionRecorder.call(@item, current_user)
       redirect_to @item
     else
-      render action: :new
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -50,7 +50,7 @@ class ItemsController < ApplicationController
       RevisionRecorder.call(@item, current_user)
       redirect_to @item
     else
-      render action: :edit
+      render action: :edit, status: :unprocessable_entity
     end
   end
 
