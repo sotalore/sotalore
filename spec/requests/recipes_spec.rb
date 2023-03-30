@@ -1,15 +1,13 @@
 require 'rails_helper'
 
-RSpec.describe RecipesController, type: :controller do
-  render_views
-
+RSpec.describe "Recipes", type: :request do
   let(:user) { create :user, :root }
   before     { sign_in user }
 
   context 'Given no existing recipe' do
     describe 'GET new' do
       it 'works' do
-        get :new
+        get new_recipe_path
         expect(response).to have_http_status(:ok)
       end
     end
@@ -18,7 +16,7 @@ RSpec.describe RecipesController, type: :controller do
       let(:item) { create :item }
 
       it 'creates the recipe with valid changes' do
-        post :create, params: {
+        post recipes_path, params: {
                recipe: { name: 'A New Name',
                          craft_skill: 'carpentry',
                          results_attributes: {
@@ -37,7 +35,7 @@ RSpec.describe RecipesController, type: :controller do
       end
 
       it 'renders the form with invalid changes' do
-        post :create, params: {
+        post recipes_path, params: {
                 recipe: { name: '' }
               }
         expect(response).to have_http_status(:ok)
@@ -50,51 +48,47 @@ RSpec.describe RecipesController, type: :controller do
 
     describe 'GET index' do
       it 'works' do
-        get :index
+        get recipes_path
         expect(response).to have_http_status(:ok)
       end
     end
 
     describe 'GET for_item' do
       it 'works' do
-        get :for_item, params: { item_id: recipe.results.first.item }
+        get item_recipes_path(item_id: recipe.results.first.item)
         expect(response).to have_http_status(:ok)
       end
     end
 
     describe 'GET show' do
       it 'works' do
-        get :show, params: { id: recipe }
+        get recipe_path(recipe)
         expect(response).to have_http_status(:ok)
       end
     end
 
     describe 'GET edit' do
       it 'works' do
-        get :edit, params: { id: recipe }
+        get edit_recipe_path(recipe)
         expect(response).to have_http_status(:ok)
       end
     end
 
     describe 'PATCH update' do
       it 'updates the recipe with valid changes' do
-        patch :update, params: {
-          id: recipe, recipe: { name: 'A New Name' }
-        }
+        patch recipe_path(recipe), params: { recipe: { name: 'A New Name' } }
         expect(response).to redirect_to(recipe)
       end
 
       it 'renders the form with invalid changes' do
-        patch :update, params: {
-                id: recipe, recipe: { name: '' }
-              }
+        patch recipe_path(recipe), params: { recipe: { name: '' } }
         expect(response).to have_http_status(:ok)
       end
     end
 
     describe 'DELETE destroy' do
       it 'deletes the recipe' do
-        expect { delete :destroy, params: { id: recipe } }
+        expect { delete recipe_path(recipe) }
           .to change { Recipe.count }.by(-1)
         expect(response).to redirect_to(action: :index)
       end
