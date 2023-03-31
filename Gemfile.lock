@@ -117,6 +117,7 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.5.0)
+    docile (1.4.0)
     erubi (1.12.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
@@ -335,6 +336,12 @@ GEM
     scout_apm (5.3.3)
       parser
     shellany (0.0.1)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
     temple (0.10.0)
@@ -390,6 +397,7 @@ DEPENDENCIES
   redis (~> 4.0)
   rspec-rails (>= 4.0.0.beta)
   scout_apm
+  simplecov
   stimulus-rails
   turbo-rails
 
