@@ -1,4 +1,5 @@
-.row
-  .col-sm-12.col-md-8.col-lg-6
-    = tile_with_heading('Edit Avatar') do
-      = render partial: 'form', locals: { avatar: @avatar }
+%section.max-w-xl
+  .row
+    .col-sm-12.col-md-8.col-lg-6
+      = tile_with_heading('Edit Avatar') do
+        = render partial: 'form', locals: { avatar: @avatar }
