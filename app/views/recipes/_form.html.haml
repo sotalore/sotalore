@@ -15,7 +15,7 @@
       - index = 1
       = f.fields_for(:results) do |ri|
         .grid.grid-cols-12.gap-2
-          .col-span-10{data: { controller: 'autocomplete', 'autocomplete-url-value' => '/search/items' }}
+          .col-span-10{data: { controller: 'autocomplete', 'autocomplete-url-value' => search_items_path }}
             = ri.text_field(:name, label: "Output #{index}", tabindex: (index == 1 ? 0 : (100 + index)),
             data: { 'autocomplete-target' => 'input' })
             = ri.hidden_field :item_id, data: { 'autocomplete-target' => 'hidden' }
@@ -28,7 +28,7 @@
       - index = 1
       = f.fields_for(:ingredients) do |fi|
         .grid.grid-cols-12.gap-2
-          .col-span-10{data: { controller: 'autocomplete', 'autocomplete-url-value' => '/search/items' }}
+          .col-span-10{data: { controller: 'autocomplete', 'autocomplete-url-value' => search_items_path }}
             = fi.text_field :name, label: "Ingredient #{index}", data: { 'autocomplete-target' => 'input' }
             - index += 1
             = fi.hidden_field :item_id, data: { 'autocomplete-target' => 'hidden' }

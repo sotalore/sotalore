@@ -12,7 +12,7 @@ class User::UserRecipesController < ApplicationController
       end
       render :create, layout: false
     else
-      render status: :not_acceptable
+      head :not_acceptable
     end
   end
 

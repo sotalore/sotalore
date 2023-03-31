@@ -19,7 +19,6 @@ Rails.application.routes.draw do
   get 'roadmap', to: 'home#roadmap'
   get 'lunar-rifts', to: 'home#lunar_rifts'
   get 'master-trainers', to: 'home#master_trainers'
-  get 'incoming', to: 'home#incoming'
 
   resource :profile, only: [ :show, :update ]
   resources :posts
@@ -32,7 +31,7 @@ Rails.application.routes.draw do
     resources :comments, except: [ :new ]
   end
 
-  resources :item_salvages, controller: 'item_salvages'
+  resources :item_salvages, only: [ :create, :destroy ]
 
   resources :recipes do
     member do
@@ -53,7 +52,7 @@ Rails.application.routes.draw do
     resources :comments, except: [ :new ]
   end
 
-  resource :farming
+  resource :farming, only: [ :show ]
   resource :farming_calendar, only: [ :show ]
 
   get 'skills', to: redirect('/skills/adventuring'), as: 'skills_redirect'
@@ -74,13 +73,9 @@ Rails.application.routes.draw do
     [:root]
   end
 
-
-  resource :searches, path: 'search' do
-    member do
-      get :items
-      get :global # for stimulus
-    end
-  end
+  get 'search/items', to: 'searches#items', as: 'search_items'
+  get 'search/global', to: 'searches#global', as: 'search_global'
+  get 'search', to: 'searches#show', as: 'search'
 
   namespace :user, path: 'avatar' do
     resources :user_recipes, only: [ :create, :destroy ]

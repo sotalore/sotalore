@@ -65,7 +65,7 @@
             = sl_form_for(ItemSalvage.new()) do |f|
               = f.error_messages
               = f.hidden_field :salvage_from_id, value: @item.id
-              %div{data: { controller: 'autocomplete', 'autocomplete-url-value' => '/search/items' }}
+              %div{data: { controller: 'autocomplete', 'autocomplete-url-value' => search_items_path }}
                 = f.text_field(:salvage_to_name, label: "this salvages to...", data: { 'autocomplete-target' => 'input' })
                 = f.hidden_field :salvage_to_id, data: { 'autocomplete-target' => 'hidden' }
                 %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }

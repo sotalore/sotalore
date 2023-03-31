@@ -49,7 +49,7 @@ gem 'activeadmin'
 gem 'icalendar'
 
 group :test do
-  gem 'rails-controller-testing'
+  gem 'simplecov', require: false
 end
 
 group :development, :test do
@@ -58,6 +58,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'guard-rspec', require: false
   gem 'hotwire-livereload'
   gem 'listen'
   gem 'guard'

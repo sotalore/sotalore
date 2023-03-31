@@ -11,7 +11,4 @@ class HomeController < ApplicationController
   def lunar_rifts
   end
 
-  def incoming
-  end
-
 end
