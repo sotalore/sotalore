@@ -28,10 +28,6 @@ class RecipesController < ApplicationController
   def show
     @recipe = find_recipe
     authorize @recipe
-    respond_to do |format|
-      format.html { }
-      format.js { render @recipe }
-    end
   end
 
   def show_partial
@@ -60,7 +56,7 @@ class RecipesController < ApplicationController
     if @recipe.save(permitted_params)
       redirect_to @recipe
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -70,7 +66,7 @@ class RecipesController < ApplicationController
     if @recipe.save(permitted_params)
       redirect_to @recipe
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
