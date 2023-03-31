@@ -1,3 +1,6 @@
 - @searches.each do |result|
   %a.block.p-2.list-group-item.hover:text-zinc-100.hover:bg-orange-900(role="option"){href: url_for(result.searchable) }
     = result.searchable.name
+- if @searches.empty?
+  .block.p-2.list-group-item.text-orange-900(role="option")
+    No results found
