@@ -15,14 +15,14 @@ class ProfilesController < ApplicationController
     if @user.update(user_params)
       redirect_to profile_path, notice: 'Profile updated.'
     else
-      render :show
+      render :show, status: :unprocessable_entity
     end
   end
 
   private
 
   def user_params
-    params.require(:user).permit(:picture, :picture_cache)
+    params.require(:user).permit(:name, :picture, :picture_cache)
   end
 
 end
