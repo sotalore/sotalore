@@ -65,6 +65,7 @@ RSpec.describe "Comments", type: :request do
         it 'renders the form' do
           patch comment_path(comment, item_id: parent), params: {
                                     comment: { body: '' } }
+          expect(response).to have_http_status(:unprocessable_entity)
         end
       end
     end

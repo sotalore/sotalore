@@ -50,7 +50,7 @@ class CommentsController < ApplicationController
     if @comment.update(permitted_params)
       redirect_to url_for_parent
     else
-      render :edit
+      render :edit, status: :unprocessable_entity
     end
   end
 
