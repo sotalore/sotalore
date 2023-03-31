@@ -64,7 +64,6 @@
 
 .Item-gatheringTag--fishing {
   padding-left: calc(var(--line-height) / 4);
-  /* background-image: url('sota-icons/craft_fishing_small.png'); */
 }
 
 .Item-gatheringTag--foraging {

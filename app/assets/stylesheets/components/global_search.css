@@ -22,8 +22,8 @@
   .global-search-input {
     @apply transition-all ease-in-out duration-300;
     @apply bg-slorange-700 focus:bg-slorange-800;
-    @apply inline-block h-12 w-32 focus:w-96;
+    @apply inline-block h-8 m-2 w-32 focus:w-96;
     @apply placeholder:text-slate-400 placeholder:italic outline-none;
-    @apply border-0 border-x border-slorange-900 focus:border-slorange-800 focus:shadow-none;
+    @apply border rounded-full px-4 py-2 border-slorange-900 focus:border-slorange-800 focus:shadow-none;
   }
 }
