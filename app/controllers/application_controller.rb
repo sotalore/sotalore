@@ -13,6 +13,8 @@ class ApplicationController < ActionController::Base
 
   before_action :set_anonymous_user_key
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   protected
 
   def page_title(text=:not_provided)
@@ -49,6 +51,11 @@ class ApplicationController < ActionController::Base
   def record_last_request_at
     return if current_user.null?
     current_user.update(last_request_at: Time.now)
+  end
+
+  def user_not_authorized(exception)
+    flash[:alert] = "You are not authorized to perform this action."
+    redirect_to root_path
   end
 
   private
