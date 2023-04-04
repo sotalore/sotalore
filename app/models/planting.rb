@@ -2,7 +2,7 @@
 
 class Planting < ApplicationRecord
 
-  enum location_type: [ :outdoor, :greenhouse, :indoor ]
+  enum :location_type, [ :outdoor, :greenhouse, :indoor ], scopes: false
 
   LOCATION_TYPE_FACTORS = {
     outdoor: 1.0,

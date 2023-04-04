@@ -5,7 +5,7 @@ class Recipe < ApplicationRecord
 
   serialize :craft_skill, CraftSkill
 
-  enum teachable: [ :teachable, :re_teachable, :not_teachable ]
+  enum :teachable, [ :teachable, :re_teachable, :not_teachable ]
 
   pg_search_scope :search_by_name, against: :name,
                   using: {
