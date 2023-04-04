@@ -33,7 +33,7 @@ class Item < ApplicationRecord
     weapon: 5,
   }
 
-  enum use: ITEM_USES, _prefix: 'use_is'
+  enum :use, ITEM_USES, prefix: 'use_is'
 
   ITEM_SOURCES = {
     unknown: 0,
@@ -45,7 +45,7 @@ class Item < ApplicationRecord
     salvage: 5,
   }
 
-  enum source: ITEM_SOURCES, _prefix: 'source_is'
+  enum :source, ITEM_SOURCES, prefix: 'source_is'
 
   # TYPE DATA
   store_accessor :type_data, :yield
