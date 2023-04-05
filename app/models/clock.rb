@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Clock
 
   # This is not year zero, but year 400, when the avatars arrived (again)
