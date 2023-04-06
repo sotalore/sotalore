@@ -1,5 +1,6 @@
 = single_column do
   = tile do
-    %h1
-      New Brittania Time:
-      = @nb_time
+    = tile_body do
+      %h2
+        New Brittania Time:
+        %span{data: {controller: 'time'}}
