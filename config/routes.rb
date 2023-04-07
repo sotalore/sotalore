@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'lunar-rifts', to: 'home#lunar_rifts'
   get 'master-trainers', to: 'home#master_trainers'
 
+  resource :time, only: [ :show ], controller: 'time'
   resource :profile, only: [ :show, :update ]
   resources :posts
 

@@ -29,6 +29,8 @@ import SkillsController from "./controllers/skills-controller"
 import SkillsRollupController from "./controllers/skills-rollup-controller"
 import TurnstileController from "./controllers/turnstile_controller"
 import MousetrapController from "./controllers/mousetrap_controller"
+import TimeController from "./controllers/time_controller"
+import OrbitController from "./controllers/orbit_controller"
 
 window.Stimulus.register("lightbox", Lightbox)
 
@@ -43,3 +45,5 @@ window.Stimulus.register("skills", SkillsController)
 window.Stimulus.register("skills-rollup", SkillsRollupController)
 window.Stimulus.register("turnstile", TurnstileController)
 window.Stimulus.register("mousetrap", MousetrapController)
+window.Stimulus.register("time", TimeController)
+window.Stimulus.register("orbit", OrbitController)
