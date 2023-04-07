@@ -24,7 +24,7 @@ export default class extends Controller {
   }
 
   refresh() {
-    this.element.textContent = this.current_time_to_bst()
+    this.element.textContent = this.current_time_to_nbt()
   }
 
   startRefreshing() {
@@ -40,7 +40,7 @@ export default class extends Controller {
   }
 
 
-  current_time_to_bst() {
+  current_time_to_nbt() {
     let now = new Date()
 
     var seconds = (now.getTime() / 1000) - this.EPOCH

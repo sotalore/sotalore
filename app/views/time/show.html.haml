@@ -4,3 +4,29 @@
       %h2
         New Brittania Time:
         %span{data: {controller: 'time'}}
+
+  = tile do
+    = tile_body do
+      %h2
+        Planet Positions:
+
+      .grid.grid-cols-4
+        %div.text-right.p-2
+          %strong Planet
+        %div.p-2
+          %strong Position
+        %div.p-2
+          %strong Color
+        %div.p-2
+          %strong Orbital Period
+
+        - Clock::PLANETS.each do |planet, info|
+          %div.text-right.p-2
+            %strong
+              = planet.to_s.titleize
+          %div.p-2
+            %span{data: {controller: 'orbit', 'orbit-period-value': info[:orbital_period]}}
+          %div.p-2{class: "planet-#{info[:color]}"}= info[:color]
+          %div.p-2
+            = info[:orbital_period]
+            days
