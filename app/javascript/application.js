@@ -31,6 +31,7 @@ import TurnstileController from "./controllers/turnstile_controller"
 import MousetrapController from "./controllers/mousetrap_controller"
 import TimeController from "./controllers/time_controller"
 import OrbitController from "./controllers/orbit_controller"
+import ConstellationController from "./controllers/constellation_controller"
 
 window.Stimulus.register("lightbox", Lightbox)
 
@@ -47,3 +48,4 @@ window.Stimulus.register("turnstile", TurnstileController)
 window.Stimulus.register("mousetrap", MousetrapController)
 window.Stimulus.register("time", TimeController)
 window.Stimulus.register("orbit", OrbitController)
+window.Stimulus.register("constellation", ConstellationController)

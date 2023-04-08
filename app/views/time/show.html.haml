@@ -39,3 +39,15 @@
             %td
               = info[:orbital_period]
               days
+
+  = tile do
+    = tile_body do
+      %h2
+        Constellations:
+
+      .grid.grid-cols-5
+        - Constellations::ALL.each do |constellation, info|
+          .text-right.font-bold.pr-2
+            = constellation.to_s.titleize
+
+          .col-span-4{data: {controller: 'constellation', 'constellation-offset-value': info[:offset]}}
