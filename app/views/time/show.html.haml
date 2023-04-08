@@ -7,26 +7,35 @@
 
   = tile do
     = tile_body do
+      %h2{data: {controller: 'orbit', 'orbit-period-value': Clock::DAEDALUS_ORBITAL_PERIOD}}
+        Daedalus Position:
+        %small.font-normal
+          %span{data: {'orbit-target': 'position'}}
+          %span.text-sm.italic{data: {'orbit-target': 'note'}}
+
+  = tile do
+    = tile_body do
       %h2
         Planet Positions:
 
-      .grid.grid-cols-4
-        %div.text-right.p-2
-          %strong Planet
-        %div.p-2
-          %strong Position
-        %div.p-2
-          %strong Color
-        %div.p-2
-          %strong Orbital Period
+      %table.Table
+        %thead.border-b-2.border-grey-300
+          %th Planet
+          %th Position
+          %th Visible?
+          %th Color
+          %th Orbital Period
 
         - Clock::PLANETS.each do |planet, info|
-          %div.text-right.p-2
-            %strong
+          %tr.hover:bg-grey-100{data: {controller: 'orbit', 'orbit-period-value': info[:orbital_period]}}
+            %td.font-bold
               = planet.to_s.titleize
-          %div.p-2
-            %span{data: {controller: 'orbit', 'orbit-period-value': info[:orbital_period]}}
-          %div.p-2{class: "planet-#{info[:color]}"}= info[:color]
-          %div.p-2
-            = info[:orbital_period]
-            days
+            %td
+              %span.mr-4{data: {'orbit-target': 'position'}}
+            %td
+              %span.text-right.text-sm.italic{data: {'orbit-target': 'note'}}
+            %td{class: "planet-#{info[:color]}"}
+              = info[:color]
+            %td
+              = info[:orbital_period]
+              days

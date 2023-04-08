@@ -4,6 +4,8 @@ export default class extends Controller {
 
   static values = { period: Number }
 
+  static targets = [ "note", "position" ]
+
   NB_MINUTE = 2.5 // seconds
   NB_HOUR = 60 * this.NB_MINUTE // 150 seconds ... 1 game-hour is 1/24th of an hour
   NB_DAY = 24 * this.NB_HOUR // 1 hour
@@ -24,7 +26,22 @@ export default class extends Controller {
   }
 
   refresh() {
-    this.element.textContent = this.positionOfPlanet()
+    var position = this.positionOfPlanet()
+    var note = ""
+
+    if (position > 270 && position <= 360) {
+      note = 'rising in east'
+    } else if (position >= 0 && position < 90) {
+      note = 'setting in west'
+    }
+
+    if (this.hasNoteTarget) {
+      this.noteTarget.textContent = note
+    }
+
+    if (this.hasPositionTarget) {
+      this.positionTarget.textContent = position.toFixed(3)
+    }
   }
 
   startRefreshing() {
@@ -45,7 +62,7 @@ export default class extends Controller {
     var period = this.periodValue // in days
     period *= this.NB_DAY // in seconds
     var remainder = (rt_seconds % period) // seconds through current orbit
-    return ((remainder / period) * 360).toFixed(3)
+    return ((remainder / period) * 360)
   }
 
 }
