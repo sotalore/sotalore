@@ -2,7 +2,7 @@
 
 class Clock
 
-  NB_MINUTE = 2.5.seconds
+  NB_MINUTE = 2.5            # seconds
   NB_HOUR   = 60 * NB_MINUTE # 1/24th of a real hour
   NB_DAY    = 24 * NB_HOUR   # exactly 1 real hour
   NB_MONTH  = 28 * NB_DAY    # 28 real hours
