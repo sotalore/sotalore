@@ -25,6 +25,8 @@ class Clock
     vanity:     { color: 'black',  cabalist: 'Fastus',  orbital_period: 29 },
   }
 
+  DAEDALUS_ORBITAL_PERIOD = 7
+
   class << self
 
     def time_to_nbt(time=nil)
