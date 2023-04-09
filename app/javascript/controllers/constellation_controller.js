@@ -26,7 +26,12 @@ export default class extends Controller {
   }
 
   refresh() {
-    this.element.textContent = this.positionOfConstellation().toFixed(3)
+    var position = Math.round(this.positionOfConstellation())
+    var other_edge = position + 30
+    if (other_edge > 359) {
+      other_edge -= 360
+    }
+    this.element.textContent = position + "° - " + other_edge + "°"
   }
 
   startRefreshing() {
@@ -50,6 +55,8 @@ export default class extends Controller {
     if (position > 359) {
       position -= 360
     }
+    // the constellations rise in the west, so we need to invert this
+    position = 360 - position
     return position
   }
 
