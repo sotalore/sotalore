@@ -4,6 +4,7 @@ class Constellations
 
   ORBITAL_PERIOD = 6 * Clock::NB_MONTH
 
+  # assumes January Chalice is north
   ALL = {
     chalice: { offset: 0 },
     tear: { offset: 30 },

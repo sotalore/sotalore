@@ -21,6 +21,8 @@ class Clock
     injustice:  { color: 'green',  cabalist: 'Nefas',   orbital_period: 11 },
     punishment: { color: 'orange', cabalist: 'Avara',   orbital_period: 3 },
     dishonor:   { color: 'purple', cabalist: 'Indigno', orbital_period: 2 },
+    # these might be backwards, Bowen's notes in 401 have them the opposite way,
+    # from the wiki (which has them like this...)
     carnality:  { color: 'white',  cabalist: 'Corpus',  orbital_period: 23 },
     vanity:     { color: 'black',  cabalist: 'Fastus',  orbital_period: 29 },
   }
@@ -53,7 +55,20 @@ class Clock
       period = PLANETS[planet][:orbital_period] # in NB days
       period *= NB_DAY # in NB seconds
       remainder = (rt_seconds % period)
-      (remainder / period.to_f) * 360
+      position = 360 - ((remainder / period.to_f) * 360)
+      position == 360 ? 0 : position
+    end
+
+    def find_alignment
+      periods = Clock::PLANETS.values.map { |p| p[:orbital_period] }
+      periods = [ 13, 3 ]
+      ((periods.max)..10_000_000).each do |i|
+        results = periods.map { |p| i % p }
+        if results.uniq == [ 0 ]
+          puts "i: #{i}"
+          break
+        end
+      end
     end
 
     protected
