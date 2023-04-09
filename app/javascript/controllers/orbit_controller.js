@@ -29,9 +29,9 @@ export default class extends Controller {
     var position = this.positionOfPlanet()
     var note = ""
 
-    if (position > 270 && position <= 360) {
+    if (position >= 0 && position <= 90) {
       note = 'rising in east'
-    } else if (position >= 0 && position < 90) {
+    } else if (position > 270) {
       note = 'setting in west'
     }
 
@@ -56,13 +56,26 @@ export default class extends Controller {
     }
   }
 
+  /*
+   * Returns the position of the planet in its orbit, in degrees.
+   * 0° is the point where the planet is at its highest point in
+   * the northern sky.  90° is on the eastern horizon.
+   *
+   * The planets rise in the east and set in the west, travelling
+   * in a counter-clockwise direction.
+   *
+   */
   positionOfPlanet() {
     var now = new Date()
     var rt_seconds = (now.getTime() / 1000) - this.BEGINNING_OF_PC
     var period = this.periodValue // in days
     period *= this.NB_DAY // in seconds
     var remainder = (rt_seconds % period) // seconds through current orbit
-    return ((remainder / period) * 360)
+    var position = 360 - ((remainder / period) * 360)
+    if (position === 360) {
+      position = 0
+    }
+    return position
   }
 
 }
