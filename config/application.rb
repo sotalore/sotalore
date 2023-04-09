@@ -26,5 +26,9 @@ module SotaLore
     config.active_record.belongs_to_required_by_default = false
 
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
+
+    if Rails.env.development?
+      config.hosts << 'gaffer.local'
+    end
   end
 end

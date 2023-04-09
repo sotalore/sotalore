@@ -106,7 +106,7 @@ RSpec.describe Clock do
 
       context 'Given deceit' do
         let(:planet) { :deceit } # 19 days
-        it { is_expected.to eq((5/19.0) * 360) }
+        it { is_expected.to eq(360 - ((5/19.0) * 360)) }
       end
 
       context 'Given dishonor' do
@@ -114,6 +114,27 @@ RSpec.describe Clock do
         it { is_expected.to eq(180) }
       end
     end
+
+    context 'Given injustice with an 11 day period' do
+      let(:planet) { :injustice } # 11 days
+
+      context 'Given the EPOCH' do
+        let(:time) { Clock::BEGINNING_OF_PC }
+        it { is_expected.to eq(0) }
+      end
+
+      context 'Given the 0.25 orbit later' do
+        let(:time) { Clock::BEGINNING_OF_PC + (0.25 * 11).hours }
+        it { is_expected.to eq(270) }
+      end
+
+      context 'Given the 0.75 orbit later' do
+        let(:time) { Clock::BEGINNING_OF_PC + (0.75 * 11).hours }
+        it { is_expected.to eq(90) }
+      end
+
+    end
+
 
   end
 end

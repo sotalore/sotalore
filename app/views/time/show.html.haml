@@ -25,6 +25,7 @@
           %th Visible?
           %th Color
           %th Orbital Period
+          %th Cabalist
 
         - Clock::PLANETS.each do |planet, info|
           %tr.hover:bg-grey-100{data: {controller: 'orbit', 'orbit-period-value': info[:orbital_period]}}
@@ -39,15 +40,18 @@
             %td
               = info[:orbital_period]
               days
+            %td= info[:cabalist]
 
   = tile do
     = tile_body do
       %h2
         Constellations:
 
-      .grid.grid-cols-5
+      .grid.grid-cols-4.gap-2
         - Constellations::ALL.each do |constellation, info|
           .text-right.font-bold.pr-2
             = constellation.to_s.titleize
 
-          .col-span-4{data: {controller: 'constellation', 'constellation-offset-value': info[:offset]}}
+          %div{data: {controller: 'constellation', 'constellation-offset-value': info[:offset]}}
+          %div= info[:virtue]
+          %div= info[:city]

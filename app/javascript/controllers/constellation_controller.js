@@ -55,8 +55,6 @@ export default class extends Controller {
     if (position > 359) {
       position -= 360
     }
-    // the constellations rise in the west, so we need to invert this
-    position = 360 - position
     return position
   }
 
