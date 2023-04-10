@@ -11,18 +11,18 @@ export default class Astronomy {
   static beginningOfPC = Astronomy.epoch - (400 * Astronomy.nbYear)
 
   static constellations = [
-    { symbol: 'Chalice',  offset: 0,   virtue: 'Honor',        city: 'Kiln' },
-    { symbol: 'Tear',     offset: 330, virtue: 'Sacrifice',    city: 'Northwood' },
-    { symbol: 'Scales',   offset: 300, virtue: 'Justice',      city: 'Jaanaford' },
-    { symbol: 'Sword',    offset: 270, virtue: 'Valor',        city: 'Point West' },
-    { symbol: 'Heart',    offset: 240, virtue: 'Compassion',   city: 'Brookside' },
-    { symbol: 'Hand',     offset: 210, virtue: 'Honesty',      city: 'Etceter' },
-    { symbol: 'Ethos',    offset: 180, virtue: '',             city: '' },
-    { symbol: 'Bell',     offset: 150, virtue: 'Courage',      city: 'Resolute' },
-    { symbol: 'Candle',   offset: 120, virtue: 'Love',         city: 'Ardoris' },
-    { symbol: 'Book',     offset: 90,  virtue: 'Truth',        city: 'Aerie' },
-    { symbol: 'Crook',    offset: 60,  virtue: 'Humility',     city: 'Eastmarch' },
-    { symbol: 'Ankh',     offset: 30,  virtue: 'Spirituality', city: 'Fortus End' },
+    { symbol: 'Chalice',  offset: 330,   virtue: 'Honor',        city: 'Kiln' },
+    { symbol: 'Tear',     offset: 300, virtue: 'Sacrifice',    city: 'Northwood' },
+    { symbol: 'Scales',   offset: 270, virtue: 'Justice',      city: 'Jaanaford' },
+    { symbol: 'Sword',    offset: 240, virtue: 'Valor',        city: 'Point West' },
+    { symbol: 'Heart',    offset: 210, virtue: 'Compassion',   city: 'Brookside' },
+    { symbol: 'Hand',     offset: 180, virtue: 'Honesty',      city: 'Etceter' },
+    { symbol: 'Ethos',    offset: 150, virtue: '',             city: '' },
+    { symbol: 'Bell',     offset: 120, virtue: 'Courage',      city: 'Resolute' },
+    { symbol: 'Candle',   offset: 90, virtue: 'Love',         city: 'Ardoris' },
+    { symbol: 'Book',     offset: 60,  virtue: 'Truth',        city: 'Aerie' },
+    { symbol: 'Crook',    offset: 30,  virtue: 'Humility',     city: 'Eastmarch' },
+    { symbol: 'Ankh',     offset: 0,  virtue: 'Spirituality', city: 'Fortus End' },
   ]
 
   static constellationOrbit = 6 * Astronomy.nbMonth
