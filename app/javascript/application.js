@@ -32,6 +32,7 @@ import MousetrapController from "./controllers/mousetrap_controller"
 import TimeController from "./controllers/time_controller"
 import OrbitController from "./controllers/orbit_controller"
 import ConstellationController from "./controllers/constellation_controller"
+import CabalistController from "./controllers/cabalist_controller"
 
 window.Stimulus.register("lightbox", Lightbox)
 
@@ -49,3 +50,4 @@ window.Stimulus.register("mousetrap", MousetrapController)
 window.Stimulus.register("time", TimeController)
 window.Stimulus.register("orbit", OrbitController)
 window.Stimulus.register("constellation", ConstellationController)
+window.Stimulus.register("cabalist", CabalistController)

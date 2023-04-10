@@ -1,4 +1,10 @@
 = single_column do
+  = notice_warning do
+    This is a work in progress. I believe things are accurate, but
+    I'm still trying to confirm that belief. If you see any errors,
+    <em>please</em> let me know!  On the #{link_to('Home Page', root_path)},
+    there is a few ways to contact me.
+
   = tile do
     = tile_body do
       %h2
@@ -12,6 +18,37 @@
         %small.font-normal
           %span{data: {'orbit-target': 'position'}}
           %span.text-sm.italic{data: {'orbit-target': 'note'}}
+
+  = tile do
+    = tile_body do
+      %h2 Cabalists
+
+      %table.Table
+        %thead.border-b-2.border-grey-300
+          %th
+          %th Current City
+          %th Symbol
+          %th Virtue
+          %th.text-right Remaining
+          %th Next City
+        - Clock::PLANETS.each do |planet, info|
+          %tr.hover:bg-grey-100{data: {controller: 'cabalist', 'cabalist-period-value': info[:orbital_period]}}
+            %td.font-bold.pr-2
+              = info[:cabalist].to_s.titleize
+
+            %td{ data: { 'cabalist-target': 'currentCity' } }
+            %td.text-sm{ data: { 'cabalist-target': 'symbol' } }
+            %td.text-sm{ data: { 'cabalist-target': 'virtue' } }
+            %td.text-right{ data: { 'cabalist-target': 'timeRemaining' } }
+            %td{ data: { 'cabalist-target': 'nextCity' } }
+
+
+  = notice_info do
+    The time remaining is simplistic, as it takes into account the movement
+    of the planets, but not the movement of the constellation (which is very slow).
+    It's more accurate, the smaller it gets, so it's still a useful figure.
+    If you know of a resource that will help me understand the math involved,
+    please share it!
 
   = tile do
     = tile_body do
