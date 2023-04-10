@@ -17,8 +17,9 @@ export default class extends Controller {
   }
 
   refresh() {
+    const astronomy = new Astronomy()
     const orbitalPeriod = this.periodValue * Astronomy.nbDay
-    const position = Astronomy.positionOfPlanet(orbitalPeriod)
+    const position = astronomy.positionOfPlanet(orbitalPeriod)
     var note = ""
 
     if (position >= 0 && position <= 90) {

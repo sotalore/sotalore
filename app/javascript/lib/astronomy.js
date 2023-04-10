@@ -10,7 +10,38 @@ export default class Astronomy {
   static epoch = Math.floor(new Date("January 1, 2013 00:00:00 -0000").getTime() / 1000)
   static beginningOfPC = Astronomy.epoch - (400 * Astronomy.nbYear)
 
+  static constellations = [
+    { symbol: 'Chalice',  offset: 0,   virtue: 'Honor',        city: 'Kiln' },
+    { symbol: 'Tear',     offset: 330, virtue: 'Sacrifice',    city: 'Northwood' },
+    { symbol: 'Scales',   offset: 300, virtue: 'Justice',      city: 'Jaanaford' },
+    { symbol: 'Sword',    offset: 270, virtue: 'Valor',        city: 'Point West' },
+    { symbol: 'Heart',    offset: 240, virtue: 'Compassion',   city: 'Brookside' },
+    { symbol: 'Hand',     offset: 210, virtue: 'Honesty',      city: 'Etceter' },
+    { symbol: 'Ethos',    offset: 180, virtue: '',             city: '' },
+    { symbol: 'Bell',     offset: 150, virtue: 'Courage',      city: 'Resolute' },
+    { symbol: 'Candle',   offset: 120, virtue: 'Love',         city: 'Ardoris' },
+    { symbol: 'Book',     offset: 90,  virtue: 'Truth',        city: 'Aerie' },
+    { symbol: 'Crook',    offset: 60,  virtue: 'Humility',     city: 'Eastmarch' },
+    { symbol: 'Ankh',     offset: 30,  virtue: 'Spirituality', city: 'Fortus End' },
+  ]
+
   static constellationOrbit = 6 * Astronomy.nbMonth
+
+  /*
+   * Return the current position of every constellation
+   */
+  currentConstellations() {
+    let liveData = []
+    for (const constellation of Astronomy.constellations) {
+      liveData.push({
+        position: this.positionOfConstellation(constellation.offset),
+        symbol: constellation.symbol,
+        virtue: constellation.virtue,
+        city: constellation.city,
+      })
+    }
+    return liveData
+  }
 
   /*
    * Returns the area of the sky the constellation "covers".
@@ -20,7 +51,7 @@ export default class Astronomy {
    * in a clockwise direction. They all move at the same speed.
    *
    */
-  static positionOfConstellation(offset) {
+  positionOfConstellation(offset) {
     let position = this.portionOfOrbitComplete(Astronomy.constellationOrbit)
     position *= 360
     position += offset
@@ -45,7 +76,7 @@ export default class Astronomy {
    * in a counter-clockwise direction.
    *
    */
-  static positionOfPlanet(orbitalPeriod) {
+  positionOfPlanet(orbitalPeriod) {
     var position = this.portionOfOrbitComplete(orbitalPeriod)
     position = 360 - (position * 360)
     if (position === 360) {
@@ -58,10 +89,18 @@ export default class Astronomy {
    * Returns a number between 0 and 1, representing the percentage of the
    * orbit that has been completed.
    */
-  static portionOfOrbitComplete(orbitalPeriod) {
+  portionOfOrbitComplete(orbitalPeriod) {
     let now = new Date()
     let seconds = (now.getTime() / 1000) - Astronomy.beginningOfPC
     let remainder = seconds % orbitalPeriod
     return remainder / orbitalPeriod
   }
+
+  nextConstellation(currentSymbol) {
+    const current = Astronomy.constellations.find(c => c.symbol === currentSymbol)
+    const index = Astronomy.constellations.indexOf(current)
+    const next = Astronomy.constellations[(index + 1) % Astronomy.constellations.length]
+    return next
+  }
+
 }

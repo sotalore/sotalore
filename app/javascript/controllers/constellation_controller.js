@@ -15,7 +15,8 @@ export default class extends Controller {
   }
 
   refresh() {
-    var [position, otherEdge] = Astronomy.positionOfConstellation(this.offsetValue)
+    const astronomy = new Astronomy()
+    var [position, otherEdge] = astronomy.positionOfConstellation(this.offsetValue)
     this.element.textContent = Math.round(position) + "° - " + Math.round(otherEdge) + "°"
   }
 
