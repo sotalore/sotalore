@@ -28,8 +28,10 @@ export default class extends Controller {
         this.currentCityTarget.textContent = constellation.city
         this.symbolTarget.textContent = constellation.symbol
         this.virtueTarget.textContent = constellation.virtue
+
         const remainingTime = this.remainingTime(position, trailing, leading, orbitalPeriod)
         this.timeRemainingTarget.textContent = this.formatSeconds(remainingTime)
+
         const nextConstellation = astronomy.nextConstellation(constellation.symbol)
         this.nextCityTarget.textContent = nextConstellation.city
         break
@@ -40,7 +42,7 @@ export default class extends Controller {
   startRefreshing() {
     this.refreshTimer = setInterval(() => {
       this.refresh()
-    }, Astronomy.nbMinute * 3000)
+    }, Astronomy.nbMinute * 1000)
   }
 
   stopRefreshing() {
@@ -67,13 +69,13 @@ export default class extends Controller {
   remainingDegrees(position, trailing, leading) {
     if (trailing > leading) {
       // The arc is crossing the 0°/360° meridian
-      if (position < leading) {
-        return leading - position
+      if (position >= trailing) {
+        return position - trailing
       } else {
-        return 360 - position + leading
+        return 360 - position - trailing
       }
     } else {
-      return leading - position
+      return position - trailing
     }
   }
 
