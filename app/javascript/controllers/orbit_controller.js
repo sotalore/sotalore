@@ -1,20 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
+import Astronomy  from "../lib/astronomy"
 
 export default class extends Controller {
 
   static values = { period: Number }
 
   static targets = [ "note", "position" ]
-
-  NB_MINUTE = 2.5 // seconds
-  NB_HOUR = 60 * this.NB_MINUTE // 150 seconds ... 1 game-hour is 1/24th of an hour
-  NB_DAY = 24 * this.NB_HOUR // 1 hour
-  NB_MONTH = 28 * this.NB_DAY // 28 hours
-  NB_YEAR = 12 * this.NB_MONTH // 336 hours == 14 days
-
-  // This is not year zero, but year 400, when the avatars arrived (again)
-  EPOCH = Math.floor(new Date("January 1, 2013 00:00:00 -0000").getTime() / 1000)
-  BEGINNING_OF_PC = this.EPOCH - (400 * this.NB_YEAR)
 
   connect() {
     this.refresh()
@@ -26,7 +17,8 @@ export default class extends Controller {
   }
 
   refresh() {
-    var position = this.positionOfPlanet()
+    const orbitalPeriod = this.periodValue * Astronomy.nbDay
+    const position = Astronomy.positionOfPlanet(orbitalPeriod)
     var note = ""
 
     if (position >= 0 && position <= 90) {
@@ -40,42 +32,20 @@ export default class extends Controller {
     }
 
     if (this.hasPositionTarget) {
-      this.positionTarget.textContent = position.toFixed(3)
+      this.positionTarget.textContent = position.toFixed(2)
     }
   }
 
   startRefreshing() {
     this.refreshTimer = setInterval(() => {
       this.refresh()
-    }, this.NB_MINUTE * 1000)
+    }, Astronomy.nbMinute * 1000)
   }
 
   stopRefreshing() {
     if (this.refreshTimer) {
       clearInterval(this.refreshTimer)
     }
-  }
-
-  /*
-   * Returns the position of the planet in its orbit, in degrees.
-   * 0° is the point where the planet is at its highest point in
-   * the northern sky.  90° is on the eastern horizon.
-   *
-   * The planets rise in the east and set in the west, travelling
-   * in a counter-clockwise direction.
-   *
-   */
-  positionOfPlanet() {
-    var now = new Date()
-    var rt_seconds = (now.getTime() / 1000) - this.BEGINNING_OF_PC
-    var period = this.periodValue // in days
-    period *= this.NB_DAY // in seconds
-    var remainder = (rt_seconds % period) // seconds through current orbit
-    var position = 360 - ((remainder / period) * 360)
-    if (position === 360) {
-      position = 0
-    }
-    return position
   }
 
 }
