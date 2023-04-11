@@ -1,8 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 import Astronomy from "../lib/astronomy"
+import { formatSeconds } from "../lib/time_util"
 
 export default class extends Controller {
 
+  static targets = [ 'position', 'timeToZenith', 'note' ]
   static values = { offset: Number }
 
   connect() {
@@ -16,8 +18,19 @@ export default class extends Controller {
 
   refresh() {
     const astronomy = new Astronomy()
-    var [position, otherEdge] = astronomy.positionOfConstellation(this.offsetValue)
-    this.element.textContent = Math.round(position) + "° - " + Math.round(otherEdge) + "°"
+    let [position, otherEdge] = astronomy.positionOfConstellation(this.offsetValue)
+    this.positionTarget.textContent = Math.round(position) + "° - " + Math.round(otherEdge) + "°"
+
+    let timeToZenith = astronomy.timeToTravel(otherEdge, 0, Astronomy.constellationOrbit)
+    this.timeToZenithTarget.textContent = formatSeconds(timeToZenith)
+
+    let note = ''
+    if (position < 90) {
+      note = 'setting in east'
+    } else if (otherEdge > 270) {
+      note = 'rising in west'
+    }
+    this.noteTarget.textContent = note
   }
 
   startRefreshing() {

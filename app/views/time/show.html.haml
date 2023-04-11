@@ -84,11 +84,23 @@
       %h2
         Constellations:
 
-      .grid.grid-cols-4.gap-2
-        - Constellations::ALL.each do |constellation, info|
-          .text-right.font-bold.pr-2
-            = constellation.to_s.titleize
+      %table.Table
+        %thead.border-b-2.border-grey-300
+          %th Constellation
+          %th Position (arc)
+          %th.text-right Zenith in
+          %th Visible?
+          %th City
+          %th Virtue
 
-          %div{data: {controller: 'constellation', 'constellation-offset-value': info[:offset]}}
-          %div= info[:virtue]
-          %div= info[:city]
+        - Constellations::ALL.each do |constellation, info|
+          %tr.hover:bg-grey-100{data: {controller: 'constellation', 'constellation-offset-value': info[:offset]}}
+            %td.font-buld
+              = constellation.to_s.titleize
+
+            %td{data: {'constellation-target': 'position'}}
+            %td.text-right{data: {'constellation-target': 'timeToZenith'}}
+            %td.text-sm.italic{data: {'constellation-target': 'note'}}
+            %td.text-sm= info[:city]
+            %td.text-sm= info[:virtue]
+

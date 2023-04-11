@@ -103,4 +103,18 @@ export default class Astronomy {
     return next
   }
 
+  degreesBetween(from, to) {
+    let diff = to - from
+    if (diff < 0) {
+      diff += 360
+    }
+    return diff
+  }
+
+  timeToTravel(from, to, period) {
+    const diff = this.degreesBetween(from, to)
+    const time = (diff / 360) * period
+    return time
+  }
+
 }
