@@ -6,7 +6,12 @@
     - case @parent
     - when TopPost
     - when nil
-      = tile_heading("All Comments")
+      - if action_name == 'moderate'
+        = tile_heading("Moderate Comments")
+      - else
+        = tile_heading("All Comments") do
+          - if policy(Comment).moderate?
+            = primary_button_to('Moderate', moderate_comments_path)
     - else
       = tile_heading("Comments for #{@parent}") do
         = back_button_to('Cancel', @parent)
@@ -14,6 +19,19 @@
     = tile_body do
       - if @parent && policy(Comment).new?
         = render partial: 'comments/form', locals: { subject: @parent }
+
+
+      - if action_name == 'moderate'
+        .flex.flex-row.gap-2
+          - if params[:user_owned].present?
+            .p-2= primary_button_to('Hide User Owned', moderate_comments_path(revealed: params[:revealed]))
+          - else
+            .p-2= primary_button_to('Show User Owned', moderate_comments_path(revealed: params[:revealed], user_owned: true))
+
+          - if params[:revealed].present?
+            .p-2= primary_button_to('Hide Revealed', moderate_comments_path(user_owned: params[:user_owned]))
+          - else
+            .p-2= primary_button_to('Show Revealed', moderate_comments_path(revealed: true, user_owned: params[:user_owned]))
 
       = render @comments
       = paginate @comments

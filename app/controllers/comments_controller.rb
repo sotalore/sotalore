@@ -13,6 +13,21 @@ class CommentsController < ApplicationController
     authorize @comments
   end
 
+  def moderate
+    @comments = find_comments_index.message
+
+    unless params[:user_owned].present?
+      @comments = @comments.where(author_id: nil)
+    end
+
+    unless params[:revealed].present?
+      @comments = @comments.where(visible: false)
+    end
+
+    authorize @comments
+    render action: :index
+  end
+
   def new
     @comment = @parent.comments.build(author: current_user)
     authorize @comment

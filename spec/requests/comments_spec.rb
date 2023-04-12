@@ -2,12 +2,23 @@ require 'rails_helper'
 
 RSpec.describe "Comments", type: :request do
   let!(:parent) { create :item }
-  let(:user)    { create :user }
-  before        { sign_in user }
+  let(:current_user) { create :user }
+  before { sign_in current_user }
 
   describe 'GET index' do
+    let(:comments) { create_list :comment, 3, subject: parent }
     it 'works' do
       get item_comments_path(parent)
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe 'GET moderate' do
+    let(:current_user) { create :user, :root }
+    let(:comments) { create_list :comment, 3, subject: parent }
+
+    it 'works' do
+      get moderate_comments_path
       expect(response).to have_http_status(:ok)
     end
   end
@@ -21,7 +32,7 @@ RSpec.describe "Comments", type: :request do
         }.to change { parent.comments.reload.size }.by(1)
 
         comment = parent.comments.last
-        expect(comment.author).to eq user
+        expect(comment.author).to eq current_user
         expect(comment.message?).to eq true
         expect(response).to redirect_to(parent)
       end
@@ -40,7 +51,7 @@ RSpec.describe "Comments", type: :request do
   end
 
   context 'Given an existing comment' do
-    let!(:comment) { create :comment, subject: parent, author: user }
+    let!(:comment) { create :comment, subject: parent, author: current_user }
 
     describe 'GET edit' do
       it 'works' do
