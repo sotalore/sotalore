@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-curl -o latest.dump `heroku pg:backups public-url`
-POSTGRES_PASSWORD=pgpassword
-pg_restore --verbose --clean --no-acl --no-owner -d sl_dev latest.dump
+# Old way, here for posterity, for awhile
+# curl -o latest.dump `heroku pg:backups public-url`
+# POSTGRES_PASSWORD=pgpassword
+# pg_restore --verbose --clean --no-acl --no-owner -d sl_dev latest.dump
 
+dropdb sl_dev
+heroku pg:pull DATABASE_URL sl_dev --app sota-stuff
