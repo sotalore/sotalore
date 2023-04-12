@@ -62,6 +62,5 @@ group :development do
   gem 'hotwire-livereload'
   gem 'listen'
   gem 'guard'
-  gem 'guard-rspec'
   gem 'libnotify'
 end

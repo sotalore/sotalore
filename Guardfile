@@ -39,7 +39,7 @@ guard :rspec, cmd: "RUNNING_GUARD=t rspec", failed_mode: :keep do
 
   watch(rails.controllers) do |m|
     [
-      rspec.spec.("controllers/#{m[1]}_controller"),
+      rspec.spec.("controllers/#{m[1]}"),
     ]
   end
 
