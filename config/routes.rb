@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   resource :profile, only: [ :show, :update ]
   resources :posts
 
-  resources :comments, except: [ :new, :create, :show ] do
+  resources :comments, except: [ :new, :create ] do
     collection do
       get :moderate
     end

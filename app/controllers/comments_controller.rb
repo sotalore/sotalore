@@ -8,6 +8,18 @@ class CommentsController < ApplicationController
 
   before_action :find_parent
 
+
+  def show
+    @comment = find_comment
+    authorize @comment
+    respond_to do |format|
+      format.html { redirect_to url_for_parent }
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace(@comment, partial: 'comments/comment', locals: { comment: @comment })
+      }
+    end
+  end
+
   def index
     @comments = find_comments_index
     authorize @comments
@@ -43,7 +55,10 @@ class CommentsController < ApplicationController
 
     if submit_allowed
       if @comment.save
-        redirect_to url_for_parent
+        respond_to do |format|
+          format.html { redirect_to url_for_parent }
+          format.turbo_stream { render }
+        end
       else
         @comments = find_comments_index
         render :index, status: :unprocessable_entity
@@ -63,7 +78,10 @@ class CommentsController < ApplicationController
     @comment = find_comment
     authorize @comment
     if @comment.update(permitted_params)
-      redirect_to url_for_parent
+      respond_to do |format|
+        format.html { redirect_back(fallback_location: url_for_parent) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@comment, @comment) }
+      end
     else
       render :edit, status: :unprocessable_entity
     end
@@ -73,7 +91,10 @@ class CommentsController < ApplicationController
     @comment = find_comment
     authorize @comment
     @comment.destroy
-    redirect_to url_for_parent
+    respond_to do |format|
+      format.html { redirect_to url_for_parent }
+      format.turbo_stream { render turbo_stream: turbo_stream.remove(@comment) }
+    end
   end
 
   private
