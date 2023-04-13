@@ -18,17 +18,19 @@ export default class extends Controller {
 
   refresh() {
     const astronomy = new Astronomy()
-    let [position, otherEdge] = astronomy.positionOfConstellation(this.offsetValue)
-    this.positionTarget.textContent = Math.round(position) + "° - " + Math.round(otherEdge) + "°"
+    let [trailingEdge, leadingEdge] = astronomy.positionOfConstellation(this.offsetValue)
+    this.positionTarget.textContent = Math.round(trailingEdge) + "° - " + Math.round(leadingEdge) + "°"
 
-    let timeToZenith = astronomy.timeToTravel(otherEdge, 0, Astronomy.constellationOrbit)
+    let timeToZenith = astronomy.timeToTravel(leadingEdge, 0, Astronomy.constellationOrbit)
     this.timeToZenithTarget.textContent = formatSeconds(timeToZenith)
 
     let note = ''
-    if (position < 90) {
+    if (trailingEdge < 90) {
       note = 'setting in east'
-    } else if (otherEdge > 270) {
+    } else if (leadingEdge > 270) {
       note = 'rising in west'
+    } else if (leadingEdge < 90  && trailingEdge > 270) {
+      note = 'at zenith'
     }
     this.noteTarget.textContent = note
   }
