@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  ActiveAdmin.routes(self)
-
   namespace :adm do
     resources :users, except: [ :show, :new, :create, :destroy ]
     resource :styles, only: [ :show ] do
@@ -24,7 +22,12 @@ Rails.application.routes.draw do
   resource :profile, only: [ :show, :update ]
   resources :posts
 
-  resources :comments, except: [ :new, :create, :show ]
+  resources :comments, except: [ :new, :create ] do
+    collection do
+      get :moderate
+    end
+  end
+
   resources :items, controller: 'items' do
     collection do
       get 'use/:use', to: 'items#by_use', as: 'by_use'

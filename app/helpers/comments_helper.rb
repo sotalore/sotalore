@@ -17,4 +17,8 @@ module CommentsHelper
       end
     end
   end
+
+  def render_comments_for(parent)
+    render partial: 'comments/subject', object: parent
+  end
 end

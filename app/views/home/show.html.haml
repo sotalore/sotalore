@@ -4,7 +4,7 @@
       = tile do
         = tile_body do
           = render @top_post
-          = render partial: 'comments/subject', object: @top_post
+          = render_comments_for(@top_post)
 
     .col-sm-6.col-span-2.md:col-span-1
       = tile_with_heading('Contact Us') do

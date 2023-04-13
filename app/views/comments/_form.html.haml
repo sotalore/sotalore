@@ -1,12 +1,17 @@
-= full_form_for([ subject, @comment || Comment.new ]) do |f|
-  ~ f.text_area :body
-  - if current_user.null?
-    = notice_warning do
-      You can post comments anonymously, or you can
-      #{link_to 'sign-up', new_user_registration_path}.
-      Anonymous comments aren't visible until they are moderated
-      by a site editor.
-  = f.actions do
-    - if require_turnstile?
-      = turnstile_tag
-    = f.submit
+- @comment ||= Comment.new
+= turbo_frame_tag(@comment) do
+  .my-2
+    = full_form_for([ subject, @comment ]) do |f|
+      ~ f.text_area :body
+      - if current_user.null?
+        = notice_warning do
+          You can post comments anonymously, or you can
+          #{link_to 'sign-up', new_user_registration_path}.
+          Anonymous comments aren't visible until they are moderated
+          by a site editor.
+      = f.actions do
+        - if require_turnstile?
+          = turnstile_tag
+        - if @comment&.persisted?
+          = f.cancel 'Cancel', [ subject, @comment ]
+        = f.submit

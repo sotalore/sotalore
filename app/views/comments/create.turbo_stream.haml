@@ -1,0 +1,3 @@
+= turbo_stream.replace(Comment.new, @comment)
+- @comment = Comment.new
+= turbo_stream.prepend('comments', partial: 'form', locals: { subject: @parent })

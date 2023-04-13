@@ -44,8 +44,6 @@ gem 'faraday'
 gem 'scout_apm'
 gem "honeybadger", "~> 5.0"
 
-gem 'activeadmin'
-
 gem 'icalendar'
 
 group :test do
@@ -62,6 +60,5 @@ group :development do
   gem 'hotwire-livereload'
   gem 'listen'
   gem 'guard'
-  gem 'guard-rspec'
   gem 'libnotify'
 end

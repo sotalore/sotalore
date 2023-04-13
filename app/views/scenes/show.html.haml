@@ -64,4 +64,4 @@
               = form.submit("Upload")
 
   = tile_with_heading('Comments', class: 'col-span-6 md:col-span-3 lg:col-span-2') do
-    = render partial: 'comments/subject', object: @scene
+    = render_comments_for(@scene)

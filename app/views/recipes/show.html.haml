@@ -4,7 +4,7 @@
     = tile do
       = tile_body do
         = render @recipe
-        = render partial: 'comments/subject', object: @recipe
+        = render_comments_for(@recipe)
 
   .col-span-1
     = render partial: 'recipes/work_list'

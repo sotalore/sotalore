@@ -1,4 +1,4 @@
-.CommentFeed
+#comments.CommentFeed
   .CommentFeed-newComment.mb-4
     - if policy(Comment).new?
       = render partial: 'comments/form', locals: { subject: subject }

@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   include Pundit::Authorization
 
-  after_action :verify_authorized, unless: -> { in_active_admin? }
+  after_action :verify_authorized
   after_action :record_last_request_at
 
   if Rails.env.production?
@@ -40,17 +40,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def in_active_admin?
-    self.is_a?(ActiveAdmin::BaseController)
-  end
-
-  def unauthorized_admin_access(*args)
-    redirect_to root_url
-  end
-
   def record_last_request_at
     return if current_user.null?
-    current_user.update(last_request_at: Time.now)
+    current_user.update_attribute(:last_request_at, Time.now)
   end
 
   def user_not_authorized(exception)

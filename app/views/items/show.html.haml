@@ -115,4 +115,4 @@
           .text-center
             %em no recipes use this item.
       .col-sm-12.col-md-12.col-lg-5
-        = render partial: 'comments/subject', object: @item
+        = render_comments_for(@item)
