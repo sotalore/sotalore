@@ -1,7 +1,5 @@
 Rails.application.routes.draw do
 
-  ActiveAdmin.routes(self)
-
   namespace :adm do
     resources :users, except: [ :show, :new, :create, :destroy ]
     resource :styles, only: [ :show ] do

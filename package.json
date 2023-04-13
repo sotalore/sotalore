@@ -11,8 +11,6 @@
     "autoprefixer": "^10.4.4",
     "chart.js": "^4.1.2",
     "esbuild": "^0.17.4",
-    "jquery": "^3.6.0",
-    "jquery-ui": "^1.13.1",
     "local-time": "^2.1.0",
     "moment": "^2.29.1",
     "mousetrap": "^1.6.5",
@@ -40,8 +38,6 @@
   ],
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
-    "build:css": "yarn build:css:admin & yarn build:css:main",
-    "build:css:main": "postcss ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css --verbose",
-    "build:css:admin": "sass ./app/assets/stylesheets/active_admin.sass.scss:./app/assets/builds/active_admin.css ./app/assets/stylesheets/active_admin/print.sass.scss:./app/assets/builds/active_admin/print.css --no-source-map --load-path=node_modules"
+    "build:css": "postcss ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css --verbose"
   }
 }
