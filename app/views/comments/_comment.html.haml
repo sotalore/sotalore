@@ -6,7 +6,7 @@
         = user_flair_tag(comment.author)
       .Comment-subject
         - unless comment.subject == @parent
-          = link_to(comment.subject, comment.subject)
+          = link_to(comment.subject, comment.subject, data: { 'turbo-frame': '_top'})
       .Comment-authorTime
         = local_time_ago(comment.created_at)
 
