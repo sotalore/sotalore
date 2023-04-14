@@ -4,6 +4,60 @@ require 'rails_helper'
 
 RSpec.describe Clock do
 
+  describe 'time math' do
+    it "has 2.5 seconds per NB minute" do
+      expect(Clock::NB_MINUTE).to eq(2.5)
+    end
+
+    it "has 60 NB minutes per NB hour" do
+      expect(Clock::NB_HOUR).to eq(60 * 2.5)
+    end
+
+    it "has 24 NB hours per NB day" do
+      expect(Clock::NB_DAY).to eq(24 * 60 * 2.5)
+    end
+
+    it 'has one real hour per NB day' do
+      expect(Clock::NB_DAY).to eq(1.hour)
+    end
+
+    it 'has 28 NB days per NB month' do
+      expect(Clock::NB_MONTH).to eq(28 * 24 * 60 * 2.5)
+    end
+
+    it 'has 12 NB months per NB year' do
+      expect(Clock::NB_YEAR).to eq(12 * 28 * 24 * 60 * 2.5)
+    end
+
+    it 'has 336 real hours per NB year' do
+      expect(Clock::NB_YEAR).to eq(336.hours)
+    end
+
+    it 'has 2 real weeks per NB year' do
+      expect(Clock::NB_YEAR).to eq(2.weeks)
+    end
+  end
+
+  describe '#real_seconds_since_beginning' do
+    subject { Clock.real_seconds_since_beginning(time) }
+
+    context "At the beginning of time" do
+      let(:time) { Clock::BEGINNING_OF_PC }
+      it { is_expected.to eq(0) }
+    end
+
+    context "At the beginning of time plus 1 second" do
+      let(:time) { Clock::BEGINNING_OF_PC + 1.second }
+      it { is_expected.to eq(1) }
+    end
+
+    context "At the beginning of time plus 1 minute" do
+      let(:time) { Clock::BEGINNING_OF_PC + 1.minute }
+      it { is_expected.to eq(60) }
+    end
+
+  end
+
   describe '#time_to_nbt' do
 
     subject { Clock.time_to_nbt(time) }
@@ -81,60 +135,6 @@ RSpec.describe Clock do
       let(:time) { Time.zone.parse('September 15, 1997 23:00:00 -0000') }
       it { is_expected.to eq([0, 12, 28, 0, 0]) }
     end
-
-  end
-
-  describe '#position_of_planet' do
-    subject { Clock.position_of_planet(planet, time: time) }
-
-    context 'Given the beginning of the new era' do
-      let(:time) { Clock::BEGINNING_OF_PC }
-
-      context 'Given deceit' do
-        let(:planet) { :deceit } # 19 days
-        it { is_expected.to eq(0) }
-      end
-
-      context 'Given dishonor' do
-        let(:planet) { :dishonor } # 2 days
-        it { is_expected.to eq(0) }
-      end
-    end
-
-    context 'Given 5 NB days after beginning of the new era' do
-      let(:time) { Clock::BEGINNING_OF_PC + 5.hours }
-
-      context 'Given deceit' do
-        let(:planet) { :deceit } # 19 days
-        it { is_expected.to eq(360 - ((5/19.0) * 360)) }
-      end
-
-      context 'Given dishonor' do
-        let(:planet) { :dishonor } # 2 days
-        it { is_expected.to eq(180) }
-      end
-    end
-
-    context 'Given injustice with an 11 day period' do
-      let(:planet) { :injustice } # 11 days
-
-      context 'Given the EPOCH' do
-        let(:time) { Clock::BEGINNING_OF_PC }
-        it { is_expected.to eq(0) }
-      end
-
-      context 'Given the 0.25 orbit later' do
-        let(:time) { Clock::BEGINNING_OF_PC + (0.25 * 11).hours }
-        it { is_expected.to eq(270) }
-      end
-
-      context 'Given the 0.75 orbit later' do
-        let(:time) { Clock::BEGINNING_OF_PC + (0.75 * 11).hours }
-        it { is_expected.to eq(90) }
-      end
-
-    end
-
 
   end
 end
