@@ -4,20 +4,22 @@ class Constellations
 
   ORBITAL_PERIOD = Clock::NB_YEAR
 
+  TIME_PER_CONSTELLATION = Clock::NB_YEAR / 12
+
   # assumes January Chalice is north
   ALL = {
-    chalice: { offset: 195, virtue: 'Honor',        city: 'Kiln' },
-    tear:    { offset: 165, virtue: 'Sacrifice',    city: 'Northwood' },
-    scales:  { offset: 135, virtue: 'Justice',      city: 'Jaanaford' },
-    sword:   { offset: 105, virtue: 'Valor',        city: 'Point West' },
-    heart:   { offset: 75, virtue: 'Compassion',   city: 'Brookside' },
-    hand:    { offset: 45, virtue: 'Honesty',      city: 'Etceter' },
-    ethos:   { offset: 15,  virtue: '',             city: '' },
-    bell:    { offset: 345,  virtue: 'Courage',      city: 'Resolute' },
-    candle:  { offset: 315,  virtue: 'Love',         city: 'Ardoris' },
-    book:    { offset: 285, virtue: 'Truth',        city: 'Aerie' },
-    crook:   { offset: 255, virtue: 'Humility',     city: 'Eastmarch' },
-    ankh:    { offset: 225, virtue: 'Spirituality', city: 'Fortus End' },
+    ankh:    { offset: 355, virtue: 'Spirituality', city: 'Fortus End' },
+    crook:   { offset: 25, virtue: 'Humility',     city: 'Eastmarch' },
+    book:    { offset: 55, virtue: 'Truth',        city: 'Aerie' },
+    candle:  { offset: 85,  virtue: 'Love',         city: 'Ardoris' },
+    bell:    { offset: 115,  virtue: 'Courage',      city: 'Resolute' },
+    ethos:   { offset: 145,  virtue: '',             city: '' },
+    hand:    { offset: 175, virtue: 'Honesty',      city: 'Etceter' },
+    heart:   { offset: 205, virtue: 'Compassion',   city: 'Brookside' },
+    sword:   { offset: 235, virtue: 'Valor',        city: 'Point West' },
+    scales:  { offset: 265, virtue: 'Justice',      city: 'Jaanaford' },
+    tear:    { offset: 295, virtue: 'Sacrifice',    city: 'Northwood' },
+    chalice: { offset: 325, virtue: 'Honor',        city: 'Kiln' },
   }
 
 end

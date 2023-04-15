@@ -31,13 +31,18 @@ class Clock
 
   class << self
 
+    def real_seconds_since_beginning(time=nil)
+      time ||= Time.zone.now
+      (time - BEGINNING_OF_PC).to_i
+    end
+
     def time_to_nbt(time=nil)
       year, month, day, hour, minute = time_to_nbt_date_parts(time)
       "#{MONTHS[month - 1]} #{day}, #{year}PC #{"%02d" % hour}:#{"%02d" % minute}"
     end
 
     def time_to_nbt_date_parts(time=nil)
-      rt_seconds = get_seconds_since_beginning(time: time)
+      rt_seconds = real_seconds_since_beginning(time)
 
       minute = ((rt_seconds % NB_HOUR) / NB_MINUTE).floor
       hour   = ((rt_seconds % NB_DAY) / NB_HOUR).floor
@@ -46,36 +51,6 @@ class Clock
       year   = (rt_seconds / NB_YEAR).floor
 
       [ year, month, day, hour, minute ]
-    end
-
-    def position_of_planet(planet, time: nil)
-      raise ArgumentError, "Unknown planet: #{planet}" unless PLANETS.key?(planet)
-
-      rt_seconds = get_seconds_since_beginning(time: time)
-      period = PLANETS[planet][:orbital_period] # in NB days
-      period *= NB_DAY # in NB seconds
-      remainder = (rt_seconds % period)
-      position = 360 - ((remainder / period.to_f) * 360)
-      position == 360 ? 0 : position
-    end
-
-    def find_alignment
-      periods = Clock::PLANETS.values.map { |p| p[:orbital_period] }
-      periods = [ 13, 3 ]
-      ((periods.max)..10_000_000).each do |i|
-        results = periods.map { |p| i % p }
-        if results.uniq == [ 0 ]
-          puts "i: #{i}"
-          break
-        end
-      end
-    end
-
-    protected
-
-    def get_seconds_since_beginning(time: null)
-      time ||= Time.zone.now
-      (time - BEGINNING_OF_PC).to_i
     end
 
   end

@@ -1,5 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 import Astronomy  from "../lib/astronomy"
+import { updateText } from "../lib/util"
 
 export default class extends Controller {
 
@@ -29,11 +30,11 @@ export default class extends Controller {
     }
 
     if (this.hasNoteTarget) {
-      this.noteTarget.textContent = note
+      updateText(this.noteTarget, note)
     }
 
     if (this.hasPositionTarget) {
-      this.positionTarget.textContent = position.toFixed(2)
+      updateText(this.positionTarget, position.toFixed(2))
     }
   }
 

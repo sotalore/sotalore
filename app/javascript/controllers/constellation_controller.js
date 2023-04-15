@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import Astronomy from "../lib/astronomy"
 import { formatSeconds } from "../lib/time_util"
+import { updateText } from "../lib/util"
 
 export default class extends Controller {
 
@@ -18,27 +19,30 @@ export default class extends Controller {
 
   refresh() {
     const astronomy = new Astronomy()
-    let [trailingEdge, leadingEdge] = astronomy.positionOfConstellation(this.offsetValue)
-    this.positionTarget.textContent = Math.round(trailingEdge) + "° - " + Math.round(leadingEdge) + "°"
+    let [leadingEdge, trailingEdge] = astronomy.positionOfConstellation(this.offsetValue)
+    this.positionTarget.textContent = Math.round(leadingEdge) + "° - " + Math.round(trailingEdge) + "°"
 
     let timeToZenith = astronomy.timeToTravel(leadingEdge, 0, Astronomy.constellationOrbit)
-    this.timeToZenithTarget.textContent = formatSeconds(timeToZenith)
 
     let note = ''
-    if (trailingEdge < 90) {
-      note = 'setting in east'
-    } else if (leadingEdge > 270) {
-      note = 'rising in west'
-    } else if (leadingEdge < 90  && trailingEdge > 270) {
+    if (leadingEdge > 330) {
       note = 'at zenith'
+      timeToZenith = 0
+    } else if (leadingEdge < 90) {
+      note = 'rising in east'
+    } else if (trailingEdge > 270) {
+      note = 'setting in west'
     }
     this.noteTarget.textContent = note
+    this.timeToZenithTarget.textContent = formatSeconds(timeToZenith)
   }
 
+
   startRefreshing() {
+    console.log(Astronomy.nbMinute * 30000)
     this.refreshTimer = setInterval(() => {
       this.refresh()
-    }, Astronomy.NB_MINUTE * 30000)
+    }, Astronomy.nbMinute * 30000)
   }
 
   stopRefreshing() {
