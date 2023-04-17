@@ -111,6 +111,15 @@ export default class Astronomy {
     return diff
   }
 
+  isInArc(position, leading, trailing) {
+    if (leading > trailing) {
+      // The arc is crossing the 0°/360° meridian
+      return (position >= leading || position <= trailing)
+    } else {
+      return (position >= leading && position <= trailing)
+    }
+  }
+
   timeToTravel(position, target, period) {
     if (position === target) {
       return 0
