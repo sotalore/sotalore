@@ -24,13 +24,13 @@ export default class extends Controller {
 
     const constellations = astronomy.currentConstellations()
     for (const constellation of constellations) {
-      let [trailing, leading] = constellation.position
-      if (this.isInArc(position, trailing, leading)) {
+      let [leading, trailing] = constellation.position
+      if (astronomy.isInArc(position, leading, trailing)) {
         this.currentCityTarget.textContent = constellation.city
         this.symbolTarget.textContent = constellation.symbol
         this.virtueTarget.textContent = constellation.virtue
 
-        const remainingTime = astronomy.timeToTravel(trailing, position, orbitalPeriod)
+        const remainingTime = astronomy.timeToTravel(position, leading, orbitalPeriod)
         this.timeRemainingTarget.textContent = formatSeconds(remainingTime)
 
         const nextConstellation = astronomy.nextConstellation(constellation.symbol)
@@ -49,15 +49,6 @@ export default class extends Controller {
   stopRefreshing() {
     if (this.refreshTimer) {
       clearInterval(this.refreshTimer)
-    }
-  }
-
-  isInArc(position, trailing, leading) {
-    if (trailing > leading) {
-      // The arc is crossing the 0°/360° meridian
-      return (position >= trailing || position <= leading)
-    } else {
-      return (position >= trailing && position <= leading)
     }
   }
 

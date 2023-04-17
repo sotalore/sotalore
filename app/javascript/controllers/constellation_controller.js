@@ -39,7 +39,6 @@ export default class extends Controller {
 
 
   startRefreshing() {
-    console.log(Astronomy.nbMinute * 30000)
     this.refreshTimer = setInterval(() => {
       this.refresh()
     }, Astronomy.nbMinute * 30000)
