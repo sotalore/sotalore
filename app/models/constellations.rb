@@ -9,11 +9,11 @@ class Constellations
   # assumes January Chalice is north
   ALL = {
     ankh:    { offset: 355, virtue: 'Spirituality', city: 'Fortus End' },
-    crook:   { offset: 25, virtue: 'Humility',     city: 'Eastmarch' },
-    book:    { offset: 55, virtue: 'Truth',        city: 'Aerie' },
+    crook:   { offset: 25,  virtue: 'Humility',     city: 'Eastmarch' },
+    book:    { offset: 55,  virtue: 'Truth',        city: 'Aerie' },
     candle:  { offset: 85,  virtue: 'Love',         city: 'Ardoris' },
-    bell:    { offset: 115,  virtue: 'Courage',      city: 'Resolute' },
-    ethos:   { offset: 145,  virtue: '',             city: '' },
+    bell:    { offset: 115, virtue: 'Courage',      city: 'Resolute' },
+    ethos:   { offset: 145, virtue: '',             city: '' },
     hand:    { offset: 175, virtue: 'Honesty',      city: 'Etceter' },
     heart:   { offset: 205, virtue: 'Compassion',   city: 'Brookside' },
     sword:   { offset: 235, virtue: 'Valor',        city: 'Point West' },
