@@ -58,6 +58,7 @@
           %th Planet
           %th Position
           %th Visible?
+          %th.text-right Zenith in
           %th Color
           %th Orbital Period
           %th Cabalist
@@ -70,6 +71,7 @@
               %span.mr-4{data: {'orbit-target': 'position'}}
             %td
               %span.text-right.text-sm.italic{data: {'orbit-target': 'note'}}
+            %td.text-right{data: {'orbit-target': 'timeToZenith'}}
             %td{class: "planet-#{info[:color]}"}
               = info[:color]
             %td

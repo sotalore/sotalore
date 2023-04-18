@@ -11,18 +11,18 @@ export default class Astronomy {
   static beginningOfPC = Astronomy.epoch - (400 * Astronomy.nbYear)
 
   static constellations = [
-    { symbol: 'Ankh',     offset: 355, virtue: 'Spirituality', city: 'Fortus End' },
-    { symbol: 'Crook',    offset: 25, virtue: 'Humility',     city: 'Eastmarch' },
-    { symbol: 'Book',     offset: 55, virtue: 'Truth',        city: 'Aerie' },
-    { symbol: 'Candle',   offset: 85, virtue: 'Love',         city: 'Ardoris' },
-    { symbol: 'Bell',     offset: 115, virtue: 'Courage',      city: 'Resolute' },
-    { symbol: 'Ethos',    offset: 145,  virtue: '',             city: '' },
-    { symbol: 'Hand',     offset: 175,  virtue: 'Honesty',      city: 'Etceter' },
-    { symbol: 'Heart',    offset: 205,  virtue: 'Compassion',   city: 'Brookside' },
-    { symbol: 'Sword',    offset: 235, virtue: 'Valor',        city: 'Point West' },
-    { symbol: 'Scales',   offset: 265, virtue: 'Justice',      city: 'Jaanaford' },
-    { symbol: 'Tear',     offset: 295, virtue: 'Sacrifice',    city: 'Northwood' },
-    { symbol: 'Chalice',  offset: 325, virtue: 'Honor',        city: 'Kiln' },
+    { symbol: 'Ankh',     offset: 356, virtue: 'Spirituality', city: 'Fortus End' },
+    { symbol: 'Crook',    offset: 26,  virtue: 'Humility',     city: 'Eastmarch' },
+    { symbol: 'Book',     offset: 56,  virtue: 'Truth',        city: 'Aerie' },
+    { symbol: 'Candle',   offset: 86,  virtue: 'Love',         city: 'Ardoris' },
+    { symbol: 'Bell',     offset: 116, virtue: 'Courage',      city: 'Resolute' },
+    { symbol: 'Ethos',    offset: 146, virtue: '',             city: '' },
+    { symbol: 'Hand',     offset: 176, virtue: 'Honesty',      city: 'Etceter' },
+    { symbol: 'Heart',    offset: 206, virtue: 'Compassion',   city: 'Brookside' },
+    { symbol: 'Sword',    offset: 236, virtue: 'Valor',        city: 'Point West' },
+    { symbol: 'Scales',   offset: 266, virtue: 'Justice',      city: 'Jaanaford' },
+    { symbol: 'Tear',     offset: 296, virtue: 'Sacrifice',    city: 'Northwood' },
+    { symbol: 'Chalice',  offset: 326, virtue: 'Honor',        city: 'Kiln' },
   ]
 
   static constellationOrbit = Astronomy.nbYear
@@ -55,7 +55,7 @@ export default class Astronomy {
     let position = this.portionOfOrbitComplete(Astronomy.constellationOrbit)
     position = 360 - (position * 360)
     position += offset
-    if (position > 359) {
+    if (position >= 360) {
       position -= 360
     }
 
@@ -99,7 +99,7 @@ export default class Astronomy {
   nextConstellation(currentSymbol) {
     const current = Astronomy.constellations.find(c => c.symbol === currentSymbol)
     const index = Astronomy.constellations.indexOf(current)
-    const next = Astronomy.constellations[(index + 1) % Astronomy.constellations.length]
+    const next = Astronomy.constellations[(index - 1) % Astronomy.constellations.length]
     return next
   }
 
