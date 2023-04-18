@@ -51,5 +51,12 @@ class Astronomy
 
       degrees / velocity
     end
+
+    def planet_speed
+      PLANETS.each do |planet, data|
+        period = data[:orbital_period]
+        data[:one_degree] = (period * Clock::NB_DAY) / 360.0
+      end
+    end
   end
 end
