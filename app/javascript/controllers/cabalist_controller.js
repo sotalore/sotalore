@@ -1,6 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 import Astronomy  from "../lib/astronomy"
 import { formatSeconds } from "../lib/time_util"
+import { updateText } from "../lib/util"
 
 export default class extends Controller {
 
@@ -26,15 +27,15 @@ export default class extends Controller {
     for (const constellation of constellations) {
       let [leading, trailing] = constellation.position
       if (astronomy.isInArc(position, leading, trailing)) {
-        this.currentCityTarget.textContent = constellation.city
-        this.symbolTarget.textContent = constellation.symbol
-        this.virtueTarget.textContent = constellation.virtue
+        updateText(this.currentCityTarget, constellation.city)
+        updateText(this.symbolTarget, constellation.symbol)
+        updateText(this.virtueTarget, constellation.virtue)
 
         const remainingTime = astronomy.timeToTravel(position, leading, orbitalPeriod)
-        this.timeRemainingTarget.textContent = formatSeconds(remainingTime)
+        updateText(this.timeRemainingTarget, formatSeconds(remainingTime))
 
         const nextConstellation = astronomy.nextConstellation(constellation.symbol)
-        this.nextCityTarget.textContent = nextConstellation.city
+        updateText(this.nextCityTarget, nextConstellation.city)
         break
       }
     }

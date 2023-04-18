@@ -20,7 +20,7 @@ export default class extends Controller {
   refresh() {
     const astronomy = new Astronomy()
     let [leadingEdge, trailingEdge] = astronomy.positionOfConstellation(this.offsetValue)
-    this.positionTarget.textContent = Math.round(leadingEdge) + "° - " + Math.round(trailingEdge) + "°"
+    updateText(this.positionTarget, Math.round(leadingEdge) + "° - " + Math.round(trailingEdge) + "°")
 
     let timeToZenith = astronomy.timeToTravel(leadingEdge, 0, Astronomy.constellationOrbit)
 
@@ -33,8 +33,8 @@ export default class extends Controller {
     } else if (trailingEdge > 270) {
       note = 'setting in west'
     }
-    this.noteTarget.textContent = note
-    this.timeToZenithTarget.textContent = formatSeconds(timeToZenith)
+    updateText(this.noteTarget, note)
+    updateText(this.timeToZenithTarget, formatSeconds(timeToZenith))
   }
 
 
