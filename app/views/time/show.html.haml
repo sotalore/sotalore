@@ -13,7 +13,7 @@
 
   = tile do
     = tile_body do
-      %h2{data: {controller: 'orbit', 'orbit-period-value': Clock::DAEDALUS_ORBITAL_PERIOD}}
+      %h2{data: {controller: 'orbit', 'orbit-period-value': Astronomy::DAEDALUS_ORBITAL_PERIOD}}
         Daedalus Position:
         %small.font-normal
           %span{data: {'orbit-target': 'position'}}
@@ -67,7 +67,7 @@
           %th Orbital Period
           %th Cabalist
 
-        - Clock::PLANETS.each do |planet, info|
+        - Astronomy::PLANETS.each do |planet, info|
           %tr.hover:bg-grey-100{data: {controller: 'orbit', 'orbit-period-value': info[:orbital_period]}}
             %td.font-bold
               = planet.to_s.titleize
