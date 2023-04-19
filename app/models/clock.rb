@@ -14,21 +14,6 @@ class Clock
 
   MONTHS = %w(Janus Februa Marse Apru Maia Juno Julius Augus Septembre Octobre Novembre Decembre)
 
-  PLANETS = {
-    deceit:     { color: 'blue',   cabalist: 'Dolus',   orbital_period: 19 },
-    despise:    { color: 'yellow', cabalist: 'Temna',   orbital_period: 17 },
-    dastard:    { color: 'red',    cabalist: 'Nefario', orbital_period: 13 },
-    injustice:  { color: 'green',  cabalist: 'Nefas',   orbital_period: 11 },
-    punishment: { color: 'orange', cabalist: 'Avara',   orbital_period: 3 },
-    dishonor:   { color: 'purple', cabalist: 'Indigno', orbital_period: 2 },
-    # these might be backwards, Bowen's notes in 401 have them the opposite way,
-    # from the wiki (which has them like this...)
-    carnality:  { color: 'white',  cabalist: 'Corpus',  orbital_period: 23 },
-    vanity:     { color: 'black',  cabalist: 'Fastus',  orbital_period: 29 },
-  }
-
-  DAEDALUS_ORBITAL_PERIOD = 7
-
   class << self
 
     def real_seconds_since_beginning(time=nil)

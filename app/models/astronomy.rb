@@ -4,14 +4,14 @@ class Astronomy
 
   # These are in order of distance from Sosaria
   PLANETS = {
-    deceit:     { color: 'blue',   cabalist: 'Dolus',   orbital_period: 19 },
-    despise:    { color: 'yellow', cabalist: 'Temna',   orbital_period: 17 },
-    dastard:    { color: 'red',    cabalist: 'Nefario', orbital_period: 13 },
-    injustice:  { color: 'green',  cabalist: 'Nefas',   orbital_period: 11 },
-    punishment: { color: 'orange', cabalist: 'Avara',   orbital_period: 3 },
-    dishonor:   { color: 'purple', cabalist: 'Indigno', orbital_period: 2 },
-    carnality:  { color: 'white',  cabalist: 'Corpus',  orbital_period: 23 },
-    vanity:     { color: 'black',  cabalist: 'Fastus',  orbital_period: 29 },
+    deceit:     { color: 'blue',   cabalist: 'Dolus',   orbital_period: 19, offset: 0 },
+    despise:    { color: 'yellow', cabalist: 'Temna',   orbital_period: 17, offset: 0 },
+    dastard:    { color: 'red',    cabalist: 'Nefario', orbital_period: 13, offset: 0 },
+    injustice:  { color: 'green',  cabalist: 'Nefas',   orbital_period: 11, offset: 0 },
+    punishment: { color: 'orange', cabalist: 'Avara',   orbital_period: 3,  offset: 0 },
+    dishonor:   { color: 'purple', cabalist: 'Indigno', orbital_period: 2,  offset: 0 },
+    carnality:  { color: 'white',  cabalist: 'Corpus',  orbital_period: 23, offset: 0 },
+    vanity:     { color: 'black',  cabalist: 'Fastus',  orbital_period: 29, offset: 0 },
   }
 
   DAEDALUS_ORBITAL_PERIOD = 7

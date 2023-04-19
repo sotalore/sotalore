@@ -5,7 +5,7 @@ import { updateText } from "../lib/util"
 
 export default class extends Controller {
 
-  static values = { period: Number }
+  static values = { period: Number, offset: { type: Number, default: 0} }
 
   static targets = [ "currentCity", "symbol", "virtue", "timeRemaining", "nextCity" ]
 
@@ -21,7 +21,7 @@ export default class extends Controller {
   refresh() {
     const astronomy = new Astronomy()
     const orbitalPeriod = this.periodValue * Astronomy.nbDay
-    const position = astronomy.positionOfPlanet(orbitalPeriod)
+    const position = astronomy.positionOfPlanet(orbitalPeriod) + this.offsetValue
 
     const constellations = astronomy.currentConstellations()
     for (const constellation of constellations) {
