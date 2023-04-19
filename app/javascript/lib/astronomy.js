@@ -11,18 +11,18 @@ export default class Astronomy {
   static beginningOfPC = Astronomy.epoch - (400 * Astronomy.nbYear)
 
   static constellations = [
-    { symbol: 'Ankh',     offset: 356, virtue: 'Spirituality', city: 'Fortus End' },
-    { symbol: 'Crook',    offset: 26,  virtue: 'Humility',     city: 'Eastmarch' },
-    { symbol: 'Book',     offset: 56,  virtue: 'Truth',        city: 'Aerie' },
-    { symbol: 'Candle',   offset: 86,  virtue: 'Love',         city: 'Ardoris' },
-    { symbol: 'Bell',     offset: 116, virtue: 'Courage',      city: 'Resolute' },
-    { symbol: 'Ethos',    offset: 146, virtue: '',             city: '' },
-    { symbol: 'Hand',     offset: 176, virtue: 'Honesty',      city: 'Etceter' },
-    { symbol: 'Heart',    offset: 206, virtue: 'Compassion',   city: 'Brookside' },
-    { symbol: 'Sword',    offset: 236, virtue: 'Valor',        city: 'Point West' },
-    { symbol: 'Scales',   offset: 266, virtue: 'Justice',      city: 'Jaanaford' },
-    { symbol: 'Tear',     offset: 296, virtue: 'Sacrifice',    city: 'Northwood' },
-    { symbol: 'Chalice',  offset: 326, virtue: 'Honor',        city: 'Kiln' },
+    { symbol: 'Ankh',     offset: 0,   virtue: 'Spirituality', city: 'Fortus End' },
+    { symbol: 'Crook',    offset: 30,  virtue: 'Humility',     city: 'Eastmarch' },
+    { symbol: 'Book',     offset: 60,  virtue: 'Truth',        city: 'Aerie' },
+    { symbol: 'Candle',   offset: 90,  virtue: 'Love',         city: 'Ardoris' },
+    { symbol: 'Bell',     offset: 120, virtue: 'Courage',      city: 'Resolute' },
+    { symbol: 'Ethos',    offset: 150, virtue: '',             city: '' },
+    { symbol: 'Hand',     offset: 180, virtue: 'Honesty',      city: 'Etceter' },
+    { symbol: 'Heart',    offset: 210, virtue: 'Compassion',   city: 'Brookside' },
+    { symbol: 'Sword',    offset: 240, virtue: 'Valor',        city: 'Point West' },
+    { symbol: 'Scales',   offset: 270, virtue: 'Justice',      city: 'Jaanaford' },
+    { symbol: 'Tear',     offset: 300, virtue: 'Sacrifice',    city: 'Northwood' },
+    { symbol: 'Chalice',  offset: 330, virtue: 'Honor',        city: 'Kiln' },
   ]
 
   static constellationOrbit = Astronomy.nbYear

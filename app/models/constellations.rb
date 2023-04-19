@@ -8,18 +8,18 @@ class Constellations
 
   # assumes January Chalice is north
   ALL = {
-    ankh:    { offset: 356, virtue: 'Spirituality', city: 'Fortus End' },
-    crook:   { offset: 26,  virtue: 'Humility',     city: 'Eastmarch' },
-    book:    { offset: 56,  virtue: 'Truth',        city: 'Aerie' },
-    candle:  { offset: 86,  virtue: 'Love',         city: 'Ardoris' },
-    bell:    { offset: 116, virtue: 'Courage',      city: 'Resolute' },
-    ethos:   { offset: 146, virtue: '',             city: '' },
-    hand:    { offset: 176, virtue: 'Honesty',      city: 'Etceter' },
-    heart:   { offset: 206, virtue: 'Compassion',   city: 'Brookside' },
-    sword:   { offset: 236, virtue: 'Valor',        city: 'Point West' },
-    scales:  { offset: 266, virtue: 'Justice',      city: 'Jaanaford' },
-    tear:    { offset: 296, virtue: 'Sacrifice',    city: 'Northwood' },
-    chalice: { offset: 326, virtue: 'Honor',        city: 'Kiln' },
+    ankh:    { offset: 0,   virtue: 'Spirituality', city: 'Fortus End' },
+    crook:   { offset: 30,  virtue: 'Humility',     city: 'Eastmarch' },
+    book:    { offset: 60,  virtue: 'Truth',        city: 'Aerie' },
+    candle:  { offset: 90,  virtue: 'Love',         city: 'Ardoris' },
+    bell:    { offset: 120, virtue: 'Courage',      city: 'Resolute' },
+    ethos:   { offset: 150, virtue: '',             city: '' },
+    hand:    { offset: 180, virtue: 'Honesty',      city: 'Etceter' },
+    heart:   { offset: 210, virtue: 'Compassion',   city: 'Brookside' },
+    sword:   { offset: 240, virtue: 'Valor',        city: 'Point West' },
+    scales:  { offset: 270, virtue: 'Justice',      city: 'Jaanaford' },
+    tear:    { offset: 300, virtue: 'Sacrifice',    city: 'Northwood' },
+    chalice: { offset: 330, virtue: 'Honor',        city: 'Kiln' },
   }
 
 end
