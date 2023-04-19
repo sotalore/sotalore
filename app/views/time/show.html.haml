@@ -31,8 +31,12 @@
           %th Virtue
           %th.text-right Remaining
           %th Next City
-        - Clock::PLANETS.each do |planet, info|
-          %tr.hover:bg-grey-100{data: {controller: 'cabalist', 'cabalist-period-value': info[:orbital_period]}}
+        - Astronomy::PLANETS.each do |planet, info|
+          %tr.hover:bg-grey-100{data: {
+              controller: 'cabalist',
+              'cabalist-period-value': info[:orbital_period],
+              'cabalist-offset-value': info[:offset]
+            } }
             %td.font-bold.pr-2
               = info[:cabalist].to_s.titleize
 
