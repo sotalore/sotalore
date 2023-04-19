@@ -98,8 +98,12 @@ export default class Astronomy {
 
   nextConstellation(currentSymbol) {
     const current = Astronomy.constellations.find(c => c.symbol === currentSymbol)
-    const index = Astronomy.constellations.indexOf(current)
-    const next = Astronomy.constellations[(index - 1) % Astronomy.constellations.length]
+    let index = Astronomy.constellations.indexOf(current)
+    index = index - 1
+    if (index < 0) {
+      index = Astronomy.constellations.length - 1
+    }
+    const next = Astronomy.constellations[index]
     return next
   }
 
