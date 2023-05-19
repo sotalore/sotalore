@@ -5,7 +5,7 @@ ruby "3.2.2"
 gem 'rails', '~> 7.0.2'
 gem 'propshaft'
 gem 'pg'
-gem 'puma', '~> 5.0'
+gem 'puma', '~> 6.0'
 
 gem 'jsbundling-rails'
 gem "cssbundling-rails"
