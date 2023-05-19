@@ -60,7 +60,7 @@ export default class Astronomy {
     }
 
     let other_edge = position + 30
-    if (other_edge > 359) {
+    if (other_edge >= 360) {
       other_edge -= 360
     }
 
@@ -118,9 +118,9 @@ export default class Astronomy {
   isInArc(position, leading, trailing) {
     if (leading > trailing) {
       // The arc is crossing the 0°/360° meridian
-      return (position >= leading || position <= trailing)
+      return (position >= leading || position < trailing)
     } else {
-      return (position >= leading && position <= trailing)
+      return (position >= leading && position < trailing)
     }
   }
 
