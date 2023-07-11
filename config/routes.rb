@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get 'master-trainers', to: 'home#master_trainers'
 
   resource :time, only: [ :show ], controller: 'time'
+  resource :cabalists, only: [ :show ]
   resource :profile, only: [ :show, :update ]
   resources :posts
 

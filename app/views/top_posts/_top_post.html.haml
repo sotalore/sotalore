@@ -3,28 +3,10 @@
   = tile_body do
     %p
       %strong
-        A lot of the new Food has been updated!
+        An attempt at a Cabalist Clock has been added.
+        = primary_button_to('Cabalists', cabalists_path, size: :sm)
 
     %p
-      We're working hard to get all the Food and related Recipes updated
-      as the dev-team continues to push out these changes. Check out the
-      = primary_button_to('Food', by_use_items_path(use: 'food'), size: 'small')
-      and
-      = primary_button_to('pet Food', by_use_items_path(use: 'pet-food'), size: 'small')
-      areas in the "Items" sectio of the site.
+      There does seem to be some inconsistencies with the appearance of
+      cabalist sieges, so please report any issues you find.
 
-
-    %p
-      %strong
-        The skills calculator now saves skill information for your avatars!
-
-    %p
-      Once you #{link_to_if(current_user.null?, 'register', new_user_registration_path)} for an account,
-      you can #{link_to('create an Avatar', avatars_path)}. Then from the
-      #{link_to('skills calculator', skills_path)}, select an Avatar from the
-      top-right select box, and any skill levels you enter will be saved.
-
-    %p
-      <strong>Latest update:</strong> An Avatar can be set as your <em>default</em>
-      Avatar. This will make the skills calculator default to them. From there, you
-      select another Avatar, or <em>~none~</em> for just a scratchpad.

@@ -21,7 +21,7 @@ export default class extends Controller {
   startRefreshing() {
     this.refreshTimer = setInterval(() => {
       this.refresh()
-    }, this.NB_MINUTE * 1000)
+    }, Astronomy.nbMinute * 1000)
   }
 
   stopRefreshing() {
@@ -46,7 +46,7 @@ export default class extends Controller {
 
     const nowUTC = new Date(now.toUTCString())
 
-    let secondsSinceTopOfHour = (nowUTC.getMinutes() * 60) + nowUTC.getSeconds()
+    let secondsSinceTopOfHour = (nowUTC.getMinutes() * 60) + nowUTC.getSeconds() + 34
 
     let hour = Math.floor(secondsSinceTopOfHour / Astronomy.nbHour)
     secondsSinceTopOfHour -= hour * Astronomy.nbHour
