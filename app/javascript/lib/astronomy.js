@@ -6,8 +6,13 @@ export default class Astronomy {
   static nbMonth = 28 * Astronomy.nbDay // 28 hours
   static nbYear = 12 * Astronomy.nbMonth // 336 hours == 14 days
 
+  // The actual in-game time has fallen out of sync with itself.
+  // The inconsistencies in-game are not likely the same between
+  // all the time-based systems: time, planets/constellations, and cabalists.
+  static fudgeFactor = 34
+
   // This is not year zero, but year 400, when the avatars arrived (again)
-  static epoch = Math.floor(new Date("January 1, 2013 00:00:00 -0000").getTime() / 1000)
+  static epoch = Math.floor(new Date("January 1, 2013 00:00:00 -0000").getTime() / 1000) + Astronomy.fudgeFactor
   static beginningOfPC = Astronomy.epoch - (400 * Astronomy.nbYear)
 
   static constellations = [

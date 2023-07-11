@@ -1,0 +1,37 @@
+= single_column do
+
+  = notice_info do
+    Testing has shows that the cabalist sieges don't appear (or end) consistently.
+    A difference of up to a couple minutes has been seen.  If you have any insight,
+    or see a pattern to the differences, please #{link_to('post on the forums', Sota.forum_thread)}.  Thanks!
+
+  = tile do
+    = tile_heading('Cabalist Sieges')
+
+    = tile_body do
+      %table.Table
+        %thead.border-b-2.border-grey-300
+          %th
+          %th Current City
+          %th Symbol
+          %th Virtue
+          %th.text-right Remaining
+          %th Next City
+        - Astronomy::PLANETS.each do |planet, info|
+          %tr.hover:bg-grey-100{data: {
+              controller: 'cabalist',
+              'cabalist-period-value': info[:orbital_period],
+              'cabalist-offset-value': info[:offset]
+            } }
+            %td.font-bold.pr-2
+              = info[:cabalist].to_s.titleize
+
+            %td{ data: { 'cabalist-target': 'currentCity' } }
+            %td.text-sm{ data: { 'cabalist-target': 'symbol' } }
+            %td.text-sm{ data: { 'cabalist-target': 'virtue' } }
+            %td.text-right{ data: { 'cabalist-target': 'timeRemaining' } }
+            %td{ data: { 'cabalist-target': 'nextCity' } }
+
+
+  = notice_info do
+    There's more details about the astronomy workings on a page about #{link_to('time', time_path)}.
