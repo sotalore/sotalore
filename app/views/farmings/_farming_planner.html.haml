@@ -1,74 +1,75 @@
-#FarmingPlanner
-  .FarmingPlan{data: { controller: 'farming', 'farming-export-calendar-base-url-value': farming_calendar_path }}
-    %form.FarmingPlanInput
-      .FarmingPlanInput-seedType
-        %label
-          What type of seed?
-          %select.seedType.form-select{data: { action: 'change->farming#updateSeedTime' }}
-            = options_for_select([[ "Quick", (24/3) ], [ "Medium", (48/3) ], [ "Slow", (72/3) ]])
-      .FarmingPlanInput-plantingLocation
-        %label
-          Plannting Location:
-          %select.plantingLocation.form-select{data: { action: 'change->farming#updateLocationFactor' }}
-            = options_for_select([[ "Normal / Outside (1.0)", 1/1 ], [ "Greenhouse (2.0)", "0.5" ], [ "Inside (0.1)", "10.0" ]])
+#FarmingPlanner{data: { controller: 'farming', 'farming-export-calendar-base-url-value': farming_calendar_path }}
+  %form.flex.flex-inline.flex-wrap.gap-2.border-b.border-dashed.border-grey-400.mb-2.pb-2
+    %div
+      %label.font-semibold
+        What type of seed?
+        %select.font-normal.form-select{data: { action: 'change->farming#updateSeedTime' }}
+          = options_for_select([[ "Quick", (24/3) ], [ "Medium", (48/3) ], [ "Slow", (72/3) ]])
+    %div
+      %label.font-semibold
+        Planting Location:
+        %select.font-normal.form-select{data: { action: 'change->farming#updateLocationFactor' }}
+          = options_for_select([[ "Normal / Outside (1.0)", 1/1 ], [ "Greenhouse (2.0)", "0.5" ], [ "Inside (0.1)", "10.0" ]])
 
-    .FarmingPlanStep
-      .FarmingPlanLabel.FarmingPlanLabel--one
-        Planting at:
-      .FarmingPlanStep-time.startTime{ data: { 'farming-target': 'startTime' }}
-        = local_time Time.zone.now
+  .farming-plan-table
+    .farming-plan-label
+      Watering Window:
+    .farming-plan-data{ data: { 'farming-target': 'windowTime' }}
 
-    .FarmingPlanStep
-      .FarmingPlanLabel.FarmingPlanLabel--one
-        First Water:
-      .FarmingPlanStep-full
-        %em happens with planting
+    .farming-plan-label
+      Planting at:
+    .farming-plan-data{ data: { 'farming-target': 'startTime' }}
+      = local_time Time.zone.now
 
-    .FarmingPlanStep
-      .FarmingPlanLabel.FarmingPlanLabel--two
-        Second Water:
-      .FarmingPlanStep-full
-        %em do this immediately after planting
+    .farming-plan-label
+      First Water:
+    .farming-plan-data
+      %em with planting
 
-    .FarmingPlanStep
-      .FarmingPlanLabel.FarmingPlanLabel--two
-        Third Water:
-      .FarmingPlanStep-time.segment1{ data: { 'farming-target': 'segment1' }}
+    .farming-plan-label
+      Second Water:
+    .farming-plan-data
+      %em after planting
+
+    .farming-plan-label
+      Third Water:
+    .farming-plan-data.watering-window
+      .water-start{ data: { 'farming-target': 'segment1' }}
         = local_time 8.hours.from_now
-      .FarmingPlanStep-time.segment2{ data: { 'farming-target': 'segment2' }}
+      .water-end{ data: { 'farming-target': 'segment2' }}
         = local_time 16.hours.from_now
 
-    .FarmingPlanStep
-      .FarmingPlanLabel.FarmingPlanLabel--three
-        Fourth Water:
-      .FarmingPlanStep-time.segment2{ data: { 'farming-target': 'segment2' }}
+    .farming-plan-label
+      Fourth Water:
+    .farming-plan-data.watering-window
+      .water-start{ data: { 'farming-target': 'segment2' }}
         = local_time 16.hours.from_now
-      .FarmingPlanStep-time.endTime{ data: { 'farming-target': 'endTime' }}
+      .water-end{ data: { 'farming-target': 'endTime' }}
         = local_time 24.hours.from_now
 
-    .FarmingPlanStep
-      .FarmingPlanLabel.FarmingPlanLabel--four
-        Harvest after:
-      .FarmingPlanStep-time.endTime{ data: { 'farming-target': 'endTime' }}
-        = local_time 24.hours.from_now
+    .farming-plan-label
+      Harvest after:
+    .farming-plan-data
+      = local_time 24.hours.from_now
 
-    %div.align-baseline.border-t.pt-2
-      %label
-        Calendar:
-      %input.form-input{ type: "text", value: "SOTA Farming", maxlength: "80", data: { 'farming-target': 'exportName' } }
+  %div.align-baseline.border-t.pt-2.flex.flex-wrap.gap-2
+    %label.font-semibold.self-center
+      Calendar:
+    %input.form-input{ type: "text", value: "SOTA Farming", maxlength: "80", data: { 'farming-target': 'exportName' } }
+    %div.self-center
       %a.inline-block.align-baseline.Button.Button--primary{href: '#', data: { 'farming-target': 'exportCalendar' }} Download
       %a.inline-block.align-baseline.Button.Button--primary{href: '#', data: { 'farming-target': 'copyCalendarUrl', action: 'click->farming#copyCalendarUrl' }} Copy Link
       %span.text-green-500.opacity-0.hidden.transition-all.duration-500{ data: { 'farming-target': 'copyCalendarUrlMessage' }}
         Copied
         = render_icon('badge_check')
       %a.inline-block.align-baseline{href: '#', data: { action: 'click->farming#showCalendarHelp' }} what is this?
-      .hidden{data: { 'farming-target': 'calendarHelp' }}
-        = notice_info do
-          %p
-            This will create a calendar that you can import into your calendar app of choice.
-            If it's easier to use a URL/link to import, you can <strong>copy the link</strong> above. Otherwise,
-            you can <strong>download</strong> the "ICS" file and import it into your calendar app.
+    .basis-full.hidden{data: { 'farming-target': 'calendarHelp' }}
+      = notice_info do
+        %p
+          This will create a calendar that you can import into your calendar app of choice.
+          If it's easier to use a URL/link to import, you can <strong>copy the link</strong> above. Otherwise,
+          you can <strong>download</strong> the "ICS" file and import it into your calendar app.
 
-          %p
-            We're not sure how well this is going to work for all the different calendaring apps out there. So,
-            please provide any and all feedback you have.
+        %p
+          We're not sure how well this is going to work for all the different calendaring apps out there. So,
+          please provide any and all feedback you have.

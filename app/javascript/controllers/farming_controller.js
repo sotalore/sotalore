@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 var moment = require('moment')
 
 export default class extends Controller {
-  static targets = [ 'startTime', 'segment1', 'segment2', 'endTime',
+  static targets = [ 'startTime', 'segment1', 'segment2', 'endTime', 'windowTime',
   'exportCalendar', 'exportName', 'copyCalendarUrlMessage', 'calendarHelp' ]
 
   static values = {
@@ -39,6 +39,12 @@ export default class extends Controller {
   update() {
 
     var baseTime = this.seedTimeValue * this.locationFactorValue;
+    this.windowTimeTargets.forEach((e) => {
+      e.innerHTML = baseTime + " hours"
+    })
+
+
+
     var startTime = moment()
     var startTimeStr = startTime.format('YYYY-MM-DDTHH:mm:ssZZ')
 

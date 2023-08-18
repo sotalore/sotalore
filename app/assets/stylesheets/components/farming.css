@@ -1,73 +1,28 @@
-.FarmingPlan {
-  display: flex;
-  flex-direction: column;
+.farming-plan-table {
+  @apply grid grid-cols-12 auto-cols-min w-max;
+}
 
-  justify-content: space-between;
+.farming-plan-label {
+  @apply col-span-12 md:col-span-2 font-semibold whitespace-nowrap;
+}
 
-  &Section {
-    width: 100%;
-    flex: 0 1 auto;
-    border: 1px solid red;
-  }
+.farming-plan-data {
+  @apply col-span-12 md:col-span-10 mb-2 md:mb-1 whitespace-nowrap;
+}
 
-  .FarmingPlanInput {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
+.watering-window {
+  @apply flex flex-wrap;
+}
 
-    margin-bottom: 8px;
+.water-start {
+  @apply basis-full md:basis-1_4 md:flex-none shrink pl-8 md:pl-0 md:col-span-5 md:text-right md:pr-4 whitespace-nowrap;
+}
 
-    select, input {
-      display: inline-block;
-      width: auto;
-    }
+.water-end {
+  @apply basis-full md:basis-1_4 grow md:col-span-5 whitespace-nowrap;
+}
 
-    &-seedType {
-    }
-
-    &-plantingLocation {
-      margin-left: 3rem;
-
-      label {
-        display: inline-block;
-      }
-      input {
-        position: relative;
-        vertical-align: bottom;
-        width: 32px;
-      }
-    }
-
-  }
-
-  .FarmingPlanStep {
-    display: flex;
-    flex-direction: row;
-  }
-  .FarmingPlanLabel {
-    text-align: right;
-    width: 10em;
-    padding-right: 16px;
-  }
-
-  .FarmingPlanStep-full {
-    text-align: left;
-  }
-
-  .FarmingPlanStep-time {
-    text-align: right;
-    width: 16em;
-    white-space: nowrap;
-  }
-
-  .FarmingPlanStep-time + .FarmingPlanStep-time {
-    text-align: left;
-    margin-left: 2em;
-
-    &:before {
-      margin-left: -2em;
-      padding: 0 1em;
-      content: "\2192";
-    }
-  }
+.water-end:before {
+  @apply pr-4;
+  content: "\2192";
 }
