@@ -12,6 +12,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        'parchment-double-shaded': '#ffd860',
+        'parchment-color': '#fff1c6',
+        'parchment-shaded': '#ffe493',
         grey: colors.gray,
         slorange: {
           100:  '#FFE3CD',
@@ -23,7 +26,8 @@ module.exports = {
           700:  '#7C2E00',
           800:  '#621e00',
           900:  '#3D0600',
-        }
+        },
+
       },
       width: {
         '1_2': '50%',

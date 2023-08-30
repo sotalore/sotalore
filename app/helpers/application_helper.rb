@@ -51,10 +51,9 @@ module ApplicationHelper
     "#{scene.level}#{scene.level_plus ? '+' : ''}"
   end
 
-  PAGE_HEADING_CSS_CLASS = 'border border-grey-200 border-b-0 inline-block py-2 px-8'.freeze
   def page_heading_tab(current, name, path)
-    link_to_unless(current, name, path, class: PAGE_HEADING_CSS_CLASS) do |name|
-      content_tag(:span, name, class: "#{PAGE_HEADING_CSS_CLASS} bg-white")
+    link_to_unless(current, name, path, class: "PageTabs-tab") do |name|
+      content_tag(:span, name, class: "PageTabs-tab PageTabs-current")
     end
   end
 end

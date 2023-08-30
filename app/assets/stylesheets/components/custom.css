@@ -1,7 +1,13 @@
 @layer components {
-  .title { @apply text-6xl font-bold }
-  .subtitle { @apply text-4xl font-semibold }
-  .subsubtitle { @apply text-lg font-medium italic }
+  .title {
+    @apply text-6xl font-bold;
+  }
+  .subtitle {
+    @apply text-4xl font-semibold;
+  }
+  .subsubtitle {
+    @apply text-lg font-medium italic;
+  }
 
   form.Form--inline {
     @apply flex flex-row align-middle;
@@ -13,7 +19,6 @@
     .Field-label {
       @apply pr-4 font-semibold;
     }
-
   }
 
   .Tile > .Tile-heading {
@@ -43,5 +48,18 @@
     @apply bg-purple-300 text-purple-800 border-purple-500;
   }
 
+  .PageTabs {
+    @apply flex flex-col md:flex-row;
+    @apply mb-0 align-bottom justify-between;
+    @apply text-sm md:text-base;
 
+    .PageTabs-tab {
+      @apply border border-grey-200 border-b-0 inline md:inline-block py-1 px-2 md:px-8;
+      @apply order-first md:order-none;
+    }
+
+    .PageTabs-tab.PageTabs-current {
+      @apply order-last md:order-none bg-white;
+    }
+  }
 }

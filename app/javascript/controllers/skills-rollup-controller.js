@@ -33,19 +33,22 @@ export default class extends Controller {
   }
 
   rollupSingleValue(rollupTarget, field) {
-    const ele = rollupTarget.getElementsByClassName(field)[0]
+    const eles = rollupTarget.getElementsByClassName(field)
     let sum = 0
     this.rollupGroups[rollupTarget.id].forEach((e) => {
       if (e.dataset[field] !== undefined) {
         sum = sum + parseInt(e.dataset[field], 10)
       }
     })
+    let txt  =  ''
     if (sum != 0) {
       rollupTarget.dataset[field] = sum
-      ele.innerHTML = Intl.NumberFormat().format(sum)
+      txt = Intl.NumberFormat().format(sum)
     } else {
       delete rollupTarget.dataset[field]
-      ele.innerHTML = ''
+    }
+    for (let ele of eles) {
+      ele.innerHTML = txt
     }
   }
 }
