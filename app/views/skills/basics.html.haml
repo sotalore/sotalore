@@ -1,15 +1,15 @@
 - page_title('Skill Basics')
 
+.mb-12.mx-2.mt-2
 
-= render partial: 'page_heading', locals: {with_avatar_controls: false}
+  = render partial: 'page_heading', locals: {with_avatar_controls: false}
 
 
-.SkillTable.mb-12
-  %div.SkillBasics
+  .bg-white.p-2.mb-8
     %h3 What Skills Cost to Level
 
-    .row
-      .col-sm-12.col-md-6
+    .grid.grid-cols-12.gap-4.md:gap-12
+      .col-span-12.md:col-span-6
         %p
           Raising skill levels costs <em>Adventure</em> or <em>Crafting</em> Experience (XP).
           The amount of XP required is exponential in nature, causing higher-levels to cost
@@ -20,7 +20,7 @@
           <strong>Max Skill Level</strong> and <strong>Factor Cost</strong> to get
           an idea of the XP requirements to get a skill to a particular level.
 
-      .col-sm-12.col-md-6
+      .col-span-12.md:col-span-6
         %p
           Along with the base XP cost, each skill also has a <strong>Factor Cost</strong>.
           This is a simple multiplier to the calculated XP cost.
@@ -39,14 +39,17 @@
           Check the <em>Adventure</em> and <em>Crafting</em> tabs above for the cost of
           each individual skill.
 
-  %div.SkillBasics{id: 'skillsBasics', data: { controller: 'skills-basics' }}
-    %strong Max Skill Level:
-    %input{ type: 'number', value: 200, data: { 'action': 'skills-basics#setLevel', 'skills-basics-target': 'toLevel' }}
-    %strong Factor Cost:
-    %input{ type: 'number', value: 1, data: { 'action': 'skills-basics#setLevel', 'skills-basics-target': 'xpFactor' }}
+  %div.bg-white.mb-8.p-2{id: 'skillsBasics', data: { controller: 'skills-basics' }}
+    .grid.grid-cols-12.gap-4.md:gap-12
+      .col-span-12.md:col-span-6
+        %strong Max Skill Level:
+        %input{ type: 'number', value: 200, data: { 'action': 'skills-basics#setLevel', 'skills-basics-target': 'toLevel' }}
+      .col-span-12.md:col-span-6
+        %strong Factor Cost:
+        %input{ type: 'number', value: 1, data: { 'action': 'skills-basics#setLevel', 'skills-basics-target': 'xpFactor' }}
     %canvas#skillBasicsChart
 
-  %div.SkillBasicsNotes
+  .bg-white.p-2.mb-8
     %h3 Notes About Skill XP Math
     %p
       The calcuations used on this site differ from other tools I've seen. A lot of other tools use a
@@ -59,5 +62,5 @@
     %p
       That XP required function for a skill level is as follows (note that <em>**</em> is the power operator)...
 
-    %pre.pb-4
+    %pre.pb-4.text-xs.md:text-base
       XP = (xpFactorValue * (Math.ceil(((1.099711**(level-1)) - 1) * 100)))

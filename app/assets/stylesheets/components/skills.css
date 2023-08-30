@@ -1,109 +1,66 @@
 .SkillTable {
+  @apply bg-grey-100;
 
-  div.SkillBasics, div.SkillBasicsNotes {
-    background-color: var(--grey9);
-    margin-bottom: 1rem;
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-    padding: 8px;
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
 
-    input {
-      border: 1px solid var(--grey7);
-      width: auto;
-      max-width: 6rem;
-      text-align: right;
-      margin-right: 2rem;
+  .tableRow {
+    @apply flex flex-row flex-wrap w-full border-b border-grey-300;
+  }
+
+  .stickOne {
+    @apply sticky top-0;
+  }
+
+  .stickTwo {
+    @apply static md:sticky md:top-10;
+  }
+
+  .stickThree {
+    @apply static md:sticky md:top-20;
+  }
+
+  .skillCell {
+    @apply px-2 py-1 md:py-2 basis-1/2 md:basis-auto grow;
+    @apply order-1;
+  }
+
+  .xpCell {
+    @apply px-2 py-1 md:py-2 w-full md:w-56 flex border-l border-grey-300;
+
+    .level {
+      @apply basis-1/2 text-left;
     }
 
-    p {
-      font-size: 1.1rem;
+    .levelInput {
+      @apply shrink;
+      input {
+        @apply w-16 h-8 rounded-sm text-right;
+      }
     }
-    pre {
-      font-family: monospace;
-      font-size: 1.5rem;
-      text-align: center;
+
+    .xp {
+      @apply basis-1/2 grow text-right;
+    }
+
+    &.currentCell {
+      @apply order-3 md:order-2;
+    }
+
+    &.targetCell {
+      @apply order-4 md:order-3;
     }
   }
 
-  table {
-    background-color: var(--grey9);
-
-    th, td {
-      vertical-align: middle;
-    }
-
-    tr.totalsHeadingRow {
-      background-color: var(--parchment-double-shaded);
-    }
-
-    tr.categoryHeadingRow {
-      background-color: var(--parchment-shaded);
-    }
-
-    tr.categorySchoolRow {
-      background-color: var(--parchment-color);
-      th {
-        padding-left: 1rem;
-      }
-    }
-
-    tr.headingRow {
-      td {
-        text-align: right;
-      }
-    }
-
-    tbody tr:not(.headingRow):hover {
-      background-color: var(grey8);
-    }
-
-    td.skillName {
-      text-align: left;
-    }
-
-    td.xpFactor, td.xpRemaining {
-      text-align: right;
-    }
-
-    td.xpCurrent > div, td.xpTarget > div {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    input {
-      display: inline-block;
-      width: 4rem;
-      text-align: right;
-      &::-webkit-inner-spin-button,
-      &::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-      }
-      -moz-appearance:textfield;
-    }
-
-    span.xpField {
-      display: inline-block;
-      padding-right: 8px;
-    }
-  }
-}
-
-@media only screen and (max-width: var(--grid-md)) {
-  .SkillTable {
-    &--pageHeading {
-      div.pageTabs {
-        font-size: 1rem;
-      }
-    }
-
-    td, th {
-      font-size: 0.8rem;
-    }
-
-    th {
-      overflow-x: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
+  .remainingXPCell {
+    @apply px-2 py-1 md:py-2 text-right md:border-l border-grey-300;
+    @apply order-2 md:order-4 basis-1/2 md:basis-auto md:w-36;
   }
 }

@@ -1,55 +1,59 @@
 - page_title('Skills')
 
-= render partial: 'page_heading', locals: {with_avatar_controls: true}
+.mb-12.mx-2.mt-2
 
-.SkillTable.mt-0.mb-8.mx-2
-  %table.Table.mt-0.border-t-0.SkillTable{id: 'skillTable', data: { controller: 'skills-rollup' }}
-    %tr.hover:bg-transparent
-      %th skill
-      %th.text-right cost
-      %th.text-center current level / xp
-      %th.text-center target level / xp
-      %th.text-right remaining xp
+  = render partial: 'page_heading', locals: {with_avatar_controls: true}
 
-    %tr.headingRow.totalsHeadingRow{id: 'totals'}
-      %th(colspan=2)= "#{@activity.upcase} TOTALS"
-      %td
-        %span.xpField.currentXP
-      %td
-        %span.xpField.totalXP
-      %td
-        %span.xpField.remainingXP
+  .SkillTable.mt-0{id: 'skillTable', data: { controller: 'skills-rollup' }}
+    .tableRow.bg-white.font-bold.stickOne
+      .skillCell
+        Skill
+        %span.text-xs.opacity-8.font-normal (cost)
+      .xpCell.currentCell
+        .level Current level
+        .xp Spent XP
+      .xpCell.targetCell
+        .level Target level
+        .xp Total XP
+      .remainingXPCell Needed XP
+
+    .tableRow.bg-parchment-double-shaded.stickTwo{id: 'totals'}
+      .skillCell= @activity.upcase
+      .xpCell.currentCell
+        .xp.currentXP
+      .xpCell.targetCell
+        .xp.totalXP
+      .remainingXPCell.remainingXP
 
     - @skills.each do |category, schools|
-      %tr.headingRow.categoryHeadingRow{id: category, data: {
+      .tableRow.bg-parchment-shaded.stickThree{id: category, data: {
             'skills-rollup-target': 'member',
             'rollup-target': 'totals'
           } }
-        %th(colspan=2)= category.upcase
-        %td
-          %span.xpField.currentXP
-        %td
-          %span.xpField.totalXP
-        %td
-          %span.xpField.remainingXP
+        .skillCell= category.upcase
+        .xpCell.currentCell
+          %span.xp.currentXP
+        .xpCell.targetCell
+          %span.xp.totalXP
+        .remainingXPCell
+          %span.remainingXP
 
       - schools.each do |school, school_skills|
         - school_rollup_target = "#{category}-#{school}"
-        %tr.headingRow.categorySchoolRow{id: school_rollup_target, data: {
+        .tableRow.bg-parchment-color{id: school_rollup_target, data: {
             'skills-rollup-target': 'member',
             'rollup-target': category
           } }
-          %th(colspan=2)
-            = school.titleize
-          %td
-            %span.xpField.currentXP
-          %td
-            %span.xpField.totalXP
-          %td
-            %span.xpField.remainingXP
+          .skillCell= school.titleize
+          .xpCell.currentCell
+            .xp.currentXP
+          .xpCell.targetCell
+            .xp.totalXP
+          .remainingXPCell
+            .remainingXP
 
         - school_skills.each do |skill|
-          %tr{ data: {
+          .tableRow.hover:bg-grey-200{ data: {
               controller: 'skills',
               'skills-xp-factor-value' => skill.xp_factor,
               'skills-avatar-update-url-value' => (@avatar ? avatar_skill_path(@avatar.id, skill.key) : nil),
@@ -57,15 +61,17 @@
               'rollup-target' => school_rollup_target
               } }
             - current_skill = @current_skills[skill.key]
-            %td.skillName= skill.name
-            %td.xpFactor= skill.xp_factor.to_s.sub(/.0$/, "")
-            %td.xpCurrent
-              %div
-                %input.Field-input{ type: 'number', value: current_skill.current, data: { 'skills-target': 'from', action: 'skills#calculateCurrent blur->skills#updateFrom' } }
-                %span.xpField{ data: { 'skills-target': 'current' }}
-            %td.xpTarget
-              %div
-                %input.Field-input{ type: 'number', value: current_skill.target, data: { 'skills-target': 'to', action: 'skills#calculateTotal  blur->skills#updateTo' } }
-                %span.xpField{ data: { 'skills-target': 'total' }}
-            %td.xpRemaining
-              %span.xpField{ data: { 'skills-target': 'remaining' }}
+            .skillCell.skillName
+              = skill.name
+              %span.text-xs.opacity-8.font-normal (#{skill.xp_factor.to_s.sub(/.0$/, "")})
+            .xpCell.currentCell
+              .levelInput
+                %input{ type: 'number', value: current_skill.current, data: { 'skills-target': 'from', action: 'skills#calculateCurrent blur->skills#updateFrom' } }
+              %span.xp{ data: { 'skills-target': 'current' }}
+            .xpCell.targetCell
+              .levelInput
+                %input{ type: 'number', value: current_skill.target, data: { 'skills-target': 'to', action: 'skills#calculateTotal  blur->skills#updateTo' } }
+              %span.xp{ data: { 'skills-target': 'total' }}
+            .remainingXPCell
+              %span{ data: { 'skills-target': 'remaining' }}
+
