@@ -49,7 +49,7 @@
 
     .farming-plan-label
       Harvest after:
-    .farming-plan-data
+    .farming-plan-data{ data: { 'farming-target': 'endTime' }}
       = local_time 24.hours.from_now
 
   %div.align-baseline.border-t.pt-2.flex.flex-wrap.gap-2
