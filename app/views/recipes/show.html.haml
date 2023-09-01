@@ -1,12 +1,12 @@
 - page_title @recipe.name
-.grid.grid-cols-3.gap-2
-  .col-span-2
+.flex.flex-wrap
+  .min-w-md.grow
     = tile do
       = tile_body do
         = render @recipe
         = render_comments_for(@recipe)
 
-  .col-span-1
+  .max-w-sm
     = render partial: 'recipes/work_list'
 
 - if policy(@recipe).destroy?

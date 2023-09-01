@@ -1,5 +1,5 @@
-%section.max-w-xl
-  = tile_with_heading('Your Avatars Information') do
+= layout_main_content size: :sm do
+  = tile_with_heading('Your Avatars') do
     - if current_user.not_null?
       - if @avatars
         .grid.sm:grid-cols-1.md:grid-cols-2.gap-1
