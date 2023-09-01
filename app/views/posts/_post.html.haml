@@ -1,13 +1,14 @@
-.border.my-4
-  .border-b.flex.items-center.px-2
-    %h4.my-2.px-0.mx-0.flex-grow
-      = link_to post.title, post
-    %div.text-sm.text-gray-600
+- editable = policy(post).edit?
+- destroyable = policy(post).destroy?
+
+= tile do
+  - subheading = capture do
+    %span.text-sm.text-gray-600.ml-2
       by #{post.author.name}
       = time_ago_in_words(post.created_at)
+      ago
 
-    - editable = policy(post).edit?
-    - destroyable = policy(post).destroy?
+  = tile_heading(link_to(post.title, post), subheading: subheading) do
     - if editable || destroyable
       %div.ml-2
         - if editable
@@ -15,8 +16,11 @@
         - if destroyable
           = destroy_icon_to(post_path(post))
 
-  .p-2
+  = tile_body do
     - if local_assigns[:truncate]
       = post.truncated
+      = link_to post do
+        %span.text-sm read more
+
     - else
       = post.content

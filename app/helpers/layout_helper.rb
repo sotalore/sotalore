@@ -12,7 +12,7 @@ module LayoutHelper
   def layout_main_content(size: :md, centered: false)
     raise ArgumentError, "Invalid size: #{size}" unless SIZE_CLASSES.key?(size)
 
-    classes = [SIZE_CLASSES[size]]
+    classes = [SIZE_CLASSES[size], "m-4"]
     classes << 'mx-auto' if centered
 
     content_tag(:div, class: classes.join(" ")) do
