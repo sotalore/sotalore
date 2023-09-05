@@ -1,6 +1,5 @@
 = layout_main_content do
-  .m-2
-    = link_to('all posts', posts_path)
+  = render 'page_nav'
 
   = tile_with_heading('Edit Post') do
     = render 'form'

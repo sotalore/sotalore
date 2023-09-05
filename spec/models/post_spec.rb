@@ -13,7 +13,7 @@ RSpec.describe Post, type: :model do
     context 'given multiple paragraphs and an attachment in the first' do
       let(:post) { create :post, content: long_body }
       it 'truncates and removes attachment' do
-        expect(post.truncated).to eq long_body_truncated
+        expect(post.truncated(length: 600)).to eq long_body_truncated
       end
     end
   end

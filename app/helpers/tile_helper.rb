@@ -33,7 +33,7 @@ module TileHelper
 
     content_tag(:div, class: "Tile-heading") do
       content_tag(:h3) do
-        content_tag(:span, heading) + ' ' +
+        heading.html_safe + ' '.html_safe +
           content_tag(:span, subheading, class: 'Tile-subheading')
       end + controls
     end

@@ -1,6 +1,6 @@
 = layout_main_content do
-  .m-2
-    = link_to('all posts', posts_path)
+  = render 'page_nav'
 
-  = tile_with_heading('Create A New Post') do
+  - heading = @post.parent ? "New Post For: #{@parent}" : 'New General Post'
+  = tile_with_heading(heading) do
     = render 'form'

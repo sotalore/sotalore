@@ -1,9 +1,12 @@
 - page_title(@scene.name)
+
 = tile do
   = tile_heading(@scene.name) do
     = default_button_to('All', scenes_path)
     - if policy(@scene).edit?
       = edit_button_to('Edit', edit_scene_path(@scene))
+    - if policy(Post).create?
+      = new_button_to('Add Post', new_scene_post_path(@scene))
 
   = tile_body do
     .grid.grid-cols-2.gap-4
@@ -41,11 +44,19 @@
           - parent, scene = parent.parent, parent
 
 .grid.grid-cols-6
+
+  - if @scene.posts.any?
+    = tile_with_heading('Post', class: 'col-span-6 md:col-span-3') do
+      - @scene.posts.first(3).each do |post|
+        = render partial: 'posts/post', locals: { post: post, truncate: true }
+      = link_to('View all posts', scene_posts_path(@scene))
+
+
   - can_upload = policy(@scene).edit?
   - have_images = @scene.images.any?
 
   - if can_upload || have_images
-    = tile_with_heading('Gallery', class: 'col-span-6 md:col-span-3 lg:col-span-4') do
+    = tile_with_heading('Gallery', class: 'col-span-6 md:col-span-3') do
       - if have_images
         .grid.grid-cols-2.md:grid-cols-3.xl:grid-cols-4.gap-4.items-center{data: { controller: 'lightbox', 'lightbox-options-value': '{"selector": ".gallery-image"}' }}
           - @scene.images.each do |image|
@@ -63,5 +74,5 @@
             = form.actions do
               = form.submit("Upload")
 
-  = tile_with_heading('Comments', class: 'col-span-6 md:col-span-3 lg:col-span-2') do
+  = tile_with_heading('Comments', class: 'col-span-6 md:col-span-3') do
     = render_comments_for(@scene)

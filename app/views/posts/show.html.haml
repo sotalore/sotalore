@@ -1,8 +1,7 @@
 - page_title(@post.title)
 
 = layout_main_content do
-  .m-2
-    = link_to('all posts', posts_path)
+  = render 'page_nav'
 
   = render @post
 

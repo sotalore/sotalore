@@ -22,11 +22,11 @@
     @apply my-2 mx-1 border border-grey-300 bg-white shadow-md rounded;
 
     &-heading {
-      @apply px-2 h-12 flex items-center border-b;
+      @apply px-2 flex flex-row flex-wrap items-center border-b;
     }
 
     &-heading h3 {
-      @apply m-0;
+      @apply m-0 py-2;
     }
 
     &-subheading {
@@ -34,7 +34,7 @@
     }
 
     &-controls {
-      @apply flex items-center;
+      @apply grow flex items-center justify-end my-2;
     }
 
     &-controls .Button {
