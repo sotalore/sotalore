@@ -1,20 +1,29 @@
-= tile('hero') do
-  = tile_heading('Register')
-  = tile_body do
-    = notice_info do
-      Registering allows you to leave comments on things as well as
-      saving your skill levels for your avatars.
+= notice_info do
+  Registering allows you to leave comments on things as well as
+  saving your skill levels for your avatars.
 
-    = full_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
-      = render "devise/shared/error_messages", resource: resource
-      = f.email_field :email, autofocus: true, required: true
-      = f.text_field  :name, required: true
-      = f.password_field :password
-      = f.password_field :password_confirmation
+.grid.grid-cols-1.md:grid-cols-2
+  .col-span-1.order-2.md:order-1
+    = tile('hero') do
+      = tile_heading('Register with Email')
+      = tile_body do
 
-      = f.actions do
-        = turnstile_tag
-        = f.submit('Register for SotA Lore!')
+        = full_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+          = render "devise/shared/error_messages", resource: resource
+          = f.email_field :email, autofocus: true, required: true
+          = f.text_field  :name, required: true
+          = f.password_field :password
+          = f.password_field :password_confirmation
 
-    .mt-2
-      = render "devise/shared/links"
+          = f.actions do
+            = turnstile_tag
+            = f.submit('Register for SotA Lore!')
+
+        .mt-2
+          = render "devise/shared/links"
+
+  .col-span-1.order-1.md:order-2
+    = tile('hero') do
+      = tile_heading('Register with Provider')
+      = tile_body do
+        %p= render "devise/shared/sign_in_with_discord"
