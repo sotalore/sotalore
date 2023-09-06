@@ -3,7 +3,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable,
+  devise :database_authenticatable, :registerable, :confirmable, :omniauthable,
          :recoverable, :rememberable, :trackable, :validatable
 
   has_one_attached :picture
@@ -20,6 +20,28 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :name, length: { in: 3..64 }
   validates :name, uniqueness: { ignore_case: true }
+
+
+  def self.from_discord(email:, name:, uid:)
+    user = find_by(uid: uid, provider: 'discord')
+    user.email = email if user
+
+    if !user && User.where(email: email).where.not(uid: uid).first
+      # TODO : add error message to user
+      # account already exists (by email), but associated with a different uid
+      return nil
+    end
+
+    user = find_or_initialize_by(email: email)
+    user.provider = 'discord'
+    user.name = name if user.name.blank?
+    user.uid = uid
+    user.skip_confirmation!
+    user.save!
+
+    user
+  end
+
 
   def has_role?(role)
     # root has all the roles
@@ -70,6 +92,12 @@ class User < ApplicationRecord
 
   def active_for_authentication?
     super && !disabled?
+  end
+
+  def password_required?
+    return false if new_record? && uid.present?
+
+    super
   end
 
   private
