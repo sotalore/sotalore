@@ -52,6 +52,7 @@ class Scene < ApplicationRecord
 
   belongs_to :parent, class_name: 'Scene'
   has_many :comments, as: :subject, dependent: :delete_all
+  has_many :posts, as: :parent, dependent: :destroy
 
   scope :by_name, -> { order(Arel.sql('lower(name)')) }
   scope :by_name_overworld_first, -> { order(Arel.sql('scene_type_id != 0, lower(name)')) }

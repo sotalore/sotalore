@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_22_191959) do
+ActiveRecord::Schema[7.0].define(version: 2023_09_01_191505) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -154,7 +154,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_22_191959) do
     t.bigint "author_id", null: false
     t.string "title"
     t.integer "status", limit: 2, default: 0
+    t.string "parent_type"
+    t.integer "parent_id"
     t.index ["author_id"], name: "index_posts_on_author_id"
+    t.index ["parent_type", "parent_id"], name: "index_posts_on_parent_type_and_parent_id"
   end
 
   create_table "recipes", id: :serial, force: :cascade do |t|

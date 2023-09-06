@@ -13,7 +13,7 @@
       .Field
         = number_field_tag(:rsmax, params[:rsmax], class: 'Field-input', placeholder: 'max skill')
 
-      .Field
+      .Field.whitespace-nowrap
         = submit_tag('Filter', name: '', class: 'Button Button--primary')
         - if policy(Recipe).create?
           = new_button_to('Add Recipe', new_recipe_path, class: 'button middle secondary')

@@ -21,16 +21,6 @@
     }
   }
 
-  .Tile > .Tile-heading {
-    @apply flex;
-  }
-  .Tile .Tile-heading h3 {
-    @apply grow;
-  }
-  .Tile .Tile-heading .Tile-controls {
-    @apply grow-0;
-  }
-
   .Callout {
     @apply rounded-xl border mb-4 relative p-4;
   }
@@ -60,6 +50,20 @@
 
     .PageTabs-tab.PageTabs-current {
       @apply order-last md:order-none bg-white;
+    }
+  }
+
+  /* associated top-of-page nav for related items */
+  .PageLinks {
+    @apply flex flex-wrap;
+
+    .PageLinks-link {
+      @apply inline-block my-2 ml-2;
+    }
+
+    .PageLinks-link:not(:first-child)::before {
+      @apply inline-block mr-2;
+      content: "•";
     }
   }
 }

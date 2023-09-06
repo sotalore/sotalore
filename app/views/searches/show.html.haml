@@ -1,11 +1,12 @@
-= tile_with_heading('Search results') do
-  - @searches.each do |result|
-    - case result.searchable
-    - when Recipe
-      %p
-        Recipe:
-        = link_to(result.searchable.name, result.searchable)
-    - when Item
-      %p
-        Item:
-        = link_to(result.searchable.name, result.searchable)
+= layout_main_content size: :sm do
+  = tile_with_heading('Search results') do
+    - @searches.each do |result|
+      - case result.searchable
+      - when Recipe
+        %p
+          Recipe:
+          = link_to(result.searchable.name, result.searchable)
+      - when Item
+        %p
+          Item:
+          = link_to(result.searchable.name, result.searchable)

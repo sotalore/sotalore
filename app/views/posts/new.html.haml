@@ -1,3 +1,6 @@
-= single_column do
-  = tile_with_heading('Create A New Post') do
+= layout_main_content do
+  = render 'page_nav'
+
+  - heading = @post.parent ? "New Post For: #{@parent}" : 'New General Post'
+  = tile_with_heading(heading) do
     = render 'form'

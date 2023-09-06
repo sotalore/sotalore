@@ -55,6 +55,7 @@ Rails.application.routes.draw do
 
   resources :scenes do
     resources :comments, except: [ :new ]
+    resources :posts
   end
 
   resource :farming, only: [ :show ]

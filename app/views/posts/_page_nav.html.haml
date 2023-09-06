@@ -1,0 +1,5 @@
+.PageLinks
+  .PageLinks-link= link_to('all posts', posts_path)
+  - parent = @post.parent || @parent
+  - if parent
+    .PageLinks-link= link_to parent, parent

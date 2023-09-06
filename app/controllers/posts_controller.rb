@@ -1,5 +1,7 @@
 class PostsController < ApplicationController
 
+  before_action :find_parent
+
   def index
     @posts = Post.order(id: :desc).page(params[:page])
     authorize Post
@@ -11,16 +13,16 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = Post.new
+    @post = (@parent&.posts || Post).new
     authorize @post
   end
 
   def create
-    @post = Post.new(post_params)
+    @post = (@parent&.posts || Post).new(post_params)
     @post.author = current_user
     authorize @post
     if @post.save
-      redirect_to posts_path
+      redirect_to polymorphic_path([@parent, @post])
     else
       render :new, status: :unprocessable_entity
     end
@@ -51,5 +53,11 @@ class PostsController < ApplicationController
   protected
   def post_params
     params.require(:post).permit(:title, :content, :status)
+  end
+
+  def find_parent
+    if params[:scene_id]
+      @parent = Scene.find(params[:scene_id])
+    end
   end
 end

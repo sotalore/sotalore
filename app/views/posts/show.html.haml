@@ -1,4 +1,9 @@
-= single_column do
-  = tile do
-    = tile_body do
-      = render @post
+- page_title(@post.title)
+
+= layout_main_content do
+  = render 'page_nav'
+
+  = render @post
+
+  .text-right.ml-4.mr-2
+    = link_to('all posts', posts_path)
