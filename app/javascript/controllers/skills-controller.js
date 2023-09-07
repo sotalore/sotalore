@@ -1,5 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
+import { formatXP } from "../lib/util"
+
 export default class extends Controller {
   static values = { xpFactor: Number, avatarUpdateUrl: String }
 
@@ -38,11 +40,11 @@ export default class extends Controller {
 
   setXPValue(field, targetElement, xp) {
     if (xp !== null) {
-      targetElement.innerHTML = Intl.NumberFormat().format(xp)
+      targetElement.innerHTML = formatXP(xp)
       this.element.dataset[field] = xp
     } else {
       delete this.element.dataset[field]
-      targetElement.innerHTML = ''
+      targetElement.innerHTML = formatXP('')
     }
     const event = new CustomEvent('skill:change', { bubbles: true })
     this.element.dispatchEvent(event)

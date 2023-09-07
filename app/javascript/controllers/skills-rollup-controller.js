@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { formatXP } from "../lib/util"
 
 export default class extends Controller {
 
@@ -43,7 +44,7 @@ export default class extends Controller {
     let txt  =  ''
     if (sum != 0) {
       rollupTarget.dataset[field] = sum
-      txt = Intl.NumberFormat().format(sum)
+      txt = formatXP(sum)
     } else {
       delete rollupTarget.dataset[field]
     }
