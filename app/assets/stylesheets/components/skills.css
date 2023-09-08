@@ -12,7 +12,7 @@
   }
 
   .tableRow {
-    @apply flex flex-row flex-wrap w-full border-b border-grey-300;
+    @apply flex flex-row flex-wrap items-center w-full border-b border-grey-300;
   }
 
   .stickOne {
@@ -33,7 +33,7 @@
   }
 
   .xpCell {
-    @apply px-2 py-1 md:py-2 w-full md:w-56 flex border-l border-grey-300;
+    @apply px-2 py-1 md:py-2 w-full md:w-56 flex items-center border-l border-grey-300;
 
     .level {
       @apply basis-1/2 text-left;
@@ -43,6 +43,10 @@
       @apply shrink;
       input {
         @apply w-16 h-8 rounded-sm text-right;
+
+        &.error {
+          @apply text-red-500 border-red-500;
+        }
       }
     }
 

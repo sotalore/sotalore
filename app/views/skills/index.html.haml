@@ -66,11 +66,13 @@
               %span.text-xs.opacity-8.font-normal (#{skill.xp_factor.to_s.sub(/.0$/, "")})
             .xpCell.currentCell
               .levelInput
-                %input{ type: 'number', value: current_skill.current, data: { 'skills-target': 'from', action: 'skills#calculateCurrent blur->skills#updateFrom' } }
+                %input{ type: 'number', value: current_skill.current,
+                  data: { 'skills-target': 'from', action: 'skills#calculateCurrent blur->skills#updateFrom' } }
               %span.xp{ data: { 'skills-target': 'current' }}
             .xpCell.targetCell
               .levelInput
-                %input{ type: 'number', value: current_skill.target, data: { 'skills-target': 'to', action: 'skills#calculateTotal  blur->skills#updateTo' } }
+                %input{ type: 'number', value: current_skill.target,
+                  data: { 'skills-target': 'to', action: 'skills#calculateTotal  blur->skills#updateTo' } }
               %span.xp{ data: { 'skills-target': 'total' }}
             .remainingXPCell
               %span{ data: { 'skills-target': 'remaining' }}

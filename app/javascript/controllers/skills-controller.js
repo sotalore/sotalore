@@ -1,9 +1,13 @@
 import { Controller } from "@hotwired/stimulus"
 
+import { formatXP } from "../lib/util"
+
 export default class extends Controller {
   static values = { xpFactor: Number, avatarUpdateUrl: String }
 
   static targets = [ 'from', 'to', 'current', 'total', 'remaining' ]
+
+  static maxLevel = 32767
 
   connect() {
     this.originalFromValue = this.fromTarget.value
@@ -13,12 +17,14 @@ export default class extends Controller {
   }
 
   calculateCurrent() {
+    this.checkSkillLevel(this.fromTarget)
     this.currentXP = this.calculateXPForLevel(this.fromTarget.value)
     this.setXPValue('currentXP', this.currentTarget, this.currentXP)
     this.calculateRemaining()
   }
 
   calculateTotal() {
+    this.checkSkillLevel(this.toTarget)
     this.totalXP = this.calculateXPForLevel(this.toTarget.value)
     this.setXPValue('totalXP', this.totalTarget, this.totalXP)
     this.calculateRemaining()
@@ -38,11 +44,11 @@ export default class extends Controller {
 
   setXPValue(field, targetElement, xp) {
     if (xp !== null) {
-      targetElement.innerHTML = Intl.NumberFormat().format(xp)
+      targetElement.innerHTML = formatXP(xp)
       this.element.dataset[field] = xp
     } else {
       delete this.element.dataset[field]
-      targetElement.innerHTML = ''
+      targetElement.innerHTML = formatXP('')
     }
     const event = new CustomEvent('skill:change', { bubbles: true })
     this.element.dispatchEvent(event)
@@ -61,6 +67,10 @@ export default class extends Controller {
   }
 
   updateFrom(event) {
+    if (!this.checkSkillLevel(this.fromTarget)) {
+      return
+    }
+
     const newVal = this.fromTarget.value
     if (newVal !== this.originalFromValue) {
       this.updateEarnedSkill({'current': this.fromTarget.value})
@@ -69,6 +79,10 @@ export default class extends Controller {
   }
 
   updateTo(event) {
+    if (!this.checkSkillLevel(this.toTarget)) {
+      return
+    }
+
     const newVal = this.toTarget.value
     if (newVal !== this.originalToValue) {
       this.updateEarnedSkill({'target': this.toTarget.value})
@@ -89,6 +103,23 @@ export default class extends Controller {
         body: JSON.stringify(data)
       })
     }
+  }
+
+  checkSkillLevel(element) {
+    let level = element.value
+    if (level === '') {
+      element.classList.remove('error')
+      return true
+    }
+
+    level = parseInt(level, 10)
+    if (level === NaN || level < 0 || level > this.constructor.maxLevel) {
+      element.classList.add('error')
+      return false
+    }
+
+    element.classList.remove('error')
+    return true
   }
 
   getMetaValue(name) {
