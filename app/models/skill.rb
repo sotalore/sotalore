@@ -30,7 +30,7 @@ class Skill
   CRAFTING = {}
   BY_KEY = {}
 
-  attr_accessor :key, :name, :xp_factor, :category, :school
+  attr_accessor :id, :key, :name, :xp_factor, :category, :school
 
   def xp_to_level(level)
     if level == 0
