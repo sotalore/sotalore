@@ -113,7 +113,7 @@ export default class extends Controller {
     }
 
     level = parseInt(level, 10)
-    if (level === NaN || level < 0 || level > this.constructor.maxLevel) {
+    if (Number.isNaN(level) || level < 0 || level > this.constructor.maxLevel) {
       element.classList.add('error')
       return false
     }
