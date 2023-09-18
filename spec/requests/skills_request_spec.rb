@@ -57,6 +57,30 @@ RSpec.describe 'Skills', type: :request do
         expect(avatar.skills.select(&:persisted?)).to be_empty
       end
     end
+
+    describe "ignore" do
+      it "adds the skill to the avatar's ignore list" do
+        patch ignore_avatar_skill_path(avatar, id: skill.id)
+
+        expect(response).to redirect_to(avatar_skills_path(avatar))
+
+        avatar.reload
+        expect(avatar.ignored_skills).to include(skill.id)
+      end
+    end
+
+    describe "reveal" do
+      it "adds the skill to the avatar's ignore list" do
+        avatar.ignore_skill!(skill)
+
+        patch reveal_avatar_skill_path(avatar, id: skill.id)
+
+        expect(response).to redirect_to(avatar_skills_path(avatar, show_all: true))
+
+        avatar.reload
+        expect(avatar.ignored_skills).to_not include(skill.id)
+      end
+    end
   end
 
 end

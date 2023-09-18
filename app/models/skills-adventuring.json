@@ -43,7 +43,7 @@
         "key": "combat~shield~shield-preservation",
         "id": 7
       },
-      {
+     {
         "name": "Charge",
         "xp_factor": 1.0,
         "key": "combat~shield~charge",

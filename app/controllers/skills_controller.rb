@@ -25,6 +25,34 @@ class SkillsController < ApplicationController
     end
   end
 
+  def ignore
+    skill = Skill.find(params[:id])
+    @avatar.ignore_skill!(skill)
+
+    respond_to do |format|
+      format.html { redirect_to avatar_skills_path(@avatar) }
+      format.turbo_stream do
+        if params.key?(:show_all)
+          render turbo_stream: turbo_stream.replace(skill, partial: 'skills/skill_row', locals: { skill: skill })
+        else
+          render turbo_stream: turbo_stream.remove(skill)
+        end
+      end
+    end
+  end
+
+  def reveal
+    skill = Skill.find(params[:id])
+    @avatar.reveal_skill!(skill)
+
+    respond_to do |format|
+      format.html { redirect_to avatar_skills_path(@avatar, show_all: true) }
+      format.turbo_stream {
+        render turbo_stream: turbo_stream.replace(skill, partial: 'skills/skill_row', locals: { skill: skill })
+      }
+    end
+  end
+
   private
   def set_activity
     @activity = params[:activity].to_s.inquiry
@@ -33,13 +61,12 @@ class SkillsController < ApplicationController
   def setup_avatar
     @current_skills = Hash.new(EarnedSkill.new)
     if current_user.not_null?
+      # Set @avatars for select in page heading
       @avatars = current_user.avatars
-      if @avatars.present?
-        @avatar = @avatars.find(params[:avatar_id]) if params[:avatar_id]
-        if @avatar
-          @avatar.skills.each do |earned_skill|
-            @current_skills[earned_skill.skill_key] = earned_skill
-          end
+      @avatar = @avatars.find(params[:avatar_id]) if params[:avatar_id]
+      if @avatar
+        @avatar.skills.each do |earned_skill|
+          @current_skills[earned_skill.skill_key] = earned_skill
         end
       end
     end

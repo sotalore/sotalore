@@ -16,19 +16,26 @@ class Skill
             container[category][school] ||= []
             container[category][school] << s
             BY_KEY[s.key] = s
+            BY_ID[s.id] = s
           end
         end
       end
     end
 
     def find(key)
-      BY_KEY[key]
+      id = Integer(key, exception: false)
+      if id
+        BY_ID[id]
+      else
+        BY_KEY[key]
+      end
     end
   end
 
   ADVENTURING = {}
   CRAFTING = {}
   BY_KEY = {}
+  BY_ID = {}
 
   attr_accessor :id, :key, :name, :xp_factor, :category, :school
 

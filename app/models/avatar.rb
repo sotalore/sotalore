@@ -10,4 +10,21 @@ class Avatar < ApplicationRecord
       user.avatars.where.not(id: id).update(is_default: false)
     end
   end
+
+  def ignore_skill!(skill)
+    unless ignored_skills.include?(skill.id)
+      ignored_skills << skill.id
+      self.save!
+    end
+  end
+
+  def ignoring_skill?(skill)
+    self.ignored_skills.include?(skill.id)
+  end
+
+  def reveal_skill!(skill)
+    self.ignored_skills.delete(skill.id)
+    self.save!
+  end
+
 end
