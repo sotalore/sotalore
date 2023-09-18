@@ -58,6 +58,19 @@ RSpec.describe Skill, type: :model do
       expect(keys.uniq.length).to eq keys.length
     end
 
+    it 'has no duplicate IDs' do
+      ids = []
+      Skill::ADVENTURING.each do |category, schools|
+        schools.each do |school, skills|
+          skills.each do |skill|
+            ids << skill.id
+          end
+        end
+      end
+
+      expect(ids.uniq.length).to eq ids.length
+    end
+
     it 'has no duplicate names' do
       names = []
       Skill::ADVENTURING.each do |category, schools|
@@ -84,6 +97,19 @@ RSpec.describe Skill, type: :model do
       end
 
       expect(keys.uniq.length).to eq keys.length
+    end
+
+    it 'has no duplicate IDs' do
+      ids = []
+      Skill::CRAFTING.each do |category, schools|
+        schools.each do |school, skills|
+          skills.each do |skill|
+            ids << skill.id
+          end
+        end
+      end
+
+      expect(ids.uniq.length).to eq ids.length
     end
 
     it 'has no duplicate names' do

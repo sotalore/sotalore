@@ -67,7 +67,12 @@ Rails.application.routes.draw do
   get 'skills/:activity', to: 'skills#index', as: 'skills', defaults: { activity: 'adventuring' }
   resources :avatars, except: [ :show ] do
     get 'skills/:activity', to: 'skills#index', as: 'skills', defaults: { activity: 'adventuring' }
-    resources :skills, only: [ :update ]
+    resources :skills, only: [ :update ] do
+      member do
+        patch :ignore, to: 'skills#ignore'
+        patch :reveal, to: 'skills#reveal'
+      end
+    end
   end
 
 

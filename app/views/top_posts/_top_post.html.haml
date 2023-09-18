@@ -3,6 +3,21 @@
   = tile_body do
     %p
       %strong
+        For any of your Avatars, you can now ignore skills.
+
+    = image_tag('toggle-skill-ignore.png', class: 'rounded-lg mx-1 my-4 drop-shadow-lg')
+
+    %p
+      If you have an Avatar selected on the skills calculator,
+      you can now toggle visibility of a skill. There's a toggle
+      in the heading to show all skills, or to hide ignored (the
+      default view).
+
+    %p
+      &mdash;
+
+    %p
+      %strong
         An attempt at a Cabalist Clock has been added.
         = primary_button_to('Cabalists', cabalists_path, size: :sm)
 

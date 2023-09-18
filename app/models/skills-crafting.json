@@ -4,120 +4,142 @@
       {
         "name": "Mining",
         "xp_factor": 1.0,
-        "key": "gathering~mining~mining"
+        "key": "gathering~mining~mining",
+        "id": 10001
       },
       {
         "name": "Survey - Mining",
         "xp_factor": 1.0,
-        "key": "gathering~mining~survey-mining"
+        "key": "gathering~mining~survey-mining",
+        "id": 10002
       },
       {
         "name": "Swift Gathering - Mining",
         "xp_factor": 1.0,
-        "key": "gathering~mining~swift-gathering-mining"
+        "key": "gathering~mining~swift-gathering-mining",
+        "id": 10003
       },
       {
         "name": "Meticulous Collection - Mining",
         "xp_factor": 2.0,
-        "key": "gathering~mining~meticulous-collection-mining"
+        "key": "gathering~mining~meticulous-collection-mining",
+        "id": 10004
       }
     ],
     "foraging": [
       {
         "name": "Foraging",
         "xp_factor": 1.0,
-        "key": "gathering~foraging~foraging"
+        "key": "gathering~foraging~foraging",
+        "id": 10005
       },
       {
         "name": "Survey - Foraging",
         "xp_factor": 2.0,
-        "key": "gathering~foraging~survey-foraging"
+        "key": "gathering~foraging~survey-foraging",
+        "id": 10006
       },
       {
         "name": "Swift Gathering - Foraging",
         "xp_factor": 1.0,
-        "key": "gathering~foraging~swift-gathering-foraging"
+        "key": "gathering~foraging~swift-gathering-foraging",
+        "id": 10007
       },
       {
         "name": "Meticulous Collection - Foraging",
         "xp_factor": 2.0,
-        "key": "gathering~foraging~meticulous-collection-foraging"
+        "key": "gathering~foraging~meticulous-collection-foraging",
+        "id": 10008
       }
     ],
     "forestry": [
       {
         "name": "Forestry",
         "xp_factor": 1.0,
-        "key": "gathering~forestry~forestry"
+        "key": "gathering~forestry~forestry",
+        "id": 10009
       },
       {
         "name": "Survey - Forestry",
         "xp_factor": 1.0,
-        "key": "gathering~forestry~survey-forestry"
+        "key": "gathering~forestry~survey-forestry",
+        "id": 10010
       },
       {
         "name": "Swift Gathering - Forestry",
         "xp_factor": 1.0,
-        "key": "gathering~forestry~swift-gathering-forestry"
+        "key": "gathering~forestry~swift-gathering-forestry",
+        "id": 10011
       },
       {
         "name": "Meticulous Collection - Forestry",
         "xp_factor": 2.0,
-        "key": "gathering~forestry~meticulous-collection-forestry"
+        "key": "gathering~forestry~meticulous-collection-forestry",
+        "id": 10012
       }
     ],
     "field dressing": [
       {
         "name": "Field Dressing",
         "xp_factor": 1.0,
-        "key": "gathering~field-dressing~field-dressing"
+        "key": "gathering~field-dressing~field-dressing",
+        "id": 10013
       },
       {
         "name": "Survey - Field Dressing",
         "xp_factor": 1.0,
-        "key": "gathering~field-dressing~survey-field-dressing"
+        "key": "gathering~field-dressing~survey-field-dressing",
+        "id": 10014
       },
       {
         "name": "Swift Gathering - Field Dressing",
         "xp_factor": 1.0,
-        "key": "gathering~field-dressing~swift-gathering-field-dressing"
+        "key": "gathering~field-dressing~swift-gathering-field-dressing",
+        "id": 10015
       },
       {
         "name": "Meticulous Collection - Field Dressing",
         "xp_factor": 2.0,
-        "key": "gathering~field-dressing~meticulous-collection-field-dressing"
+        "key": "gathering~field-dressing~meticulous-collection-field-dressing",
+        "id": 10016
       }
     ],
     "fishing": [
       {
         "name": "Fishing",
         "xp_factor": 1.0,
-        "key": "gathering~fishing~fishing"
+        "key": "gathering~fishing~fishing",
+        "id": 10017
       },
       {
         "name": "Bait Recovery",
         "xp_factor": 1.0,
-        "key": "gathering~fishing~bait-recovery"
+        "key": "gathering~fishing~bait-recovery",
+        "id": 10018
       },
       {
         "name": "Freshwater Fishing",
         "xp_factor": 1.0,
-        "key": "gathering~fishing~freshwater-fishing"
+        "key": "gathering~fishing~freshwater-fishing",
+        "id": 10019
       },
       {
         "name": "Fetid Water Fishing",
         "xp_factor": 1.0,
-        "key": "gathering~fishing~fetid-water-fishing"
+        "key": "gathering~fishing~fetid-water-fishing",
+        "id": 10020
       },
       {
         "name": "Saltwater Fishing",
         "xp_factor": 1.0,
-        "key": "gathering~fishing~saltwater-fishing"
+        "key": "gathering~fishing~saltwater-fishing",
+        "id": 10021
       },
       {
         "name": "Lava Fishing",
         "xp_factor": 1.0,
-        "key": "gathering~fishing~lava-fishing"
+        "key": "gathering~fishing~lava-fishing",
+        "id": 10022
       }
     ]
   },
@@ -126,127 +148,150 @@
       {
         "name": "Butchery",
         "xp_factor": 1.0,
-        "key": "refining~butchery~butchery"
+        "key": "refining~butchery~butchery",
+        "id": 10023
       },
       {
         "name": "Batching Materials - Butchery",
         "xp_factor": 1.0,
-        "key": "refining~butchery~batching-materials-butchery"
+        "key": "refining~butchery~batching-materials-butchery",
+        "id": 10024
       },
       {
         "name": "Swift Refine - Butchery",
         "xp_factor": 1.0,
-        "key": "refining~butchery~swift-refine-butchery"
+        "key": "refining~butchery~swift-refine-butchery",
+        "id": 10025
       },
       {
         "name": "Efficient Refine - Butchery",
         "xp_factor": 2.0,
-        "key": "refining~butchery~efficient-refine-butchery"
+        "key": "refining~butchery~efficient-refine-butchery",
+        "id": 10026
       }
     ],
     "smelting": [
       {
         "name": "Smelting",
         "xp_factor": 1.0,
-        "key": "refining~smelting~smelting"
+        "key": "refining~smelting~smelting",
+        "id": 10027
       },
       {
         "name": "Batching Materials - Smelting",
         "xp_factor": 1.0,
-        "key": "refining~smelting~batching-materials-smelting"
+        "key": "refining~smelting~batching-materials-smelting",
+        "id": 10028
       },
       {
         "name": "Swift Refine - Smelting",
         "xp_factor": 1.0,
-        "key": "refining~smelting~swift-refine-smelting"
+        "key": "refining~smelting~swift-refine-smelting",
+        "id": 10029
       },
       {
         "name": "Efficient Refine - Smelting",
         "xp_factor": 2.0,
-        "key": "refining~smelting~efficient-refine-smelting"
+        "key": "refining~smelting~efficient-refine-smelting",
+        "id": 10030
       }
     ],
     "tanning": [
       {
         "name": "Tanning",
         "xp_factor": 1.0,
-        "key": "refining~tanning~tanning"
+        "key": "refining~tanning~tanning",
+        "id": 10031
       },
       {
         "name": "Batching Materials - Tanning",
         "xp_factor": 1.0,
-        "key": "refining~tanning~batching-materials-tanning"
+        "key": "refining~tanning~batching-materials-tanning",
+        "id": 10032
       },
       {
         "name": "Swift Refine - Tanning",
         "xp_factor": 1.0,
-        "key": "refining~tanning~swift-refine-tanning"
+        "key": "refining~tanning~swift-refine-tanning",
+        "id": 10033
       },
       {
         "name": "Efficient Refine - Tanning",
         "xp_factor": 2.0,
-        "key": "refining~tanning~efficient-refine-tanning"
+        "key": "refining~tanning~efficient-refine-tanning",
+        "id": 10034
       }
     ],
     "milling": [
       {
         "name": "Milling",
         "xp_factor": 1.0,
-        "key": "refining~milling~milling"
+        "key": "refining~milling~milling",
+        "id": 10035
       },
       {
         "name": "Batching Materials - Milling",
         "xp_factor": 1.0,
-        "key": "refining~milling~batching-materials-milling"
+        "key": "refining~milling~batching-materials-milling",
+        "id": 10036
       },
       {
         "name": "Swift Refine - Milling",
         "xp_factor": 1.0,
-        "key": "refining~milling~swift-refine-milling"
+        "key": "refining~milling~swift-refine-milling",
+        "id": 10037
       },
       {
         "name": "Efficient Refine - Milling",
         "xp_factor": 2.0,
-        "key": "refining~milling~efficient-refine-milling"
+        "key": "refining~milling~efficient-refine-milling",
+        "id": 10038
       }
     ],
     "agriculture": [
       {
         "name": "Water Plants",
         "xp_factor": 1.0,
-        "key": "refining~agriculture~water-plants"
+        "key": "refining~agriculture~water-plants",
+        "id": 10039
       },
       {
         "name": "Sow Seed Bonus",
         "xp_factor": 1.0,
-        "key": "refining~agriculture~sow-seed-bonus"
+        "key": "refining~agriculture~sow-seed-bonus",
+        "id": 10040
       },
       {
         "name": "Harvest Plants",
         "xp_factor": 1.0,
-        "key": "refining~agriculture~harvest-plants"
+        "key": "refining~agriculture~harvest-plants",
+        "id": 10041
       }
     ],
     "textiles": [
       {
         "name": "Textiles",
         "xp_factor": 1.0,
-        "key": "refining~textiles~textiles"
+        "key": "refining~textiles~textiles",
+        "id": 10042
       },
       {
         "name": "Batching Materials - Textiles",
         "xp_factor": 1.0,
-        "key": "refining~textiles~batching-materials-textiles"
+        "key": "refining~textiles~batching-materials-textiles",
+        "id": 10043
       },
       {
         "name": "Swift Refine - Textiles",
         "xp_factor": 1.0,
-        "key": "refining~textiles~swift-refine-textiles"
+        "key": "refining~textiles~swift-refine-textiles",
+        "id": 10044
       },
       {
         "name": "Efficient Refine - Textiles",
         "xp_factor": 2.0,
-        "key": "refining~textiles~efficient-refine-textiles"
+        "key": "refining~textiles~efficient-refine-textiles",
+        "id": 10045
       }
     ]
   },
@@ -255,160 +300,190 @@
       {
         "name": "Blacksmithing",
         "xp_factor": 1.0,
-        "key": "production~blacksmithing~blacksmithing"
+        "key": "production~blacksmithing~blacksmithing",
+        "id": 10046
       },
       {
         "name": "Blacksmithing Repair",
         "xp_factor": 1.0,
-        "key": "production~blacksmithing~blacksmithing-repair"
+        "key": "production~blacksmithing~blacksmithing-repair",
+        "id": 10047
       },
       {
         "name": "Blacksmithing Salvage",
         "xp_factor": 1.0,
-        "key": "production~blacksmithing~blacksmithing-salvage"
+        "key": "production~blacksmithing~blacksmithing-salvage",
+        "id": 10048
       },
       {
         "name": "Blacksmithing Masterwork",
         "xp_factor": 1.0,
-        "key": "production~blacksmithing~blacksmithing-masterwork"
+        "key": "production~blacksmithing~blacksmithing-masterwork",
+        "id": 10049
       },
       {
         "name": "Blacksmithing Mastery",
         "xp_factor": 2.0,
-        "key": "production~blacksmithing~blacksmithing-mastery"
+        "key": "production~blacksmithing~blacksmithing-mastery",
+        "id": 10050
       },
       {
         "name": "Masterwork Blade",
         "xp_factor": 1.0,
-        "key": "production~blacksmithing~masterwork-blade"
+        "key": "production~blacksmithing~masterwork-blade",
+        "id": 10051
       },
       {
         "name": "Masterwork Plate Armor",
         "xp_factor": 1.0,
-        "key": "production~blacksmithing~masterwork-plate-armor"
+        "key": "production~blacksmithing~masterwork-plate-armor",
+        "id": 10052
       },
       {
         "name": "Masterwork Chain Armor",
         "xp_factor": 1.0,
-        "key": "production~blacksmithing~masterwork-chain-armor"
+        "key": "production~blacksmithing~masterwork-chain-armor",
+        "id": 10053
       },
       {
         "name": "Masterwork Shield",
         "xp_factor": 1.0,
-        "key": "production~blacksmithing~masterwork-shield"
+        "key": "production~blacksmithing~masterwork-shield",
+        "id": 10054
       }
     ],
     "cooking": [
       {
         "name": "Cooking",
         "xp_factor": 1.0,
-        "key": "production~cooking~cooking"
+        "key": "production~cooking~cooking",
+        "id": 10055
       }
     ],
     "carpentry": [
       {
         "name": "Carpentry",
         "xp_factor": 1.0,
-        "key": "production~carpentry~carpentry"
+        "key": "production~carpentry~carpentry",
+        "id": 10056
       },
       {
         "name": "Carpentry Repair",
         "xp_factor": 1.0,
-        "key": "production~carpentry~carpentry-repair"
+        "key": "production~carpentry~carpentry-repair",
+        "id": 10057
       },
       {
         "name": "Carpentry Salvage",
         "xp_factor": 1.0,
-        "key": "production~carpentry~carpentry-salvage"
+        "key": "production~carpentry~carpentry-salvage",
+        "id": 10058
       },
       {
         "name": "Carpentry Masterwork",
         "xp_factor": 1.0,
-        "key": "production~carpentry~carpentry-masterwork"
+        "key": "production~carpentry~carpentry-masterwork",
+        "id": 10059
       },
       {
         "name": "Carpentry Mastery",
         "xp_factor": 2.0,
-        "key": "production~carpentry~carpentry-mastery"
+        "key": "production~carpentry~carpentry-mastery",
+        "id": 10060
       },
       {
         "name": "Masterwork Bludgeon Weapon",
         "xp_factor": 1.0,
-        "key": "production~carpentry~masterwork-bludgeon-weapon"
+        "key": "production~carpentry~masterwork-bludgeon-weapon",
+        "id": 10061
       },
       {
         "name": "Masterwork Polearm Weapon",
         "xp_factor": 1.0,
-        "key": "production~carpentry~masterwork-polearm-weapon"
+        "key": "production~carpentry~masterwork-polearm-weapon",
+        "id": 10062
       },
       {
         "name": "Masterwork Ranged Weapon",
         "xp_factor": 1.0,
-        "key": "production~carpentry~masterwork-ranged-weapon"
+        "key": "production~carpentry~masterwork-ranged-weapon",
+        "id": 10063
       }
     ],
     "alchemy": [
       {
         "name": "Alchemy",
         "xp_factor": 1.0,
-        "key": "production~alchemy~alchemy"
+        "key": "production~alchemy~alchemy",
+        "id": 10064
       },
       {
         "name": "Enchantment",
         "xp_factor": 1.0,
-        "key": "production~alchemy~enchantment"
+        "key": "production~alchemy~enchantment",
+        "id": 10065
       },
       {
         "name": "Alchemy Mastery",
         "xp_factor": 2.0,
-        "key": "production~alchemy~alchemy-mastery"
+        "key": "production~alchemy~alchemy-mastery",
+        "id": 10066
       },
       {
         "name": "Weapon Enchantment",
         "xp_factor": 2.0,
-        "key": "production~alchemy~weapon-enchantment"
+        "key": "production~alchemy~weapon-enchantment",
+        "id": 10067
       },
       {
         "name": "Armor Enchantment",
         "xp_factor": 2.0,
-        "key": "production~alchemy~armor-enchantment"
+        "key": "production~alchemy~armor-enchantment",
+        "id": 10068
       }
     ],
     "tailoring": [
       {
         "name": "Tailoring",
         "xp_factor": 1.0,
-        "key": "production~tailoring~tailoring"
+        "key": "production~tailoring~tailoring",
+        "id": 10069
       },
       {
         "name": "Tailoring Repair",
         "xp_factor": 1.0,
-        "key": "production~tailoring~tailoring-repair"
+        "key": "production~tailoring~tailoring-repair",
+        "id": 10070
       },
       {
         "name": "Tailoring Salvage",
         "xp_factor": 1.0,
-        "key": "production~tailoring~tailoring-salvage"
+        "key": "production~tailoring~tailoring-salvage",
+        "id": 10071
       },
       {
         "name": "Tailoring Masterwork",
         "xp_factor": 1.0,
-        "key": "production~tailoring~tailoring-masterwork"
+        "key": "production~tailoring~tailoring-masterwork",
+        "id": 10072
       },
       {
         "name": "Tailoring Mastery",
         "xp_factor": 2.0,
-        "key": "production~tailoring~tailoring-mastery"
+        "key": "production~tailoring~tailoring-mastery",
+        "id": 10073
       },
       {
         "name": "Masterwork Leather Armor",
         "xp_factor": 1.0,
-        "key": "production~tailoring~masterwork-leather-armor"
+        "key": "production~tailoring~masterwork-leather-armor",
+        "id": 10074
       },
       {
         "name": "Masterwork Cloth Armor",
         "xp_factor": 1.0,
-        "key": "production~tailoring~masterwork-cloth-armor"
+        "key": "production~tailoring~masterwork-cloth-armor",
+        "id": 10075
       }
     ]
   }
