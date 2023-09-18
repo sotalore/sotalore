@@ -8,21 +8,7 @@
       } }
     - current_skill = @current_skills[skill.key]
     .skillCell.skillName{ class: @avatar&.ignoring_skill?(skill) ? 'opacity-50' : '' }
-      - if @avatar
-        - if @avatar.ignoring_skill?(skill)
-          = button_to(render_icon('eye_slash', size: :sm), reveal_avatar_skill_path(@avatar, skill.id),
-            class: 'text-grey-500',
-            method: :patch,
-            tabindex: "-1",
-            form: { class: 'inline'})
-        - else
-          - show_all_param = params.key?(:show_all) ? { show_all: true } : {}
-          = button_to(render_icon('eye', size: :sm), ignore_avatar_skill_path(@avatar, skill.id, **show_all_param),
-            class: 'text-grey-500',
-            method: :patch,
-            tabindex: "-1",
-            form: { class: 'inline'})
-
+      = toggle_skill_button(@avatar, skill)
       = skill.name
       %span.text-xs.opacity-8.font-normal (#{skill.xp_factor.to_s.sub(/.0$/, "")})
     .xpCell.currentCell
