@@ -13,9 +13,9 @@
         .grow.text-center.font-normal.italic.text-sm
           - if @avatar
             - if params.key?(:show_all)
-              = link_to("hide ignored", avatar_skills_path(@avatar))
+              = link_to("hide ignored", avatar_skills_path(@avatar, activity: @activity))
             - else
-              = link_to('show all', avatar_skills_path(@avatar, show_all: true))
+              = link_to('show all', avatar_skills_path(@avatar, activity: @activity, show_all: true))
       .xpCell.currentCell
         .level Current level
         .xp Spent XP
