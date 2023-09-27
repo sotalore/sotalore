@@ -61,10 +61,17 @@ class SkillsController < ApplicationController
   def setup_avatar
     @current_skills = Hash.new(EarnedSkill.new)
     if current_user.not_null?
+      if params[:avatar_id] == 'none'
+        avatar_id = nil
+      else
+        avatar_id = params[:avatar_id]
+      end
+
       # Set @avatars for select in page heading
       @avatars = current_user.avatars
-      @avatar = @avatars.find(params[:avatar_id]) if params[:avatar_id]
+      @avatar = @avatars.find(avatar_id) if avatar_id
       if @avatar
+        session[:current_avatar_id] = @avatar.id
         @avatar.skills.each do |earned_skill|
           @current_skills[earned_skill.skill_key] = earned_skill
         end

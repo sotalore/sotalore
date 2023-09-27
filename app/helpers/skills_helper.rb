@@ -21,4 +21,32 @@ module SkillsHelper
 
     button_to(icon, path, class: 'text-slorange-500', method: :patch, tabindex: "-1", form: { class: 'inline'})
   end
+
+  def current_skills_path(activity: 'adventuring')
+    if params[:avatar_id] == 'none'
+      return avatar_skills_path(avatar_id: 'none', activity: activity)
+    end
+
+    avatar = current_avatar
+    return skills_path(activity: activity) unless avatar
+
+    avatar_skills_path(avatar, activity: activity)
+  end
+
+  def current_avatar
+    return nil if current_user.null?
+
+    if session[:current_avatar_id]
+      current_user.avatars.find(session[:current_avatar_id])
+    else
+      current_user.avatars.detect(&:is_default)
+    end
+  end
+
+  def avatar_select_tag
+    option_data = [['~ none ~', avatar_skills_path(avatar_id: 'none', activity: @activity)]] +
+      @avatars.map { |a| [a.name, avatar_skills_path(avatar_id: a, activity: @activity)] }
+    select_tag('avatar', options_for_select(option_data, request.path), class: 'py-0 h-8')
+  end
+
 end
