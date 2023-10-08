@@ -4,11 +4,11 @@ module CloudflareTurnstile
   extend ActiveSupport::Concern
 
   def self.site_key
-    Rails.application.secrets.turnstile_site_key
+    Rails.application.credentials.turnstile&.site_key
   end
 
   def self.secret_key
-    Rails.application.secrets.turnstile_secret_key
+    Rails.application.credentials.turnstile&.secret_key
   end
 
   def verify_turnstile(params)
