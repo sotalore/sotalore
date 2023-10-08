@@ -5,7 +5,7 @@ class Item < ApplicationRecord
   include PgSearch::Model
   multisearchable against: [ :name ]
 
-  serialize :gathering_skill, CraftSkill
+  serialize :gathering_skill, coder: CraftSkill
 
   ITEM_USES = {
     unknown: 0,

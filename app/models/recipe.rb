@@ -3,7 +3,7 @@ class Recipe < ApplicationRecord
   multisearchable against: [ :name ]
   include RecipeKey
 
-  serialize :craft_skill, CraftSkill
+  serialize :craft_skill, coder: CraftSkill
 
   enum :teachable, [ :teachable, :re_teachable, :not_teachable ]
 
