@@ -10,9 +10,7 @@
     %meta{:charset => "utf-8"}/
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
-    = stylesheet_link_tag 'actiontext', media: 'all', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css", media: 'all', integrity: "sha512-F2E+YYE1gkt0T5TVajAslgDfTEUQKtlu4ralVq78ViNxhKXQLrgQLLie8u1tVdG2vWnB3ute4hcdbiBtvJQh0g==", crossorigin: "anonymous", referrerpolicy: "no-referrer"
-    = stylesheet_link_tag "actiontext", "data-turbo-track": "reload"
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
     = javascript_include_tag 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true
     = action_cable_meta_tag
@@ -23,7 +21,7 @@
     %link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
     %link(rel="manifest" href="/site.webmanifest")
 
-  %body.bg-grey-100{data: { 'controller' => 'mousetrap' }}
+  %body.bg-grey-100{data: { 'controller' => 'mousetrap', turbo_prefetch: 'false' }}
     .flex.flex-row.h-screen
       .bg-slorange-700.w-16.lg:w-40
         .h-12.p-3.pl-1.text-center
