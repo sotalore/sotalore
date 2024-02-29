@@ -3,25 +3,11 @@
   = tile_body do
     %p
       %strong
-        For any of your Avatars, you can now ignore skills.
-
-    = image_tag('toggle-skill-ignore.png', class: 'rounded-lg mx-1 my-4 drop-shadow-lg')
+        Farming Calculator times are now locale aware
 
     %p
-      If you have an Avatar selected on the skills calculator,
-      you can now toggle visibility of a skill. There's a toggle
-      in the heading to show all skills, or to hide ignored (the
-      default view).
-
-    %p
-      &mdash;
-
-    %p
-      %strong
-        An attempt at a Cabalist Clock has been added.
-        = primary_button_to('Cabalists', cabalists_path, size: :sm)
-
-    %p
-      There does seem to be some inconsistencies with the appearance of
-      cabalist sieges, so please report any issues you find.
-
+      The times given on the farming calculator now consider your
+      locale settings in your browser. This should show times in
+      twenty-four hour format, where that's a standard thing to do.
+      Note that month and day names will also be given in your language,
+      even though the entire site is in English.

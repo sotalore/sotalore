@@ -1,19 +1,18 @@
 import { Controller } from "@hotwired/stimulus"
 
-var moment = require('moment')
-
 export default class extends Controller {
-  static targets = [ 'startTime', 'segment1', 'segment2', 'endTime', 'windowTime',
-  'exportCalendar', 'exportName', 'copyCalendarUrlMessage', 'calendarHelp' ]
+  static targets = ['startTime', 'segment1', 'segment2', 'endTime', 'windowTime',
+    'exportCalendar', 'exportName', 'copyCalendarUrlMessage', 'calendarHelp']
 
   static values = {
     seedTime: { type: Number, default: 8 },
     locationFactor: { type: Number, default: 1 },
     exportCalendarBaseUrl: { type: String, default: '' },
-    exportCalendarUrl: { type: String, default: ''},
+    exportCalendarUrl: { type: String, default: '' },
   }
 
   connect() {
+    console.log(navigator.languages)
   }
 
   updateSeedTime(event) {
@@ -38,34 +37,38 @@ export default class extends Controller {
 
   update() {
 
-    var baseTime = this.seedTimeValue * this.locationFactorValue;
+    const windowSize = this.seedTimeValue * this.locationFactorValue;
     this.windowTimeTargets.forEach((e) => {
-      e.innerHTML = baseTime + " hours"
+      e.innerHTML = windowSize + " hours"
     })
 
+    const startTime = new Date()
+    var nextTime = this.addHours(startTime, 0)
 
+    this.updateTargets(this.startTimeTargets, nextTime)
 
-    var startTime = moment()
-    var startTimeStr = startTime.format('YYYY-MM-DDTHH:mm:ssZZ')
+    nextTime = this.addHours(nextTime, windowSize)
+    this.updateTargets(this.segment1Targets, nextTime)
 
-    this.updateTargets(this.startTimeTargets, startTime)
+    nextTime = this.addHours(nextTime, windowSize)
+    this.updateTargets(this.segment2Targets, nextTime)
 
-    startTime.add(baseTime, "hours")
-    this.updateTargets(this.segment1Targets, startTime)
+    nextTime = this.addHours(nextTime, windowSize)
+    this.updateTargets(this.endTimeTargets, nextTime)
 
-    startTime.add(baseTime, "hours")
-    this.updateTargets(this.segment2Targets, startTime)
-
-    startTime.add(baseTime, "hours")
-    this.updateTargets(this.endTimeTargets, startTime)
-
-    this.buildCalendarUrl(startTimeStr)
+    this.buildCalendarUrl(startTime)
 
   }
 
+  addHours(date, hours) {
+    return new Date(date.getTime() + (hours * 60 * 60 * 1000))
+  }
+
   buildCalendarUrl(startTime) {
+    var startTimeStr = this.formatDateForCalendar(startTime)
+
     var url = new URL(this.exportCalendarBaseUrlValue, window.location.origin)
-    url.searchParams.set('start', startTime)
+    url.searchParams.set('start', startTimeStr)
     url.searchParams.set('seedTime', this.seedTimeValue)
     url.searchParams.set('locationFactor', this.locationFactorValue)
     url.searchParams.set('name', this.exportNameTarget.value)
@@ -89,11 +92,40 @@ export default class extends Controller {
   }
 
   describeTime(time) {
-    if (time.diff(moment(), 'days') >= 6) {
-      return time.format('LLLL');
+    const today = new Date()
+    const tomorrow = new Date(today)
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    const nextWeek = new Date(today)
+    nextWeek.setDate(nextWeek.getDate() + 6)
+
+    if (this.isToday(time)) {
+      return this.formatTodayTomorrow(0, time)
+    } else if (this.isTomorrow(time)) {
+      return this.formatTodayTomorrow(1, time)
+    } else if (time < nextWeek) {
+      return this.formatThisWeek(time)
     } else {
-      return time.calendar();
+      return this.formatFuture(time)
     }
+  }
+
+  formatTodayTomorrow(offset, time) {
+    const rtf = new Intl.RelativeTimeFormat(navigator.languages, { numeric: "auto" });
+    const formatter = Intl.DateTimeFormat(navigator.languages, { hour: 'numeric', minute: '2-digit' })
+    return rtf.format(offset, 'day') + ' ' + formatter.format(time)
+  }
+
+  formatThisWeek(time) {
+    const formatter = Intl.DateTimeFormat(navigator.languages, { weekday: 'short', hour: 'numeric', minute: '2-digit' })
+    return formatter.format(time)
+  }
+
+  formatFuture(time) {
+    const formatter = Intl.DateTimeFormat(navigator.languages, {
+      weekday: 'short', month: 'short', day: 'numeric',
+      hour: 'numeric', minute: '2-digit'
+    })
+    return formatter.format(time)
   }
 
   showCalendarHelp(event) {
@@ -102,4 +134,35 @@ export default class extends Controller {
     this.calendarHelpTarget.classList.remove('hidden')
   }
 
+  formatDateForCalendar(date) {
+    var tzo = -date.getTimezoneOffset(),
+      dif = tzo >= 0 ? '+' : '-',
+      pad = function (num) {
+        return (num < 10 ? '0' : '') + num;
+      };
+
+    return date.getFullYear() +
+      '-' + pad(date.getMonth() + 1) +
+      '-' + pad(date.getDate()) +
+      'T' + pad(date.getHours()) +
+      ':' + pad(date.getMinutes()) +
+      ':' + pad(date.getSeconds()) +
+      dif + pad(Math.floor(Math.abs(tzo) / 60)) +
+      ':' + pad(Math.abs(tzo) % 60);
+  }
+
+  isToday(date) {
+    const today = new Date();
+    return date.getDate() === today.getDate() &&
+      date.getMonth() === today.getMonth() &&
+      date.getFullYear() === today.getFullYear();
+  }
+
+  isTomorrow(date) {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    return date.getDate() === tomorrow.getDate() &&
+      date.getMonth() === tomorrow.getMonth() &&
+      date.getFullYear() === tomorrow.getFullYear();
+  }
 }
