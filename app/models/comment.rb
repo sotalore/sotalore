@@ -31,7 +31,7 @@ class Comment < ApplicationRecord
   end
 
   def author
-    actual_author || (@_null_user ||= NullUser.new(user_key))
+    actual_author || (@_null_user ||= NullUser.new)
   end
 
   def author=(val)
@@ -41,6 +41,11 @@ class Comment < ApplicationRecord
     else
       self.actual_author = val
     end
+  end
+
+  def authored_by_current_user?
+    (Current.user && actual_author == Current.user) ||
+      (Current.user_key && user_key == Current.user_key)
   end
 
   def author_name

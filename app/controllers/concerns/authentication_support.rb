@@ -16,12 +16,8 @@ module AuthenticationSupport
   end
 
   def sign_out_user
-    Current.session&.destroy
-
-    Current.user = nil
-    Current.session = nil
-
     cookies.delete(:current_user_id)
+    Current.user = NullUser.new
   end
 
   def current_user

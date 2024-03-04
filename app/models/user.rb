@@ -63,10 +63,6 @@ class User < ApplicationRecord
     name
   end
 
-  def is?(other)
-    self == other
-  end
-
   def null?
     false
   end
