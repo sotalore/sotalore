@@ -15,7 +15,7 @@
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
-guard :rspec, cmd: "RUNNING_GUARD=t rspec", failed_mode: :keep do
+guard :rspec, cmd: "RUNNING_GUARD=t bundle exec rspec", failed_mode: :keep do
   require 'guard/rspec/dsl'
   dsl = Guard::RSpec::Dsl.new(self)
 
