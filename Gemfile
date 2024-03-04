@@ -31,7 +31,6 @@ gem 'local_time'
 gem 'active_link_to'
 gem 'redcarpet'
 
-gem 'devise'
 gem 'omniauth-discord'
 gem 'omniauth-rails_csrf_protection'
 gem 'pg_search'
