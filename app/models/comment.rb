@@ -8,7 +8,7 @@ class Comment < ApplicationRecord
 
   scope :for_feed, ->(user) {
     if user.null?
-      proxy = where('comments.visible = ? or user_key = ?', true, user.user_key)
+      proxy = where('comments.visible = ? or user_key = ?', true, Current.user_key)
     elsif user.has_role?('root')
       proxy = self
     else

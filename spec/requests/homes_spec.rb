@@ -19,8 +19,7 @@ RSpec.describe "HomeController", type: :request do
         get root_path
       }.to change { cookies[:user_key] }.from(nil)
 
-      expect(controller.send(:current_user).user_key)
-        .to eq cookies[:user_key]
+      expect(Current.user_key).to eq cookies[:user_key]
     end
 
     context 'Given the user has a cookied key' do
@@ -35,7 +34,7 @@ RSpec.describe "HomeController", type: :request do
 
       it 'provides the key in the NullUser' do
         get root_path
-        expect(controller.send(:current_user).user_key).to eq 'existing'
+        expect(Current.user_key).to eq 'existing'
       end
     end
   end

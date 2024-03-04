@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  resource :user_registration, only: [ :new, :create ]
+  resource :user_session, only: [ :new, :create, :destroy ]
+
   namespace :adm do
     resources :users, except: [ :show, :new, :create, :destroy ]
     resource :styles, only: [ :show ] do
