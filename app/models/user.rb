@@ -1,10 +1,8 @@
 # frozen-string-literal: true
 
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable, :omniauthable,
-         :recoverable, :rememberable, :trackable, :validatable
+  has_secure_password(validations: false)
+  include PasswordValidation
 
   has_one_attached :picture
 
@@ -98,6 +96,23 @@ class User < ApplicationRecord
     return false if new_record? && uid.present?
 
     super
+  end
+
+  def confirm!
+    self.update!(confirmed_at: Time.current)
+  end
+  alias_method :skip_confirmation!, :confirm!
+
+  def password_required?
+    return false if uid.present?
+  end
+
+  def password_digest
+    encrypted_password
+  end
+
+  def password_digest=(val)
+    self.encrypted_password = val
   end
 
   private
