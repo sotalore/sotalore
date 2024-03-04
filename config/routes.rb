@@ -9,11 +9,6 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    omniauth_callbacks: 'users/omniauth_callbacks',
-  }
-
   root to: 'home#show', as: :root
   get 'roadmap', to: 'home#roadmap'
   get 'lunar-rifts', to: 'home#lunar_rifts'
