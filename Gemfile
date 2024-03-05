@@ -42,6 +42,10 @@ gem "honeybadger", "~> 5.0"
 
 gem 'icalendar'
 
+group :production do
+  gem 'cloudflare-rails'
+end
+
 group :test do
   gem "capybara"
   gem 'simplecov', require: false
