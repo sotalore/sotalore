@@ -1,7 +1,17 @@
 Rails.application.routes.draw do
 
-  resource :user_registration, only: [ :new, :create ]
-  resource :user_session, only: [ :new, :create, :destroy ]
+  namespace :user, module: 'authentication' do
+    resource :registration, only: [ :new, :create ]
+    resource :session, only: [ :new, :create, :destroy ] do
+      get :destroy, as: :destroy
+    end
+    get '/oauth/:provider/callback', to: 'omniauth_callbacks#callback', as: :oauth_callback
+  end
+
+  # OAuth...
+  # this route maps to the middleware, which will redirect to the provider
+  direct(:user_oauth) { |provider| "/user/oauth/#{provider}" }
+
 
   namespace :adm do
     resources :users, except: [ :show, :new, :create, :destroy ]

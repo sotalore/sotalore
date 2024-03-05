@@ -60,3 +60,15 @@ en:
       comment:
         create: Post Your Comment
         update: Update Comment
+  auth:
+    providers:
+      google_oauth2: Google
+      discord: Discord
+      email: Email + Password
+      developer: Developer
+    oauth:
+      existing_provider_mismatch: 'Could not sign-in, as there is already an email address associated with a different %{provider} account.'
+      provider_exists: 'Could not connect, as you already have a different %{provider} account connected.'
+      provider_taken: 'Count not connect, as that #{provider} account is already being used.'
+      failure: 'Could not authenticate you from %{kind} because "%{reason}".'
+      success: 'You have successfully authenticated from your %{kind} account.'

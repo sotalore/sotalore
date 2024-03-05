@@ -43,6 +43,7 @@ gem "honeybadger", "~> 5.0"
 gem 'icalendar'
 
 group :test do
+  gem "capybara"
   gem 'simplecov', require: false
 end
 

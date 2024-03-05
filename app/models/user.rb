@@ -3,6 +3,7 @@
 class User < ApplicationRecord
   has_secure_password(validations: false)
   include PasswordValidation
+  alias_attribute :password_digest, :encrypted_password
 
   has_one_attached :picture
 
@@ -88,12 +89,6 @@ class User < ApplicationRecord
     super && !disabled?
   end
 
-  def password_required?
-    return false if new_record? && uid.present?
-
-    super
-  end
-
   def confirm!
     self.update!(confirmed_at: Time.current)
   end
@@ -101,14 +96,6 @@ class User < ApplicationRecord
 
   def password_required?
     return false if uid.present?
-  end
-
-  def password_digest
-    encrypted_password
-  end
-
-  def password_digest=(val)
-    self.encrypted_password = val
   end
 
   private

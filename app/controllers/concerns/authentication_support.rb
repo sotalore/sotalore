@@ -62,7 +62,7 @@ module AuthenticationSupport
   end
 
   def find_current_user
-    (cookies[:current_user_id] && User.find_by(id: cookies[:current_user_id]))
+    (cookies.signed[:current_user_id] && User.find_by(id: cookies.signed[:current_user_id]))
   end
 
   # This session management can be removed on March 15.

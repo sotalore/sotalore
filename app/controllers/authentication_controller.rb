@@ -1,9 +1,5 @@
-class AuthenticationController < ApplicationController
-  before_action :configure_permitted_parameters
-  skip_after_action :verify_authorized
+# frozen_string_literal: true
 
-  private
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
-  end
+class AuthenticationController < ApplicationController
+  skip_after_action :verify_authorized
 end
