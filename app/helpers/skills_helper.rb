@@ -34,12 +34,12 @@ module SkillsHelper
   end
 
   def current_avatar
-    return nil if current_user.null?
+    return nil if Current.user.null?
 
     if session[:current_avatar_id]
-      current_user.avatars.find(session[:current_avatar_id])
+      Current.user.avatars.find(session[:current_avatar_id])
     else
-      current_user.avatars.detect(&:is_default)
+      Current.user.avatars.detect(&:is_default)
     end
   end
 

@@ -2,6 +2,7 @@
 
 class AdmController < ActionController::Base
   protect_from_forgery with: :exception
+  include AuthenticationSupport
   include Pundit::Authorization
 
   before_action :verify_root_user

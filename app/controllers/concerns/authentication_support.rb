@@ -6,12 +6,15 @@ module AuthenticationSupport
   included do
     before_action :set_current_request_details
     before_action :setup_error_reporting_context
+    before_action :track_user_activity
 
     helper_method :current_user
     helper_method :user_signed_in?
   end
 
   def sign_in_user(user)
+    Current.user = user
+    user.touch(:last_sign_in_at)
     cookies.signed.permanent[:current_user_id] = { value: user.id, httponly: true }
   end
 
@@ -48,7 +51,7 @@ module AuthenticationSupport
   def set_current_request_details
     Current.user_agent = request.user_agent
     Current.ip_address = request.remote_ip
-    Current.user = current_user
+    Current.current_user_id = find_current_user_id_with_fallbacks
   end
 
   def setup_error_reporting_context
@@ -57,15 +60,21 @@ module AuthenticationSupport
     })
   end
 
-  def find_user_with_fallbacks
-    find_current_user || find_past_devise_user || NullUser.new
+  def track_user_activity
+    return if Current.user.null?
+
+    Current.user.touch(:last_request_at)
   end
 
-  def find_current_user
-    (cookies.signed[:current_user_id] && User.find_by(id: cookies.signed[:current_user_id]))
+  def find_current_user_id_with_fallbacks
+    find_current_user_id || find_past_devise_user
   end
 
-  # This session management can be removed on March 15.
+  def find_current_user_id
+    cookies.signed[:current_user_id]
+  end
+
+  # This session management can be removed on April 15
   # That will give about 1 month for users to transfer their sessions
   # from devise to the newer session management.
   def find_past_devise_user
@@ -78,7 +87,7 @@ module AuthenticationSupport
 
       if user && user.encrypted_password[0,29] == salt
         sign_in_user(user)
-        return user
+        return user.id
       end
     end
     nil

@@ -5,6 +5,8 @@ class User < ApplicationRecord
   include PasswordValidation
   alias_attribute :password_digest, :encrypted_password
 
+  normalizes :email, with: -> given_value { given_value.strip.downcase }
+
   has_one_attached :picture
 
   has_many :avatars, -> { order(:id)}, dependent: :destroy, inverse_of: :user
@@ -20,6 +22,7 @@ class User < ApplicationRecord
   validates :name, length: { in: 3..64 }
   validates :name, uniqueness: { ignore_case: true }
 
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   def self.from_discord(email:, name:, uid:)
     user = find_by(uid: uid, provider: 'discord')

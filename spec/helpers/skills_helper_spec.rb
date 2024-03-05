@@ -5,7 +5,7 @@ RSpec.describe SkillsHelper, type: :helper do
 
   describe '#current_skills_path' do
     before do
-      allow(helper).to receive(:current_user).and_return(current_user)
+      sign_in current_user
     end
 
     context 'With no current user' do

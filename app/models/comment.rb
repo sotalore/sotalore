@@ -35,8 +35,7 @@ class Comment < ApplicationRecord
   end
 
   def author=(val)
-    case val
-    when NullUser
+    if val.instance_of?(NullUser)
       @_null_user = val
     else
       self.actual_author = val
@@ -73,7 +72,7 @@ class Comment < ApplicationRecord
 
   def user_key_from_null_user
     if author.null?
-      self.user_key = author.user_key
+      self.user_key = Current.user_key
     end
   end
 end

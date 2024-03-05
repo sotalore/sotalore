@@ -4,10 +4,7 @@ class CommentsController < ApplicationController
   include TurnstileHelper
   include CloudflareTurnstile
 
-  respond_to :html
-
   before_action :find_parent
-
 
   def show
     @comment = find_comment
@@ -47,7 +44,7 @@ class CommentsController < ApplicationController
 
   def create
     @comment = @parent.comments.build(permitted_params)
-    @comment.author = current_user
+    @comment.author = Current.user
     @comment.comment_type = 'message'
     authorize @comment
 

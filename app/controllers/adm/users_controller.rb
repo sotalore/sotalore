@@ -19,7 +19,6 @@ class Adm::UsersController < AdmController
   def update
     @user = User.find(params[:id])
     authorize(@user)
-    @user.skip_reconfirmation!
     if @user.update(user_params)
       redirect_to adm_users_path, notice: 'User was successfully updated.'
     else
