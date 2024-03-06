@@ -14,7 +14,9 @@ class Authentication::ConfirmationsController < AuthenticationController
       UserMailer.confirmation_instructions(user).deliver_later
       redirect_to action: :resend_confirmation
     else
-      redirect_to action: :new, alert: 'Unable to find a user with that email address.'
+      @user = User.new(email: params[:user][:email])
+      @user.errors.add(:email, 'not found')
+      render :new, status: :unprocessable_entity
     end
   end
 

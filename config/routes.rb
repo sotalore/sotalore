@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get '/need-confirmation', to: 'registrations#need_confirmation', as: :need_confirmation
     resource :confirmation, only: [ :new, :create, :show ]
     get '/resend-confirmation', to: 'confirmations#resend_confirmation', as: :resend_confirmation
+    resource :password_reset, only: [ :new, :create, :edit, :update, :show ]
     resource :session, only: [ :new, :create, :destroy ] do
       get :destroy, as: :destroy
     end

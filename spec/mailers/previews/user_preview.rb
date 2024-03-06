@@ -6,4 +6,9 @@ class UserPreview < ActionMailer::Preview
   def confirmation_instructions
     UserMailer.confirmation_instructions(User.first)
   end
+
+  def password_reset
+    UserMailer.password_reset(User.first)
+  end
+
 end

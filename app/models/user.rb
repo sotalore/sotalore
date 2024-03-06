@@ -8,6 +8,9 @@ class User < ApplicationRecord
   normalizes :email, with: -> given_value { given_value.strip.downcase }
 
   generates_token_for :confirmation, expires_in: 2.days { email }
+  generates_token_for :password_reset, expires_in: 1.hour do
+    password_salt.last(10)
+  end
 
 
   has_one_attached :picture
@@ -103,7 +106,7 @@ class User < ApplicationRecord
   alias_method :skip_confirmation!, :confirm!
 
   def password_required?
-    return false if uid.present?
+    password_digest.present? || password.present? || uid.blank?
   end
 
   private

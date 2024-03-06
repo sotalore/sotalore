@@ -1,0 +1,14 @@
+.flex.flex-col.md:flex-row.gap-x-4.items-center
+  .basis-1_2.order-2.md:order-1
+    = tile('hero') do
+      = tile_heading('Reset Your Password')
+      = tile_body do
+        = full_form_for(@user, url: user_password_reset_path) do |f|
+          = f.email_field :email, hint: 'The email you registered with.'
+          = f.actions do
+            = f.submit "Send Password Reset Instructions"
+
+    .mt-8.flex.flex-col.gap-1
+      %p.text-center= link_to "Need to confirm your account?", new_user_confirmation_path
+      %p.text-center= link_to "Need to sign in?", new_user_session_path
+      %p.text-center= link_to "Need to create an account?", new_user_registration_path
