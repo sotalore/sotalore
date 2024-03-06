@@ -32,10 +32,6 @@ class Authentication::SessionsController < AuthenticationController
     params.require(:user).permit(:email, :password)
   end
 
-  def redirect_signed_in_user
-    redirect_to root_path if user_signed_in?
-  end
-
   def after_sign_in_path
     stored_location_for_user || root_path
   end

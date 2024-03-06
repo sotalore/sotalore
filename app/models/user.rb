@@ -7,6 +7,9 @@ class User < ApplicationRecord
 
   normalizes :email, with: -> given_value { given_value.strip.downcase }
 
+  generates_token_for :confirmation, expires_in: 2.days { email }
+
+
   has_one_attached :picture
 
   has_many :avatars, -> { order(:id)}, dependent: :destroy, inverse_of: :user
@@ -15,6 +18,8 @@ class User < ApplicationRecord
   has_many :plantings, inverse_of: :user, dependent: :delete_all
 
   ROLES = %w[ root editor moderator ]
+
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
 
   before_validation :nilify_blanks
 
@@ -88,8 +93,8 @@ class User < ApplicationRecord
     end
   end
 
-  def active_for_authentication?
-    super && !disabled?
+  def confirmed?
+    confirmed_at.present?
   end
 
   def confirm!

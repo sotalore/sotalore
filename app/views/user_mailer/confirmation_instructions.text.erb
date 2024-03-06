@@ -1,0 +1,9 @@
+
+Hi <%= @user.name %>,
+
+Welcome to SotaLore!
+
+You can activate your account by visiting the link below:
+
+<%= user_confirmation_url(token: @token) %>
+

@@ -1,0 +1,13 @@
+.flex.flex-col.md:flex-row.gap-x-4.items-center
+  .basis-1_2.order-2.md:order-1
+    = tile('hero') do
+      = tile_heading('Send Confirmation Instructions')
+      = tile_body do
+        = full_form_for(@user, url: user_confirmation_path) do |f|
+          = f.email_field :email, hint: 'The email you registered with.'
+          = f.actions do
+            = f.submit "Send Confirmation Instructions"
+
+    .mt-8.flex.flex-col.gap-2
+      %p.text-center= link_to "Need to sign in?", new_user_session_path
+      %p.text-center= link_to "Need to create an account?", new_user_registration_path

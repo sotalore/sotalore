@@ -2,6 +2,9 @@ Rails.application.routes.draw do
 
   namespace :user, module: 'authentication' do
     resource :registration, only: [ :new, :create ]
+    get '/need-confirmation', to: 'registrations#need_confirmation', as: :need_confirmation
+    resource :confirmation, only: [ :new, :create, :show ]
+    get '/resend-confirmation', to: 'confirmations#resend_confirmation', as: :resend_confirmation
     resource :session, only: [ :new, :create, :destroy ] do
       get :destroy, as: :destroy
     end

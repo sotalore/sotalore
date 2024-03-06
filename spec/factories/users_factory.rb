@@ -11,5 +11,9 @@ FactoryBot.define do
     trait :root do
       roles  { [ 'root' ] }
     end
+
+    trait :unconfirmed do
+      confirmed_at { nil }
+    end
   end
 end

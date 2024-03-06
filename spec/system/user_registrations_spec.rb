@@ -15,7 +15,8 @@ RSpec.describe "UserRegistrations", type: :system do
       fill_in 'user_password', with: 'password'
       fill_in 'user_password_confirmation', with: 'password'
       click_button 'commit'
-      expect(page).to have_content 'Welcome! You have signed up successfully.'
+      expect(page).to have_content 'Thank you for registering'
+      expect(page).to have_content 'sent you an email to confirm your account'
     end
   end
 end

@@ -1,16 +1,21 @@
-.grid.grid-cols-1.md:grid-cols-2
-  .col-span-1.order-2.md:order-1
+.flex.flex-col.md:flex-row.gap-x-4
+  .basis-1_2.order-2.md:order-1
     = tile('hero') do
       = tile_heading('Sign In with Email')
       = tile_body do
         = full_form_for(@user, url: user_session_path) do |f|
-          = f.email_field :email
-          = f.password_field :password, autocomplete: "off"
+          = f.email_field :email, hint: ''
+          = f.password_field :password, autocomplete: "off", hint: ''
           = f.actions do
             = f.submit "Sign In"
 
-  .col-span-1.order-1.md:order-2
+  .basis-1_2.order-1.md:order-2
     = tile('hero') do
       = tile_heading('Sign In with Provider')
       = tile_body do
         %p= render "devise/shared/sign_in_with_discord"
+
+.flex.justify-around.mt-8
+  .flex.flex-col.gap-2
+    %p.text-center= link_to "Need to confirm your account?", new_user_confirmation_path
+    %p.text-center= link_to "Need to create an account?", new_user_registration_path

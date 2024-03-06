@@ -14,10 +14,13 @@ class Authentication::RegistrationsController < AuthenticationController
 
     if @user.save
       flash[:notice] = "Welcome! You have signed up successfully."
-      redirect_to root_path
+      redirect_to user_need_confirmation_path
     else
       render :new, status: :unprocessable_entity
     end
+  end
+
+  def need_confirmation
   end
 
   private
