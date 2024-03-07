@@ -46,7 +46,7 @@ class User < ApplicationRecord
     user.provider = 'discord'
     user.name = name if user.name.blank?
     user.uid = uid
-    user.skip_confirmation!
+    user.confirm!
     user.save!
 
     user
@@ -102,8 +102,11 @@ class User < ApplicationRecord
 
   def confirm!
     self.update!(confirmed_at: Time.current)
+    user_key = Current.user_key
+    if user_key.present?
+      Comment.where(user_key: user_key).update_all(author_id: id, user_key: nil)
+    end
   end
-  alias_method :skip_confirmation!, :confirm!
 
   def password_required?
     password_digest.present? || password.present? || uid.blank?

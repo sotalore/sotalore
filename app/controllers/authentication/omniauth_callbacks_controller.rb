@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-class Authentication::OmniauthCallbacksController < ApplicationController
-  skip_after_action :verify_authorized
+class Authentication::OmniauthCallbacksController < AuthenticationController
 
   def callback
     auth_params = from_discord_params

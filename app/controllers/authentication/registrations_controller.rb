@@ -34,7 +34,6 @@ class Authentication::RegistrationsController < AuthenticationController
 
     @user.validate # Look for any other validation errors besides reCAPTCHA
 
-    # flash.discard(:recaptcha_error) # We need to discard flash to avoid showing it on the next page reload
     flash.now[:error] = "There was an error with bot-detection, please try again."
     render :new, status: :unprocessable_entity
     false
