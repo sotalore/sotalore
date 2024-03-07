@@ -13,7 +13,7 @@ class Authentication::RegistrationsController < AuthenticationController
     return unless check_captcha
 
     if @user.save
-      flash[:notice] = "Welcome! You have signed up successfully."
+      UserMailer.confirmation_instructions(@user).deliver_later
       redirect_to user_need_confirmation_path
     else
       render :new, status: :unprocessable_entity
