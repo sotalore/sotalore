@@ -8,7 +8,7 @@ class Comment < ApplicationRecord
 
   scope :for_feed, ->(user) {
     if user.null?
-      proxy = where('comments.visible = ? or user_key = ?', true, user.user_key)
+      proxy = where('comments.visible = ? or user_key = ?', true, Current.user_key)
     elsif user.has_role?('root')
       proxy = self
     else
@@ -31,16 +31,20 @@ class Comment < ApplicationRecord
   end
 
   def author
-    actual_author || (@_null_user ||= NullUser.new(user_key))
+    actual_author || (@_null_user ||= NullUser.new)
   end
 
   def author=(val)
-    case val
-    when NullUser
+    if val.instance_of?(NullUser)
       @_null_user = val
     else
       self.actual_author = val
     end
+  end
+
+  def authored_by_current_user?
+    (Current.user && actual_author == Current.user) ||
+      (Current.user_key && user_key == Current.user_key)
   end
 
   def author_name
@@ -68,7 +72,7 @@ class Comment < ApplicationRecord
 
   def user_key_from_null_user
     if author.null?
-      self.user_key = author.user_key
+      self.user_key = Current.user_key
     end
   end
 end

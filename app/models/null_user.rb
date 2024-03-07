@@ -2,12 +2,6 @@
 
 class NullUser
 
-  attr_accessor :user_key
-
-  def initialize(user_key=nil)
-    self.user_key = user_key
-  end
-
   def has_role?(*args)
     false
   end
@@ -17,12 +11,6 @@ class NullUser
 
   def name
     'Anonymous Avatar'
-  end
-
-  def is?(other)
-    NullUser === other &&
-      self.user_key.present? &&
-      self.user_key == other.user_key
   end
 
   def null?

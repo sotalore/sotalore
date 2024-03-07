@@ -1,0 +1,35 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title
+      - if page_title
+        #{page_title} --
+      SotA Lore
+    = csrf_meta_tags
+    %meta{:charset => "utf-8"}/
+    %meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+    = javascript_include_tag 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true
+    = action_cable_meta_tag
+    = hotwire_livereload_tags if Rails.env.development?
+
+    %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
+    %link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")
+    %link(rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png")
+    %link(rel="manifest" href="/site.webmanifest")
+
+  %body.h-full.min-h-screen.bg-gradient-to-b.from-slorange-700.to-slorange-500{data: { 'controller' => 'mousetrap', turbo_prefetch: 'false' }}
+    .flex.flex-col.justify-stretch
+      .p-4.md:p-8.text-center
+        = link_to('/', class: 'text-xl md:text-4xl font-bold text-zinc-200') do
+          %span
+            = image_tag('sota-icons/sota_crestcolor.png', class: 'h-6 md:h-12 inline-block')
+            SOTA LORE
+
+      .content.md:flex.flex-row.justify-around
+        #flash-messages-container.md:basis-1_2.l:basis-1_3
+          = render_flash_messages
+      .content.px-2
+        = yield

@@ -1,0 +1,14 @@
+
+
+%p
+  Hi #{@user.name},
+
+%p
+  Welcome to SotaLore!
+
+%p
+  You can activate your account by visiting the link below:
+
+%p
+  = link_to 'Activate Account', user_confirmation_url(token: @token)
+

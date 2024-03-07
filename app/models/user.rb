@@ -1,10 +1,17 @@
 # frozen-string-literal: true
 
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable, :omniauthable,
-         :recoverable, :rememberable, :trackable, :validatable
+  has_secure_password(validations: false)
+  include PasswordValidation
+  alias_attribute :password_digest, :encrypted_password
+
+  normalizes :email, with: -> given_value { given_value.strip.downcase }
+
+  generates_token_for :confirmation, expires_in: 2.days { email }
+  generates_token_for :password_reset, expires_in: 1.hour do
+    password_salt.last(10)
+  end
+
 
   has_one_attached :picture
 
@@ -15,12 +22,15 @@ class User < ApplicationRecord
 
   ROLES = %w[ root editor moderator ]
 
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
+
   before_validation :nilify_blanks
 
   validates :name, presence: true
   validates :name, length: { in: 3..64 }
   validates :name, uniqueness: { ignore_case: true }
 
+  validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
 
   def self.from_discord(email:, name:, uid:)
     user = find_by(uid: uid, provider: 'discord')
@@ -36,7 +46,7 @@ class User < ApplicationRecord
     user.provider = 'discord'
     user.name = name if user.name.blank?
     user.uid = uid
-    user.skip_confirmation!
+    user.confirm!
     user.save!
 
     user
@@ -65,10 +75,6 @@ class User < ApplicationRecord
     name
   end
 
-  def is?(other)
-    self == other
-  end
-
   def null?
     false
   end
@@ -90,14 +96,20 @@ class User < ApplicationRecord
     end
   end
 
-  def active_for_authentication?
-    super && !disabled?
+  def confirmed?
+    confirmed_at.present?
+  end
+
+  def confirm!
+    self.update!(confirmed_at: Time.current)
+    user_key = Current.user_key
+    if user_key.present?
+      Comment.where(user_key: user_key).update_all(author_id: id, user_key: nil)
+    end
   end
 
   def password_required?
-    return false if new_record? && uid.present?
-
-    super
+    password_digest.present? || password.present? || uid.blank?
   end
 
   private

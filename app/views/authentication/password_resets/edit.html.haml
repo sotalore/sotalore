@@ -1,0 +1,14 @@
+.flex.flex-col.md:flex-row.gap-x-4.justify-center
+  .basis-full.md:basis-1_2.lg:basis-1_3
+    .my-4.bg-white.border.border-grey-300.rounded.p-4
+      %h3.py-2.border-b.border-grey-300.text-2xl.m-0.mb-4 Set New Password
+      = tile_body do
+        = full_form_for(@password_reset_form, url: user_password_reset_path) do |f|
+          = hidden_field_tag(:token, params[:token])
+          = f.password_field :password, hint: 'At least 8 characters.'
+          = f.password_field :password_confirmation, hint: 'Must match the password above.'
+          .flex.flex-row.justify-around
+            = f.submit "Change Password"
+
+      .mt-8.flex.flex-col.gap-1
+        %p.text-center= link_to "Need to sign in?", new_user_session_path

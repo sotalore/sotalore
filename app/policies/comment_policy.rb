@@ -10,8 +10,7 @@ class CommentPolicy < ApplicationPolicy
 
   def update?
     if record.message?
-      user.has_role?('root') ||
-        record.author.is?(user)
+      user.has_role?('root') || comment_authored_by_user?
     else
       false
     end
@@ -22,8 +21,7 @@ class CommentPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.has_role?('root') ||
-      record.author.is?(user)
+    user.has_role?('root') || comment_authored_by_user?
   end
 
   def moderate?
@@ -38,4 +36,10 @@ class CommentPolicy < ApplicationPolicy
     end
   end
 
+  private
+
+  def comment_authored_by_user?
+    (record.author.null? && record.user_key == Current.user_key) ||
+    (record.author.not_null? && record.author == user)
+  end
 end

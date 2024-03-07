@@ -1,5 +1,22 @@
 Rails.application.routes.draw do
 
+  namespace :user, module: 'authentication' do
+    resource :registration, only: [ :new, :create ]
+    get '/need-confirmation', to: 'registrations#need_confirmation', as: :need_confirmation
+    resource :confirmation, only: [ :new, :create, :show ]
+    get '/resend-confirmation', to: 'confirmations#resend_confirmation', as: :resend_confirmation
+    resource :password_reset, only: [ :new, :create, :edit, :update, :show ]
+    resource :session, only: [ :new, :create, :destroy ] do
+      get :destroy, as: :destroy
+    end
+    get '/oauth/:provider/callback', to: 'omniauth_callbacks#callback', as: :oauth_callback
+  end
+
+  # OAuth...
+  # this route maps to the middleware, which will redirect to the provider
+  direct(:user_oauth) { |provider| "/user/oauth/#{provider}" }
+
+
   namespace :adm do
     resources :users, except: [ :show, :new, :create, :destroy ]
     resource :styles, only: [ :show ] do
@@ -8,11 +25,6 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  devise_for :users, controllers: {
-    registrations: 'users/registrations',
-    omniauth_callbacks: 'users/omniauth_callbacks',
-  }
 
   root to: 'home#show', as: :root
   get 'roadmap', to: 'home#roadmap'

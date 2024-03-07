@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 class AuthenticationController < ApplicationController
-  before_action :configure_permitted_parameters
   skip_after_action :verify_authorized
 
   private
-  def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name])
+
+  def redirect_signed_in_user
+    redirect_to root_path if user_signed_in?
   end
+
 end

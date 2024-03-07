@@ -10,18 +10,13 @@ gem 'puma', '~> 6.0'
 gem 'jsbundling-rails'
 gem "cssbundling-rails"
 
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem 'turbo-rails'
-
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem 'stimulus-rails'
 
-# Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
-gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 5.0'
+gem 'redis', '~> 5.0', group: :development
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt'
 
 gem "image_processing", ">= 1.2"
 gem "aws-sdk-s3", require: false
@@ -36,7 +31,6 @@ gem 'local_time'
 gem 'active_link_to'
 gem 'redcarpet'
 
-gem 'devise'
 gem 'omniauth-discord'
 gem 'omniauth-rails_csrf_protection'
 gem 'pg_search'
@@ -48,12 +42,17 @@ gem "honeybadger", "~> 5.0"
 
 gem 'icalendar'
 
+group :production do
+  gem 'cloudflare-rails'
+end
+
 group :test do
+  gem "capybara"
   gem 'simplecov', require: false
 end
 
 group :development, :test do
-  gem 'rspec-rails', ">= 4.0.0.beta"
+  gem 'rspec-rails'
   gem 'factory_bot_rails'
 end
 

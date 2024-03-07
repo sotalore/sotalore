@@ -12,8 +12,8 @@
         %th.text-center.text-sm= sort_link "Last Request", :last_request_at
         %th.text-center.text-sm Created
         %th.text-center.text-sm Updated
-        %th.text-center.text-sm Current Sign-In
-        %th.text-center.text-sm Current IP
+        %th.text-center.text-sm Last Sign-In
+        %th.text-center.text-sm Last IP
         %th.text-right &nbsp;
 
     %tbody
@@ -27,8 +27,8 @@
           %td.text-center.text-sm= time_ago_tag user.last_request_at
           %td.text-center.text-sm= time_ago_tag user.created_at
           %td.text-center.text-sm= time_ago_tag user.updated_at
-          %td.text-center.text-sm= time_ago_tag user.current_sign_in_at
-          %td.text-center.text-sm= user.current_sign_in_ip
+          %td.text-center.text-sm= time_ago_tag user.last_sign_in_at
+          %td.text-center.text-sm= user.last_sign_in_ip
           %td.text-right= edit_icon_to(edit_adm_user_path(user))
 
   = paginate @users

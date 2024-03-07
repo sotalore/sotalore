@@ -1,8 +1,9 @@
 # frozen-string-literal: true
 
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception
+  include AuthenticationSupport
   include Pundit::Authorization
+  protect_from_forgery with: :exception
 
   after_action :verify_authorized
   after_action :record_last_request_at
@@ -25,17 +26,12 @@ class ApplicationController < ActionController::Base
   end
   helper_method :page_title
 
-  def current_user
-    super || (@_null_user ||= NullUser.new)
-  end
-
-
   def set_anonymous_user_key
     if current_user.null?
       if cookies[:user_key].nil?
-        current_user.user_key = cookies[:user_key] = SecureRandom.hex(24)
+        Current.user_key = cookies[:user_key] = SecureRandom.hex(24)
       else
-        current_user.user_key = cookies[:user_key]
+        Current.user_key = cookies[:user_key]
       end
     end
   end

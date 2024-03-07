@@ -15,12 +15,8 @@ RSpec.describe "HomeController", type: :request do
 
   describe 'GET show' do
     it 'sets a key for anonymous users' do
-      expect {
-        get root_path
-      }.to change { cookies[:user_key] }.from(nil)
-
-      expect(controller.send(:current_user).user_key)
-        .to eq cookies[:user_key]
+      expect { get root_path }
+        .to change { cookies[:user_key] }.from(nil)
     end
 
     context 'Given the user has a cookied key' do
@@ -28,14 +24,8 @@ RSpec.describe "HomeController", type: :request do
         cookies[:user_key] = 'existing'
       end
       it 'does not change it' do
-        expect {
-          get root_path
-        }.to_not change { cookies[:user_key] }.from('existing')
-      end
-
-      it 'provides the key in the NullUser' do
-        get root_path
-        expect(controller.send(:current_user).user_key).to eq 'existing'
+        expect { get root_path }
+          .to_not change { cookies[:user_key] }.from('existing')
       end
     end
   end

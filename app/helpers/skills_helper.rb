@@ -34,13 +34,18 @@ module SkillsHelper
   end
 
   def current_avatar
-    return nil if current_user.null?
+    return nil if Current.user.null?
 
     if session[:current_avatar_id]
-      current_user.avatars.find(session[:current_avatar_id])
-    else
-      current_user.avatars.detect(&:is_default)
+      avatar = Current.user.avatars.find_by(id: session[:current_avatar_id])
+      if avatar.nil?
+        # FIXME, should this be deleted on logout?
+        session.delete(:current_avatar_id)
+      else
+        return avatar
+      end
     end
+    Current.user.avatars.detect(&:is_default)
   end
 
   def avatar_select_tag

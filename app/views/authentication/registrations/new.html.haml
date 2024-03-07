@@ -1,0 +1,31 @@
+.flex.flex-col.md:flex-row.gap-x-4.justify-center
+  .basis-full.lg:basis-2_3
+    = notice_info do
+      .p-4.text-xl
+        Registering allows you to leave comments on things as well as
+        saving your skill levels for your avatars.
+
+.flex.flex-col.md:flex-row.gap-x-4.justify-center
+  .basis-full.md:basis-1_2.lg:basis-1_3.order-2.md:order-1
+    .my-4.bg-white.border.border-grey-300.rounded.p-4
+      %h3.py-2.border-b.border-grey-300.text-2xl.m-0.mb-4 Register with Email
+      = full_form_for(@user, url: user_registration_path) do |f|
+        = f.email_field :email, autofocus: true, required: true
+        = f.text_field  :name, required: true
+        = f.password_field :password
+        = f.password_field :password_confirmation
+
+        .flex.flex-row.justify-around.my-4
+          = turnstile_tag
+        .flex.flex-row.justify-around
+          = f.submit('Register for SotA Lore!', class: 'text-xl px-4 py-2 rounded-lg')
+
+      .flex.flex-col.gap-2.my-8
+        .text-center= link_to "Need to sign in?", new_user_session_path
+        .text-center= link_to "Forgot your password?", new_user_password_reset_path
+        .text-center= link_to "Need to confirm your account?", new_user_confirmation_path
+
+  .basis-full.md:basis-1_2.lg:basis-1_3.order-1.md:order-2
+    .my-4.bg-white.border.border-grey-300.rounded.p-4
+      %h3.py-2.border-b.border-grey-300.text-2xl.m-0.mb-4 Register with Provider
+      = render "authentication/discord"
