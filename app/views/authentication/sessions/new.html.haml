@@ -1,22 +1,19 @@
-.flex.flex-col.md:flex-row.gap-x-4
-  .basis-1_2.order-2.md:order-1
-    = tile('hero') do
-      = tile_heading('Sign In with Email')
-      = tile_body do
-        = full_form_for(@user, url: user_session_path) do |f|
-          = f.email_field :email, hint: ''
-          = f.password_field :password, autocomplete: "off", hint: ''
-          = f.actions do
-            = f.submit "Sign In"
+.flex.flex-col.md:flex-row.gap-x-4.justify-center
+  .basis-full.md:basis-1_2.lg:basis-1_3.order-2.md:order-1
+    .my-4.bg-white.border.border-grey-300.rounded.p-4
+      %h3.py-2.border-b.border-grey-300.text-2xl.m-0.mb-4 Sign In with Email
+      = full_form_for(@user, url: user_session_path) do |f|
+        = f.email_field :email, hint: ''
+        = f.password_field :password, autocomplete: "off", hint: ''
+        .flex.flex-row.justify-around
+          = f.submit "Sign In", class: 'text-xl px-4 py-2 rounded-lg'
 
-  .basis-1_2.order-1.md:order-2
-    = tile('hero') do
-      = tile_heading('Sign In with Provider')
-      = tile_body do
-        %p= render "authentication/discord"
+      .flex.flex-col.gap-2.my-4
+        .text-center= link_to "Forgot your password?", new_user_password_reset_path
+        .text-center= link_to "Need to confirm your account?", new_user_confirmation_path
+        .text-center= link_to "Need to create an account?", new_user_registration_path
 
-.flex.justify-around.mt-8
-  .flex.flex-col.gap-2
-    %p.text-center= link_to "Forgot your password?", new_user_password_reset_path
-    %p.text-center= link_to "Need to confirm your account?", new_user_confirmation_path
-    %p.text-center= link_to "Need to create an account?", new_user_registration_path
+  .basis-full.md:basis-1_2.lg:basis-1_3.order-1.md:order-2
+    .my-4.bg-white.border.border-grey-300.rounded.p-4
+      %h3.py-2.border-b.border-grey-300.text-2xl.m-0.mb-4 Sign In with Provider
+      = render "authentication/discord"
