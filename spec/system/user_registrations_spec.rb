@@ -40,4 +40,16 @@ RSpec.describe "UserRegistrations", type: :system do
 
     end
   end
+
+  context 'Given an unconfirmed user' do
+    let(:user) { create(:user, :unconfirmed) }
+
+    it 'will not sign them in' do
+      visit new_user_session_path
+      fill_in 'user_email', with: user.email
+      fill_in 'user_password', with: 'password'
+      click_button 'commit'
+      expect(page).to have_content 'You need to confirm your account before signing in'
+    end
+  end
 end
