@@ -5,7 +5,7 @@ module PasswordValidation
 
   included do
     validate :password_present, if: :password_required?
-    validates :password, length: { minimum: 8 }, allow_nil: true, if: :password_required?
+    validates :password, length: { minimum: 8 }, allow_blank: true, if: :password_required?
     validates_confirmation_of :password, allow_blank: true, if: :password_required?
     validate :password_max_length
   end

@@ -12,24 +12,27 @@ class Authentication::PasswordResetsController < AuthenticationController
   end
 
   def create
-    user = User.find_by(email: params[:user][:email])
+    email = params[:user][:email] if params[:user]
+    user = User.find_by(email: email)
     if user
       UserMailer.password_reset(user).deliver_later
       redirect_to action: :show
     else
-      @user = User.new(email: params[:user][:email])
+      @user = User.new(email: email)
       @user.errors.add(:email, 'not found')
       render :new, status: :unprocessable_entity
     end
   end
 
   def edit
+    @password_reset_form = PasswordResetForm.new(@user)
   end
 
   def update
-    if @user.update(user_params)
+    @password_reset_form = PasswordResetForm.new(@user)
+    if @password_reset_form.save(password_params)
       sign_in_user(@user)
-      redirect_to root_path
+      redirect_to root_path, notice: 'Your password has been updated'
     else
       render :edit, status: :unprocessable_entity
     end
@@ -37,8 +40,8 @@ class Authentication::PasswordResetsController < AuthenticationController
 
   private
 
-  def user_params
-    params.require(:user).permit(:password, :password_confirmation)
+  def password_params
+    params.require(:password_reset_form).permit(:password, :password_confirmation)
   end
 
   def find_user_for_update

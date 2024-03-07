@@ -57,7 +57,7 @@ RSpec.describe "Authentication::PasswordResets", type: :request do
       let(:user) { create(:user) }
       it 'works' do
         patch user_password_reset_path(token: user.generate_token_for(:password_reset)), params: {
-          user: { password: 'new_password', password_confirmation: 'new_password' } }
+          password_reset_form: { password: 'new_password', password_confirmation: 'new_password' } }
 
         expect(response).to redirect_to(root_path)
       end
@@ -67,7 +67,7 @@ RSpec.describe "Authentication::PasswordResets", type: :request do
       let(:user) { create(:user) }
       it 'works' do
         patch user_password_reset_path(token: user.generate_token_for(:password_reset)), params: {
-          user: { password: 'pass', password_confirmation: 'pass' } }
+          password_reset_form: { password: 'pass', password_confirmation: 'pass' } }
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
@@ -75,7 +75,7 @@ RSpec.describe "Authentication::PasswordResets", type: :request do
 
     context 'Given an invalid token' do
       it 'redirects to the new password reset page' do
-        patch user_password_reset_path(token: 'invalid'), params: { user: { password: 'new_password' } }
+        patch user_password_reset_path(token: 'invalid'), params: { password_reset_form: { password: 'new_password' } }
 
         expect(response).to redirect_to(new_user_password_reset_path)
       end

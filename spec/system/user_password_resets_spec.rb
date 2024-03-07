@@ -24,14 +24,14 @@ RSpec.describe "UserPasswordResets", type: :system do
     visit edit_user_password_reset_path(token: user.generate_token_for(:password_reset))
 
     # mimic an error, with a bad password
-    fill_in 'user[password]', with: 'newpassword'
-    fill_in 'user[password_confirmation]', with: 'wrong'
+    fill_in 'password_reset_form[password]', with: 'newpassword'
+    fill_in 'password_reset_form[password_confirmation]', with: 'wrong'
     click_button 'Change Password'
 
     expect(page).to have_content("doesn't match Password")
 
-    fill_in 'user[password]', with: 'newpassword'
-    fill_in 'user[password_confirmation]', with: 'newpassword'
+    fill_in 'password_reset_form[password]', with: 'newpassword'
+    fill_in 'password_reset_form[password_confirmation]', with: 'newpassword'
     click_button 'Change Password'
 
     expect(page).to have_current_path(root_path)
@@ -45,4 +45,19 @@ RSpec.describe "UserPasswordResets", type: :system do
 
     expect(page).to have_content('Sign Out')
   end
+
+  it 'errors with nothing given' do
+    user = create(:user)
+
+    visit edit_user_password_reset_path(token: user.generate_token_for(:password_reset))
+
+    # mimic an error, with no password
+    fill_in 'password_reset_form[password]', with: ''
+    fill_in 'password_reset_form[password_confirmation]', with: ''
+    click_button 'Change Password'
+
+    expect(page).to have_content("can't be blank")
+
+  end
+
 end
