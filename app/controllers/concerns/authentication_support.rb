@@ -14,7 +14,11 @@ module AuthenticationSupport
 
   def sign_in_user(user)
     Current.user = user
-    user.touch(:last_sign_in_at)
+    user.update!(
+      last_sign_in_ip: Current.ip_address,
+      last_sign_in_at: Time.current,
+      sign_in_count: user.sign_in_count + 1,
+      last_request_at: Time.current)
     cookies.signed.permanent[:current_user_id] = { value: user.id, httponly: true }
   end
 
