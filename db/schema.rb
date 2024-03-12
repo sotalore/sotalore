@@ -10,7 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_15_171328) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_12_184603) do
+  create_schema "heroku_ext"
+
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -117,8 +119,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_15_171328) do
     t.integer "instance_id"
     t.integer "ingredients_count", default: 0, null: false
     t.integer "results_count", default: 0, null: false
-    t.integer "last_confirmed_by_id"
-    t.datetime "last_confirmed_at", precision: nil
+    t.integer "last_verified_by_id"
+    t.datetime "last_verified_at", precision: nil
     t.string "type", default: "Item", null: false
     t.jsonb "type_data", default: {}, null: false
     t.decimal "weight", precision: 6, scale: 2
@@ -169,8 +171,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_15_171328) do
     t.string "recipe_key"
     t.integer "ingredients_count", default: 0, null: false
     t.integer "results_count", default: 0, null: false
-    t.integer "last_confirmed_by_id"
-    t.datetime "last_confirmed_at", precision: nil
+    t.integer "last_verified_by_id"
+    t.datetime "last_verified_at", precision: nil
     t.integer "proficiency"
     t.integer "teachable", limit: 2
   end
@@ -256,10 +258,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_15_171328) do
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "item_salvages", "items", column: "salvage_from_id"
   add_foreign_key "item_salvages", "items", column: "salvage_to_id"
-  add_foreign_key "items", "users", column: "last_confirmed_by_id"
+  add_foreign_key "items", "users", column: "last_verified_by_id"
   add_foreign_key "plantings", "users"
   add_foreign_key "posts", "users", column: "author_id"
-  add_foreign_key "recipes", "users", column: "last_confirmed_by_id"
+  add_foreign_key "recipes", "users", column: "last_verified_by_id"
   add_foreign_key "results", "items"
   add_foreign_key "results", "recipes"
   add_foreign_key "user_recipes", "recipes"

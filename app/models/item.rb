@@ -1,4 +1,5 @@
 class Item < ApplicationRecord
+  include Verifiable
 
   self.ignored_columns = [:type]
 
