@@ -56,4 +56,8 @@ module ApplicationHelper
       content_tag(:span, name, class: "PageTabs-tab PageTabs-current")
     end
   end
+
+  def can_manage_item?(item)
+    policy(:verification).edit? || policy(item).destroy?
+  end
 end

@@ -16,7 +16,7 @@ module Verifiable
   end
 
   def verify!(user)
-    update!(last_verified_at: Time.current, last_verified_by: user)
+    update!(last_verified_at: Time.current, verified_by: user)
   end
 
 end
