@@ -17,7 +17,8 @@
         = submit_tag('Filter', name: '', class: 'Button Button--primary')
         - if policy(Recipe).create?
           = new_button_to('Add Recipe', new_recipe_path, class: 'button middle secondary')
-
+        - if policy(:verification).index?
+          = primary_button_to('Verify Recipes', recipe_verifications_path)
 
 = tile do
   = tile_body do

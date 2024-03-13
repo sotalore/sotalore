@@ -8,13 +8,21 @@
 
   = tile_body do
     %div
-      .Callout.Callout-primary
+      .Callout.Callout-primary.flex.flex-row.flex-wrap.gap-x-1.gap-y-2
         = item_use_tag @item, large: true
         = item_use_specific_tags @item
         = item_abstract_tag @item, large: true
         = item_price_tag @item, large: true
         = item_gathering_tag @item, large: true
         = item_weight_tag @item, large: true
+        - if policy(:verification).index?
+          .grow.px-4.inline-flex.flex-row.items-center.gap-4.justify-end
+            %span.font-bold Last Verified:
+            - if @item.verified?
+              %span.text-grey-500.font-bold= l(@item.last_verified_at, format: :long)
+            - else
+              %span.text-red-600.font-bold Never
+            = verify_button(@item)
 
       - if @item.abstract
         .row
@@ -28,52 +36,11 @@
               %strong Instance of:
               = link_to(@item.instance_of, @item.instance_of)
 
-      .grid.grid-cols-1.md:grid-cols-3.gap-2
-        - if @item.effects
-          = tile_with_heading('Effects') do
-            = formatted_body @item.effects
-        - if @item.notes
-          = tile_with_heading('Notes') do
-            = formatted_body @item.notes
 
-        = tile_with_heading('Salvage') do
-          - if @item.salvage_as_result_count > 0
-            %p
-              <strong>Potentially obtain this item by salvaging:</strong>
-            %ul
-              - @item.item_salvages_as_result.each do |item_salvage|
-                %li
-                  = link_to(item_salvage.salvage_from, item_salvage.salvage_from)
-                  - if policy(:item_salvage).destroy?
-                    = destroy_icon_to(item_salvage, size: :small)
-
-          - if @item.salvage_as_source_count > 0
-            %p
-              <strong>Salvage this item to potentially get:</strong>
-            %ul
-              - @item.item_salvages_as_source.each do |item_salvage|
-                %li
-                  = link_to(item_salvage.salvage_to, item_salvage.salvage_to)
-                  - if policy(:item_salvage).destroy?
-                    = destroy_icon_to(item_salvage, size: :small)
-
-          - if (@item.salvage_as_result_count + @item.salvage_as_source_count) == 0
-            %p
-              No salvage info
-
-          - if policy(:item_salvage).create?
-            = sl_form_for(ItemSalvage.new()) do |f|
-              = f.error_messages
-              = f.hidden_field :salvage_from_id, value: @item.id
-              %div{data: { controller: 'autocomplete', 'autocomplete-url-value' => search_items_path }}
-                = f.text_field(:salvage_to_name, label: "this salvages to...", data: { 'autocomplete-target' => 'input' })
-                = f.hidden_field :salvage_to_id, data: { 'autocomplete-target' => 'hidden' }
-                %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
-              = f.submit('Add')
-
-    %hr
-    .grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-2.mt-4
-      .col-sm-12.col-md-6.col-lg-4
+.flex.flex-col.md:flex-row.gap-2
+  %div.basis-1_2.px-2
+    .flex.flex-col.gapy-2
+      %div
         - if @item.craftable?
           - if @item.abstract
             %h3 Template #{'recipe'.pluralize(@item.recipes.length)} to craft abstract item...
@@ -94,25 +61,62 @@
             - if policy(Recipe).new?
               = link_to('add one', new_recipe_path(item_id: @item.id))
 
-        - if @item.abstract
-          %h3 Actual Items...
-          %ul
-            - @item.instances.each do |actual_item|
-              %li{data: {"controller": "recipe", "recipe-url-value": item_recipes_url(item_id: actual_item)}}
-                = link_to(actual_item, actual_item, data: { 'action': 'recipe#load' })
-
-      .col-sm-12.col-md-6.col-lg-3
-        - if !@used_in.empty?
-          %h3
-            Used in
-            = pluralize(@used_in.total_count, 'Recipe')
-          %ul
-            - @used_in.each do |recipe|
-              %li= link_to(recipe.name, recipe)
-          = paginate(@used_in)
-
-        - if @used_in.empty?
+      %div
+        - if @used_in.length.zero?
           .text-center
             %em no recipes use this item.
-      .col-sm-12.col-md-12.col-lg-5
-        = render_comments_for(@item)
+        - else
+          %h3
+            Used in #{pluralize(@used_in.total_count, 'Recipe')}:
+          %p
+            = to_sentence @used_in.map { |recipe| link_to(recipe.name, recipe) }
+            = paginate(@used_in)
+
+
+  %div.basis-1_2
+    .flex.flex-col.gap-2
+      - if @item.effects
+        = tile_with_heading('Effects') do
+          = formatted_body @item.effects
+      - if @item.notes
+        = tile_with_heading('Notes') do
+          = formatted_body @item.notes
+
+      = tile_with_heading('Salvage') do
+        - if @item.salvage_as_result_count > 0
+          %p
+            <strong>Potentially obtain this item by salvaging:</strong>
+          %ul
+            - @item.item_salvages_as_result.each do |item_salvage|
+              %li
+                = link_to(item_salvage.salvage_from, item_salvage.salvage_from)
+                - if policy(:item_salvage).destroy?
+                  = destroy_icon_to(item_salvage, size: :small)
+
+        - if @item.salvage_as_source_count > 0
+          %p
+            <strong>Salvage this item to potentially get:</strong>
+          %ul
+            - @item.item_salvages_as_source.each do |item_salvage|
+              %li
+                = link_to(item_salvage.salvage_to, item_salvage.salvage_to)
+                - if policy(:item_salvage).destroy?
+                  = destroy_icon_to(item_salvage, size: :small)
+
+        - if (@item.salvage_as_result_count + @item.salvage_as_source_count) == 0
+          %p
+            No salvage info
+
+        - if policy(:item_salvage).create?
+          = sl_form_for(ItemSalvage.new()) do |f|
+            = f.error_messages
+            = f.hidden_field :salvage_from_id, value: @item.id
+            %div{data: { controller: 'autocomplete', 'autocomplete-url-value' => search_items_path }}
+              = f.text_field(:salvage_to_name, label: "this salvages to...", data: { 'autocomplete-target' => 'input' })
+              = f.hidden_field :salvage_to_id, data: { 'autocomplete-target' => 'hidden' }
+              %ul.autocomplete-suggestions{ data: {'autocomplete-target' => 'results'} }
+            = f.submit('Add')
+
+= tile do
+  = tile_body do
+    = render_comments_for(@item)

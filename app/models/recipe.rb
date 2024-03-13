@@ -2,6 +2,7 @@ class Recipe < ApplicationRecord
   include PgSearch::Model
   multisearchable against: [ :name ]
   include RecipeKey
+  include Verifiable
 
   serialize :craft_skill, coder: CraftSkill
 

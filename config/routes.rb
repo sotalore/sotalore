@@ -42,6 +42,12 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'verify/items', to: 'verifications#index', as: 'item_verifications', defaults: { collection: 'items' }
+  patch 'verify/item/:item_id', to: 'verifications#update', as: 'verify_item'
+  get 'verify/recipes', to: 'verifications#index', as: 'recipe_verifications', defaults: { collection: 'recipes' }
+  patch 'verify/recipe/:recipe_id', to: 'verifications#update', as: 'verify_recipe'
+  direct(:verify) { |verifiable| "/verify/#{verifiable.class.to_s.underscore}/#{verifiable.id}" }
+
   resources :items, controller: 'items' do
     collection do
       get 'use/:use', to: 'items#by_use', as: 'by_use'

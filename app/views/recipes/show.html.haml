@@ -4,6 +4,15 @@
     = tile do
       = tile_body do
         = render @recipe
+        - if policy(:verification).index?
+          .px-4.flex.flex-row.items-center.gap-4.justify-end
+            %span.font-bold Last Verified:
+            - if @recipe.verified?
+              %span.text-grey-500.font-bold= l(@recipe.last_verified_at, format: :long)
+            - else
+              %span.text-red-600.font-bold Never
+            = verify_button(@recipe)
+
         = render_comments_for(@recipe)
 
   .max-w-sm
