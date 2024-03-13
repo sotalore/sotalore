@@ -16,8 +16,8 @@
         = f.check_box :abstract
         = f.select :instance_id, abstract_items_options, include_blank: true
       .grid.grid-cols-1.md:grid-cols-2.gap-4
-        = f.number_field :price, min: 1
         = f.number_field :weight, step: '0.01'
+        = f.number_field :price, min: 1
 
       = f.select :gathering_skill, CraftSkill.gathering.map { |s| [ s.name, s.key ]},
                  include_blank: true, selected: @item.gathering_skill&.key
