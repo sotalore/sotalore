@@ -38,6 +38,7 @@ class Item < ApplicationRecord
 
   ITEM_SOURCES = {
     unknown: 0,
+    agriculture: 7,
     drop: 3,
     gathering: 2,
     merchant: 1,
