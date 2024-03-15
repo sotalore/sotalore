@@ -2,8 +2,12 @@
 
 module FlairHelper
 
+  def flair_primary(text)
+    flair_tag("primary", :eye, text)
+  end
+
   def flair_success(text)
-    flair_tag("success", :check, text)
+    flair_tag("success", :badge_check, text)
   end
 
   def flair_danger(text)

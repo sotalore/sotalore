@@ -1,44 +1,10 @@
-.grid.grid-cols-2
-  .col-span-1
-    = tile_with_heading('Tile With Heading') do
-      %p more_link_to: #{more_link_to('#')}
-      %p= primary_button_to('Primary Button To', '#')
-      %p= default_button_to('Default Button To', '#')
 
-    = tile do
-      = tile_heading('Tile with Controls', subheading: 'subheading') do
-        = view_icon_to('#')
-        = edit_icon_to('#')
-        = destroy_icon_to('#')
-      = tile_body do
-        .prose
-          %p Just some text
-          %p and some more.
-
-
-
-  .col-span-1
-    = tile(:primary) do
-      = tile_heading('Primary Tile') do
-        = default_button_to('view', '#')
-        = edit_button_to('edit', '#')
-      = tile_body do
-        %p In modern times authors often misinterpret the law as an ungyved ex-husband, when in actuality it feels more like a sunlit church. This could be, or perhaps authors often misinterpret the november as a mutant icicle, when in actuality it feels more like a gloomful fire.
-
-    - %w[ warning danger success info ].each do |type|
-      = tile(type) do
-        = tile_heading("#{type.capitalize} Tile")
-        = tile_body do
-          %p In modern times authors often misinterpret the law as an ungyved ex-husband, when in actuality it feels more like a sunlit church. This could be, or perhaps authors often misinterpret the november as a mutant icicle, when in actuality it feels more like a gloomful fire.
-
-
-= tile do
-  = tile_heading(link_to('Heading as Link', "#"))
-  = tile_body do
-    %p A purest persian without quiets is truly a reason of reptant wines. Few can name an unchanged rock that isn't a valgus title. Framed in a different way, those locusts are nothing more than rifles. Nowhere is it disputed that the feather is a bengal.
-    %p Some helmless mailmen are thought of simply as cellos. An olive can hardly be considered a ferine pvc without also being a psychology. A windchime sees a boundary as an osmic pepper. The segments could be said to resemble outraged mexicos.
-
-
+= tile_with_heading('Flair') do
+  = flair_primary("This is flair primary message")
+  = flair_info("This is flair info message")
+  = flair_danger("This is flair danger message")
+  = flair_success("This is flair success message")
+  = flair_warning("This is flair warning message")
 
 = tile_with_heading('Icons') do
   .flex.flex-row.flex-wrap
@@ -64,26 +30,11 @@
 = tile do
   %h3 Tailwind Colors
   - shades = (1..9).to_a.map { |i| "#{i * 100}" }
-  - colors = %w[slorange red orange yellow green blue purple grey]
+  - colors = %w[slorange red orange golden green blue purple grey]
   - colors.each do |color|
     .flex.flex-row
       - shades.each do |shade|
         %div{ class: "px-2 py-4 flex-grow text-center bg-#{color}-#{shade} inline-block" }= "#{color}-#{shade}"
-
-  %h3.mt-4 Old Colors
-  - shades = (0..4).to_a
-  - colors = %w[red yellow green orange blue purple]
-  - colors.each do |color|
-    .flex.flex-row
-      - shades.each do |shade|
-        %div{ class: "px-2 py-4 flex-grow text-center inline-block #{'text-white' if shade < 3}", style: "background-color: var(--#{color}#{shade})" }= "#{color}#{shade}"
-
-  %h3.mt-4 Greys
-  - shades = (0..9).to_a
-  .flex.flex-row
-    - shades.each do |shade|
-      %div{ class: "px-2 py-4 flex-grow text-center inline-block #{'text-white' if shade < 5}", style: "background-color: var(--grey#{shade})" }= "grey#{shade}"
-
 
 = tile_with_heading('Item Use Icons') do
   %div
