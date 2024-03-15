@@ -1,79 +1,61 @@
 
-@mixin ItemSummaryTag {
-  padding: 2px 4px;
-  border-radius: 10px;
-  font-size: 0.7em;
-  background-color: var(--grey7);
-  border: 1px solid var(--grey5);
-  display: inline-block;
-  /* margin-left: 2px;
-  margin-right: 2px; */
-  whitespace: nowrap;
-  &--large {
-    font-size: 1.1em;
-    padding: 4px var(--line-height);
-    border-radius: var(--line-height);
-    margin-right: 5px;
+@layer components {
+
+  .ItemSummaryTag {
+    @apply px-2 py-1 mx-1 rounded-full text-sm bg-grey-200 border border-grey-300;
+    @apply inline-block whitespace-nowrap;
   }
-}
 
-.Item-useTag {
-  @include ItemSummaryTag;
-  color: var(--blue1);
-}
+  .Item-useTag {
+    @apply ItemSummaryTag text-sky-700;
+  }
 
-.Item-sourceTag {
-  @include ItemSummaryTag;
-  color: var(--purple2);
-}
+  .Item-sourceTag {
+    @apply ItemSummaryTag text-purple-700;
+  }
 
-.Item-priceTag {
-  @include ItemSummaryTag;
-  color: var(--yellow1);
-}
+  .Item-priceTag {
+    @apply ItemSummaryTag text-golden-700;
+  }
 
-.Item-weightTag {
-  @include ItemSummaryTag;
-  color: var(--grey3);
-}
+  .Item-weightTag {
+    @apply ItemSummaryTag text-grey-700;
+  }
 
-.Item-abstractTag {
-  @include ItemSummaryTag;
-  color: var(--blue1);
-}
+  .Item-abstractTag {
+    @apply ItemSummaryTag text-sky-800;
+  }
 
 
-.Item-gatheringTag {
-  @include ItemSummaryTag;
-  text-transform: lowercase;
-  color: var(--green1);
-  padding-left: 16px;
-  background-size: 16px;
-  background-repeat: no-repeat;
-  background-position: left;
-}
+  .Item-gatheringTag {
+    @apply ItemSummaryTag;
+    @apply lowercase pl-7 bg-contain bg-no-repeat bg-left;
+    @apply text-green-700;
+  }
 
-.Item-gatheringTag--large {
-  padding-left: 32px;
-  background-size: 32px;
-}
+  .Item-gatheringTag--large {
+    @apply text-base pl-8 pr-3;
+    background-size: 32px;
+  }
 
-.Item-gatheringTag--field_dressing {
-  background-image: url('sota-icons/craft_field_dressing_small.png');
-}
+  .Item-gatheringTag--field_dressing {
+    background-image: url('sota-icons/craft_field_dressing_small.png');
+  }
 
-.Item-gatheringTag--fishing {
-  padding-left: calc(var(--line-height) / 4);
-}
+  .Item-gatheringTag--fishing {
+    @apply pl-2;
+  }
 
-.Item-gatheringTag--foraging {
-  background-image: url('sota-icons/craft_foraging_small.png');
-}
+  .Item-gatheringTag--foraging {
+    background-image: url('sota-icons/craft_foraging_small.png');
+  }
 
-.Item-gatheringTag--forestry {
-  background-image: url('sota-icons/craft_forestry_small.png');
-}
+  .Item-gatheringTag--forestry {
+    background-image: url('sota-icons/craft_forestry_small.png');
+  }
 
-.Item-gatheringTag--mining {
-  background-image: url('sota-icons/craft_mining_small.png');
+  .Item-gatheringTag--mining {
+    background-image: url('sota-icons/craft_mining_small.png');
+  }
+
 }
