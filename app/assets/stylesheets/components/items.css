@@ -2,8 +2,8 @@
 @layer components {
 
   .ItemSummaryTag {
-    @apply px-2 py-1 mx-1 rounded-full text-sm bg-grey-200 border border-grey-300;
-    @apply inline-block whitespace-nowrap;
+    @apply px-1.5 py-0 mx-0 rounded-full text-sm bg-grey-200 border border-grey-300;
+    @apply inline-flex items-center whitespace-nowrap;
   }
 
   .Item-useTag {
