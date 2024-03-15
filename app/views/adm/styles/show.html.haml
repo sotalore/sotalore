@@ -1,10 +1,18 @@
 
-= tile_with_heading('Flair') do
-  = flair_primary("This is flair primary message")
-  = flair_info("This is flair info message")
-  = flair_danger("This is flair danger message")
-  = flair_success("This is flair success message")
-  = flair_warning("This is flair warning message")
+.flex.flex-row
+  .basis-1_2
+    = tile_with_heading('Flair') do
+      %p= flair_primary("This is flair primary message")
+      %p= flair_info("This is flair info message")
+      %p= flair_danger("This is flair danger message")
+      %p= flair_success("This is flair success message")
+      %p= flair_warning("This is flair warning message")
+  .basis-1_2
+    = tile_with_heading('Notice') do
+      = notice_info("This is notice info message")
+      = notice_danger("This is notice danger message")
+      = notice_success("This is notice success message")
+      = notice_warning("This is notice warning message")
 
 = tile_with_heading('Icons') do
   .flex.flex-row.flex-wrap
