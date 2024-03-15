@@ -1,6 +1,18 @@
 
 .flex.flex-row
   .basis-1_2
+    = tile_with_heading('Buttons') do
+      .flex.flex-row
+        .flex.flex-col.text-center.p-2.m-2.gap-4
+          = link_to "Default", '#', class: "Button"
+          = link_to "Default", '#', class: "Button Button--sm"
+        - %w[ primary danger success warning info ].each do |color|
+          .flex.flex-col.text-center.p-2.m-2.gap-4
+            = link_to color, '#', class: "Button Button--#{color}"
+            = link_to color, '#', class: "Button Button--#{color} Button--sm"
+
+.flex.flex-row
+  .basis-1_2
     = tile_with_heading('Flair') do
       %p= flair_primary("This is flair primary message")
       %p= flair_info("This is flair info message")
