@@ -22,6 +22,8 @@ Rails.application.routes.draw do
     resource :styles, only: [ :show ] do
       member do
         get :forms
+        get :tiles
+        get :colors
       end
     end
   end

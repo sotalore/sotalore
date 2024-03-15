@@ -1,0 +1,56 @@
+.flex.flex-row.flex-wrap
+  .basis-1_2
+    = tile_with_heading('Tile With Heading') do
+      %p more_link_to: #{more_link_to('#')}
+      %p= primary_button_to('Primary Button To', '#')
+      %p= default_button_to('Default Button To', '#')
+
+  .basis-1_2
+    = tile do
+      = tile_heading('Tile with Controls', subheading: 'subheading') do
+        = view_icon_to('#')
+        = edit_icon_to('#')
+        = destroy_icon_to('#')
+      = tile_body do
+        .prose
+          %p Just some text
+          %p and some more.
+
+  .basis-1_2
+    = tile do
+      = tile_heading(link_to('Heading as Link', "#"))
+      = tile_body do
+        %p A purest persian without quiets is truly a reason of reptant wines. Few can name an unchanged rock that isn't a valgus title. Framed in a different way, those locusts are nothing more than rifles. Nowhere is it disputed that the feather is a bengal.
+        %p Some helmless mailmen are thought of simply as cellos. An olive can hardly be considered a ferine pvc without also being a psychology. A windchime sees a boundary as an osmic pepper. The segments could be said to resemble outraged mexicos.
+
+.flex.flex-row
+  .basis-1_2
+    = tile(:primary) do
+      = tile_heading('Default Tile', subheading: 'Some thoughts') do
+        = default_button_to('view', '#')
+        = edit_button_to('edit', '#')
+      = tile_body do
+        %p In modern times authors often misinterpret the law as an ungyved ex-husband, when in actuality it feels more like a sunlit church. This could be, or perhaps authors often misinterpret the november as a mutant icicle, when in actuality it feels more like a gloomful fire.
+
+    - %w[ info ].each do |type|
+      = tile(type) do
+        = tile_heading("#{type.capitalize} Tile")
+        = tile_body do
+          %p In modern times authors often misinterpret the law as an ungyved ex-husband, when in actuality it feels more like a sunlit church. This could be, or perhaps authors often misinterpret the november as a mutant icicle, when in actuality it feels more like a gloomful fire.
+
+
+  .basis-1_2
+    = tile do
+      = tile_heading('Default Tile', subheading: 'Some thoughts') do
+        = default_button_to('view', '#')
+        = edit_button_to('edit', '#')
+      = tile_body do
+        %p In modern times authors often misinterpret the law as an ungyved ex-husband, when in actuality it feels more like a sunlit church. This could be, or perhaps authors often misinterpret the november as a mutant icicle, when in actuality it feels more like a gloomful fire.
+
+    - %w[ info ].each do |type|
+      = tile(type) do
+        = tile_heading("#{type.capitalize} Tile")
+        = tile_body(type) do
+          %p In modern times authors often misinterpret the law as an ungyved ex-husband, when in actuality it feels more like a sunlit church. This could be, or perhaps authors often misinterpret the november as a mutant icicle, when in actuality it feels more like a gloomful fire.
+
+

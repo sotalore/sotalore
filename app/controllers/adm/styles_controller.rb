@@ -9,6 +9,9 @@ class Adm::StylesController < AdmController
     flash.now[:error] = "This is an error."
   end
 
+  def tiles
+  end
+
   def forms
   end
 
