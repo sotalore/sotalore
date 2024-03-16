@@ -1,18 +1,19 @@
 
-.UserRecipeStar {
-  i::before {
-    color: var(--yellow1);
-    font-size: calc(var(--line-height) * 1.5);
-    font-style: normal;
-  }
-  &--exists {
+@layer components {
+
+  .UserRecipeStar {
     i::before {
-      content: '★';
+      @apply text-2xl text-slorange-500 not-italic;
     }
-  }
-  &:not(.UserRecipeStar--exists) {
-    i::before {
-      content: '☆';
+    &--exists {
+      i::before {
+        content: '★';
+      }
+    }
+    &:not(.UserRecipeStar--exists) {
+      i::before {
+        content: '☆';
+      }
     }
   }
 }

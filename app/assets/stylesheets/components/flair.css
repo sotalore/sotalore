@@ -1,40 +1,44 @@
-@mixin flair-color($color, $border, $background) {
-  background: $background;
-  border-color: $border;
-  color: $color;
-
-  .Flair-icon {
-    color: $background;
-    background: $border;
-  }
-}
-
-
 .Flair {
-  border-radius: 3px;
-  border: 1px solid transparent;
-  color: var(--grey9);
-  display: inline-block;
-  font-size: 12px;
-  line-height: 18px;
-  padding-right: 7px;
-  position: relative;
-  top: 2px;
-  font-weight: normal;
-  vertical-align: top;
-  white-space: nowrap;
+  @apply inline-flex items-end;
+  @apply border rounded pr-2;
+  @apply whitespace-nowrap text-sm font-normal;
 
   &-icon {
-    display: inline-block;
-    margin-right: 6px;
-    min-width: 19px;
-    text-align: center;
-    border-radius: 2px 0 0 2px;
+    @apply inline-block px-1 mr-1 text-center min-w-[19px];
   }
 
-  &--primary { @include flair-color(  var(--blue1),   var(--blue3),   var(--blue4)); }
-  &--danger  { @include flair-color(   var(--red1),    var(--red3),    var(--red4)); }
-  &--warning { @include flair-color(var(--yellow1), var(--yellow3), var(--yellow4)); }
-  &--success { @include flair-color( var(--green1),  var(--green3),  var(--green4)); }
-  &--info    { @include flair-color(var(--purple1), var(--purple3), var(--purple4)); }
+  &--primary {
+    @apply text-sky-700 bg-sky-100 border-sky-500;
+    .Flair-icon {
+      @apply text-sky-100 bg-sky-700;
+    }
+  }
+
+  &--danger {
+    @apply text-red-600 bg-red-100 border-red-500;
+    .Flair-icon {
+      @apply text-red-100 bg-red-600;
+    }
+  }
+
+  &--warning {
+    @apply text-golden-700 bg-golden-100 border-golden-500;
+    .Flair-icon {
+      @apply text-golden-100 bg-golden-700;
+    }
+  }
+
+  &--success {
+    @apply text-green-700 bg-green-100 border-green-500;
+    .Flair-icon {
+      @apply text-green-100 bg-green-700;
+    }
+  }
+
+  &--info {
+    @apply text-purple-600 bg-purple-100 border-purple-500;
+    .Flair-icon {
+      @apply text-purple-100 bg-purple-600;
+    }
+  }
 }

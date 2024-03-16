@@ -2,7 +2,6 @@
 @import "./actiontext.css";
 @import "tailwindcss/base";
 @import "./base/settings.css";
-@import "./base/colors.css";
 @import "./base/custom.css";
 
 @import "tailwindcss/components";

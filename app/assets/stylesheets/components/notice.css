@@ -1,49 +1,57 @@
-@mixin notice-color($dark, $border, $light) {
-  .Notice-icon {
-    background: $border;
-    color: $light;
-  }
-
-  .Notice-text {
-    background: $light;
-    color: $dark;
-    border-color: $border;
-  }
-}
-
 .Notice {
-  margin: 16px 8px;
-  border-radius: 3px;
-  display: flex;
-  border: 0;
-  padding: 0;
+  @apply flex flex-row;
+  @apply my-4 mx-2 rounded;
 
   &-icon {
-    flex: 0 0 32px;
-    border-radius: 3px 0 0 3px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @apply flex items-center justify-center w-[32px] rounded-s;
   }
 
   &-text {
-    padding: 8px 12px;
-    border: 1px solid transparent;
-    border-radius: 0 3px 3px 0;
-    flex-grow: 1;
+    @apply py-2 px-4 border rounded-e grow;
   }
 
   &-text * {
-    margin: 0;
+    @apply m-0;
   }
 
   &-text * + * {
-    margin-top: 12px;
+    @apply mt-2;
   }
 
-  &--info    { @include notice-color(var(--purple1), var(--purple3), var(--purple4)); }
-  &--success { @include notice-color( var(--green1),  var(--green3),  var(--green4)); }
-  &--warning { @include notice-color(var(--yellow1), var(--yellow3), var(--yellow4)); }
-  &--danger  { @include notice-color(   var(--red1),    var(--red3),    var(--red4)); }
+  &--info {
+    .Notice-icon {
+      @apply bg-purple-600 text-purple-100;
+    }
+    .Notice-text {
+      @apply bg-purple-100 text-purple-600 border-purple-500;
+    }
+  }
+
+  &--success {
+    .Notice-icon {
+      @apply bg-green-700 text-green-100;
+    }
+    .Notice-text {
+      @apply bg-green-100 text-green-700 border-green-500;
+    }
+  }
+
+  &--warning {
+    .Notice-icon {
+      @apply bg-golden-700 text-golden-100;
+    }
+    .Notice-text {
+      @apply bg-golden-100 text-golden-700 border-golden-500;
+    }
+  }
+
+  &--danger {
+    .Notice-icon {
+      @apply bg-red-600 text-red-100;
+    }
+    .Notice-text {
+      @apply bg-red-100 text-red-600 border-red-500;
+    }
+  }
 
 }

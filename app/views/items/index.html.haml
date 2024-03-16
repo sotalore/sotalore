@@ -5,6 +5,7 @@
     = render partial: 'item_nav'
 
   = tile_body do
+    = paginate @items
     %table.Table
       %thead
         %th Item Name

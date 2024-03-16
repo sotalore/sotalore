@@ -1,19 +1,14 @@
-.autocomplete-suggestions {
-  border: 1px solid var(--grey3);
-  margin-top: -15px;
-  background: var(--grey8);
-  overflow: auto;
-  position: absolute;
-  z-index: 1000;
-  list-style-type: none;
+@layer components {
 
-  .autocomplete-suggestion {
-    padding: 2px 40px 2px 10px;
-    white-space: nowrap;
-    overflow: hidden;
+  .autocomplete-suggestions {
+    @apply absolute z-10 list-none bg-grey-200 border border-grey-300 overflow-auto;
 
-    &.active {
-      background: var(--grey6);
+    .autocomplete-suggestion {
+      @apply cursor-pointer px-4 py-1 whitespace-nowrap overflow-hidden;
+
+      &.active {
+        @apply bg-grey-300;
+      }
     }
   }
 }
