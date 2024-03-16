@@ -59,7 +59,7 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
       content_tag(:div, class: 'Field-check') do
         current = cur_val == value.to_s
         content_tag(:label, class: "Field-checkbox #{current ? 'active' : ''}") do
-          radio_button(method, value, checked: current).html_safe + label
+          radio_button(method, value, checked: current).html_safe + label.to_s
         end
       end
     end.join.html_safe
