@@ -30,7 +30,7 @@
               = image_tag('sota-icons/sota_crestcolor.png', class: 'h-6 inline-block')
               SOTA LORE
             %span.inline.lg:hidden SL
-        %nav.main-navigation.text-center.lg:text-left
+        %nav
           - if current_user.not_null?
             = site_nav_link_to('My Recipes', user_recipes_path, 'book')
           = site_nav_link_to('My Avatars', avatars_path, 'shield', active: [['avatars'],[]])
