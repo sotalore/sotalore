@@ -11,8 +11,8 @@
                 = flair_info('default')
             .md:text-right
               = default_button_to('View Skills', avatar_skills_path(avatar))
-              = edit_icon_to(edit_avatar_path(id: avatar))
-              = destroy_icon_to(avatar_path(id: avatar))
+              = edit_icon_to(edit_avatar_path(id: avatar), size: :md)
+              = destroy_icon_to(avatar_path(id: avatar), size: :md)
       - else
         %p You have no Avatars yet, add one below!
 

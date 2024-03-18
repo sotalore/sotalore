@@ -7,7 +7,9 @@ module NavHelper
     options = {
       active: options.fetch(:active, nil),
       class: "site-nav-link",
-      class_active: "is-active"
+      class_active: "is-active",
+      alt: text,
+      title: text,
     }
 
     if defined?(@portal_nav_active_link)

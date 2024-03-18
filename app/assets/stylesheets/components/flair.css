@@ -1,10 +1,10 @@
 .Flair {
-  @apply inline-flex items-end;
+  @apply inline-flex items-center;
   @apply border rounded pr-2;
   @apply whitespace-nowrap text-sm font-normal;
 
   &-icon {
-    @apply inline-block px-1 mr-1 text-center min-w-[19px];
+    @apply h-full flex items-center justify-center px-1 mr-1 min-w-[19px];
   }
 
   &--primary {

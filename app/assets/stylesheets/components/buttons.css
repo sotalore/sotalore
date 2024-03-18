@@ -1,14 +1,14 @@
 .Button {
-  @apply inline-block rounded ;
+  @apply inline-flex gap-2 justify-around items-center rounded ;
   @apply py-1 px-2 text-center align-top whitespace-nowrap;
   @apply cursor-pointer select-none touch-manipulation;
-  @apply leading-5 min-w-8 font-normal;
+  @apply leading-5 min-w-16 font-normal;
   @apply border border-slorange-500 bg-transparent text-slorange-500;
 
   &--sm,
   &--xs,
   &--small {
-    @apply py-0 px-1 text-sm min-w-6;
+    @apply py-0 px-1 text-sm min-w-min;
   }
 
   &--block {

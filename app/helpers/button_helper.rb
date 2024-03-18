@@ -83,6 +83,7 @@ module ButtonHelper
     options[:alt]   ||= title
     options[:title] ||= title
     options[:style] ||= 'default'
+    options[:size]  ||= :sm
     add_button_css_classes(options)
     link_to(path, options) do
       render_icon(icon, size: :sm)

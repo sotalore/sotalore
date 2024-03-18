@@ -68,6 +68,6 @@
       .Comment-controls.border-t.border-grey-300.px-2.py-1.text-right.bg-grey-100
         = comment_visibility_button(comment)
         - if can_delete
-          = destroy_icon_to([ comment.subject, comment ], control: true)
+          = destroy_icon_to([ comment.subject, comment ], control: true, size: :sm)
         - if can_edit
-          = edit_icon_to([ :edit, comment.subject, comment ], control: true)
+          = edit_icon_to([ :edit, comment.subject, comment ], control: true, size: :sm)
