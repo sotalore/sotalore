@@ -26,7 +26,7 @@ module FlairHelper
 
   def flair_tag(modifier, icon, text)
     content_tag(:span, class: "Flair Flair--#{modifier}") do
-      content_tag(:span, render_icon(icon), class: "Flair-icon") + text
+      content_tag(:span, render_icon(icon, size: :sm), class: "Flair-icon") + text
     end
   end
 
