@@ -1,7 +1,7 @@
 @layer components {
   .global-search {
     .global-search-results {
-      @apply p-2 bg-grey-100 border-2 border-slorange-700 drop-shadow-xl;
+      @apply -mt-2 ml-4 p-2 bg-grey-100 border-2 border-slorange-700 drop-shadow-xl;
       @apply absolute;
       max-height: 400px;
       overflow-y: scroll;
