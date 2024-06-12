@@ -16,7 +16,7 @@ class Authentication::ConfirmationsController < AuthenticationController
     else
       @user = User.new(email: params[:user][:email])
       @user.errors.add(:email, 'not found')
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

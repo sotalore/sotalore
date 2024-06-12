@@ -22,7 +22,7 @@ RSpec.describe "Profiles", type: :request do
 
       it 'handles invalid attributes' do
         patch profile_path, params: {user: {name: ''}}
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
 
     end

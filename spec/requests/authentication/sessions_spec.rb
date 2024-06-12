@@ -24,7 +24,7 @@ RSpec.describe "Authentication::Sessions", type: :request do
     context 'Given wrong credentials' do
       it 'does not sign-in the user' do
         post user_session_path, params: { user: { email: user.email, password: 'wrong' } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
         expect(response.body).to include('That email or password is incorrect')
       end
     end

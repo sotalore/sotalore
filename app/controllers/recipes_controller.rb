@@ -56,7 +56,7 @@ class RecipesController < ApplicationController
     if @recipe.save(permitted_params)
       redirect_to @recipe
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -66,7 +66,7 @@ class RecipesController < ApplicationController
     if @recipe.save(permitted_params)
       redirect_to @recipe
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

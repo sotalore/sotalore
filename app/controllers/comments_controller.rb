@@ -58,11 +58,11 @@ class CommentsController < ApplicationController
         end
       else
         @comments = find_comments_index
-        render :index, status: :unprocessable_entity
+        render :index, status: :unprocessable_content
       end
     else
       @comments = find_comments_index
-      render :index, status: :unprocessable_entity
+      render :index, status: :unprocessable_content
     end
   end
 
@@ -80,7 +80,7 @@ class CommentsController < ApplicationController
         format.turbo_stream { render turbo_stream: turbo_stream.replace(@comment, @comment) }
       end
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

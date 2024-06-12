@@ -26,7 +26,7 @@ class ScenesController < ApplicationController
       flash.notice = "Scene: '#{@scene.name}' added successfully."
       redirect_to @scene
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -46,7 +46,7 @@ class ScenesController < ApplicationController
       flash.notice = "Scene: '#{@scene.name}' updated successfully."
       redirect_to @scene
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

@@ -24,7 +24,7 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to polymorphic_path([@parent, @post])
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -39,7 +39,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       redirect_to posts_path
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

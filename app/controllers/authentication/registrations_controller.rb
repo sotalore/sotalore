@@ -16,7 +16,7 @@ class Authentication::RegistrationsController < AuthenticationController
       UserMailer.confirmation_instructions(@user).deliver_later
       redirect_to user_need_confirmation_path
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -35,7 +35,7 @@ class Authentication::RegistrationsController < AuthenticationController
     @user.validate # Look for any other validation errors besides reCAPTCHA
 
     flash.now[:error] = "There was an error with bot-detection, please try again."
-    render :new, status: :unprocessable_entity
+    render :new, status: :unprocessable_content
     false
   end
 
