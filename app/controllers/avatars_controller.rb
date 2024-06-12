@@ -13,7 +13,7 @@ class AvatarsController < ApplicationController
       redirect_to action: :index
     else
       find_avatars
-      render :index, status: :unprocessable_entity
+      render :index, status: :unprocessable_content
     end
   end
 
@@ -26,7 +26,7 @@ class AvatarsController < ApplicationController
     if @avatar.update(permitted_params)
       redirect_to action: :index
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

@@ -28,7 +28,7 @@ RSpec.describe "Authentication::PasswordResets", type: :request do
       it 'renders the error' do
         post user_password_reset_path, params: { user: { email: 'invalid' } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -69,7 +69,7 @@ RSpec.describe "Authentication::PasswordResets", type: :request do
         patch user_password_reset_path(token: user.generate_token_for(:password_reset)), params: {
           password_reset_form: { password: 'pass', password_confirmation: 'pass' } }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 

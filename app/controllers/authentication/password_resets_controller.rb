@@ -20,7 +20,7 @@ class Authentication::PasswordResetsController < AuthenticationController
     else
       @user = User.new(email: email)
       @user.errors.add(:email, 'not found')
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -34,7 +34,7 @@ class Authentication::PasswordResetsController < AuthenticationController
       sign_in_user(@user)
       redirect_to root_path, notice: 'Your password has been updated'
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

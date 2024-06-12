@@ -45,7 +45,7 @@ RSpec.describe "Comments", type: :request do
              comment: { body: '' } }
         }.to_not change { parent.comments.reload.size }
 
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -76,7 +76,7 @@ RSpec.describe "Comments", type: :request do
         it 'renders the form' do
           patch comment_path(comment, item_id: parent), params: {
                                     comment: { body: '' } }
-          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to have_http_status(:unprocessable_content)
         end
       end
     end

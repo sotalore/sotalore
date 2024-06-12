@@ -17,7 +17,7 @@ class PlantingsController < ApplicationController
       redirect_to action: :index
     else
       find_plantings
-      render :index, status: :unprocessable_entity
+      render :index, status: :unprocessable_content
     end
   end
 

@@ -22,7 +22,7 @@ class Adm::UsersController < AdmController
     if @user.update(user_params)
       redirect_to adm_users_path, notice: 'User was successfully updated.'
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

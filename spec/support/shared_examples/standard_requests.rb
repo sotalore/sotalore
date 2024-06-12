@@ -36,7 +36,7 @@ RSpec.shared_examples "an editable resource" do |except: []|
 
       it 'handles invalid params' do
         post polymorphic_path(model), params: invalid_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -69,7 +69,7 @@ RSpec.shared_examples "an editable resource" do |except: []|
 
       it 'handles invalid params' do
         patch polymorphic_path(subject), params: invalid_params
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end

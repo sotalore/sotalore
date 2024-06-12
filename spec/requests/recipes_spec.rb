@@ -38,7 +38,7 @@ RSpec.describe "Recipes", type: :request do
         post recipes_path, params: {
                 recipe: { name: '' }
               }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
   end
@@ -82,7 +82,7 @@ RSpec.describe "Recipes", type: :request do
 
       it 'renders the form with invalid changes' do
         patch recipe_path(recipe), params: { recipe: { name: '' } }
-        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to have_http_status(:unprocessable_content)
       end
     end
 
