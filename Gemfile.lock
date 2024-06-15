@@ -428,6 +428,7 @@ DEPENDENCIES
   listen
   local_time
   lograge
+  net-protocol
   omniauth-discord
   omniauth-rails_csrf_protection
   pg

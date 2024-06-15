@@ -7,6 +7,9 @@ gem 'propshaft'
 gem 'pg'
 gem 'puma', '~> 6.0'
 
+# Just to fix the net-pop dependency issue
+gem 'net-protocol'
+
 gem 'jsbundling-rails'
 gem "cssbundling-rails"
 
