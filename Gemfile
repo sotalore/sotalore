@@ -1,15 +1,11 @@
 source 'https://rubygems.org'
 
-ruby "3.3.3"
+ruby "3.3.4"
 
 gem 'rails', '~> 7.1.0'
 gem 'propshaft'
 gem 'pg'
 gem 'puma', '~> 6.0'
-
-# Just to fix the net-pop dependency issue
-gem "net-pop", github: "ruby/net-pop"
-gem 'net-protocol'
 
 gem 'jsbundling-rails'
 gem "cssbundling-rails"
