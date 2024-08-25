@@ -32,9 +32,9 @@ RSpec.describe "Avatars", type: :request do
 
     describe 'PATCH update' do
       it 'forbids access to update' do
-        expect {
-          patch avatar_path(avatar), params: {avatar: {name: 'new name'}}
-        }.to raise_error(ActiveRecord::RecordNotFound)
+        patch avatar_path(avatar), params: {avatar: {name: 'new name'}}
+
+        expect(response).to have_http_status(:not_found)
       end
     end
 
