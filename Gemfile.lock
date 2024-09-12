@@ -1,3 +1,17 @@
+GIT
+  remote: https://github.com/phlex-ruby/phlex-rails.git
+  revision: 901cd037f28b84f85c9557ba227fd76573c2a160
+  specs:
+    phlex-rails (2.0.0.beta2)
+      phlex (= 2.0.0.beta2)
+      railties (>= 6.1, < 8)
+
+GIT
+  remote: https://github.com/phlex-ruby/phlex.git
+  revision: 410af905b95061951af5beda3c8a6e840860c159
+  specs:
+    phlex (2.0.0.beta2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -438,8 +452,11 @@ DEPENDENCIES
   lograge
   omniauth-discord
   omniauth-rails_csrf_protection
+  ostruct
   pg
   pg_search
+  phlex!
+  phlex-rails!
   propshaft
   puma (~> 6.0)
   pundit
