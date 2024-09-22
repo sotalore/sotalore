@@ -26,9 +26,6 @@ module SotaLore
 
     # config.eager_load_paths << Rails.root.join("extras")
 
-    config.assets.excluded_paths << Rails.root.join("app/assets/stylesheets")
-    config.assets.excluded_paths << Rails.root.join("app/javascript")
-
     config.active_record.belongs_to_required_by_default = false
 
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }

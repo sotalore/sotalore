@@ -62,5 +62,5 @@
               .remainingXP
 
           - school_skills.each do |skill|
-            = render(partial: 'skill_row', locals: { skill: skill })
+            = render Views::Skills::Row.new(skill, @avatar, @current_skills[skill.key])
 
