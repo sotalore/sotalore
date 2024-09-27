@@ -23,13 +23,13 @@ class Views::Skills::Row < Views::Base
         'rollup-target' => "#{@skill.category}-#{@skill.school}"
       }) do
         classes = [
-          'skillCell inline-flex items-center gap-x-1',
+          'skillCell flex flex-row items-center gap-x-1',
           ('opacity-50' if @avatar&.ignoring_skill?(@skill))
         ]
         div(class: classes) do
           toggle_skill_button(@avatar, @skill)
           span { @skill.name }
-          div(class: 'text-xs opacity-80 font-normal') { "(#{@skill.xp_factor.to_s.sub(/.0$/, '')})" }
+          span(class: 'text-xs opacity-8 font-normal') { "(#{@skill.xp_factor.to_s.sub(/.0$/, '')})" }
         end
         div(class: 'xpCell currentCell') do
           div(class: 'levelInput') do
