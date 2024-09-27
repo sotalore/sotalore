@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 ruby "3.3.5"
 
+gem "ostruct" # silence deprecation warning
+
 gem 'rails', '~> 7.2.0'
 gem 'propshaft'
 gem 'pg'
@@ -26,6 +28,9 @@ gem 'lograge'
 gem 'bootsnap'
 
 gem 'haml-rails'
+gem "phlex-rails", git: "https://github.com/phlex-ruby/phlex-rails.git"
+gem "phlex", git: "https://github.com/phlex-ruby/phlex.git"
+
 gem 'kaminari'
 gem 'local_time'
 gem 'active_link_to'
