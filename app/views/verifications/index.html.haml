@@ -1,4 +1,4 @@
-- page_title("Verifify #{params[:collection].titleize}")
+- page_title("Verify #{params[:collection].titleize}")
 = tile do
   = tile_body do
     = paginate @verifiables
@@ -9,15 +9,18 @@
         %th Verified
         %th Updated
       %tbody
-        - @verifiables.each do |verifable|
+        - @verifiables.each do |verifiable|
           %tr
-            %td= verifable.id
-            %td= link_to(verifable.name, verifable)
+            %td= verifiable.id
             %td
-              - if verifable.verified?
-                #{time_ago_in_words(verifable.last_verified_at) if verifable.last_verified_at} ago
+              = link_to(verifiable.name, verifiable)
+              - if Item === verifiable
+                = item_abstract_tag(verifiable)
+            %td
+              - if verifiable.verified?
+                #{time_ago_in_words(verifiable.last_verified_at) if verifiable.last_verified_at} ago
               - else
                 never
             %td
-              #{time_ago_in_words verifable.updated_at} ago
+              #{time_ago_in_words verifiable.updated_at} ago
     = paginate @verifiables
