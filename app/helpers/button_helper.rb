@@ -68,14 +68,14 @@ module ButtonHelper
   def destroy_button_to(label, path, options={})
     options[:data] ||= {}
     options[:data][:turbo_method] ||= :delete
-    options[:data][:confirm] = 'Are you sure?' unless options[:data].key?(:confirm)
+    options[:data][:turbo_confirm] = 'Are you sure?' unless options[:data].key?(:turbo_confirm)
     simple_button_with_icon(label, path, 'trash', {style: 'danger'}.merge(options))
   end
 
   def destroy_icon_to(path, options={})
     options[:data] ||= {}
     options[:data][:turbo_method] ||= :delete
-    options[:data][:confirm] = 'Are you sure?' unless options[:data].key?(:confirm)
+    options[:data][:turbo_confirm] = 'Are you sure?' unless options[:data].key?(:turbo_confirm)
     simple_icon_only_button(path, 'trash', 'delete', {style: 'danger'}.merge(options))
   end
 
