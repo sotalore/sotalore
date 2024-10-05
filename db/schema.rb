@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_08_10_210131) do
+ActiveRecord::Schema[7.2].define(version: 2024_10_05_235227) do
   create_schema "heroku_ext"
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "citext"
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
@@ -107,7 +108,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_08_10_210131) do
   end
 
   create_table "items", id: :serial, force: :cascade do |t|
-    t.string "name"
+    t.citext "name"
     t.integer "use", default: 0, null: false
     t.boolean "crafting_input", default: false, null: false
     t.integer "source", default: 0, null: false

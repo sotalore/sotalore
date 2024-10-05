@@ -28,7 +28,7 @@
         .row
           .col-xs
             %strong Abstraction of:
-            = to_sentence(@item.instances.map { |i| link_to(i, i) })
+            = to_sentence(@item.instances.by_name.map { |i| link_to(i, i) })
       - elsif @item.instance_of
         .row
           .col-xs
