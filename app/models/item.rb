@@ -76,7 +76,7 @@ class Item < ApplicationRecord
     .preload(results: :item)
   }
 
-  scope :by_name, -> { order('lower(name)') }
+  scope :by_name, -> { order(:name) }
 
   def self.find_by_name(name)
     name = name.blank? ? nil : name.downcase

@@ -15,7 +15,7 @@ class VerificationsController < ApplicationController
     verifiable = find_verifiable
     verifiable.verify!(current_user)
 
-    redirect_to relevant_collection_path
+    redirect_to verifiable
   end
 
 
@@ -39,14 +39,6 @@ class VerificationsController < ApplicationController
       Recipe.find(params[:recipe_id])
     else
       raise ArgumentError, "Unknown verifiable: #{params}"
-    end
-  end
-
-  def relevant_collection_path
-    if params[:item_id]
-      item_verifications_path
-    elsif params[:recipe_id]
-      recipe_verifications_path
     end
   end
 

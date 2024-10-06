@@ -15,20 +15,13 @@
         = item_price_tag @item, large: true
         = item_gathering_tag @item, large: true
         = item_weight_tag @item, large: true
-        - if policy(:verification).index?
-          .grow.px-4.inline-flex.flex-row.items-center.gap-4.justify-end
-            %span.font-bold Last Verified:
-            - if @item.verified?
-              %span.text-grey-500.font-bold= l(@item.last_verified_at, format: :long)
-            - else
-              %span.text-red-600.font-bold Never
-            = verify_button(@item)
+        .grow.flex.flex-row.justify-end= render Views::Verifications::Controls.new(@item)
 
       - if @item.abstract
         .row
           .col-xs
             %strong Abstraction of:
-            = to_sentence(@item.instances.map { |i| link_to(i, i) })
+            = to_sentence(@item.instances.by_name.map { |i| link_to(i, i) })
       - elsif @item.instance_of
         .row
           .col-xs

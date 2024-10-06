@@ -31,7 +31,7 @@ RSpec.describe "Verifications", type: :request do
         expect(item.verified?).to be_falsey
 
         patch verify_item_path(item)
-        expect(response).to redirect_to(item_verifications_path)
+        expect(response).to redirect_to(item_path(item))
 
         item.reload
         expect(item.verified?).to be_truthy
@@ -45,7 +45,7 @@ RSpec.describe "Verifications", type: :request do
         expect(recipe.verified?).to be_falsey
 
         patch verify_recipe_path(recipe)
-        expect(response).to redirect_to(recipe_verifications_path)
+        expect(response).to redirect_to(recipe_path(recipe))
 
         recipe.reload
         expect(recipe.verified?).to be_truthy
