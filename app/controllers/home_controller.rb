@@ -11,4 +11,7 @@ class HomeController < ApplicationController
   def lunar_rifts
   end
 
+  def master_trainers
+    render Views::Home::MasterTrainers.new
+  end
 end
