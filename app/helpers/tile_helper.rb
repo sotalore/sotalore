@@ -39,4 +39,16 @@ module TileHelper
     end
   end
 
+  def phlex_tile(heading: nil, subheading: nil, &block)
+    body = capture(&block)
+    tile = Components::Tile.new(heading:, subheading:, body: body)
+    render tile
+  end
+
+  def phlex_tile_with_controls(heading:, subheading: nil)
+    tile = Components::Tile.new(heading:, subheading:)
+    yield tile
+    render tile
+  end
+
 end
