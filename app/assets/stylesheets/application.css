@@ -4,7 +4,6 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import "./components/notice.css";
 @import "./components/tile.css";
 @import "./components/forms.css";
 @import "./components/buttons.css";

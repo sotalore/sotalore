@@ -40,7 +40,7 @@ module FlairHelper
     warning: 'text-golden-700 bg-golden-100 border-golden-500',
     success: 'text-green-700 bg-green-100 border-green-500',
     info: 'text-purple-600 bg-purple-100 border-purple-500',
-  }.freeze
+  }.with_indifferent_access.freeze
 
   FLAIR_ICON_TYPE_CSS = {
     primary: 'text-sky-100 bg-sky-700',
@@ -48,7 +48,7 @@ module FlairHelper
     warning: 'text-golden-100 bg-golden-700',
     success: 'text-green-100 bg-green-700',
     info: 'text-purple-100 bg-purple-600',
-  }
+  }.with_indifferent_access.freeze
 
   def flair_tag(modifier, icon, text)
     content_tag(:span, class: "#{FLAIR_CSS} #{FLAIR_TYPE_CSS[modifier]}") do
