@@ -1,9 +1,9 @@
-.Recipe
-  .Recipe-name
-    .Recipe-nameActual
+.Recipe.p-0.mb-4.border.border-parchment-950.bg-parchment-100
+  .Recipe-name.p-2.font-bold.flex.flex-row.justify-between.items-center.border-b.border-parchment-950
+    .grow.whitespace-nowrap.overflow-hidden.text-ellipsis
       = user_recipe_button(recipe)
       = recipe.name
-    .Recipe-nameControls
+    .text-sm
       - unless current_page?(recipe)
         -# smaller icon for editors
         - if policy(Recipe).new?
@@ -12,21 +12,20 @@
           = view_link_to('details', recipe)
       = edit_recipe_icon(recipe)
 
-  .Recipe-detail
-    = image_tag("sota-icons/#{recipe.craft_skill.icon_name}", class: 'Recipe-icon')
-    .Recipe-meta
-      .Recipe-craftSkill
-        .Recipe-craftSkillName
-          = recipe.craft_skill.name.titleize
-          - if recipe.proficiency
-            = "[#{recipe.proficiency}]"
-          %span.Recipe-craftSkillTool
-            (#{recipe.craft_skill.primary_tool})
-          - if recipe.teachable.present?
-            %span.Recipe-teachable
-              #{t recipe.teachable, scope: [ :helpers, :label, :recipe, :teachables ], default: ''}
+  .p-1.flex.flex-row.items-start.border-b.border-dashed.border-parchment-950.border-opacity-20
+    = image_tag("sota-icons/#{recipe.craft_skill.icon_name}", class: 'w-12')
+    .grow
+      .opacity-50
+        = recipe.craft_skill.name.titleize
+        - if recipe.proficiency
+          = "[#{recipe.proficiency}]"
+        %span.text-sm
+          (#{recipe.craft_skill.primary_tool})
+        - if recipe.teachable.present?
+          %span.italic
+            #{t recipe.teachable, scope: [ :helpers, :label, :recipe, :teachables ], default: ''}
 
-      .Recipe-production
+      .text-sm
         %span.opacity-75.italic
           Makes
         - results = recipe.results.map do |result|
@@ -39,7 +38,7 @@
         - else
           %em unknown
 
-  .Recipe-ingredients
+  .p-2
     %span.opacity-75.italic
       Ingredients:
     - recipe.ingredients.eager_load(item: { recipes: :results }).each do |ingredient|
@@ -47,8 +46,8 @@
       - item = ingredient.item
       .Recipe-ingredient{ data: { 'controller': 'more-link' }}
         - sub_recipes = []
-        .Recipe-ingredientSummary
-          %span.Recipe-count
+        .Recipe-ingredientSummary.flex.flex-row.items-center.gap-1
+          %span.inline-block.text-right.min-w-8
             #{ingredient.count}
           #{link_to(ingredient.name, item)}
           = item_use_for_recipe_tag(item)
@@ -59,4 +58,4 @@
             - next if recipe == r
             = more_link_to(recipe_path(r),
             { data: { action: 'more-link#load', url: show_partial_recipe_path(r), more_id: dom_id(r, ingredient_dom_id) } })
-        .Recipe-ingredientSubDetail{ data: { 'more-link-target': 'subDetail' }}
+        .Recipe-ingredientSubDetail.pl-4.-mr-1{ data: { 'more-link-target': 'subDetail' }}

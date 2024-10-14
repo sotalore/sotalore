@@ -13,7 +13,6 @@
 
 @import "./components/pagination.css";
 @import "./components/lunar_rifts.css";
-@import "./components/recipes.css";
 @import "./components/items.css";
 @import "./components/skills.css";
 
@@ -259,4 +258,22 @@
     @apply order-last md:order-none bg-white;
   }
 
+  /* Recipes */
+  .Recipe-ingredient > .Recipe-ingredientSummary > a:not(.Displayed) > span > svg {
+    transform: rotate(0deg);
+    transition: transform 100ms linear;
+  }
+
+  .Recipe-ingredient > .Recipe-ingredientSummary > a.Displayed > span > svg {
+    transform: rotate(90deg);
+    transition: transform 100ms linear;
+  }
+
+  .Recipe-ingredient > .Recipe-ingredientSubDetail  div.MoreHidden {
+    display: none;
+  }
+
+  .Recipe-ingredient > .Recipe-ingredientSubDetail .Recipe .Recipe-name {
+    display: none;
+  }
 }
