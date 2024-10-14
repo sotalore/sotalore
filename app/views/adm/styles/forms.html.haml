@@ -1,4 +1,5 @@
 = layout_main_content size: :full do
+  = render Views::Adm::Styles::Menu.new
 
   .p-2.bg-white
     = sl_inline_form_with(model: Planting.new, url: '#') do |form|

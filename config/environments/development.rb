@@ -90,6 +90,7 @@ Rails.application.configure do
   config.hotwire_livereload.disable_default_listeners = true
   config.hotwire_livereload.listen_paths = %w[
     app/views
+    app/controllers
     app/helpers
     app/assets/builds
     app/assets/images

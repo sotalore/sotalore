@@ -7,7 +7,9 @@ module RailsGeneratorFrozenStringLiteralPrepend
 
   def render
     return super unless RUBY_EXTENSIONS.include? File.extname(destination)
-    "# frozen_string_literal: true\n\n#{super}"
+     original = super
+    return original if original.include?("# frozen_string_literal: true\n")
+    "# frozen_string_literal: true\n\n#{original}"
   end
 end
 

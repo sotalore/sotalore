@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       member do
         get :forms
         get :tiles
-        get :colors
+        get :phlex
       end
     end
   end

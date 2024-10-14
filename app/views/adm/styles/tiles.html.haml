@@ -1,3 +1,18 @@
+= render Views::Adm::Styles::Menu.new
+
+.my-8
+  .w-full.flex.flex-row.gap-x-8
+    .basis-1_2
+      = phlex_tile(heading: 'Phlex Tile Heading', subheading: 'The Sub') do
+        %p.text-red-500 This is a paragraph
+
+    .basis-1_2
+      = phlex_tile_with_controls(heading: 'Second') do |tile|
+        - tile.controls = capture do
+          .border.border-red-500 Control
+        - tile.contents = capture do
+          %p.text-blue-500 This is a paragraph
+
 .flex.flex-row.flex-wrap
   .basis-1_2
     = tile_with_heading('Tile With Heading') do

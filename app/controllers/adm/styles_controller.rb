@@ -15,4 +15,7 @@ class Adm::StylesController < AdmController
   def forms
   end
 
+  def phlex
+    render Views::Adm::Styles::Phlex.new
+  end
 end
