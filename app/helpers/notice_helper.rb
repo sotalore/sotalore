@@ -41,7 +41,7 @@ module NoticeHelper
   def notice_tag(type, message = nil, css_class: '', &block)
     message = capture(&block) if block_given?
 
-    content_tag(:div, class: "Notice #{NOTICE_TYPE_CSS[type]} #{css_class}") do
+    content_tag(:div, class: "#{NOTICE_CSS} #{NOTICE_TYPE_CSS[type]} #{css_class}") do
       content_tag(:span, render_icon(ICON_FOR_TYPE[type]), class: "#{NOTICE_ICON_CSS} #{NOTICE_ICON_TYPE_CSS[type]}") +
       content_tag(:span, " #{message}".html_safe, class: "py-2 px-4 border rounded-e grow")
     end
