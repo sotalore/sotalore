@@ -18,7 +18,6 @@
     "postcss-hexrgba": "^2.1.0",
     "postcss-import": "^16.0.1",
     "postcss-preset-env": "^10.0.2",
-    "postcss-sassy-mixins": "^2.1.0",
     "sass": "^1.50.1",
     "stimulus-autocomplete": "^3.0.0",
     "stimulus-lightbox": "^3.2.0",
