@@ -9,6 +9,7 @@ class HomeController < ApplicationController
   end
 
   def lunar_rifts
+    render Views::Home::LunarRifts.new
   end
 
   def master_trainers

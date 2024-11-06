@@ -10,7 +10,6 @@
 @import "./components/fields.css";
 
 @import "./components/pagination.css";
-@import "./components/lunar_rifts.css";
 @import "./components/items.css";
 @import "./components/skills.css";
 
@@ -206,6 +205,10 @@
     @apply bg-black text-white;
   }
 
+  /* The JS lunar-rift-controller toggles this on and off */
+  .lunar-rift-active {
+    @apply border-4 border-blue-500;
+  }
 
   /* Callouts */
   .Callout {
