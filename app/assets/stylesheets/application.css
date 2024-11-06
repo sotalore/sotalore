@@ -9,7 +9,6 @@
 @import "./components/buttons.css";
 @import "./components/fields.css";
 
-@import "./components/items.css";
 @import "./components/skills.css";
 
 @tailwind base;

@@ -12,19 +12,10 @@ class Views::Adm::Styles::Items < Views::Base
           end
         end
 
-        div(class: 'py-2') do
-          helpers.item_price_tag(Item.new(price: 12))
-        end
-
-        div(class: 'py-2') do
-          CraftSkill::ALL.select { |skill| skill.gathering? }.each do |skill|
-            raw helpers.item_gathering_tag(Item.new(gathering_skill: skill))
-          end
-        end
-
-        div(class: 'py-2') do
-          raw helpers.item_abstract_tag(Item.new(abstract: true))
+        div(class: 'py-2 flex flex-row gap-x-1 items-center') do
+          raw helpers.item_price_tag(Item.new(price: 12))
           raw helpers.item_weight_tag(Item.new(weight: 2.2))
+          raw helpers.item_abstract_tag(Item.new(abstract: true))
         end
 
         div(class: 'py-2') do
@@ -39,12 +30,12 @@ class Views::Adm::Styles::Items < Views::Base
           end
         end
 
-        div(class: 'py-2') do
+        div(class: 'py-2 flex flex-row gap-x-1 items-center') do
           CraftSkill::ALL.select { |skill| skill.gathering? }.each do |skill|
             raw helpers.item_gathering_tag(Item.new(gathering_skill: skill))
           end
         end
-        div(class: 'py-2') do
+        div(class: 'py-2 flex flex-row gap-x-1 items-center') do
           CraftSkill::ALL.select { |skill| skill.gathering? }.each do |skill|
             raw helpers.item_gathering_tag(Item.new(gathering_skill: skill), large: true)
           end
