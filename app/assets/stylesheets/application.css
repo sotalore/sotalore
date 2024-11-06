@@ -13,13 +13,6 @@
 @import "./components/items.css";
 @import "./components/skills.css";
 
-
-/* No recollection of what this is for */
-:root {
-  --line-height: 16px;
-  --grid-md: calc(64 * 16px);
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
