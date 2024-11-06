@@ -9,17 +9,7 @@
 @import "./components/buttons.css";
 @import "./components/fields.css";
 
-@import "./components/pagination.css";
-@import "./components/lunar_rifts.css";
-@import "./components/items.css";
 @import "./components/skills.css";
-
-
-/* No recollection of what this is for */
-:root {
-  --line-height: 16px;
-  --grid-md: calc(64 * 16px);
-}
 
 @tailwind base;
 @tailwind components;
@@ -206,6 +196,10 @@
     @apply bg-black text-white;
   }
 
+  /* The JS lunar-rift-controller toggles this on and off */
+  .lunar-rift-active {
+    @apply border-4 border-blue-500;
+  }
 
   /* Callouts */
   .Callout {
@@ -273,5 +267,25 @@
 
   .Recipe-ingredient > .Recipe-ingredientSubDetail .Recipe .Recipe-name {
     display: none;
+  }
+
+  /* Pagination */
+  .Pagination {
+    @apply flex flex-row justify-center py-2;
+  }
+  .Pagination-page a {
+    @apply block min-w-8 text-center text-inherit;
+    @apply py-1 px-2 border border-grey-400 -ml-[1px];
+    @apply hover:no-underline;
+  }
+  .Pagination-page:first-child a {
+    @apply rounded-l;
+  }
+  .Pagination-page:last-child a {
+    @apply rounded-r;
+  }
+  .Pagination-page.is-active a,
+  .Pagination-page a[href]:hover {
+    @apply bg-grey-300 z-10 no-underline;
   }
 }

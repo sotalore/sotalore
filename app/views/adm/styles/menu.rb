@@ -7,6 +7,8 @@ class Views::Adm::Styles::Menu < Views::Base
       menu_link(forms_adm_styles_path, 'Forms')
       menu_link(phlex_adm_styles_path, 'Phlex')
       menu_link(tiles_adm_styles_path, 'Tiles')
+      menu_link(items_adm_styles_path, 'Items')
+      menu_link(icons_adm_styles_path, 'Icons')
     end
   end
 

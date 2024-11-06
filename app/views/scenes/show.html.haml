@@ -31,16 +31,16 @@
 
       .col-span-2.md:col-span-1
         %p
-          = link_to(@scene.sota_map_url, target: '_blank') do
+          = link_to(@scene.sota_map_url, target: '_blank', class: 'inline-flex items-center gap-x-1') do
             View map of <strong>#{@scene.name}</strong>
-            = icon_external_link
+            = render Components::Icons::ExternalLink.new
 
         - parent, scene = @scene.parent, @scene
         - while parent && scene.has_parent_location_info?
           %p
-            = link_to(scene.sota_map_in_parent_url, target: '_blank') do
+            = link_to(scene.sota_map_in_parent_url, target: '_blank', class: 'inline-flex items-center gap-x-1') do
               View location of <strong>#{scene.name}</strong> in <strong>#{parent.name}</strong>
-              = icon_external_link
+              = render Components::Icons::ExternalLink.new
           - parent, scene = parent.parent, parent
 
 .grid.grid-cols-6

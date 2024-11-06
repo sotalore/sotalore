@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = [ "rift" ]
+  static targets = ["rift"]
 
   single_duration = (8 * 60) + 45;
   full_cycle = ((8 * 60) + 45) * 8;
@@ -23,10 +23,10 @@ export default class extends Controller {
       let idx = parseInt(rift.dataset.index, 10)
       let w = this.where_is(idx, e);
       if (w < 0) {
-        rift.classList.add('active')
+        rift.classList.add('lunar-rift-active')
         rift.querySelector('div').innerHTML = this.minutes_and_seconds(-1 * w)
       } else {
-        rift.classList.remove('active')
+        rift.classList.remove('lunar-rift-active')
         rift.querySelector('div').innerHTML = this.minutes_and_seconds(w)
       }
     }
@@ -45,7 +45,7 @@ export default class extends Controller {
   }
 
   elapsed() {
-    let now =  Math.floor(new Date().getTime() / 1000)
+    let now = Math.floor(new Date().getTime() / 1000)
     return (now - this.epoch) % this.full_cycle
   }
 

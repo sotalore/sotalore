@@ -27,7 +27,7 @@
           %tr
             %td= link_to(scene.name, scene)
             %td= scene_level(scene)
-            %td= icon_badge_check if scene.pvp
+            %td= render(Components::Icons::BadgeCheck.new) if scene.pvp
             %td= scene.region
             %td= scene.scene_type
             - if policy(Scene).edit?

@@ -24,6 +24,8 @@ Rails.application.routes.draw do
         get :forms
         get :tiles
         get :phlex
+        get :items
+        get :icons
       end
     end
   end

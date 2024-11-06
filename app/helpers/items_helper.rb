@@ -23,23 +23,6 @@ module ItemsHelper
   }.freeze
 
   USES_FOR_RECIPES = %w[ fuel tool ]
-  def item_use_for_recipe_tag(item, options={})
-    return unless USES_FOR_RECIPES.include?(item.use)
-    item_use_tag(item, options)
-  end
-
-  def item_use_tag(item, options={})
-    return nil if item.use_is_unknown? && options[:hide_unknown]
-    if icon = USE_ICONS[item.use]
-      label = item.use_is_unknown? ? 'unknown use' : item.use
-      css_class = "Item-useTag Item-useTag--#{item.use}"
-      css_class += " Item-useTag--large" if options[:large]
-      icon_size = options[:large] ? :md : :xs
-      content_tag(:span, class: css_class) do
-        render_icon(icon, size: icon_size, color: :current) + " " + label
-      end
-    end
-  end
 
   SOURCE_ICONS = {
     'unknown' => 'question',
@@ -50,26 +33,47 @@ module ItemsHelper
   }.freeze
 
   def item_price_tag(item, options={})
-    if item.price
-      price = item.price
-      price = price * options[:count] if options.key?(:count)
-      css_class = "Item-priceTag"
-      css_class += " Item-priceTag--large" if options[:large]
-      content_tag(:span, class: css_class) do
-        content_tag(:span, price, class: "Item-priceTag-price") +
-          content_tag(:span, raw('&nbsp;gold'), class: "Item-priceTag-symbol")
-      end
+    return unless item.price
+
+    price = item.price
+    price = price * options[:count] if options.key?(:count)
+    tag.span(class: item_css('text-golden-700', options)) do
+      tag.span { safe_join([price.to_s, raw('&nbsp;gold')]) }
     end
   end
 
   def item_weight_tag(item, options={})
-    if item.weight
-      weight = item.weight
-      css_class = "Item-weightTag"
-      css_class += " Item-weightTag--large" if options[:large]
-      content_tag(:span, class: css_class) do
-        content_tag(:span, "weight: #{weight}", class: "Item-weightTag-weight")
-      end
+    return unless item.weight
+
+    tag.span(class: item_css('text-grey-700', options)) do
+      tag.span { "weight: #{item.weight}" }
+    end
+  end
+
+  def item_abstract_tag(item, options={})
+    return unless item.abstract
+
+    icon_size = options[:large] || options[:size] == :lg ? :md : :xs
+    tag.span(href: abstractions_url, class: item_css('text-sky-800 inline-flex gap-x-1', options)) do
+      render_icon(:rectangles, size: icon_size, color: :current) + tag.span{ 'abstract' }
+    end
+  end
+
+  def item_use_for_recipe_tag(item, options={})
+    return unless USES_FOR_RECIPES.include?(item.use)
+
+    item_use_tag(item, options)
+  end
+
+  def item_use_tag(item, options={})
+    return if item.use_is_unknown? && options[:hide_unknown]
+    return unless icon = USE_ICONS[item.use]
+
+    label = item.use_is_unknown? ? 'unknown use' : item.use
+    icon_size = options[:large] || options[:size] == :lg ? :md : :xs
+    tag.span(class: item_css('text-sky-700 inline-flex gap-x-1', options)) do
+      render_icon(icon, size: icon_size, color: :current) +
+        tag.span { label }
     end
   end
 
@@ -77,44 +81,68 @@ module ItemsHelper
     craft_skill_tag(item.gathering_skill, options)
   end
 
-  def item_abstract_tag(item, options={})
-    if item.abstract
-      css_class = "Item-abstractTag"
-      css_class += " Item-abstractTag--large" if options[:large]
-      icon_size = options[:large] ? :md : :xs
-      content_tag(:a, href: abstractions_url) do
-        content_tag(:span, class: css_class) do
-          render_icon(:rectangles, size: icon_size) + " " + content_tag(:span, 'abstract', class: "Item-abstractTag-abstract")
-        end
-      end
+  GATHERING_IMGS = {
+    'field_dressing' => 'sota-icons/craft_field_dressing_small.png',
+    'foraging' => 'sota-icons/craft_foraging_small.png',
+    'forestry' => 'sota-icons/craft_forestry_small.png',
+    'mining' => 'sota-icons/craft_mining_small.png',
+  }.freeze
+
+  def craft_skill_image_tag(skill, options={})
+    img = GATHERING_IMGS[skill.to_param]
+    return unless img
+
+    if options[:large] || options[:size] == :lg
+      sizes = 'h-6 w-6'
+    else
+      sizes = 'h-5 w-5'
     end
+    tag.img(src: image_path(img), class: sizes)
   end
 
   def craft_skill_tag(skill, options={})
-    if skill
-      css_class = "Item-gatheringTag"
-      css_class += " Item-gatheringTag--#{skill.to_param}"  if skill
-      css_class += " Item-gatheringTag--large" if options[:large]
-      name = skill&.name || 'unknown'
-      content_tag(:span, class: css_class) do
-        content_tag(:span, name, class: "Item-gatheringTag-name")
-      end
+    return unless skill
+
+    name = skill&.name || 'unknown'
+    tag.span(class: item_css('text-green-700 inline-flex items-center gap-x-1', options)) do
+      [
+        craft_skill_image_tag(skill, options),
+        tag.span { name }
+      ].compact.join.html_safe
     end
   end
 
-  def item_use_specific_tags(item)
+  def item_use_specific_tags(item, options={})
     case item.use
     when 'seed'
-      generic_item_use_tag('yield: ', item.yield)
+      generic_item_use_tag('yield: ', item.yield, options)
     when 'food', 'pet-food'
-      generic_item_use_tag('buff slots used: ', item.buff_slots_used)
+      generic_item_use_tag('buff slots used: ', item.buff_slots_used, options)
     end
   end
 
-  def generic_item_use_tag(label, value)
-    css_class = "Item-useTag Item-useTag--large"
-    content_tag(:span, class: css_class) do
+  private
+
+  def generic_item_use_tag(label, value, options={})
+    content_tag(:span, class: item_css('text-sky-700', options)) do
       h(label) + content_tag(:strong, value)
     end
   end
+
+  ITEM_TAG_CSS_BASE = %w[
+    bg-grey-200 border border-grey-300 rounded-full
+    self-center inline-flex items-center whitespace-nowrap
+  ].join(' ').freeze
+
+  def item_css(extra=nil, options={})
+    css = [ITEM_TAG_CSS_BASE]
+    if options[:large] || options[:size] == :lg
+      css << 'px-2.5 py-0.5 text-base'
+    else
+      css << 'px-1.5 py-0 text-sm'
+    end
+    css << extra if extra
+    css.compact.join(' ')
+  end
+
 end
