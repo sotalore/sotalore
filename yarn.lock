@@ -1340,7 +1340,7 @@ postcss-custom-media@^11.0.4:
     "@csstools/css-tokenizer" "^3.0.2"
     "@csstools/media-query-list-parser" "^4.0.1"
 
-postcss-custom-properties@^14.0.1, postcss-custom-properties@^14.0.3:
+postcss-custom-properties@^14.0.3:
   version "14.0.3"
   resolved "https://registry.yarnpkg.com/postcss-custom-properties/-/postcss-custom-properties-14.0.3.tgz#f5db2cb38b6547ecf2155114ae7f9a43c25473ff"
   integrity sha512-zCc5y6cilcZXld3RK0glb5OR9p6i/54ro7Dul2drDI7kLCIZC1uiblHGociomp2fwBet3kRFf9DpG4lJtz5yhw==
