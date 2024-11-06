@@ -27,27 +27,6 @@
       = notice_success("This is notice success message")
       = notice_warning("This is notice warning message")
 
-= tile_with_heading('Icons') do
-  .flex.flex-row.flex-wrap
-    - HeroIconHelper::ICONS.keys.each do |icon|
-      .flex.flex-col.inline-block.text-center.p-2.m-2.border.rounded
-        %div= render_icon(icon)
-        %div= icon
-
-
-  %h3 Icon Variations
-  .flex.flex-row
-    - HeroIconHelper::SIZES.keys.each do |size|
-      .flex.flex-col.inline-block.text-center.p-2.m-2.border.rounded
-        %div= icon_book(size: size, color: :orange)
-        %div= size
-
-  .flex.flex-row
-    - HeroIconHelper::COLORS.keys.each do |color|
-      %div{ class: "flex flex-col inline-block text-center p-2 m-2 border rounded #{'text-white bg-grey-700' if color == 'white'}" }
-        %div= icon_book(size: :md, color: color)
-        %div= color
-
 = tile do
   %h3 Tailwind Colors
   - shades = (1..9).to_a.map { |i| "#{i * 100}" }

@@ -18,4 +18,12 @@ class Adm::StylesController < AdmController
   def phlex
     render Views::Adm::Styles::Phlex.new
   end
+
+  def items
+    render Views::Adm::Styles::Items.new
+  end
+
+  def icons
+    render Views::Adm::Styles::Icons.new
+  end
 end
