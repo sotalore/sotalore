@@ -19,9 +19,7 @@ module SkillsHelper
       path = ignore_avatar_skill_path(@avatar, skill.id, **show_all_param)
     end
 
-    tag.div(class: 'inline-flex items-center') do
-      button_to(icon, path, class: 'text-slorange-500', method: :patch, tabindex: "-1", form: { class: 'inline'})
-    end
+    button_to(icon, path, class: 'inline-flex items-center text-slorange-500', method: :patch, tabindex: "-1", form: { class: 'flex flex-row items-center'})
   end
 
   def current_skills_path(activity: 'adventuring')
