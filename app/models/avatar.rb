@@ -27,4 +27,15 @@ class Avatar < ApplicationRecord
     self.save!
   end
 
+  # This preloads skills, to be used when viewing them all
+  def current_skills
+    unless @current_skills
+      @current_skills = Hash.new(EarnedSkill.new)
+      skills.each do |earned_skill|
+        @current_skills[earned_skill.skill_key] = earned_skill
+      end
+    end
+    @current_skills
+  end
+
 end

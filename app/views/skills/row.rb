@@ -7,10 +7,10 @@ class Views::Skills::Row < Views::Base
 
   register_output_helper :toggle_skill_button
 
-  def initialize(skill, avatar, current_skill)
+  def initialize(skill, avatar, current_skill=nil)
     @skill = skill
     @avatar = avatar
-    @current_skill = current_skill
+    @current_skill = current_skill || avatar.current_skills[skill.key]
   end
 
   def view_template
