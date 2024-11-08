@@ -5,7 +5,7 @@ import { formatXP } from "../lib/util"
 export default class extends Controller {
   static values = { xpFactor: Number, avatarUpdateUrl: String }
 
-  static targets = [ 'from', 'to', 'current', 'total', 'remaining' ]
+  static targets = ['from', 'to', 'current', 'total', 'remaining']
 
   static maxLevel = 32767
 
@@ -48,7 +48,7 @@ export default class extends Controller {
       this.element.dataset[field] = xp
     } else {
       delete this.element.dataset[field]
-      targetElement.innerHTML = formatXP('')
+      targetElement.innerHTML = formatXP('&nbsp;')
     }
     const event = new CustomEvent('skill:change', { bubbles: true })
     this.element.dispatchEvent(event)
@@ -63,7 +63,7 @@ export default class extends Controller {
     if (level === 0) {
       return 0
     }
-    return (this.xpFactorValue * (Math.ceil(((1.099711**(level-1)) - 1) * 100)))
+    return (this.xpFactorValue * (Math.ceil(((1.099711 ** (level - 1)) - 1) * 100)))
   }
 
   updateFrom(event) {
@@ -73,7 +73,7 @@ export default class extends Controller {
 
     const newVal = this.fromTarget.value
     if (newVal !== this.originalFromValue) {
-      this.updateEarnedSkill({'current': this.fromTarget.value})
+      this.updateEarnedSkill({ 'current': this.fromTarget.value })
       this.originalFromValue = newVal
     }
   }
@@ -85,7 +85,7 @@ export default class extends Controller {
 
     const newVal = this.toTarget.value
     if (newVal !== this.originalToValue) {
-      this.updateEarnedSkill({'target': this.toTarget.value})
+      this.updateEarnedSkill({ 'target': this.toTarget.value })
       this.originalToValue = newVal
     }
   }
