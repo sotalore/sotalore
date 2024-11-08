@@ -4,8 +4,8 @@
 
   = render partial: 'page_heading', locals: {with_avatar_controls: true}
 
-  .SkillTable.mt-0{id: 'skillTable', data: { controller: 'skills-rollup' }}
-    .tableRow.bg-white.font-bold.stickOne
+  .SkillTable.mt-0.bg-grey-100{id: 'skillTable', data: { controller: 'skills-rollup' }}
+    .tableRow.bg-white.font-bold.sticky.top-0
       .skillCell.flex.flex-row.items-baseline
         %span.shrink.mr-1
           Skill
@@ -24,7 +24,7 @@
         .xp Total XP
       .remainingXPCell Needed XP
 
-    .tableRow.bg-parchment-double-shaded.stickTwo{id: 'totals'}
+    .tableRow.bg-parchment-double-shaded.static.md:sticky.md:top-10{id: 'totals'}
       .skillCell= @activity.upcase
       .xpCell.currentCell
         .xp.currentXP
@@ -33,7 +33,7 @@
       .remainingXPCell.remainingXP
 
     - @skills.each do |category, schools|
-      .tableRow.bg-parchment-shaded.stickThree{id: category, data: {
+      .tableRow.bg-parchment-shaded.static.md:sticky.md:top-20{id: category, data: {
             'skills-rollup-target': 'member',
             'rollup-target': 'totals'
           } }

@@ -9,8 +9,6 @@
 @import "./components/buttons.css";
 @import "./components/fields.css";
 
-@import "./components/skills.css";
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -287,5 +285,46 @@
   .Pagination-page.is-active a,
   .Pagination-page a[href]:hover {
     @apply bg-grey-300 z-10 no-underline;
+  }
+
+  /* Skills */
+  .SkillTable input[type="number"]::-webkit-inner-spin-button,
+  .SkillTable input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .SkillTable input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  .SkillTable .tableRow {
+    @apply flex flex-row flex-wrap items-center w-full border-b border-grey-300;
+  }
+
+  .SkillTable .skillCell {
+    @apply px-2 py-1 md:py-2 basis-1/2 md:basis-auto grow;
+  }
+
+  .SkillTable .xpCell {
+    @apply flex flex-row items-center justify-between;
+    @apply px-2 py-1 md:py-2 w-full md:w-56 border-l border-grey-300;
+  }
+
+  .SkillTable .xpCell input {
+    @apply w-16 h-8 rounded-sm text-right;
+  }
+
+  .SkillTable .xpCell input.error {
+    @apply text-red-500 border-red-500;
+  }
+
+  .SkillTable .xpCell .xp {
+    @apply basis-1/2 grow text-right;
+  }
+
+  .SkillTable .remainingXPCell {
+    @apply px-2 py-1 md:py-2 text-right md:border-l border-grey-300;
+    @apply basis-full md:basis-auto md:w-36;
   }
 }
