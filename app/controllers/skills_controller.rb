@@ -28,12 +28,14 @@ class SkillsController < ApplicationController
   def ignore
     skill = Skill.find(params[:id])
     @avatar.ignore_skill!(skill)
+    current_skill = @avatar.skills.find_by(skill_key: skill.key)
 
     respond_to do |format|
       format.html { redirect_to avatar_skills_path(@avatar) }
       format.turbo_stream do
         if params.key?(:show_all)
-          render turbo_stream: turbo_stream.replace(skill, partial: 'skills/skill_row', locals: { skill: skill })
+          render turbo_stream: turbo_stream
+            .replace(skill, Views::Skills::Row.new(skill, @avatar, current_skill))
         else
           render turbo_stream: turbo_stream.remove(skill)
         end
@@ -44,11 +46,13 @@ class SkillsController < ApplicationController
   def reveal
     skill = Skill.find(params[:id])
     @avatar.reveal_skill!(skill)
+    current_skill = @avatar.skills.find_by(skill_key: skill.key)
 
     respond_to do |format|
       format.html { redirect_to avatar_skills_path(@avatar, show_all: true) }
       format.turbo_stream {
-        render turbo_stream: turbo_stream.replace(skill, partial: 'skills/skill_row', locals: { skill: skill })
+        render turbo_stream: turbo_stream
+          .replace(skill, Views::Skills::Row.new(skill, @avatar, current_skill))
       }
     end
   end
@@ -59,24 +63,12 @@ class SkillsController < ApplicationController
   end
 
   def setup_avatar
-    @current_skills = Hash.new(EarnedSkill.new)
-    if current_user.not_null?
-      if params[:avatar_id] == 'none'
-        avatar_id = nil
-      else
-        avatar_id = params[:avatar_id]
-      end
+    return if current_user.null?
 
-      # Set @avatars for select in page heading
-      @avatars = current_user.avatars
-      @avatar = @avatars.find(avatar_id) if avatar_id
-      if @avatar
-        session[:current_avatar_id] = @avatar.id
-        @avatar.skills.each do |earned_skill|
-          @current_skills[earned_skill.skill_key] = earned_skill
-        end
-      end
-    end
+    # Set @avatars for select in page heading
+    @avatars = current_user.avatars
+    @avatar = @avatars.find(params[:avatar_id]) unless params[:avatar_id] == 'none'
+    session[:current_avatar_id] = @avatar.id if @avatar
   end
 
   def other_activity
