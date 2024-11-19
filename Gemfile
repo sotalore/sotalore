@@ -4,7 +4,7 @@ ruby "3.3.6"
 
 gem "ostruct" # silence deprecation warning
 
-gem 'rails', '~> 7.2.0'
+gem 'rails', '~> 8.0.0'
 gem 'propshaft'
 gem 'pg'
 gem 'puma', '~> 6.0'
