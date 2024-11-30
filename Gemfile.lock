@@ -1,16 +1,16 @@
 GIT
   remote: https://github.com/phlex-ruby/phlex-rails.git
-  revision: 80388e7c1a5ba53f11e8de45eeb250bb99bc9060
+  revision: 4cd9cb311fc77674b9733a83b12edec3db88e4b4
   specs:
-    phlex-rails (2.0.0.beta2)
-      phlex (= 2.0.0.beta2)
+    phlex-rails (2.0.0.rc1)
+      phlex (= 2.0.0.rc1)
       railties (>= 6.1, < 9)
 
 GIT
   remote: https://github.com/phlex-ruby/phlex.git
-  revision: f02859abaf1397d4df37c23b12646d47a55e5b46
+  revision: 6384c957b3f7854e8d50f9d46fc910185973d62e
   specs:
-    phlex (2.0.0.beta2)
+    phlex (2.0.0.rc1)
 
 GEM
   remote: https://rubygems.org/
@@ -93,8 +93,8 @@ GEM
       public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.1010.0)
-    aws-sdk-core (3.213.0)
+    aws-partitions (1.1014.0)
+    aws-sdk-core (3.214.0)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
@@ -102,7 +102,7 @@ GEM
     aws-sdk-kms (1.96.0)
       aws-sdk-core (~> 3, >= 3.210.0)
       aws-sigv4 (~> 1.5)
-    aws-sdk-s3 (1.172.0)
+    aws-sdk-s3 (1.174.0)
       aws-sdk-core (~> 3, >= 3.210.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.5)
@@ -181,7 +181,7 @@ GEM
       haml (>= 4.0.6)
       railties (>= 5.1)
     hashie (5.0.0)
-    honeybadger (5.23.0)
+    honeybadger (5.26.0)
       logger
     hotwire-livereload (1.4.1)
       actioncable (>= 6.0.0)
@@ -244,7 +244,7 @@ GEM
     method_source (1.1.0)
     mini_magick (4.13.2)
     mini_mime (1.1.5)
-    minitest (5.25.1)
+    minitest (5.25.2)
     msgpack (1.7.5)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
@@ -304,13 +304,13 @@ GEM
     psych (5.2.0)
       stringio
     public_suffix (6.0.1)
-    puma (6.4.3)
+    puma (6.5.0)
       nio4r (~> 2.0)
     pundit (2.4.0)
       activesupport (>= 3.0.0)
     racc (1.8.1)
     rack (3.1.8)
-    rack-protection (4.1.0)
+    rack-protection (4.1.1)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
       rack (>= 3.0.0, < 4)
@@ -360,8 +360,8 @@ GEM
       redis-client (>= 0.22.0)
     redis-client (0.22.2)
       connection_pool
-    regexp_parser (2.9.2)
-    reline (0.5.11)
+    regexp_parser (2.9.3)
+    reline (0.5.12)
       io-console (~> 0.5)
     request_store (1.7.0)
       rack (>= 1.4)
