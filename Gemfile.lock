@@ -230,6 +230,17 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
+    logtail (0.1.13)
+      msgpack (~> 1.0)
+    logtail-rack (0.2.5)
+      logtail (~> 0.1)
+      rack (>= 1.2, < 4.0)
+    logtail-rails (0.2.8)
+      actionpack (>= 5.0.0)
+      activerecord (>= 5.0.0)
+      logtail (~> 0.1)
+      logtail-rack (~> 0.1)
+      railties (>= 5.0.0)
     loofah (2.23.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
@@ -452,6 +463,7 @@ DEPENDENCIES
   listen
   local_time
   lograge
+  logtail-rails
   omniauth-discord
   omniauth-rails_csrf_protection
   ostruct
