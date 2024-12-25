@@ -16,7 +16,7 @@ window.Stimulus.register('autocomplete', Autocomplete)
 import * as ActiveStorage from "@rails/activestorage"
 ActiveStorage.start()
 
-import Lightbox from "stimulus-lightbox"
+import Lightbox from "@stimulus-components/lightbox"
 
 import FarmingController from "./controllers/farming_controller"
 import ItemFormController from "./controllers/item_form_controller"
