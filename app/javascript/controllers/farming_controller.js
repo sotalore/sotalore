@@ -12,7 +12,6 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log(navigator.languages)
   }
 
   updateSeedTime(event) {
