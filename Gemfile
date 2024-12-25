@@ -47,6 +47,8 @@ gem 'scout_apm'
 gem "honeybadger", "~> 5.0"
 
 gem 'icalendar'
+gem 'csv'
+
 
 group :production do
   gem 'cloudflare-rails'
