@@ -14,7 +14,6 @@
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
     = javascript_include_tag 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true
     = action_cable_meta_tag
-    = hotwire_livereload_tags if Rails.env.development?
 
     %link(rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png")
     %link(rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png")

@@ -184,10 +184,10 @@ GEM
     hashie (5.0.0)
     honeybadger (5.26.1)
       logger
-    hotwire-livereload (1.4.1)
-      actioncable (>= 6.0.0)
-      listen (>= 3.0.0)
-      railties (>= 6.0.0)
+    hotwire-spark (0.1.12)
+      listen
+      rails (>= 7.0.0)
+      zeitwerk
     i18n (1.14.6)
       concurrent-ruby (~> 1.0)
     icalendar (2.10.3)
@@ -455,7 +455,7 @@ DEPENDENCIES
   guard-rspec
   haml-rails
   honeybadger (~> 5.0)
-  hotwire-livereload
+  hotwire-spark
   icalendar
   image_processing (>= 1.2)
   jsbundling-rails
