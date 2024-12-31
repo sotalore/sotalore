@@ -67,7 +67,7 @@ end
 
 group :development do
   gem 'guard-rspec', require: false
-  gem 'hotwire-livereload'
+  gem 'hotwire-spark'
   gem 'listen'
   gem 'guard'
   gem 'libnotify'
