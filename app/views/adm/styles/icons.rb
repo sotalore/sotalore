@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
-Dir[Rails.root.join('app/components/icons/*.rb')].each { |file| require file }
 
 class Views::Adm::Styles::Icons < Views::Base
+
   def view_template
+    Dir[Rails.root.join('app/components/icons/*.rb')].each { |file| require file }
+
     render Views::Adm::Styles::Menu.new
 
     Components::Tile(heading: 'Icons') do
