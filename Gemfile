@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby "3.4.1"
+ruby "3.4.2"
 
 gem "ostruct" # silence deprecation warning
 
@@ -29,8 +29,8 @@ gem 'logtail-rails'
 gem 'bootsnap'
 
 gem 'haml-rails'
-gem "phlex-rails", git: "https://github.com/phlex-ruby/phlex-rails.git"
-gem "phlex", git: "https://github.com/phlex-ruby/phlex.git"
+gem "phlex-rails"
+gem "phlex"
 
 gem 'kaminari'
 gem 'local_time'
