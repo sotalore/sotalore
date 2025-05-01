@@ -18,5 +18,51 @@ services:
           property: connectionString
       - key: RAILS_MASTER_KEY
         sync: false # You'll provide this value on Blueprint creation
+      - key: DISCORD_CLIENT_ID
+        sync: false
+      - key: DISCORD_CLIENT_SECRET
+        sync: false
+      - key: HONEYBADGER_API_KEY
+        sync: false
+      - key: LOGTAIL_SOURCE_TOKEN
+        sync: false
+      - key: R2_ACCESS_KEY_ID
+        sync: false
+      - key: R2_BUCKET
+        sync: false
+      - key: R2_ENDPOINT
+        sync: false
+      - key: R2_SECRET_ACCESS_KEY
+        sync: false
+      - key: RAILS_LOG_TO_STDOUT
+        sync: false
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: SCOUT_KEY
+        sync: false
+      - key: SCOUT_MONITOR
+        sync: false
+      - key: SECRET_KEY_BASE
+        sync: false
+      - key: SMTP_ADDRESS
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_USERNAME
+        sync: false
+      - key: TURNSTILE_SECRET_KEY
+        sync: false
+      - key: TURNSTILE_SITE_KEY
+        sync: false
+      - key: JEMALLOC_ENABLED
+        value: true
+      - key: RAILS_SERVE_STATIC_FILES
+        value: enabled
+      - key: RACK_ENV
+        value: production
+      - key: RAILS_ENV
+        value: production
+      - key: AWS_REGION
+        value: auto
       - key: WEB_CONCURRENCY
         value: 2 # Recommended default
