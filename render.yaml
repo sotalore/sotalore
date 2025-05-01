@@ -1,0 +1,22 @@
+databases:
+  - name: sotalore-db
+    plan: free
+    region: virginia
+services:
+  - type: web
+    name: sotalore
+    runtime: ruby
+    plan: free
+    region: virginia
+    buildCommand: './bin/render-build.sh'
+    # preDeployCommand: "bundle exec rails db:migrate" # preDeployCommand only available on paid instance types
+    startCommand: './bin/rails server'
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: sotalore-db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false # You'll provide this value on Blueprint creation
+      - key: WEB_CONCURRENCY
+        value: 2 # Recommended default
