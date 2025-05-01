@@ -41,7 +41,7 @@ services:
       - key: SCOUT_KEY
         sync: false
       - key: SCOUT_MONITOR
-        sync: false
+        value: true
       - key: SECRET_KEY_BASE
         sync: false
       - key: SMTP_ADDRESS
