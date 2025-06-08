@@ -43,7 +43,6 @@ gem 'pg_search'
 gem 'pundit'
 gem 'faraday'
 
-gem 'scout_apm'
 gem "honeybadger", "~> 5.0"
 
 gem 'icalendar'
