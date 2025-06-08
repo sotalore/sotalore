@@ -77,7 +77,6 @@ GEM
       uri (>= 0.13.1)
     addressable (2.8.7)
       public_suffix (>= 2.0.2, < 7.0)
-    ast (2.4.3)
     aws-eventstream (1.4.0)
     aws-partitions (1.1110.0)
     aws-sdk-core (3.225.0)
@@ -296,9 +295,6 @@ GEM
       actionpack (>= 4.2)
       omniauth (~> 2.0)
     ostruct (0.6.1)
-    parser (3.3.8.0)
-      ast (~> 2.4.1)
-      racc
     pg (1.5.9)
     pg_search (2.3.7)
       activerecord (>= 6.1)
@@ -411,8 +407,6 @@ GEM
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
-    scout_apm (5.6.4)
-      parser
     securerandom (0.4.1)
     shellany (0.0.1)
     simplecov (0.22.0)
@@ -490,7 +484,6 @@ DEPENDENCIES
   redcarpet
   redis (~> 5.0)
   rspec-rails
-  scout_apm
   simplecov
   stimulus-rails
   turbo-rails
