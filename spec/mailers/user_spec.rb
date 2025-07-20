@@ -28,6 +28,22 @@ RSpec.describe UserMailer, type: :mailer do
         expect(body).to include(edit_user_password_reset_url(token: ''))
       end
     end
+
+    context 'Given a user without a password' do
+      before do
+        user.update_column(:encrypted_password, '')
+        user.reload
+      end
+
+      it "renders the mail" do
+        expect(mail.subject).to eq("Reset Your SotaLore Password")
+        expect(mail.to).to eq([user.email])
+        mail.body.parts.map(&:body).each do |body|
+          expect(body).to include(edit_user_password_reset_url(token: ''))
+        end
+      end
+
+    end
   end
 
 end
