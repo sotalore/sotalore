@@ -5,7 +5,7 @@ export default class extends Controller {
 
   connect() {
     if (typeof turnstile !== 'undefined') {
-      turnstile.implicitRender()
+      // turnstile.implicitRender()
     }
   }
 
