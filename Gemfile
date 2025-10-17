@@ -7,7 +7,7 @@ gem "ostruct" # silence deprecation warning
 gem 'rails', '~> 8.0.0'
 gem 'propshaft'
 gem 'pg'
-gem 'puma', '~> 6.0'
+gem 'puma', '>= 6.0'
 
 gem 'jsbundling-rails'
 gem "cssbundling-rails"
@@ -43,7 +43,7 @@ gem 'pg_search'
 gem 'pundit'
 gem 'faraday'
 
-gem "honeybadger", "~> 5.0"
+gem "honeybadger"
 
 gem 'icalendar'
 gem 'csv'
