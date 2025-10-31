@@ -8,20 +8,6 @@
     }
   }
 
-  .Form--inline {
-    display: flex;
-    align-items: flex-end;
-  }
-
-  .Form--inline .Form-actions {
-    flex: 0 1 auto;
-    margin-left: -7px;
-  }
-
-  .Form--inline .Field {
-    margin-right: 8px;
-  }
-
   .Form-errors {
     background: $red4;
     border: 1px solid $red3;
@@ -49,3 +35,19 @@
     margin-bottom: 11px;
   }
 }
+
+.Form--inline {
+  display: flex;
+  align-items: flex-end;
+
+  .Form-actions {
+    flex: 0 1 auto;
+    margin-left: -7px;
+  }
+
+  .Field {
+    margin-right: 8px;
+  }
+
+}
+
