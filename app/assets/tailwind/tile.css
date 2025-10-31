@@ -1,0 +1,70 @@
+.Tile {
+  @apply my-2 mx-1 border border-grey-300 bg-white shadow-md rounded;
+
+  .Tile-heading {
+    @apply px-2 flex flex-row flex-wrap items-center border-b border-grey-300;
+  }
+
+  .Tile-heading h3 {
+    @apply m-0 py-2;
+  }
+
+  .Tile-subheading {
+    @apply font-normal text-grey-500;
+  }
+
+  .Tile-controls {
+    @apply grow flex items-center justify-end my-2;
+  }
+
+  .Tile-controls .Button {
+    @apply ml-1;
+  }
+
+  .Tile-controls .Button--small,
+  .Tile-controls .Button--sm,
+  .Tile-controls .Button--xs {
+    @apply mr-1;
+  }
+
+  .Tile-body {
+    @apply p-2;
+
+    img {
+      @apply max-w-full;
+    }
+
+    > .Tile {
+      @apply mx-0;
+    }
+  }
+
+  p {
+    @apply m-0;
+  }
+
+  p + p {
+    @apply mt-2;
+  }
+
+  .Tile--info {
+    &,
+    .Tile-heading {
+      @apply border-purple-400 ;
+    }
+
+    .Tile-heading {
+      @apply border-purple-400 bg-purple-200 text-purple-500;
+
+      & > h3 {
+        @apply text-purple-500;
+        & > span {
+          @apply text-purple-500;
+        }
+      }
+    }
+  }
+  .Tile-body--info {
+    @apply bg-purple-200 border-purple-400 text-purple-500;
+  }
+}
