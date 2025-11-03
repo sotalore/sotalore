@@ -38,7 +38,7 @@ Rails.application.configure do
   # config.logger   = ActiveSupport::TaggedLogging.logger(STDOUT)
   config.logger = Logtail::Logger.create_default_logger(ENV['LOGTAIL_SOURCE_TOKEN'])
 
-  # Change to "debug" to log everything (including potentially personally-identifiable information!)
+  # Change to "debug" to log everything (including potentially personally-identifiable information!).
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
   config.lograge.enabled = true
 
