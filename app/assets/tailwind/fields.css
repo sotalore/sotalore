@@ -7,13 +7,11 @@
     flex: 1 1 auto;
   }
 
-  .Field--withSubmit {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: flex-end;
+  &.Field--withSubmit {
+    @apply flex flex-row items-end gap-x-2 flex-wrap;
 
     label {
-      flex: 1 100%;
+      @apply basis-full;
     }
 
     & > * {
@@ -67,13 +65,6 @@
       @apply border-grey-500 outline-0 shadow shadow-grey-200;
     }
 
-    /*
-    // Disabled and read-only inputs
-
-    // HTML5 says that controls under a fieldset > legend:first-child won't be
-    // disabled if the fieldset is disabled. Due to implementation difficulty, we
-    // don't honor that edge case; we style them as disabled anyway.
-    */
     &[disabled],
     &[readonly],
     fieldset[disabled] & {
@@ -114,43 +105,43 @@
     top: 2px;
   }
 
-  .Field--error {
+  &.Field--error {
     @apply text-red-500;
   }
 
-  &--error &-input {
+  &.Field--error .Field-input {
     @apply border-red-500 text-red-800 bg-red-100;
   }
 
-  &-error {
+  & .Field-error {
     position: relative;
     top: 2px;
     font-weight: bold;
   }
 
-  &-checkbox {
+  .Field-checkbox {
     cursor: pointer;
     display: block;
     font-weight: normal;
   }
 
-  &-checkboxPadding {
+  .Field-checkboxPadding {
     padding: 4px 0;
   }
 
-  &-checkboxPadding & {
+  .Field-checkboxPadding & {
     margin: 0;
   }
 
-  &-checkboxPadding &-checkboxPadding {
+  .Field-checkboxPadding .Field-checkboxPadding {
     padding: 0;
   }
 
-  &-checkbox input {
+  .Field-checkbox input {
     margin-right: 8px;
   }
 
-  &-required {
+  .Field-required {
     @apply text-red-500;
   }
 }
