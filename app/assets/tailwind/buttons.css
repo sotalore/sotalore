@@ -5,13 +5,13 @@
   @apply leading-5 min-w-16 font-normal;
   @apply border border-slorange-500 bg-transparent text-slorange-500;
 
-  &--sm,
-  &--xs,
-  &--small {
+  &.Button--sm,
+  &.Button--xs,
+  &.Button--small {
     @apply py-0 px-1 text-sm min-w-min;
   }
 
-  &--block {
+  .Button--block {
     @apply block w-full;
   }
 
@@ -26,7 +26,7 @@
     @apply bg-slorange-500 border-slorange-500 text-slorange-700;
   }
 
-  &--primary {
+  &.Button--primary {
     @apply bg-slorange-500 border-slorange-700 text-grey-100 drop-shadow-md;
 
     &:focus,
@@ -40,7 +40,7 @@
     }
   }
 
-  &--danger {
+  &.Button--danger {
     @apply bg-red-500 border-red-700 text-grey-100 drop-shadow-md;
 
     &:focus,
@@ -54,7 +54,7 @@
     }
   }
 
-  &--success {
+  &.Button--success {
     @apply bg-green-600 border-green-800 text-grey-100 drop-shadow-md;
 
     &:focus,
@@ -68,7 +68,7 @@
     }
   }
 
-  &--warning {
+  &.Button--warning {
     @apply bg-golden-700 border-golden-800 text-grey-100 drop-shadow-md;
 
     &:focus,
@@ -82,7 +82,7 @@
     }
   }
 
-  &--info {
+  &.Button--info {
     @apply bg-purple-700 border-purple-800 text-grey-100 drop-shadow-md;
 
     &:focus,

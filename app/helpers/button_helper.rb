@@ -19,7 +19,7 @@ module ButtonHelper
       options, path = path, label
       label = capture { yield }
     end
-    options = {style: 'primary'}.merge(options || {})
+    options = { style: 'primary' }.merge(options || {})
     add_button_css_classes(options)
     link_to(label, path, options)
   end
@@ -29,7 +29,7 @@ module ButtonHelper
       options, path = path, label
       label = capture { yield }
     end
-    options = {style: 'default'}.merge(options || {})
+    options = { style: 'default' }.merge(options || {})
     add_button_css_classes(options)
     link_to(label, path, options)
   end
@@ -69,14 +69,14 @@ module ButtonHelper
     options[:data] ||= {}
     options[:data][:turbo_method] ||= :delete
     options[:data][:turbo_confirm] = 'Are you sure?' unless options[:data].key?(:turbo_confirm)
-    simple_button_with_icon(label, path, 'trash', {style: 'danger'}.merge(options))
+    simple_button_with_icon(label, path, 'trash', { style: 'danger' }.merge(options))
   end
 
   def destroy_icon_to(path, options={})
     options[:data] ||= {}
     options[:data][:turbo_method] ||= :delete
     options[:data][:turbo_confirm] = 'Are you sure?' unless options[:data].key?(:turbo_confirm)
-    simple_icon_only_button(path, 'trash', 'delete', {style: 'danger'}.merge(options))
+    simple_icon_only_button(path, 'trash', 'delete', { style: 'danger' }.merge(options))
   end
 
   def simple_icon_only_button(path, icon, title=nil, options={})
@@ -130,6 +130,8 @@ module ButtonHelper
   end
 
   def icon_plus_label(icon, label)
-    render_icon(icon, size: :sm) + " #{label}".html_safe
+    tag.span(class: 'inline-flex items-center gap-x-1') do
+      render_icon(icon, size: :sm) + " #{label}".html_safe
+    end
   end
 end

@@ -1,5 +1,5 @@
 .Form {
-  &-actions {
+  .Form-actions {
     display: flex;
     justify-content: flex-end;
 
@@ -8,21 +8,7 @@
     }
   }
 
-  &--inline {
-    display: flex;
-    align-items: flex-end;
-  }
-
-  &--inline &-actions {
-    flex: 0 1 auto;
-    margin-left: -7px;
-  }
-
-  &--inline .Field {
-    margin-right: 8px;
-  }
-
-  &-errors {
+  .Form-errors {
     background: $red4;
     border: 1px solid $red3;
     color: $red1;
@@ -35,7 +21,7 @@
     }
   }
 
-  &-legend {
+  .Form-legend {
     display: block;
     width: 100%;
     font-weight: bold;
@@ -43,9 +29,25 @@
     padding: 12px 0;
   }
 
-  &-fieldset {
+  .Form-fieldset {
     padding-bottom: 11px;
     border-bottom: 2px solid $grey7;
     margin-bottom: 11px;
   }
 }
+
+.Form--inline {
+  display: flex;
+  align-items: flex-end;
+
+  .Form-actions {
+    flex: 0 1 auto;
+    margin-left: -7px;
+  }
+
+  .Field {
+    margin-right: 8px;
+  }
+
+}
+

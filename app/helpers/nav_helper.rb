@@ -3,13 +3,13 @@
 module NavHelper
 
   def site_nav_link_to(text, url, icon, options={})
-
     options = {
       active: options.fetch(:active, nil),
       class: "site-nav-link",
       class_active: "is-active",
       alt: text,
       title: text,
+      data: options.fetch(:data, {})
     }
 
     if defined?(@portal_nav_active_link)

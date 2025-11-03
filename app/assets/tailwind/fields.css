@@ -1,0 +1,147 @@
+.Field {
+  margin-bottom: 16px;
+  position: relative;
+
+  .Form--inline & {
+    margin-bottom: 0;
+    flex: 1 1 auto;
+  }
+
+  &.Field--withSubmit {
+    @apply flex flex-row items-end gap-x-2 flex-wrap;
+
+    label {
+      @apply basis-full;
+    }
+
+    & > * {
+      flex: 1 0px;
+    }
+
+    & :last-child {
+      flex: 0 1 auto;
+    }
+  }
+
+  select[multiple] {
+    height: 32px;
+  }
+
+  select optgroup{
+    @apply text-grey-500;
+
+    option {
+      @apply text-grey-700;
+      padding-left: 15px;
+    }
+  }
+
+  div.date-select {
+    select {
+      display: inline;
+      max-width: 32%;
+    }
+  }
+
+  .Field-label {
+    display: block;
+    max-width: 100%;
+    font-weight: 500;
+    position: relative;
+    top: -2px;
+  }
+
+  .Field-input {
+    @apply text-grey-700 bg-white border border-grey-300;
+    display: block;
+    width: 100%;
+    height: 32px;
+    padding: 4px 8px;
+    font-size: 16px;
+    line-height: 22px;
+    border-radius: 3px;
+
+    &:focus {
+      @apply border-grey-500 outline-0 shadow shadow-grey-200;
+    }
+
+    &[disabled],
+    &[readonly],
+    fieldset[disabled] & {
+      @apply text-grey-500 bg-grey-200;
+      opacity: 1; /* iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655 */
+    }
+
+    &[disabled],
+    fieldset[disabled] & {
+      cursor: not-allowed;
+    }
+
+    .Field--numeric {
+      text-align: right;
+    }
+  }
+
+  textarea {
+    height: auto;
+    min-height: 104px;
+    line-height: 24px;
+    padding: 3px 8px;
+  }
+
+  &-group {
+    position: relative;
+  }
+
+  &-group &-input {
+    padding-left: 40px;
+  }
+
+  &-hint {
+    @apply text-grey-500;
+    font-size: 14px;
+    display: block;
+    position: relative;
+    top: 2px;
+  }
+
+  &.Field--error {
+    @apply text-red-500;
+  }
+
+  &.Field--error .Field-input {
+    @apply border-red-500 text-red-800 bg-red-100;
+  }
+
+  & .Field-error {
+    position: relative;
+    top: 2px;
+    font-weight: bold;
+  }
+
+  .Field-checkbox {
+    cursor: pointer;
+    display: block;
+    font-weight: normal;
+  }
+
+  .Field-checkboxPadding {
+    padding: 4px 0;
+  }
+
+  .Field-checkboxPadding & {
+    margin: 0;
+  }
+
+  .Field-checkboxPadding .Field-checkboxPadding {
+    padding: 0;
+  }
+
+  .Field-checkbox input {
+    margin-right: 8px;
+  }
+
+  .Field-required {
+    @apply text-red-500;
+  }
+}

@@ -10,7 +10,7 @@ gem 'pg'
 gem 'puma', '>= 6.0'
 
 gem 'jsbundling-rails'
-gem "cssbundling-rails"
+gem "tailwindcss-rails"
 
 gem 'turbo-rails'
 gem 'stimulus-rails'

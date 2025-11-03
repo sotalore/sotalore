@@ -126,8 +126,6 @@ GEM
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
     crass (1.0.6)
-    cssbundling-rails (1.4.3)
-      railties (>= 6.0.0)
     csv (3.3.5)
     date (3.5.0)
     diff-lcs (1.6.2)
@@ -465,6 +463,10 @@ GEM
     stimulus-rails (1.3.4)
       railties (>= 6.0.0)
     stringio (3.1.7)
+    tailwindcss-rails (4.4.0)
+      railties (>= 7.0.0)
+      tailwindcss-ruby (~> 4.0)
+    tailwindcss-ruby (4.1.16-x86_64-linux-gnu)
     temple (0.10.4)
     thor (1.4.0)
     tilt (2.6.1)
@@ -500,7 +502,6 @@ DEPENDENCIES
   brakeman
   capybara
   cloudflare-rails
-  cssbundling-rails
   csv
   factory_bot_rails
   faraday
@@ -535,6 +536,7 @@ DEPENDENCIES
   rubocop-rails-omakase
   simplecov
   stimulus-rails
+  tailwindcss-rails
   turbo-rails
 
 RUBY VERSION

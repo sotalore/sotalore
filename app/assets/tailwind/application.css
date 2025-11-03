@@ -1,0 +1,326 @@
+@import "tailwindcss";
+
+@import "./theme";
+@import "./tile";
+@import "./forms";
+@import "./buttons";
+@import "./fields";
+
+
+@plugin '@tailwindcss/forms';
+
+@layer base {
+  html {
+    @apply text-grey-800 font-sans;
+  }
+
+  h1 {
+    @apply text-2xl md:text-4xl m-4 text-grey-800 font-bold;
+  }
+  h2 {
+    @apply text-xl md:text-2xl m-4 text-grey-800 font-semibold;
+  }
+  h3 {
+    @apply text-xl m-4 text-grey-800 font-medium;
+  }
+  h4 {
+    @apply text-lg m-4 text-grey-800 font-medium italic;
+  }
+  h5 {
+    @apply m-4 text-grey-800 font-medium italic;
+  }
+  h6 {
+    @apply text-sm m-4 text-grey-800 font-medium italic;
+  }
+
+  p {
+    @apply mb-4;
+  }
+
+  a {
+    @apply text-orange-700;
+  }
+
+  table {
+    @apply my-4 w-full border-y-2 border-grey-400;
+  }
+  th {
+    @apply p-2 font-semibold text-left;
+  }
+  tbody > tr {
+    @apply hover:bg-grey-200 border-b border-grey-300;
+  }
+  tbody > tr > td {
+    @apply p-2;
+  }
+}
+
+@layer components {
+  .site-nav-link {
+    @apply flex flex-row gap-2 items-center justify-center lg:justify-start;
+    @apply p-2 text-zinc-200 font-medium whitespace-nowrap;
+    @apply hover:bg-slorange-600;
+  }
+
+  .site-nav-link.is-active {
+    @apply bg-slorange-800;
+  }
+
+  .UserRecipeStar i::before {
+    @apply text-2xl text-slorange-500 not-italic;
+  }
+  .UserRecipeStar--exists i::before {
+    content: '★';
+  }
+  .UserRecipeStar:not(.UserRecipeStar--exists) i::before {
+    content: '☆';
+  }
+
+  .Comment {
+    @apply border border-grey-300 mb-6 text-grey-700 shadow-md;
+  }
+
+  .Comment-author {
+    @apply border-b border-grey-300 px-2 py-1 flex flex-row flex-wrap gap-2;
+  }
+
+  .Comment-authorName {
+    @apply flex-grow whitespace-nowrap text-ellipsis;
+  }
+
+  .Comment-subject {
+    @apply text-lg flex-grow whitespace-nowrap text-ellipsis;
+  }
+
+  .Comment-authorTime {
+    @apply text-sm opacity-50 italic;
+  }
+
+  .farming-plan-table {
+    @apply grid grid-cols-12 auto-cols-min w-max;
+  }
+
+  .farming-plan-label {
+    @apply col-span-12 md:col-span-2 font-semibold whitespace-nowrap;
+  }
+
+  .farming-plan-data {
+    @apply col-span-12 md:col-span-10 mb-2 md:mb-1 whitespace-nowrap;
+  }
+
+  .watering-window {
+    @apply flex flex-wrap;
+  }
+
+  .water-start {
+    @apply basis-full md:basis-1_4 md:flex-none shrink pl-8 md:pl-0 md:col-span-5 md:text-right md:pr-4 whitespace-nowrap;
+  }
+
+  .water-end {
+    @apply basis-full md:basis-1_4 grow md:col-span-5 whitespace-nowrap;
+  }
+
+  .water-end:before {
+    @apply pr-4;
+    content: "\2192";
+  }
+
+  /* Autocomplete (and Glogal Search, specifically) */
+  .autocomplete-suggestions {
+    @apply absolute z-10 list-none bg-grey-200 border border-grey-300 overflow-auto;
+  }
+
+  .autocomplete-suggestions .autocomplete-suggestion {
+    @apply cursor-pointer px-4 py-1 whitespace-nowrap overflow-hidden;
+  }
+
+  .autocomplete-suggestions .autocomplete-suggestion.active {
+    @apply bg-grey-300;
+  }
+
+  .global-search .global-search-results {
+    @apply -mt-2 ml-4 p-2 bg-grey-100 border-2 border-slorange-700 drop-shadow-xl;
+    @apply absolute;
+    max-height: 400px;
+    overflow-y: scroll;
+    z-index: 1000;
+  }
+
+  .global-search .global-search-results a {
+    display: block;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+
+  .global-search .global-search-results a.active {
+    @apply bg-orange-900 text-zinc-100;
+  }
+
+  .global-search-input {
+    @apply transition-all ease-in-out duration-300;
+    @apply bg-slorange-700 focus:bg-slorange-800;
+    @apply inline-block h-8 m-2 w-32 focus:w-96;
+    @apply placeholder:text-slate-400 placeholder:italic outline-none;
+    @apply border rounded-full px-4 py-2 border-slorange-900 focus:border-slorange-800 focus:shadow-none;
+  }
+
+  /* Planets */
+  .planet-blue {
+    @apply bg-blue-400;
+  }
+  .planet-yellow {
+    @apply bg-yellow-600 text-white;
+  }
+  .planet-red {
+    @apply bg-red-600 text-white;
+  }
+  .planet-green {
+    @apply bg-green-800 text-white;
+  }
+  .planet-orange {
+    @apply bg-orange-400;
+  }
+  .planet-purple {
+    @apply bg-purple-700 text-white;
+  }
+  .planet-white {
+    @apply bg-white;
+  }
+  .planet-black {
+    @apply bg-black text-white;
+  }
+
+  /* The JS lunar-rift-controller toggles this on and off */
+  .lunar-rift-active {
+    @apply border-4 border-blue-500;
+  }
+
+  /* Callouts */
+  .Callout {
+    @apply rounded-xl border mb-4 relative p-4;
+  }
+
+  .Callout-default {
+    @apply bg-grey-400 text-grey-800 border-grey-600;
+  }
+  .Callout-primary {
+    @apply bg-orange-200 text-orange-800 border-orange-800;
+  }
+  .Callout-notice {
+    @apply bg-yellow-200 text-yellow-800 border-yellow-400;
+  }
+  .Callout-info {
+    @apply bg-purple-300 text-purple-800 border-purple-500;
+  }
+
+
+  /* associated top-of-page nav for related items */
+  .PageLinks {
+    @apply flex flex-wrap;
+  }
+
+  .PageLinks .PageLinks-link {
+    @apply inline-block my-2 ml-2;
+  }
+
+  .PageLinks .PageLinks-link:not(:first-child)::before {
+    @apply inline-block mr-2;
+    content: "•";
+  }
+
+  /* Tabs for Pages ... e.g., skills page */
+  .PageTabs {
+    @apply flex flex-col md:flex-row;
+    @apply mb-0 align-bottom justify-between;
+    @apply text-sm md:text-base;
+  }
+
+  .PageTabs .PageTabs-tab {
+    @apply border border-grey-200 border-b-0 inline md:inline-block py-1 px-2 md:px-8;
+    @apply order-first md:order-none;
+  }
+
+  .PageTabs .PageTabs-tab.PageTabs-current {
+    @apply order-last md:order-none bg-white;
+  }
+
+  /* Recipes */
+  .Recipe-ingredient > .Recipe-ingredientSummary > a:not(.Displayed) > span > svg {
+    transform: rotate(0deg);
+    transition: transform 100ms linear;
+  }
+
+  .Recipe-ingredient > .Recipe-ingredientSummary > a.Displayed > span > svg {
+    transform: rotate(90deg);
+    transition: transform 100ms linear;
+  }
+
+  .Recipe-ingredient > .Recipe-ingredientSubDetail  div.MoreHidden {
+    display: none;
+  }
+
+  .Recipe-ingredient > .Recipe-ingredientSubDetail .Recipe .Recipe-name {
+    display: none;
+  }
+
+  /* Pagination */
+  .Pagination {
+    @apply flex flex-row justify-center py-2;
+  }
+  .Pagination-page a {
+    @apply block min-w-8 text-center text-inherit;
+    @apply py-1 px-2 border border-grey-400 -ml-[1px];
+    @apply hover:no-underline;
+  }
+  .Pagination-page:first-child a {
+    @apply rounded-l;
+  }
+  .Pagination-page:last-child a {
+    @apply rounded-r;
+  }
+  .Pagination-page.is-active a,
+  .Pagination-page a[href]:hover {
+    @apply bg-grey-300 z-10 no-underline;
+  }
+
+  /* Skills */
+  .SkillTable input[type="number"]::-webkit-inner-spin-button,
+  .SkillTable input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .SkillTable input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  .SkillTable .tableRow {
+    @apply flex flex-row flex-wrap items-center w-full border-b border-grey-300;
+  }
+
+  .SkillTable .skillCell {
+    @apply px-2 py-1 md:py-2 basis-1/2 md:basis-auto grow;
+  }
+
+  .SkillTable .xpCell {
+    @apply flex flex-row items-center justify-between;
+    @apply px-2 py-1 md:py-2 w-full md:w-56 border-l border-grey-300;
+  }
+
+  .SkillTable .xpCell input {
+    @apply w-16 h-8 rounded-sm text-right;
+  }
+
+  .SkillTable .xpCell input.error {
+    @apply text-red-500 border-red-500;
+  }
+
+  .SkillTable .xpCell .xp {
+    @apply basis-1/2 grow text-right;
+  }
+
+  .SkillTable .remainingXPCell {
+    @apply px-2 py-1 md:py-2 text-right md:border-l border-grey-300;
+    @apply basis-full md:basis-auto md:w-36;
+  }
+}

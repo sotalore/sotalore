@@ -1,25 +1,17 @@
 {
   "dependencies": {
-    "@csstools/postcss-sass": "^5.0.1",
     "@hotwired/stimulus": "^3.0.0",
     "@hotwired/turbo-rails": "^8.0.3",
     "@rails/actiontext": "^8.0.0",
     "@rails/activestorage": "^8.0.0",
     "@stimulus-components/lightbox": "^4.0.0",
-    "@tailwindcss/forms": "^0.5.2",
-    "autoprefixer": "^10.4.4",
     "chart.js": "^4.1.2",
     "esbuild": "^0.25.0",
     "local-time": "^3.0.2",
     "mousetrap": "^1.6.5",
     "polyfill-nodelist-foreach": "^1.0.1",
-    "postcss": "^8.4.12",
-    "postcss-cli": "^11.0.0",
-    "postcss-import": "^16.0.1",
-    "postcss-preset-env": "^10.0.2",
     "sass": "^1.50.1",
     "stimulus-autocomplete": "^3.0.0",
-    "tailwindcss": "^3.0.24",
     "trix": "^2.0.5",
     "turbolinks": "^5.2.0"
   },
@@ -31,7 +23,6 @@
     "defaults"
   ],
   "scripts": {
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
-    "build:css": "postcss ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css --verbose"
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds"
   }
 }

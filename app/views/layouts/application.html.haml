@@ -9,7 +9,7 @@
     = csrf_meta_tags
     %meta{:charset => "utf-8"}/
     %meta(name="viewport" content="width=device-width, initial-scale=1.0")
-    = stylesheet_link_tag 'trix', 'actiontext', 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'trix', 'actiontext', 'tailwind', media: 'all', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css", media: 'all', integrity: "sha512-F2E+YYE1gkt0T5TVajAslgDfTEUQKtlu4ralVq78ViNxhKXQLrgQLLie8u1tVdG2vWnB3ute4hcdbiBtvJQh0g==", crossorigin: "anonymous", referrerpolicy: "no-referrer"
     = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
     = javascript_include_tag 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true
@@ -49,10 +49,10 @@
             = site_nav_link_to('ADM', adm_users_path, 'key')
           %hr.my-2
           - if current_user.not_null?
-            = site_nav_link_to('Sign Out', destroy_user_session_path, 'sign_out')
+            = site_nav_link_to('Sign Out', destroy_user_session_path, 'sign_out', data: { turbo: 'false' })
           - else
-            = site_nav_link_to('Sign In', new_user_session_path, 'sign_in')
-            = site_nav_link_to('Register', new_user_registration_path, 'user_plus')
+            = site_nav_link_to('Sign In', new_user_session_path, 'sign_in', data: { turbo: 'false' })
+            = site_nav_link_to('Register', new_user_registration_path, 'user_plus', data: { turbo: 'false' })
 
       .flex-1.flex.overflow-hidden
         .flex-1.overflow-y-scroll
