@@ -1,6 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-
-import { formatXP } from "../lib/util"
+import { formatXP } from "lib/util"
 
 export default class extends Controller {
   static values = { xpFactor: Number, avatarUpdateUrl: String }

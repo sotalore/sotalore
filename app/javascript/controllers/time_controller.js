@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import Astronomy from "../lib/astronomy"
+import Astronomy from "lib/astronomy"
 
 export default class extends Controller {
 
