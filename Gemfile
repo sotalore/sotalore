@@ -9,7 +9,7 @@ gem 'propshaft'
 gem 'pg'
 gem 'puma', '>= 6.0'
 
-gem 'jsbundling-rails'
+gem "importmap-rails", "~> 2.2"
 gem "tailwindcss-rails"
 
 gem 'turbo-rails'

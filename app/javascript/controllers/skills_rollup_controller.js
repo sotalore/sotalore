@@ -1,5 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
-import { formatXP } from "../lib/util"
+import { formatXP } from "lib/util"
 
 export default class extends Controller {
 

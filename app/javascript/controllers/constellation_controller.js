@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
-import Astronomy from "../lib/astronomy"
-import { formatSeconds } from "../lib/time_util"
-import { updateText } from "../lib/util"
+import Astronomy from "lib/astronomy"
+import { formatSeconds } from "lib/time_util"
+import { updateText } from "lib/util"
 
 export default class extends Controller {
 

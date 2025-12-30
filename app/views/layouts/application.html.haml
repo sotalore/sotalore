@@ -12,7 +12,7 @@
     = stylesheet_link_tag "tailwind", data_turbo_track: 'reload'
     = stylesheet_link_tag 'trix', 'actiontext', 'tailwind', media: 'all', 'data-turbolinks-track': 'reload'
     = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css", media: 'all', integrity: "sha512-F2E+YYE1gkt0T5TVajAslgDfTEUQKtlu4ralVq78ViNxhKXQLrgQLLie8u1tVdG2vWnB3ute4hcdbiBtvJQh0g==", crossorigin: "anonymous", referrerpolicy: "no-referrer"
-    = javascript_include_tag "application", "data-turbo-track": "reload", defer: true
+    = javascript_importmap_tags
     = javascript_include_tag 'https://challenges.cloudflare.com/turnstile/v0/api.js', async: true, defer: true
     = action_cable_meta_tag
 
