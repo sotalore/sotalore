@@ -100,11 +100,8 @@ Rails.application.routes.draw do
 
   resources :plantings
 
-  resources :top_posts, path: 'chat' do
+  resources :top_posts, path: 'chat', only: [] do
     resources :comments, except: [ :new ]
-  end
-  resolve("TopPost") do
-    [:root]
   end
 
   get 'search/items', to: 'searches#items', as: 'search_items'

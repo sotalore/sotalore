@@ -1,9 +1,10 @@
 # frozen-string-literal: true
+
 class Comment < ApplicationRecord
 
   enum :comment_type, %i[ message revision ]
 
-  belongs_to :subject, polymorphic: true
+  belongs_to :subject, polymorphic: true, optional: true
   belongs_to :actual_author, class_name: 'User', foreign_key: 'author_id'
 
   scope :for_feed, ->(user) {
@@ -27,7 +28,7 @@ class Comment < ApplicationRecord
 
 
   def parsed_revision
-    @parsed_revision ||= (revision? ? JSON::parse(body) : {})
+    @parsed_revision ||= (revision? ? JSON.parse(body) : {})
   end
 
   def author
