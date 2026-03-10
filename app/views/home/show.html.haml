@@ -2,8 +2,20 @@
   .col-span-2.md:col-span-1
     = tile do
       = tile_body do
-        = render @top_post
-        = render_comments_for(@top_post)
+        = tile('info') do
+          = tile_heading('Updates', type:'info')
+          = tile_body do
+            %p
+              %strong
+                Farming Calculator times are now locale aware
+
+            %p
+              The times given on the farming calculator now consider your
+              locale settings in your browser. This should show times in
+              twenty-four hour format, where that's a standard thing to do.
+              Note that month and day names will also be given in your language,
+              even though the entire site is in English.
+        = render_comments_for(:front_page)
 
   .col-sm-6.col-span-2.md:col-span-1
     = tile_with_heading('Contact Us') do

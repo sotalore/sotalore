@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_03_10_165019) do
+ActiveRecord::Schema[8.1].define(version: 2026_03_10_190611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -201,13 +201,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_10_165019) do
     t.datetime "updated_at", precision: nil, null: false
     t.index ["sota_map_id"], name: "index_scenes_on_sota_map_id", unique: true
     t.index ["sota_map_parent_poi_id"], name: "index_scenes_on_sota_map_parent_poi_id", unique: true
-  end
-
-  create_table "top_posts", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", precision: nil, null: false
-    t.string "key", null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["key"], name: "index_top_posts_on_key", unique: true
   end
 
   create_table "user_recipes", id: :serial, force: :cascade do |t|

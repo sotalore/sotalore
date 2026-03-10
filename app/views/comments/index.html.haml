@@ -1,10 +1,7 @@
 - page_title("Comments for #{@parent}")
 = layout_main_content do
-  - if TopPost === @parent
-    = render @parent
   = tile do
     - case @parent
-    - when TopPost
     - when nil
       - if action_name == 'moderate'
         = tile_heading("Moderate Comments")

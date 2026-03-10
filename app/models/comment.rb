@@ -7,6 +7,16 @@ class Comment < ApplicationRecord
   belongs_to :subject, polymorphic: true, optional: true
   belongs_to :actual_author, class_name: 'User', foreign_key: 'author_id'
 
+  scope :for_subject, ->(subject) do
+    if subject.nil?
+      all
+    elsif subject == :front_page
+      where(subject_type: nil)
+    else
+      where(subject: subject)
+    end
+  end
+
   scope :for_feed, ->(user) {
     if user.null?
       proxy = where('comments.visible = ? or user_key = ?', true, Current.user_key)
@@ -15,8 +25,9 @@ class Comment < ApplicationRecord
     else
       proxy = where('comments.visible = ? or author_id = ?', true, user)
     end
-    proxy.order(id: :desc).limit(20)
+    proxy.order(id: :desc).page(1).per(20)
   }
+
   scope :most_recent, -> { order(id: :desc) }
 
   scope :needs_moderation, -> { where(visible: false, author_id: nil) }
@@ -24,7 +35,7 @@ class Comment < ApplicationRecord
   before_validation :not_visible_for_null_user
   before_validation :user_key_from_null_user
 
-  validates :subject, :author, :body, presence: true
+  validates :author, :body, presence: true
 
 
   def parsed_revision

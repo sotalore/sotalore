@@ -38,12 +38,12 @@ class CommentsController < ApplicationController
   end
 
   def new
-    @comment = @parent.comments.build(author: current_user)
+    @comment = build_comment(author: current_user)
     authorize @comment
   end
 
   def create
-    @comment = @parent.comments.build(permitted_params)
+    @comment = build_comment(permitted_params)
     @comment.author = Current.user
     @comment.comment_type = 'message'
     authorize @comment
@@ -103,15 +103,14 @@ class CommentsController < ApplicationController
       @parent = Recipe.find(params[:recipe_id])
     elsif params[:scene_id]
       @parent = Scene.find(params[:scene_id])
-    elsif params[:top_post_id]
-      @parent = TopPost.find(params[:top_post_id])
+    elsif params[:front_page]
+      @parent = :front_page
     end
 
-    @scope = @parent ? @parent.comments : Comment.all
+    @scope = Comment.for_subject(@parent)
     if !current_user.moderator?
       @scope = @scope.where(visible: true)
     end
-
   end
 
   def find_comments_index
@@ -126,13 +125,21 @@ class CommentsController < ApplicationController
     @comment
   end
 
+  def build_comment(params)
+    if @parent == :front_page
+      @comment = Comment.new(params)
+    else
+      @comment = @parent.comments.build(params)
+    end
+  end
+
   def permitted_params
     params.require(:comment).permit(policy(@comment || Comment).permitted_attributes)
   end
 
   def url_for_parent
     case @parent
-    when TopPost
+    when :front_page, nil
       root_path
     else
       @parent

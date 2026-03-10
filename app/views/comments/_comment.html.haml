@@ -5,7 +5,7 @@
         %span.text-semibold= comment.author_name
         = user_flair_tag(comment.author)
       .Comment-subject
-        - unless comment.subject == @parent
+        - if @parent != :front_page && comment.subject != @parent
           = link_to(comment.subject, comment.subject, data: { 'turbo-frame': '_top'})
       .Comment-authorTime
         = local_time_ago(comment.created_at)

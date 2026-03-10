@@ -100,9 +100,10 @@ Rails.application.routes.draw do
 
   resources :plantings
 
-  resources :top_posts, path: 'chat', only: [] do
-    resources :comments, except: [ :new ]
+  resource :front_page, path: 'chat', only: []  do
+    resources :comments, except: [ :new ], defaults: { front_page: 'true' }
   end
+  direct(:front_page) { root_path }
 
   get 'search/items', to: 'searches#items', as: 'search_items'
   get 'search/global', to: 'searches#global', as: 'search_global'
