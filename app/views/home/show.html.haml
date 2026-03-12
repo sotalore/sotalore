@@ -27,5 +27,5 @@
         note on the
         #{link_to("SotA official forums", 'https://www.shroudoftheavatar.com/forum/index.php?members/gravidy.6235/', target: '_blank')}.
 
-    = tile_with_heading("Here's some random recipes") do
-      = render Recipe.random(3)
+    = tile_with_heading("Here's the latest recipes") do
+      = render Recipe.order(id: :desc).first(5)
