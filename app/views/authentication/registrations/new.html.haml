@@ -9,7 +9,7 @@
   .basis-full.md:basis-1_2.lg:basis-1_3.order-2.md:order-1
     .my-4.bg-white.border.border-grey-300.rounded.p-4
       %h3.py-2.border-b.border-grey-300.text-2xl.m-0.mb-4 Register with Email
-      = full_form_for(@user, url: user_registration_path) do |f|
+      = full_form_for(@user, url: user_registration_path, data: { turbo: 'false' }) do |f|
         = f.email_field :email, autofocus: true, required: true
         = f.text_field  :name, required: true
         = f.password_field :password

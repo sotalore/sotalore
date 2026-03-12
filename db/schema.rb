@@ -10,43 +10,41 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_10_05_235227) do
-  create_schema "heroku_ext"
-
+ActiveRecord::Schema[8.1].define(version: 2026_03_10_190611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pg_trgm"
-  enable_extension "plpgsql"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
-    t.string "name", null: false
     t.text "body"
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
+    t.string "content_type"
     t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -57,22 +55,22 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_05_235227) do
   end
 
   create_table "avatars", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "name", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "is_default", default: false, null: false
     t.integer "ignored_skills", default: [], null: false, array: true
+    t.boolean "is_default", default: false, null: false
+    t.string "name", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["user_id"], name: "index_avatars_on_user_id"
   end
 
   create_table "comments", id: :serial, force: :cascade do |t|
-    t.string "subject_type"
-    t.integer "subject_id"
     t.integer "author_id"
-    t.integer "comment_type", default: 0, null: false
     t.text "body"
+    t.integer "comment_type", default: 0, null: false
     t.datetime "created_at", precision: nil, null: false
+    t.integer "subject_id"
+    t.string "subject_type"
     t.datetime "updated_at", precision: nil, null: false
     t.string "user_key"
     t.boolean "visible", default: true, null: false
@@ -82,19 +80,19 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_05_235227) do
 
   create_table "earned_skills", force: :cascade do |t|
     t.bigint "avatar_id", null: false
-    t.string "skill_key", null: false
-    t.integer "current", limit: 2
-    t.integer "target", limit: 2
     t.datetime "created_at", null: false
+    t.integer "current", limit: 2
+    t.string "skill_key", null: false
+    t.integer "target", limit: 2
     t.datetime "updated_at", null: false
     t.index ["avatar_id"], name: "index_earned_skills_on_avatar_id"
   end
 
   create_table "ingredients", id: :serial, force: :cascade do |t|
-    t.integer "recipe_id", null: false
-    t.integer "item_id", null: false
     t.integer "count", default: 1, null: false
     t.datetime "created_at", precision: nil, null: false
+    t.integer "item_id", null: false
+    t.integer "recipe_id", null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["item_id"], name: "index_ingredients_on_item_id"
     t.index ["recipe_id", "item_id"], name: "index_ingredients_on_recipe_id_and_item_id", unique: true
@@ -108,81 +106,81 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_05_235227) do
   end
 
   create_table "items", id: :serial, force: :cascade do |t|
-    t.citext "name"
-    t.integer "use", default: 0, null: false
-    t.boolean "crafting_input", default: false, null: false
-    t.integer "source", default: 0, null: false
-    t.integer "price"
-    t.string "gathering_skill"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.boolean "abstract", default: false, null: false
-    t.integer "instance_id"
-    t.integer "ingredients_count", default: 0, null: false
-    t.integer "results_count", default: 0, null: false
-    t.integer "last_verified_by_id"
-    t.datetime "last_verified_at", precision: nil
-    t.string "type", default: "Item", null: false
-    t.jsonb "type_data", default: {}, null: false
-    t.decimal "weight", precision: 6, scale: 2
+    t.boolean "crafting_input", default: false, null: false
+    t.datetime "created_at", precision: nil, null: false
     t.text "effects"
+    t.string "gathering_skill"
+    t.integer "ingredients_count", default: 0, null: false
+    t.integer "instance_id"
+    t.datetime "last_verified_at", precision: nil
+    t.integer "last_verified_by_id"
+    t.citext "name"
     t.text "notes"
+    t.integer "price"
+    t.integer "results_count", default: 0, null: false
     t.integer "salvage_as_result_count", limit: 2, default: 0, null: false
     t.integer "salvage_as_source_count", limit: 2, default: 0, null: false
+    t.integer "source", default: 0, null: false
+    t.string "type", default: "Item", null: false
+    t.jsonb "type_data", default: {}, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "use", default: 0, null: false
+    t.decimal "weight", precision: 6, scale: 2
   end
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|
     t.text "content"
-    t.string "searchable_type"
-    t.integer "searchable_id"
     t.datetime "created_at", precision: nil, null: false
+    t.integer "searchable_id"
+    t.string "searchable_type"
     t.datetime "updated_at", precision: nil, null: false
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
   end
 
   create_table "plantings", id: :serial, force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "seed_id", null: false
-    t.boolean "greenhouse", default: false, null: false
-    t.datetime "planted_at", precision: nil
-    t.text "notes"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.boolean "greenhouse", default: false, null: false
     t.integer "location_type", default: 0, null: false
+    t.text "notes"
+    t.datetime "planted_at", precision: nil
+    t.integer "seed_id", null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "user_id", null: false
     t.index ["user_id"], name: "index_plantings_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "author_id", null: false
-    t.string "title"
-    t.integer "status", limit: 2, default: 0
-    t.string "parent_type"
+    t.datetime "created_at", null: false
     t.integer "parent_id"
+    t.string "parent_type"
+    t.integer "status", limit: 2, default: 0
+    t.string "title"
+    t.datetime "updated_at", null: false
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["parent_type", "parent_id"], name: "index_posts_on_parent_type_and_parent_id"
   end
 
   create_table "recipes", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
     t.string "craft_skill", null: false
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "recipe_key"
     t.integer "ingredients_count", default: 0, null: false
-    t.integer "results_count", default: 0, null: false
-    t.integer "last_verified_by_id"
     t.datetime "last_verified_at", precision: nil
+    t.integer "last_verified_by_id"
+    t.string "name", null: false
     t.integer "proficiency"
+    t.string "recipe_key"
+    t.integer "results_count", default: 0, null: false
     t.integer "teachable", limit: 2
+    t.datetime "updated_at", precision: nil, null: false
   end
 
   create_table "results", id: :serial, force: :cascade do |t|
-    t.integer "recipe_id", null: false
-    t.integer "item_id", null: false
     t.integer "count", default: 1, null: false
     t.datetime "created_at", precision: nil, null: false
+    t.integer "item_id", null: false
+    t.integer "recipe_id", null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["item_id"], name: "index_results_on_item_id"
     t.index ["recipe_id", "item_id"], name: "index_results_on_recipe_id_and_item_id", unique: true
@@ -190,61 +188,54 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_05_235227) do
   end
 
   create_table "scenes", id: :serial, force: :cascade do |t|
-    t.string "name"
+    t.datetime "created_at", precision: nil, null: false
     t.integer "level_id"
-    t.integer "scene_type_id"
-    t.integer "region_id"
+    t.boolean "level_plus", default: false, null: false
+    t.string "name"
     t.integer "parent_id"
+    t.boolean "pvp", default: false, null: false
+    t.integer "region_id"
+    t.integer "scene_type_id"
     t.integer "sota_map_id"
     t.integer "sota_map_parent_poi_id"
-    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "pvp", default: false, null: false
-    t.boolean "level_plus", default: false, null: false
     t.index ["sota_map_id"], name: "index_scenes_on_sota_map_id", unique: true
     t.index ["sota_map_parent_poi_id"], name: "index_scenes_on_sota_map_parent_poi_id", unique: true
   end
 
-  create_table "top_posts", id: :serial, force: :cascade do |t|
-    t.string "key", null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["key"], name: "index_top_posts_on_key", unique: true
-  end
-
   create_table "user_recipes", id: :serial, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "recipe_id"
     t.datetime "created_at", precision: nil, null: false
+    t.integer "recipe_id"
     t.datetime "updated_at", precision: nil, null: false
+    t.integer "user_id"
     t.index ["recipe_id"], name: "index_user_recipes_on_recipe_id"
     t.index ["user_id", "recipe_id"], name: "index_user_recipes_on_user_id_and_recipe_id", unique: true
     t.index ["user_id"], name: "index_user_recipes_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: nil
-    t.datetime "remember_created_at", precision: nil
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at", precision: nil
-    t.datetime "last_sign_in_at", precision: nil
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "confirmation_token"
     t.datetime "confirmed_at", precision: nil
-    t.datetime "confirmation_sent_at", precision: nil
-    t.string "unconfirmed_email"
     t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.string "roles", default: [], null: false, array: true
+    t.datetime "current_sign_in_at", precision: nil
+    t.inet "current_sign_in_ip"
     t.datetime "disabled_at", precision: nil
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
     t.datetime "last_request_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
+    t.inet "last_sign_in_ip"
+    t.string "name", null: false
     t.string "provider", default: "email", null: false
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "reset_password_sent_at", precision: nil
+    t.string "reset_password_token"
+    t.string "roles", default: [], null: false, array: true
+    t.integer "sign_in_count", default: 0, null: false
     t.string "uid"
+    t.string "unconfirmed_email"
+    t.datetime "updated_at", precision: nil, null: false
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

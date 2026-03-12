@@ -1,10 +1,10 @@
-#comments.CommentFeed
-  .CommentFeed-newComment.mb-4
-    - if policy(Comment).new?
-      = render partial: 'comments/form', locals: { subject: subject }
-  .CommentFeed-comments
-    - @parent = subject
-    = render subject.comments.includes(:actual_author).for_feed(current_user)
-  - if subject.comments.size > 0
-    .u-textRight
-      = link_to('older comments', [ subject, :comments ])
+- if policy(Comment).new?
+  #new-comment.mb-4
+    = render partial: 'comments/form', locals: { subject: subject, comment: Comment.new }
+#comments
+  - @parent = subject
+  - comments = Comment.for_subject(subject).includes(:actual_author).for_feed(current_user)
+  = render comments
+  - unless comments.last_page?
+    .text-right
+      = link_to('view all comments', [ subject, :comments ])

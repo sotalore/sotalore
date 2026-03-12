@@ -15,7 +15,7 @@ class Authentication::PasswordResetsController < AuthenticationController
     email = params[:user][:email] if params[:user]
     user = User.find_by(email: email)
     if user
-      UserMailer.password_reset(user).deliver_later
+      UserMailer.password_reset(user).deliver_now
       redirect_to action: :show
     else
       @user = User.new(email: email)

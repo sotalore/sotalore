@@ -55,7 +55,7 @@ class ScenesController < ApplicationController
     respond_to do |format|
       if att_id = params[:attachment_id]
         image = @scene.images.find(att_id)
-        image.purge_later
+        image.purge
         format.turbo_stream { render html: helpers.turbo_frame_tag(image), layout: false }
       end
       format.html { redirect_to @scene }

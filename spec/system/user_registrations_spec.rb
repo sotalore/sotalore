@@ -17,7 +17,7 @@ RSpec.describe "UserRegistrations", type: :system do
         fill_in 'user_password', with: 'password'
         fill_in 'user_password_confirmation', with: 'password'
         click_button 'commit'
-      }.to have_enqueued_mail(UserMailer, :confirmation_instructions)
+      }.to send_email(to: 'alice@example.com')
 
       expect(page).to have_content 'Thank you for registering'
       expect(page).to have_content 'sent you an email to confirm your account'

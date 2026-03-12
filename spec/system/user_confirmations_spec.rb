@@ -18,7 +18,7 @@ RSpec.describe "UserConfirmations", type: :system do
     expect {
       fill_in 'Email', with: user.email
       click_button 'Send Confirmation Instructions'
-    }.to have_enqueued_mail(UserMailer, :confirmation_instructions).with(user)
+    }.to send_email
     expect(page).to have_text('Sending Confirmation Email')
 
     token = user.generate_token_for(:confirmation)

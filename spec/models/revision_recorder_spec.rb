@@ -20,9 +20,9 @@ RSpec.describe RevisionRecorder do
         expect(comment.subject).to eq item
         expect(comment.author).to eq user
         attrs.each do |k,v|
-          attrs[k] = [ nil, v]
+          attrs[k] = [ nil, v ]
         end
-        expect(comment.body).to eq({changes: attrs}.to_json)
+        expect(comment.body).to eq({ changes: attrs }.to_json)
       end
     end
 
@@ -43,12 +43,12 @@ RSpec.describe RevisionRecorder do
         comment = Comment.last
         expect(comment.subject).to eq existing
         expect(comment.author).to eq user
-        expected = { changes: {
-                      name:['Original Name', 'A New Name'],
-                      gathering_skill: [ nil, 'Field Dressing'],
-                      instance: [abstract.to_s, nil]
-                  }}.to_json
-        expect(comment.body).to eq(expected)
+        expected = { 'changes' => {
+                      'name' => [ 'Original Name', 'A New Name' ],
+                      'gathering_skill' => [ nil, 'Field Dressing' ],
+                      'instance' => [ abstract.to_s, nil ]
+                  } }
+        expect(JSON.parse(comment.body)).to eql(expected)
       end
 
       context 'Given a Item that is a seed' do
@@ -63,7 +63,7 @@ RSpec.describe RevisionRecorder do
           comment = Comment.last
           expect(comment.subject).to eq seed
           expect(comment.author).to eq user
-          expected = { changes: { yield:[nil, 10] } }.to_json
+          expected = { changes: { yield: [ nil, 10 ] } }.to_json
           expect(comment.body).to eq(expected)
         end
 

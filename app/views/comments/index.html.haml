@@ -1,26 +1,22 @@
 - page_title("Comments for #{@parent}")
 = layout_main_content do
-  - if TopPost === @parent
-    = render @parent
   = tile do
     - case @parent
-    - when TopPost
     - when nil
       - if action_name == 'moderate'
         = tile_heading("Moderate Comments")
       - else
-        = tile_heading("All Comments") do
+        = tile_heading("All Site Comments") do
           - if policy(Comment).moderate?
             = primary_button_to('Moderate', moderate_comments_path)
+    - when :front_page
+      = tile_heading("Comments for the Front Page") do
+        = back_button_to('Return', root_url)
     - else
       = tile_heading("Comments for #{@parent}") do
-        = back_button_to('Cancel', @parent)
+        = back_button_to('Return', @parent)
 
     = tile_body do
-      - if @parent && policy(Comment).new?
-        = render partial: 'comments/form', locals: { subject: @parent }
-
-
       - if action_name == 'moderate'
         .flex.flex-row.gap-2
           - if params[:user_owned].present?

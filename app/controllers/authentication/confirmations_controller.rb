@@ -11,7 +11,7 @@ class Authentication::ConfirmationsController < AuthenticationController
   def create
     user = User.find_by(email: params[:user][:email])
     if user.present?
-      UserMailer.confirmation_instructions(user).deliver_later
+      UserMailer.confirmation_instructions(user).deliver_now
       redirect_to action: :resend_confirmation
     else
       @user = User.new(email: params[:user][:email])
