@@ -17,7 +17,7 @@ RSpec.describe "UserPasswordResets", type: :system do
     expect {
       fill_in 'Email', with: user.email
       click_button 'Send Password Reset Instructions'
-    }.to have_enqueued_mail(UserMailer, :password_reset).with(user)
+    }.to send_email(to: user.email)
 
     expect(page).to have_content("We've sent you an email to reset the password on your account.")
 

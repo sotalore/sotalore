@@ -13,7 +13,7 @@ class Authentication::RegistrationsController < AuthenticationController
     return unless check_captcha
 
     if @user.save
-      UserMailer.confirmation_instructions(@user).deliver_later
+      UserMailer.confirmation_instructions(@user).deliver_now
       redirect_to user_need_confirmation_path
     else
       render :new, status: :unprocessable_content
