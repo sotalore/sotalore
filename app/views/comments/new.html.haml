@@ -1,16 +1,15 @@
-- page_title('New Comment')
-
+- page_title('Edit Comment')
 = layout_main_content do
   = tile do
-    = tile_heading('New Comment') do
+    = tile_heading('Edit Comment') do
       = back_button_to('Cancel', @comment.subject)
     = tile_body do
       .Comment
         .Comment-author
           .Comment-authorName
-            %span.text-semibold= @comment.author_name
-            = user_flair_tag(@comment.author)
+            %span.text-semibold= Current.user.name
+            = user_flair_tag(Current.user)
           .Comment-authorTime
-            = local_time_ago(@comment.created_at)
+            now
         .Comment-body.p-2
           = render partial: 'comments/form', locals: { subject: @comment.subject, comment: @comment }

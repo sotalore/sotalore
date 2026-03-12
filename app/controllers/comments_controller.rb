@@ -54,11 +54,20 @@ class CommentsController < ApplicationController
       if @comment.save
         respond_to do |format|
           format.html { redirect_to url_for_parent }
-          format.turbo_stream { render }
+          format.turbo_stream do
+            render turbo_stream: [
+              turbo_stream.prepend('comments', partial: 'comments/comment', locals: { comment: @comment }),
+              turbo_stream.replace('new_comment', partial: 'comments/form', locals: { comment: Comment.new, subject: @parent })
+            ]
+          end
         end
       else
-        @comments = find_comments_index
-        render :index, status: :unprocessable_content
+        respond_to do |format|
+          format.html { render :new, status: :unprocessable_content }
+          format.turbo_stream do
+            render(status: :unprocessable_content, turbo_stream: turbo_stream.replace('new_comment', partial: 'comments/form', locals: { comment: @comment, subject: @parent }))
+          end
+        end
       end
     else
       @comments = find_comments_index
@@ -69,6 +78,14 @@ class CommentsController < ApplicationController
   def edit
     @comment = find_comment
     authorize @comment
+    respond_to do |format|
+      format.html { }
+      format.turbo_stream do
+        render turbo_stream: [
+          turbo_stream.replace([ @comment, :editable ], partial: 'comments/form', locals: { comment: @comment, subject: @parent })
+        ]
+      end
+    end
   end
 
   def update

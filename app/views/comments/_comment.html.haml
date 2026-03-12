@@ -1,64 +1,63 @@
-= turbo_frame_tag(comment) do
-  .Comment
-    .Comment-author
-      .Comment-authorName
-        %span.text-semibold= comment.author_name
-        = user_flair_tag(comment.author)
-      .Comment-subject
-        - if @parent != :front_page && comment.subject != @parent
-          = link_to(comment.subject, comment.subject, data: { 'turbo-frame': '_top'})
-      .Comment-authorTime
-        = local_time_ago(comment.created_at)
+/# locals(comment:)
+%div{ id: dom_id(comment), class: 'Comment' }
+  .Comment-author
+    .Comment-authorName
+      %span.text-semibold= comment.author_name
+      = user_flair_tag(comment.author)
+    .Comment-subject
+      - if @parent != :front_page && comment.subject != @parent
+        = link_to(comment.subject, comment.subject, data: { 'turbo-frame': '_top'})
+    .Comment-authorTime
+      = local_time_ago(comment.created_at)
 
-    = turbo_frame_tag(comment, 'body', target: '_top') do
-      - if comment.message?
-        .prose.p-2
-          = formatted_body comment.body
-      - elsif comment.revision?
-        %table.my-0.border-0
-          %tr
-            %th.text-centered(colspan="4") Updates to this item
-          - comment.revision_changes.each do |name, (from, to)|
+  %div{ id: dom_id(comment, :editable) }
+    - if comment.message?
+      .prose.p-2
+        = formatted_body comment.body
+    - elsif comment.revision?
+      %table.my-0.border-0
+        %tr
+          %th.text-centered(colspan="4") Updates to this item
+        - comment.revision_changes.each do |name, (from, to)|
+          %tr.border-0.border-t.border-slate-200
+            %th.text-right= name
+            %td= from || content_tag(:em, 'none')
+            %td &rarr;
+            %td= to || content_tag(:em, 'none')
+
+        - if comment.revision_result_changes.present?
+          %tr.border-0.border-t.border-slate-200
+            %th.text-left(colspan="4") result changes
+          - [ 'added', 'removed' ].each do |action|
+            - Array(comment.revision_result_changes[action]).each do |(name, count)|
+              %tr.border-0.border-t.border-slate-200
+                %td.text-right
+                  %em= action
+                %td(colspan="3")
+                  #{count} #{name}
+          - Array(comment.revision_result_changes['changes']).each do |name,(from, to)|
             %tr.border-0.border-t.border-slate-200
               %th.text-right= name
-              %td= from || content_tag(:em, 'none')
+              %td= from
               %td &rarr;
-              %td= to || content_tag(:em, 'none')
+              %td= to
 
-          - if comment.revision_result_changes.present?
-            %tr.border-0.border-t.border-slate-200
-              %th.text-left(colspan="4") result changes
-            - [ 'added', 'removed' ].each do |action|
-              - Array(comment.revision_result_changes[action]).each do |(name, count)|
-                %tr.border-0.border-t.border-slate-200
-                  %td.text-right
-                    %em= action
-                  %td(colspan="3")
-                    #{count} #{name}
-            - Array(comment.revision_result_changes['changes']).each do |name,(from, to)|
+        - if comment.revision_ingredient_changes.present?
+          %tr.border-0.border-t.border-slate-200
+            %th.text-left(colspan="4") ingredient changes
+          - [ 'added', 'removed' ].each do |action|
+            - Array(comment.revision_ingredient_changes[action]).each do |(name, count)|
               %tr.border-0.border-t.border-slate-200
-                %th.text-right= name
-                %td= from
-                %td &rarr;
-                %td= to
-
-          - if comment.revision_ingredient_changes.present?
+                %td.text-right
+                  %em= action
+                %td(colspan="3")
+                  #{count} #{name}
+          - Array(comment.revision_ingredient_changes['changes']).each do |name,(from, to)|
             %tr.border-0.border-t.border-slate-200
-              %th.text-left(colspan="4") ingredient changes
-            - [ 'added', 'removed' ].each do |action|
-              - Array(comment.revision_ingredient_changes[action]).each do |(name, count)|
-                %tr.border-0.border-t.border-slate-200
-                  %td.text-right
-                    %em= action
-                  %td(colspan="3")
-                    #{count} #{name}
-            - Array(comment.revision_ingredient_changes['changes']).each do |name,(from, to)|
-              %tr.border-0.border-t.border-slate-200
-                %th.text-right= name
-                %td= from
-                %td &rarr;
-                %td= to
-
+              %th.text-right= name
+              %td= from
+              %td &rarr;
+              %td= to
 
 
     - can_delete = policy(comment).destroy?
@@ -70,4 +69,4 @@
         - if can_delete
           = destroy_icon_to([ comment.subject, comment ], control: true, size: :sm)
         - if can_edit
-          = edit_icon_to([ :edit, comment.subject, comment ], control: true, size: :sm)
+          = edit_icon_to([ :edit, comment.subject, comment ], control: true, size: :sm, data: { turbo_stream: 'true' })
