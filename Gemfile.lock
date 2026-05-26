@@ -456,6 +456,9 @@ GEM
       rubocop-performance (>= 1.24)
       rubocop-rails (>= 2.30)
     ruby-progressbar (1.13.0)
+    ruby-vips (2.3.0)
+      ffi (~> 1.12)
+      logger
     securerandom (0.4.1)
     shellany (0.0.1)
     simplecov (0.22.0)
@@ -541,6 +544,7 @@ DEPENDENCIES
   redis (~> 5.0)
   rspec-rails
   rubocop-rails-omakase
+  ruby-vips
   simplecov
   stimulus-rails
   tailwindcss-rails
