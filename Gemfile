@@ -21,7 +21,7 @@ gem 'redis', '~> 5.0', group: :development
 gem 'bcrypt'
 
 gem "image_processing", ">= 1.2"
-gem "mini_magick", "~> 5.0"
+gem "ruby-vips" # , "~> 2.0"
 gem "aws-sdk-s3", require: false
 
 gem 'lograge'
