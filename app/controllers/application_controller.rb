@@ -1,6 +1,8 @@
 # frozen-string-literal: true
 
 class ApplicationController < ActionController::Base
+  layout -> { Views::Layouts::Application }
+
   include AuthenticationSupport
   include Pundit::Authorization
   protect_from_forgery with: :exception

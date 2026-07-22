@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AdmController < ActionController::Base
+  layout -> { Views::Layouts::Adm }
+
   protect_from_forgery with: :exception
   include AuthenticationSupport
   include Pundit::Authorization

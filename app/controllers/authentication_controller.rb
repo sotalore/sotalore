@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AuthenticationController < ApplicationController
+  layout -> { Views::Layouts::Authentication }
+
   skip_after_action :verify_authorized
 
   private
