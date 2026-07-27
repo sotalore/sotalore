@@ -1,6 +1,0 @@
-- url = polymorphic_path([@parent, @post].compact)
-= sl_form_with model: @post, url: url do |form|
-  = form.text_field :title
-  = form.rich_text_area :content
-  = form.actions do
-    = form.submit

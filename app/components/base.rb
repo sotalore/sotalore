@@ -29,7 +29,9 @@ class Components::Base < Phlex::HTML
   register_output_helper :new_button_to
   register_output_helper :edit_button_to
   register_output_helper :destroy_button_to
+  register_output_helper :edit_icon_to
   register_output_helper :destroy_icon_to
+  register_output_helper :layout_main_content
 
   if Rails.env.development?
     def before_template
