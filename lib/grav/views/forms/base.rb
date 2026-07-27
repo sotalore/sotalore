@@ -180,6 +180,7 @@ module Grav::Views::Forms::Base
 
   def submit_button(text=nil, **options)
     options[:class] = [ 'form-submit-button', options[:class] ]
+    options[:name] ||= 'commit'
     if text.nil?
       if model
         text = model.persisted? ? 'Update' : 'Create'
