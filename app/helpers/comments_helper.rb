@@ -19,6 +19,6 @@ module CommentsHelper
   end
 
   def render_comments_for(parent)
-    render partial: 'comments/subject', object: parent
+    render Components::Comments::Subject.new(subject: parent)
   end
 end

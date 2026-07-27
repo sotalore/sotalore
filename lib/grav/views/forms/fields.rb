@@ -5,11 +5,13 @@ module Grav::Views::Forms
 
     def field(attribute, **options, &block)
       div(class: field_classes(attribute, **options)) do
-        label(for: id_for(attribute, **options)) do
-          plain label_for(attribute, **options)
-          if options.key?(:optional) && options[:optional]
-            span(class: 'form-input-optional') do
-              " (optional)"
+        unless options[:skip_label]
+          label(for: id_for(attribute, **options)) do
+            plain label_for(attribute, **options)
+            if options.key?(:optional) && options[:optional]
+              span(class: 'form-input-optional') do
+                " (optional)"
+              end
             end
           end
         end
