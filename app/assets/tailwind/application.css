@@ -5,6 +5,7 @@
 @import "./forms";
 @import "./buttons";
 @import "./fields";
+@import "./phlex_forms";
 
 
 @plugin '@tailwindcss/forms';

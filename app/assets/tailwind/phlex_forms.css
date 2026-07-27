@@ -1,0 +1,149 @@
+/*
+ * Styles for forms built with the Grav::Views::Forms Phlex library
+ * (lib/grav/views/forms), matching the visual language of the legacy
+ * SLFormBuilder markup in forms.css/fields.css. Once every form has been
+ * migrated onto Grav::Views::Forms, those two files (and this comment)
+ * can go away.
+ */
+
+.application-form {
+  .application-form-section,
+  fieldset {
+    @apply border-0 border-b-2 border-grey-300;
+    padding-bottom: 11px;
+    margin-bottom: 11px;
+  }
+
+  legend {
+    display: block;
+    width: 100%;
+    font-weight: bold;
+    font-size: 19px;
+    padding: 12px 0;
+  }
+
+  .form-actions {
+    @apply flex flex-row flex-wrap gap-2 justify-end;
+    margin-top: 8px;
+  }
+
+  .form-submit-button,
+  .form-cancel-button {
+    @apply inline-flex gap-2 justify-around items-center rounded;
+    @apply py-1 px-3 text-center align-top whitespace-nowrap;
+    @apply cursor-pointer select-none touch-manipulation;
+    @apply leading-5 min-w-16 font-normal border;
+  }
+
+  .form-submit-button {
+    @apply bg-slorange-500 border-slorange-700 text-grey-100 drop-shadow-md;
+
+    &:focus,
+    &:hover {
+      @apply bg-slorange-300 border-slorange-500 text-grey-100 drop-shadow-md;
+    }
+
+    &:active {
+      @apply bg-slorange-700 border-slorange-700 text-grey-100 drop-shadow-none;
+    }
+  }
+
+  .form-cancel-button {
+    @apply bg-transparent border-slorange-500 text-slorange-500;
+
+    &:focus,
+    &:hover {
+      @apply no-underline outline-none bg-slorange-100 border-slorange-500 text-slorange-700;
+    }
+  }
+}
+
+.field-container {
+  margin-bottom: 16px;
+  position: relative;
+
+  > label {
+    display: block;
+    max-width: 100%;
+    font-weight: 500;
+    position: relative;
+    top: -2px;
+  }
+
+  &.field-align-right {
+    text-align: right;
+  }
+
+  &.field-with-errors .form-input {
+    @apply border-red-500 text-red-800 bg-red-100;
+  }
+}
+
+.form-input-optional {
+  @apply text-grey-500;
+  font-size: 14px;
+  font-style: italic;
+}
+
+.field-hint {
+  @apply text-grey-500;
+  font-size: 14px;
+  display: block;
+  position: relative;
+  top: 2px;
+}
+
+.form-errors {
+  @apply text-red-500;
+  position: relative;
+  top: 2px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.form-input {
+  @apply text-grey-700 bg-white border border-grey-300;
+  display: block;
+  width: 100%;
+  height: 32px;
+  padding: 4px 8px;
+  font-size: 16px;
+  line-height: 22px;
+  border-radius: 3px;
+
+  &:focus {
+    @apply border-grey-500 outline-0 shadow shadow-grey-200;
+  }
+
+  &[disabled],
+  &[readonly],
+  fieldset[disabled] & {
+    @apply text-grey-500 bg-grey-200;
+    opacity: 1; /* iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655 */
+    cursor: not-allowed;
+  }
+}
+
+textarea.form-input {
+  height: auto;
+  min-height: 104px;
+  line-height: 24px;
+  padding: 3px 8px;
+}
+
+.field-in-label {
+  @apply inline-flex flex-row items-center gap-2;
+  cursor: pointer;
+  font-weight: normal;
+  padding: 4px 0;
+
+  &.field-in-label-reverse {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+}
+
+.form-checkbox,
+.form-radio {
+  cursor: pointer;
+}
