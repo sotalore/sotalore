@@ -1,7 +1,7 @@
 - page_title("Verify #{params[:collection].titleize}")
 = tile do
   = tile_body do
-    = paginate @verifiables
+    = phlex_paginate @verifiables
     %table.Table
       %thead
         %th ID
@@ -23,4 +23,4 @@
                 never
             %td
               #{time_ago_in_words verifiable.updated_at} ago
-    = paginate @verifiables
+    = phlex_paginate @verifiables

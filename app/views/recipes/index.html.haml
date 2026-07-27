@@ -22,7 +22,7 @@
 
 = tile do
   = tile_body do
-    = paginate @recipes
+    = phlex_paginate @recipes
     %table.Table
       %thead
         %th Recipe Name
@@ -40,4 +40,4 @@
             %td
               - recipe.results.each do |result|
                 = link_to(result.to_s, result.item)
-    = paginate @recipes
+    = phlex_paginate @recipes

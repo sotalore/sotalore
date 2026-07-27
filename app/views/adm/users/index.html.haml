@@ -1,5 +1,5 @@
 .m-2.bg-white
-  = paginate @users
+  = phlex_paginate @users
 
   %table.table-auto
     %thead
@@ -31,4 +31,4 @@
           %td.text-center.text-sm= user.last_sign_in_ip
           %td.text-right= edit_icon_to(edit_adm_user_path(user))
 
-  = paginate @users
+  = phlex_paginate @users

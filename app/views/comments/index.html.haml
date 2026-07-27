@@ -30,4 +30,4 @@
             .p-2= primary_button_to('Show Revealed', moderate_comments_path(revealed: true, user_owned: params[:user_owned]))
 
       = render @comments
-      = paginate @comments
+      = phlex_paginate @comments

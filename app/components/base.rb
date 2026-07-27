@@ -22,7 +22,7 @@ class Components::Base < Phlex::HTML
   register_output_helper :tile_with_heading
   register_output_helper :render_flash_messages
   register_output_helper :site_nav_link_to
-  register_output_helper :paginate
+  register_output_helper :phlex_paginate
   register_output_helper :sl_form_for
   register_output_helper :formatted_body
   register_output_helper :primary_button_to

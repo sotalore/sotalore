@@ -13,7 +13,7 @@ class Views::Items::Index < Views::Items::Base
       tile_heading("Items") { render Views::Items::ItemNav.new }
 
       tile_body do
-        paginate @items
+        phlex_paginate @items
 
         table(class: "Table") do
           thead do
@@ -39,7 +39,7 @@ class Views::Items::Index < Views::Items::Base
           end
         end
 
-        paginate @items
+        phlex_paginate @items
       end
     end
   end

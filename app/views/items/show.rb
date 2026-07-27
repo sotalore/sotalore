@@ -84,7 +84,7 @@ class Views::Items::Show < Views::Items::Base
               h3 { plain "Used in #{pluralize(@used_in.total_count, 'Recipe')}:" }
               p do
                 raw safe(@used_in.map { |recipe| view_context.link_to(recipe.name, recipe) }.to_sentence)
-                paginate(@used_in)
+                phlex_paginate(@used_in)
               end
             end
           end
