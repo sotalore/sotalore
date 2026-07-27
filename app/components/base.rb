@@ -6,12 +6,30 @@ class Components::Base < Phlex::HTML
   # Include any helpers you want to be available across all components
   include Phlex::Rails::Helpers::Routes
   include Phlex::Rails::Helpers::AssetPath
+  include Phlex::Rails::Helpers::LinkTo
+  include Phlex::Rails::Helpers::Pluralize
+  include Phlex::Rails::Helpers::FieldSetTag
 
   register_value_helper :policy
   register_value_helper :l
+  register_value_helper :page_title
+  register_value_helper :current_user
+  register_value_helper :current_skills_path
 
   register_output_helper :tile
   register_output_helper :tile_body
+  register_output_helper :tile_heading
+  register_output_helper :tile_with_heading
+  register_output_helper :render_flash_messages
+  register_output_helper :site_nav_link_to
+  register_output_helper :paginate
+  register_output_helper :sl_form_for
+  register_output_helper :formatted_body
+  register_output_helper :primary_button_to
+  register_output_helper :new_button_to
+  register_output_helper :edit_button_to
+  register_output_helper :destroy_button_to
+  register_output_helper :destroy_icon_to
 
   if Rails.env.development?
     def before_template

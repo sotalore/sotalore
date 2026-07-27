@@ -1,68 +1,73 @@
 class ItemsController < ApplicationController
 
   def index
-    @items = Item.all
-    @items = @items.by_name.page(params[:page]).per(200)
+    items = Item.all
+    items = items.by_name.page(params[:page]).per(200)
     authorize Item
+    render Views::Items::Index.new(items: items)
   end
 
   def by_use
     use = params[:use]
-    @items = Item.where(use: use)
-    @items = @items.by_name.page(params[:page]).per(200)
+    items = Item.where(use: use)
+    items = items.by_name.page(params[:page]).per(200)
     if use == 'artifact'
-      @items = @items.includes(:salvages_to)
+      items = items.includes(:salvages_to)
     end
     authorize Item
+    render Views::Items::ByUse.new(items: items, use: use)
   end
 
   def show
-    @item = find_item
-    authorize @item
-    @used_in = @item.recipe_uses.includes(results: :item).page(params[:page])
+    item = find_item
+    authorize item
+    used_in = item.recipe_uses.includes(results: :item).page(params[:page])
+    render Views::Items::Show.new(item: item, used_in: used_in)
   end
 
   def new
-    @item = Item.new
-    authorize @item
+    item = Item.new
+    authorize item
+    render Views::Items::New.new(item: item)
   end
 
   def edit
-    @item = find_item
-    authorize @item
+    item = find_item
+    authorize item
+    render Views::Items::Edit.new(item: item)
   end
 
   def create
-    @item = Item.new(permitted_params)
-    authorize @item
-    if @item.save
-      RevisionRecorder.call(@item, current_user)
-      redirect_to @item
+    item = Item.new(permitted_params)
+    authorize item
+    if item.save
+      RevisionRecorder.call(item, current_user)
+      redirect_to item
     else
-      render action: :new, status: :unprocessable_content
+      render Views::Items::New.new(item: item), status: :unprocessable_content
     end
   end
 
   def update
-    @item = find_item
-    authorize @item
-    if @item.update(permitted_params)
-      RevisionRecorder.call(@item, current_user)
-      redirect_to @item
+    item = find_item
+    authorize item
+    if item.update(permitted_params)
+      RevisionRecorder.call(item, current_user)
+      redirect_to item
     else
-      render action: :edit, status: :unprocessable_content
+      render Views::Items::Edit.new(item: item), status: :unprocessable_content
     end
   end
 
   def destroy
-    @item = find_item
-    authorize @item
-    if @item.destroy
-      flash.notice = "The item '#{@item}' has been destroyed'"
+    item = find_item
+    authorize item
+    if item.destroy
+      flash.notice = "The item '#{item}' has been destroyed'"
       redirect_to action: :index
     else
       flash.alert = 'Unable to delete this Item'
-      redirect_to @item
+      redirect_to item
     end
   end
 

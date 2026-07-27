@@ -1,7 +1,0 @@
-= primary_button_to('Food', by_use_items_path(use: 'food'))
-= primary_button_to('Pet Food', by_use_items_path(use: 'pet-food'))
-= primary_button_to('Abstract Items', abstractions_path)
-- if policy(Item).edit?
-  = new_button_to('New Item', new_item_path)
-- if policy(:verification).index?
-  = primary_button_to('Verify Items', item_verifications_path)
