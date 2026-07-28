@@ -56,6 +56,20 @@
       @apply no-underline outline-none bg-slorange-100 border-slorange-500 text-slorange-700;
     }
   }
+
+  &.application-form-inline {
+    @apply flex flex-row flex-wrap items-end gap-2;
+
+    .form-actions {
+      margin-top: 0;
+      flex: 0 1 auto;
+    }
+
+    .field-container {
+      margin-bottom: 0;
+      flex: 1 1 auto;
+    }
+  }
 }
 
 .field-container {

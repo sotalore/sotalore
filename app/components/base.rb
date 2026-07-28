@@ -9,6 +9,8 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::LinkTo
   include Phlex::Rails::Helpers::Pluralize
   include Phlex::Rails::Helpers::FieldSetTag
+  include Phlex::Rails::Helpers::ImageTag
+  include Phlex::Rails::Helpers::TurboFrameTag
 
   register_value_helper :policy
   register_value_helper :l
@@ -26,6 +28,7 @@ class Components::Base < Phlex::HTML
   register_output_helper :sl_form_for
   register_output_helper :formatted_body
   register_output_helper :primary_button_to
+  register_output_helper :default_button_to
   register_output_helper :new_button_to
   register_output_helper :edit_button_to
   register_output_helper :destroy_button_to
@@ -36,6 +39,7 @@ class Components::Base < Phlex::HTML
   register_output_helper :user_flair_tag
   register_output_helper :local_time_ago
   register_output_helper :time_ago_tag
+  register_output_helper :render_comments_for
 
   if Rails.env.development?
     def before_template

@@ -3,11 +3,13 @@ class ScenesController < ApplicationController
     authorize Scene
     @filter = SceneFilter.new(filter_params)
     @scenes = @filter.filter.page(params[:page])
+    render Views::Scenes::Index.new(scenes: @scenes, filter: @filter)
   end
 
   def show
     @scene = find_scene
     authorize @scene
+    render Views::Scenes::Show.new(scene: @scene)
   end
 
   def new
@@ -17,6 +19,7 @@ class ScenesController < ApplicationController
     @scene.parent = Scene.find_by(parent_id: nil)
     @scene.scene_type_id = Scene::SCENE_TYPES['Adventure']
     @scene.region_id = params[:region_id]
+    render Views::Scenes::New.new(scene: @scene)
   end
 
   def create
@@ -26,13 +29,14 @@ class ScenesController < ApplicationController
       flash.notice = "Scene: '#{@scene.name}' added successfully."
       redirect_to @scene
     else
-      render :new, status: :unprocessable_content
+      render Views::Scenes::New.new(scene: @scene), status: :unprocessable_content
     end
   end
 
   def edit
     @scene = find_scene
     authorize @scene
+    render Views::Scenes::Edit.new(scene: @scene)
   end
 
   def update
@@ -46,7 +50,7 @@ class ScenesController < ApplicationController
       flash.notice = "Scene: '#{@scene.name}' updated successfully."
       redirect_to @scene
     else
-      render :edit, status: :unprocessable_content
+      render Views::Scenes::Edit.new(scene: @scene), status: :unprocessable_content
     end
   end
 
