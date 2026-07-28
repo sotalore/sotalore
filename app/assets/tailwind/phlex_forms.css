@@ -115,6 +115,22 @@
   font-size: 14px;
 }
 
+.form-errors-summary {
+  @apply text-red-700 bg-red-100 border border-red-300 rounded;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+
+  h4 {
+    @apply font-bold;
+    margin: 0 0 4px;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+}
+
 .form-input {
   @apply text-grey-700 bg-white border border-grey-300;
   display: block;

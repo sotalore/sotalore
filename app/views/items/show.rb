@@ -61,7 +61,9 @@ class Views::Items::Show < Views::Items::Base
               else
                 h3 { "Crafted from #{pluralize(@item.recipes.length, 'Recipe')}..." }
               end
-              raw view_context.render(partial: "recipes/recipe", collection: @item.recipes)
+              @item.recipes.each do |recipe|
+                render Components::Recipes::Card.new(recipe: recipe)
+              end
 
               if policy(Recipe).new?
                 div(class: "text-right") { link_to("add another", new_recipe_path(item_id: @item.id)) }
