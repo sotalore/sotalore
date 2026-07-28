@@ -37,6 +37,8 @@ class Components::Base < Phlex::HTML
   register_output_helper :destroy_icon_to
   register_output_helper :layout_main_content
   register_output_helper :user_flair_tag
+  register_output_helper :flair_info
+  register_output_helper :notice_info
   register_output_helper :local_time_ago
   register_output_helper :time_ago_tag
   register_output_helper :render_comments_for

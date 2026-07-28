@@ -5,6 +5,7 @@ class AvatarsController < ApplicationController
 
   def index
     find_avatars if current_user.not_null?
+    render Views::Avatars::Index.new(avatars: @avatars)
   end
 
   def create
@@ -13,12 +14,13 @@ class AvatarsController < ApplicationController
       redirect_to action: :index
     else
       find_avatars
-      render :index, status: :unprocessable_content
+      render Views::Avatars::Index.new(avatars: @avatars, avatar: @avatar), status: :unprocessable_content
     end
   end
 
   def edit
     @avatar = current_user.avatars.find(params[:id])
+    render Views::Avatars::Edit.new(avatar: @avatar)
   end
 
   def update
@@ -26,7 +28,7 @@ class AvatarsController < ApplicationController
     if @avatar.update(permitted_params)
       redirect_to action: :index
     else
-      render :edit, status: :unprocessable_content
+      render Views::Avatars::Edit.new(avatar: @avatar), status: :unprocessable_content
     end
   end
 
