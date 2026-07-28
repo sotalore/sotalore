@@ -7,6 +7,7 @@ class ProfilesController < ApplicationController
   def show
     @user = current_user unless current_user.null?
     authorize @user
+    render Views::Profiles::Show.new(user: @user)
   end
 
   def update
@@ -15,7 +16,7 @@ class ProfilesController < ApplicationController
     if @user.update(user_params)
       redirect_to profile_path, notice: 'Profile updated.'
     else
-      render :show, status: :unprocessable_content
+      render Views::Profiles::Show.new(user: @user), status: :unprocessable_content
     end
   end
 

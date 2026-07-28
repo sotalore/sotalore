@@ -3,6 +3,8 @@ class User::UserRecipesController < ApplicationController
   before_action     :authenticate_user!
   skip_after_action :verify_authorized
 
+  layout false, only: [ :create, :destroy ]
+
   def create
     @recipe = find_recipe
     if @recipe
@@ -10,7 +12,7 @@ class User::UserRecipesController < ApplicationController
         current_user.user_recipes
           .create!(recipe: @recipe)
       end
-      render :create, layout: false
+      render Views::User::UserRecipes::Create.new(recipe: @recipe)
     else
       head :not_acceptable
     end
@@ -21,7 +23,7 @@ class User::UserRecipesController < ApplicationController
     if ur = find_user_recipe
       ur.destroy
     end
-    render :create, layout: false
+    render Views::User::UserRecipes::Create.new(recipe: @recipe)
   end
 
   private
