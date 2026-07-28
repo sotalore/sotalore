@@ -4,9 +4,10 @@ class VerificationsController < ApplicationController
 
   def index
     authorize :verification
-    @verifiables = verifiable_scope
+    verifiables = verifiable_scope
       .all
       .page(params[:page])
+    render Views::Verifications::Index.new(verifiables: verifiables)
   end
 
   def update
