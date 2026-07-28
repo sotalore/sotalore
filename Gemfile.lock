@@ -166,15 +166,6 @@ GEM
       guard (~> 2.1)
       guard-compat (~> 1.1)
       rspec (>= 2.99.0, < 4.0)
-    haml (7.2.0)
-      temple (>= 0.8.2)
-      thor
-      tilt
-    haml-rails (3.0.0)
-      actionpack (>= 5.1)
-      activesupport (>= 5.1)
-      haml (>= 4.0.6)
-      railties (>= 5.1)
     hashie (5.1.0)
       logger
     honeybadger (6.6.1)
@@ -477,9 +468,7 @@ GEM
       railties (>= 7.0.0)
       tailwindcss-ruby (~> 4.0)
     tailwindcss-ruby (4.3.0-x86_64-linux-gnu)
-    temple (0.10.4)
     thor (1.5.0)
-    tilt (2.7.0)
     timeout (0.6.1)
     tsort (0.2.0)
     turbo-rails (2.0.23)
@@ -517,7 +506,6 @@ DEPENDENCIES
   faraday
   guard
   guard-rspec
-  haml-rails
   honeybadger
   hotwire-spark
   icalendar
