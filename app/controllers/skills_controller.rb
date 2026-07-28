@@ -11,9 +11,17 @@ class SkillsController < ApplicationController
 
   def index
     @skills = @activity.adventuring? ? Skill::ADVENTURING : Skill::CRAFTING
+    render Views::Skills::Index.new(
+      activity: @activity,
+      skills: @skills,
+      avatar: @avatar,
+      avatars: @avatars,
+      show_all: params.key?(:show_all),
+    )
   end
 
   def basics
+    render Views::Skills::Basics.new
   end
 
   def update
