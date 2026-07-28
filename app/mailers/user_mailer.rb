@@ -5,7 +5,10 @@ class UserMailer < ApplicationMailer
   def confirmation_instructions(user)
     @user = user
     @token = user.generate_token_for(:confirmation)
-    mail(to: user.email, subject: 'Confirm Your SotaLore Account!')
+    mail(to: user.email, subject: 'Confirm Your SotaLore Account!') do |format|
+      format.text
+      format.html { render Views::UserMailer::ConfirmationInstructions.new(user: user, token: @token) }
+    end
   end
 
   def password_reset(user)
@@ -16,7 +19,10 @@ class UserMailer < ApplicationMailer
       user.save(validate: false) # Skip validations to avoid issues with password requirements
     end
     @token = user.generate_token_for(:password_reset)
-    mail(to: user.email, subject: 'Reset Your SotaLore Password')
+    mail(to: user.email, subject: 'Reset Your SotaLore Password') do |format|
+      format.text
+      format.html { render Views::UserMailer::PasswordReset.new(user: user, token: @token) }
+    end
   end
 
 end

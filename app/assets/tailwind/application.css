@@ -87,6 +87,7 @@
 
   .Comment-authorName {
     @apply flex-grow whitespace-nowrap text-ellipsis;
+    @apply flex flex-row items-center gap-x-2;
   }
 
   .Comment-subject {

@@ -61,7 +61,9 @@ class Views::Items::Show < Views::Items::Base
               else
                 h3 { "Crafted from #{pluralize(@item.recipes.length, 'Recipe')}..." }
               end
-              raw view_context.render(partial: "recipes/recipe", collection: @item.recipes)
+              @item.recipes.each do |recipe|
+                render Components::Recipes::Card.new(recipe: recipe)
+              end
 
               if policy(Recipe).new?
                 div(class: "text-right") { link_to("add another", new_recipe_path(item_id: @item.id)) }
@@ -84,7 +86,7 @@ class Views::Items::Show < Views::Items::Base
               h3 { plain "Used in #{pluralize(@used_in.total_count, 'Recipe')}:" }
               p do
                 raw safe(@used_in.map { |recipe| view_context.link_to(recipe.name, recipe) }.to_sentence)
-                paginate(@used_in)
+                phlex_paginate(@used_in)
               end
             end
           end

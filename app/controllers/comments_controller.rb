@@ -12,7 +12,7 @@ class CommentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to url_for_parent }
       format.turbo_stream {
-        render turbo_stream: turbo_stream.replace(@comment, partial: 'comments/comment', locals: { comment: @comment })
+        render turbo_stream: turbo_stream.replace(@comment, Components::Comments::Card.new(comment: @comment, parent: @parent))
       }
     end
   end
@@ -20,6 +20,7 @@ class CommentsController < ApplicationController
   def index
     @comments = find_comments_index
     authorize @comments
+    render Views::Comments::Index.new(comments: @comments, parent: @parent)
   end
 
   def moderate
@@ -34,12 +35,13 @@ class CommentsController < ApplicationController
     end
 
     authorize @comments
-    render action: :index
+    render Views::Comments::Index.new(comments: @comments, parent: @parent, moderating: true)
   end
 
   def new
     @comment = build_comment(author: current_user)
     authorize @comment
+    render Views::Comments::New.new(comment: @comment)
   end
 
   def create
@@ -56,22 +58,22 @@ class CommentsController < ApplicationController
           format.html { redirect_to url_for_parent }
           format.turbo_stream do
             render turbo_stream: [
-              turbo_stream.prepend('comments', partial: 'comments/comment', locals: { comment: @comment }),
-              turbo_stream.replace('new_comment', partial: 'comments/form', locals: { comment: Comment.new, subject: @parent })
+              turbo_stream.prepend('comments', Components::Comments::Card.new(comment: @comment, parent: @parent)),
+              turbo_stream.replace('new_comment', Components::Comments::Form.new(subject: @parent, comment: Comment.new))
             ]
           end
         end
       else
         respond_to do |format|
-          format.html { render :new, status: :unprocessable_content }
+          format.html { render Views::Comments::New.new(comment: @comment), status: :unprocessable_content }
           format.turbo_stream do
-            render(status: :unprocessable_content, turbo_stream: turbo_stream.replace('new_comment', partial: 'comments/form', locals: { comment: @comment, subject: @parent }))
+            render(status: :unprocessable_content, turbo_stream: turbo_stream.replace('new_comment', Components::Comments::Form.new(subject: @parent, comment: @comment)))
           end
         end
       end
     else
       @comments = find_comments_index
-      render :index, status: :unprocessable_content
+      render Views::Comments::Index.new(comments: @comments, parent: @parent), status: :unprocessable_content
     end
   end
 
@@ -79,10 +81,10 @@ class CommentsController < ApplicationController
     @comment = find_comment
     authorize @comment
     respond_to do |format|
-      format.html { }
+      format.html { render Views::Comments::Edit.new(comment: @comment) }
       format.turbo_stream do
         render turbo_stream: [
-          turbo_stream.replace([ @comment, :editable ], partial: 'comments/form', locals: { comment: @comment, subject: @parent })
+          turbo_stream.replace([ @comment, :editable ], Components::Comments::Form.new(subject: @parent, comment: @comment))
         ]
       end
     end
@@ -94,10 +96,10 @@ class CommentsController < ApplicationController
     if @comment.update(permitted_params)
       respond_to do |format|
         format.html { redirect_back(fallback_location: url_for_parent) }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@comment, @comment) }
+        format.turbo_stream { render turbo_stream: turbo_stream.replace(@comment, Components::Comments::Card.new(comment: @comment, parent: @parent)) }
       end
     else
-      render :edit, status: :unprocessable_content
+      render Views::Comments::Edit.new(comment: @comment), status: :unprocessable_content
     end
   end
 

@@ -5,16 +5,19 @@ class PostsController < ApplicationController
   def index
     @posts = Post.order(id: :desc).page(params[:page])
     authorize Post
+    render Views::Posts::Index.new(posts: @posts)
   end
 
   def show
     @post = Post.find(params[:id])
     authorize @post
+    render Views::Posts::Show.new(post: @post)
   end
 
   def new
     @post = (@parent&.posts || Post).new
     authorize @post
+    render Views::Posts::New.new(post: @post)
   end
 
   def create
@@ -24,13 +27,14 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to polymorphic_path([@parent, @post])
     else
-      render :new, status: :unprocessable_content
+      render Views::Posts::New.new(post: @post), status: :unprocessable_content
     end
   end
 
   def edit
     @post = Post.find(params[:id])
     authorize @post
+    render Views::Posts::Edit.new(post: @post)
   end
 
   def update
@@ -39,7 +43,7 @@ class PostsController < ApplicationController
     if @post.update(post_params)
       redirect_to posts_path
     else
-      render :edit, status: :unprocessable_content
+      render Views::Posts::Edit.new(post: @post), status: :unprocessable_content
     end
   end
 

@@ -29,7 +29,6 @@ gem 'logtail-rails'
 
 gem 'bootsnap'
 
-gem 'haml-rails'
 gem "phlex-rails"
 gem "phlex"
 

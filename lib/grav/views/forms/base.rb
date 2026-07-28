@@ -160,11 +160,30 @@ module Grav::Views::Forms::Base
     end
   end
 
+  def params
+    view_context.params
+  end
+
   def errors_for(attribute, **options)
     return unless errors_on?(attribute, **options)
 
     div(class: 'form-errors') do
       model.errors[options[:errors_from] || attribute].join("; ")
+    end
+  end
+
+  # A block-level summary of every error on the model (including
+  # attribute-less/:base errors), for forms whose validations aren't
+  # all attached to a single rendered field.
+  def error_messages(heading: nil)
+    return unless model && model.errors.any?
+
+    heading ||= "Your #{model.class.model_name.human} could not be saved"
+    div(class: 'form-errors-summary') do
+      h4 { heading }
+      ul do
+        model.errors.full_messages.each { |message| li { message } }
+      end
     end
   end
 
@@ -180,6 +199,7 @@ module Grav::Views::Forms::Base
 
   def submit_button(text=nil, **options)
     options[:class] = [ 'form-submit-button', options[:class] ]
+    options[:name] ||= 'commit'
     if text.nil?
       if model
         text = model.persisted? ? 'Update' : 'Create'

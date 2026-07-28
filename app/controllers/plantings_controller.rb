@@ -8,6 +8,7 @@ class PlantingsController < ApplicationController
 
   def index
     find_plantings
+    render Views::Plantings::Index.new(plantings: @plantings)
   end
 
   def create
@@ -17,7 +18,7 @@ class PlantingsController < ApplicationController
       redirect_to action: :index
     else
       find_plantings
-      render :index, status: :unprocessable_content
+      render Views::Plantings::Index.new(plantings: @plantings, planting: @planting), status: :unprocessable_content
     end
   end
 

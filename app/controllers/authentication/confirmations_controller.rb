@@ -6,6 +6,7 @@ class Authentication::ConfirmationsController < AuthenticationController
 
   def new
     @user = User.new
+    render Views::Authentication::Confirmations::New.new(user: @user)
   end
 
   def create
@@ -16,11 +17,12 @@ class Authentication::ConfirmationsController < AuthenticationController
     else
       @user = User.new(email: params[:user][:email])
       @user.errors.add(:email, 'not found')
-      render :new, status: :unprocessable_content
+      render Views::Authentication::Confirmations::New.new(user: @user), status: :unprocessable_content
     end
   end
 
   def resend_confirmation
+    render Views::Authentication::Confirmations::ResendConfirmation.new
   end
 
   def show

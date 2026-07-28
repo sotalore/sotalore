@@ -9,11 +9,13 @@ class Adm::UsersController < AdmController
     order_field, direction = get_sort_field_and_direction(SORT_FIELDS, 'id', 'desc')
     @users = User.page(params[:page]).order({ order_field => direction })
     authorize(User)
+    render Views::Adm::Users::Index.new(users: @users)
   end
 
   def edit
     @user = User.find(params[:id])
     authorize(@user)
+    render Views::Adm::Users::Edit.new(user: @user)
   end
 
   def update
@@ -22,7 +24,7 @@ class Adm::UsersController < AdmController
     if @user.update(user_params)
       redirect_to adm_users_path, notice: 'User was successfully updated.'
     else
-      render :edit, status: :unprocessable_content
+      render Views::Adm::Users::Edit.new(user: @user), status: :unprocessable_content
     end
   end
 

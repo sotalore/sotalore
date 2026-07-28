@@ -50,7 +50,7 @@ class Views::Items::ByUse < Views::Items::Base
       end
     end
 
-    paginate @items
+    phlex_paginate @items
   end
 
 end

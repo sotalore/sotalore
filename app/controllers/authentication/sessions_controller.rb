@@ -6,6 +6,7 @@ class Authentication::SessionsController < AuthenticationController
 
   def new
     @user = User.new
+    render Views::Authentication::Sessions::New.new(user: @user)
   end
 
   def create
@@ -16,11 +17,11 @@ class Authentication::SessionsController < AuthenticationController
       redirect_to after_sign_in_path, notice: "Welcome back!"
     elsif @user # user is not confirmed, but they know their password
       flash.now.alert = "You need to confirm your account before signing in"
-      render :new, status: :unprocessable_content
+      render Views::Authentication::Sessions::New.new(user: @user), status: :unprocessable_content
     else
       @user = User.new(email: email)
       flash.now.alert = "That email or password is incorrect"
-      render :new, status: :unprocessable_content
+      render Views::Authentication::Sessions::New.new(user: @user), status: :unprocessable_content
     end
   end
 

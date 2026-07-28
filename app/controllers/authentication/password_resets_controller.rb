@@ -5,10 +5,12 @@ class Authentication::PasswordResetsController < AuthenticationController
   before_action :find_user_for_update, only: %i[edit update]
 
   def show
+    render Views::Authentication::PasswordResets::Show.new
   end
 
   def new
     @user = User.new
+    render Views::Authentication::PasswordResets::New.new(user: @user)
   end
 
   def create
@@ -20,12 +22,13 @@ class Authentication::PasswordResetsController < AuthenticationController
     else
       @user = User.new(email: email)
       @user.errors.add(:email, 'not found')
-      render :new, status: :unprocessable_content
+      render Views::Authentication::PasswordResets::New.new(user: @user), status: :unprocessable_content
     end
   end
 
   def edit
     @password_reset_form = PasswordResetForm.new(@user)
+    render Views::Authentication::PasswordResets::Edit.new(password_reset_form: @password_reset_form, token: params[:token])
   end
 
   def update
@@ -34,7 +37,7 @@ class Authentication::PasswordResetsController < AuthenticationController
       sign_in_user(@user)
       redirect_to root_path, notice: 'Your password has been updated'
     else
-      render :edit, status: :unprocessable_content
+      render Views::Authentication::PasswordResets::Edit.new(password_reset_form: @password_reset_form, token: params[:token]), status: :unprocessable_content
     end
   end
 

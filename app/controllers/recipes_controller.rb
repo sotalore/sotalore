@@ -16,23 +16,26 @@ class RecipesController < ApplicationController
       @recipes = @recipes.where("proficiency <= ?", params[:rsmax].to_i)
     end
     @recipes = @recipes.by_name.includes(results: :item).page(params[:page])
+    render Views::Recipes::Index.new(recipes: @recipes)
   end
 
   def for_item
     @item = Item.find(params[:item_id])
     @recipes = @item.recipes
     authorize @recipes
-    render @recipes
+    render Views::Recipes::ForItem.new(recipes: @recipes)
   end
 
   def show
     @recipe = find_recipe
     authorize @recipe
+    render Views::Recipes::Show.new(recipe: @recipe)
   end
 
   def show_partial
-    show
-    render @recipe
+    @recipe = find_recipe
+    authorize @recipe
+    render Components::Recipes::Card.new(recipe: @recipe), layout: false
   end
 
   def new
@@ -42,12 +45,14 @@ class RecipesController < ApplicationController
       @recipe.name = item.name
       @recipe.results.build(item: item, count: 1)
     end
+    render Views::Recipes::New.new(recipe: @recipe)
   end
 
   def edit
     @recipe = find_recipe
     authorize @recipe
     @recipe = RecipeForm.new(@recipe, current_user)
+    render Views::Recipes::Edit.new(recipe: @recipe)
   end
 
   def create
@@ -56,7 +61,7 @@ class RecipesController < ApplicationController
     if @recipe.save(permitted_params)
       redirect_to @recipe
     else
-      render :new, status: :unprocessable_content
+      render Views::Recipes::New.new(recipe: @recipe), status: :unprocessable_content
     end
   end
 
@@ -66,7 +71,7 @@ class RecipesController < ApplicationController
     if @recipe.save(permitted_params)
       redirect_to @recipe
     else
-      render :new, status: :unprocessable_content
+      render Views::Recipes::New.new(recipe: @recipe), status: :unprocessable_content
     end
   end
 
@@ -81,7 +86,7 @@ class RecipesController < ApplicationController
     craft_skill = CraftSkill.find(params[:craft_skill])
     @recipe = AbstractRecipe.new(craft_skill, params[:key])
     authorize Recipe, :show
-    render :show
+    render Views::Recipes::Show.new(recipe: @recipe)
   end
 
   private
@@ -93,7 +98,6 @@ class RecipesController < ApplicationController
       ingredients_attributes: [ :name, :item_id, :count, :id ],
       results_attributes: [ :name, :item_id, :count, :id ],
     )
-
   end
 
   def find_recipe
