@@ -19,6 +19,8 @@ There is no hosted CI (no `.github/workflows/`, no CircleCI/GitLab config). `bin
 
 System specs (`spec/system/`) use Capybara with `driven_by(:rack_test)` only — no JS-capable driver is configured, so they can't exercise Stimulus/Turbo behavior.
 
+Do not stage or commit to git unless explicitly requested.
+
 ## Architecture
 
 Rails 8.1 monolith (app module `SotaLore`, Ruby 4.0.5) for *SotA Lore* (<www.sotalore.com>), a community item/recipe/crafting database for the game Shroud of the Avatar. Hotwire (Turbo + Stimulus) + Importmap (no Node/webpack build, no `package.json`), Propshaft assets, Tailwind CSS, PostgreSQL, RSpec.
