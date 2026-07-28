@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Views::Adm::Styles::Items < Views::Base
+class Views::Adm::Styles::Items < Views::Adm::Styles::Base
   def view_template
     div(class: 'max-w-2xl') do
       render Views::Adm::Styles::Menu.new
@@ -8,36 +8,36 @@ class Views::Adm::Styles::Items < Views::Base
       render Components::Tile.new(heading: 'Old Items Tags') do |tile|
         div(class: 'py-2') do
           ItemsHelper::USES_FOR_RECIPES.each do |use|
-            raw helpers.item_use_for_recipe_tag(Item.new(use: use))
+            raw item_use_for_recipe_tag(Item.new(use: use))
           end
         end
 
         div(class: 'py-2 flex flex-row gap-x-1 items-center') do
-          raw helpers.item_price_tag(Item.new(price: 12))
-          raw helpers.item_weight_tag(Item.new(weight: 2.2))
-          raw helpers.item_abstract_tag(Item.new(abstract: true))
+          raw item_price_tag(Item.new(price: 12))
+          raw item_weight_tag(Item.new(weight: 2.2))
+          raw item_abstract_tag(Item.new(abstract: true))
         end
 
         div(class: 'py-2') do
           Item::ITEM_USES.keys.each do |use|
-            raw helpers.item_use_tag(Item.new(use: use))
+            raw item_use_tag(Item.new(use: use))
           end
         end
 
         div(class: 'py-2') do
           Item::ITEM_USES.keys.each do |use|
-            raw helpers.item_use_tag(Item.new(use: use), large: true)
+            raw item_use_tag(Item.new(use: use), large: true)
           end
         end
 
         div(class: 'py-2 flex flex-row gap-x-1 items-center') do
           CraftSkill::ALL.select { |skill| skill.gathering? }.each do |skill|
-            raw helpers.item_gathering_tag(Item.new(gathering_skill: skill))
+            raw item_gathering_tag(Item.new(gathering_skill: skill))
           end
         end
         div(class: 'py-2 flex flex-row gap-x-1 items-center') do
           CraftSkill::ALL.select { |skill| skill.gathering? }.each do |skill|
-            raw helpers.item_gathering_tag(Item.new(gathering_skill: skill), large: true)
+            raw item_gathering_tag(Item.new(gathering_skill: skill), large: true)
           end
         end
       end

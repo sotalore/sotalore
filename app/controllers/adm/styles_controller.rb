@@ -7,12 +7,15 @@ class Adm::StylesController < AdmController
     flash.now.notice = "This is a notice."
     flash.now.alert = "This is an alert."
     flash.now[:error] = "This is an error."
+    render Views::Adm::Styles::Show.new
   end
 
   def tiles
+    render Views::Adm::Styles::Tiles.new
   end
 
   def forms
+    render Views::Adm::Styles::Forms.new
   end
 
   def phlex
