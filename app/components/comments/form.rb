@@ -2,7 +2,6 @@
 
 class Components::Comments::Form < Components::Base
   include Grav::Views::Forms::Base
-  include Phlex::Rails::Helpers::DOMID
 
   register_value_helper :require_turnstile?
   register_output_helper :turnstile_tag

@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Components::Comments::Card < Components::Base
-  include Phlex::Rails::Helpers::DOMID
 
   def initialize(comment:, parent: nil)
     @comment = comment

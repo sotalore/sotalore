@@ -9,10 +9,9 @@ class User::UserRecipesController < ApplicationController
     @recipe = find_recipe
     if @recipe
       unless find_user_recipe(@recipe.id)
-        Current.user.user_recipes
-          .create!(recipe: @recipe)
+        Current.user.user_recipes.find_or_create_by!(recipe: @recipe)
       end
-      render Views::User::UserRecipes::Create.new(recipe: @recipe)
+      render Views::User::UserRecipes::Button.new(recipe: @recipe)
     else
       head :not_acceptable
     end
@@ -23,7 +22,7 @@ class User::UserRecipesController < ApplicationController
     if ur = find_user_recipe
       ur.destroy
     end
-    render Views::User::UserRecipes::Create.new(recipe: @recipe)
+    render Views::User::UserRecipes::Button.new(recipe: @recipe)
   end
 
   private
@@ -33,7 +32,6 @@ class User::UserRecipesController < ApplicationController
   end
 
   def find_user_recipe(id=params[:recipe_id])
-    Current.user.user_recipes
-      .find_by(recipe_id: id)
+    Current.user.user_recipes.find_by(recipe_id: id)
   end
 end
