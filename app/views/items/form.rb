@@ -60,4 +60,11 @@ class Views::Items::Form < Views::Items::Base
     end
   end
 
+  private
+
+  def abstract_items_options
+    Item.where(abstract: true).by_name
+      .map { |i| [ i.name, i.id ] }
+  end
+
 end

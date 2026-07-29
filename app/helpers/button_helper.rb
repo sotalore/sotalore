@@ -8,12 +8,6 @@ module ButtonHelper
     end
   end
 
-  def edit_recipe_icon(recipe)
-    if policy(recipe).edit?
-      edit_icon_to(edit_recipe_path(recipe))
-    end
-  end
-
   def primary_button_to(label, path=nil, options={})
     if block_given?
       options, path = path, label
@@ -36,11 +30,6 @@ module ButtonHelper
 
   def view_icon_to(path, options={})
     simple_icon_only_button(path, 'arrow_right_circle', 'view', options)
-  end
-
-  def view_link_to(label, path, options={})
-    options[:style] ||= 'primary'
-    simple_link_with_icon(label, path, 'information_circle', options)
   end
 
   def cancel_button_to(label, path, options={})
@@ -103,29 +92,10 @@ module ButtonHelper
     options
   end
 
-  def add_link_css_classes(options)
-    str = "Link #{options[:class]}".strip
-    if options.key?(:size)
-      size = options.delete(:size)
-      str << " Link--#{size}"
-    end
-
-    style = options.delete(:style) { 'primary' }
-    str << " Link--#{style}"
-    options[:class] = str.strip
-    options
-  end
-
   private
   def simple_button_with_icon(label, path, icon, options={})
     options[:style] ||= 'default'
     add_button_css_classes(options)
-    link_to(path, options) { icon_plus_label(icon, label) }
-  end
-
-  def simple_link_with_icon(label, path, icon, options={})
-    options[:style] ||= 'default'
-    add_link_css_classes(options)
     link_to(path, options) { icon_plus_label(icon, label) }
   end
 

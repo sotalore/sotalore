@@ -2,6 +2,8 @@
 
 class Views::Adm::Users::Index < Views::Base
 
+  register_value_helper :request
+
   def initialize(users:)
     @users = users
   end
@@ -54,6 +56,28 @@ class Views::Adm::Users::Index < Views::Base
 
   def disabled_flair(time)
     flair_danger(view_context.time_ago_tag(time))
+  end
+
+  def sort_link(name, field)
+    path = request.path
+    asc_val = "#{field}_asc"
+    desc_val = "#{field}_desc"
+    current_sort = request.params[:sort]
+
+    if current_sort == asc_val
+      link_to("#{path}?sort=#{desc_val}", class: 'text-inherit underline') { sort_link_label(name, "&#8963;") }
+    elsif current_sort == desc_val
+      link_to("#{path}?sort=#{asc_val}", class: 'text-inherit underline') { sort_link_label(name, "&#8964;") }
+    else
+      link_to(name, "#{path}?sort=#{asc_val}", class: 'text-inherit underline')
+    end
+  end
+
+  def sort_link_label(name, entity)
+    span(class: 'bold') do
+      plain(name)
+      raw(safe("&nbsp;#{entity}"))
+    end
   end
 
 end

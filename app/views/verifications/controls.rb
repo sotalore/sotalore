@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Views::Verifications::Controls < Views::Base
-
-  register_output_helper :verify_button
+  include Phlex::Rails::Helpers::ButtonTo
 
   def initialize(verifiable)
     @verifiable = verifiable
@@ -24,6 +23,12 @@ class Views::Verifications::Controls < Views::Base
   end
 
   private
+
+  def verify_button(verifiable)
+    div(class: 'inline-block') do
+      button_to('Verify', verify_path(verifiable), class: 'Button Button-default', method: :patch)
+    end
+  end
 
   def relevant_collection_path
     case @verifiable

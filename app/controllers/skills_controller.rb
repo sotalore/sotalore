@@ -1,5 +1,4 @@
 class SkillsController < ApplicationController
-  include NavHelper
   skip_after_action :verify_authorized
 
   before_action :set_activity, only: [ :index ]
@@ -83,4 +82,8 @@ class SkillsController < ApplicationController
     @activity.crafting? ? 'adventuring' : 'crafting'
   end
   helper_method :other_activity
+
+  def site_nav_activate_link(url)
+    @portal_nav_active_link = url
+  end
 end

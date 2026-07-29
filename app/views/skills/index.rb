@@ -36,6 +36,12 @@ class Views::Skills::Index < Views::Skills::Base
 
   private
 
+  def avatar_visible_skills(avatar, skills)
+    return skills unless avatar
+
+    skills.select { |s| !avatar.ignoring_skill?(s) }
+  end
+
   def header_row
     div(class: "tableRow bg-white font-bold sticky top-0") do
       div(class: "skillCell flex flex-row items-baseline") do

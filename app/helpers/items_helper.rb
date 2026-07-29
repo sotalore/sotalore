@@ -2,11 +2,6 @@
 
 module ItemsHelper
 
-  def abstract_items_options
-    Item.where(abstract: true).by_name
-      .map { |i| [ i.name, i.id ]}
-  end
-
   USE_ICONS = {
     'unknown' => 'question',
     'fuel' => 'fire',

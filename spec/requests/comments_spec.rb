@@ -13,6 +13,19 @@ RSpec.describe "Comments", type: :request do
     end
   end
 
+  describe 'GET index with a revision comment containing boolean values' do
+    let!(:comment) do
+      create :comment, subject: parent, comment_type: 'revision',
+             body: { changes: { 'visible' => [ false, true ] } }.to_json
+    end
+
+    it 'renders the boolean values instead of raising' do
+      get item_comments_path(parent)
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('>true<')
+    end
+  end
+
   describe 'GET moderate' do
     let(:current_user) { create :user, :root }
     let(:comments) { create_list :comment, 3, subject: parent }
