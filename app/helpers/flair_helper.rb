@@ -1,6 +1,7 @@
 # frozen-string-literal: true
 
 module FlairHelper
+  include Views::IconHelper
 
   def flair_primary(text)
     flair_tag(:primary, :eye, text)

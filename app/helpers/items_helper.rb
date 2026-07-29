@@ -1,6 +1,7 @@
 # frozen-string-literal: true
 
 module ItemsHelper
+  include Views::IconHelper
 
   USE_ICONS = {
     'unknown' => 'question',

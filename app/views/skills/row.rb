@@ -6,7 +6,6 @@ class Views::Skills::Row < Views::Base
 
   register_value_helper :dom_id
   register_value_helper :params
-  register_output_helper :render_icon
 
   def initialize(skill, avatar, current_skill=nil)
     @skill = skill

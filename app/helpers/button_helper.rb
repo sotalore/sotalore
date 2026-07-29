@@ -1,6 +1,7 @@
 # frozen-string-literal: true
 
 module ButtonHelper
+  include Views::IconHelper
 
   def more_link_to(path, options={})
     link_to(path, options) do

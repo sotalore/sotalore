@@ -7,7 +7,6 @@ class Components::Recipes::Card < Components::Recipes::Base
   register_output_helper :view_icon_to
   register_output_helper :more_link_to
   register_output_helper :to_sentence
-  register_output_helper :render_icon
 
   def initialize(recipe:)
     @recipe = recipe

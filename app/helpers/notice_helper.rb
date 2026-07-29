@@ -1,6 +1,7 @@
 # frozen-string-literal: true
 
 module NoticeHelper
+  include Views::IconHelper
 
   def notice_info(message = nil, css_class: '', &block)
     notice_tag(:info, message, css_class: css_class, &block)

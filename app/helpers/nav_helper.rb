@@ -1,6 +1,7 @@
 # frozen-string-literal: true
 
 module NavHelper
+  include Views::IconHelper
 
   def site_nav_link_to(text, url, icon, options={})
     options = {
