@@ -153,7 +153,7 @@ class Views::Scenes::Show < Views::Scenes::Base
 
   def comments_section
     tile_with_heading("Comments", class: "col-span-6 md:col-span-3") do
-      render_comments_for(@scene)
+      render Components::Comments::Subject.new(subject: @scene)
     end
   end
 

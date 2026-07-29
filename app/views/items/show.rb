@@ -145,7 +145,7 @@ class Views::Items::Show < Views::Items::Base
     end
 
     tile do
-      tile_body { render_comments_for(@item) }
+      tile_body { render Components::Comments::Subject.new(subject: @item) }
     end
   end
 

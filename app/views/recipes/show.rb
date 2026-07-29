@@ -17,7 +17,7 @@ class Views::Recipes::Show < Views::Base
           tile_body do
             render Components::Recipes::Card.new(recipe: @recipe)
             div(class: "grow flex flex-row justify-end") { render Views::Verifications::Controls.new(@recipe) }
-            render_comments_for(@recipe)
+            render Components::Comments::Subject.new(subject: @recipe)
           end
         end
       end
