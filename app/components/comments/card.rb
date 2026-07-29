@@ -74,9 +74,9 @@ class Components::Comments::Card < Components::Base
       @comment.revision_changes.each do |name, (from, to)|
         tr(class: "border-0 border-t border-slate-200") do
           th(class: "text-right") { name }
-          td { from ? plain(from) : em { "none" } }
+          td { from ? plain(from.to_s) : em { "none" } }
           td { raw(safe("&rarr;")) }
-          td { to ? plain(to) : em { "none" } }
+          td { to ? plain(to.to_s) : em { "none" } }
         end
       end
 
