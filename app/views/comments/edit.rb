@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Views::Comments::Edit < Views::Base
+class Views::Comments::Edit < Views::Comments::Base
 
   def initialize(comment:)
     @comment = comment

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Comments::Card < Components::Base
+  include Views::Comments::FlairHelper
 
   def initialize(comment:, parent: nil)
     @comment = comment
