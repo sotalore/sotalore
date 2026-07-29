@@ -8,7 +8,6 @@ module AuthenticationSupport
     before_action :setup_error_reporting_context
     before_action :track_user_activity
 
-    helper_method :current_user
     helper_method :user_signed_in?
   end
 
@@ -27,12 +26,8 @@ module AuthenticationSupport
     Current.user = NullUser.new
   end
 
-  def current_user
-    Current.user ||= find_user_with_fallbacks
-  end
-
   def user_signed_in?
-    current_user && current_user.not_null?
+    Current.user.not_null?
   end
 
   def authenticate_user!
@@ -55,12 +50,12 @@ module AuthenticationSupport
   def set_current_request_details
     Current.user_agent = request.user_agent
     Current.ip_address = request.remote_ip
-    Current.current_user_id = find_current_user_id_with_fallbacks
+    Current.user = find_current_user
   end
 
   def setup_error_reporting_context
     Honeybadger.context({
-      user_id: (current_user.null? ? nil : current_user.id),
+      user_id: (Current.user.null? ? nil : Current.user.id),
     })
   end
 
@@ -70,31 +65,8 @@ module AuthenticationSupport
     Current.user.touch(:last_request_at)
   end
 
-  def find_current_user_id_with_fallbacks
-    find_current_user_id || find_past_devise_user
-  end
-
-  def find_current_user_id
-    cookies.signed[:current_user_id]
-  end
-
-  # This session management can be removed on April 15
-  # That will give about 1 month for users to transfer their sessions
-  # from devise to the newer session management.
-  def find_past_devise_user
-    warden_info = session['warden.user.user.key']
-    session.delete('warden.user.user.key')
-    if warden_info && warden_info.is_a?(Array)
-      user_id, salt = warden_info
-      user_id = user_id.first if user_id.is_a?(Array)
-      user = User.find_by(id: user_id)
-
-      if user && user.encrypted_password[0,29] == salt
-        sign_in_user(user)
-        return user.id
-      end
-    end
-    nil
+  def find_current_user
+    User.find_by(id: cookies.signed[:current_user_id])
   end
 
 end

@@ -5,7 +5,6 @@
 # rather than Kaminari's ActionView helpers/theme partials.
 class Components::Pagination < Components::Base
 
-  register_value_helper :params
   register_value_helper :url_for
   register_value_helper :t
 

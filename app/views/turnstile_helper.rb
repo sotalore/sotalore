@@ -1,12 +1,14 @@
-module TurnstileHelper
+# frozen_string_literal: true
+
+module Views::TurnstileHelper
+
   def require_turnstile?
-    current_user.null?
+    Current.user.null?
   end
 
   def turnstile_tag
     data_attr = { sitekey: CloudflareTurnstile.site_key, theme: 'light', controller: 'turnstile' }
-    content_tag(:div, class: "cf-turnstile mx-2", data: data_attr) do
-      ""
-    end
+    div(class: "cf-turnstile mx-2", data: data_attr)
   end
+
 end

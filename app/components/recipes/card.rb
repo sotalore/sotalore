@@ -1,15 +1,10 @@
 # frozen_string_literal: true
 
 class Components::Recipes::Card < Components::Recipes::Base
-  include Phlex::Rails::Helpers::DOMID
   include Phlex::Rails::Helpers::CurrentPage
 
   register_value_helper :t
-  register_output_helper :user_recipe_button
-  register_output_helper :view_icon_to
-  register_output_helper :more_link_to
   register_output_helper :to_sentence
-  register_output_helper :render_icon
 
   def initialize(recipe:)
     @recipe = recipe
@@ -44,7 +39,7 @@ class Components::Recipes::Card < Components::Recipes::Base
   def header_row
     div(class: "Recipe-name p-2 font-bold flex flex-row justify-between items-center border-b border-parchment-950") do
       div(class: "grow whitespace-nowrap overflow-hidden text-ellipsis") do
-        user_recipe_button(@recipe)
+        render Views::User::UserRecipes::Button.new(recipe: @recipe)
         whitespace
         plain @recipe.name
       end

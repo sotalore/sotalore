@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Views::Comments::Edit < Views::Base
+class Views::Comments::Edit < Views::Comments::Base
 
   def initialize(comment:)
     @comment = comment
@@ -17,8 +17,8 @@ class Views::Comments::Edit < Views::Base
           div(class: "Comment") do
             div(class: "Comment-author") do
               div(class: "Comment-authorName") do
-                span(class: "text-semibold") { current_user.name }
-                user_flair_tag(current_user)
+                span(class: "text-semibold") { Current.user.name }
+                user_flair_tag(Current.user)
               end
               div(class: "Comment-authorTime") { "now" }
             end

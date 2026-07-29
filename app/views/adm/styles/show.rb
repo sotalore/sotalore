@@ -59,7 +59,7 @@ class Views::Adm::Styles::Show < Views::Adm::Styles::Base
 
     tile_with_heading("Item Use Icons") do
       div do
-        ItemsHelper::USES_FOR_RECIPES.each do |use|
+        Views::ItemsHelper::USES_FOR_RECIPES.each do |use|
           raw item_use_for_recipe_tag(Item.new(use: use))
         end
         raw item_price_tag(Item.new(price: 12))

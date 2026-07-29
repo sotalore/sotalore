@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Views::Layouts::Authentication < Views::Base
+class Views::Layouts::Authentication < Views::Layouts::Base
   include Phlex::Rails::Layout
 
   def view_template

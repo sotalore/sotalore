@@ -1,6 +1,6 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
-module UsersHelper
+module Views::Comments::FlairHelper
 
   STANDARD_CLASSES = "text-sm text-grey-200 py-1px px-2 rounded".freeze
 
@@ -23,7 +23,7 @@ module UsersHelper
 
     if role
       color_class = ROLE_COLORS[role] || 'bg-grey-500'
-      content_tag(:span, ROLE_NAMES[role], class: "#{STANDARD_CLASSES} #{color_class}")
+      span(class: "#{STANDARD_CLASSES} #{color_class}") { ROLE_NAMES[role] }
     end
   end
 

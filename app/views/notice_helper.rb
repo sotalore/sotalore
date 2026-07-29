@@ -1,6 +1,20 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
-module NoticeHelper
+module Views::NoticeHelper
+  include Views::FlairHelper
+  include Phlex::Rails::Helpers::Flash
+
+  FLASH_TYPES = {
+    alert: :warning,
+    error: :danger,
+    notice: :info
+  }.with_indifferent_access.freeze
+
+  def render_flash_messages
+    flash.each do |type, message|
+      notice_tag(FLASH_TYPES[type] || type, message)
+    end
+  end
 
   def notice_info(message = nil, css_class: '', &block)
     notice_tag(:info, message, css_class: css_class, &block)
@@ -31,15 +45,19 @@ module NoticeHelper
   NOTICE_CSS = %w[ my-4 mx-2 flex flex-row rounded ].join(' ').freeze
   NOTICE_ICON_CSS = %w[ flex items-center justify-center w-8 rounded-s ].join(' ').freeze
 
-  NOTICE_TYPE_CSS = FlairHelper::FLAIR_TYPE_CSS
-  NOTICE_ICON_TYPE_CSS = FlairHelper::FLAIR_ICON_TYPE_CSS
+  NOTICE_TYPE_CSS = Views::FlairHelper::FLAIR_TYPE_CSS
+  NOTICE_ICON_TYPE_CSS = Views::FlairHelper::FLAIR_ICON_TYPE_CSS
 
   def notice_tag(type, message = nil, css_class: '', &block)
     message = capture(&block) if block_given?
 
-    content_tag(:div, class: "#{NOTICE_CSS} #{NOTICE_TYPE_CSS[type]} #{css_class}") do
-      content_tag(:span, render_icon(ICON_FOR_TYPE[type]), class: "#{NOTICE_ICON_CSS} #{NOTICE_ICON_TYPE_CSS[type]}") +
-      content_tag(:span, " #{message}".html_safe, class: "py-2 px-4 border rounded-e grow")
+    div(class: "#{NOTICE_CSS} #{NOTICE_TYPE_CSS[type]} #{css_class}") do
+      span(class: "#{NOTICE_ICON_CSS} #{NOTICE_ICON_TYPE_CSS[type]}") do
+        render_icon(ICON_FOR_TYPE[type])
+      end
+      span(class: "py-2 px-4 border rounded-e grow") do
+        raw(safe(" #{message}"))
+      end
     end
   end
 

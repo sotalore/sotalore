@@ -83,4 +83,48 @@ RSpec.describe 'Skills', type: :request do
     end
   end
 
+  # The site nav's "Skills" link is built from current_skills_path, so it
+  # exercises current_skills_path/current_avatar on every page render.
+  describe "the site nav Skills link (current_skills_path)" do
+    def skills_nav_href
+      match = response.body.match(/<a alt="Skills"[^>]*href="([^"]*)"/)
+      match && match[1]
+    end
+
+    it "is the skills path when there is no current user" do
+      get root_path
+      expect(skills_nav_href).to eq(skills_path)
+    end
+
+    context "with a current user" do
+      let!(:user) { create(:user) }
+      before { sign_in user }
+
+      it "is the skills path when the user has no avatars" do
+        get root_path
+        expect(skills_nav_href).to eq(skills_path)
+      end
+
+      context "with a default avatar" do
+        let!(:default_avatar) { create(:avatar, user: user, is_default: true) }
+
+        it "is the default avatar's skills path" do
+          get root_path
+          expect(skills_nav_href).to eq(avatar_skills_path(default_avatar))
+        end
+
+        context "with a different avatar set as current via session" do
+          let!(:current_avatar) { create(:avatar, user: user, is_default: false) }
+
+          before { get avatar_skills_path(current_avatar, activity: 'adventuring') }
+
+          it "is the current avatar's skills path" do
+            get root_path
+            expect(skills_nav_href).to eq(avatar_skills_path(current_avatar))
+          end
+        end
+      end
+    end
+  end
+
 end

@@ -17,9 +17,9 @@ class Views::Recipes::Index < Views::Base
 
     tile do
       tile_body do
-        phlex_paginate @recipes
+        paginate @recipes
         recipes_table
-        phlex_paginate @recipes
+        paginate @recipes
       end
     end
   end

@@ -7,7 +7,7 @@ class Views::Adm::Styles::Items < Views::Adm::Styles::Base
 
       render Components::Tile.new(heading: 'Old Items Tags') do |tile|
         div(class: 'py-2') do
-          ItemsHelper::USES_FOR_RECIPES.each do |use|
+          Views::ItemsHelper::USES_FOR_RECIPES.each do |use|
             raw item_use_for_recipe_tag(Item.new(use: use))
           end
         end

@@ -14,7 +14,7 @@ class VerificationsController < ApplicationController
     authorize :verification
 
     verifiable = find_verifiable
-    verifiable.verify!(current_user)
+    verifiable.verify!(Current.user)
 
     redirect_to verifiable
   end

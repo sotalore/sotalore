@@ -1,9 +1,7 @@
 # frozen_string_literal: true
 
 class Views::Authentication::Base < Views::Base
-
-  register_output_helper :notice_info
-  register_output_helper :turnstile_tag
+  include Views::TurnstileHelper
 
   def auth_columns(&block)
     div(class: "flex flex-col md:flex-row gap-x-4 justify-center", &block)

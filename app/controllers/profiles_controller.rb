@@ -5,13 +5,13 @@ class ProfilesController < ApplicationController
   before_action :authenticate_user!
 
   def show
-    @user = current_user unless current_user.null?
+    @user = Current.user unless Current.user.null?
     authorize @user
     render Views::Profiles::Show.new(user: @user)
   end
 
   def update
-    @user = current_user unless current_user.null?
+    @user = Current.user unless Current.user.null?
     authorize @user
     if @user.update(user_params)
       redirect_to profile_path, notice: 'Profile updated.'

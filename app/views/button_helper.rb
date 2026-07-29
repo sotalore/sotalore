@@ -1,6 +1,7 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
-module ButtonHelper
+module Views::ButtonHelper
+  include Views::IconHelper
 
   def more_link_to(path, options={})
     link_to(path, options) do
@@ -11,7 +12,7 @@ module ButtonHelper
   def primary_button_to(label, path=nil, options={})
     if block_given?
       options, path = path, label
-      label = capture { yield }
+      label = capture { yield }.html_safe
     end
     options = { style: 'primary' }.merge(options || {})
     add_button_css_classes(options)
@@ -21,7 +22,7 @@ module ButtonHelper
   def default_button_to(label, path=nil, options={})
     if block_given?
       options, path = path, label
-      label = capture { yield }
+      label = capture { yield }.html_safe
     end
     options = { style: 'default' }.merge(options || {})
     add_button_css_classes(options)
@@ -93,6 +94,7 @@ module ButtonHelper
   end
 
   private
+
   def simple_button_with_icon(label, path, icon, options={})
     options[:style] ||= 'default'
     add_button_css_classes(options)
@@ -100,8 +102,9 @@ module ButtonHelper
   end
 
   def icon_plus_label(icon, label)
-    tag.span(class: 'inline-flex items-center gap-x-1') do
-      render_icon(icon, size: :sm) + " #{label}".html_safe
+    span(class: 'inline-flex items-center gap-x-1') do
+      render_icon(icon, size: :sm)
+      raw(safe(" #{label}"))
     end
   end
 end

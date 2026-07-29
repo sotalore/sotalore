@@ -1,6 +1,7 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
-module FlairHelper
+module Views::FlairHelper
+  include Views::IconHelper
 
   def flair_primary(text)
     flair_tag(:primary, :eye, text)
@@ -15,14 +16,12 @@ module FlairHelper
   end
 
   def flair_info(text)
-    flair_tag(:info, :'information_circle', text)
+    flair_tag(:info, :information_circle, text)
   end
 
   def flair_warning(text)
     flair_tag(:warning, :warning, text)
   end
-
-  private
 
   FLAIR_CSS = %w[
     inline-flex items-center border rounded pr-2
@@ -50,9 +49,25 @@ module FlairHelper
     info: 'text-purple-100 bg-purple-600',
   }.with_indifferent_access.freeze
 
+  private
+
   def flair_tag(modifier, icon, text)
-    content_tag(:span, class: "#{FLAIR_CSS} #{FLAIR_TYPE_CSS[modifier]}") do
-      content_tag(:span, render_icon(icon, size: :sm), class: "#{FLAIR_ICON_CSS} #{FLAIR_ICON_TYPE_CSS[modifier]}") + text
+    span(class: "#{FLAIR_CSS} #{FLAIR_TYPE_CSS[modifier]}") do
+      span(class: "#{FLAIR_ICON_CSS} #{FLAIR_ICON_TYPE_CSS[modifier]}") do
+        render_icon(icon, size: :sm)
+      end
+      safe_or_escaped(text)
+    end
+  end
+
+  # Mirrors ActiveSupport::SafeBuffer#+: pass already-safe content through
+  # untouched, escape anything else. `text` is sometimes a plain label and
+  # sometimes pre-rendered safe HTML (e.g. a local_time_ago result).
+  def safe_or_escaped(content)
+    if Phlex::SGML::SafeObject === content
+      raw(content)
+    else
+      plain(content)
     end
   end
 

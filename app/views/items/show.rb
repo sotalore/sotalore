@@ -86,7 +86,7 @@ class Views::Items::Show < Views::Items::Base
               h3 { plain "Used in #{pluralize(@used_in.total_count, 'Recipe')}:" }
               p do
                 raw safe(@used_in.map { |recipe| view_context.link_to(recipe.name, recipe) }.to_sentence)
-                phlex_paginate(@used_in)
+                paginate(@used_in)
               end
             end
           end
@@ -145,7 +145,7 @@ class Views::Items::Show < Views::Items::Base
     end
 
     tile do
-      tile_body { render_comments_for(@item) }
+      tile_body { render Components::Comments::Subject.new(subject: @item) }
     end
   end
 

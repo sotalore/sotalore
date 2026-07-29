@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Views::Layouts::Adm < Views::Base
+class Views::Layouts::Adm < Views::Layouts::Base
   include Phlex::Rails::Layout
 
   def view_template

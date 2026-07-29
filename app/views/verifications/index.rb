@@ -3,9 +3,6 @@
 class Views::Verifications::Index < Views::Base
   include Phlex::Rails::Helpers::TimeAgoInWords
 
-  register_value_helper :params
-  register_output_helper :item_abstract_tag
-
   def initialize(verifiables:)
     @verifiables = verifiables
   end
@@ -15,7 +12,7 @@ class Views::Verifications::Index < Views::Base
 
     tile do
       tile_body do
-        phlex_paginate @verifiables
+        paginate @verifiables
 
         table(class: "Table") do
           thead do
@@ -46,7 +43,7 @@ class Views::Verifications::Index < Views::Base
           end
         end
 
-        phlex_paginate @verifiables
+        paginate @verifiables
       end
     end
   end

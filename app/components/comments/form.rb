@@ -2,11 +2,7 @@
 
 class Components::Comments::Form < Components::Base
   include Grav::Views::Forms::Base
-  include Phlex::Rails::Helpers::DOMID
-
-  register_value_helper :require_turnstile?
-  register_output_helper :turnstile_tag
-  register_output_helper :notice_warning
+  include Views::TurnstileHelper
 
   def initialize(subject:, comment:)
     @subject = subject
@@ -20,7 +16,7 @@ class Components::Comments::Form < Components::Base
       super do
         text_area_field(:body, skip_label: model.persisted?, rows: body_rows)
 
-        if current_user.null? && model.new_record?
+        if Current.user.null? && model.new_record?
           notice_warning do
             plain "You can post comments anonymously, or you can "
             link_to("sign-up", new_user_registration_path)

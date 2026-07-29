@@ -19,7 +19,7 @@ class Views::Home::Show < Views::Base
               end
             end
 
-            render_comments_for(:front_page)
+            render Components::Comments::Subject.new(subject: :front_page)
           end
         end
       end

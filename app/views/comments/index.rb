@@ -2,8 +2,6 @@
 
 class Views::Comments::Index < Views::Base
 
-  register_value_helper :params
-
   def initialize(comments:, parent:, moderating: false)
     @comments = comments
     @parent = parent
@@ -21,7 +19,7 @@ class Views::Comments::Index < Views::Base
           moderation_controls if @moderating
 
           @comments.each { |comment| render Components::Comments::Card.new(comment: comment, parent: @parent) }
-          phlex_paginate @comments
+          paginate @comments
         end
       end
     end

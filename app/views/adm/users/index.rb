@@ -10,7 +10,7 @@ class Views::Adm::Users::Index < Views::Base
 
   def view_template
     div(class: "m-2 bg-white") do
-      phlex_paginate @users
+      paginate @users
 
       table(class: "table-auto") do
         thead do
@@ -48,14 +48,14 @@ class Views::Adm::Users::Index < Views::Base
         end
       end
 
-      phlex_paginate @users
+      paginate @users
     end
   end
 
   private
 
   def disabled_flair(time)
-    flair_danger(view_context.time_ago_tag(time))
+    flair_danger(view_context.local_time_ago(time))
   end
 
   def sort_link(name, field)
