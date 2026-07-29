@@ -51,7 +51,7 @@ class Views::Scenes::Index < Views::Scenes::Base
       end
     end
 
-    phlex_paginate @scenes
+    paginate @scenes
   end
 
 end

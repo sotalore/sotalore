@@ -15,7 +15,7 @@ class Views::Verifications::Index < Views::Base
 
     tile do
       tile_body do
-        phlex_paginate @verifiables
+        paginate @verifiables
 
         table(class: "Table") do
           thead do
@@ -46,7 +46,7 @@ class Views::Verifications::Index < Views::Base
           end
         end
 
-        phlex_paginate @verifiables
+        paginate @verifiables
       end
     end
   end

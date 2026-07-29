@@ -63,7 +63,7 @@ class Views::Abstractions::Index < Views::Base
       end
     end
 
-    phlex_paginate @items
+    paginate @items
   end
 
 end

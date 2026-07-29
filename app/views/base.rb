@@ -8,4 +8,8 @@ class Views::Base < Components::Base
   # By default, it inherits from `ApplicationComponent`, but you
   # can change that to `Phlex::HTML` if you want to keep views and
   # components independent.
+
+  def paginate(collection, window: 4)
+    render Components::Pagination.new(collection, window: window)
+  end
 end

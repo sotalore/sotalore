@@ -10,7 +10,7 @@ class Views::Adm::Users::Index < Views::Base
 
   def view_template
     div(class: "m-2 bg-white") do
-      phlex_paginate @users
+      paginate @users
 
       table(class: "table-auto") do
         thead do
@@ -48,7 +48,7 @@ class Views::Adm::Users::Index < Views::Base
         end
       end
 
-      phlex_paginate @users
+      paginate @users
     end
   end
 
