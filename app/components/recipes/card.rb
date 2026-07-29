@@ -6,11 +6,10 @@ class Components::Recipes::Card < Components::Recipes::Base
 
   register_value_helper :t
   register_output_helper :user_recipe_button
-  register_output_helper :edit_recipe_icon
   register_output_helper :view_icon_to
-  register_output_helper :view_link_to
   register_output_helper :more_link_to
   register_output_helper :to_sentence
+  register_output_helper :render_icon
 
   def initialize(recipe:)
     @recipe = recipe
@@ -25,6 +24,22 @@ class Components::Recipes::Card < Components::Recipes::Base
   end
 
   private
+
+  def edit_recipe_icon(recipe)
+    if policy(recipe).edit?
+      edit_icon_to(edit_recipe_path(recipe))
+    end
+  end
+
+  def view_link_to(label, path)
+    link_to(path, class: "Link Link--primary") do
+      span(class: "inline-flex items-center gap-x-1") do
+        render_icon(:information_circle, size: :sm)
+        whitespace
+        plain label
+      end
+    end
+  end
 
   def header_row
     div(class: "Recipe-name p-2 font-bold flex flex-row justify-between items-center border-b border-parchment-950") do

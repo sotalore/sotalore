@@ -2,9 +2,11 @@
 
 class Views::Skills::Row < Views::Base
   include Phlex::Rails::Helpers::TurboFrameTag
+  include Phlex::Rails::Helpers::ButtonTo
 
-  register_output_helper :toggle_skill_button
   register_value_helper :dom_id
+  register_value_helper :params
+  register_output_helper :render_icon
 
   def initialize(skill, avatar, current_skill=nil)
     @skill = skill
@@ -55,6 +57,23 @@ class Views::Skills::Row < Views::Base
   end
 
   private
+
+  def toggle_skill_button(avatar, skill)
+    return unless avatar
+
+    if @avatar.ignoring_skill?(skill)
+      icon_name = 'eye_slash'
+      path = reveal_avatar_skill_path(@avatar, skill.id)
+    else
+      icon_name = 'eye'
+      show_all_param = params.key?(:show_all) ? { show_all: true } : {}
+      path = ignore_avatar_skill_path(@avatar, skill.id, **show_all_param)
+    end
+
+    button_to(path, class: 'inline-flex items-center text-slorange-500', method: :patch, tabindex: "-1", form: { class: 'flex flex-row items-center' }) do
+      render_icon(icon_name, size: :sm)
+    end
+  end
 
   def xp_input(**args)
     input(type: 'number', step: "1", min: "0", max: "200", **args)

@@ -23,9 +23,4 @@ module NavHelper
     end
   end
 
-  def site_nav_activate_link(url)
-    @portal_nav_active_link = url
-    nil
-  end
-
 end

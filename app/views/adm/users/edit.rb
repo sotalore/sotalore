@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class Views::Adm::Users::Edit < Views::Base
-
-  register_builder_yielding_helper :adm_form_with
+  include Phlex::Rails::Helpers::FormWith
 
   def initialize(user:)
     @user = user
@@ -33,6 +32,13 @@ class Views::Adm::Users::Edit < Views::Base
         end
       end
     end
+  end
+
+  private
+
+  def adm_form_with(**options, &block)
+    options[:builder] ||= AdmFormBuilder
+    form_with(**options, &block)
   end
 
 end

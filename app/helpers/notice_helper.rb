@@ -18,10 +18,6 @@ module NoticeHelper
     notice_tag(:danger, message, &block)
   end
 
-  def notice_error(message = nil, &block)
-    notice_tag(:error, message, &block)
-  end
-
   private
 
   ICON_FOR_TYPE = {

@@ -51,7 +51,6 @@ class Components::Base < Phlex::HTML
   register_output_helper :local_time_ago
   register_output_helper :time_ago_tag
   register_output_helper :render_comments_for
-  register_output_helper :sort_link
 
   if Rails.env.development?
     def before_template

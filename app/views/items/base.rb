@@ -9,6 +9,4 @@ class Views::Items::Base < Views::Base
   register_output_helper :item_gathering_tag
   register_output_helper :item_weight_tag
 
-  register_value_helper :abstract_items_options
-
 end

@@ -3,8 +3,7 @@
 class Views::Recipes::Form < Views::Base
   include Grav::Views::Forms::Base
 
-  register_value_helper :craft_skills_for_recipe_options
-  register_value_helper :teachable_options
+  register_value_helper :t
   register_value_helper :search_items_path
 
   def initialize(recipe:)
@@ -49,6 +48,17 @@ class Views::Recipes::Form < Views::Base
   end
 
   private
+
+  def craft_skills_for_recipe_options
+    CraftSkill::WITH_RECIPES.map do |cs|
+      name = "#{cs.name} (#{cs.primary_tool})"
+      [ name, cs.key ]
+    end
+  end
+
+  def teachable_options
+    Recipe.teachables.keys.map { |k| [ t(k, scope: [ :helpers, :label, :recipe, :teachables ]), k ] }
+  end
 
   def results_rows
     @recipe_form.results.each_with_index do |result, i|
