@@ -35,7 +35,6 @@ class Components::Base < Phlex::HTML
   register_output_helper :destroy_icon_to
   register_output_helper :view_icon_to
   register_output_helper :more_link_to
-  register_output_helper :layout_main_content
   register_output_helper :flair_primary
   register_output_helper :flair_info
   register_output_helper :flair_danger
