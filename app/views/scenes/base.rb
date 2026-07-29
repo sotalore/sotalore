@@ -2,6 +2,9 @@
 
 class Views::Scenes::Base < Views::Base
 
-  register_value_helper :scene_level
+  def scene_level(scene)
+    return unless scene
+    "#{scene.level}#{scene.level_plus ? '+' : ''}"
+  end
 
 end

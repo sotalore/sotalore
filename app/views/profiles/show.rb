@@ -3,8 +3,6 @@
 class Views::Profiles::Show < Views::Base
   include Phlex::Rails::Helpers::URLFor
 
-  register_builder_yielding_helper :sl_form_with
-
   def initialize(user:)
     @user = user
   end

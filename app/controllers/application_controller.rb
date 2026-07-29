@@ -3,6 +3,8 @@
 class ApplicationController < ActionController::Base
   layout -> { Views::Layouts::Application }
 
+  helper Views::ButtonHelper
+
   include AuthenticationSupport
   include Pundit::Authorization
   protect_from_forgery with: :exception

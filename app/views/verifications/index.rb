@@ -3,9 +3,6 @@
 class Views::Verifications::Index < Views::Base
   include Phlex::Rails::Helpers::TimeAgoInWords
 
-  register_value_helper :params
-  register_output_helper :item_abstract_tag
-
   def initialize(verifiables:)
     @verifiables = verifiables
   end

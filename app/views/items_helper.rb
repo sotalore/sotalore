@@ -1,7 +1,6 @@
-# frozen-string-literal: true
+# frozen_string_literal: true
 
-module ItemsHelper
-  include Views::IconHelper
+module Views::ItemsHelper
 
   USE_ICONS = {
     'unknown' => 'question',
@@ -20,29 +19,24 @@ module ItemsHelper
 
   USES_FOR_RECIPES = %w[ fuel tool ]
 
-  SOURCE_ICONS = {
-    'unknown' => 'question',
-    'merchant' => 'money',
-    'gathering' => 'scissors',
-    'drop' => 'bullseye',
-    'recipe' => 'book',
-  }.freeze
-
   def item_price_tag(item, options={})
     return unless item.price
 
     price = item.price
     price = price * options[:count] if options.key?(:count)
-    tag.span(class: item_css('text-golden-700', options)) do
-      tag.span { safe_join([price.to_s, raw('&nbsp;gold')]) }
+    span(class: item_css('text-golden-700', options)) do
+      span do
+        plain price.to_s
+        raw(safe('&nbsp;gold'))
+      end
     end
   end
 
   def item_weight_tag(item, options={})
     return unless item.weight
 
-    tag.span(class: item_css('text-grey-700', options)) do
-      tag.span { "weight: #{item.weight}" }
+    span(class: item_css('text-grey-700', options)) do
+      span { "weight: #{item.weight}" }
     end
   end
 
@@ -50,8 +44,9 @@ module ItemsHelper
     return unless item.abstract
 
     icon_size = options[:large] || options[:size] == :lg ? :md : :xs
-    tag.span(href: abstractions_url, class: item_css('text-sky-800 inline-flex gap-x-1', options)) do
-      render_icon(:rectangles, size: icon_size, color: :current) + tag.span{ 'abstract' }
+    span(href: abstractions_url, class: item_css('text-sky-800 inline-flex gap-x-1', options)) do
+      render_icon(:rectangles, size: icon_size, color: :current)
+      span { 'abstract' }
     end
   end
 
@@ -67,9 +62,9 @@ module ItemsHelper
 
     label = item.use_is_unknown? ? 'unknown use' : item.use
     icon_size = options[:large] || options[:size] == :lg ? :md : :xs
-    tag.span(class: item_css('text-sky-700 inline-flex gap-x-1', options)) do
-      render_icon(icon, size: icon_size, color: :current) +
-        tag.span { label }
+    span(class: item_css('text-sky-700 inline-flex gap-x-1', options)) do
+      render_icon(icon, size: icon_size, color: :current)
+      span { label }
     end
   end
 
@@ -85,26 +80,20 @@ module ItemsHelper
   }.freeze
 
   def craft_skill_image_tag(skill, options={})
-    img = GATHERING_IMGS[skill.to_param]
-    return unless img
+    filename = GATHERING_IMGS[skill.to_param]
+    return unless filename
 
-    if options[:large] || options[:size] == :lg
-      sizes = 'h-6 w-6'
-    else
-      sizes = 'h-5 w-5'
-    end
-    tag.img(src: image_path(img), class: sizes)
+    sizes = (options[:large] || options[:size] == :lg) ? 'h-6 w-6' : 'h-5 w-5'
+    img(src: image_path(filename), class: sizes)
   end
 
   def craft_skill_tag(skill, options={})
     return unless skill
 
     name = skill&.name || 'unknown'
-    tag.span(class: item_css('text-green-700 inline-flex items-center gap-x-1', options)) do
-      [
-        craft_skill_image_tag(skill, options),
-        tag.span { name }
-      ].compact.join.html_safe
+    span(class: item_css('text-green-700 inline-flex items-center gap-x-1', options)) do
+      craft_skill_image_tag(skill, options)
+      span { name }
     end
   end
 
@@ -120,8 +109,9 @@ module ItemsHelper
   private
 
   def generic_item_use_tag(label, value, options={})
-    content_tag(:span, class: item_css('text-sky-700', options)) do
-      h(label) + content_tag(:strong, value)
+    span(class: item_css('text-sky-700', options)) do
+      plain label
+      strong { value }
     end
   end
 
@@ -131,7 +121,7 @@ module ItemsHelper
   ].join(' ').freeze
 
   def item_css(extra=nil, options={})
-    css = [ITEM_TAG_CSS_BASE]
+    css = [ ITEM_TAG_CSS_BASE ]
     if options[:large] || options[:size] == :lg
       css << 'px-2.5 py-0.5 text-base'
     else

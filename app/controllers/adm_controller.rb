@@ -3,6 +3,8 @@
 class AdmController < ActionController::Base
   layout -> { Views::Layouts::Adm }
 
+  helper Views::ButtonHelper
+
   protect_from_forgery with: :exception
   include AuthenticationSupport
   include Pundit::Authorization

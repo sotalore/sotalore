@@ -5,7 +5,6 @@ class Views::Skills::Row < Views::Base
   include Phlex::Rails::Helpers::ButtonTo
 
   register_value_helper :dom_id
-  register_value_helper :params
 
   def initialize(skill, avatar, current_skill=nil)
     @skill = skill

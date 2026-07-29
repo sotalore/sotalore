@@ -2,10 +2,7 @@
 
 class Components::Comments::Form < Components::Base
   include Grav::Views::Forms::Base
-
-  register_value_helper :require_turnstile?
-  register_output_helper :turnstile_tag
-  register_output_helper :notice_warning
+  include Views::TurnstileHelper
 
   def initialize(subject:, comment:)
     @subject = subject

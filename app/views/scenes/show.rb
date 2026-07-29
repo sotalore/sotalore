@@ -2,8 +2,6 @@
 
 class Views::Scenes::Show < Views::Scenes::Base
 
-  register_builder_yielding_helper :sl_form_with
-
   def initialize(scene:)
     @scene = scene
   end

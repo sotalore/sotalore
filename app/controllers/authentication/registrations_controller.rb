@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Authentication::RegistrationsController < AuthenticationController
-  include TurnstileHelper
+  include Views::TurnstileHelper
   include CloudflareTurnstile
 
   def new

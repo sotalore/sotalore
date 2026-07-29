@@ -55,7 +55,7 @@ class Views::Adm::Users::Index < Views::Base
   private
 
   def disabled_flair(time)
-    flair_danger(view_context.time_ago_tag(time))
+    flair_danger(view_context.local_time_ago(time))
   end
 
   def sort_link(name, field)

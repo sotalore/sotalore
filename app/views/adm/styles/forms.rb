@@ -2,9 +2,6 @@
 
 class Views::Adm::Styles::Forms < Views::Base
 
-  include Phlex::Rails::Helpers::FormWith
-  register_builder_yielding_helper :sl_inline_form_with
-
   def view_template
     layout_main_content(size: :full) do
       render Views::Adm::Styles::Menu.new

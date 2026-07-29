@@ -2,8 +2,6 @@
 
 class Views::Comments::Index < Views::Base
 
-  register_value_helper :params
-
   def initialize(comments:, parent:, moderating: false)
     @comments = comments
     @parent = parent

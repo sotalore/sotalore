@@ -2,8 +2,6 @@
 
 class Views::Recipes::Show < Views::Base
 
-  register_value_helper :params
-
   def initialize(recipe:)
     @recipe = recipe
   end

@@ -4,8 +4,6 @@ class Components::Recipes::Card < Components::Recipes::Base
   include Phlex::Rails::Helpers::CurrentPage
 
   register_value_helper :t
-  register_output_helper :view_icon_to
-  register_output_helper :more_link_to
   register_output_helper :to_sentence
 
   def initialize(recipe:)

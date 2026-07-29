@@ -1,7 +1,7 @@
 # frozen-string-literal: true
 
 class CommentsController < ApplicationController
-  include TurnstileHelper
+  include Views::TurnstileHelper
   include CloudflareTurnstile
 
   before_action :find_parent
