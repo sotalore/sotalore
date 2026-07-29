@@ -9,7 +9,7 @@ class User::UserRecipesController < ApplicationController
     @recipe = find_recipe
     if @recipe
       unless find_user_recipe(@recipe.id)
-        current_user.user_recipes
+        Current.user.user_recipes
           .create!(recipe: @recipe)
       end
       render Views::User::UserRecipes::Create.new(recipe: @recipe)
@@ -33,7 +33,7 @@ class User::UserRecipesController < ApplicationController
   end
 
   def find_user_recipe(id=params[:recipe_id])
-    current_user.user_recipes
+    Current.user.user_recipes
       .find_by(recipe_id: id)
   end
 end

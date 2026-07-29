@@ -20,7 +20,7 @@ class Components::Comments::Form < Components::Base
       super do
         text_area_field(:body, skip_label: model.persisted?, rows: body_rows)
 
-        if current_user.null? && model.new_record?
+        if Current.user.null? && model.new_record?
           notice_warning do
             plain "You can post comments anonymously, or you can "
             link_to("sign-up", new_user_registration_path)

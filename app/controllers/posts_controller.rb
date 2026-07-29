@@ -22,7 +22,7 @@ class PostsController < ApplicationController
 
   def create
     @post = (@parent&.posts || Post).new(post_params)
-    @post.author = current_user
+    @post.author = Current.user
     authorize @post
     if @post.save
       redirect_to polymorphic_path([@parent, @post])

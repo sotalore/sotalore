@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def pundit_user
+    Current.user
+  end
+
   def page_title(text=:not_provided)
     unless text == :not_provided
       request.env['page_title'] = text
@@ -29,7 +33,7 @@ class ApplicationController < ActionController::Base
   helper_method :page_title
 
   def set_anonymous_user_key
-    if current_user.null?
+    if Current.user.null?
       if cookies[:user_key].nil?
         Current.user_key = cookies[:user_key] = SecureRandom.hex(24)
       else
@@ -39,8 +43,8 @@ class ApplicationController < ActionController::Base
   end
 
   def record_last_request_at
-    return if current_user.null?
-    current_user.update_attribute(:last_request_at, Time.now)
+    return if Current.user.null?
+    Current.user.update_attribute(:last_request_at, Time.now)
   end
 
   def user_not_authorized(exception)

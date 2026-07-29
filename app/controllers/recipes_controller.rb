@@ -39,7 +39,7 @@ class RecipesController < ApplicationController
   end
 
   def new
-    @recipe = RecipeForm.new(Recipe.new, current_user)
+    @recipe = RecipeForm.new(Recipe.new, Current.user)
     authorize @recipe
     if item = Item.find_by(id: params[:item_id])
       @recipe.name = item.name
@@ -51,12 +51,12 @@ class RecipesController < ApplicationController
   def edit
     @recipe = find_recipe
     authorize @recipe
-    @recipe = RecipeForm.new(@recipe, current_user)
+    @recipe = RecipeForm.new(@recipe, Current.user)
     render Views::Recipes::Edit.new(recipe: @recipe)
   end
 
   def create
-    @recipe = RecipeForm.new(Recipe.new, current_user)
+    @recipe = RecipeForm.new(Recipe.new, Current.user)
     authorize @recipe
     if @recipe.save(permitted_params)
       redirect_to @recipe
@@ -66,7 +66,7 @@ class RecipesController < ApplicationController
   end
 
   def update
-    @recipe = RecipeForm.new(find_recipe, current_user)
+    @recipe = RecipeForm.new(find_recipe, Current.user)
     authorize @recipe
     if @recipe.save(permitted_params)
       redirect_to @recipe

@@ -45,7 +45,7 @@ class Views::Layouts::Application < Views::Base
             end
 
             nav do
-              site_nav_link_to("My Recipes", user_recipes_path, "book") if current_user.not_null?
+              site_nav_link_to("My Recipes", user_recipes_path, "book") if Current.user.not_null?
               site_nav_link_to("My Avatars", avatars_path, "shield", active: [ [ "avatars" ], [] ])
               site_nav_link_to("Skills", current_skills_path, "jewel", active: [ [ "skills" ], [] ])
               site_nav_link_to("Items", items_path, "box")
@@ -55,7 +55,7 @@ class Views::Layouts::Application < Views::Base
               site_nav_link_to("Rifts", lunar_rifts_path, "location_marker")
               site_nav_link_to("Trainers", master_trainers_path, "location_marker")
               site_nav_link_to("Farming", farming_path, "hoe")
-              site_nav_link_to("Planting", plantings_path, "seedling") if current_user.not_null?
+              site_nav_link_to("Planting", plantings_path, "seedling") if Current.user.not_null?
               site_nav_link_to("Comments", comments_path, "chat")
 
               if policy(:default_admin).index?
@@ -64,7 +64,7 @@ class Views::Layouts::Application < Views::Base
               end
 
               hr(class: "my-2")
-              if current_user.not_null?
+              if Current.user.not_null?
                 site_nav_link_to("Sign Out", destroy_user_session_path, "sign_out", data: { turbo: "false" })
               else
                 site_nav_link_to("Sign In", new_user_session_path, "sign_in", data: { turbo: "false" })

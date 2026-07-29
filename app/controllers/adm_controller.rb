@@ -13,6 +13,10 @@ class AdmController < ActionController::Base
 
   protected
 
+  def pundit_user
+    Current.user
+  end
+
   def page_title(text=:not_provided)
     unless text == :not_provided
       request.env['page_title'] = text
@@ -22,7 +26,7 @@ class AdmController < ActionController::Base
   helper_method :page_title
 
   def verify_root_user
-    unless current_user && current_user.has_role?('root')
+    unless Current.user.has_role?('root')
       redirect_to root_path
     end
   end

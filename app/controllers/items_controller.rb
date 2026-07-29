@@ -41,7 +41,7 @@ class ItemsController < ApplicationController
     item = Item.new(permitted_params)
     authorize item
     if item.save
-      RevisionRecorder.call(item, current_user)
+      RevisionRecorder.call(item, Current.user)
       redirect_to item
     else
       render Views::Items::New.new(item: item), status: :unprocessable_content
@@ -52,7 +52,7 @@ class ItemsController < ApplicationController
     item = find_item
     authorize item
     if item.update(permitted_params)
-      RevisionRecorder.call(item, current_user)
+      RevisionRecorder.call(item, Current.user)
       redirect_to item
     else
       render Views::Items::Edit.new(item: item), status: :unprocessable_content

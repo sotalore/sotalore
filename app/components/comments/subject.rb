@@ -14,7 +14,7 @@ class Components::Comments::Subject < Components::Base
     end
 
     div(id: "comments") do
-      comments = Comment.for_subject(@subject).includes(:actual_author).for_feed(current_user)
+      comments = Comment.for_subject(@subject).includes(:actual_author).for_feed(Current.user)
 
       comments.each do |comment|
         render Components::Comments::Card.new(comment: comment, parent: @subject)

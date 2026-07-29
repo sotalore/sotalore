@@ -1,6 +1,6 @@
 module TurnstileHelper
   def require_turnstile?
-    current_user.null?
+    Current.user.null?
   end
 
   def turnstile_tag

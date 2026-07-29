@@ -4,12 +4,12 @@ class AvatarsController < ApplicationController
   skip_after_action :verify_authorized
 
   def index
-    find_avatars if current_user.not_null?
+    find_avatars if Current.user.not_null?
     render Views::Avatars::Index.new(avatars: @avatars)
   end
 
   def create
-    @avatar = current_user.avatars.new(permitted_params)
+    @avatar = Current.user.avatars.new(permitted_params)
     if @avatar.save
       redirect_to action: :index
     else
@@ -19,12 +19,12 @@ class AvatarsController < ApplicationController
   end
 
   def edit
-    @avatar = current_user.avatars.find(params[:id])
+    @avatar = Current.user.avatars.find(params[:id])
     render Views::Avatars::Edit.new(avatar: @avatar)
   end
 
   def update
-    @avatar = current_user.avatars.find(params[:id])
+    @avatar = Current.user.avatars.find(params[:id])
     if @avatar.update(permitted_params)
       redirect_to action: :index
     else
@@ -33,7 +33,7 @@ class AvatarsController < ApplicationController
   end
 
   def destroy
-    @avatar = current_user.avatars.find(params[:id])
+    @avatar = Current.user.avatars.find(params[:id])
     @avatar.destroy
     redirect_to action: :index
   end
@@ -41,7 +41,7 @@ class AvatarsController < ApplicationController
   private
 
   def find_avatars
-    @avatars = current_user.avatars
+    @avatars = Current.user.avatars
     if @avatars.empty?
       @avatars = nil
     end

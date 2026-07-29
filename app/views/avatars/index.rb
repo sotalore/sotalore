@@ -10,7 +10,7 @@ class Views::Avatars::Index < Views::Base
   def view_template
     layout_main_content(size: :sm) do
       tile_with_heading('Your Avatars') do
-        if current_user.not_null?
+        if Current.user.not_null?
           if @avatars
             div(class: "grid sm:grid-cols-1 md:grid-cols-2 gap-1") do
               @avatars.each do |avatar|
@@ -57,7 +57,7 @@ class Views::Avatars::Index < Views::Base
         end
       end
 
-      if current_user.not_null?
+      if Current.user.not_null?
         tile_with_heading('Add An Avatar') do
           render Views::Avatars::Form.new(avatar: @avatar || Avatar.new)
         end

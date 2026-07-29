@@ -5,6 +5,6 @@ class User::RecipesController < RecipesController
 
   private
   def recipe_scope
-    current_user.recipes
+    Current.user.recipes
   end
 end

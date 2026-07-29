@@ -70,10 +70,10 @@ class SkillsController < ApplicationController
   end
 
   def setup_avatar
-    return if current_user.null?
+    return if Current.user.null?
 
     # Set @avatars for select in page heading
-    @avatars = current_user.avatars
+    @avatars = Current.user.avatars
     @avatar = @avatars.find(params[:avatar_id]) unless params[:avatar_id] == 'none'
     session[:current_avatar_id] = @avatar.id if @avatar
   end

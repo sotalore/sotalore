@@ -39,7 +39,7 @@ class CommentsController < ApplicationController
   end
 
   def new
-    @comment = build_comment(author: current_user)
+    @comment = build_comment(author: Current.user)
     authorize @comment
     render Views::Comments::New.new(comment: @comment)
   end
@@ -127,7 +127,7 @@ class CommentsController < ApplicationController
     end
 
     @scope = Comment.for_subject(@parent)
-    if !current_user.moderator?
+    if !Current.user.moderator?
       @scope = @scope.where(visible: true)
     end
   end
