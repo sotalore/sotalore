@@ -69,7 +69,7 @@ class Views::Farmings::Planner < Views::Farmings::Base
       label(class: "font-semibold self-center") { "Calendar:" }
       input(class: "form-input", type: "text", value: "SOTA Farming", maxlength: "80", data: { "farming-target": "exportName" })
       div(class: "self-center") do
-        a(class: "inline-block align-baseline Button Button--primary", href: "#", data: { "farming-target": "exportCalendar" }) { "Download" }
+        a(class: "inline-block align-baseline Button Button--primary", href: "#", data: { "farming-target": "exportCalendar", turbo: 'false' }) { "Download" }
         whitespace
         a(class: "inline-block align-baseline Button Button--primary", href: "#",
           data: { "farming-target": "copyCalendarUrl", action: "click->farming#copyCalendarUrl" }) { "Copy Link" }
