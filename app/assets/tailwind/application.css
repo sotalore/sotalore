@@ -3,11 +3,11 @@
 @plugin '@tailwindcss/forms';
 
 @import "./theme";
-@import "./tile";
-@import "./forms";
-@import "./buttons";
-@import "./fields";
-@import "./phlex_forms";
+@import "./tile" layer(components);
+@import "./forms" layer(components);
+@import "./buttons" layer(components);
+@import "./fields" layer(components);
+@import "./phlex_forms" layer(components);
 
 @layer base {
   html {
