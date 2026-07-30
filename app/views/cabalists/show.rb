@@ -27,7 +27,7 @@ class Views::Cabalists::Show < Views::Base
             end
 
             Astronomy::PLANETS.each do |planet, info|
-              tr(class: "hover:bg-grey-100", data: {
+              tr(class: "hover:bg-grey-100 dark:hover:bg-grey-800", data: {
                 controller: "cabalist",
                 "cabalist-period-value": info[:orbital_period],
                 "cabalist-offset-value": info[:offset]

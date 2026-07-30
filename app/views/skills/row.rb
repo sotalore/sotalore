@@ -25,7 +25,7 @@ class Views::Skills::Row < Views::Base
       'rollup-target' => "#{@skill.category}-#{@skill.school}"
     }
 
-    div(id: dom_id(@skill), class: 'tableRow hover:bg-grey-200', data: row_data) do
+    div(id: dom_id(@skill), class: 'tableRow hover:bg-grey-200 dark:hover:bg-grey-800', data: row_data) do
       classes = [
         'skillCell flex flex-row items-center gap-x-1',
         ('opacity-50' if @avatar&.ignoring_skill?(@skill))

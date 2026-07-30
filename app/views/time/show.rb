@@ -49,7 +49,7 @@ class Views::Time::Show < Views::Base
             end
 
             Astronomy::PLANETS.each do |planet, info|
-              tr(class: "hover:bg-grey-100", data: {
+              tr(class: "hover:bg-grey-100 dark:hover:bg-grey-800", data: {
                 controller: "cabalist",
                 "cabalist-period-value": info[:orbital_period],
                 "cabalist-offset-value": info[:offset]
@@ -82,7 +82,7 @@ class Views::Time::Show < Views::Base
             end
 
             Astronomy::PLANETS.each do |planet, info|
-              tr(class: "hover:bg-grey-100", data: { controller: "orbit", "orbit-period-value": info[:orbital_period] }) do
+              tr(class: "hover:bg-grey-100 dark:hover:bg-grey-800", data: { controller: "orbit", "orbit-period-value": info[:orbital_period] }) do
                 td(class: "font-bold") { planet.to_s.titleize }
                 td { span(class: "mr-4", data: { "orbit-target": "position" }) }
                 td { span(class: "text-right text-sm italic", data: { "orbit-target": "note" }) }
@@ -111,7 +111,7 @@ class Views::Time::Show < Views::Base
             end
 
             Constellations::ALL.each do |constellation, info|
-              tr(class: "hover:bg-grey-100", data: { controller: "constellation", "constellation-offset-value": info[:offset] }) do
+              tr(class: "hover:bg-grey-100 dark:hover:bg-grey-800", data: { controller: "constellation", "constellation-offset-value": info[:offset] }) do
                 td(class: "font-buld") { constellation.to_s.titleize }
                 td(data: { "constellation-target": "position" })
                 td(class: "text-right", data: { "constellation-target": "timeToZenith" })
