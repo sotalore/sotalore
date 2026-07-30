@@ -11,10 +11,6 @@
     @apply py-0 px-1 text-sm min-w-min;
   }
 
-  .Button--block {
-    @apply block w-full;
-  }
-
   &:focus,
   &:hover {
     @apply no-underline outline-none;

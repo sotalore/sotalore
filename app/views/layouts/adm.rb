@@ -12,7 +12,7 @@ class Views::Layouts::Adm < Views::Layouts::Base
         csrf_meta_tags
         meta(charset: "utf-8")
         meta(name: "viewport", content: "width=device-width, initial-scale=1.0")
-        stylesheet_link_tag "trix", "actiontext", "application", media: "all", "data-turbolinks-track": "reload"
+        stylesheet_link_tag "trix", "actiontext", "tailwind", media: "all", data_turbo_track: "reload"
         javascript_importmap_tags
         javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js", async: true, defer: true
         action_cable_meta_tag

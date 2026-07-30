@@ -12,8 +12,7 @@ class Views::Layouts::Application < Views::Layouts::Base
         csrf_meta_tags
         meta(charset: "utf-8")
         meta(name: "viewport", content: "width=device-width, initial-scale=1.0")
-        stylesheet_link_tag "tailwind", data_turbo_track: "reload"
-        stylesheet_link_tag "trix", "actiontext", "tailwind", media: "all", "data-turbolinks-track": "reload"
+        stylesheet_link_tag "trix", "actiontext", "tailwind", media: "all", data_turbo_track: "reload"
         stylesheet_link_tag(
           "https://cdnjs.cloudflare.com/ajax/libs/lightgallery/2.7.1/css/lightgallery.min.css",
           media: "all",
