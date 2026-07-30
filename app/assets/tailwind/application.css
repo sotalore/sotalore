@@ -346,10 +346,12 @@
 
   .SkillTable .xpCell input {
     @apply w-16 h-8 rounded-sm text-right;
+    @apply bg-white text-grey-700 border-grey-300;
+    @apply dark:bg-grey-800 dark:text-grey-100 dark:border-grey-600;
   }
 
   .SkillTable .xpCell input.error {
-    @apply text-red-500 border-red-500;
+    @apply text-red-500 border-red-500 dark:text-red-400 dark:border-red-400;
   }
 
   .SkillTable .xpCell .xp {

@@ -11,7 +11,7 @@ class Components::Recipes::Card < Components::Recipes::Base
   end
 
   def view_template
-    div(class: "Recipe p-0 mb-4 border border-parchment-950 bg-parchment-100") do
+    div(class: "Recipe p-0 mb-4 border border-parchment-950 bg-parchment-100 dark:border-parchment-700 dark:bg-parchment-950 dark:text-parchment-100") do
       header_row
       skill_row
       ingredients_section
@@ -37,7 +37,7 @@ class Components::Recipes::Card < Components::Recipes::Base
   end
 
   def header_row
-    div(class: "Recipe-name p-2 font-bold flex flex-row justify-between items-center border-b border-parchment-950") do
+    div(class: "Recipe-name p-2 font-bold flex flex-row justify-between items-center border-b border-parchment-950 dark:border-parchment-700") do
       div(class: "grow whitespace-nowrap overflow-hidden text-ellipsis") do
         render Views::User::UserRecipes::Button.new(recipe: @recipe)
         whitespace
@@ -58,7 +58,7 @@ class Components::Recipes::Card < Components::Recipes::Base
   end
 
   def skill_row
-    div(class: "p-1 flex flex-row items-start border-b border-dashed border-parchment-950 border-opacity-20") do
+    div(class: "p-1 flex flex-row items-start border-b border-dashed border-parchment-950 border-opacity-20 dark:border-parchment-600 dark:border-opacity-30") do
       image_tag("sota-icons/#{@recipe.craft_skill.icon_name}", class: "w-12")
       div(class: "grow") do
         skill_summary

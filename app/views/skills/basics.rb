@@ -72,12 +72,12 @@ class Views::Skills::Basics < Views::Skills::Base
           div(class: "col-span-12 md:col-span-6") do
             strong { "Max Skill Level:" }
             whitespace
-            input(type: "number", value: 200, data: { action: "skills-basics#setLevel", "skills-basics-target": "toLevel" })
+            input(type: "number", value: 200, class: "w-20 bg-white text-grey-700 border-grey-300 dark:bg-grey-800 dark:text-grey-100 dark:border-grey-600", data: { action: "skills-basics#setLevel", "skills-basics-target": "toLevel" })
           end
           div(class: "col-span-12 md:col-span-6") do
             strong { "Factor Cost:" }
             whitespace
-            input(type: "number", value: 1, data: { action: "skills-basics#setLevel", "skills-basics-target": "xpFactor" })
+            input(type: "number", value: 1, class: "w-20 bg-white text-grey-700 border-grey-300 dark:bg-grey-800 dark:text-grey-100 dark:border-grey-600", data: { action: "skills-basics#setLevel", "skills-basics-target": "xpFactor" })
           end
         end
         canvas(id: "skillBasicsChart")
