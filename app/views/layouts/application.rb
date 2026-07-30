@@ -7,6 +7,7 @@ class Views::Layouts::Application < Views::Layouts::Base
     doctype
     html do
       head do
+        theme_init_script
         meta(content: "text/html; charset=UTF-8", http_equiv: safe("Content-Type"))
         title { page_title ? "#{page_title} -- SotA Lore" : "SotA Lore" }
         csrf_meta_tags
@@ -30,11 +31,11 @@ class Views::Layouts::Application < Views::Layouts::Base
         link(rel: "manifest", href: "/site.webmanifest")
       end
 
-      body(class: "bg-grey-100", data: { controller: "mousetrap", turbo_prefetch: "false" }) do
+      body(class: "bg-grey-100 dark:bg-grey-900", data: { controller: "mousetrap", turbo_prefetch: "false" }) do
         div(class: "flex flex-row h-screen") do
-          div(class: "bg-slorange-700 w-16 lg:w-40") do
+          div(class: "bg-slorange-700 dark:bg-grey-800 w-16 lg:w-40") do
             div(class: "h-12 p-3 pl-1 text-center") do
-              link_to("/", class: "text-xl font-bold text-zinc-200") do
+              link_to("/", class: "text-xl font-bold text-zinc-200 dark:text-slorange-300") do
                 span(class: "hidden lg:inline") do
                   img(src: asset_path("sota-icons/sota_crestcolor.png"), class: "h-6 inline-block")
                   plain " SOTA LORE"
@@ -74,13 +75,15 @@ class Views::Layouts::Application < Views::Layouts::Base
 
           div(class: "flex-1 flex overflow-hidden") do
             div(class: "flex-1 overflow-y-scroll") do
-              div(class: "z-50 bg-slorange-700 h-12") do
-                div(class: "global-search text-slate-200 relative", data: { controller: "autocomplete", "autocomplete-url-value" => search_global_path }) do
+              div(class: "z-50 bg-slorange-700 dark:bg-grey-800 h-12 flex flex-row items-center justify-between") do
+                div(class: "global-search text-slate-200 dark:text-slorange-300 relative", data: { controller: "autocomplete", "autocomplete-url-value" => search_global_path }) do
                   form(class: "inline-block h-12 px-4", action: search_path, method: "GET") do
                     input(id: "global-search", class: "global-search-input", name: "q", placeholder: "Search", type: "text", data: { "autocomplete-target" => "input" })
                     div(class: "global-search-results", data: { "autocomplete-target" => "results" })
                   end
                 end
+
+                theme_switcher
               end
 
               div(class: "content grow") do

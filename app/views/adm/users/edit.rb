@@ -8,7 +8,7 @@ class Views::Adm::Users::Edit < Views::Base
   end
 
   def view_template
-    div(class: "m-2 bg-white") do
+    div(class: "m-2 bg-white dark:bg-grey-800") do
       div(class: "grid grid-cols-2") do
         div(class: "p-4") do
           adm_form_with(model: @user, url: [ :adm, @user ]) do |form|

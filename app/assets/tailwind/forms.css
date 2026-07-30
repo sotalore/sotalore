@@ -1,5 +1,6 @@
 .Form-errors {
   @apply text-red-700 bg-red-100 border border-red-300 rounded;
+  @apply dark:text-red-300 dark:bg-red-950 dark:border-red-800;
   padding: 7px 11px;
   margin-bottom: 8px;
 

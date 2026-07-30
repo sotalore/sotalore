@@ -8,7 +8,7 @@ class Views::Skills::Basics < Views::Skills::Base
     div(class: "mb-12 mx-2 mt-2") do
       render Views::Skills::PageHeading.new(activity: nil, with_avatar_controls: false)
 
-      div(class: "bg-white p-2 mb-8") do
+      div(class: "bg-white dark:bg-grey-800 p-2 mb-8") do
         h3 { "What Skills Cost to Level" }
 
         div(class: "grid grid-cols-12 gap-4 md:gap-12") do
@@ -67,7 +67,7 @@ class Views::Skills::Basics < Views::Skills::Base
         end
       end
 
-      div(id: "skillsBasics", class: "bg-white mb-8 p-2", data: { controller: "skills-basics" }) do
+      div(id: "skillsBasics", class: "bg-white dark:bg-grey-800 mb-8 p-2", data: { controller: "skills-basics" }) do
         div(class: "grid grid-cols-12 gap-4 md:gap-12") do
           div(class: "col-span-12 md:col-span-6") do
             strong { "Max Skill Level:" }
@@ -83,7 +83,7 @@ class Views::Skills::Basics < Views::Skills::Base
         canvas(id: "skillBasicsChart")
       end
 
-      div(class: "bg-white p-2 mb-8") do
+      div(class: "bg-white dark:bg-grey-800 p-2 mb-8") do
         h3 { "Notes About Skill XP Math" }
         p do
           plain 'The calcuations used on this site differ from other tools I\'ve seen. A lot of ' \

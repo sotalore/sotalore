@@ -9,7 +9,7 @@ class Views::Adm::Users::Index < Views::Base
   end
 
   def view_template
-    div(class: "m-2 bg-white") do
+    div(class: "m-2 bg-white dark:bg-grey-800") do
       paginate @users
 
       table(class: "table-auto") do
