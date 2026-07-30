@@ -68,7 +68,7 @@ module Grav::Views::Forms
     def text_area_field(attribute, **options)
       field(attribute, **options) do
         textarea(id: id_for(attribute, **options), name: input_name(attribute, **options),
-          class: [ 'form-input', options[:class] ],
+          class: [ 'field-input', options[:class] ],
           **options.except(:class, *NON_HTML_OPTIONS)) { input_value(attribute, **options) }
       end
     end
@@ -84,7 +84,7 @@ module Grav::Views::Forms
     def input_of_type(type, attribute, **options)
       input(
         id: id_for(attribute, **options),
-        class: [ 'form-input', options[:class] ],
+        class: [ 'field-input', options[:class] ],
         type: type,
         name: input_name(attribute, **options),
         value: input_value(attribute, **options),

@@ -88,7 +88,7 @@ class Views::Recipes::Form < Views::Base
       div(class: "col-span-10", data: { controller: "autocomplete", "autocomplete-url-value": search_items_path }) do
         div(class: "field-container") do
           label(for: "#{id_base}_name") { label_text }
-          input(type: "text", class: "form-input", id: "#{id_base}_name", name: "#{param_base}[name]",
+          input(type: "text", class: "field-input", id: "#{id_base}_name", name: "#{param_base}[name]",
             value: record.name, tabindex: name_tabindex, data: { "autocomplete-target": "input" })
         end
         input(type: "hidden", id: "#{id_base}_item_id", name: "#{param_base}[item_id]",
@@ -98,7 +98,7 @@ class Views::Recipes::Form < Views::Base
       div(class: "col-span-2") do
         div(class: "field-container") do
           label(for: "#{id_base}_count") { "Count" }
-          input(type: "text", class: "form-input", id: "#{id_base}_count", name: "#{param_base}[count]",
+          input(type: "text", class: "field-input", id: "#{id_base}_count", name: "#{param_base}[count]",
             value: record.count, tabindex: count_tabindex)
         end
       end

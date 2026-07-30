@@ -88,7 +88,7 @@
     text-align: right;
   }
 
-  &.field-with-errors .form-input {
+  &.field-with-errors .field-input {
     @apply border-red-500 text-red-800 bg-red-100;
   }
 }
@@ -131,7 +131,7 @@
   }
 }
 
-.form-input {
+.field-input {
   @apply text-grey-700 bg-white border border-grey-300;
   display: block;
   width: 100%;
@@ -154,7 +154,7 @@
   }
 }
 
-textarea.form-input {
+textarea.field-input {
   height: auto;
   min-height: 104px;
   line-height: 24px;
