@@ -34,19 +34,19 @@ module Views::FlairHelper
   ].join(' ').freeze
 
   FLAIR_TYPE_CSS = {
-    primary: 'text-sky-700 bg-sky-100 border-sky-500',
-    danger: 'text-red-600 bg-red-100 border-red-500',
-    warning: 'text-golden-700 bg-golden-100 border-golden-500',
-    success: 'text-green-700 bg-green-100 border-green-500',
-    info: 'text-purple-600 bg-purple-100 border-purple-500',
+    primary: 'text-sky-700 bg-sky-100 border-sky-500 dark:text-sky-200 dark:bg-sky-950 dark:border-sky-700',
+    danger: 'text-red-600 bg-red-100 border-red-500 dark:text-red-300 dark:bg-red-950 dark:border-red-700',
+    warning: 'text-golden-700 bg-golden-100 border-golden-500 dark:text-golden-200 dark:bg-golden-950 dark:border-golden-700',
+    success: 'text-green-700 bg-green-100 border-green-500 dark:text-green-200 dark:bg-green-950 dark:border-green-700',
+    info: 'text-purple-600 bg-purple-100 border-purple-500 dark:text-purple-200 dark:bg-purple-950 dark:border-purple-700',
   }.with_indifferent_access.freeze
 
   FLAIR_ICON_TYPE_CSS = {
-    primary: 'text-sky-100 bg-sky-700',
-    danger: 'text-red-100 bg-red-600',
-    warning: 'text-golden-100 bg-golden-700',
-    success: 'text-green-100 bg-green-700',
-    info: 'text-purple-100 bg-purple-600',
+    primary: 'text-sky-100 bg-sky-700 dark:bg-sky-800',
+    danger: 'text-red-100 bg-red-600 dark:bg-red-800',
+    warning: 'text-golden-100 bg-golden-700 dark:bg-golden-800',
+    success: 'text-green-100 bg-green-700 dark:bg-green-800',
+    info: 'text-purple-100 bg-purple-600 dark:bg-purple-800',
   }.with_indifferent_access.freeze
 
   private

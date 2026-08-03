@@ -46,7 +46,7 @@ class Views::Skills::PageHeading < Views::Skills::Base
   def avatar_select_tag
     current_path = request.path
 
-    select_tag('avatar', class: 'py-0 h-8') do
+    select_tag('avatar', class: 'py-0 h-8 bg-white text-grey-700 border-grey-300 dark:bg-grey-800 dark:text-grey-100 dark:border-grey-600') do
       none_path = avatar_skills_path(avatar_id: 'none', activity: @activity)
       option(value: none_path, selected: none_path == current_path) { '~ none ~' }
 

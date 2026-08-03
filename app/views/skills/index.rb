@@ -16,7 +16,7 @@ class Views::Skills::Index < Views::Skills::Base
     div(class: "mb-12 mx-2 mt-2") do
       render Views::Skills::PageHeading.new(activity: @activity, with_avatar_controls: true, avatars: @avatars)
 
-      div(id: "skillTable", class: "SkillTable mt-0 bg-grey-100", data: { controller: "skills-rollup" }) do
+      div(id: "skillTable", class: "SkillTable mt-0 bg-grey-100 dark:bg-grey-900", data: { controller: "skills-rollup" }) do
         header_row
         totals_row
 
@@ -43,7 +43,7 @@ class Views::Skills::Index < Views::Skills::Base
   end
 
   def header_row
-    div(class: "tableRow bg-white font-bold sticky top-0") do
+    div(class: "tableRow bg-white dark:bg-grey-800 font-bold sticky top-0") do
       div(class: "skillCell flex flex-row items-baseline") do
         span(class: "shrink mr-1") { "Skill" }
         span(class: "text-xs opacity-8 font-normal") { "(cost)" }
@@ -70,7 +70,7 @@ class Views::Skills::Index < Views::Skills::Base
   end
 
   def totals_row
-    div(id: "totals", class: "tableRow bg-parchment-double-shaded static md:sticky md:top-10") do
+    div(id: "totals", class: "tableRow bg-parchment-double-shaded dark:bg-parchment-950 dark:text-parchment-100 static md:sticky md:top-10") do
       div(class: "skillCell") { @activity.upcase }
       div(class: "xpCell currentCell") { div(class: "xp currentXP") }
       div(class: "xpCell targetCell") { div(class: "xp totalXP") }
@@ -79,7 +79,7 @@ class Views::Skills::Index < Views::Skills::Base
   end
 
   def category_row(category)
-    div(id: category, class: "tableRow bg-parchment-shaded static md:sticky md:top-20",
+    div(id: category, class: "tableRow bg-parchment-shaded dark:bg-parchment-900 dark:text-parchment-100 static md:sticky md:top-20",
         data: { "skills-rollup-target": "member", "rollup-target": "totals" }) do
       div(class: "skillCell") { category.upcase }
       div(class: "xpCell currentCell") { span(class: "xp currentXP") }
@@ -89,7 +89,7 @@ class Views::Skills::Index < Views::Skills::Base
   end
 
   def school_row(category, school, school_skills)
-    div(id: "#{category}-#{school}", class: "tableRow bg-parchment-color",
+    div(id: "#{category}-#{school}", class: "tableRow bg-parchment-color dark:bg-parchment-800 dark:text-parchment-200",
         data: { "skills-rollup-target": "member", "rollup-target": category }) do
       div(class: "skillCell") { school.titleize }
       div(class: "xpCell currentCell") { div(class: "xp currentXP") }

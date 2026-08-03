@@ -9,7 +9,7 @@
 .application-form {
   .application-form-section,
   fieldset {
-    @apply border-0 border-b-2 border-grey-300;
+    @apply border-0 border-b-2 border-grey-300 dark:border-grey-700;
     padding-bottom: 11px;
     margin-bottom: 11px;
   }
@@ -88,19 +88,19 @@
     text-align: right;
   }
 
-  &.field-with-errors .form-input {
-    @apply border-red-500 text-red-800 bg-red-100;
+  &.field-with-errors .field-input {
+    @apply border-red-500 text-red-800 bg-red-100 dark:text-red-200 dark:bg-red-950;
   }
 }
 
 .form-input-optional {
-  @apply text-grey-500;
+  @apply text-grey-500 dark:text-grey-400;
   font-size: 14px;
   font-style: italic;
 }
 
 .field-hint {
-  @apply text-grey-500;
+  @apply text-grey-500 dark:text-grey-400;
   font-size: 14px;
   display: block;
   position: relative;
@@ -108,7 +108,7 @@
 }
 
 .form-errors {
-  @apply text-red-500;
+  @apply text-red-500 dark:text-red-400;
   position: relative;
   top: 2px;
   font-weight: bold;
@@ -117,6 +117,7 @@
 
 .form-errors-summary {
   @apply text-red-700 bg-red-100 border border-red-300 rounded;
+  @apply dark:text-red-300 dark:bg-red-950 dark:border-red-800;
   padding: 8px 12px;
   margin-bottom: 16px;
 
@@ -131,8 +132,9 @@
   }
 }
 
-.form-input {
+.field-input {
   @apply text-grey-700 bg-white border border-grey-300;
+  @apply dark:text-grey-100 dark:bg-grey-800 dark:border-grey-600;
   display: block;
   width: 100%;
   height: 32px;
@@ -142,19 +144,19 @@
   border-radius: 3px;
 
   &:focus {
-    @apply border-grey-500 outline-0 shadow shadow-grey-200;
+    @apply border-grey-500 outline-0 shadow shadow-grey-200 dark:shadow-grey-700;
   }
 
   &[disabled],
   &[readonly],
   fieldset[disabled] & {
-    @apply text-grey-500 bg-grey-200;
+    @apply text-grey-500 bg-grey-200 dark:text-grey-400 dark:bg-grey-700;
     opacity: 1; /* iOS fix for unreadable disabled content; see https://github.com/twbs/bootstrap/issues/11655 */
     cursor: not-allowed;
   }
 }
 
-textarea.form-input {
+textarea.field-input {
   height: auto;
   min-height: 104px;
   line-height: 24px;

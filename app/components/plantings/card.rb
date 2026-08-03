@@ -49,7 +49,7 @@ class Components::Plantings::Card < Components::Base
         @planting.step_end_times.each_with_index do |time, idx|
           div(style: "width: #{@planting.step_width}%") do
             border_class = idx == Planting::WATERING_STEPS - 1 ? "border-r-2" : "border-r-0"
-            div(class: "border-2 border-t-0 border-grey-400 bg-grey-100 text-center text-xs md:text-sm #{border_class}") { "Water #{idx + 1}" }
+            div(class: "border-2 border-t-0 border-grey-400 bg-grey-100 dark:bg-grey-700 text-center text-xs md:text-sm #{border_class}") { "Water #{idx + 1}" }
             div(class: "bg-transparent -mr-4 text-sm text-right") { l(time, format: :watering_step) }
           end
         end

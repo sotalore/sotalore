@@ -1,38 +1,11 @@
-.Form {
-  .Form-actions {
-    display: flex;
-    justify-content: flex-end;
+.Form-errors {
+  @apply text-red-700 bg-red-100 border border-red-300 rounded;
+  @apply dark:text-red-300 dark:bg-red-950 dark:border-red-800;
+  padding: 7px 11px;
+  margin-bottom: 8px;
 
-    .Button {
-      margin-left: 7px;
-    }
-  }
-
-  .Form-errors {
-    background: $red4;
-    border: 1px solid $red3;
-    color: $red1;
-    padding: 7px 11px;
-    margin-bottom: 8px;
-    border-radius: 3px;
-
-    h4, ul {
-      margin: 0;
-    }
-  }
-
-  .Form-legend {
-    display: block;
-    width: 100%;
-    font-weight: bold;
-    font-size: 19px;
-    padding: 12px 0;
-  }
-
-  .Form-fieldset {
-    padding-bottom: 11px;
-    border-bottom: 2px solid $grey7;
-    margin-bottom: 11px;
+  h4, ul {
+    margin: 0;
   }
 }
 
@@ -40,14 +13,7 @@
   display: flex;
   align-items: flex-end;
 
-  .Form-actions {
-    flex: 0 1 auto;
-    margin-left: -7px;
-  }
-
   .Field {
     margin-right: 8px;
   }
-
 }
-

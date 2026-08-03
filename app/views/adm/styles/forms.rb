@@ -6,7 +6,7 @@ class Views::Adm::Styles::Forms < Views::Base
     layout_main_content(size: :full) do
       render Views::Adm::Styles::Menu.new
 
-      div(class: "p-2 bg-white") do
+      div(class: "p-2 bg-white dark:bg-grey-800") do
         sl_inline_form_with(model: Planting.new, url: "#") do |form|
           form.text_field(:search)
           form.select(:sort, [ [ "Name", "name" ], [ "Price", "price" ] ])
@@ -22,7 +22,7 @@ class Views::Adm::Styles::Forms < Views::Base
         item.errors.add(:name, "is required")
         item.errors.add(:source, "is in error")
 
-        div(class: "m-4 p-2 bg-white") do
+        div(class: "m-4 p-2 bg-white dark:bg-grey-800") do
           form_with(model: item, url: "#", builder: BasicFormBuilder) do |form|
             form.group(:name) do
               form.label(:name, "Name")
@@ -53,7 +53,7 @@ class Views::Adm::Styles::Forms < Views::Base
           end
         end
 
-        div(class: "m-4 p-2 bg-white") do
+        div(class: "m-4 p-2 bg-white dark:bg-grey-800") do
           form_with(model: item, url: "#", builder: SLFormBuilder) do |form|
             form.text_field(:name, label: "Name", hint: "this is the hint")
             form.email_field(:email, label: "Email")

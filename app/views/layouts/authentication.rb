@@ -7,6 +7,7 @@ class Views::Layouts::Authentication < Views::Layouts::Base
     doctype
     html do
       head do
+        theme_init_script
         meta(content: "text/html; charset=UTF-8", http_equiv: safe("Content-Type"))
         title { page_title ? "#{page_title} -- SotA Lore" : "SotA Lore" }
         csrf_meta_tags
@@ -23,15 +24,16 @@ class Views::Layouts::Authentication < Views::Layouts::Base
         link(rel: "manifest", href: "/site.webmanifest")
       end
 
-      body(class: "h-full min-h-screen bg-gradient-to-b from-slorange-700 to-slorange-500", data: { controller: "mousetrap", turbo_prefetch: "false" }) do
+      body(class: "h-full min-h-screen bg-gradient-to-b from-slorange-700 to-slorange-500 dark:from-grey-900 dark:to-grey-800", data: { controller: "mousetrap", turbo_prefetch: "false" }) do
         div(class: "flex flex-col justify-stretch") do
-          div(class: "p-4 md:p-8 text-center") do
-            link_to("/", class: "text-xl md:text-4xl font-bold text-zinc-200") do
+          div(class: "p-4 md:p-8 text-center flex flex-row items-center justify-center gap-4") do
+            link_to("/", class: "text-xl md:text-4xl font-bold text-zinc-200 dark:text-slorange-300") do
               span do
                 img(src: asset_path("sota-icons/sota_crestcolor.png"), class: "h-6 md:h-12 inline-block")
                 plain " SOTA LORE"
               end
             end
+            theme_switcher
           end
 
           div(class: "content md:flex flex-row justify-around") do

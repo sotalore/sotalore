@@ -18,7 +18,7 @@ class Views::Farmings::Planner < Views::Farmings::Base
         label(class: "font-semibold") do
           plain "What type of seed?"
           whitespace
-          select(class: "font-normal form-select", data: { action: "change->farming#updateSeedTime" }) do
+          select(class: "font-normal field-input", data: { action: "change->farming#updateSeedTime" }) do
             options_for_select([ [ "Quick", 24 / 3 ], [ "Medium", 48 / 3 ], [ "Slow", 72 / 3 ] ])
           end
         end
@@ -27,7 +27,7 @@ class Views::Farmings::Planner < Views::Farmings::Base
         label(class: "font-semibold") do
           plain "Planting Location:"
           whitespace
-          select(class: "font-normal form-select", data: { action: "change->farming#updateLocationFactor" }) do
+          select(class: "font-normal field-input", data: { action: "change->farming#updateLocationFactor" }) do
             options_for_select([ [ "Normal / Outside (1.0)", 1 / 1 ], [ "Greenhouse (2.0)", "0.5" ], [ "Inside (0.1)", "10.0" ] ])
           end
         end
@@ -65,11 +65,11 @@ class Views::Farmings::Planner < Views::Farmings::Base
   end
 
   def export_section
-    div(class: "align-baseline border-t pt-2 flex flex-wrap gap-2") do
+    div(class: "align-baseline border-t pt-2 flex flex-row flex-wrap gap-2") do
       label(class: "font-semibold self-center") { "Calendar:" }
-      input(class: "form-input", type: "text", value: "SOTA Farming", maxlength: "80", data: { "farming-target": "exportName" })
+      input(class: "field-input w-auto", type: "text", value: "SOTA Farming", maxlength: "80", data: { "farming-target": "exportName" })
       div(class: "self-center") do
-        a(class: "inline-block align-baseline Button Button--primary", href: "#", data: { "farming-target": "exportCalendar" }) { "Download" }
+        a(class: "inline-block align-baseline Button Button--primary", href: "#", data: { "farming-target": "exportCalendar", turbo: 'false' }) { "Download" }
         whitespace
         a(class: "inline-block align-baseline Button Button--primary", href: "#",
           data: { "farming-target": "copyCalendarUrl", action: "click->farming#copyCalendarUrl" }) { "Copy Link" }

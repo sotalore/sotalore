@@ -7,12 +7,13 @@ class Views::Layouts::Adm < Views::Layouts::Base
     doctype
     html do
       head do
+        theme_init_script
         meta(content: "text/html; charset=UTF-8", http_equiv: safe("Content-Type"))
         title { page_title ? "#{page_title} -- SOTA LORE: ADM" : "SOTA LORE: ADM" }
         csrf_meta_tags
         meta(charset: "utf-8")
         meta(name: "viewport", content: "width=device-width, initial-scale=1.0")
-        stylesheet_link_tag "trix", "actiontext", "application", media: "all", "data-turbolinks-track": "reload"
+        stylesheet_link_tag "trix", "actiontext", "tailwind", media: "all", data_turbo_track: "reload"
         javascript_importmap_tags
         javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js", async: true, defer: true
         action_cable_meta_tag
@@ -23,11 +24,11 @@ class Views::Layouts::Adm < Views::Layouts::Base
         link(rel: "manifest", href: "/site.webmanifest")
       end
 
-      body(class: "bg-white", data: { controller: "mousetrap", turbo_prefetch: "false" }) do
+      body(class: "bg-white dark:bg-grey-900", data: { controller: "mousetrap", turbo_prefetch: "false" }) do
         div(class: "flex h-screen") do
-          div(class: "bg-slorange-700 w-16 lg:w-40") do
+          div(class: "bg-slorange-700 dark:bg-grey-800 w-16 lg:w-40") do
             div(class: "h-12 p-3 text-center") do
-              link_to("/", class: "text-xl font-bold text-zinc-200") do
+              link_to("/", class: "text-xl font-bold text-zinc-200 dark:text-slorange-300") do
                 span(class: "hidden lg:inline") { "SOTA LORE" }
                 span(class: "inline lg:hidden") { "SL" }
               end
@@ -45,8 +46,11 @@ class Views::Layouts::Adm < Views::Layouts::Base
 
           div(class: "flex-1 flex overflow-hidden") do
             div(class: "flex-1 overflow-y-scroll") do
-              div(class: "flex-grow flex flex-col z-50 bg-blue-700 h-12") do
-                h2(class: "h-12 text-white") { "ADM" }
+              div(class: "flex-grow flex flex-col") do
+                div(class: "z-50 bg-blue-700 dark:bg-blue-950 h-12 flex flex-row items-center justify-between") do
+                  h2(class: "h-12 text-white") { "ADM" }
+                  theme_switcher
+                end
 
                 div(class: "content grow") do
                   div(id: "flash-messages-container") { render_flash_messages }

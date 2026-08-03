@@ -1,37 +1,46 @@
+
+@layer reset, base, components, utilities;
+
 @import "tailwindcss";
-
-@import "./theme";
-@import "./tile";
-@import "./forms";
-@import "./buttons";
-@import "./fields";
-@import "./phlex_forms";
-
 
 @plugin '@tailwindcss/forms';
 
+@import "./theme";
+@import "./tile";
+@import "./forms" layer(components);
+@import "./buttons" layer(components);
+@import "./fields" layer(components);
+@import "./phlex_forms" layer(components);
+
+/*
+ * Class-based dark mode: the `theme` Stimulus controller toggles `.dark` on
+ * <html> (and an inline head script sets it on first paint to avoid a flash).
+ * "system" preference is resolved to light/dark in JS before the class is set.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   html {
-    @apply text-grey-800 font-sans;
+    @apply text-grey-800 font-sans dark:text-grey-100;
   }
 
   h1 {
-    @apply text-2xl md:text-4xl m-4 text-grey-800 font-bold;
+    @apply text-2xl md:text-4xl m-4 text-grey-800 font-bold dark:text-grey-100;
   }
   h2 {
-    @apply text-xl md:text-2xl m-4 text-grey-800 font-semibold;
+    @apply text-xl md:text-2xl m-4 text-grey-800 font-semibold dark:text-grey-100;
   }
   h3 {
-    @apply text-xl m-4 text-grey-800 font-medium;
+    @apply text-xl m-4 text-grey-800 font-medium dark:text-grey-100;
   }
   h4 {
-    @apply text-lg m-4 text-grey-800 font-medium italic;
+    @apply text-lg m-4 text-grey-800 font-medium italic dark:text-grey-100;
   }
   h5 {
-    @apply m-4 text-grey-800 font-medium italic;
+    @apply m-4 text-grey-800 font-medium italic dark:text-grey-100;
   }
   h6 {
-    @apply text-sm m-4 text-grey-800 font-medium italic;
+    @apply text-sm m-4 text-grey-800 font-medium italic dark:text-grey-100;
   }
 
   p {
@@ -39,17 +48,17 @@
   }
 
   a {
-    @apply text-orange-700;
+    @apply text-orange-700 dark:text-slorange-300;
   }
 
   table {
-    @apply my-4 w-full border-y-2 border-grey-400;
+    @apply my-4 w-full border-y-2 border-grey-400 dark:border-grey-600;
   }
   th {
     @apply p-2 font-semibold text-left;
   }
   tbody > tr {
-    @apply hover:bg-grey-200 border-b border-grey-300;
+    @apply hover:bg-grey-200 border-b border-grey-300 dark:hover:bg-grey-800 dark:border-grey-700;
   }
   tbody > tr > td {
     @apply p-2;
@@ -61,10 +70,11 @@
     @apply flex flex-row gap-2 items-center justify-center lg:justify-start;
     @apply p-2 text-zinc-200 font-medium whitespace-nowrap;
     @apply hover:bg-slorange-600;
+    @apply dark:text-slorange-300 dark:hover:bg-grey-700;
   }
 
   .site-nav-link.is-active {
-    @apply bg-slorange-800;
+    @apply bg-slorange-800 dark:bg-grey-900;
   }
 
   .UserRecipeStar i::before {
@@ -78,16 +88,20 @@
   }
 
   .Comment {
-    @apply border border-grey-300 mb-6 text-grey-700 shadow-md;
+    @apply border border-grey-300 mb-6 text-grey-700 shadow-md dark:shadow-grey-800;
+    @apply dark:border-grey-500 dark:text-grey-200;
+    @apply bg-white dark:bg-grey-800;
   }
 
   .Comment-author {
-    @apply border-b border-grey-300 px-2 py-1 flex flex-row items-center flex-wrap gap-2;
+    @apply px-2 py-1 flex flex-row items-center flex-wrap gap-2;
+    @apply dark:border-grey-700;
   }
 
   .Comment-authorName {
     @apply flex-grow whitespace-nowrap text-ellipsis;
     @apply flex flex-row items-center gap-x-2;
+    @apply text-lg font-semibold text-grey-800 dark:text-grey-100;
   }
 
   .Comment-subject {
@@ -96,6 +110,10 @@
 
   .Comment-authorTime {
     @apply text-sm opacity-50 italic;
+  }
+
+  .Comment-controls {
+    @apply p-2 flex flex-row justify-end items-center gap-x-1;
   }
 
   .farming-plan-table {
@@ -130,6 +148,7 @@
   /* Autocomplete (and Glogal Search, specifically) */
   .autocomplete-suggestions {
     @apply absolute z-10 list-none bg-grey-200 border border-grey-300 overflow-auto;
+    @apply dark:bg-grey-800 dark:border-grey-600;
   }
 
   .autocomplete-suggestions .autocomplete-suggestion {
@@ -137,11 +156,12 @@
   }
 
   .autocomplete-suggestions .autocomplete-suggestion.active {
-    @apply bg-grey-300;
+    @apply bg-grey-300 dark:bg-grey-700;
   }
 
   .global-search .global-search-results {
     @apply -mt-2 ml-4 p-2 bg-grey-100 border-2 border-slorange-700 drop-shadow-xl;
+    @apply dark:bg-grey-800 dark:border-slorange-500;
     @apply absolute;
     max-height: 400px;
     overflow-y: scroll;
@@ -155,7 +175,7 @@
   }
 
   .global-search .global-search-results a.active {
-    @apply bg-orange-900 text-zinc-100;
+    @apply bg-orange-900 text-zinc-100 dark:bg-slorange-800;
   }
 
   .global-search-input {
@@ -164,6 +184,24 @@
     @apply inline-block h-8 m-2 w-32 focus:w-96;
     @apply placeholder:text-slate-400 placeholder:italic outline-none;
     @apply border rounded-full px-4 py-2 border-slorange-900 focus:border-slorange-800 focus:shadow-none;
+    @apply dark:bg-grey-700 dark:focus:bg-grey-900 dark:border-slorange-600 dark:focus:border-slorange-500;
+    @apply dark:text-slorange-100 dark:placeholder:text-slorange-400;
+  }
+
+  /* Theme (light/dark/system) switcher, in the top bar */
+  .theme-switcher {
+    @apply flex flex-row items-center gap-1;
+  }
+
+  .theme-switcher-option {
+    @apply flex items-center justify-center h-8 w-8 rounded-full cursor-pointer text-slate-200;
+    @apply hover:bg-slorange-600;
+    @apply dark:text-slorange-300 dark:hover:bg-grey-700;
+  }
+
+  .theme-switcher-option.is-active {
+    @apply bg-slorange-900 text-white;
+    @apply dark:bg-grey-900 dark:text-slorange-100;
   }
 
   /* Planets */
@@ -204,15 +242,19 @@
 
   .Callout-default {
     @apply bg-grey-400 text-grey-800 border-grey-600;
+    @apply dark:bg-grey-700 dark:text-grey-100 dark:border-grey-500;
   }
   .Callout-primary {
     @apply bg-orange-200 text-orange-800 border-orange-800;
+    @apply dark:bg-orange-950 dark:text-orange-200 dark:border-orange-700;
   }
   .Callout-notice {
     @apply bg-yellow-200 text-yellow-800 border-yellow-400;
+    @apply dark:bg-yellow-950 dark:text-yellow-200 dark:border-yellow-700;
   }
   .Callout-info {
     @apply bg-purple-300 text-purple-800 border-purple-500;
+    @apply dark:bg-purple-950 dark:text-purple-200 dark:border-purple-700;
   }
 
 
@@ -240,10 +282,11 @@
   .PageTabs .PageTabs-tab {
     @apply border border-grey-200 border-b-0 inline md:inline-block py-1 px-2 md:px-8;
     @apply order-first md:order-none;
+    @apply dark:border-grey-700;
   }
 
   .PageTabs .PageTabs-tab.PageTabs-current {
-    @apply order-last md:order-none bg-white;
+    @apply order-last md:order-none bg-white dark:bg-grey-800;
   }
 
   /* Recipes */
@@ -273,6 +316,7 @@
     @apply block min-w-8 text-center text-inherit;
     @apply py-1 px-2 border border-grey-400 -ml-[1px];
     @apply hover:no-underline;
+    @apply dark:border-grey-600;
   }
   .Pagination-page:first-child a {
     @apply rounded-l;
@@ -282,7 +326,7 @@
   }
   .Pagination-page.is-active a,
   .Pagination-page a[href]:hover {
-    @apply bg-grey-300 z-10 no-underline;
+    @apply bg-grey-300 z-10 no-underline dark:bg-grey-700;
   }
 
   /* Skills */
@@ -297,7 +341,7 @@
   }
 
   .SkillTable .tableRow {
-    @apply flex flex-row flex-wrap items-center w-full border-b border-grey-300;
+    @apply flex flex-row flex-wrap items-center w-full border-b border-grey-300 dark:border-grey-700;
   }
 
   .SkillTable .skillCell {
@@ -306,15 +350,17 @@
 
   .SkillTable .xpCell {
     @apply flex flex-row items-center justify-between;
-    @apply px-2 py-1 md:py-2 w-full md:w-56 border-l border-grey-300;
+    @apply px-2 py-1 md:py-2 w-full md:w-56 border-l border-grey-300 dark:border-grey-700;
   }
 
   .SkillTable .xpCell input {
     @apply w-16 h-8 rounded-sm text-right;
+    @apply bg-white text-grey-700 border-grey-300;
+    @apply dark:bg-grey-800 dark:text-grey-100 dark:border-grey-600;
   }
 
   .SkillTable .xpCell input.error {
-    @apply text-red-500 border-red-500;
+    @apply text-red-500 border-red-500 dark:text-red-400 dark:border-red-400;
   }
 
   .SkillTable .xpCell .xp {
@@ -322,7 +368,7 @@
   }
 
   .SkillTable .remainingXPCell {
-    @apply px-2 py-1 md:py-2 text-right md:border-l border-grey-300;
+    @apply px-2 py-1 md:py-2 text-right md:border-l border-grey-300 dark:border-grey-700;
     @apply basis-full md:basis-auto md:w-36;
   }
 }

@@ -58,7 +58,7 @@ class Grav::Views::Forms::SelectTag < Phlex::HTML
 
   def view_template
     yield self if block_given?
-    css = [ 'form-input', @options.delete(:class) ]
+    css = [ 'field-input', @options.delete(:class) ]
     select(id: @id, name: @name, class: css, **@options) do
       option_tag('', @include_blank, selected?(value: '')) if @include_blank
       @collection.each { |item| option_tag_from_item(item) }

@@ -3,28 +3,26 @@
 class Views::Home::Show < Views::Base
 
   def view_template
-    div(class: "grid grid-cols-2 gap-1") do
-      div(class: "col-span-2 md:col-span-1") do
-        tile do
+    div(class: "grid grid-cols-2") do
+      div(class: "p-2 md:p-4 col-span-2 md:col-span-1") do
+        tile("info") do
+          tile_heading("Updates", type: "info")
           tile_body do
-            tile("info") do
-              tile_heading("Updates", type: "info")
-              tile_body do
-                p { strong { "Things are quiet." } }
+            p { strong { "Things are quiet." } }
 
-                p do
-                  plain "Not much has been going on here, although, we do continue "
-                  plain "to do continued maintenance on the app."
-                end
-              end
+            p do
+              plain "Not much has been going on here, although, we do continue "
+              plain "to do maintenance on the app, and try and stay on top of new recipes."
             end
-
-            render Components::Comments::Subject.new(subject: :front_page)
           end
+        end
+
+        div(class: 'm-tile') do
+          render Components::Comments::Subject.new(subject: :front_page)
         end
       end
 
-      div(class: "col-sm-6 col-span-2 md:col-span-1") do
+      div(class: "p-2 md:p-4 col-sm-6 col-span-2 md:col-span-1") do
         tile_with_heading("Contact Us") do
           p { strong { "Thanks for visiting SotaLore!" } }
 
