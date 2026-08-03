@@ -3,7 +3,7 @@
 @plugin '@tailwindcss/forms';
 
 @import "./theme";
-@import "./tile" layer(components);
+@import "./tile";
 @import "./forms" layer(components);
 @import "./buttons" layer(components);
 @import "./fields" layer(components);
@@ -87,7 +87,7 @@
   .Comment {
     @apply border border-grey-300 mb-6 text-grey-700 shadow-md dark:shadow-grey-800;
     @apply dark:border-grey-500 dark:text-grey-200;
-    @apply bg-transparent dark:bg-grey-800;
+    @apply bg-white dark:bg-grey-800;
   }
 
   .Comment-author {
