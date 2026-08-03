@@ -11,7 +11,7 @@ class Components::Recipes::Card < Components::Recipes::Base
   end
 
   def view_template
-    div(class: "Recipe p-0 mb-4 border border-parchment-950 bg-parchment-100 dark:border-parchment-700 dark:bg-parchment-950 dark:text-parchment-100") do
+    div(class: "Recipe p-0 mb-4 border border-parchment-950 bg-parchment-100 dark:border-parchment-700 dark:bg-grey-800 dark:text-parchment-100") do
       header_row
       skill_row
       ingredients_section
@@ -58,8 +58,10 @@ class Components::Recipes::Card < Components::Recipes::Base
   end
 
   def skill_row
-    div(class: "p-1 flex flex-row items-start border-b border-dashed border-parchment-950 border-opacity-20 dark:border-parchment-600 dark:border-opacity-30") do
-      image_tag("sota-icons/#{@recipe.craft_skill.icon_name}", class: "w-12")
+    div(class: "p-1 flex flex-row items-start border-b border-dashed border-parchment-950 border-opacity-20 dark:border-parchment-600") do
+      div(class: 'mr-2 dark:bg-parchment-700 rounded-full') do
+        image_tag("sota-icons/#{@recipe.craft_skill.icon_name}", class: "w-12 rounded-full")
+      end
       div(class: "grow") do
         skill_summary
         makes_line
