@@ -42,7 +42,7 @@ module Views::NoticeHelper
     error: "error",
   }.with_indifferent_access.freeze
 
-  NOTICE_CSS = %w[ my-4 mx-2 flex flex-row rounded ].join(' ').freeze
+  NOTICE_CSS = %w[ my-4 mx-2 flex flex-row border rounded ].join(' ').freeze
   NOTICE_ICON_CSS = %w[ flex items-center justify-center w-8 rounded-s ].join(' ').freeze
 
   NOTICE_TYPE_CSS = Views::FlairHelper::FLAIR_TYPE_CSS
@@ -55,7 +55,7 @@ module Views::NoticeHelper
       span(class: "#{NOTICE_ICON_CSS} #{NOTICE_ICON_TYPE_CSS[type]}") do
         render_icon(ICON_FOR_TYPE[type])
       end
-      span(class: "py-2 px-4 border rounded-e grow") do
+      span(class: "py-2 px-4 rounded-e grow") do
         raw(safe(" #{message}"))
       end
     end
