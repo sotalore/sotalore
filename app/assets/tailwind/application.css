@@ -85,18 +85,20 @@
   }
 
   .Comment {
-    @apply border border-grey-300 mb-6 text-grey-700 shadow-md;
-    @apply dark:border-grey-700 dark:text-grey-200;
+    @apply border border-grey-300 mb-6 text-grey-700 shadow-md dark:shadow-grey-800;
+    @apply dark:border-grey-500 dark:text-grey-200;
+    @apply bg-transparent dark:bg-grey-800;
   }
 
   .Comment-author {
-    @apply border-b border-grey-300 px-2 py-1 flex flex-row items-center flex-wrap gap-2;
+    @apply px-2 py-1 flex flex-row items-center flex-wrap gap-2;
     @apply dark:border-grey-700;
   }
 
   .Comment-authorName {
     @apply flex-grow whitespace-nowrap text-ellipsis;
     @apply flex flex-row items-center gap-x-2;
+    @apply text-lg font-semibold text-grey-800 dark:text-grey-100;
   }
 
   .Comment-subject {
@@ -105,6 +107,10 @@
 
   .Comment-authorTime {
     @apply text-sm opacity-50 italic;
+  }
+
+  .Comment-controls {
+    @apply p-2 flex flex-row justify-end items-center gap-x-1;
   }
 
   .farming-plan-table {

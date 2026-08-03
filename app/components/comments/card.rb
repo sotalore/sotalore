@@ -30,7 +30,7 @@ class Components::Comments::Card < Components::Base
       div(id: dom_id(@comment, :editable)) { comment_content }
 
       if can_delete || can_edit || invisible
-        div(class: "Comment-controls border-t border-grey-300 dark:border-grey-700 px-2 py-1 flex flex-row justify-end items-center gap-x-1 bg-grey-100 dark:bg-grey-900") do
+        div(class: "Comment-controls") do
           comment_visibility_button(@comment)
           destroy_icon_to([ @comment.subject, @comment ], control: true, size: :sm) if can_delete
           edit_icon_to([ :edit, @comment.subject, @comment ], control: true, size: :sm, data: { turbo_stream: "true" }) if can_edit
