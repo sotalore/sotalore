@@ -24,7 +24,7 @@ module Views::ItemsHelper
 
     price = item.price
     price = price * options[:count] if options.key?(:count)
-    span(class: item_css('text-golden-700', options)) do
+    span(class: item_css('text-golden-700 dark:text-golden-300', options)) do
       span do
         plain price.to_s
         raw(safe('&nbsp;gold'))
@@ -35,7 +35,7 @@ module Views::ItemsHelper
   def item_weight_tag(item, options={})
     return unless item.weight
 
-    span(class: item_css('text-grey-700', options)) do
+    span(class: item_css('text-grey-700 dark:text-grey-300', options)) do
       span { "weight: #{item.weight}" }
     end
   end
@@ -44,7 +44,7 @@ module Views::ItemsHelper
     return unless item.abstract
 
     icon_size = options[:large] || options[:size] == :lg ? :md : :xs
-    span(href: abstractions_url, class: item_css('text-sky-800 inline-flex gap-x-1', options)) do
+    span(href: abstractions_url, class: item_css('text-sky-800 dark:text-sky-300 inline-flex gap-x-1', options)) do
       render_icon(:rectangles, size: icon_size, color: :current)
       span { 'abstract' }
     end
@@ -62,7 +62,7 @@ module Views::ItemsHelper
 
     label = item.use_is_unknown? ? 'unknown use' : item.use
     icon_size = options[:large] || options[:size] == :lg ? :md : :xs
-    span(class: item_css('text-sky-700 inline-flex gap-x-1', options)) do
+    span(class: item_css('text-sky-700 dark:text-sky-300 inline-flex gap-x-1', options)) do
       render_icon(icon, size: icon_size, color: :current)
       span { label }
     end
@@ -91,7 +91,7 @@ module Views::ItemsHelper
     return unless skill
 
     name = skill&.name || 'unknown'
-    span(class: item_css('text-green-700 inline-flex items-center gap-x-1', options)) do
+    span(class: item_css('text-green-700 dark:text-green-400 inline-flex items-center gap-x-1', options)) do
       craft_skill_image_tag(skill, options)
       span { name }
     end
@@ -116,7 +116,7 @@ module Views::ItemsHelper
   end
 
   ITEM_TAG_CSS_BASE = %w[
-    bg-grey-200 border border-grey-300 rounded-full
+    bg-grey-200 dark:bg-grey-700 border border-grey-300 dark:border-grey-600 rounded-full
     self-center inline-flex items-center whitespace-nowrap
   ].join(' ').freeze
 
