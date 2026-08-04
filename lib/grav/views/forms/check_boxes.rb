@@ -3,7 +3,10 @@
 module Grav::Views::Forms
   module CheckBoxes
 
-    NOT_CHECKED_VALUES = [ 0, '0', false, 'false', nil ].freeze
+    # input_value always stringifies the model attribute before it gets here
+    # (`nil.to_s` => ''), so '' has to be listed alongside the string forms of
+    # the other falsy values, or an unset attribute reads as "checked".
+    NOT_CHECKED_VALUES = [ 0, '0', false, 'false', nil, '' ].freeze
 
     def checkbox(attribute, **options)
       currently_checked = input_value(attribute, **options)
@@ -23,7 +26,7 @@ module Grav::Views::Forms
         id: id_for(attribute, **options),
         class: 'form-checkbox',
         name: input_name,
-        **options.except(*Grav::Views::Forms::BasicInputs::NON_HTML_OPTIONS))
+        **options.except(*NON_HTML_OPTIONS))
     end
     alias check_box checkbox
 
@@ -49,7 +52,7 @@ module Grav::Views::Forms
               name: input_name,
               value: item.public_send(value),
               data: data_options,
-              **options)
+              **options.except(*NON_HTML_OPTIONS))
           end
         end
       end

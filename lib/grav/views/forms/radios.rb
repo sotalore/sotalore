@@ -20,17 +20,34 @@ module Grav::Views::Forms
         id: "#{id_for(attribute, **options)}_#{sanitized_value(value)}",
         class: 'form-radio',
         name: input_name,
-        **options)
-      if options.key?(:checked)
-        options[:checked] = 'checked' if options[:checked]
-      else
-        options[:checked] = 'checked' unless NOT_CHECKED_VALUES.include?(current_value)
-      end
+        value: value,
+        # :value is excepted too: it's this radio's own HTML value (the
+        # positional `value` above), not the options[:value] override that
+        # input_value uses above to decide which radio is checked -- those
+        # are different things that happen to share a key name.
+        **options.except(*NON_HTML_OPTIONS, :value))
     end
 
     def radio_field(attribute, value, **options)
       field_in_label(attribute, **options) do
         radio(attribute, value, **options)
+      end
+    end
+
+    # Renders one radio per collection item, all sharing the same name (only
+    # one can ever be checked) and delegating to #radio for each one, so id
+    # generation, NON_HTML_OPTIONS filtering, and checked-state all stay in
+    # sync with a plain radio_field instead of a second copy to drift out of
+    # sync with it. Unlike #collection_checkboxes, no leading hidden fallback
+    # input is rendered: a radio group with nothing checked simply submits no
+    # value for the attribute, same as Rails' own collection_radio_buttons.
+    def collection_radios(attribute, collection, value:, display:, **options)
+      div(class: 'application-form-section') do
+        collection.each do |item|
+          field_in_label(attribute, label: item.public_send(display), **options) do
+            radio(attribute, item.public_send(value), **options)
+          end
+        end
       end
     end
 
