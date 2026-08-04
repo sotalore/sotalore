@@ -47,14 +47,16 @@ RSpec.describe Grav::Views::Forms::Selects do
   end
 
   describe '#state_select_field' do
-    it "raises, because it depends on the iso3166 gem, which isn't a project dependency" do
-      # state_select_field calls ISO3166::Country.new('US'), but neither
-      # `iso3166` nor `countries` is in the Gemfile, and the method isn't
-      # used anywhere in the app. This spec pins the current (broken)
-      # behavior down rather than asserting what state_select_field should do.
+    it "is not defined at all when the (optional) iso3166 gem isn't installed" do
+      # selects.rb only defines state_select_field when `require 'iso3166'`
+      # succeeds. This project doesn't depend on iso3166, so the method
+      # should never exist here, and calling it fails fast and clearly
+      # (NoMethodError) rather than deep inside on a missing ISO3166 constant.
+      expect(defined?(ISO3166)).to be_nil
+      expect(GravFormsTestForm.new(url: '/somewhere')).not_to respond_to(:state_select_field)
       expect {
         render_grav_form(model: GravFormsTestModel.new, url: '/somewhere') { |f| f.state_select_field(:role) }
-      }.to raise_error(NameError, /ISO3166/)
+      }.to raise_error(NoMethodError, /state_select_field/)
     end
   end
 end

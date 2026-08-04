@@ -20,12 +20,7 @@ module Grav::Views::Forms
         id: "#{id_for(attribute, **options)}_#{sanitized_value(value)}",
         class: 'form-radio',
         name: input_name,
-        **options)
-      if options.key?(:checked)
-        options[:checked] = 'checked' if options[:checked]
-      else
-        options[:checked] = 'checked' unless NOT_CHECKED_VALUES.include?(current_value)
-      end
+        **options.except(*Grav::Views::Forms::BasicInputs::NON_HTML_OPTIONS))
     end
 
     def radio_field(attribute, value, **options)

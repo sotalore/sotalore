@@ -23,15 +23,9 @@ RSpec.describe Grav::Views::Forms::CheckBoxes do
       expect(frag.at_css('input[type="checkbox"]')['checked']).to be_nil
     end
 
-    it 'is checked when the attribute is unset (nil) -- current (surprising) behavior' do
-      # input_value stringifies the attribute before NOT_CHECKED_VALUES is checked
-      # (`nil.to_s` => ""), but NOT_CHECKED_VALUES only lists the literal `nil`, not
-      # `''`, so an unset attribute doesn't match it and the checkbox renders
-      # checked. For any boolean attribute without a database default (so it's
-      # nil rather than false on a new record), this pre-checks the box. This
-      # spec pins the current behavior down rather than asserting it's desired.
+    it 'is unchecked when the attribute is unset (nil)' do
       frag = render_grav_form(model: GravFormsTestModel.new, url: '/somewhere') { |f| f.checkbox(:accepted) }
-      expect(frag.at_css('input[type="checkbox"]')['checked']).to eq('checked')
+      expect(frag.at_css('input[type="checkbox"]')['checked']).to be_nil
     end
 
     it 'lets an explicit checked: option override the derived state' do
@@ -95,15 +89,11 @@ RSpec.describe Grav::Views::Forms::CheckBoxes do
       expect(hidden['value']).to eq('')
     end
 
-    it 'leaks framework-only options onto each rendered checkbox -- unlike #checkbox, this does not filter NON_HTML_OPTIONS' do
-      # collection_checkboxes spreads **options directly onto the <input>
-      # without excepting Grav::Views::Forms::BasicInputs::NON_HTML_OPTIONS the
-      # way #checkbox does, so framework-only options end up as literal (and
-      # invalid) HTML attributes. This spec pins the current behavior down.
+    it 'does not leak framework-only options onto the rendered checkboxes' do
       frag = render_grav_form(model: GravFormsTestModel.new, url: '/somewhere') do |f|
         f.collection_checkboxes(:tags, items, value: :id, display: :name, hint: 'leaked?')
       end
-      expect(frag.at_css('input[type="checkbox"]')['hint']).to eq('leaked?')
+      expect(frag.at_css('input[type="checkbox"]').key?('hint')).to be false
     end
   end
 end

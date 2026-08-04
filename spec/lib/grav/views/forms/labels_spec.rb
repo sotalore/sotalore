@@ -40,8 +40,12 @@ RSpec.describe Grav::Views::Forms::Labels do
     it 'raises for a Module :label, because #nomenclature is not defined anywhere in this app' do
       # label_for's `when Module then nomenclature(label)` branch depends on a
       # #nomenclature method that no version of this app (or the library)
-      # actually defines. Nothing currently passes a Module as :label, so this
-      # has gone unnoticed; this spec pins the current (broken) behavior down.
+      # actually defines, and nothing here passes a Module as :label. Left as
+      # documented, known-broken/unowned behavior rather than fixed blind --
+      # implementing #nomenclature would mean guessing at semantics no call
+      # site actually needs. This spec exists so that guess isn't made
+      # silently later, either: it'll fail the moment someone starts relying
+      # on this branch, which is the right time to design it for real.
       form = GravFormsTestForm.new(url: '/somewhere')
       expect { form.label_for(:name, label: String) }.to raise_error(NoMethodError, /nomenclature/)
     end
