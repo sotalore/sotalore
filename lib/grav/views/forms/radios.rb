@@ -20,7 +20,7 @@ module Grav::Views::Forms
         id: "#{id_for(attribute, **options)}_#{sanitized_value(value)}",
         class: 'form-radio',
         name: input_name,
-        **options.except(*Grav::Views::Forms::BasicInputs::NON_HTML_OPTIONS))
+        **options.except(*NON_HTML_OPTIONS))
     end
 
     def radio_field(attribute, value, **options)

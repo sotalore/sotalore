@@ -26,7 +26,7 @@ module Grav::Views::Forms
         id: id_for(attribute, **options),
         class: 'form-checkbox',
         name: input_name,
-        **options.except(*Grav::Views::Forms::BasicInputs::NON_HTML_OPTIONS))
+        **options.except(*NON_HTML_OPTIONS))
     end
     alias check_box checkbox
 
@@ -52,7 +52,7 @@ module Grav::Views::Forms
               name: input_name,
               value: item.public_send(value),
               data: data_options,
-              **options.except(*Grav::Views::Forms::BasicInputs::NON_HTML_OPTIONS))
+              **options.except(*NON_HTML_OPTIONS))
           end
         end
       end

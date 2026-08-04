@@ -3,10 +3,6 @@
 module Grav::Views::Forms
   module BasicInputs
 
-    # Options that Fields/Hints/Labels understand but that aren't real HTML
-    # attributes, so they must not be spread onto the rendered tag.
-    NON_HTML_OPTIONS = %i[ optional hint hint_options align label label_first label_class errors_from index array skip_label ].freeze
-
     def hidden_tag(attribute, **options)
       input_of_type('hidden', attribute, **options)
     end
