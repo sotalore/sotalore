@@ -1,40 +1,39 @@
 # frozen_string_literal: true
 
-class Views::Scenes::Form < Views::Scenes::Base
-  include Grav::Views::Forms::Base
+class Views::Scenes::Form < Views::Form
 
   def initialize(scene:)
-    super(model: scene)
+    @scene = scene
   end
 
   def view_template
-    super do
-      text_field(:name, autofocus: true)
+    render form_builder(model: @scene) do |f|
+      f.text_field(:name, autofocus: true)
 
-      select_field(:level_id) do |select|
+      f.select_field(:level_id) do |select|
         select.options(Scene::LEVELS, display: :first, value: :last, include_blank: :blank)
       end
-      checkbox_field(:level_plus)
+      f.checkbox_field(:level_plus)
 
-      select_field(:scene_type_id) do |select|
+      f.select_field(:scene_type_id) do |select|
         select.options(Scene::SCENE_TYPES, display: :first, value: :last, include_blank: :blank)
       end
 
-      select_field(:region_id) do |select|
+      f.select_field(:region_id) do |select|
         select.options(Scene::REGIONS, display: :first, value: :last, include_blank: :blank)
       end
 
-      select_field(:parent_id) do |select|
+      f.select_field(:parent_id) do |select|
         select.options(parent_options, display: :first, value: :last, include_blank: :blank)
       end
 
-      checkbox_field(:pvp)
-      number_field(:sota_map_id)
-      number_field(:sota_map_parent_poi_id)
+      f.checkbox_field(:pvp)
+      f.number_field(:sota_map_id)
+      f.number_field(:sota_map_parent_poi_id)
 
-      form_actions do
-        cancel_button
-        submit_button
+      f.form_actions do
+        f.cancel_button
+        f.submit_button
       end
     end
   end
