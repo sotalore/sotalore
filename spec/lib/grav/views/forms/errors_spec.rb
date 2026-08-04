@@ -5,21 +5,21 @@ require 'rails_helper'
 RSpec.describe Grav::Views::Forms::Errors do
   describe '#errors_on?' do
     it 'is false when the model has no errors on that attribute' do
-      form = GravFormsTestForm.new(model: GravFormsTestModel.new)
+      form = Grav::Views::Forms::FormBuilder.new(model: GravFormsTestModel.new)
       expect(form.errors_on?(:name)).to be_falsey
     end
 
     it 'is true when the model has an error on that attribute' do
       model = GravFormsTestModel.new
       model.errors.add(:name, "can't be blank")
-      form = GravFormsTestForm.new(model: model)
+      form = Grav::Views::Forms::FormBuilder.new(model: model)
       expect(form.errors_on?(:name)).to be true
     end
 
     it 'honors :errors_from to check a different attribute than it renders under' do
       model = GravFormsTestModel.new
       model.errors.add(:email, "is invalid")
-      form = GravFormsTestForm.new(model: model)
+      form = Grav::Views::Forms::FormBuilder.new(model: model)
       expect(form.errors_on?(:contact, errors_from: :email)).to be true
     end
   end

@@ -53,7 +53,7 @@ RSpec.describe Grav::Views::Forms::Selects do
       # should never exist here, and calling it fails fast and clearly
       # (NoMethodError) rather than deep inside on a missing ISO3166 constant.
       expect(defined?(ISO3166)).to be_nil
-      expect(GravFormsTestForm.new(url: '/somewhere')).not_to respond_to(:state_select_field)
+      expect(Grav::Views::Forms::FormBuilder.new(url: '/somewhere')).not_to respond_to(:state_select_field)
       expect {
         render_grav_form(model: GravFormsTestModel.new, url: '/somewhere') { |f| f.state_select_field(:role) }
       }.to raise_error(NoMethodError, /state_select_field/)

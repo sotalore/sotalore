@@ -22,18 +22,18 @@ RSpec.describe Grav::Views::Forms::Labels do
     end
 
     it 'looks up a Symbol :label under the same scope, independent of the attribute name' do
-      form = GravFormsTestForm.new(model: GravFormsTestModel.new, url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(model: GravFormsTestModel.new, url: '/somewhere')
       form.model # establish @model before calling label_for directly (see label_scope note below)
       expect(form.label_for(:name, label: :custom_label_key)).to eq('Custom Label Key')
     end
 
     it 'passes a String :label straight through' do
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       expect(form.label_for(:name, label: 'Literal Label')).to eq('Literal Label')
     end
 
     it 'calls a Proc :label' do
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       expect(form.label_for(:name, label: -> { 'Computed Label' })).to eq('Computed Label')
     end
 
@@ -46,7 +46,7 @@ RSpec.describe Grav::Views::Forms::Labels do
       # site actually needs. This spec exists so that guess isn't made
       # silently later, either: it'll fail the moment someone starts relying
       # on this branch, which is the right time to design it for real.
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       expect { form.label_for(:name, label: String) }.to raise_error(NoMethodError, /nomenclature/)
     end
   end
@@ -54,7 +54,7 @@ RSpec.describe Grav::Views::Forms::Labels do
   describe '#label_scope' do
     it 'is memoized the first time it is computed, from the ivar set once #model has run' do
       model = GravFormsTestModel.new
-      form = GravFormsTestForm.new(model: model, url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(model: model, url: '/somewhere')
       form.model # see note: label_scope reads @model directly, not the #model method
       expect(form.label_scope).to eq([ :helpers, :label, :grav_forms_test_model ])
     end

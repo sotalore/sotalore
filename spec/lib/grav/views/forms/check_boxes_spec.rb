@@ -48,7 +48,7 @@ RSpec.describe Grav::Views::Forms::CheckBoxes do
     end
 
     it 'is aliased as #check_box' do
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       expect(form.method(:check_box)).to eq(form.method(:checkbox))
     end
   end

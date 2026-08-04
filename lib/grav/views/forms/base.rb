@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
+# The full set of field/label/error/action behavior this library provides,
+# as a mixin for `include`ing directly into your own Phlex view class.
+#
+# For new forms, prefer Grav::Views::Forms::FormBuilder instead: it's this
+# same module, already wired onto its own small Phlex::HTML class, meant to
+# be `render`ed with a yielded block rather than `include`d -- see its
+# comment for why. This module isn't going anywhere, and existing forms
+# built directly on it keep working unchanged; there's no need to migrate
+# everything just to start using FormBuilder for new ones.
 module Grav::Views::Forms::Base
   include Phlex::Rails::Helpers::FieldID
   include Phlex::Rails::Helpers::DOMID

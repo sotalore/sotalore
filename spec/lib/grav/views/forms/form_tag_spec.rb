@@ -5,27 +5,27 @@ require 'rails_helper'
 RSpec.describe Grav::Views::Forms::FormTag do
   describe '#form_method' do
     it 'is "post" for a new record' do
-      form = GravFormsTestForm.new(model: GravFormsTestModel.new)
+      form = Grav::Views::Forms::FormBuilder.new(model: GravFormsTestModel.new)
       expect(form.form_method).to eq('post')
     end
 
     it 'is "patch" for a persisted record' do
-      form = GravFormsTestForm.new(model: GravFormsTestModel.new(id: 1))
+      form = Grav::Views::Forms::FormBuilder.new(model: GravFormsTestModel.new(id: 1))
       expect(form.form_method).to eq('patch')
     end
 
     it 'honors an explicit :method option over the model state' do
-      form = GravFormsTestForm.new(model: GravFormsTestModel.new(id: 1), method: 'delete')
+      form = Grav::Views::Forms::FormBuilder.new(model: GravFormsTestModel.new(id: 1), method: 'delete')
       expect(form.form_method).to eq('delete')
     end
 
     it 'is "post" when there is no model at all' do
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       expect(form.form_method).to eq('post')
     end
 
     it 'is forced to "get" by simple_get_form!' do
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       form.simple_get_form!
       expect(form.form_method).to eq('get')
     end
@@ -33,13 +33,13 @@ RSpec.describe Grav::Views::Forms::FormTag do
 
   describe '#html_form_method' do
     it 'passes through "get"' do
-      form = GravFormsTestForm.new(url: '/somewhere', method: 'get')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere', method: 'get')
       expect(form.html_form_method).to eq('get')
     end
 
     %w[post patch put delete].each do |verb|
       it "downgrades \"#{verb}\" to \"post\" (browsers only support get/post on a <form>)" do
-        form = GravFormsTestForm.new(url: '/somewhere', method: verb)
+        form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere', method: verb)
         expect(form.html_form_method).to eq('post')
       end
     end
@@ -47,19 +47,19 @@ RSpec.describe Grav::Views::Forms::FormTag do
 
   describe '#form_classes' do
     it 'defaults to the "default" style' do
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       expect(form.form_classes).to eq('application-form application-form-default')
     end
 
     it 'switches to the "inline" style' do
-      form = GravFormsTestForm.new(url: '/somewhere', style: :inline)
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere', style: :inline)
       expect(form.form_classes).to eq('application-form application-form-inline')
     end
   end
 
   describe '#form_action' do
     it 'returns the explicit url when given, even with a model' do
-      form = GravFormsTestForm.new(model: GravFormsTestModel.new, url: '/explicit')
+      form = Grav::Views::Forms::FormBuilder.new(model: GravFormsTestModel.new, url: '/explicit')
       expect(form.form_action).to eq('/explicit')
     end
 

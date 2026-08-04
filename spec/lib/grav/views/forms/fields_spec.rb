@@ -5,33 +5,33 @@ require 'rails_helper'
 RSpec.describe Grav::Views::Forms::Fields do
   describe '#field_classes' do
     it 'always includes the base field-container class' do
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       expect(form.field_classes).to include('field-container')
     end
 
     it 'adds field-align-right when align: :right' do
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       expect(form.field_classes(:name, align: :right)).to include('field-align-right')
     end
 
     it 'adds field-with-errors when the attribute has an error' do
       model = GravFormsTestModel.new
       model.errors.add(:name, "can't be blank")
-      form = GravFormsTestForm.new(model: model, url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(model: model, url: '/somewhere')
       expect(form.field_classes(:name)).to include('field-with-errors')
     end
 
     it 'skips the error class when no attribute is given' do
       model = GravFormsTestModel.new
       model.errors.add(:name, "can't be blank")
-      form = GravFormsTestForm.new(model: model, url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(model: model, url: '/somewhere')
       expect(form.field_classes).not_to include('field-with-errors')
     end
   end
 
   describe '#label_classes' do
     it 'wraps the given label_class option' do
-      form = GravFormsTestForm.new(url: '/somewhere')
+      form = Grav::Views::Forms::FormBuilder.new(url: '/somewhere')
       expect(form.label_classes(:name, label_class: 'big')).to eq([ 'big' ])
     end
   end
