@@ -13,8 +13,6 @@ module Grav::Views::Forms
         label
       when Proc
         label.call
-      when Module
-        nomenclature(label)
       end
     end
 
