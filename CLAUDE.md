@@ -23,7 +23,7 @@ Do not stage or commit to git unless explicitly requested.
 
 ## Architecture
 
-Rails 8.1 monolith (app module `SotaLore`, Ruby 4.0.5) for *SotA Lore* (<www.sotalore.com>), a community item/recipe/crafting database for the game Shroud of the Avatar. Hotwire (Turbo + Stimulus) + Importmap (no Node/webpack build, no `package.json`), Propshaft assets, Tailwind CSS, PostgreSQL, RSpec.
+Rails 8.1 monolith (app module `SotaLore`, Ruby 4.0.6) for *SotA Lore* (<www.sotalore.com>), a community item/recipe/crafting database for the game Shroud of the Avatar. Hotwire (Turbo + Stimulus) + Importmap (no Node/webpack build, no `package.json`), Propshaft assets, Tailwind CSS, PostgreSQL, RSpec.
 
 **Views are mid-migration from Haml to Phlex.** Most templates are classic `app/views/**/*.html.haml`, implicitly rendered by action name. A growing subset are Phlex view classes at `app/views/**/*.rb`, namespaced under `Views::` and rendered explicitly (e.g. `render Views::Home::LunarRifts.new`). This is wired in `config/initializers/phlex.rb`, which autoloads `app/views` and `app/components` under custom `Views`/`Components` namespaces (`app/views/base.rb`, `app/components/base.rb`). Reusable Phlex components (icons, tiles) live in `app/components/`.
 
