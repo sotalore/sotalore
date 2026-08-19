@@ -7,9 +7,15 @@ class FarmingCalendarsController < ApplicationController
 
   def show
     Time.use_zone("UTC") do
-      start_time = Time.zone.parse(params[:start]).utc
-      base_time = Integer(params[:seedTime])
-      location_factor = Float(params[:locationFactor])
+      start_time = parse_start_time(params[:start])
+      base_time = parse_integer(params[:seedTime])
+      location_factor = parse_float(params[:locationFactor])
+
+      if start_time.nil? || base_time.nil? || location_factor.nil?
+        redirect_to farming_path, alert: "That calendar link is missing some information, please try downloading it again."
+        return
+      end
+
       phase_length = base_time * location_factor
       name = params[:name]
       name = name.gsub(/[^0-9A-Za-z\-_ ]/, '')
@@ -41,5 +47,28 @@ class FarmingCalendarsController < ApplicationController
         end
       end
     end
+  end
+
+  private
+
+  def parse_start_time(value)
+    return nil if value.blank?
+    Time.zone.parse(value)&.utc
+  rescue ArgumentError, TypeError
+    nil
+  end
+
+  def parse_integer(value)
+    return nil if value.blank?
+    Integer(value)
+  rescue ArgumentError, TypeError
+    nil
+  end
+
+  def parse_float(value)
+    return nil if value.blank?
+    Float(value)
+  rescue ArgumentError, TypeError
+    nil
   end
 end
