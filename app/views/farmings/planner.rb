@@ -67,7 +67,8 @@ class Views::Farmings::Planner < Views::Farmings::Base
   def export_section
     div(class: "align-baseline border-t pt-2 flex flex-row flex-wrap gap-2") do
       label(class: "font-semibold self-center") { "Calendar:" }
-      input(class: "field-input w-auto", type: "text", value: "SOTA Farming", maxlength: "80", data: { "farming-target": "exportName" })
+      input(class: "field-input w-auto", type: "text", value: "SOTA Farming", maxlength: "80",
+        data: { "farming-target": "exportName", action: "input->farming#update" })
       div(class: "self-center") do
         a(class: "inline-block align-baseline Button Button--primary", href: "#", data: { "farming-target": "exportCalendar", turbo: 'false' }) { "Download" }
         whitespace
