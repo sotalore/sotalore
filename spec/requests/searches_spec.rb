@@ -9,6 +9,11 @@ RSpec.describe "Searches", type: :request do
       expect(response.body).to include(item.name)
       expect(response).to have_http_status(:ok)
     end
+
+    it 'renders without the application layout' do
+      get search_items_path, params: { q: 'fake' }
+      expect(response.body).not_to include('<html')
+    end
   end
 
   describe 'GET global' do
@@ -17,6 +22,11 @@ RSpec.describe "Searches", type: :request do
       expect(response.body).to include(item.name)
       expect(response).to have_http_status(:ok)
     end
+
+    it 'renders without the application layout' do
+      get search_global_path, params: { q: 'fake' }
+      expect(response.body).not_to include('<html')
+    end
   end
 
   describe 'GET show' do
@@ -24,6 +34,12 @@ RSpec.describe "Searches", type: :request do
       get search_path, params: { q: 'fake' }
       expect(response.body).to include(item.name)
       expect(response).to have_http_status(:ok)
+    end
+
+    it 'renders within the application layout' do
+      get search_path, params: { q: 'fake' }
+      expect(response.body).to include('<html')
+      expect(response.body).to include('global-search-input')
     end
   end
 
