@@ -1,7 +1,19 @@
 class SearchesController < ApplicationController
   skip_after_action :verify_authorized
 
-  layout false, only: [ :global, :items ]
+  # NOTE: intentionally not `layout false, only: [:global, :items]`. Rails'
+  # `layout ..., only:/except:` conditions are checked via a private
+  # `_conditional_layout?` method that's dispatched dynamically on `self`.
+  # Once that conditional check is added to this controller it also gates
+  # the *inherited* layout lookup for every other action here (e.g. `show`)
+  # when it falls through to `super`, silently dropping the application
+  # layout instead of using it. Scoping `layout: false` to the individual
+  # `render` calls avoids touching that shared conditional machinery.
+  def action_has_layout?
+    return false if %w[global items].include?(action_name)
+
+    super
+  end
 
   def show
     searches = PgSearch.multisearch(params[:q])
