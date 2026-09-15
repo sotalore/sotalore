@@ -39,6 +39,10 @@ class Skill
 
   attr_accessor :id, :key, :name, :xp_factor, :category, :school
 
+  # NOTE FROM  /tester
+  # MAX XP used for level 200 is: 16_709_249_906
+  #   for 10x skill is:          167_092_499_060 (exactly 10x)
+
   def xp_to_level(level)
     if level == 0
       0
