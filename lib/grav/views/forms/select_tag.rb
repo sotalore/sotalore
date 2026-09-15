@@ -69,6 +69,13 @@ class Grav::Views::Forms::SelectTag < Phlex::HTML
 
   def selected?(value: nil, item: nil)
     return @match_selected_with == item if @match_selected_with.present?
+
+    # Option values often come from the collection as Integers/Symbols
+    # (e.g. a Hash of Name => id constants), while @selected is always a
+    # String (or array of Strings) -- either round-tripped through HTML
+    # form params, or stringified in Naming#input_value. Compare both as
+    # strings so a non-String option value can still match.
+    value = value.to_s
     return true if value.blank? && @selected.blank?
 
     case @selected
