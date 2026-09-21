@@ -1,6 +1,6 @@
 source 'https://rubygems.org', cooldown: 7
 
-ruby "4.0.6"
+ruby "4.0.7"
 
 gem "ostruct" # silence deprecation warning
 
@@ -8,6 +8,8 @@ gem 'rails', '~> 8.1.0'
 gem 'propshaft'
 gem 'pg'
 gem 'puma', '>= 6.0'
+
+gem 'json', '< 3'
 
 gem "importmap-rails", "~> 2.2"
 gem "tailwindcss-rails"

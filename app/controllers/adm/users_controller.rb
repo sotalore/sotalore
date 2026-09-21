@@ -6,7 +6,7 @@ class Adm::UsersController < AdmController
 
   def index
     order_field, direction = get_sort_field_and_direction(SORT_FIELDS, 'id', 'desc')
-    @users = User.page(params[:page]).order({ order_field => direction })
+    @users = User.page(params[:page]).order(nulls_smallest_order(order_field, direction))
     authorize(User)
     render Views::Adm::Users::Index.new(users: @users)
   end
@@ -31,6 +31,13 @@ class Adm::UsersController < AdmController
 
   def user_params
     params.require(:user).permit(:name, :email, :disabled)
+  end
+
+  # Treat NULL as the smallest possible value (e.g. a user who has never made a request),
+  # so ascending puts NULLs first and descending puts them last. Postgres defaults to the opposite.
+  def nulls_smallest_order(field, direction)
+    ordering = User.arel_table[field].public_send(direction)
+    direction == 'asc' ? ordering.nulls_first : ordering.nulls_last
   end
 
   def get_sort_field_and_direction(allowed, default, direction='asc')
