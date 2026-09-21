@@ -49,6 +49,7 @@ class Views::Layouts::Adm < Views::Layouts::Base
               div(class: "flex-grow flex flex-col") do
                 div(class: "z-50 bg-blue-700 dark:bg-blue-950 h-12 flex flex-row items-center justify-between") do
                   h2(class: "h-12 text-white") { "ADM" }
+                  release_info
                   theme_switcher
                 end
 
@@ -59,6 +60,23 @@ class Views::Layouts::Adm < Views::Layouts::Base
               end
             end
           end
+        end
+      end
+    end
+  end
+
+  private
+
+  def release_info
+    release = Release.current
+    return unless release.known?
+
+    span(id: "release-info", class: "ml-auto mr-4 text-xs text-white", title: release.commit) do
+      plain [ release.version, release.short_commit ].compact.join(" · ")
+      if release.released_at
+        span(class: "hidden md:inline") do
+          plain " · "
+          time_ago_tag release.released_at
         end
       end
     end

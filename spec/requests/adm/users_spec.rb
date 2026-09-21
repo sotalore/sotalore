@@ -30,6 +30,24 @@ RSpec.describe "Adm::Users", type: :request do
     end
   end
 
+  describe 'release info in the adm layout' do
+    it 'shows the current release' do
+      env = { 'HEROKU_RELEASE_VERSION' => 'v42', 'HEROKU_BUILD_COMMIT' => '2c3a0b24069af49b3de35b8e8c26765c1dba9ff0' }
+      allow(Release).to receive(:current).and_return(Release.new(env))
+
+      get adm_users_path
+      expect(response.body).to include('id="release-info"')
+      expect(response.body).to include('v42 · 2c3a0b2')
+    end
+
+    it 'shows nothing when the release is unknown' do
+      allow(Release).to receive(:current).and_return(Release.new({}))
+
+      get adm_users_path
+      expect(response.body).not_to include('release-info')
+    end
+  end
+
   describe "GET /edit" do
     let(:other_user) { create(:user) }
     it 'works' do
