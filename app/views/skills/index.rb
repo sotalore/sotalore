@@ -14,7 +14,7 @@ class Views::Skills::Index < Views::Skills::Base
     page_title("Skills")
 
     div(class: "mb-12 mx-2 mt-2") do
-      render Views::Skills::PageHeading.new(activity: @activity, with_avatar_controls: true, avatars: @avatars)
+      render Views::Skills::PageHeading.new(activity: @activity, with_avatar_controls: true, avatars: @avatars, avatar: @avatar)
 
       div(id: "skillTable", class: "SkillTable mt-0 bg-grey-100 dark:bg-grey-900", data: { controller: "skills-rollup" }) do
         header_row

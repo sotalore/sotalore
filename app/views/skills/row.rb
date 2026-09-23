@@ -74,7 +74,7 @@ class Views::Skills::Row < Views::Base
   end
 
   def xp_input(**args)
-    input(type: 'number', step: "1", min: "0", max: "200", **args)
+    input(type: 'number', step: "1", min: "0", max: "200", autocomplete: 'off', **args)
   end
 
 end

@@ -272,21 +272,24 @@
     content: "•";
   }
 
-  /* Tabs for Pages ... e.g., skills page */
+  /* Tabs for Pages ... e.g., skills page
+   * Mobile: a full-width segmented control, separate from the content below.
+   * md+: classic tabs, with the current tab joining the content below. */
   .PageTabs {
-    @apply flex flex-col md:flex-row;
-    @apply mb-0 align-bottom justify-between;
-    @apply text-sm md:text-base;
+    @apply flex flex-row mb-2 md:mb-0 text-sm md:text-base;
+    @apply rounded md:rounded-none overflow-hidden;
+    @apply border border-grey-200 md:border-0 dark:border-grey-700;
   }
 
   .PageTabs .PageTabs-tab {
-    @apply border border-grey-200 border-b-0 inline md:inline-block py-1 px-2 md:px-8;
-    @apply order-first md:order-none;
-    @apply dark:border-grey-700;
+    @apply flex-1 md:flex-none py-1.5 md:py-1 px-2 md:px-8 text-center;
+    @apply border-l first:border-l-0 border-grey-200 dark:border-grey-700;
+    @apply md:border md:border-b-0 md:first:border-l;
   }
 
   .PageTabs .PageTabs-tab.PageTabs-current {
-    @apply order-last md:order-none bg-white dark:bg-grey-800;
+    @apply bg-white dark:bg-grey-800 font-semibold md:font-normal;
+    @apply border-b-2 border-b-slorange-500 md:border-b-0;
   }
 
   /* Recipes */

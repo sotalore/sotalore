@@ -32,6 +32,14 @@ class SkillsController < ApplicationController
     end
   end
 
+  def clear
+    return redirect_to(skills_path) unless @avatar
+
+    @avatar.skills.delete_all
+    activity = params[:activity].presence_in(%w[ adventuring crafting ]) || 'adventuring'
+    redirect_to avatar_skills_path(@avatar, activity: activity), status: :see_other
+  end
+
   def ignore
     skill = Skill.find(params[:id])
     @avatar.ignore_skill!(skill)

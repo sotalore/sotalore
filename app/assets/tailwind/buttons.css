@@ -50,6 +50,24 @@
     }
   }
 
+  /* A quieter danger button: red text/icon and border, no fill */
+  &.Button--dangerOutline {
+    @apply bg-transparent border-red-600 text-red-600;
+    @apply dark:border-red-400 dark:text-red-400;
+
+    &:focus,
+    &:hover {
+      @apply bg-red-50 border-red-700 text-red-700;
+      @apply dark:bg-red-950 dark:border-red-300 dark:text-red-300;
+    }
+
+    &:active,
+    &:active:hover {
+      @apply bg-red-100 border-red-800 text-red-800;
+      @apply dark:bg-red-900 dark:border-red-200 dark:text-red-200;
+    }
+  }
+
   &.Button--success {
     @apply bg-green-600 border-green-800 text-grey-100 drop-shadow-md;
 

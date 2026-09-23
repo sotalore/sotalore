@@ -58,6 +58,36 @@ RSpec.describe 'Skills', type: :request do
       end
     end
 
+    describe "clear" do
+      let(:other_avatar) { create :avatar, user: user }
+
+      it "deletes all of the avatar's skills, leaving other avatars alone" do
+        avatar.skills.create!(skill_key: skill.key, current: 50)
+        other_avatar.skills.create!(skill_key: skill.key, current: 60)
+
+        delete avatar_clear_skills_path(avatar, activity: 'crafting')
+
+        expect(response).to redirect_to(avatar_skills_path(avatar, activity: 'crafting'))
+        expect(avatar.skills.reload).to be_empty
+        expect(other_avatar.skills.reload.count).to eq(1)
+      end
+
+      it "cannot clear another user's avatar" do
+        stranger_avatar = create :avatar
+        stranger_avatar.skills.create!(skill_key: skill.key, current: 50)
+
+        delete avatar_clear_skills_path(stranger_avatar)
+
+        expect(response).to have_http_status(:not_found)
+        expect(stranger_avatar.skills.reload.count).to eq(1)
+      end
+
+      it "shows the clear button when an avatar is selected" do
+        get avatar_skills_path(avatar, activity: 'adventuring')
+        expect(response.body).to include(avatar_clear_skills_path(avatar, activity: 'adventuring'))
+      end
+    end
+
     describe "ignore" do
       it "adds the skill to the avatar's ignore list" do
         patch ignore_avatar_skill_path(avatar, id: skill.id)
