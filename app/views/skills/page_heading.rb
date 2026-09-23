@@ -2,7 +2,6 @@
 
 class Views::Skills::PageHeading < Views::Skills::Base
   include Phlex::Rails::Helpers::SelectTag
-  include Phlex::Rails::Helpers::LinkToUnless
 
   register_value_helper :request
 
@@ -14,17 +13,19 @@ class Views::Skills::PageHeading < Views::Skills::Base
   end
 
   def view_template
-    div(class: "flex justify-between mb-0") do
+    # On mobile the tabs become a full-width segmented control stacked above
+    # the avatar controls; from md up they're classic tabs joined to the table.
+    div(class: "flex flex-col md:flex-row md:justify-between md:items-end") do
       div(class: "PageTabs") do
-        page_heading_tab(@activity == "adventuring", "Adventuring Skills", current_skills_path(activity: "adventuring"))
-        page_heading_tab(@activity == "crafting", "Crafting Skills", current_skills_path(activity: "crafting"))
+        page_heading_tab(@activity == "adventuring", "Adventuring", current_skills_path(activity: "adventuring"), suffix: " Skills")
+        page_heading_tab(@activity == "crafting", "Crafting", current_skills_path(activity: "crafting"), suffix: " Skills")
         page_heading_tab(@activity.nil?, "Basics", skills_basics_path)
       end
 
       if @with_avatar_controls
-        div(class: "flex flex-wrap items-center justify-end gap-2 pb-2") do
+        div(class: "flex flex-wrap items-center justify-between md:justify-end gap-2 pb-2 text-xs md:text-base") do
           if @avatars
-            form(class: "flex items-center gap-2", data: { controller: "select-nav" }) do
+            form(class: "flex items-center gap-1 md:gap-2", data: { controller: "select-nav" }) do
               strong { "Avatar:" }
               avatar_select_tag
             end
@@ -39,10 +40,18 @@ class Views::Skills::PageHeading < Views::Skills::Base
 
   private
 
-  def page_heading_tab(current, name, path)
-    link_to_unless(current, name, path, class: "PageTabs-tab") do |tab_name|
-      span(class: "PageTabs-tab PageTabs-current") { tab_name }
+  # The suffix is dropped on small screens to keep the tabs on one row.
+  def page_heading_tab(current, name, path, suffix: nil)
+    if current
+      span(class: "PageTabs-tab PageTabs-current", aria: { current: "page" }) { tab_label(name, suffix) }
+    else
+      a(href: path, class: "PageTabs-tab") { tab_label(name, suffix) }
     end
+  end
+
+  def tab_label(name, suffix)
+    plain name
+    span(class: "hidden md:inline") { suffix } if suffix
   end
 
   def clear_skills_button
@@ -51,7 +60,7 @@ class Views::Skills::PageHeading < Views::Skills::Base
       avatar_clear_skills_path(@avatar, activity: @activity),
       size: :sm,
       style: "dangerOutline",
-      class: "h-8",
+      class: "h-8 text-xs md:text-sm",
       data: { turbo_confirm: "Clear all skills for #{@avatar.name}? This sets every skill back to zero and cannot be undone." },
     )
   end
@@ -59,7 +68,7 @@ class Views::Skills::PageHeading < Views::Skills::Base
   def avatar_select_tag
     current_path = request.path
 
-    select_tag('avatar', class: 'py-0 h-8 bg-white text-grey-700 border-grey-300 dark:bg-grey-800 dark:text-grey-100 dark:border-grey-600') do
+    select_tag('avatar', class: 'py-0 pl-2 pr-7 md:pl-3 md:pr-10 h-8 text-xs md:text-base bg-white text-grey-700 border-grey-300 dark:bg-grey-800 dark:text-grey-100 dark:border-grey-600') do
       none_path = avatar_skills_path(avatar_id: 'none', activity: @activity)
       option(value: none_path, selected: none_path == current_path) { '~ none ~' }
 
