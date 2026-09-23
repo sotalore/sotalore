@@ -6,10 +6,11 @@ class Views::Skills::PageHeading < Views::Skills::Base
 
   register_value_helper :request
 
-  def initialize(activity:, with_avatar_controls:, avatars: nil)
+  def initialize(activity:, with_avatar_controls:, avatars: nil, avatar: nil)
     @activity = activity
     @with_avatar_controls = with_avatar_controls
     @avatars = avatars
+    @avatar = avatar
   end
 
   def view_template
@@ -21,12 +22,13 @@ class Views::Skills::PageHeading < Views::Skills::Base
       end
 
       if @with_avatar_controls
-        div(class: "pb-2 w-min md:w-max") do
+        div(class: "flex flex-wrap items-center justify-end gap-2 pb-2") do
           if @avatars
-            form(data: { controller: "select-nav" }) do
+            form(class: "flex items-center gap-2", data: { controller: "select-nav" }) do
               strong { "Avatar:" }
               avatar_select_tag
             end
+            clear_skills_button if @avatar
           else
             primary_button_to("create an avatar", avatars_path, size: :sm)
           end
@@ -41,6 +43,17 @@ class Views::Skills::PageHeading < Views::Skills::Base
     link_to_unless(current, name, path, class: "PageTabs-tab") do |tab_name|
       span(class: "PageTabs-tab PageTabs-current") { tab_name }
     end
+  end
+
+  def clear_skills_button
+    destroy_button_to(
+      "Clear all skills",
+      avatar_clear_skills_path(@avatar, activity: @activity),
+      size: :sm,
+      style: "dangerOutline",
+      class: "h-8",
+      data: { turbo_confirm: "Clear all skills for #{@avatar.name}? This sets every skill back to zero and cannot be undone." },
+    )
   end
 
   def avatar_select_tag
