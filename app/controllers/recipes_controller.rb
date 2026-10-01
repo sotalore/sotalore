@@ -3,6 +3,7 @@ class RecipesController < ApplicationController
   def index
     @recipes = recipe_scope.all
     authorize @recipes
+    @recipes = @recipes.active unless params[:retired].present?
     if params[:rq].present?
       @recipes = @recipes.search_by_name(params[:rq])
     end

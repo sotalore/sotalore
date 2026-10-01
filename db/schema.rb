@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_26_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_02_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
+  enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
@@ -98,6 +99,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_120000) do
     t.index ["recipe_id", "item_id"], name: "index_ingredients_on_recipe_id_and_item_id", unique: true
   end
 
+  create_table "item_aliases", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "item_id", null: false
+    t.citext "name", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_item_aliases_on_item_id"
+    t.index ["name"], name: "index_item_aliases_on_name", unique: true
+  end
+
+  create_table "item_memberships", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "group_id", null: false
+    t.integer "member_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id", "member_id"], name: "index_item_memberships_on_group_id_and_member_id", unique: true
+    t.index ["member_id"], name: "index_item_memberships_on_member_id"
+  end
+
   create_table "item_salvages", force: :cascade do |t|
     t.bigint "salvage_from_id", null: false
     t.bigint "salvage_to_id", null: false
@@ -162,9 +181,43 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_120000) do
     t.index ["parent_type", "parent_id"], name: "index_posts_on_parent_type_and_parent_id"
   end
 
+  create_table "recipe_import_entries", force: :cascade do |t|
+    t.datetime "applied_at"
+    t.datetime "created_at", null: false
+    t.jsonb "diff", default: {}, null: false
+    t.bigint "game_id", null: false
+    t.boolean "manual_match", default: false, null: false
+    t.string "match_method"
+    t.string "name", null: false
+    t.jsonb "payload", default: {}, null: false
+    t.jsonb "problems", default: [], null: false
+    t.integer "recipe_id"
+    t.bigint "recipe_import_id", null: false
+    t.integer "status", limit: 2, default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index ["recipe_id"], name: "index_recipe_import_entries_on_recipe_id"
+    t.index ["recipe_import_id", "game_id"], name: "index_recipe_import_entries_on_recipe_import_id_and_game_id", unique: true
+    t.index ["recipe_import_id", "status"], name: "index_recipe_import_entries_on_recipe_import_id_and_status"
+    t.index ["recipe_import_id"], name: "index_recipe_import_entries_on_recipe_import_id"
+  end
+
+  create_table "recipe_imports", force: :cascade do |t|
+    t.datetime "analyzed_at"
+    t.integer "api_version"
+    t.datetime "created_at", null: false
+    t.integer "entries_count", default: 0, null: false
+    t.string "filename"
+    t.boolean "full_export", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.integer "uploaded_by_id"
+    t.index ["uploaded_by_id"], name: "index_recipe_imports_on_uploaded_by_id"
+  end
+
   create_table "recipes", id: :serial, force: :cascade do |t|
     t.string "craft_skill", null: false
     t.datetime "created_at", precision: nil, null: false
+    t.bigint "game_id"
+    t.datetime "game_synced_at"
     t.integer "ingredients_count", default: 0, null: false
     t.datetime "last_verified_at", precision: nil
     t.integer "last_verified_by_id"
@@ -172,8 +225,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_120000) do
     t.integer "proficiency"
     t.string "recipe_key"
     t.integer "results_count", default: 0, null: false
+    t.datetime "retired_at"
     t.integer "teachable", limit: 2
     t.datetime "updated_at", precision: nil, null: false
+    t.index ["game_id"], name: "index_recipes_on_game_id", unique: true
+    t.index ["retired_at"], name: "index_recipes_on_retired_at"
   end
 
   create_table "results", id: :serial, force: :cascade do |t|
@@ -248,11 +304,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_26_120000) do
   add_foreign_key "earned_skills", "avatars"
   add_foreign_key "ingredients", "items"
   add_foreign_key "ingredients", "recipes"
+  add_foreign_key "item_aliases", "items"
+  add_foreign_key "item_memberships", "items", column: "group_id", on_delete: :cascade
+  add_foreign_key "item_memberships", "items", column: "member_id", on_delete: :cascade
   add_foreign_key "item_salvages", "items", column: "salvage_from_id"
   add_foreign_key "item_salvages", "items", column: "salvage_to_id"
   add_foreign_key "items", "users", column: "last_verified_by_id"
   add_foreign_key "plantings", "users"
   add_foreign_key "posts", "users", column: "author_id"
+  add_foreign_key "recipe_import_entries", "recipe_imports"
+  add_foreign_key "recipe_import_entries", "recipes", on_delete: :nullify
+  add_foreign_key "recipe_imports", "users", column: "uploaded_by_id"
   add_foreign_key "recipes", "users", column: "last_verified_by_id"
   add_foreign_key "results", "items"
   add_foreign_key "results", "recipes"

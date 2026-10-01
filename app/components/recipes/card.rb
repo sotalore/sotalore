@@ -42,6 +42,10 @@ class Components::Recipes::Card < Components::Recipes::Base
         render Views::User::UserRecipes::Button.new(recipe: @recipe)
         whitespace
         plain @recipe.name
+        if @recipe.respond_to?(:retired?) && @recipe.retired?
+          whitespace
+          flair_warning("retired")
+        end
       end
       div(class: "text-sm") do
         unless current_page?(@recipe)

@@ -23,6 +23,18 @@ class Recipe < ApplicationRecord
   has_many :user_recipes, dependent: :delete_all, inverse_of: :recipe
 
   scope :by_name, -> { order(Arel.sql('lower(name)')) }
+  scope :active,  -> { where(retired_at: nil) }
+
+  # Template recipes make a group (an abstract item, e.g. "Dagger Blade").
+  # They're curated on the site to show the general recipe; the game only has
+  # the concrete recipes that make each member ("Iron Dagger Blade", ...).
+  scope :templates, -> {
+    where(id: Result.joins(:item).where(items: { abstract: true }).select(:recipe_id))
+  }
+  scope :concrete, -> {
+    where.not(id: Result.joins(:item).where(items: { abstract: true }).select(:recipe_id))
+  }
+  scope :retired, -> { where.not(retired_at: nil) }
 
   def self.random(count=1)
     ids = Recipe.all.pluck(:id).sample(count)
@@ -38,6 +50,7 @@ class Recipe < ApplicationRecord
               allow_blank: true
             }
   validates :recipe_key, presence: true, uniqueness: true
+  validates :game_id, uniqueness: true, allow_nil: true
 
   def self.find_by_name(name)
     return none if name.blank?
@@ -46,6 +59,44 @@ class Recipe < ApplicationRecord
 
   def to_s
     name.to_s
+  end
+
+  # Retired recipes are ones the game no longer exports. They're kept (users
+  # may have saved them) but hidden from the default listing.
+  def retired?
+    retired_at.present?
+  end
+
+  def retire!
+    update_columns(retired_at: Time.current) unless retired?
+  end
+
+  def unretire!
+    update_columns(retired_at: nil) if retired?
+  end
+
+  def template?
+    results.any? { |r| r.item.abstract? }
+  end
+
+  # For a template: the concrete recipes making members of its group(s).
+  def variants
+    group_ids = results.map(&:item).select(&:abstract?).map(&:id)
+    return Recipe.none if group_ids.empty?
+    member_ids = ItemMembership.where(group_id: group_ids).select(:member_id)
+    Recipe.where(id: Result.where(item_id: member_ids).select(:recipe_id)).where.not(id: id)
+  end
+
+  # For a concrete recipe: the groups its results belong to.
+  def result_groups
+    Item.where(id: ItemMembership.where(member_id: results.map(&:item_id)).select(:group_id)).by_name
+  end
+
+  # For a concrete recipe: the template recipes for the groups it makes a
+  # member of.
+  def templates
+    Recipe.where(id: Result.where(item_id: result_groups.select(:id)).select(:recipe_id))
+          .where.not(id: id)
   end
 
   def fuel_cost

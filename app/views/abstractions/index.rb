@@ -54,8 +54,8 @@ class Views::Abstractions::Index < Views::Base
 
           tile_body do
             ul do
-              item.instances.each do |instance|
-                li { link_to(instance.name, instance) }
+              item.members.each do |member|
+                li { link_to(member.name, member) }
               end
             end
           end

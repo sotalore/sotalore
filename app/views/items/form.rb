@@ -29,16 +29,7 @@ class Views::Items::Form < Views::Items::Base
             select.options(Item.sources.keys, display: :to_s, value: :to_s)
           end
 
-          div(class: "grid grid-cols-1 md:grid-cols-2 gap-4") do
-            checkbox_field(:abstract)
-
-            select_field(:instance_id) do |select|
-              select.options(abstract_items_options,
-                display: ->(pair) { pair[0] },
-                value: ->(pair) { pair[1].to_s },
-                include_blank: :blank)
-            end
-          end
+          checkbox_field(:abstract)
 
           div(class: "grid grid-cols-1 md:grid-cols-2 gap-4") do
             number_field(:weight, step: "0.01")
@@ -58,13 +49,6 @@ class Views::Items::Form < Views::Items::Base
         end
       end
     end
-  end
-
-  private
-
-  def abstract_items_options
-    Item.where(abstract: true).by_name
-      .map { |i| [ i.name, i.id ] }
   end
 
 end

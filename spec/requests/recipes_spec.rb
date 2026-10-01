@@ -51,6 +51,14 @@ RSpec.describe "Recipes", type: :request do
         get recipes_path
         expect(response).to have_http_status(:ok)
       end
+
+      it 'hides retired recipes unless asked' do
+        recipe.update_columns(name: 'Retired Thing', retired_at: 1.day.ago)
+        get recipes_path
+        expect(response.body).not_to include 'Retired Thing'
+        get recipes_path(retired: 1)
+        expect(response.body).to include 'Retired Thing'
+      end
     end
 
     describe 'GET for_item' do
@@ -64,6 +72,31 @@ RSpec.describe "Recipes", type: :request do
       it 'works' do
         get recipe_path(recipe)
         expect(response).to have_http_status(:ok)
+      end
+
+      it 'relates template and concrete recipes' do
+        blade = create :item, name: 'Dagger Blade', abstract: true
+        iron  = create :item, name: 'Iron Dagger Blade'
+        ItemMembership.create!(group: blade, member: iron)
+        template = create :recipe, name: 'Dagger Blade', with_results: { blade => 1 },
+                                   with_ingredients: { create(:item) => 1 }
+        concrete = create :recipe, name: 'Iron Dagger Blade', with_results: { iron => 1 },
+                                   with_ingredients: { create(:item) => 2 }
+
+        get recipe_path(template)
+        expect(response.body).to include 'This is a template recipe'
+        expect(response.body).to include recipe_path(concrete)
+
+        get recipe_path(concrete)
+        expect(response.body).to include 'See the general recipe'
+        expect(response.body).to include recipe_path(template)
+      end
+
+      it 'flags a retired recipe' do
+        recipe.retire!
+        get recipe_path(recipe)
+        expect(response.body).to include 'This recipe is retired'
+        expect(response.body).to include unretire_adm_recipe_path(recipe)
       end
     end
 

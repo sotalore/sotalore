@@ -1,7 +1,8 @@
 class Item < ApplicationRecord
   include Verifiable
 
-  self.ignored_columns = [:type]
+  # instance_id is superseded by ItemMembership; drop it once deployed.
+  self.ignored_columns = [:type, :instance_id]
 
   include PgSearch::Model
   multisearchable against: [ :name ]
@@ -54,6 +55,7 @@ class Item < ApplicationRecord
   store_accessor :type_data, :buff_slots_used
 
   has_many :comments, as: :subject, dependent: :delete_all
+  has_many :aliases, class_name: 'ItemAlias', inverse_of: :item, dependent: :delete_all
   # TODO items shouldn't be deleteable if they are ingredients.
   has_many :ingredients, inverse_of: :item, dependent: :destroy
   has_many :recipe_uses, through: :ingredients, source: :recipe
@@ -61,8 +63,14 @@ class Item < ApplicationRecord
   has_many :results, inverse_of: :item, dependent: :destroy
   has_many :recipes, through: :results
 
-  has_many   :instances, class_name: 'Item', inverse_of: :instance_of, foreign_key: 'instance_id'
-  belongs_to :instance_of, class_name: 'Item', inverse_of: :instances, foreign_key: 'instance_id'
+  # An abstract item is a group standing for a set of concrete items (see
+  # ItemMembership); a concrete item can be in many groups.
+  has_many :member_memberships, class_name: 'ItemMembership', foreign_key: :group_id,
+           inverse_of: :group, dependent: :delete_all
+  has_many :members, -> { order(:name) }, through: :member_memberships
+  has_many :group_memberships, class_name: 'ItemMembership', foreign_key: :member_id,
+           inverse_of: :member, dependent: :delete_all
+  has_many :groups, -> { order(:name) }, through: :group_memberships
 
   has_many :item_salvages_as_source, class_name: 'ItemSalvage', foreign_key: 'salvage_from_id', dependent: :delete_all
   has_many :item_salvages_as_result, class_name: 'ItemSalvage', foreign_key: 'salvage_to_id', dependent: :delete_all
@@ -89,6 +97,7 @@ class Item < ApplicationRecord
 
   validate  :gathering_skill_is_gathering
   validates :price, absence: { if: ->(i) { i.abstract }, message: 'does not apply to abstract items' }
+  validate  :abstract_change_keeps_groups_flat
 
   # TYPE DATA VALIDATIONS
   validates :yield, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
@@ -99,6 +108,10 @@ class Item < ApplicationRecord
 
   def to_s
     name.to_s
+  end
+
+  def group?
+    abstract?
   end
 
   def craftable?
@@ -134,6 +147,15 @@ class Item < ApplicationRecord
   def gathering_skill_is_gathering
     if gathering_skill && !gathering_skill.gathering?
       errors.add(:gathering_skill, 'must be a gathering skill')
+    end
+  end
+
+  def abstract_change_keeps_groups_flat
+    return unless will_save_change_to_abstract? && persisted?
+    if abstract? && group_memberships.exists?
+      errors.add(:abstract, "can't be set while this item is a member of a group")
+    elsif !abstract? && member_memberships.exists?
+      errors.add(:abstract, "can't be cleared while this group has members")
     end
   end
 
