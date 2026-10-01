@@ -35,7 +35,7 @@
       },
       {
         "name": "Survey - Foraging",
-        "xp_factor": 2.0,
+        "xp_factor": 1.0,
         "key": "gathering~foraging~survey-foraging",
         "id": 10006
       },
@@ -158,13 +158,13 @@
         "id": 10024
       },
       {
-        "name": "Swift Refine - Butchery",
+        "name": "Swift Refine Materials - Butchery",
         "xp_factor": 1.0,
         "key": "refining~butchery~swift-refine-butchery",
         "id": 10025
       },
       {
-        "name": "Efficient Refine - Butchery",
+        "name": "Efficient Refine Materials - Butchery",
         "xp_factor": 2.0,
         "key": "refining~butchery~efficient-refine-butchery",
         "id": 10026
@@ -184,13 +184,13 @@
         "id": 10028
       },
       {
-        "name": "Swift Refine - Smelting",
+        "name": "Swift Refine Materials - Smelting",
         "xp_factor": 1.0,
         "key": "refining~smelting~swift-refine-smelting",
         "id": 10029
       },
       {
-        "name": "Efficient Refine - Smelting",
+        "name": "Efficient Refine Materials - Smelting",
         "xp_factor": 2.0,
         "key": "refining~smelting~efficient-refine-smelting",
         "id": 10030
@@ -210,13 +210,13 @@
         "id": 10032
       },
       {
-        "name": "Swift Refine - Tanning",
+        "name": "Swift Refine Materials - Tanning",
         "xp_factor": 1.0,
         "key": "refining~tanning~swift-refine-tanning",
         "id": 10033
       },
       {
-        "name": "Efficient Refine - Tanning",
+        "name": "Efficient Refine Materials - Tanning",
         "xp_factor": 2.0,
         "key": "refining~tanning~efficient-refine-tanning",
         "id": 10034
@@ -236,13 +236,13 @@
         "id": 10036
       },
       {
-        "name": "Swift Refine - Milling",
+        "name": "Swift Refine Materials - Milling",
         "xp_factor": 1.0,
         "key": "refining~milling~swift-refine-milling",
         "id": 10037
       },
       {
-        "name": "Efficient Refine - Milling",
+        "name": "Efficient Refine Materials - Milling",
         "xp_factor": 2.0,
         "key": "refining~milling~efficient-refine-milling",
         "id": 10038
@@ -256,7 +256,7 @@
         "id": 10039
       },
       {
-        "name": "Sow Seed Bonus",
+        "name": "Sow Seeds Bonus",
         "xp_factor": 1.0,
         "key": "refining~agriculture~sow-seed-bonus",
         "id": 10040
@@ -282,13 +282,13 @@
         "id": 10043
       },
       {
-        "name": "Swift Refine - Textiles",
+        "name": "Swift Refine Materials - Textiles",
         "xp_factor": 1.0,
         "key": "refining~textiles~swift-refine-textiles",
         "id": 10044
       },
       {
-        "name": "Efficient Refine - Textiles",
+        "name": "Efficient Refine Materials - Textiles",
         "xp_factor": 2.0,
         "key": "refining~textiles~efficient-refine-textiles",
         "id": 10045
@@ -328,7 +328,7 @@
         "id": 10050
       },
       {
-        "name": "Masterwork Blade",
+        "name": "Masterwork Blade Weapon",
         "xp_factor": 1.0,
         "key": "production~blacksmithing~masterwork-blade",
         "id": 10051

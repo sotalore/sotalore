@@ -59,10 +59,11 @@ export default class extends Controller {
       return null
     }
 
-    if (level === 0) {
+    if (level <= 1) {
       return 0
     }
-    return (this.xpFactorValue * (Math.ceil(((1.099711 ** (level - 1)) - 1) * 100)))
+    // See Skill#xp_to_level
+    return Math.ceil(this.xpFactorValue * Math.round((87.98728668 * (1.1 ** level)) - 95.5))
   }
 
   updateFrom(event) {
