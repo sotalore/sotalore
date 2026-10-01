@@ -10,14 +10,28 @@ class Views::Adm::RecipeImports::Index < Views::Adm::RecipeImports::Base
     div(class: 'm-2 p-4 bg-white dark:bg-grey-800') do
       h1(class: 'text-2xl font-bold') { 'Recipe Imports' }
       p(class: 'my-2 max-w-prose') do
-        plain 'Upload a JSON export from the game recipe export plugin: either the full list '
-        plain '(sl-recipes-export.json) or a single recipe. Nothing changes on the site until '
-        plain 'you apply entries from the import.'
+        plain 'Import JSON from the game recipe export plugin: paste a recipe copied from the game, '
+        plain 'or upload an export file (the full list, sl-recipes-export.json, or a single recipe). '
+        plain 'Nothing changes on the site until you apply entries from the import.'
       end
 
-      form_with(url: adm_recipe_imports_path, multipart: true, class: 'my-4 flex flex-row items-center gap-4') do |f|
-        f.file_field :file, accept: 'application/json,.json', required: true
-        f.submit 'Upload export', class: 'Button Button--primary'
+      div(class: 'my-4 grid grid-cols-1 lg:grid-cols-2 gap-6') do
+        div do
+          h2(class: 'font-bold mb-2') { 'Paste a recipe' }
+          form_with(url: adm_recipe_imports_path, class: 'flex flex-col gap-2') do |f|
+            f.text_area :json, rows: 6, required: true, spellcheck: false,
+                        placeholder: '{"id":-1599494009,"name":"Bark Bread","categoryKey":"Crafting_Cooking",...}',
+                        class: 'w-full font-mono text-xs border border-grey-400 rounded p-2 dark:bg-grey-700'
+            div { f.submit 'Import pasted JSON', class: 'Button Button--primary' }
+          end
+        end
+        div do
+          h2(class: 'font-bold mb-2') { 'Upload an export file' }
+          form_with(url: adm_recipe_imports_path, multipart: true, class: 'flex flex-row flex-wrap items-center gap-4') do |f|
+            f.file_field :file, accept: 'application/json,.json', required: true
+            f.submit 'Upload export', class: 'Button Button--primary'
+          end
+        end
       end
 
       paginate @imports

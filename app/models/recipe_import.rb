@@ -11,10 +11,16 @@ class RecipeImport < ApplicationRecord
   scope :newest_first, -> { order(created_at: :desc, id: :desc) }
   scope :full, -> { where(full_export: true) }
 
-  # Builds (and saves) an import from export JSON. Raises ArgumentError or
-  # JSON::ParserError on input that isn't a recipe export.
+  # Builds (and saves) an import from export JSON, uploaded as a file or
+  # pasted (no filename, so it's labelled by the recipes in it). Raises
+  # ArgumentError or JSON::ParserError on input that isn't a recipe export.
   def self.create_from_json!(json, filename: nil, user: nil)
     api_version, full, game_recipes = GameRecipe.parse_export(json)
+    raise ArgumentError, 'No recipes found' if game_recipes.empty?
+    if game_recipes.any? { _1.game_id.nil? }
+      raise ArgumentError, 'Every recipe needs an "id"'
+    end
+    filename ||= pasted_label(game_recipes)
     transaction do
       import = create!(filename: filename, api_version: api_version,
                        full_export: full, uploaded_by: user)
@@ -35,6 +41,12 @@ class RecipeImport < ApplicationRecord
       import
     end
   end
+
+  def self.pasted_label(game_recipes)
+    more = game_recipes.size - 1
+    "Pasted: #{game_recipes.first.name}#{" + #{more} more" if more.positive?}"
+  end
+  private_class_method :pasted_label
 
   def self.latest_full
     full.newest_first.first

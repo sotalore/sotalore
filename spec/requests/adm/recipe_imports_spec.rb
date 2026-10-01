@@ -44,6 +44,36 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       expect(import.uploaded_by).to eq user
     end
 
+    it 'imports a pasted recipe and goes straight to it' do
+      pasted = game_recipe_hash(name: 'Bark Bread', id: -1599494009, category: 'Cooking',
+                                ingredients: { 'Wooden Board' => 2 }, results: { 'Bark Bread' => 4 }).to_json
+      expect { post adm_recipe_imports_path, params: { json: "  #{pasted}\n" } }
+        .to change(RecipeImport, :count).by(1)
+      import = RecipeImport.last
+      entry = import.entries.sole
+      expect(response).to redirect_to(adm_recipe_import_entry_path(import, entry))
+      expect(import).to have_attributes(filename: 'Pasted: Bark Bread', full_export: false)
+      expect(entry).to have_attributes(name: 'Bark Bread', game_id: -1599494009)
+    end
+
+    it 'labels a pasted list by its recipes' do
+      post adm_recipe_imports_path, params: { json: json }
+      expect(RecipeImport.last.filename).to eq 'Pasted: Chair + 1 more'
+      expect(response).to redirect_to(adm_recipe_import_path(RecipeImport.last))
+    end
+
+    it 'rejects pasted junk or nothing' do
+      expect { post adm_recipe_imports_path, params: { json: '{"name": "Bark Bread"' } }
+        .not_to change(RecipeImport, :count)
+      expect(flash[:alert]).to include "Couldn't import"
+
+      post adm_recipe_imports_path, params: { json: game_recipe_hash(name: 'X').except('id').to_json }
+      expect(flash[:alert]).to include 'needs an "id"'
+
+      post adm_recipe_imports_path, params: { json: '  ' }
+      expect(flash[:alert]).to include 'paste recipe JSON'
+    end
+
     it 'rejects junk' do
       expect { upload('not json') }.not_to change(RecipeImport, :count)
       expect(response).to redirect_to(adm_recipe_imports_path)

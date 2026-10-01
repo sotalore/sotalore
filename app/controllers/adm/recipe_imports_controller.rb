@@ -13,20 +13,29 @@ class Adm::RecipeImportsController < AdmController
     render Views::Adm::RecipeImports::Index.new(imports: @imports)
   end
 
+  # Takes either an uploaded export file or JSON pasted from the game. A
+  # single pasted recipe goes straight to its entry for review.
   def create
     authorize(RecipeImport)
-    file = params[:file]
-    if file.blank?
-      redirect_to adm_recipe_imports_path, alert: 'Choose an export file to upload.'
+    file = params[:file].presence
+    json = file ? file.read : params[:json].to_s.strip
+    if json.blank?
+      redirect_to adm_recipe_imports_path, alert: 'Choose an export file, or paste recipe JSON.'
       return
     end
 
-    import = RecipeImport.create_from_json!(file.read, filename: file.original_filename,
+    import = RecipeImport.create_from_json!(json, filename: file&.original_filename,
                                             user: Current.user)
-    redirect_to adm_recipe_import_path(import),
-                notice: "Imported #{import.entries_count} recipes."
+    if import.entries_count == 1
+      entry = import.entries.first
+      redirect_to adm_recipe_import_entry_path(import, entry),
+                  notice: "Imported #{entry.name}."
+    else
+      redirect_to adm_recipe_import_path(import),
+                  notice: "Imported #{import.entries_count} recipes."
+    end
   rescue JSON::ParserError, ArgumentError => e
-    redirect_to adm_recipe_imports_path, alert: "Couldn't import that file: #{e.message}"
+    redirect_to adm_recipe_imports_path, alert: "Couldn't import that: #{e.message.truncate(200)}"
   end
 
   def show
