@@ -43,7 +43,7 @@
         "key": "combat~shield~shield-preservation",
         "id": 7
       },
-     {
+      {
         "name": "Charge",
         "xp_factor": 1.0,
         "key": "combat~shield~charge",
@@ -56,7 +56,7 @@
         "id": 9
       },
       {
-        "name": "Stand your ground",
+        "name": "Stand Your Ground",
         "xp_factor": 4.0,
         "key": "combat~shield~stand-your-ground",
         "id": 10
@@ -72,6 +72,18 @@
         "xp_factor": 4.0,
         "key": "combat~shield~shield-ranged-defense",
         "id": 12
+      },
+      {
+        "name": "Arcane Defense",
+        "xp_factor": 4.0,
+        "key": "combat~shield~arcane-defense",
+        "id": 280
+      },
+      {
+        "name": "Answering Blow",
+        "xp_factor": 1.0,
+        "key": "combat~shield~answering-blow",
+        "id": 281
       }
     ],
     "polearm": [
@@ -192,7 +204,7 @@
         "id": 31
       },
       {
-        "name": "Whirlwind Blades",
+        "name": "Whirling Blades",
         "xp_factor": 2.0,
         "key": "combat~blade~whirlwind-blades",
         "id": 32
@@ -562,6 +574,12 @@
         "xp_factor": 20.0,
         "key": "magic~sun~moon-warding",
         "id": 91
+      },
+      {
+        "name": "Judgment",
+        "xp_factor": 1.0,
+        "key": "magic~sun~judgment",
+        "id": 284
       }
     ],
     "fire": [
@@ -796,6 +814,12 @@
         "xp_factor": 6.0,
         "key": "magic~death~summon-lich",
         "id": 129
+      },
+      {
+        "name": "Revenant Stance",
+        "xp_factor": 8.0,
+        "key": "magic~death~revenant-stance",
+        "id": 283
       }
     ],
     "chaos": [
@@ -1036,6 +1060,12 @@
         "xp_factor": 2.0,
         "key": "magic~air~summon-air-elemental",
         "id": 168
+      },
+      {
+        "name": "Shock Weapon",
+        "xp_factor": 1.0,
+        "key": "magic~air~shock-weapon",
+        "id": 282
       }
     ],
     "water": [
@@ -1095,7 +1125,7 @@
       },
       {
         "name": "Cone of Cold",
-        "xp_factor": 4.0,
+        "xp_factor": 1.0,
         "key": "magic~water~cone-of-cold",
         "id": 178
       },
@@ -1116,6 +1146,12 @@
         "xp_factor": 1.0,
         "key": "magic~water~summon-ice-elemental",
         "id": 181
+      },
+      {
+        "name": "Frost Weapon",
+        "xp_factor": 1.0,
+        "key": "magic~water~frost-weapon",
+        "id": 285
       }
     ],
     "lunar": [
@@ -1344,6 +1380,12 @@
         "xp_factor": 4.0,
         "key": "strategy~tactics~offhand-power",
         "id": 218
+      },
+      {
+        "name": "Pugilism",
+        "xp_factor": 1.0,
+        "key": "strategy~tactics~pugilism",
+        "id": 224
       }
     ],
     "subterfuge": [
@@ -1376,12 +1418,6 @@
         "xp_factor": 10.0,
         "key": "strategy~subterfuge~train-dexterity",
         "id": 223
-      },
-      {
-        "name": "Pugilism",
-        "xp_factor": 1.0,
-        "key": "strategy~subterfuge~pugilism",
-        "id": 224
       },
       {
         "name": "Poison Weapon",
@@ -1442,6 +1478,12 @@
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~opportunity-strike",
         "id": 234
+      },
+      {
+        "name": "Obfuscate",
+        "xp_factor": 2.0,
+        "key": "strategy~subterfuge~obfuscate",
+        "id": 286
       }
     ],
     "bard": [
@@ -1450,36 +1492,6 @@
         "xp_factor": 1.0,
         "key": "strategy~bard~melody-of-mending",
         "id": 235
-      },
-      {
-        "name": "Atonal Aria",
-        "xp_factor": 1.0,
-        "key": "strategy~bard~atonal-aria",
-        "id": 236
-      },
-      {
-        "name": "Anthem of Alacrity",
-        "xp_factor": 1.0,
-        "key": "strategy~bard~anthem-of-alacrity",
-        "id": 237
-      },
-      {
-        "name": "Rhythmic Readiness",
-        "xp_factor": 5.0,
-        "key": "strategy~bard~rhythmic-readiness",
-        "id": 238
-      },
-      {
-        "name": "Psalm of Stagnation",
-        "xp_factor": 1.0,
-        "key": "strategy~bard~psalm-of-stagnation",
-        "id": 239
-      },
-      {
-        "name": "Concussive Canticle",
-        "xp_factor": 1.0,
-        "key": "strategy~bard~concussive-canticle",
-        "id": 240
       },
       {
         "name": "Savage Sonata",
@@ -1500,40 +1512,64 @@
         "id": 243
       },
       {
-        "name": "Mesmerizing Melody",
-        "xp_factor": 1.0,
-        "key": "strategy~bard~mesmerizing-melody",
-        "id": 244
-      },
-      {
         "name": "Rhapsody of Recovery",
         "xp_factor": 1.0,
         "key": "strategy~bard~rhapsody-of-recovery",
         "id": 245
       },
       {
-        "name": "Refrain of Resistance",
-        "xp_factor": 1.0,
-        "key": "strategy~bard~refrain-of-resistance",
-        "id": 246
-      },
-      {
-        "name": "Voice Training",
-        "xp_factor": 20.0,
-        "key": "strategy~bard~voice-training",
-        "id": 247
-      },
-      {
         "name": "Bard Specialization",
         "xp_factor": 20.0,
         "key": "strategy~bard~bard-specialization",
         "id": 248
+      },
+      {
+        "name": "Dirge of Dissonance",
+        "xp_factor": 1.0,
+        "key": "strategy~bard~dirge-of-dissonance",
+        "id": 287
+      },
+      {
+        "name": "Requiem of Ruin",
+        "xp_factor": 1.0,
+        "key": "strategy~bard~requiem-of-ruin",
+        "id": 288
+      },
+      {
+        "name": "Performance Stance",
+        "xp_factor": 1.0,
+        "key": "strategy~bard~performance-stance",
+        "id": 289
+      },
+      {
+        "name": "Flourish",
+        "xp_factor": 1.0,
+        "key": "strategy~bard~flourish",
+        "id": 290
+      },
+      {
+        "name": "Dance",
+        "xp_factor": 1.0,
+        "key": "strategy~bard~dance",
+        "id": 291
+      },
+      {
+        "name": "Group Dance",
+        "xp_factor": 1.0,
+        "key": "strategy~bard~group-dance",
+        "id": 292
+      },
+      {
+        "name": "Instrument Proficiency",
+        "xp_factor": 5.0,
+        "key": "strategy~bard~instrument-proficiency",
+        "id": 293
       }
     ],
     "taming": [
       {
         "name": "Tame Creature",
-        "xp_factor": 1.0,
+        "xp_factor": 4.0,
         "key": "strategy~taming~tame-creature",
         "id": 249
       },
@@ -1545,7 +1581,7 @@
       },
       {
         "name": "Summoning",
-        "xp_factor": 1.0,
+        "xp_factor": 4.0,
         "key": "strategy~taming~summoning",
         "id": 251
       },
@@ -1568,14 +1604,8 @@
         "id": 254
       },
       {
-        "name": "Frenzy",
-        "xp_factor": 1.0,
-        "key": "strategy~taming~frenzy",
-        "id": 255
-      },
-      {
         "name": "Combat Training",
-        "xp_factor": 1.0,
+        "xp_factor": 4.0,
         "key": "strategy~taming~combat-training",
         "id": 256
       },
@@ -1598,12 +1628,6 @@
         "id": 259
       },
       {
-        "name": "Refresh",
-        "xp_factor": 1.0,
-        "key": "strategy~taming~refresh",
-        "id": 260
-      },
-      {
         "name": "Taming Specialization",
         "xp_factor": 20.0,
         "key": "strategy~taming~taming-specialization",
@@ -1617,15 +1641,27 @@
       },
       {
         "name": "Pet Attack Precision Training",
-        "xp_factor": 1.0,
+        "xp_factor": 4.0,
         "key": "strategy~taming~pet-attack-precision-training",
         "id": 263
       },
       {
         "name": "Pet Hide Toughness Training",
-        "xp_factor": 1.0,
+        "xp_factor": 4.0,
         "key": "strategy~taming~pet-hide-toughness-training",
         "id": 264
+      },
+      {
+        "name": "Pet Range",
+        "xp_factor": 4.0,
+        "key": "strategy~taming~pet-range",
+        "id": 294
+      },
+      {
+        "name": "Animal Lore",
+        "xp_factor": 4.0,
+        "key": "strategy~taming~animal-lore",
+        "id": 295
       }
     ],
     "focus": [

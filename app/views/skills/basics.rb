@@ -100,7 +100,8 @@ class Views::Skills::Basics < Views::Skills::Base
           plain " is the power operator)..."
         end
 
-        pre(class: "pb-4 text-xs md:text-base") { "XP = (xpFactorValue * (Math.ceil(((1.099711**(level-1)) - 1) * 100)))" }
+        pre(class: "pb-4 text-xs md:text-base") { "xp = Math.ceil(this.xpFactorValue * Math.round((87.98728668 * (1.1 ** level)) - 95.5))" }
+
       end
     end
   end

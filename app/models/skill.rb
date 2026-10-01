@@ -11,7 +11,7 @@ class Skill
       JSON.parse(File.read(filename)).each do |category, schools|
         schools.each do |school, skills|
           skills.each do |skill|
-            s = Skill.new(skill.merge({category: category, school: school}))
+            s = Skill.new(skill.merge({ category: category, school: school }))
             container[category] ||= {}
             container[category][school] ||= []
             container[category][school] << s
@@ -39,16 +39,14 @@ class Skill
 
   attr_accessor :id, :key, :name, :xp_factor, :category, :school
 
-  # NOTE FROM  /tester
-  # MAX XP used for level 200 is: 16_709_249_906
-  #   for 10x skill is:          167_092_499_060 (exactly 10x)
-
+  # Total XP needed to reach a level, fit to the game's published values
+  # (data/skill-costs.csv) for levels 50-200. The base curve grows 10% per
+  # level, and each skill's cost is that curve scaled by its xp_factor.
+  # e.g. level 200 with a 1x factor is 16_709_249_906.
   def xp_to_level(level)
-    if level == 0
-      0
-    else
-      (((1.099711**(level-1)) - 1) * 100).ceil
-    end
+    return 0 if level <= 1
+
+    (xp_factor * ((87.98728668 * (1.1**level)) - 95.5).round).ceil
   end
 
 end

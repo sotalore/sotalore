@@ -8,11 +8,11 @@ class Views::Home::Show < Views::Base
         tile("info") do
           tile_heading("Updates", type: "info")
           tile_body do
-            p { strong { "Things are quiet." } }
+            p { strong { "Things are chaotic!" } }
 
             p do
-              plain "Not much has been going on here, although, we do continue "
-              plain "to do maintenance on the app, and try and stay on top of new recipes."
+              plain "I believe that I have all the skills updated to match the available skills "
+              plain "and their correct costs.  If you see an error Leave a comment below."
             end
           end
         end
