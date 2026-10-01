@@ -20,6 +20,7 @@ class Views::Recipes::Show < Views::Base
         tile do
           tile_body do
             render Components::Recipes::Card.new(recipe: @recipe)
+            render Components::Recipes::Variants.new(recipe: @recipe)
             div(class: "grow flex flex-row justify-end") { render Views::Verifications::Controls.new(@recipe) }
             render Components::Comments::Subject.new(subject: @recipe)
           end

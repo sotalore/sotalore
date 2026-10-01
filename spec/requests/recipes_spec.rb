@@ -74,6 +74,24 @@ RSpec.describe "Recipes", type: :request do
         expect(response).to have_http_status(:ok)
       end
 
+      it 'relates template and concrete recipes' do
+        blade = create :item, name: 'Dagger Blade', abstract: true
+        iron  = create :item, name: 'Iron Dagger Blade'
+        ItemMembership.create!(group: blade, member: iron)
+        template = create :recipe, name: 'Dagger Blade', with_results: { blade => 1 },
+                                   with_ingredients: { create(:item) => 1 }
+        concrete = create :recipe, name: 'Iron Dagger Blade', with_results: { iron => 1 },
+                                   with_ingredients: { create(:item) => 2 }
+
+        get recipe_path(template)
+        expect(response.body).to include 'This is a template recipe'
+        expect(response.body).to include recipe_path(concrete)
+
+        get recipe_path(concrete)
+        expect(response.body).to include 'See the general recipe'
+        expect(response.body).to include recipe_path(template)
+      end
+
       it 'flags a retired recipe' do
         recipe.retire!
         get recipe_path(recipe)

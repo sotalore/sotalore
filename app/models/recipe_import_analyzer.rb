@@ -16,6 +16,9 @@ require 'set'
 #                 catches recipes that were renamed
 #   result      - the only recipe of the same craft skill making the same item
 #
+# Template recipes (which make a group, e.g. "Dagger Blade") exist only on the
+# site, so they're never matched except by an explicit game_id or manual link.
+#
 # Entries that are already applied or skipped are left alone, but still claim
 # the recipe they were matched to.
 class RecipeImportAnalyzer
@@ -69,6 +72,7 @@ class RecipeImportAnalyzer
     @recipes_by_game_id = recipes.select(&:game_id).index_by(&:game_id)
     @recipes_by_name    = recipes.group_by { |r| r.name.downcase }
     @recipes_by_key     = recipes.index_by(&:recipe_key)
+    @template_ids       = recipes.select(&:template?).to_set(&:id)
     @recipes_by_result  = Hash.new { |h, k| h[k] = [] }
     recipes.each do |r|
       r.results.each { |res| @recipes_by_result[res.item_id] << r }
@@ -81,7 +85,8 @@ class RecipeImportAnalyzer
   end
 
   def claimable?(recipe)
-    recipe && recipe.game_id.nil? && !@claimed.include?(recipe.id)
+    recipe && recipe.game_id.nil? && !@claimed.include?(recipe.id) &&
+      !@template_ids.include?(recipe.id)
   end
 
   def match_by_game_id(gr)
@@ -152,6 +157,12 @@ class RecipeImportAnalyzer
 
     unknown = gr.item_names.reject { @lookup.known?(_1) }
     problems << "Unknown items: #{unknown.join(', ')}" if unknown.any?
+
+    groups = gr.results.map(&:name).select { @lookup.group?(_1) }
+    if groups.any?
+      problems << "Makes #{groups.join(', ')}, which the site has as a group (abstract item); " \
+                  'the game makes concrete items, so check that item'
+    end
 
     if unknown.empty?
       %i[ingredients results].each do |kind|

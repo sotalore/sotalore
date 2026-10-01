@@ -3,7 +3,8 @@
 # Resolves item names from a game export that the site doesn't recognize.
 # Each unknown name can be:
 #
-#   created - a new Item with the game's name
+#   created - a new Item with the game's name, optionally as a group
+#             (abstract item) whose members are then curated on its page
 #   renamed - an existing Item takes the game's name; its old name is kept
 #             as an ItemAlias so anything still using it keeps resolving
 #   aliased - the game's name becomes an ItemAlias of an existing Item
@@ -98,10 +99,14 @@ class RecipeImportItemResolution
     end
   end
 
-  def create(name)
+  def create(name, group: false)
     unknown = find_unknown!(name)
+    if group && unknown.as_result
+      raise Error, "#{unknown.name} is made by a game recipe, so it's a concrete item, not a group"
+    end
     Item.create!(
       name: unknown.name,
+      abstract: group,
       source: unknown.as_result ? 'recipe' : 'unknown',
       use: unknown.as_tool ? 'tool' : 'unknown'
     )

@@ -132,6 +132,14 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       }.to change { Item.find_by_name('Ring').count }.from(0).to(1)
     end
 
+    it 'creates a group and goes to its page' do
+      post adm_recipe_import_item_resolutions_path(import),
+           params: { name: 'Citrine (Unrefined Gemstone)', resolution: 'create_group' }
+      group = Item.find_by_name('Citrine (Unrefined Gemstone)').first
+      expect(group).to be_abstract
+      expect(response).to redirect_to(item_path(group))
+    end
+
     it 'reports problems' do
       post adm_recipe_import_item_resolutions_path(import), params: { name: 'Chair', resolution: 'create' }
       expect(flash[:alert]).to include 'already a known item'

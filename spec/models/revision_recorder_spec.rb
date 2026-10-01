@@ -27,14 +27,10 @@ RSpec.describe RevisionRecorder do
     end
 
     context 'Updating an Item' do
-      let!(:abstract) { create :item, :abstract }
-      let!(:existing) { create :item,
-                              name: 'Original Name',
-                              instance_of: abstract }
+      let!(:existing) { create :item, name: 'Original Name' }
 
       it 'creates a revision comment' do
         existing.update!(name: 'A New Name',
-                         instance_id: nil,
                          gathering_skill: CraftSkill.find('field_dressing'))
 
         expect { subject.call(existing, user) }
@@ -46,7 +42,6 @@ RSpec.describe RevisionRecorder do
         expected = { 'changes' => {
                       'name' => [ 'Original Name', 'A New Name' ],
                       'gathering_skill' => [ nil, 'Field Dressing' ],
-                      'instance' => [ abstract.to_s, nil ]
                   } }
         expect(JSON.parse(comment.body)).to eql(expected)
       end

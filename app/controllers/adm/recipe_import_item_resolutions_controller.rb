@@ -3,7 +3,7 @@
 # Resolve an unknown item name from a recipe export by creating an item,
 # renaming an existing one, or aliasing an existing one.
 class Adm::RecipeImportItemResolutionsController < AdmController
-  RESOLUTIONS = %w[create rename alias].freeze
+  RESOLUTIONS = %w[create create_group rename alias].freeze
 
   def create
     @import = RecipeImport.find(params[:recipe_import_id])
@@ -16,6 +16,11 @@ class Adm::RecipeImportItemResolutionsController < AdmController
       when 'create'
         item = resolution.create(name)
         "Created item #{item.name}."
+      when 'create_group'
+        item = resolution.create(name, group: true)
+        @import.analyze!
+        redirect_to item_path(item), notice: "Created group #{item.name}. Add its members below."
+        return
       when 'rename', 'alias'
         item = find_item or raise RecipeImportItemResolution::Error, 'Choose an existing item.'
         old_name = item.name

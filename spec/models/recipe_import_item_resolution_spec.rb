@@ -65,6 +65,11 @@ RSpec.describe RecipeImportItemResolution do
     expect(subject.create('Ring')).to have_attributes(use: 'unknown', source: 'recipe')
   end
 
+  it 'creates groups, but not for things a recipe makes' do
+    expect(subject.create('Pine or Maple Board', group: true)).to be_abstract
+    expect { subject.create('Ring', group: true) }.to raise_error(RecipeImportItemResolution::Error)
+  end
+
   it 'refuses names that are not unknown in the import' do
     expect { subject.create('Maple Board') }.to raise_error(RecipeImportItemResolution::Error)
     expect { subject.create('Something Else') }.to raise_error(RecipeImportItemResolution::Error)

@@ -35,4 +35,39 @@ RSpec.describe Recipe do
       end
     end
   end
+
+  describe 'templates and variants' do
+    let(:blade)  { create :item, name: 'Dagger Blade', abstract: true }
+    let(:iron)   { create :item, name: 'Iron Dagger Blade' }
+    let(:bronze) { create :item, name: 'Bronze Dagger Blade' }
+    let(:ingot)  { create :item, name: 'Iron Ingot' }
+    let(:bingot) { create :item, name: 'Bronze Ingot' }
+    let(:mingot) { create :item, name: 'Metal Ingot', abstract: true }
+
+    let!(:template) { create :recipe, name: 'Dagger Blade', with_ingredients: { mingot => 1 }, with_results: { blade => 1 } }
+    let!(:iron_recipe) { create :recipe, name: 'Iron Dagger Blade', with_ingredients: { ingot => 1 }, with_results: { iron => 1 } }
+    let!(:bronze_recipe) { create :recipe, name: 'Bronze Dagger Blade', with_ingredients: { bingot => 1 }, with_results: { bronze => 1 } }
+
+    before do
+      ItemMembership.create!(group: blade, member: iron)
+      ItemMembership.create!(group: blade, member: bronze)
+    end
+
+    it 'knows template recipes' do
+      expect(template).to be_template
+      expect(iron_recipe).not_to be_template
+      expect(Recipe.templates).to eq [ template ]
+      expect(Recipe.concrete).to contain_exactly(iron_recipe, bronze_recipe)
+    end
+
+    it 'lists the concrete recipes for a template' do
+      expect(template.variants).to contain_exactly(iron_recipe, bronze_recipe)
+      expect(iron_recipe.variants).to be_empty
+    end
+
+    it 'links a concrete recipe to its groups and templates' do
+      expect(iron_recipe.result_groups).to eq [ blade ]
+      expect(iron_recipe.templates).to eq [ template ]
+    end
+  end
 end

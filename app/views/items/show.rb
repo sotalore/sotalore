@@ -28,25 +28,7 @@ class Views::Items::Show < Views::Items::Base
             div(class: "grow flex flex-row justify-end") { render Views::Verifications::Controls.new(@item) }
           end
 
-          if @item.abstract
-            div(class: "row") do
-              div(class: "col-xs") do
-                strong { "Abstraction of:" }
-                plain " "
-                raw safe(@item.instances.by_name.map { |i| view_context.link_to(i, i) }.to_sentence)
-              end
-            end
-          elsif @item.instance_of
-            div(class: "row") do
-              div(class: "col-xs") do
-                p do
-                  strong { "Instance of:" }
-                  plain " "
-                  link_to(@item.instance_of, @item.instance_of)
-                end
-              end
-            end
-          end
+          render Components::Items::Groups.new(item: @item) unless @item.abstract?
         end
       end
     end
@@ -98,47 +80,10 @@ class Views::Items::Show < Views::Items::Base
           tile_with_heading("Effects") { formatted_body(@item.effects) } if @item.effects
           tile_with_heading("Notes") { formatted_body(@item.notes) } if @item.notes
 
-          tile_with_heading("Salvage") do
-            if @item.salvage_as_result_count > 0
-              p { strong { "Potentially obtain this item by salvaging:" } }
-              ul do
-                @item.item_salvages_as_result.each do |item_salvage|
-                  li do
-                    link_to(item_salvage.salvage_from, item_salvage.salvage_from)
-                    destroy_icon_to(item_salvage, size: :small) if policy(:item_salvage).destroy?
-                  end
-                end
-              end
-            end
-
-            if @item.salvage_as_source_count > 0
-              p { strong { "Salvage this item to potentially get:" } }
-              ul do
-                @item.item_salvages_as_source.each do |item_salvage|
-                  li do
-                    link_to(item_salvage.salvage_to, item_salvage.salvage_to)
-                    destroy_icon_to(item_salvage, size: :small) if policy(:item_salvage).destroy?
-                  end
-                end
-              end
-            end
-
-            if (@item.salvage_as_result_count + @item.salvage_as_source_count) == 0
-              p { "No salvage info" }
-            end
-
-            if policy(:item_salvage).create?
-              sl_form_for(ItemSalvage.new) do |f|
-                raw f.error_messages
-                raw f.hidden_field(:salvage_from_id, value: @item.id)
-                div(data: { controller: "autocomplete", "autocomplete-url-value": search_items_path }) do
-                  raw f.text_field(:salvage_to_name, label: "this salvages to...", data: { "autocomplete-target": "input" })
-                  raw f.hidden_field(:salvage_to_id, data: { "autocomplete-target": "hidden" })
-                  ul(class: "autocomplete-suggestions", data: { "autocomplete-target": "results" })
-                end
-                raw f.submit("Add")
-              end
-            end
+          if @item.abstract?
+            tile_with_heading("Group Members") { render Components::Items::Groups.new(item: @item) }
+          else
+            salvage_tile
           end
         end
       end
@@ -146,6 +91,53 @@ class Views::Items::Show < Views::Items::Base
 
     tile do
       tile_body { render Components::Comments::Subject.new(subject: @item) }
+    end
+  end
+
+  private
+
+  def salvage_tile
+    tile_with_heading("Salvage") do
+      if @item.salvage_as_result_count > 0
+        p { strong { "Potentially obtain this item by salvaging:" } }
+        ul do
+          @item.item_salvages_as_result.each do |item_salvage|
+            li do
+              link_to(item_salvage.salvage_from, item_salvage.salvage_from)
+              destroy_icon_to(item_salvage, size: :small) if policy(:item_salvage).destroy?
+            end
+          end
+        end
+      end
+
+      if @item.salvage_as_source_count > 0
+        p { strong { "Salvage this item to potentially get:" } }
+        ul do
+          @item.item_salvages_as_source.each do |item_salvage|
+            li do
+              link_to(item_salvage.salvage_to, item_salvage.salvage_to)
+              destroy_icon_to(item_salvage, size: :small) if policy(:item_salvage).destroy?
+            end
+          end
+        end
+      end
+
+      if (@item.salvage_as_result_count + @item.salvage_as_source_count) == 0
+        p { "No salvage info" }
+      end
+
+      if policy(:item_salvage).create?
+        sl_form_for(ItemSalvage.new) do |f|
+          raw f.error_messages
+          raw f.hidden_field(:salvage_from_id, value: @item.id)
+          div(data: { controller: "autocomplete", "autocomplete-url-value": search_items_path }) do
+            raw f.text_field(:salvage_to_name, label: "this salvages to...", data: { "autocomplete-target": "input" })
+            raw f.hidden_field(:salvage_to_id, data: { "autocomplete-target": "hidden" })
+            ul(class: "autocomplete-suggestions", data: { "autocomplete-target": "results" })
+          end
+          raw f.submit("Add")
+        end
+      end
     end
   end
 

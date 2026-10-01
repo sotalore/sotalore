@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   patch 'verify/recipe/:recipe_id', to: 'verifications#update', as: 'verify_recipe'
   direct(:verify) { |verifiable| "/verify/#{verifiable.class.to_s.underscore}/#{verifiable.id}" }
 
+  resources :item_memberships, only: [ :create, :destroy ]
   resources :items, controller: 'items' do
     collection do
       get 'use/:use', to: 'items#by_use', as: 'by_use'

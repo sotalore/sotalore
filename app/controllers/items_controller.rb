@@ -89,7 +89,7 @@ class ItemsController < ApplicationController
 
   def permitted_params
     params.require(required_param).permit(
-      :name, :use, :crafting_input, :source, :instance_id, :abstract, :price, :gathering_skill,
+      :name, :use, :crafting_input, :source, :abstract, :price, :gathering_skill,
       :weight, :notes, :effects,
       :yield, :buff_slots_used
     )

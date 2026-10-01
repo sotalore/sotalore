@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_02_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -106,6 +106,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_item_aliases_on_item_id"
     t.index ["name"], name: "index_item_aliases_on_name", unique: true
+  end
+
+  create_table "item_memberships", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "group_id", null: false
+    t.integer "member_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["group_id", "member_id"], name: "index_item_memberships_on_group_id_and_member_id", unique: true
+    t.index ["member_id"], name: "index_item_memberships_on_member_id"
   end
 
   create_table "item_salvages", force: :cascade do |t|
@@ -296,6 +305,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_01_120000) do
   add_foreign_key "ingredients", "items"
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "item_aliases", "items"
+  add_foreign_key "item_memberships", "items", column: "group_id", on_delete: :cascade
+  add_foreign_key "item_memberships", "items", column: "member_id", on_delete: :cascade
   add_foreign_key "item_salvages", "items", column: "salvage_from_id"
   add_foreign_key "item_salvages", "items", column: "salvage_to_id"
   add_foreign_key "items", "users", column: "last_verified_by_id"
