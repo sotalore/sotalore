@@ -23,6 +23,8 @@ class Recipe < ApplicationRecord
   has_many :user_recipes, dependent: :delete_all, inverse_of: :recipe
 
   scope :by_name, -> { order(Arel.sql('lower(name)')) }
+  scope :active,  -> { where(retired_at: nil) }
+  scope :retired, -> { where.not(retired_at: nil) }
 
   def self.random(count=1)
     ids = Recipe.all.pluck(:id).sample(count)
@@ -38,6 +40,7 @@ class Recipe < ApplicationRecord
               allow_blank: true
             }
   validates :recipe_key, presence: true, uniqueness: true
+  validates :game_id, uniqueness: true, allow_nil: true
 
   def self.find_by_name(name)
     return none if name.blank?
@@ -46,6 +49,20 @@ class Recipe < ApplicationRecord
 
   def to_s
     name.to_s
+  end
+
+  # Retired recipes are ones the game no longer exports. They're kept (users
+  # may have saved them) but hidden from the default listing.
+  def retired?
+    retired_at.present?
+  end
+
+  def retire!
+    update_columns(retired_at: Time.current) unless retired?
+  end
+
+  def unretire!
+    update_columns(retired_at: nil) if retired?
   end
 
   def fuel_cost

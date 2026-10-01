@@ -8,6 +8,11 @@ class RecipePolicy < ApplicationPolicy
     true
   end
 
+  # Marking a recipe as no longer in the game.
+  def retire?
+    has_destroy_role?
+  end
+
   protected
   def has_edit_role?
     @user.has_role?('editor')

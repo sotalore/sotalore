@@ -19,6 +19,30 @@ Rails.application.routes.draw do
 
   namespace :adm do
     resources :users, except: [ :show, :new, :create, :destroy ]
+    resources :recipe_imports, only: [ :index, :show, :create, :destroy ] do
+      member do
+        post :analyze
+        post :apply_all
+        get :items
+        get :stale
+        post :retire_stale
+      end
+      resources :entries, only: [ :show ], controller: 'recipe_import_entries' do
+        member do
+          post :apply
+          post :skip
+          post :unskip
+          post :link
+        end
+      end
+      resources :item_resolutions, only: [ :create ], controller: 'recipe_import_item_resolutions'
+    end
+    resources :recipes, only: [] do
+      member do
+        post :retire
+        post :unretire
+      end
+    end
     resource :styles, only: [ :show ] do
       member do
         get :forms
