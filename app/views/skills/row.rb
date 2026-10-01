@@ -33,7 +33,9 @@ class Views::Skills::Row < Views::Base
       div(class: classes) do
         toggle_skill_button(@avatar, @skill)
         span { @skill.name }
-        span(class: 'text-xs opacity-8 font-normal') { "(#{@skill.xp_factor.to_s.sub(/.0$/, '')})" }
+        unless @skill.xp_factor == 1.0
+          span(class: 'text-xs font-normal') { "(#{@skill.xp_factor.to_s.sub(/.0$/, '')}x)" }
+        end
       end
 
       div(class: 'flex items-center xpCell currentCell') do
