@@ -1,9 +1,10 @@
 # frozen_string_literal: true
 
-# Relates template recipes (which make a group, e.g. "Dagger Blade") and the
-# concrete recipes that make its members ("Iron Dagger Blade", ...). Game
-# recipes can make a group too ("Dagger"), where what they make depends on the
-# ingredients used.
+# Explains what kind of recipe this is (see Recipe::KINDS): a template
+# ("Dagger Blade") with the concrete recipes making its group's members
+# ("Iron Dagger Blade", ...); an archetype recipe ("Dagger"), whose result
+# depends on the ingredients; a modification; or, for a concrete recipe, the
+# groups and templates its result belongs to.
 class Components::Recipes::Variants < Components::Base
 
   def initialize(recipe:)
@@ -13,28 +14,56 @@ class Components::Recipes::Variants < Components::Base
   def view_template
     return unless @recipe.is_a?(Recipe)
 
-    if @recipe.template?
-      template_section
-    else
-      concrete_section
+    case @recipe.kind
+    when 'modification' then modification_callout
+    when 'template'     then template_section
+    when 'archetype'    then archetype_callout
+    else concrete_section
     end
   end
 
   private
 
+  def modification_callout
+    div(class: "Callout Callout-primary my-2") do
+      p do
+        plain "This modifies "
+        item_links(@recipe.modified_items)
+        plain ": what you put in is what you get back, changed."
+      end
+    end
+  end
+
+  def archetype_callout
+    made = @recipe.results.map(&:item).select(&:abstract?)
+    groups = @recipe.ingredients.map(&:item).select(&:group?)
+    div(class: "Callout Callout-primary my-2") do
+      p do
+        plain "This makes "
+        item_links(made)
+        plain ", which stands for a kind of item. Which one you get depends on "
+        if groups.any?
+          plain "which "
+          groups.each_with_index do |group, i|
+            plain " and " if i.positive?
+            link_to(group.name, group)
+          end
+          plain " you use."
+        else
+          plain "the ingredients used."
+        end
+      end
+    end
+  end
+
   def template_section
-    groups = @recipe.results.map(&:item).select(&:abstract?)
+    groups = @recipe.results.map(&:item).select(&:group?)
     variants = @recipe.variants.active.includes(ingredients: :item, results: :item).by_name.to_a
 
-    if @recipe.game_id
-      game_group_callout(groups)
-      return if variants.empty?
-    else
-      template_callout(groups)
-      if variants.empty?
-        p { em { "No recipes for the members of this group are known yet." } }
-        return
-      end
+    template_callout(groups)
+    if variants.empty?
+      p { em { "No recipes for the members of this group are known yet." } }
+      return
     end
 
     h3(class: "font-bold mt-2") { "Recipes that make #{article(groups.map(&:name).to_sentence)}" }
@@ -46,16 +75,6 @@ class Components::Recipes::Variants < Components::Base
             plain variant.ingredients.sort_by { _1.item }.map { |i| "#{i.count} #{i.name}" }.join(", ")
           end
         end
-      end
-    end
-  end
-
-  def game_group_callout(groups)
-    div(class: "Callout Callout-primary my-2") do
-      p do
-        plain "This makes "
-        group_links(groups)
-        plain ", which stands for a group of items. Which one you get depends on the ingredients used."
       end
     end
   end
@@ -75,12 +94,12 @@ class Components::Recipes::Variants < Components::Base
     end
   end
 
-  def group_links(groups)
-    groups.each_with_index do |group, i|
+  def item_links(items)
+    items.each_with_index do |item, i|
       plain " or " if i.positive?
-      plain article_for(group.name)
+      plain article_for(item.name)
       whitespace
-      link_to(group.name, group)
+      link_to(item.name, item)
     end
   end
 

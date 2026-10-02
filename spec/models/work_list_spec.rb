@@ -13,10 +13,10 @@ RSpec.describe WorkList do
   subject { WorkList.new(recipe) }
 
   context 'Given a recursive recipe' do
-    # I.e., Jar of Yeast Culture
+    # I.e., Clone Jar of Yeast Culture: 1 in, 3 out
     let(:item)        { create(:item) }
     let(:ingredients) { { fuel1 => 1, item => 1 } }
-    let(:recipe)      { create :recipe, with_results: { item => 1 }, with_ingredients: ingredients }
+    let(:recipe)      { create :recipe, with_results: { item => 3 }, with_ingredients: ingredients }
 
     it 'has the fuels' do
       expect(subject.fuels).to eq([[fuel1, 1]])
@@ -28,6 +28,26 @@ RSpec.describe WorkList do
 
     it 'has the single recipe' do
       expect(subject.recipes).to eq([[recipe, 1]])
+    end
+  end
+
+  context 'Given a modification recipe' do
+    # I.e., Masterwork Carpentry Upgrade
+    let(:equipable)   { create(:item, name: 'Crafted Carpentry Equipable', kind: :category) }
+    let(:ingredients) { { equipable => 1, mat1 => 2 } }
+    let(:recipe)      { create :recipe, with_results: { equipable => 1 }, with_ingredients: ingredients }
+
+    it 'brings along what it modifies' do
+      expect(subject.components).to eq([ [ equipable, 1 ] ])
+      expect(subject.recursive).to be_empty
+      expect(subject.gathered).to eq([ [ mat1, 2 ] ])
+    end
+
+    it 'is never used to build what it modifies' do
+      create :recipe, name: 'Chair Upgrade', with_results: { item1 => 1 }, with_ingredients: { item1 => 1, mat2 => 1 }
+      user = create :recipe, with_ingredients: { item1 => 1 }
+      expect(WorkList.new(user).recipes.map(&:first)).to eq [ user ]
+      expect(WorkList.new(user).components).to eq([ [ item1, 1 ] ])
     end
   end
 

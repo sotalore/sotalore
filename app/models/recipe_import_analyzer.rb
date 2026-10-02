@@ -74,7 +74,7 @@ class RecipeImportAnalyzer
     @recipes_by_game_id = recipes.select(&:game_id).index_by(&:game_id)
     @recipes_by_name    = recipes.group_by { |r| r.name.downcase }
     @recipes_by_key     = recipes.index_by(&:recipe_key)
-    @template_ids       = recipes.select(&:template?).to_set(&:id)
+    @abstract_ids       = recipes.select { |r| r.results.any? { _1.item.abstract? } }.to_set(&:id)
     @recipes_by_result  = Hash.new { |h, k| h[k] = [] }
     recipes.each do |r|
       r.results.each { |res| @recipes_by_result[res.item_id] << r }
@@ -88,10 +88,10 @@ class RecipeImportAnalyzer
 
   def claimable?(recipe, gr)
     recipe && recipe.game_id.nil? && !@claimed.include?(recipe.id) &&
-      @template_ids.include?(recipe.id) == makes_group?(gr)
+      @abstract_ids.include?(recipe.id) == makes_abstract?(gr)
   end
 
-  def makes_group?(gr)
+  def makes_abstract?(gr)
     gr.results.any? { @lookup.abstract?(_1.name) }
   end
 

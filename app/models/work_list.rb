@@ -22,11 +22,15 @@ class WorkList
   def gather_items(recipe, mult=1, seen=Set.new)
     seen << recipe
     add_recipe(recipe, mult)
+    # What a modification recipe acts on is brought along, not crafted.
+    modified = recipe.modified_items
     recipe.ingredients.each do |ingredient|
       item  = ingredient.item
       count = ingredient.count * mult
 
-      if item.use_is_tool?
+      if modified.include?(item)
+        add_component(item, count)
+      elsif item.use_is_tool?
         add_tool(item)
       elsif item.use_is_fuel?
         add_fuel(item, count)
@@ -48,11 +52,14 @@ class WorkList
       else
         gather_items(nested.recipe, need_nested, seen.dup)
       end
+    else
+      add_component(item, count)
     end
   end
 
+  # Modifications don't make what they act on, so they're no way to build it.
   def cheapest_result_to_build(item)
-    item.results.sort_by(&:fuel_cost).first
+    item.results.reject { |result| result.recipe.modification? }.min_by(&:fuel_cost)
   end
 
   def add_tool(item)
