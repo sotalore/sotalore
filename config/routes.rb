@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       end
       resources :item_resolutions, only: [ :create ], controller: 'recipe_import_item_resolutions'
     end
+    resources :item_reviews, only: [ :index, :update ]
     resources :recipes, only: [] do
       member do
         post :retire

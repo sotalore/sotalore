@@ -37,6 +37,7 @@ class Views::Layouts::Adm < Views::Layouts::Base
               nav(class: "main-navigation text-center lg:text-left") do
                 site_nav_link_to("Users", adm_users_path, "book")
                 site_nav_link_to("Recipe Imports", adm_recipe_imports_path, "book")
+                site_nav_link_to("Item Review", adm_item_reviews_path, "book")
                 hr(class: "my-2")
                 site_nav_link_to("Styles", adm_styles_path, "key")
                 hr(class: "my-2")

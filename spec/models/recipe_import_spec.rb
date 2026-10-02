@@ -89,8 +89,8 @@ RSpec.describe RecipeImport do
       expect(entry_named(import, 'Obsidian Thing').problems.join).to include 'ObsidianForge'
     end
 
-    it 'never matches a template recipe by name' do
-      group = create(:item, name: 'Fancy Chair', abstract: true)
+    it 'never matches a template recipe to a game recipe making a concrete item' do
+      group = create(:item, name: 'Fancy Chair', kind: :group)
       create(:recipe, name: 'Fancy Chair', craft_skill: 'carpentry',
                       with_ingredients: { board => 2 }, with_results: { group => 1 })
       import = import_of(game_recipe_hash(name: 'Fancy Chair', results: { 'Chair' => 1 },
@@ -99,11 +99,24 @@ RSpec.describe RecipeImport do
       expect(entry.recipe).to be_nil
     end
 
-    it 'blocks a game recipe whose result the site has as a group' do
-      create(:item, name: 'Dagger Blade', abstract: true)
-      import = import_of(game_recipe_hash(name: 'Dagger Blade', ingredients: { 'Wax' => 1 }))
-      expect(entry_named(import, 'Dagger Blade')).to be_blocked
-      expect(entry_named(import, 'Dagger Blade').problems.join).to include 'site has as a group'
+    it 'matches a template recipe to a game recipe making the same group' do
+      blade  = create(:item, name: 'Dagger Blade', kind: :group)
+      dagger = create(:item, name: 'Dagger', kind: :archetype)
+      recipe = create(:recipe, name: 'Dagger', craft_skill: 'carpentry', proficiency: 30,
+                               with_ingredients: { blade => 1, board => 1 }, with_results: { dagger => 1 })
+      import = import_of(game_recipe_hash(name: 'Dagger', level: 30,
+                                          ingredients: { 'Dagger Blade' => 1, 'Wooden Board' => 1 }))
+      entry = entry_named(import, 'Dagger')
+      expect(entry).to be_unchanged
+      expect(entry.recipe).to eq recipe
+    end
+
+    it 'does not match a concrete site recipe to a game recipe making a group' do
+      create(:item, name: 'Seat', kind: :group)
+      create(:recipe, name: 'Seat', craft_skill: 'carpentry', with_ingredients: { board => 2 },
+                      with_results: { chair => 1 })
+      import = import_of(game_recipe_hash(name: 'Seat', ingredients: { 'Wooden Board' => 2 }))
+      expect(entry_named(import, 'Seat').recipe).to be_nil
     end
 
     it 'resolves items by alias' do
@@ -185,11 +198,13 @@ RSpec.describe RecipeImport do
       matched = create(:recipe, name: 'Chair', with_ingredients: { board => 1 }, with_results: { chair => 1 })
       stale   = create(:recipe, name: 'Gone', with_ingredients: { wax => 1 })
       create(:recipe, name: 'Already retired', retired_at: 1.day.ago, with_ingredients: { wax => 2 })
-      group = create(:item, name: 'Seat', abstract: true)
+      group = create(:item, name: 'Seat', kind: :group)
       create(:recipe, name: 'Seat', with_ingredients: { wax => 3 }, with_results: { group => 1 })
+      gone_group = create(:recipe, name: 'Stool', game_id: 99, with_ingredients: { wax => 4 },
+                                   with_results: { group => 1 })
       import = import_of(game_recipe_hash(name: 'Chair', ingredients: { 'Wooden Board' => 2 }))
       expect(import.entries.first.recipe).to eq matched
-      expect(import.stale_recipes).to eq [ stale ]
+      expect(import.stale_recipes).to contain_exactly(stale, gone_group)
     end
   end
 end

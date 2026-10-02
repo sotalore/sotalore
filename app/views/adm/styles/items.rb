@@ -15,7 +15,7 @@ class Views::Adm::Styles::Items < Views::Adm::Styles::Base
         div(class: 'py-2 flex flex-row gap-x-1 items-center') do
           raw item_price_tag(Item.new(price: 12))
           raw item_weight_tag(Item.new(weight: 2.2))
-          raw item_abstract_tag(Item.new(abstract: true))
+          raw item_abstract_tag(Item.new(kind: :group))
         end
 
         div(class: 'py-2') do

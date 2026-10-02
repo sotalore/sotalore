@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "ItemMemberships", type: :request do
   let(:editor) { create(:user, :editor) }
-  let!(:group)  { create(:item, name: 'Metal Ingot', abstract: true) }
+  let!(:group)  { create(:item, name: 'Metal Ingot', kind: :group) }
   let!(:member) { create(:item, name: 'Iron Ingot') }
 
   context 'as an editor' do
@@ -24,7 +24,7 @@ RSpec.describe "ItemMemberships", type: :request do
     it 'reports invalid memberships' do
       post item_memberships_path, params: { item_membership: { group_id: member.id, member_id: group.id } }
       expect(ItemMembership.count).to eq 0
-      expect(flash[:alert]).to include 'must be an abstract item'
+      expect(flash[:alert]).to include 'must be a group item'
     end
 
     it 'removes a member' do

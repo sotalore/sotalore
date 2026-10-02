@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_02_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_03_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -132,6 +132,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_02_120000) do
     t.string "gathering_skill"
     t.integer "ingredients_count", default: 0, null: false
     t.integer "instance_id"
+    t.integer "kind", limit: 2, default: 0, null: false
     t.datetime "last_verified_at", precision: nil
     t.integer "last_verified_by_id"
     t.citext "name"
@@ -146,6 +147,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_02_120000) do
     t.datetime "updated_at", precision: nil, null: false
     t.integer "use", default: 0, null: false
     t.decimal "weight", precision: 6, scale: 2
+    t.index ["kind"], name: "index_items_on_kind"
   end
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|

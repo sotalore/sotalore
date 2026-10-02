@@ -166,7 +166,7 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       post adm_recipe_import_item_resolutions_path(import),
            params: { name: 'Citrine (Unrefined Gemstone)', resolution: 'create_group' }
       group = Item.find_by_name('Citrine (Unrefined Gemstone)').first
-      expect(group).to be_abstract
+      expect(group).to be_group
       expect(response).to redirect_to(item_path(group))
     end
 

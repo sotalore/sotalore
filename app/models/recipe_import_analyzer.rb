@@ -16,8 +16,10 @@ require 'set'
 #                 catches recipes that were renamed
 #   result      - the only recipe of the same craft skill making the same item
 #
-# Template recipes (which make a group, e.g. "Dagger Blade") exist only on the
-# site, so they're never matched except by an explicit game_id or manual link.
+# Template recipes make a group. Some are game recipes ("Dagger" takes any
+# "Dagger Blade" and makes the matching dagger), others are curated on the site
+# only ("Dagger Blade", standing for "Iron Dagger Blade", ...). So a template
+# only matches a game recipe that also makes a group, and vice versa.
 #
 # Entries that are already applied or skipped are left alone, but still claim
 # the recipe they were matched to.
@@ -84,9 +86,13 @@ class RecipeImportAnalyzer
     @matches[entry.id] = [ recipe, method ]
   end
 
-  def claimable?(recipe)
+  def claimable?(recipe, gr)
     recipe && recipe.game_id.nil? && !@claimed.include?(recipe.id) &&
-      !@template_ids.include?(recipe.id)
+      @template_ids.include?(recipe.id) == makes_group?(gr)
+  end
+
+  def makes_group?(gr)
+    gr.results.any? { @lookup.abstract?(_1.name) }
   end
 
   def match_by_game_id(gr)
@@ -95,7 +101,7 @@ class RecipeImportAnalyzer
   end
 
   def match_by_name(gr)
-    candidates = Array(@recipes_by_name[gr.name.downcase]).select { claimable?(_1) }
+    candidates = Array(@recipes_by_name[gr.name.downcase]).select { claimable?(_1, gr) }
     same_skill = candidates.select { |r| r.craft_skill == gr.craft_skill }
     (same_skill.presence || candidates).min_by(&:id)
   end
@@ -103,14 +109,14 @@ class RecipeImportAnalyzer
   def match_by_ingredients(gr)
     key = recipe_key_for(gr)
     recipe = key && @recipes_by_key[key]
-    recipe if claimable?(recipe)
+    recipe if claimable?(recipe, gr)
   end
 
   def match_by_result(gr)
     return nil unless gr.craft_skill && gr.results.size == 1
     item_id = @lookup.id_for(gr.results.first.name) or return nil
     candidates = @recipes_by_result[item_id].select do |r|
-      r.craft_skill == gr.craft_skill && claimable?(r)
+      r.craft_skill == gr.craft_skill && claimable?(r, gr)
     end
     candidates.first if candidates.one?
   end
@@ -157,12 +163,6 @@ class RecipeImportAnalyzer
 
     unknown = gr.item_names.reject { @lookup.known?(_1) }
     problems << "Unknown items: #{unknown.join(', ')}" if unknown.any?
-
-    groups = gr.results.map(&:name).select { @lookup.group?(_1) }
-    if groups.any?
-      problems << "Makes #{groups.join(', ')}, which the site has as a group (abstract item); " \
-                  'the game makes concrete items, so check that item'
-    end
 
     if unknown.empty?
       %i[ingredients results].each do |kind|

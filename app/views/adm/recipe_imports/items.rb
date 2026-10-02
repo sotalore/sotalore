@@ -21,7 +21,9 @@ class Views::Adm::RecipeImports::Items < Views::Adm::RecipeImports::Base
           plain ' keeps the site name; '
           strong { 'Create' }
           plain ' adds a new item, or a group when the game name stands for a set of items '
-          plain '("Metal Ingot", "Pine or Maple Board"); add its members on its page afterwards. Suggestions the game also uses by name are distinct items and can\'t be chosen.'
+          plain '("Metal Ingot", "Pine or Maple Board", or "Dagger" when what a recipe makes depends on '
+          plain 'its ingredients); add its members on its page afterwards. '
+          plain 'Suggestions the game also uses by name are distinct items and can\'t be chosen.'
         end
 
         if @names.empty?
@@ -62,10 +64,8 @@ class Views::Adm::RecipeImports::Items < Views::Adm::RecipeImports::Base
       td do
         div(class: 'mb-2 flex flex-row flex-wrap gap-1') do
           resolve_button('Create new item', unknown, 'create', style: 'primary')
-          unless unknown.as_result
-            resolve_button('Create as group', unknown, 'create_group',
-                           confirm: "Create #{unknown.name} as a group of items (abstract)?")
-          end
+          resolve_button('Create as group', unknown, 'create_group',
+                         confirm: "Create #{unknown.name} as a group of items (abstract)?")
         end
         other_item_form(unknown)
       end

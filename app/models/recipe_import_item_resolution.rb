@@ -4,7 +4,9 @@
 # Each unknown name can be:
 #
 #   created - a new Item with the game's name, optionally as a group
-#             (abstract item) whose members are then curated on its page
+#             (abstract item) whose members are then curated on its page.
+#             Recipes can make groups too: the game's "Dagger" recipe takes
+#             any "Dagger Blade" and what it makes depends on which one.
 #   renamed - an existing Item takes the game's name; its old name is kept
 #             as an ItemAlias so anything still using it keeps resolving
 #   aliased - the game's name becomes an ItemAlias of an existing Item
@@ -101,12 +103,9 @@ class RecipeImportItemResolution
 
   def create(name, group: false)
     unknown = find_unknown!(name)
-    if group && unknown.as_result
-      raise Error, "#{unknown.name} is made by a game recipe, so it's a concrete item, not a group"
-    end
     Item.create!(
       name: unknown.name,
-      abstract: group,
+      kind: group ? :group : :concrete,
       source: unknown.as_result ? 'recipe' : 'unknown',
       use: unknown.as_tool ? 'tool' : 'unknown'
     )

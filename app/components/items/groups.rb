@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# On an item page: the members of a group (abstract item), shown in place of
-# salvage info since groups can't be salvaged; or, for a concrete item, the
-# groups it belongs to. Editable by those who can edit items.
+# On an item page: the members of a group, shown in place of salvage info
+# since groups can't be salvaged; or, for a concrete item, the groups it
+# belongs to. Archetypes and categories have neither. Editable by those who can edit items.
 class Components::Items::Groups < Components::Base
   include Phlex::Rails::Helpers::ButtonTo
 
@@ -11,9 +11,9 @@ class Components::Items::Groups < Components::Base
   end
 
   def view_template
-    if @item.abstract?
+    if @item.group?
       members_list
-    elsif @item.group_memberships.any? || editable?
+    elsif @item.concrete? && (@item.group_memberships.any? || editable?)
       section("Member of", nil,
               @item.group_memberships.includes(:group).sort_by { _1.group.name }, :group,
               field: :group, placeholder: "add to a group...")
