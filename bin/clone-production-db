@@ -7,3 +7,7 @@
 
 dropdb sl_dev
 heroku pg:pull DATABASE_URL sl_dev --app sota-stuff
+
+# Reset the password for user 1 (Darren) to make local dev sign-in easy.
+# update_columns skips validations/callbacks so legacy prod data can't block the save.
+bin/rails runner 'User.find(1).update_columns(encrypted_password: BCrypt::Password.create("password"))'
