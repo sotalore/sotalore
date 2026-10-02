@@ -4,7 +4,7 @@ FactoryBot.define do
 
     trait :abstract do
       name     { "Abstract Item #{rand(1000000)}" }
-      abstract { true }
+      kind { :group }
     end
   end
 

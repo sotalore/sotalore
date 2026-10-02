@@ -66,7 +66,7 @@ class Views::Adm::Styles::Show < Views::Adm::Styles::Base
         CraftSkill::ALL.select { |skill| skill.gathering? }.each do |skill|
           raw item_gathering_tag(Item.new(gathering_skill: skill))
         end
-        raw item_abstract_tag(Item.new(abstract: true))
+        raw item_abstract_tag(Item.new(kind: :group))
         raw item_weight_tag(Item.new(weight: 2.2))
       end
       div(class: "flex flex-row flex-wrap") do

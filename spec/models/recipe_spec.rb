@@ -37,12 +37,12 @@ RSpec.describe Recipe do
   end
 
   describe 'templates and variants' do
-    let(:blade)  { create :item, name: 'Dagger Blade', abstract: true }
+    let(:blade)  { create :item, name: 'Dagger Blade', kind: :group }
     let(:iron)   { create :item, name: 'Iron Dagger Blade' }
     let(:bronze) { create :item, name: 'Bronze Dagger Blade' }
     let(:ingot)  { create :item, name: 'Iron Ingot' }
     let(:bingot) { create :item, name: 'Bronze Ingot' }
-    let(:mingot) { create :item, name: 'Metal Ingot', abstract: true }
+    let(:mingot) { create :item, name: 'Metal Ingot', kind: :group }
 
     let!(:template) { create :recipe, name: 'Dagger Blade', with_ingredients: { mingot => 1 }, with_results: { blade => 1 } }
     let!(:iron_recipe) { create :recipe, name: 'Iron Dagger Blade', with_ingredients: { ingot => 1 }, with_results: { iron => 1 } }

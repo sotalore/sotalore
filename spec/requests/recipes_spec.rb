@@ -75,7 +75,7 @@ RSpec.describe "Recipes", type: :request do
       end
 
       it 'relates template and concrete recipes' do
-        blade = create :item, name: 'Dagger Blade', abstract: true
+        blade = create :item, name: 'Dagger Blade', kind: :group
         iron  = create :item, name: 'Iron Dagger Blade'
         ItemMembership.create!(group: blade, member: iron)
         template = create :recipe, name: 'Dagger Blade', with_results: { blade => 1 },
@@ -90,6 +90,15 @@ RSpec.describe "Recipes", type: :request do
         get recipe_path(concrete)
         expect(response.body).to include 'See the general recipe'
         expect(response.body).to include recipe_path(template)
+      end
+
+      it 'explains a game recipe making a group' do
+        dagger = create :item, name: 'Dagger', kind: :archetype
+        recipe = create :recipe, name: 'Dagger', game_id: 42, with_results: { dagger => 1 },
+                                 with_ingredients: { create(:item) => 1 }
+        get recipe_path(recipe)
+        expect(response.body).to include 'Which one you get depends on the ingredients'
+        expect(response.body).not_to include 'This is a template recipe'
       end
 
       it 'flags a retired recipe' do

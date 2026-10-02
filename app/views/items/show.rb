@@ -38,8 +38,8 @@ class Views::Items::Show < Views::Items::Base
         div(class: "flex flex-col gapy-2") do
           div do
             if @item.craftable?
-              if @item.abstract
-                h3 { "Template #{'recipe'.pluralize(@item.recipes.length)} to craft abstract item..." }
+              if @item.group?
+                h3 { "Template #{'recipe'.pluralize(@item.recipes.length)} for this group..." }
               else
                 h3 { "Crafted from #{pluralize(@item.recipes.length, 'Recipe')}..." }
               end
@@ -80,8 +80,22 @@ class Views::Items::Show < Views::Items::Base
           tile_with_heading("Effects") { formatted_body(@item.effects) } if @item.effects
           tile_with_heading("Notes") { formatted_body(@item.notes) } if @item.notes
 
-          if @item.abstract?
+          if @item.group?
             tile_with_heading("Group Members") { render Components::Items::Groups.new(item: @item) }
+          elsif @item.archetype?
+            tile_with_heading("Archetype") do
+              p do
+                plain "Nothing in the game is named #{@item.name}. It's a kind of thing: which one "
+                plain "a recipe makes depends on the ingredients used."
+              end
+            end
+          elsif @item.category?
+            tile_with_heading("Category") do
+              p do
+                plain "Nothing in the game is named #{@item.name}. It stands for anything that "
+                plain "qualifies, typically what a modification recipe can be used on."
+              end
+            end
           else
             salvage_tile
           end

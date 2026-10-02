@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 # Relates template recipes (which make a group, e.g. "Dagger Blade") and the
-# concrete recipes that make its members ("Iron Dagger Blade", ...).
+# concrete recipes that make its members ("Iron Dagger Blade", ...). Game
+# recipes can make a group too ("Dagger"), where what they make depends on the
+# ingredients used.
 class Components::Recipes::Variants < Components::Base
 
   def initialize(recipe:)
@@ -24,22 +26,15 @@ class Components::Recipes::Variants < Components::Base
     groups = @recipe.results.map(&:item).select(&:abstract?)
     variants = @recipe.variants.active.includes(ingredients: :item, results: :item).by_name.to_a
 
-    div(class: "Callout Callout-primary my-2") do
-      p do
-        strong { "This is a template recipe." }
-        plain " Nothing in the game is literally #{article(groups.map(&:name).to_sentence)}. "
-        plain "It stands for any member of "
-        groups.each_with_index do |group, i|
-          plain " or " if i.positive?
-          link_to(group.name, group)
-        end
-        plain ", each made by its own recipe."
+    if @recipe.game_id
+      game_group_callout(groups)
+      return if variants.empty?
+    else
+      template_callout(groups)
+      if variants.empty?
+        p { em { "No recipes for the members of this group are known yet." } }
+        return
       end
-    end
-
-    if variants.empty?
-      p { em { "No recipes for the members of this group are known yet." } }
-      return
     end
 
     h3(class: "font-bold mt-2") { "Recipes that make #{article(groups.map(&:name).to_sentence)}" }
@@ -52,6 +47,40 @@ class Components::Recipes::Variants < Components::Base
           end
         end
       end
+    end
+  end
+
+  def game_group_callout(groups)
+    div(class: "Callout Callout-primary my-2") do
+      p do
+        plain "This makes "
+        group_links(groups)
+        plain ", which stands for a group of items. Which one you get depends on the ingredients used."
+      end
+    end
+  end
+
+  def template_callout(groups)
+    div(class: "Callout Callout-primary my-2") do
+      p do
+        strong { "This is a template recipe." }
+        plain " Nothing in the game is literally #{article(groups.map(&:name).to_sentence)}. "
+        plain "It stands for any member of "
+        groups.each_with_index do |group, i|
+          plain " or " if i.positive?
+          link_to(group.name, group)
+        end
+        plain ", each made by its own recipe."
+      end
+    end
+  end
+
+  def group_links(groups)
+    groups.each_with_index do |group, i|
+      plain " or " if i.positive?
+      plain article_for(group.name)
+      whitespace
+      link_to(group.name, group)
     end
   end
 

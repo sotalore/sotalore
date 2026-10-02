@@ -9,6 +9,21 @@ RSpec.describe Item do
     end
   end
 
+  describe 'kinds' do
+    it 'treats everything but concrete as abstract' do
+      concrete = create(:item)
+      group = create(:item, kind: :group)
+      archetype = create(:item, kind: :archetype, name: 'Dagger')
+      expect(Item.abstract).to contain_exactly(group, archetype)
+      expect([ concrete, group, archetype ].map(&:abstract?)).to eq [ false, true, true ]
+      expect(archetype.kind_label).to eq 'an archetype'
+    end
+
+    it 'refuses a price on abstract items' do
+      expect(build(:item, kind: :category, price: 10)).not_to be_valid
+    end
+  end
+
   describe 'destruction' do
     let!(:item) { create :item }
 

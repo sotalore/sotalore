@@ -38,8 +38,15 @@ class Views::Abstractions::Index < Views::Base
                 plain "a \"Metal Binding.\""
               end
               p do
-                plain "Below are (most) all of the known Abstractions and corresponding "
-                plain "items."
+                plain "There are three kinds: "
+                strong { "groups" }
+                plain " list exactly which items they stand for (like Metal Binding); "
+                strong { "archetypes" }
+                plain " are a kind of thing, where which one a recipe makes depends on the "
+                plain "ingredients used (like a Dagger); and "
+                strong { "categories" }
+                plain " stand for anything that qualifies, usually what an upgrade "
+                plain "or modification recipe can be used on."
               end
             end
           end
@@ -47,23 +54,46 @@ class Views::Abstractions::Index < Views::Base
       end
     end
 
-    div(class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3") do
-      @items.each do |item|
-        tile do
-          tile_heading(view_context.link_to(item.name, item))
+    by_kind = @items.group_by(&:kind)
 
-          tile_body do
-            ul do
-              item.members.each do |member|
-                li { link_to(member.name, member) }
+    if (groups = by_kind['group'])
+      h2(class: "text-xl font-bold mx-2 mt-4") { "Groups" }
+      div(class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3") do
+        groups.each do |item|
+          tile do
+            tile_heading(view_context.link_to(item.name, item))
+
+            tile_body do
+              ul do
+                item.members.each do |member|
+                  li { link_to(member.name, member) }
+                end
               end
             end
           end
         end
       end
     end
+
+    open_kind_list("Archetypes", by_kind['archetype'])
+    open_kind_list("Categories", by_kind['category'])
 
     paginate @items
+  end
+
+  private
+
+  def open_kind_list(title, items)
+    return unless items
+
+    tile do
+      tile_heading(title)
+      tile_body do
+        ul(class: "flex flex-row flex-wrap gap-x-4 gap-y-1") do
+          items.each { |item| li { link_to(item.name, item) } }
+        end
+      end
+    end
   end
 
 end

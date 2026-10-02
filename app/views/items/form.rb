@@ -29,7 +29,9 @@ class Views::Items::Form < Views::Items::Base
             select.options(Item.sources.keys, display: :to_s, value: :to_s)
           end
 
-          checkbox_field(:abstract)
+          select_field(:kind) do |select|
+            select.options(Item.kinds.keys, display: :humanize, value: :to_s)
+          end
 
           div(class: "grid grid-cols-1 md:grid-cols-2 gap-4") do
             number_field(:weight, step: "0.01")

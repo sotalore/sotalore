@@ -40,13 +40,16 @@ module Views::ItemsHelper
     end
   end
 
+  KIND_ICONS = { 'group' => :rectangles, 'archetype' => :box, 'category' => :wrench }.freeze
+
+  # Tags abstract items with their kind (group, archetype, category).
   def item_abstract_tag(item, options={})
-    return unless item.abstract
+    return unless item.abstract?
 
     icon_size = options[:large] || options[:size] == :lg ? :md : :xs
     span(href: abstractions_url, class: item_css('text-sky-800 dark:text-sky-300 inline-flex gap-x-1', options)) do
-      render_icon(:rectangles, size: icon_size, color: :current)
-      span { 'abstract' }
+      render_icon(KIND_ICONS.fetch(item.kind), size: icon_size, color: :current)
+      span { item.kind }
     end
   end
 

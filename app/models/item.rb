@@ -1,8 +1,9 @@
 class Item < ApplicationRecord
   include Verifiable
 
-  # instance_id is superseded by ItemMembership; drop it once deployed.
-  self.ignored_columns = [:type, :instance_id]
+  # instance_id is superseded by ItemMembership, and abstract by kind; drop
+  # them once deployed.
+  self.ignored_columns = [ :type, :instance_id, :abstract ]
 
   include PgSearch::Model
   multisearchable against: [ :name ]
@@ -50,6 +51,25 @@ class Item < ApplicationRecord
 
   enum :source, ITEM_SOURCES, prefix: 'source_is'
 
+  # What an item name stands for:
+  #
+  #   concrete  - a real thing in the game ("Iron Dagger Blade")
+  #   group     - a fixed set of concrete items the game calls by one name
+  #               ("Dagger Blade", "Metal Ingot"); see ItemMembership
+  #   archetype - a kind of thing, where which one a recipe makes depends on
+  #               its ingredients ("Dagger"); never listed out
+  #   category  - anything meeting a rule, typically what a modification
+  #               recipe acts on ("Crafted Carpentry Equipable")
+  #
+  # Everything but concrete is abstract: nothing in the game has that name.
+  # Kind is only about what a name stands for; qualities like weapon or
+  # one-handed belong elsewhere.
+  ITEM_KINDS = { concrete: 0, group: 1, archetype: 2, category: 3 }.freeze
+
+  enum :kind, ITEM_KINDS, prefix: 'kind_is'
+
+  scope :abstract, -> { where.not(kind: :concrete) }
+
   # TYPE DATA
   store_accessor :type_data, :yield
   store_accessor :type_data, :buff_slots_used
@@ -63,8 +83,8 @@ class Item < ApplicationRecord
   has_many :results, inverse_of: :item, dependent: :destroy
   has_many :recipes, through: :results
 
-  # An abstract item is a group standing for a set of concrete items (see
-  # ItemMembership); a concrete item can be in many groups.
+  # A group stands for a set of concrete items (see ItemMembership); a
+  # concrete item can be in many groups.
   has_many :member_memberships, class_name: 'ItemMembership', foreign_key: :group_id,
            inverse_of: :group, dependent: :delete_all
   has_many :members, -> { order(:name) }, through: :member_memberships
@@ -96,8 +116,8 @@ class Item < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false, allow_blank: true }
 
   validate  :gathering_skill_is_gathering
-  validates :price, absence: { if: ->(i) { i.abstract }, message: 'does not apply to abstract items' }
-  validate  :abstract_change_keeps_groups_flat
+  validates :price, absence: { if: :abstract?, message: 'does not apply to abstract items' }
+  validate  :kind_change_keeps_memberships_valid
 
   # TYPE DATA VALIDATIONS
   validates :yield, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
@@ -110,8 +130,29 @@ class Item < ApplicationRecord
     name.to_s
   end
 
+  # "a group", "an archetype", ...
+  def kind_label
+    "#{kind.match?(/\A[aeiou]/) ? 'an' : 'a'} #{kind}"
+  end
+
+  def abstract?
+    !kind_is_concrete?
+  end
+
+  def concrete?
+    kind_is_concrete?
+  end
+
   def group?
-    abstract?
+    kind_is_group?
+  end
+
+  def archetype?
+    kind_is_archetype?
+  end
+
+  def category?
+    kind_is_category?
   end
 
   def craftable?
@@ -150,12 +191,13 @@ class Item < ApplicationRecord
     end
   end
 
-  def abstract_change_keeps_groups_flat
-    return unless will_save_change_to_abstract? && persisted?
-    if abstract? && group_memberships.exists?
-      errors.add(:abstract, "can't be set while this item is a member of a group")
-    elsif !abstract? && member_memberships.exists?
-      errors.add(:abstract, "can't be cleared while this group has members")
+  # Only groups have members, and only concrete items are members.
+  def kind_change_keeps_memberships_valid
+    return unless will_save_change_to_kind? && persisted?
+    if !concrete? && group_memberships.exists?
+      errors.add(:kind, "can't be #{kind} while this item is a member of a group")
+    elsif !group? && member_memberships.exists?
+      errors.add(:kind, "can't be #{kind} while this group has members")
     end
   end
 

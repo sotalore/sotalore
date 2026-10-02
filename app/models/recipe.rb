@@ -25,14 +25,16 @@ class Recipe < ApplicationRecord
   scope :by_name, -> { order(Arel.sql('lower(name)')) }
   scope :active,  -> { where(retired_at: nil) }
 
-  # Template recipes make a group (an abstract item, e.g. "Dagger Blade").
-  # They're curated on the site to show the general recipe; the game only has
-  # the concrete recipes that make each member ("Iron Dagger Blade", ...).
+  # Template recipes make a group (an abstract item). Some are curated on the
+  # site to show the general recipe ("Dagger Blade"), where the game only has
+  # the concrete recipes making each member ("Iron Dagger Blade", ...). Others
+  # are game recipes whose result depends on the ingredients ("Dagger" takes
+  # any "Dagger Blade"); those have a game_id.
   scope :templates, -> {
-    where(id: Result.joins(:item).where(items: { abstract: true }).select(:recipe_id))
+    where(id: Result.joins(:item).merge(Item.abstract).select(:recipe_id))
   }
   scope :concrete, -> {
-    where.not(id: Result.joins(:item).where(items: { abstract: true }).select(:recipe_id))
+    where.not(id: Result.joins(:item).merge(Item.abstract).select(:recipe_id))
   }
   scope :retired, -> { where.not(retired_at: nil) }
 
