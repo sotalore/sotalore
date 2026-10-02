@@ -58,12 +58,9 @@ class ItemReview
             .or(concrete.where(id: modified_item_ids))
   end
 
-  # Ids of items some recipe takes and gives back: what modification recipes
-  # act on.
+  # Ids of items a modification recipe takes and gives back.
   def self.modified_item_ids
-    Ingredient.joins('JOIN results ON results.recipe_id = ingredients.recipe_id ' \
-                     'AND results.item_id = ingredients.item_id')
-              .select(:item_id)
+    Recipe.modified_lines.select(:item_id)
   end
 
   # Rows for the filtered items, those with issues first.
@@ -133,22 +130,22 @@ class ItemReview
         issue.('No members yet')
       end
       if row.modified?
-        issue.('A recipe takes it and gives it back, so it may be what a modification acts on', 'category')
+        issue.('A modification recipe takes it and gives it back', 'category')
       elsif row.game_result_uses.positive?
         issue.("A game recipe makes it, and the game doesn't make groups", 'archetype')
       end
     when 'archetype'
       if row.modified?
-        issue.('A recipe takes it and gives it back, so it may be what a modification acts on', 'category')
+        issue.('A modification recipe takes it and gives it back', 'category')
       elsif row.result_uses.zero?
         issue.('No recipe makes it', 'group')
       end
     when 'category'
-      issue.('No recipe takes it and gives it back') unless row.modified?
+      issue.('No modification recipe takes it') unless row.modified?
     when 'concrete'
       issue.('The name looks like a set of items', 'group') if item.name.match?(/ or /i)
       if row.modified?
-        issue.('A recipe takes it and gives it back: a category, unless it upgrades this one item',
+        issue.('A modification recipe takes it: a category, unless it upgrades this one item',
                'category')
       elsif item.name.match?(CATEGORY_NAME)
         issue.('The name reads like a category', 'category')

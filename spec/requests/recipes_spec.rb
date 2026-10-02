@@ -92,13 +92,28 @@ RSpec.describe "Recipes", type: :request do
         expect(response.body).to include recipe_path(template)
       end
 
-      it 'explains a game recipe making a group' do
+      it 'explains an archetype recipe' do
+        blade  = create :item, name: 'Dagger Blade', kind: :group
         dagger = create :item, name: 'Dagger', kind: :archetype
-        recipe = create :recipe, name: 'Dagger', game_id: 42, with_results: { dagger => 1 },
-                                 with_ingredients: { create(:item) => 1 }
+        recipe = create :recipe, name: 'Dagger', with_results: { dagger => 1 },
+                                 with_ingredients: { blade => 1 }
         get recipe_path(recipe)
-        expect(response.body).to include 'Which one you get depends on the ingredients'
+        expect(response.body).to include 'Which one you get depends on which'
+        expect(response.body).to include item_path(blade)
         expect(response.body).not_to include 'This is a template recipe'
+      end
+
+      it 'explains a modification recipe, and lists it on the item' do
+        equipable = create :item, name: 'Crafted Carpentry Equipable', kind: :category
+        recipe = create :recipe, name: 'Masterwork Carpentry Upgrade', with_results: { equipable => 1 },
+                                 with_ingredients: { equipable => 1, create(:item) => 1 }
+        get recipe_path(recipe)
+        expect(response.body).to include 'This modifies'
+        expect(response.body).to include 'what you put in is what you get back'
+
+        get item_path(equipable)
+        expect(response.body).to include 'Modified by 1 Recipe'
+        expect(response.body).not_to include 'no recipes make this'
       end
 
       it 'flags a retired recipe' do

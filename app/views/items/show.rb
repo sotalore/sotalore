@@ -37,20 +37,17 @@ class Views::Items::Show < Views::Items::Base
       div(class: "basis-1_2 px-2") do
         div(class: "flex flex-col gapy-2") do
           div do
-            if @item.craftable?
-              if @item.group?
-                h3 { "Template #{'recipe'.pluralize(@item.recipes.length)} for this group..." }
-              else
-                h3 { "Crafted from #{pluralize(@item.recipes.length, 'Recipe')}..." }
-              end
-              @item.recipes.each do |recipe|
+            modifications, makers = @item.recipes.partition(&:modification?)
+            if makers.any?
+              h3 { makers_heading(makers) }
+              makers.each do |recipe|
                 render Components::Recipes::Card.new(recipe: recipe)
               end
 
               if policy(Recipe).new?
                 div(class: "text-right") { link_to("add another", new_recipe_path(item_id: @item.id)) }
               end
-            else
+            elsif !@item.category?
               p(class: "text-center") do
                 em { "no recipes make this." }
                 if policy(Recipe).new?
@@ -58,6 +55,15 @@ class Views::Items::Show < Views::Items::Base
                   link_to("add one", new_recipe_path(item_id: @item.id))
                 end
               end
+            end
+
+            if modifications.any?
+              h3 { "Modified by #{pluralize(modifications.length, 'Recipe')}..." }
+              modifications.each do |recipe|
+                render Components::Recipes::Card.new(recipe: recipe)
+              end
+            elsif @item.category?
+              p(class: "text-center") { em { "no recipes modify this." } }
             end
           end
 
@@ -109,6 +115,14 @@ class Views::Items::Show < Views::Items::Base
   end
 
   private
+
+  def makers_heading(recipes)
+    case @item.kind
+    when 'group' then "Template #{'recipe'.pluralize(recipes.length)} for this group..."
+    when 'concrete' then "Crafted from #{pluralize(recipes.length, 'Recipe')}..."
+    else "Made by #{pluralize(recipes.length, 'Recipe')}..."
+    end
+  end
 
   def salvage_tile
     tile_with_heading("Salvage") do

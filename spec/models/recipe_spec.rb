@@ -69,5 +69,39 @@ RSpec.describe Recipe do
       expect(iron_recipe.result_groups).to eq [ blade ]
       expect(iron_recipe.templates).to eq [ template ]
     end
+
+    describe 'kinds' do
+      let(:dagger)    { create :item, name: 'Dagger', kind: :archetype }
+      let(:equipable) { create :item, name: 'Crafted Carpentry Equipable', kind: :category }
+      let(:yeast)     { create :item, name: 'Yeast' }
+      let!(:archetype) { create :recipe, name: 'Dagger', with_ingredients: { blade => 1 }, with_results: { dagger => 1 } }
+      let!(:upgrade) do
+        create :recipe, name: 'Masterwork Carpentry Upgrade', with_ingredients: { equipable => 1, ingot => 1 },
+                        with_results: { equipable => 1 }
+      end
+      let!(:clone) { create :recipe, name: 'Clone Yeast', with_ingredients: { yeast => 1 }, with_results: { yeast => 3 } }
+
+      it 'tells them apart' do
+        expect([ upgrade, template, archetype, iron_recipe, clone ].map(&:kind))
+          .to eq %w[ modification template archetype concrete concrete ]
+        expect(upgrade.modified_items).to eq [ equipable ]
+        expect(clone.modified_items).to be_empty
+      end
+
+      it 'has a scope for each' do
+        expect(Recipe.modifications).to eq [ upgrade ]
+        expect(Recipe.templates).to eq [ template ]
+        expect(Recipe.archetypes).to eq [ archetype ]
+        expect(Recipe.concrete).to contain_exactly(iron_recipe, bronze_recipe, clone)
+      end
+
+      it 'counts a modification of a concrete item as a modification' do
+        chair = create :item, name: 'Chair'
+        polish = create :recipe, name: 'Polish Chair', with_ingredients: { chair => 1, ingot => 1 },
+                                 with_results: { chair => 1 }
+        expect(polish).to be_modification
+        expect(Recipe.modifications).to include polish
+      end
+    end
   end
 end

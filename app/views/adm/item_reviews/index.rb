@@ -129,7 +129,7 @@ class Views::Adm::ItemReviews::Index < Views::Base
     lines = []
     lines << uses('ingredient in', row.ingredient_uses, row.game_ingredient_uses) if row.ingredient_uses.positive?
     lines << uses('made by', row.result_uses, row.game_result_uses) if row.result_uses.positive?
-    lines << 'taken and given back by a recipe' if row.modified?
+    lines << 'taken and given back by a modification recipe' if row.modified?
     lines << "made from #{row.made_from_groups.to_sentence}" if row.made_from_groups.any?
     lines << "#{row.members} #{'member'.pluralize(row.members)}" if row.members.positive?
     lines << "in #{row.groups} #{'group'.pluralize(row.groups)}" if row.groups.positive?
