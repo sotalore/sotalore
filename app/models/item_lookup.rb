@@ -8,10 +8,10 @@ class ItemLookup
   def initialize
     @ids = {}
     ItemAlias.pluck(:name, :item_id).each { |name, id| @ids[name.downcase] = id }
-    @abstract_ids = Set.new
+    @kinds = {}
     Item.pluck(:name, :id, :kind).each do |name, id, kind|
       @ids[name.downcase] = id
-      @abstract_ids << id unless kind == 'concrete'
+      @kinds[id] = kind
     end
   end
 
@@ -23,9 +23,13 @@ class ItemLookup
     !!id_for(name)
   end
 
-  # Whether the name resolves to an abstract item (anything but concrete).
-  def abstract?(name)
-    @abstract_ids.include?(id_for(name))
+  # The kind of item (see Item::ITEM_KINDS) the name resolves to, if any.
+  def kind_for(name)
+    @kinds[id_for(name)]
+  end
+
+  def group?(name)
+    kind_for(name) == 'group'
   end
 
 end

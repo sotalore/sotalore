@@ -20,9 +20,10 @@ class Views::Adm::RecipeImports::Items < Views::Adm::RecipeImports::Base
           strong { 'Alias' }
           plain ' keeps the site name; '
           strong { 'Create' }
-          plain ' adds a new item, or a group when the game name stands for a set of items '
-          plain '("Metal Ingot", "Pine or Maple Board", or "Dagger" when what a recipe makes depends on '
-          plain 'its ingredients); add its members on its page afterwards. '
+          plain ' adds a new item: concrete; a group when the name stands for a set of items ("Metal Ingot", '
+          plain '"Pine or Maple Board"), whose members you add on its page later; an archetype when which one a '
+          plain 'recipe makes depends on its ingredients ("Dagger"); or a category for what a modification '
+          plain 'recipe acts on ("Crafted Carpentry Equipable"). The likely choice is highlighted. '
           plain 'Suggestions the game also uses by name are distinct items and can\'t be chosen.'
         end
 
@@ -54,7 +55,8 @@ class Views::Adm::RecipeImports::Items < Views::Adm::RecipeImports::Base
       td do
         div(class: 'font-bold') { unknown.name }
         div(class: 'text-xs text-grey-500') do
-          plain [ ('tool' if unknown.as_tool), ('made by a recipe' if unknown.as_result) ].compact.join(', ')
+          plain [ ('tool' if unknown.as_tool), ('made by a recipe' if unknown.as_result),
+                  ('modified by a recipe' if unknown.as_modified) ].compact.join(', ')
         end
       end
       td(class: 'text-right') do
@@ -63,9 +65,10 @@ class Views::Adm::RecipeImports::Items < Views::Adm::RecipeImports::Base
       td { suggestions(unknown) }
       td do
         div(class: 'mb-2 flex flex-row flex-wrap gap-1') do
-          resolve_button('Create new item', unknown, 'create', style: 'primary')
-          resolve_button('Create as group', unknown, 'create_group',
-                         confirm: "Create #{unknown.name} as a group of items (abstract)?")
+          create_button('Create new item', unknown, 'concrete')
+          create_button('Create as group', unknown, 'group') if unknown.can_be_group?
+          create_button('Create as archetype', unknown, 'archetype')
+          create_button('Create as category', unknown, 'category')
         end
         other_item_form(unknown)
       end
@@ -96,6 +99,15 @@ class Views::Adm::RecipeImports::Items < Views::Adm::RecipeImports::Base
   # Loaded for the whole page at once.
   def suggestions_by_name
     @suggestions_by_name ||= @resolution.suggestions_for_names(@names.map(&:name))
+  end
+
+  CREATE_RESOLUTIONS = Adm::RecipeImportItemResolutionsController::CREATE_KINDS.invert.freeze
+
+  # The likely kind is the primary choice.
+  def create_button(label, unknown, kind)
+    confirm = "Create #{unknown.name} as #{Item.new(kind: kind).kind_label}?" unless kind == 'concrete'
+    resolve_button(label, unknown, CREATE_RESOLUTIONS.fetch(kind),
+                   style: unknown.likely_kind == kind ? 'primary' : 'default', confirm: confirm)
   end
 
   def resolve_button(label, unknown, resolution, style: 'default', item_id: nil, confirm: nil)

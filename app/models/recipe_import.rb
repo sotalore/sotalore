@@ -71,12 +71,12 @@ class RecipeImport < ApplicationRecord
   end
 
   # Site recipes (not already retired) that this export doesn't account for.
-  # Template recipes never synced from the game are curated on the site, so
-  # never stale. Only meaningful for a full export.
+  # Template recipes are curated on the site (the game has no recipes making
+  # groups), so never stale. Only meaningful for a full export.
   def stale_recipes
     Recipe.active
           .where.not(id: entries.where.not(recipe_id: nil).select(:recipe_id))
-          .where.not(id: Recipe.templates.where(game_id: nil).select(:id))
+          .where.not(id: Recipe.templates)
   end
 
   # Pending entries not matched to any site recipe whose names resemble
