@@ -81,4 +81,15 @@ class GameRecipe
     (ingredients + results).map(&:name).uniq
   end
 
+  # Names of the results this recipe takes and gives back, no more of than it
+  # takes: what a modification acts on (see Recipe::KINDS).
+  def modified_names
+    taken = ingredients.to_h { |line| [ line.name.downcase, line.count ] }
+    results.select { |line| (count = taken[line.name.downcase]) && line.count <= count }.map(&:name)
+  end
+
+  def modification?
+    modified_names.any?
+  end
+
 end

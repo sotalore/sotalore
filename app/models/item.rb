@@ -1,9 +1,7 @@
 class Item < ApplicationRecord
   include Verifiable
 
-  # instance_id is superseded by ItemMembership, and abstract by kind; drop
-  # them once deployed.
-  self.ignored_columns = [ :type, :instance_id, :abstract ]
+  self.ignored_columns = [ :type ]
 
   include PgSearch::Model
   multisearchable against: [ :name ]

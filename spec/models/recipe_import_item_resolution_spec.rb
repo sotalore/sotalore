@@ -13,12 +13,12 @@ RSpec.describe RecipeImportItemResolution do
   subject { RecipeImportItemResolution.new(import, user) }
 
   it 'lists unknown names with how they are used' do
-    names = import.unresolved_item_names.to_h { [ _1.name, [ _1.as_tool, _1.as_result ] ] }
+    names = import.unresolved_item_names.to_h { [ _1.name, [ _1.as_tool, _1.as_result, _1.likely_kind ] ] }
     expect(names).to eq(
-      'Citrine (Unrefined Gemstone)' => [ false, false ],
-      'Pine or Maple Board' => [ false, false ],
-      'Ring Mold' => [ true, false ],
-      'Ring' => [ false, true ],
+      'Citrine (Unrefined Gemstone)' => [ false, false, 'concrete' ],
+      'Pine or Maple Board' => [ false, false, 'group' ],
+      'Ring Mold' => [ true, false, 'concrete' ],
+      'Ring' => [ false, true, 'concrete' ],
     )
   end
 
@@ -65,9 +65,21 @@ RSpec.describe RecipeImportItemResolution do
     expect(subject.create('Ring')).to have_attributes(use: 'unknown', source: 'recipe')
   end
 
-  it 'creates groups, including things a recipe makes' do
-    expect(subject.create('Pine or Maple Board', group: true)).to be_abstract
-    expect(subject.create('Ring', group: true)).to have_attributes(kind: 'group', source: 'recipe')
+  it 'creates items of any kind, but no groups for what a game recipe makes' do
+    expect(subject.create('Pine or Maple Board', kind: 'group')).to be_group
+    expect(subject.create('Citrine (Unrefined Gemstone)', kind: 'category')).to be_category
+    expect { subject.create('Ring', kind: 'group') }.to raise_error(RecipeImportItemResolution::Error, /archetype/)
+    expect(subject.create('Ring', kind: 'archetype')).to have_attributes(kind: 'archetype', source: 'unknown')
+  end
+
+  it 'knows what a modification recipe acts on' do
+    import = RecipeImport.create_from_json!(game_export_json(
+      game_recipe_hash(name: 'Masterwork Carpentry Upgrade', ingredients: { 'Crafted Carpentry Equipable' => 1 },
+                                                             results: { 'Crafted Carpentry Equipable' => 1 })
+    ))
+    unknown = import.unresolved_item_names.sole
+    expect(unknown).to have_attributes(as_modified: true, as_result: false, likely_kind: 'category')
+    expect(unknown).to be_can_be_group
   end
 
   it 'refuses names that are not unknown in the import' do

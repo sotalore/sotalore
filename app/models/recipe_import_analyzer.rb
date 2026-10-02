@@ -16,10 +16,12 @@ require 'set'
 #                 catches recipes that were renamed
 #   result      - the only recipe of the same craft skill making the same item
 #
-# Template recipes make a group. Some are game recipes ("Dagger" takes any
-# "Dagger Blade" and makes the matching dagger), others are curated on the site
-# only ("Dagger Blade", standing for "Iron Dagger Blade", ...). So a template
-# only matches a game recipe that also makes a group, and vice versa.
+# Only recipes of the same kind (see Recipe::KINDS) match: a modification
+# matches a modification, an archetype recipe ("Dagger") an archetype recipe.
+# Template recipes ("Dagger Blade") are curated on the site and the game has
+# no recipes making groups, so they're never matched except by an explicit
+# game_id or manual link. When a game recipe's results aren't all known yet,
+# its kind can't be told, so any kind but template may match.
 #
 # Entries that are already applied or skipped are left alone, but still claim
 # the recipe they were matched to.
@@ -69,12 +71,13 @@ class RecipeImportAnalyzer
   private
 
   def load_recipes
-    recipes = Recipe.preload(:ingredients, :results).to_a
+    recipes = Recipe.preload(ingredients: :item, results: :item).to_a
     @recipes_by_id      = recipes.index_by(&:id)
+    @kinds              = recipes.to_h { |r| [ r.id, r.kind ] }
+    @game_kinds         = {}
     @recipes_by_game_id = recipes.select(&:game_id).index_by(&:game_id)
     @recipes_by_name    = recipes.group_by { |r| r.name.downcase }
     @recipes_by_key     = recipes.index_by(&:recipe_key)
-    @abstract_ids       = recipes.select { |r| r.results.any? { _1.item.abstract? } }.to_set(&:id)
     @recipes_by_result  = Hash.new { |h, k| h[k] = [] }
     recipes.each do |r|
       r.results.each { |res| @recipes_by_result[res.item_id] << r }
@@ -87,12 +90,32 @@ class RecipeImportAnalyzer
   end
 
   def claimable?(recipe, gr)
-    recipe && recipe.game_id.nil? && !@claimed.include?(recipe.id) &&
-      @abstract_ids.include?(recipe.id) == makes_abstract?(gr)
+    recipe && recipe.game_id.nil? && !@claimed.include?(recipe.id) && same_kind?(recipe, gr)
   end
 
-  def makes_abstract?(gr)
-    gr.results.any? { @lookup.abstract?(_1.name) }
+  def same_kind?(recipe, gr)
+    site = @kinds[recipe.id]
+    return false if site == 'template'
+    game = game_kind(gr)
+    game.nil? || game == site
+  end
+
+  # The game recipe's kind as the site would see it (see Recipe#kind), or nil
+  # while any of its results is unknown.
+  def game_kind(gr)
+    @game_kinds.fetch(gr.game_id) do
+      @game_kinds[gr.game_id] =
+        if gr.modification?
+          'modification'
+        else
+          kinds = gr.results.map { @lookup.kind_for(_1.name) }
+          if kinds.include?(nil) then nil
+          elsif kinds.include?('group') then 'template'
+          elsif kinds.any? { _1 != 'concrete' } then 'archetype'
+          else 'concrete'
+          end
+        end
+    end
   end
 
   def match_by_game_id(gr)
@@ -163,6 +186,14 @@ class RecipeImportAnalyzer
 
     unknown = gr.item_names.reject { @lookup.known?(_1) }
     problems << "Unknown items: #{unknown.join(', ')}" if unknown.any?
+
+    unless gr.modification?
+      groups = gr.results.map(&:name).select { @lookup.group?(_1) }
+      if groups.any?
+        problems << "Makes #{groups.join(', ')}, which the site has as a group; the game doesn't make " \
+                    'groups. If which one you get depends on the ingredients, make it an archetype'
+      end
+    end
 
     if unknown.empty?
       %i[ingredients results].each do |kind|

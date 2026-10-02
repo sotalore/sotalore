@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_03_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_03_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -125,13 +125,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_03_120000) do
   end
 
   create_table "items", id: :serial, force: :cascade do |t|
-    t.boolean "abstract", default: false, null: false
     t.boolean "crafting_input", default: false, null: false
     t.datetime "created_at", precision: nil, null: false
     t.text "effects"
     t.string "gathering_skill"
     t.integer "ingredients_count", default: 0, null: false
-    t.integer "instance_id"
     t.integer "kind", limit: 2, default: 0, null: false
     t.datetime "last_verified_at", precision: nil
     t.integer "last_verified_by_id"

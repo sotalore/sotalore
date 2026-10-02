@@ -3,18 +3,31 @@
 # Resolves item names from a game export that the site doesn't recognize.
 # Each unknown name can be:
 #
-#   created - a new Item with the game's name, optionally as a group
-#             (abstract item) whose members are then curated on its page.
-#             Recipes can make groups too: the game's "Dagger" recipe takes
-#             any "Dagger Blade" and what it makes depends on which one.
+#   created - a new Item with the game's name, of any kind (see
+#             Item::ITEM_KINDS); a group's members are then curated on its
+#             page
 #   renamed - an existing Item takes the game's name; its old name is kept
 #             as an ItemAlias so anything still using it keeps resolving
 #   aliased - the game's name becomes an ItemAlias of an existing Item
 class RecipeImportItemResolution
 
-  # An item name from the export that doesn't resolve to a site item.
-  UnknownName = Data.define(:name, :entry_count, :as_tool, :as_result) do
+  # An item name from the export that doesn't resolve to a site item, and how
+  # the export uses it: as an ingredient (or tool), as what a recipe makes,
+  # or as what a modification recipe takes and gives back.
+  UnknownName = Data.define(:name, :entry_count, :as_ingredient, :as_tool, :as_result, :as_modified) do
     def to_s = name
+
+    # The kind it most likely is, going by how it's used.
+    def likely_kind
+      if as_modified && !as_result then 'category'
+      elsif can_be_group? && name.match?(/ or /i) then 'group'
+      else 'concrete'
+      end
+    end
+
+    # Game recipes don't make groups, but a group can be what a modification
+    # acts on.
+    def can_be_group? = !as_result
   end
 
   # A site item that might be what the game means by an unknown name.
@@ -31,23 +44,36 @@ class RecipeImportItemResolution
   # All UnknownNames across the import's pending entries, most used first.
   def self.unresolved_names(import, lookup: ItemLookup.new)
     names = {}
+    info_for = lambda do |name, entry|
+      info = (names[name.downcase] ||= { name: name, entries: Set.new, ingredient: false, tool: false,
+                                         result: false, modified: false })
+      info[:entries] << entry.id
+      info
+    end
+
     import.entries.reject(&:final?).each do |entry|
       gr = entry.game_recipe
+      modified = gr.modified_names.map(&:downcase)
       gr.ingredients.each do |line|
         next if lookup.known?(line.name)
-        info = (names[line.name.downcase] ||= { name: line.name, entries: Set.new, tool: false, result: false })
-        info[:entries] << entry.id
+        info = info_for.(line.name, entry)
+        info[:ingredient] = true
         info[:tool] ||= line.tool?
       end
       gr.results.each do |line|
         next if lookup.known?(line.name)
-        info = (names[line.name.downcase] ||= { name: line.name, entries: Set.new, tool: false, result: false })
-        info[:entries] << entry.id
-        info[:result] = true
+        info = info_for.(line.name, entry)
+        if modified.include?(line.name.downcase)
+          info[:modified] = true
+        else
+          info[:result] = true
+        end
       end
     end
     names.values
-         .map { |i| UnknownName.new(i[:name], i[:entries].size, i[:tool], i[:result]) }
+         .map do |i|
+           UnknownName.new(i[:name], i[:entries].size, i[:ingredient], i[:tool], i[:result], i[:modified])
+         end
          .sort_by { |u| [ -u.entry_count, u.name.downcase ] }
   end
 
@@ -101,12 +127,17 @@ class RecipeImportItemResolution
     end
   end
 
-  def create(name, group: false)
+  def create(name, kind: 'concrete')
     unknown = find_unknown!(name)
+    kind = kind.to_s.presence_in(Item.kinds.keys) or raise Error, "Unknown kind #{kind.inspect}"
+    if kind == 'group' && !unknown.can_be_group?
+      raise Error, "A game recipe makes #{unknown.name}, and the game doesn't make groups; " \
+                   'if which one you get depends on the ingredients, make it an archetype'
+    end
     Item.create!(
       name: unknown.name,
-      kind: group ? :group : :concrete,
-      source: unknown.as_result ? 'recipe' : 'unknown',
+      kind: kind,
+      source: unknown.as_result && kind == 'concrete' ? 'recipe' : 'unknown',
       use: unknown.as_tool ? 'tool' : 'unknown'
     )
   end

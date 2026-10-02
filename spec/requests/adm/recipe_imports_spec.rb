@@ -162,12 +162,24 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       }.to change { Item.find_by_name('Ring').count }.from(0).to(1)
     end
 
-    it 'creates a group and goes to its page' do
+    it 'creates a group and stays on the unknown items' do
       post adm_recipe_import_item_resolutions_path(import),
            params: { name: 'Citrine (Unrefined Gemstone)', resolution: 'create_group' }
-      group = Item.find_by_name('Citrine (Unrefined Gemstone)').first
-      expect(group).to be_group
-      expect(response).to redirect_to(item_path(group))
+      expect(Item.find_by_name('Citrine (Unrefined Gemstone)').first).to be_group
+      expect(response).to redirect_to(items_adm_recipe_import_path(import))
+      expect(flash[:notice]).to eq 'Created Citrine (Unrefined Gemstone) as a group.'
+    end
+
+    it 'creates an archetype' do
+      post adm_recipe_import_item_resolutions_path(import), params: { name: 'Ring', resolution: 'create_archetype' }
+      expect(Item.find_by_name('Ring').first).to be_archetype
+      expect(flash[:notice]).to eq 'Created Ring as an archetype.'
+    end
+
+    it 'refuses to make a group of what a game recipe makes' do
+      post adm_recipe_import_item_resolutions_path(import), params: { name: 'Ring', resolution: 'create_group' }
+      expect(Item.find_by_name('Ring')).to be_empty
+      expect(flash[:alert]).to include "the game doesn't make groups"
     end
 
     it 'reports problems' do
