@@ -100,7 +100,13 @@ Rails.application.routes.draw do
     # end
   end
 
-  resources :abstractions, only: [ :index ]
+  resources :abstractions, only: [ :index ] do
+    collection do
+      get :groups
+      get :categories
+      get :archetypes
+    end
+  end
 
   resources :scenes do
     resources :comments, except: [ :new ]
