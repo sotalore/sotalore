@@ -11,7 +11,9 @@ require 'set'
 #
 #   manual      - an admin linked the entry to a recipe by hand
 #   game_id     - the recipe was previously synced from this game recipe
-#   name        - same name (same craft skill preferred)
+#   name        - same name; when several site recipes share it, one with
+#                 identical ingredients is preferred, then the same craft
+#                 skill, then the oldest
 #   ingredients - same craft skill and identical ingredients (recipe_key);
 #                 catches recipes that were renamed
 #   result      - the only recipe of the same craft skill making the same item
@@ -125,6 +127,9 @@ class RecipeImportAnalyzer
 
   def match_by_name(gr)
     candidates = Array(@recipes_by_name[gr.name.downcase]).select { claimable?(_1, gr) }
+    key = recipe_key_for(gr)
+    identical = candidates.find { |r| key && r.recipe_key == key }
+    return identical if identical
     same_skill = candidates.select { |r| r.craft_skill == gr.craft_skill }
     (same_skill.presence || candidates).min_by(&:id)
   end

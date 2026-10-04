@@ -60,6 +60,19 @@ RSpec.describe RecipeImport do
       expect(entry.diff).to eq('name' => [ 'Plain Bench', 'Bench' ])
     end
 
+    it 'prefers the same-named recipe with identical ingredients, leaving the other for a rename' do
+      common = create(:recipe, name: 'Chair', craft_skill: 'carpentry',
+                               with_ingredients: { board => 3 }, with_results: { chair => 1 })
+      plain  = create(:recipe, name: 'Chair', craft_skill: 'carpentry',
+                               with_ingredients: { board => 2 }, with_results: { chair => 1 })
+      import = import_of(game_recipe_hash(name: 'Chair', ingredients: { 'Wooden Board' => 2 }),
+                         game_recipe_hash(name: 'Common Chair', results: { 'Chair' => 1 },
+                                          ingredients: { 'Wooden Board' => 3 }))
+      expect(entry_named(import, 'Chair')).to have_attributes(recipe: plain, match_method: 'name', problems: [])
+      expect(entry_named(import, 'Common Chair'))
+        .to have_attributes(recipe: common, match_method: 'ingredients', problems: [])
+    end
+
     it 'matches by the only same-skill recipe making the same result' do
       recipe = create(:recipe, name: 'Old Chair', craft_skill: 'carpentry',
                                with_ingredients: { wax => 1 }, with_results: { chair => 1 })
