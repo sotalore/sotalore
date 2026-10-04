@@ -52,12 +52,13 @@ class Item < ApplicationRecord
   # What an item name stands for:
   #
   #   concrete  - a real thing in the game ("Iron Dagger Blade")
-  #   group     - a fixed set of concrete items the game calls by one name
+  #   group     - a fixed, complete set of concrete items the game calls by
+  #               one name, any of which fills a recipe's ingredient slot
   #               ("Dagger Blade", "Metal Ingot"); see ItemMembership
   #   archetype - a kind of thing, where which one a recipe makes depends on
   #               its ingredients ("Dagger"); never listed out
-  #   category  - anything meeting a rule, typically what a modification
-  #               recipe acts on ("Crafted Carpentry Equipable")
+  #   category  - anything meeting a rule ("Crafted Chest Armor", "Back Slot
+  #               Equipment"); its members, if any, are only examples
   #
   # Everything but concrete is abstract: nothing in the game has that name.
   # Kind is only about what a name stands for; qualities like weapon or
@@ -81,8 +82,9 @@ class Item < ApplicationRecord
   has_many :results, inverse_of: :item, dependent: :destroy
   has_many :recipes, through: :results
 
-  # A group stands for a set of concrete items (see ItemMembership); a
-  # concrete item can be in many groups.
+  # A group's members are the complete set of concrete items it stands for;
+  # a category's are examples (see ItemMembership). A concrete item can be in
+  # many of either; "groups" here means both.
   has_many :member_memberships, class_name: 'ItemMembership', foreign_key: :group_id,
            inverse_of: :group, dependent: :delete_all
   has_many :members, -> { order(:name) }, through: :member_memberships
@@ -145,6 +147,11 @@ class Item < ApplicationRecord
     kind_is_group?
   end
 
+  # Groups list their members; categories list examples.
+  def can_have_members?
+    group? || category?
+  end
+
   def archetype?
     kind_is_archetype?
   end
@@ -189,13 +196,14 @@ class Item < ApplicationRecord
     end
   end
 
-  # Only groups have members, and only concrete items are members.
+  # Only groups and categories have members, and only concrete items are
+  # members.
   def kind_change_keeps_memberships_valid
     return unless will_save_change_to_kind? && persisted?
     if !concrete? && group_memberships.exists?
-      errors.add(:kind, "can't be #{kind} while this item is a member of a group")
-    elsif !group? && member_memberships.exists?
-      errors.add(:kind, "can't be #{kind} while this group has members")
+      errors.add(:kind, "can't be #{kind} while this item is a member of a group or category")
+    elsif !can_have_members? && member_memberships.exists?
+      errors.add(:kind, "can't be #{kind} while this item has members")
     end
   end
 

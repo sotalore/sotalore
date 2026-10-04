@@ -99,8 +99,9 @@ class Views::Items::Show < Views::Items::Base
             tile_with_heading("Category") do
               p do
                 plain "Nothing in the game is named #{@item.name}. It stands for anything that "
-                plain "qualifies, typically what a modification recipe can be used on."
+                plain "qualifies, such as what a modification recipe can be used on."
               end
+              render Components::Items::Groups.new(item: @item)
             end
           else
             salvage_tile

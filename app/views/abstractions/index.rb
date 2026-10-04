@@ -45,8 +45,9 @@ class Views::Abstractions::Index < Views::Base
                 plain " are a kind of thing, where which one a recipe makes depends on the "
                 plain "ingredients used (like a Dagger); and "
                 strong { "categories" }
-                plain " stand for anything that qualifies, usually what an upgrade "
-                plain "or modification recipe can be used on."
+                plain " stand for anything that qualifies (like Crafted Chest Armor), often what an "
+                plain "upgrade or modification recipe can be used on. A category may list some "
+                plain "examples, but not necessarily all of them."
               end
             end
           end
@@ -56,35 +57,41 @@ class Views::Abstractions::Index < Views::Base
 
     by_kind = @items.group_by(&:kind)
 
-    if (groups = by_kind['group'])
-      h2(class: "text-xl font-bold mx-2 mt-4") { "Groups" }
-      div(class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3") do
-        groups.each do |item|
-          tile do
-            tile_heading(view_context.link_to(item.name, item))
-
-            tile_body do
-              ul do
-                item.members.each do |member|
-                  li { link_to(member.name, member) }
-                end
-              end
-            end
-          end
-        end
-      end
-    end
-
+    member_tiles("Groups", by_kind['group'])
     open_kind_list("Archetypes", by_kind['archetype'])
-    open_kind_list("Categories", by_kind['category'])
+    open_kind_list("Categories", by_kind['category']&.reject { _1.members.any? })
+    member_tiles("Categories with Examples", by_kind['category']&.select { _1.members.any? },
+                 prefix: "e.g.")
 
     paginate @items
   end
 
   private
 
+  def member_tiles(title, items, prefix: nil)
+    return if items.blank?
+
+    h2(class: "text-xl font-bold mx-2 mt-4") { title }
+    div(class: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3") do
+      items.each do |item|
+        tile do
+          tile_heading(view_context.link_to(item.name, item))
+
+          tile_body do
+            p(class: "text-sm text-grey-600 dark:text-grey-300") { prefix } if prefix
+            ul do
+              item.members.each do |member|
+                li { link_to(member.name, member) }
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
   def open_kind_list(title, items)
-    return unless items
+    return if items.blank?
 
     tile do
       tile_heading(title)

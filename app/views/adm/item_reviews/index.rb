@@ -14,9 +14,9 @@ class Views::Adm::ItemReviews::Index < Views::Base
 
   KIND_HINTS = {
     'concrete'  => 'a real thing in the game',
-    'group'     => 'a fixed set of concrete items, listed as its members',
+    'group'     => 'a material choice: a complete set of concrete items, any of which a recipe will take',
     'archetype' => 'a kind of thing; which one a recipe makes depends on its ingredients',
-    'category'  => 'anything that qualifies; what a modification recipe acts on',
+    'category'  => 'anything that qualifies; any members are just examples',
   }.freeze
 
   TABS = Views::Adm::RecipeImports::Base
@@ -131,8 +131,11 @@ class Views::Adm::ItemReviews::Index < Views::Base
     lines << uses('made by', row.result_uses, row.game_result_uses) if row.result_uses.positive?
     lines << 'taken and given back by a modification recipe' if row.modified?
     lines << "made from #{row.made_from_groups.to_sentence}" if row.made_from_groups.any?
-    lines << "#{row.members} #{'member'.pluralize(row.members)}" if row.members.positive?
-    lines << "in #{row.groups} #{'group'.pluralize(row.groups)}" if row.groups.positive?
+    if row.members.positive?
+      noun = row.item.category? ? 'example' : 'member'
+      lines << "#{row.members} #{noun.pluralize(row.members)}"
+    end
+    lines << "in #{row.groups} #{row.groups == 1 ? 'group or category' : 'groups or categories'}" if row.groups.positive?
     if lines.empty?
       span(class: 'text-grey-500') { 'unused' }
     else

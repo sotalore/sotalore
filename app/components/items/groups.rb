@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-# On an item page: the members of a group, shown in place of salvage info
-# since groups can't be salvaged; or, for a concrete item, the groups it
-# belongs to. Archetypes and categories have neither. Editable by those who can edit items.
+# On an item page: the members of a group (the complete set it stands for),
+# shown in place of salvage info since groups can't be salvaged; the examples
+# of a category; or, for a concrete item, the groups and categories it
+# belongs to. Archetypes have none. Editable by those who can edit items.
 class Components::Items::Groups < Components::Base
   include Phlex::Rails::Helpers::ButtonTo
 
@@ -12,11 +13,13 @@ class Components::Items::Groups < Components::Base
 
   def view_template
     if @item.group?
-      members_list
-    elsif @item.concrete? && (@item.group_memberships.any? || editable?)
-      section("Member of", nil,
-              @item.group_memberships.includes(:group).sort_by { _1.group.name }, :group,
-              field: :group, placeholder: "add to a group...")
+      p { "Any of these can be used where a recipe calls for #{@item.name}." }
+      members_list("No members yet.", "add an item to this group...")
+    elsif @item.category?
+      p { "Some examples of #{@item.name}. There are likely others." }
+      members_list("No examples yet.", "add an example...")
+    elsif @item.concrete?
+      memberships
     end
   end
 
@@ -26,11 +29,10 @@ class Components::Items::Groups < Components::Base
     policy(@item).edit?
   end
 
-  def members_list
+  def members_list(empty, placeholder)
     memberships = @item.member_memberships.includes(:member).sort_by { _1.member.name }
-    p { "Any of these can be used where a recipe calls for #{@item.name}." }
     if memberships.empty?
-      p { em { "No members yet." } }
+      p { em { empty } }
     else
       ul(class: 'flex flex-row flex-wrap gap-x-4 gap-y-2') do
         memberships.each do |membership|
@@ -45,11 +47,25 @@ class Components::Items::Groups < Components::Base
         end
       end
     end
-    add_form(:member, "add an item to this group...") if editable?
+    add_form(:member, placeholder) if editable?
   end
 
-  def section(title, hint, memberships, other, field:, placeholder:)
+  # For a concrete item: the groups it's a member of, and the categories it's
+  # an example of.
+  def memberships
+    all = @item.group_memberships.includes(:group).sort_by { _1.group.name }
+    return if all.empty? && !editable?
+
+    categories, groups = all.partition { _1.group.category? }
     div(class: "mt-2") do
+      section("Member of", groups) if groups.any? || categories.empty?
+      section("Example of", categories) if categories.any?
+      add_form(:group, "add to a group or category...") if editable?
+    end
+  end
+
+  def section(title, memberships)
+    div do
       strong { "#{title}:" }
       whitespace
       if memberships.empty?
@@ -57,20 +73,17 @@ class Components::Items::Groups < Components::Base
       else
         memberships.each_with_index do |membership, i|
           plain ", " if i.positive?
-          item = membership.public_send(other)
-          link_to(item.name, item)
+          link_to(membership.group.name, membership.group)
           remove_button(membership) if editable?
         end
       end
-      p(class: "text-sm text-grey-600 dark:text-grey-300") { hint } if hint
-      add_form(field, placeholder) if editable?
     end
   end
 
   def remove_button(membership)
     button_to(item_membership_path(membership), method: :delete,
               class: "inline-flex align-middle text-red-600", title: "remove",
-              form: { class: "inline", data: { turbo_confirm: "Remove from group?" } }) do
+              form: { class: "inline", data: { turbo_confirm: "Remove from #{membership.group.name}?" } }) do
       render_icon(:trash, size: :sm)
     end
   end

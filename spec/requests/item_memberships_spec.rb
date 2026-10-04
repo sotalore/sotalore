@@ -24,7 +24,7 @@ RSpec.describe "ItemMemberships", type: :request do
     it 'reports invalid memberships' do
       post item_memberships_path, params: { item_membership: { group_id: member.id, member_id: group.id } }
       expect(ItemMembership.count).to eq 0
-      expect(flash[:alert]).to include 'must be a group item'
+      expect(flash[:alert]).to include 'must be a group or category'
     end
 
     it 'removes a member' do

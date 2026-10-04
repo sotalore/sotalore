@@ -124,15 +124,19 @@ class ItemReview
 
     case item.kind
     when 'group'
-      if row.members.zero? && item.name.match?(CATEGORY_NAME)
-        issue.('No members yet, and the name reads like a category', 'category')
-      elsif row.members.zero?
-        issue.('No members yet')
-      end
+      # A group is a material choice: a recipe calls for it, and any member
+      # will do. Otherwise it's describing things, which is a category.
       if row.modified?
         issue.('A modification recipe takes it and gives it back', 'category')
       elsif row.game_result_uses.positive?
         issue.("A game recipe makes it, and the game doesn't make groups", 'archetype')
+      elsif row.ingredient_uses.zero?
+        issue.('No recipe calls for it, so it isn\'t a material choice', 'category')
+      end
+      if row.members.zero? && issues.none?(&:suggest) && item.name.match?(CATEGORY_NAME)
+        issue.('No members yet, and the name reads like a category', 'category')
+      elsif row.members.zero?
+        issue.('No members yet')
       end
     when 'archetype'
       if row.modified?
@@ -140,8 +144,6 @@ class ItemReview
       elsif row.result_uses.zero?
         issue.('No recipe makes it', 'group')
       end
-    when 'category'
-      issue.('No modification recipe takes it') unless row.modified?
     when 'concrete'
       issue.('The name looks like a set of items', 'group') if item.name.match?(/ or /i)
       if row.modified?

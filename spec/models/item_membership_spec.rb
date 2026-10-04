@@ -15,12 +15,22 @@ RSpec.describe ItemMembership do
     expect(ingot.members).to eq [ bronze, iron ]
   end
 
-  it 'requires the group to be a group and the member concrete' do
+  it 'lets a category list examples' do
+    armor = create(:item, name: 'Crafted Chest Armor', kind: :category)
+    plate = create(:item, name: 'Plate Chest')
+    ItemMembership.create!(group: armor, member: plate)
+    expect(armor.members).to eq [ plate ]
+    expect(plate.groups).to eq [ armor ]
+  end
+
+  it 'requires the group to be a group or category and the member concrete' do
     dagger = create(:item, name: 'Dagger', kind: :archetype)
+    armor  = create(:item, name: 'Crafted Chest Armor', kind: :category)
     expect(ItemMembership.new(group: iron, member: bronze)).not_to be_valid
     expect(ItemMembership.new(group: dagger, member: bronze)).not_to be_valid
     expect(ItemMembership.new(group: ingot, member: copper_iron)).not_to be_valid
     expect(ItemMembership.new(group: ingot, member: dagger)).not_to be_valid
+    expect(ItemMembership.new(group: armor, member: copper_iron)).not_to be_valid
   end
 
   it 'rejects duplicates' do
@@ -34,6 +44,7 @@ RSpec.describe ItemMembership do
     expect(iron.errors[:kind].join).to include 'member of a group'
     expect(ingot.update(kind: :archetype)).to be false
     expect(ingot.errors[:kind].join).to include 'has members'
+    expect(ingot.update(kind: :category)).to be true
     expect(ingot.update(kind: :group, name: 'Metal Ingots')).to be true
   end
 

@@ -13,8 +13,24 @@ RSpec.describe ItemReview do
 
   it 'flags an empty group' do
     group = create(:item, name: 'Pine or Maple Board', kind: :group)
+    create(:recipe, name: 'Box', with_ingredients: { group => 1 }, with_results: { board => 1 })
     row = row_for(group, filter: 'group')
     expect(row.issues.map(&:message)).to eq [ 'No members yet' ]
+  end
+
+  it 'suggests category for a group no recipe calls for' do
+    group = create(:item, name: 'Fish', kind: :group)
+    ItemMembership.create!(group: group, member: create(:item, name: 'Trout'))
+    row = row_for(group, filter: 'group')
+    expect(row.issues.map(&:message)).to eq [ "No recipe calls for it, so it isn't a material choice" ]
+    expect(suggestions(row)).to eq [ 'category' ]
+  end
+
+  it 'is happy with a category whatever uses it, with or without examples' do
+    armor = create(:item, name: 'Back Slot Equipment', kind: :category)
+    expect(row_for(armor, filter: 'category').issues).to be_empty
+    ItemMembership.create!(group: armor, member: create(:item, name: 'Cloak'))
+    expect(row_for(armor, filter: 'category')).to have_attributes(members: 1, issues: [])
   end
 
   it 'suggests archetype for a group a game recipe makes' do
