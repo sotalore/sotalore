@@ -131,9 +131,10 @@ class Recipe < ApplicationRecord
     Recipe.where(id: Result.where(item_id: member_ids).select(:recipe_id)).where.not(id: id)
   end
 
-  # For a concrete recipe: the groups its results belong to.
+  # For a concrete recipe: the groups (not categories) its results belong to.
   def result_groups
-    Item.where(id: ItemMembership.where(member_id: results.map(&:item_id)).select(:group_id)).by_name
+    Item.kind_is_group.where(id: ItemMembership.where(member_id: results.map(&:item_id)).select(:group_id))
+        .by_name
   end
 
   # For a concrete recipe: the template recipes for the groups it makes a

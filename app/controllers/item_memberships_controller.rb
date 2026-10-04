@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Adds/removes concrete items to/from groups (abstract items). Each side may
+# Adds/removes concrete items to/from groups and categories. Each side may
 # be given by id (from autocomplete) or by name.
 class ItemMembershipsController < ApplicationController
 

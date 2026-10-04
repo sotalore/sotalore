@@ -20,10 +20,11 @@ class Views::Adm::RecipeImports::Items < Views::Adm::RecipeImports::Base
           strong { 'Alias' }
           plain ' keeps the site name; '
           strong { 'Create' }
-          plain ' adds a new item: concrete; a group when the name stands for a set of items ("Metal Ingot", '
-          plain '"Pine or Maple Board"), whose members you add on its page later; an archetype when which one a '
-          plain 'recipe makes depends on its ingredients ("Dagger"); or a category for what a modification '
-          plain 'recipe acts on ("Crafted Carpentry Equipable"). The likely choice is highlighted. '
+          plain ' adds a new item: concrete; a group when the name stands for a complete set of items a '
+          plain 'recipe will take any of ("Metal Ingot", "Pine or Maple Board"), whose members you add on its '
+          plain 'page later; an archetype when which one a recipe makes depends on its ingredients ("Dagger"); '
+          plain 'or a category for anything that qualifies, such as what a modification recipe acts on '
+          plain '("Crafted Carpentry Equipable"). The likely choice is highlighted. '
           plain 'Suggestions the game also uses by name are distinct items and can\'t be chosen.'
         end
 
