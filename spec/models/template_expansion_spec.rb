@@ -61,9 +61,20 @@ RSpec.describe TemplateExpansion do
     expect(blade.members).to include(existing)
   end
 
-  it 'is invalid when the result group does not share a word with the ingredient group' do
+  it 'puts the member first when the group does not name the material' do
+    dagger = create :item, name: 'Dagger Blade', kind: :group
+    recipe = create :recipe, name: 'Dagger Blade', with_ingredients: { mingot => 1 }, with_results: { dagger => 1 }
+    expansion = described_class.new(recipe)
+    expect(expansion).to be_valid
+    expect(expansion.variants.map(&:recipe_name)).to contain_exactly('Iron Dagger Blade', 'Bronze Dagger Blade')
+    expansion.apply!(editor)
+    expect(dagger.members.map(&:name)).to contain_exactly('Iron Dagger Blade', 'Bronze Dagger Blade')
+  end
+
+  it 'is invalid when the ingredient group has no members to learn the pattern from' do
+    empty = create :item, name: 'Empty Group', kind: :group
     other = create :item, name: 'Blade Thing', kind: :group
-    recipe = create :recipe, with_ingredients: { mingot => 1 }, with_results: { other => 1 }
+    recipe = create :recipe, with_ingredients: { empty => 1 }, with_results: { other => 1 }
     expect(described_class.new(recipe)).not_to be_valid
   end
 end

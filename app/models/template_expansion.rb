@@ -73,14 +73,16 @@ class TemplateExpansion
 
     candidates = groups.filter_map do |group|
       word = leading_words(group, group.members.first)&.first
-      [ group, word ] if word && @result_groups.any? { |r| word_pattern(word).match?(r.name) }
+      [ group, word ] if word
     end
+    # Prefer the group whose word the result is named after ("Metal Hilt").
+    named = candidates.select { |_, word| @result_groups.any? { word_pattern(word).match?(_1.name) } }
+    candidates = named if named.any?
     case candidates.size
-    when 0 then @error = "None of the ingredient groups is named in #{@result_groups.to_sentence}."
+    when 0 then @error = "Can't work out how #{groups.to_sentence} varies; it needs members that share an ending."
     when 1 then @ingredient_group, @from_word = candidates.first
     else @error = "More than one ingredient group could vary: #{candidates.map { _1.first.name }.to_sentence}."
     end
-    @result_groups = @result_groups.select { word_pattern(from_word).match?(_1.name) } if valid?
   end
 
   # The words in front of what two names share at the end:
@@ -99,7 +101,9 @@ class TemplateExpansion
   def swap(name, member)
     from, to = leading_words(ingredient_group, member)
     return unless from&.casecmp?(from_word)
-    name.sub(word_pattern(from_word)) { to }
+    # "Metal Hilt" becomes "Iron Hilt"; "Dagger Blade", which doesn't name
+    # the material, becomes "Iron Dagger Blade".
+    name.match?(word_pattern(from_word)) ? name.sub(word_pattern(from_word)) { to } : "#{to} #{name}"
   end
 
   def variant_for(member)
@@ -107,7 +111,7 @@ class TemplateExpansion
     return Variant.new(member: member, names: names, items: []) if names.values.any?(&:nil?)
 
     items = names.map { |group, name| [ name, Item.find_by_name(name).first ] }
-    recipe_name = template.name.then { word_pattern(from_word).match?(_1) ? swap(_1, member) : names.values.first }
+    recipe_name = swap(template.name, member)
     proficiency, teachable = defaults_for(member)
     Variant.new(
       member: member, names: names, items: items, recipe_name: recipe_name,
