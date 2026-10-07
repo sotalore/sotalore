@@ -72,6 +72,7 @@ class Item < ApplicationRecord
   # TYPE DATA
   store_accessor :type_data, :yield
   store_accessor :type_data, :buff_slots_used
+  store_accessor :type_data, :basic
 
   has_many :comments, as: :subject, dependent: :delete_all
   has_many :aliases, class_name: 'ItemAlias', inverse_of: :item, dependent: :delete_all
@@ -133,6 +134,18 @@ class Item < ApplicationRecord
   # "a group", "an archetype", ...
   def kind_label
     "#{kind.match?(/\A[aeiou]/) ? 'an' : 'a'} #{kind}"
+  end
+
+  # A basic material (Iron, Copper) is the easy, common kind: recipes using it
+  # are simple to learn and re-teachable. Unique ones (White Iron, Obsidian)
+  # are not. Carried onto things made from it ("Iron Hilt"); see
+  # TemplateExpansion.
+  def basic?
+    ActiveModel::Type::Boolean.new.cast(basic) || false
+  end
+
+  def basic=(value)
+    super(ActiveModel::Type::Boolean.new.cast(value) ? true : nil)
   end
 
   def abstract?
