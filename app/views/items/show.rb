@@ -22,6 +22,7 @@ class Views::Items::Show < Views::Items::Base
             item_use_tag(@item, large: true)
             item_use_specific_tags(@item, large: true)
             item_abstract_tag(@item, large: true)
+            item_basic_tag(@item, large: true)
             item_price_tag(@item, large: true)
             item_gathering_tag(@item, large: true)
             item_weight_tag(@item, large: true)
@@ -87,7 +88,7 @@ class Views::Items::Show < Views::Items::Base
           tile_with_heading("Notes") { formatted_body(@item.notes) } if @item.notes
 
           if @item.group?
-            tile_with_heading("Group Members") { render Components::Items::Groups.new(item: @item) }
+            group_members_tile
           elsif @item.archetype?
             tile_with_heading("Archetype") do
               p do
@@ -116,6 +117,21 @@ class Views::Items::Show < Views::Items::Base
   end
 
   private
+
+  # Generating the group's items and recipes is on the template recipe(s) that
+  # make the group (see TemplateExpansion).
+  def group_members_tile
+    templates = policy(Recipe).update? ? @item.recipes.select(&:template?) : []
+    tile do
+      tile_heading("Group Members") do
+        templates.each do |template|
+          simple_icon_only_button(variants_recipe_path(template), 'cogs',
+                                  "Generate missing items and recipes from #{template.name}")
+        end
+      end
+      tile_body { render Components::Items::Groups.new(item: @item) }
+    end
+  end
 
   def makers_heading(recipes)
     case @item.kind

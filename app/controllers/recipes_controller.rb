@@ -39,6 +39,27 @@ class RecipesController < ApplicationController
     render Components::Recipes::Card.new(recipe: @recipe), layout: false
   end
 
+  # Preview of the items and recipes a template implies for the members of
+  # its ingredient group.
+  def variants
+    @recipe = find_recipe
+    authorize @recipe
+    return redirect_to(@recipe, alert: 'Only template recipes have variants.') unless @recipe.template?
+    render Views::Recipes::Variants.new(recipe: @recipe, expansion: TemplateExpansion.new(@recipe))
+  end
+
+  def create_variants
+    @recipe = find_recipe
+    authorize @recipe
+    expansion = TemplateExpansion.new(@recipe)
+    return redirect_to(@recipe, alert: expansion.error) unless expansion.valid?
+
+    members = expansion.ingredient_group.members.where(id: params[:member_ids])
+    created = expansion.apply!(Current.user, members: members, settings: variant_settings(members))
+    redirect_to @recipe, notice: "Generated #{created.size} #{'recipe'.pluralize(created.size)} " \
+                                 "and filled in the group's items."
+  end
+
   def new
     @recipe = RecipeForm.new(Recipe.new, Current.user)
     authorize @recipe
@@ -91,6 +112,17 @@ class RecipesController < ApplicationController
   end
 
   private
+
+  # The proficiency and teachable entered for each member on the variants page.
+  def variant_settings(members)
+    members.to_h do |member|
+      entered = params.dig(:variants, member.id.to_s)
+      teachable = entered&.[](:teachable).presence
+      [ member.id, { proficiency: entered&.[](:proficiency).presence&.to_i,
+                     teachable: Recipe.teachables.key?(teachable) ? teachable : nil } ]
+    end
+  end
+
   def permitted_params
     params.require(:recipe).permit(
       :item_name, :item_id, :item_count,

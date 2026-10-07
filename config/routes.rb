@@ -90,6 +90,8 @@ Rails.application.routes.draw do
   resources :recipes do
     member do
       get 'show_partial', to: 'recipes#show_partial'
+      get  'variants', to: 'recipes#variants'
+      post 'variants', to: 'recipes#create_variants'
     end
     resources :comments, except: [ :new ]
     collection do

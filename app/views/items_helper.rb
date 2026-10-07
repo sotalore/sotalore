@@ -53,6 +53,12 @@ module Views::ItemsHelper
     end
   end
 
+  def item_basic_tag(item, options={})
+    return unless item.basic?
+
+    span(class: item_css('text-amber-800 dark:text-amber-300', options)) { "basic" }
+  end
+
   def item_use_for_recipe_tag(item, options={})
     return unless USES_FOR_RECIPES.include?(item.use)
 
