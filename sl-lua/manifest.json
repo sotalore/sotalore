@@ -1,0 +1,11 @@
+{
+  "manifest_version": 1,
+  "slug": "sl-recipes",
+  "name": "SL Recipes",
+  "version": "0.2.0",
+  "description": "Searchable list of your known recipes, with a detail window per recipe.",
+  "author": "Darren",
+  "files": ["main.lua"],
+  "min_api_version": 37,
+  "permissions": []
+}
