@@ -30,9 +30,13 @@ class ItemGameKey < ApplicationRecord
     key.to_s
   end
 
-  # Whether an item of this kind can hold this sort of key.
-  def self.suits?(key, item)
-    group_key?(key) ? (item.group? || item.category?) : (item.concrete? || item.archetype?)
+  GROUP_KINDS = %w[ group category ].freeze
+  ITEM_KINDS = %w[ concrete archetype ].freeze
+
+  # Whether an item (or an item of the given kind) can hold this sort of key.
+  def self.suits?(key, item_or_kind)
+    kind = item_or_kind.respond_to?(:kind) ? item_or_kind.kind : item_or_kind.to_s
+    (group_key?(key) ? GROUP_KINDS : ITEM_KINDS).include?(kind)
   end
 
   private

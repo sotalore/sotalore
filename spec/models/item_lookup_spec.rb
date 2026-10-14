@@ -20,4 +20,14 @@ RSpec.describe ItemLookup do
     expect(lookup.id_for(line.('Oak Board', nil))).to eq board.id
     expect(lookup.known?(line.('Renamed Board', item_key(1)))).to be true
   end
+
+  it "won't resolve a keyed line by name to an item of a kind its key doesn't suit" do
+    create(:item, name: 'Board Group', kind: :group)
+    lookup = ItemLookup.new
+    slot = GameRecipe::Line.new(name: 'Oak Board', count: 1, key: 'group:5', group: true)
+    expect(lookup.id_for(slot)).to be_nil
+    expect(lookup.id_for(GameRecipe::Line.new(name: 'Board Group', count: 1, key: item_key(9)))).to be_nil
+    expect(lookup.id_for(GameRecipe::Line.new(name: 'Board Group', count: 1, key: 'group:5'))).to be_present
+    expect(lookup.id_for('Oak Board')).to eq board.id
+  end
 end

@@ -86,4 +86,76 @@ RSpec.describe RecipeImportItemResolution do
     expect { subject.create('Maple Board') }.to raise_error(RecipeImportItemResolution::Error)
     expect { subject.create('Something Else') }.to raise_error(RecipeImportItemResolution::Error)
   end
+
+  describe 'with game keys' do
+    let!(:head) { create(:item, name: 'Dragon Head') }
+    let(:import) do
+      RecipeImport.create_from_json!(game_export_json(
+        game_recipe_hash(name: 'Trophy', ingredients: { 'Dragon Head' => 1, 'Glue' => 1 },
+                                         results: { 'Mounted Head' => 1 },
+                         keys: { 'Dragon Head' => 'group:9', 'Glue' => item_key('glue'),
+                                 'Mounted Head' => item_key('mounted') }),
+        groups: [ { key: 'group:9', name: 'Dragon Head', members: { item_key('red') => 'Red Dragon Head' } } ]))
+    end
+
+    def unknown(name, group_slot: false)
+      import.reload.unresolved_item_names.find { _1.name == name && _1.group_slot? == group_slot }
+    end
+
+    it 'lists group slots named like a site item, which the slot never resolves to' do
+      expect(unknown('Dragon Head', group_slot: true))
+        .to have_attributes(keys: [ 'group:9' ], complete: true, name_taken: true, likely_kind: 'group',
+                            kinds: %w[ group category ], new_item_name: 'Dragon Head (any)')
+      expect(unknown('Glue')).to have_attributes(keys: [ item_key('glue') ], kinds: %w[ concrete archetype ])
+    end
+
+    it 'creates an "(any)" group for a slot, with its key' do
+      item = subject.create('Dragon Head', kind: 'group', group_slot: true)
+      expect(item).to have_attributes(name: 'Dragon Head (any)', kind: 'group')
+      expect(item.game_keys.pluck(:key, :name)).to eq [ [ 'group:9', 'Dragon Head' ] ]
+      expect(head.game_keys).to be_empty
+      expect(unknown('Dragon Head', group_slot: true)).to be_nil
+    end
+
+    it 'only creates kinds that suit the keys' do
+      expect { subject.create('Dragon Head', kind: 'concrete', group_slot: true) }
+        .to raise_error(RecipeImportItemResolution::Error, /can only be a group or category/)
+      expect { subject.create('Glue', kind: 'group') }
+        .to raise_error(RecipeImportItemResolution::Error, /can only be concrete or an archetype/)
+    end
+
+    it 'records keys when renaming, aliasing or using an existing item' do
+      paste = create(:item, name: 'Paste')
+      subject.alias(paste, 'Glue')
+      expect(paste.game_keys.pluck(:key)).to eq [ item_key('glue') ]
+
+      heads = create(:item, name: 'Dragon Heads', kind: :group)
+      subject.use(heads, 'Dragon Head', group_slot: true)
+      expect(heads.reload).to have_attributes(name: 'Dragon Heads', game_keys: [ ItemGameKey.find_by!(key: 'group:9') ])
+
+      mounted = create(:item, name: 'Head Mount')
+      subject.rename(mounted, 'Mounted Head')
+      expect(mounted.reload.game_keys.pluck(:key)).to eq [ item_key('mounted') ]
+      expect(import.reload.unresolved_item_names).to be_empty
+    end
+
+    it "won't use an item of the wrong kind" do
+      expect { subject.use(head, 'Dragon Head', group_slot: true) }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
+    it 'adopts a name the game changed' do
+      glue = create(:item, name: 'Glue')
+      glue.game_keys.create!(key: item_key('glue'), name: 'Glue')
+      renamed = RecipeImport.create_from_json!(game_export_json(
+        game_recipe_hash(name: 'Box', ingredients: { 'Hide Glue' => 1 }, results: { 'Glue' => 1 },
+                         keys: { 'Hide Glue' => item_key('glue') })))
+      resolution = RecipeImportItemResolution.new(renamed, user)
+      expect(GameKeyRecorder.new(renamed).proposals.find { _1.key == item_key('glue') }.status).to eq 'renamed'
+
+      resolution.adopt_game_name(item_key('glue'))
+      expect(glue.reload.name).to eq 'Hide Glue'
+      expect(glue.aliases.pluck(:name)).to eq [ 'Glue' ]
+      expect(glue.game_keys.sole.name).to eq 'Hide Glue'
+    end
+  end
 end

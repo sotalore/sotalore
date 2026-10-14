@@ -6,6 +6,7 @@ class Views::Adm::RecipeImports::GameKeys < Views::Adm::RecipeImports::Base
   STATUS_LABELS = {
     'record'    => 'To record',
     'known'     => 'Already recorded',
+    'renamed'   => 'Renamed in the game',
     'elsewhere' => 'Recorded for another item',
     'ambiguous' => 'Name used for several keys',
     'unsuited'  => 'Named like an item of the wrong kind',
@@ -13,7 +14,14 @@ class Views::Adm::RecipeImports::GameKeys < Views::Adm::RecipeImports::Base
   }.freeze
 
   # Listed in full, since they need someone to look at them.
-  REVIEW_STATUSES = %w[ elsewhere ambiguous unsuited ].freeze
+  REVIEW_STATUSES = %w[ renamed elsewhere ambiguous unsuited ].freeze
+
+  REVIEW_HINTS = {
+    'renamed'   => 'Give the site item the game\'s name (keeping the old one as an alias), or add the ' \
+                   'game\'s name as an alias.',
+    'ambiguous' => 'If the site doesn\'t tell these apart, record each one for the same item.',
+    'unsuited'  => 'These are on Unknown items, where they can get an item of the right kind.',
+  }.freeze
 
   def initialize(import:, recorder:)
     @import = import
@@ -71,6 +79,7 @@ class Views::Adm::RecipeImports::GameKeys < Views::Adm::RecipeImports::Base
     return if proposals.empty?
 
     h2(class: 'mt-4 mb-1 text-lg font-bold') { "#{STATUS_LABELS[status]} (#{proposals.size})" }
+    p(class: 'mb-1 text-sm max-w-prose') { REVIEW_HINTS[status] } if REVIEW_HINTS[status]
     proposals_table(proposals, note: true)
   end
 
@@ -92,6 +101,7 @@ class Views::Adm::RecipeImports::GameKeys < Views::Adm::RecipeImports::Base
           th { 'Game name' }
           th { 'Site item' }
           th { 'Why' } if note
+          th if note
         end
       end
       tbody do
@@ -105,10 +115,25 @@ class Views::Adm::RecipeImports::GameKeys < Views::Adm::RecipeImports::Base
                 span(class: 'text-xs text-grey-500') { " #{proposal.item.kind}" }
               end
             end
-            td { proposal.note } if note
+            td(class: 'pr-2') { proposal.note } if note
+            td(class: 'whitespace-nowrap') { actions(proposal) } if note
           end
         end
       end
+    end
+  end
+
+  def actions(proposal)
+    case proposal.status
+    when 'renamed'
+      post_button('Rename', adm_recipe_import_item_resolutions_path(@import), style: 'warning',
+                  params: { resolution: 'adopt_name', key: proposal.key },
+                  confirm: "Rename #{proposal.item.name} to #{proposal.name}?")
+      whitespace
+      post_button('Alias', adm_recipe_import_item_resolutions_path(@import),
+                  params: { resolution: 'adopt_alias', key: proposal.key })
+    when 'ambiguous'
+      post_button('Record', record_game_keys_adm_recipe_import_path(@import), params: { key: proposal.key })
     end
   end
 
