@@ -26,4 +26,16 @@ class RecipeImportPolicy < DefaultAdminPolicy
     update?
   end
 
+  def groups?
+    show?
+  end
+
+  def add_group_members?
+    update?
+  end
+
+  def remove_group_members?
+    update?
+  end
+
 end

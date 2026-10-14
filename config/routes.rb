@@ -28,6 +28,9 @@ Rails.application.routes.draw do
         post :retire_stale
         get :game_keys
         post :record_game_keys
+        get :groups
+        post :add_group_members
+        post :remove_group_members
       end
       resources :entries, only: [ :show ], controller: 'recipe_import_entries' do
         member do

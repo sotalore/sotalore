@@ -211,14 +211,18 @@ class Item < ApplicationRecord
     end
   end
 
-  # Only groups and categories have members, and only concrete items are
-  # members.
+  # Only groups and categories have members. Members are concrete, except
+  # that categories can list archetypes (see ItemMembership).
   def kind_change_keeps_memberships_valid
     return unless will_save_change_to_kind? && persisted?
-    if !concrete? && group_memberships.exists?
+    if archetype? && groups.where.not(kind: :category).exists?
+      errors.add(:kind, "can't be #{kind} while this item is a member of a group")
+    elsif !concrete? && !archetype? && group_memberships.exists?
       errors.add(:kind, "can't be #{kind} while this item is a member of a group or category")
     elsif !can_have_members? && member_memberships.exists?
       errors.add(:kind, "can't be #{kind} while this item has members")
+    elsif group? && members.where.not(kind: :concrete).exists?
+      errors.add(:kind, "can't be #{kind} while it lists archetypes as examples")
     end
   end
 

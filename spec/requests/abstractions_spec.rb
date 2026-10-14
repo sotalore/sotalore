@@ -54,6 +54,12 @@ RSpec.describe "Abstractions", type: :request do
 
       get item_path(plate)
       expect(response.body).to include('Member of', 'Metal Ingot', 'Example of', 'Crafted Chest Armor')
+
+      dagger = create :item, name: 'Dagger', kind: :archetype
+      ItemMembership.create!(group: armor, member: dagger)
+      get item_path(dagger)
+      expect(response.body).to include('Example of', 'Crafted Chest Armor')
+      expect(response.body).not_to include('Member of')
     end
 
     it "shows each kind on its item page" do

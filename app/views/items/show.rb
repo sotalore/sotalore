@@ -29,7 +29,7 @@ class Views::Items::Show < Views::Items::Base
             div(class: "grow flex flex-row justify-end") { render Views::Verifications::Controls.new(@item) }
           end
 
-          render Components::Items::Groups.new(item: @item) unless @item.abstract?
+          render Components::Items::Groups.new(item: @item) if @item.concrete? || @item.archetype?
         end
       end
     end
