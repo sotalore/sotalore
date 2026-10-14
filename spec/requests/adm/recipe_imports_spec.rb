@@ -292,6 +292,43 @@ RSpec.describe "Adm::RecipeImports", type: :request do
     end
   end
 
+  describe 'groups' do
+    let!(:group) { create(:item, name: 'Board Group', kind: :group) }
+    let(:json) do
+      game_export_json(
+        game_recipe_hash(name: 'Chair', id: 1, ingredients: { 'Board Group' => 2 }, keys: { 'Board Group' => 'group:7' }),
+        groups: [ { key: 'group:7', name: 'Board Group',
+                    members: { item_key('board') => 'Wooden Board', item_key('elm') => 'Elm Board' } } ])
+    end
+
+    before { group.game_keys.create!(key: 'group:7', name: 'Board Group') }
+
+    it 'lists the groups that differ and adds members' do
+      get groups_adm_recipe_import_path(import)
+      expect(response).to have_http_status(200)
+      expect(response.body).to include('Board Group', 'Create and add (1)', 'Elm Board', 'Add 2 members')
+
+      post add_group_members_adm_recipe_import_path(import), params: { key: 'group:7' }
+      expect(flash[:notice]).to eq 'Added 2 members to Board Group.'
+      expect(group.members.map(&:name)).to eq [ 'Elm Board', 'Wooden Board' ]
+
+      get groups_adm_recipe_import_path(import, status: 'in_sync')
+      expect(response.body).to include('Board Group')
+    end
+
+    it 'removes members the game does not list' do
+      ItemMembership.create!(group: group, member: chair)
+      post remove_group_members_adm_recipe_import_path(import), params: { key: 'group:7' }
+      expect(flash[:notice]).to eq 'Removed 1 member from Board Group.'
+      expect(group.members).to be_empty
+    end
+
+    it 'reports an unknown group' do
+      post add_group_members_adm_recipe_import_path(import), params: { key: 'group:99' }
+      expect(flash[:alert]).to include "isn't a group in this import"
+    end
+  end
+
   it 'deletes an import' do
     import
     expect { delete adm_recipe_import_path(import) }.to change(RecipeImport, :count).by(-1)

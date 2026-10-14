@@ -149,6 +149,42 @@ class Adm::RecipeImportsController < AdmController
     redirect_to game_keys_adm_recipe_import_path(@import), alert: e.message
   end
 
+  def groups
+    @import = find_import
+    authorize(@import)
+    sync = GameGroupSync.new(@import, Current.user)
+    status = params[:status].presence_in(GameGroupSync::STATUSES + [ 'all' ]) || 'differs'
+    rows = status == 'all' ? sync.rows : sync.rows.select { _1.status == status }
+    page_title "#{@import}: Groups"
+    render Views::Adm::RecipeImports::Groups.new(import: @import, rows: rows, status: status,
+                                                 counts: sync.rows.map(&:status).tally)
+  end
+
+  def add_group_members
+    @import = find_import
+    authorize(@import)
+    sync = GameGroupSync.new(@import, Current.user)
+    added = sync.add!(params.require(:key))
+    item = sync.row(params[:key]).item
+    noun = item.category? ? 'example' : 'member'
+    redirect_back_or_to groups_adm_recipe_import_path(@import),
+                        notice: "Added #{added} #{noun.pluralize(added)} to #{item.name}."
+  rescue ArgumentError, ActiveRecord::RecordInvalid => e
+    redirect_back_or_to groups_adm_recipe_import_path(@import), alert: e.message
+  end
+
+  def remove_group_members
+    @import = find_import
+    authorize(@import)
+    sync = GameGroupSync.new(@import, Current.user)
+    removed = sync.remove!(params.require(:key))
+    redirect_back_or_to groups_adm_recipe_import_path(@import),
+                        notice: "Removed #{removed} #{'member'.pluralize(removed)} from " \
+                                "#{sync.row(params[:key]).item.name}."
+  rescue ArgumentError, ActiveRecord::RecordNotFound => e
+    redirect_back_or_to groups_adm_recipe_import_path(@import), alert: e.message
+  end
+
   private
 
   def find_import

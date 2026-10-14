@@ -3,7 +3,8 @@
 # On an item page: the members of a group (the complete set it stands for),
 # shown in place of salvage info since groups can't be salvaged; the examples
 # of a category; or, for a concrete item, the groups and categories it
-# belongs to. Archetypes have none. Editable by those who can edit items.
+# belongs to, and for an archetype the categories it's an example of.
+# Editable by those who can edit items.
 class Components::Items::Groups < Components::Base
   include Phlex::Rails::Helpers::ButtonTo
 
@@ -18,7 +19,7 @@ class Components::Items::Groups < Components::Base
     elsif @item.category?
       p { "Some examples of #{@item.name}. There are likely others." }
       members_list("No examples yet.", "add an example...")
-    elsif @item.concrete?
+    elsif @item.concrete? || @item.archetype?
       memberships
     end
   end
@@ -58,9 +59,9 @@ class Components::Items::Groups < Components::Base
 
     categories, groups = all.partition { _1.group.category? }
     div(class: "mt-2") do
-      section("Member of", groups) if groups.any? || categories.empty?
-      section("Example of", categories) if categories.any?
-      add_form(:group, "add to a group or category...") if editable?
+      section("Member of", groups) if @item.concrete? && (groups.any? || categories.empty?)
+      section("Example of", categories) if categories.any? || @item.archetype?
+      add_form(:group, @item.concrete? ? "add to a group or category..." : "add to a category...") if editable?
     end
   end
 

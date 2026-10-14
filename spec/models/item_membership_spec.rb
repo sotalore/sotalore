@@ -33,6 +33,27 @@ RSpec.describe ItemMembership do
     expect(ItemMembership.new(group: armor, member: copper_iron)).not_to be_valid
   end
 
+  it 'lets a category, but not a group, list archetypes' do
+    armor  = create(:item, name: 'Crafted Weapon', kind: :category)
+    dagger = create(:item, name: 'Dagger', kind: :archetype)
+    expect(ItemMembership.new(group: armor, member: dagger)).to be_valid
+    group = ItemMembership.new(group: ingot, member: dagger)
+    expect(group).not_to be_valid
+    expect(group.errors[:member].join).to eq 'must be a concrete item, not an archetype'
+
+    ItemMembership.create!(group: armor, member: dagger)
+    dagger.reload
+    expect(dagger.update(kind: :concrete)).to be true
+    expect(dagger.update(kind: :archetype)).to be true
+    expect(dagger.update(kind: :group)).to be false
+    expect(armor.update(kind: :group)).to be false
+    expect(armor.errors[:kind].join).to include 'lists archetypes'
+
+    ItemMembership.create!(group: ingot, member: iron)
+    expect(iron.update(kind: :archetype)).to be false
+    expect(iron.errors[:kind].join).to include 'member of a group'
+  end
+
   it 'rejects duplicates' do
     ItemMembership.create!(group: ingot, member: iron)
     expect(ItemMembership.new(group: ingot, member: iron)).not_to be_valid
