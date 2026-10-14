@@ -66,7 +66,7 @@ class RecipeImportApplier
 
   def lines_attributes(lines)
     lines.each_with_index.to_h do |line, i|
-      item_id = @lookup.id_for(line.name) or
+      item_id = @lookup.id_for(line) or
         raise ArgumentError, "Unknown item #{line.name.inspect}"
       [ i.to_s, { 'item_id' => item_id.to_s, 'count' => line.count.to_s } ]
     end

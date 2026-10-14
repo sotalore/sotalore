@@ -123,6 +123,22 @@ class Adm::RecipeImportsController < AdmController
     redirect_to stale_adm_recipe_import_path(@import), notice: "Retired #{count} recipes."
   end
 
+  def game_keys
+    @import = find_import
+    authorize(@import)
+    page_title "#{@import}: Game Keys"
+    render Views::Adm::RecipeImports::GameKeys.new(import: @import, recorder: GameKeyRecorder.new(@import))
+  end
+
+  def record_game_keys
+    @import = find_import
+    authorize(@import)
+    added = GameKeyRecorder.new(@import).record!
+    @import.analyze!
+    redirect_to game_keys_adm_recipe_import_path(@import),
+                notice: "Recorded #{added} game #{'key'.pluralize(added)}."
+  end
+
   private
 
   def find_import

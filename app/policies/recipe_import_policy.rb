@@ -18,4 +18,12 @@ class RecipeImportPolicy < DefaultAdminPolicy
     show?
   end
 
+  def game_keys?
+    show?
+  end
+
+  def record_game_keys?
+    update?
+  end
+
 end

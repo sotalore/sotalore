@@ -1,33 +1,51 @@
 # frozen_string_literal: true
 
-# A read-only view over one recipe from the in-game recipe export plugin,
-# e.g.
+# A read-only view over one recipe from the in-game recipe export plugin
+# (see docs/EXPORT-FORMAT.md), e.g.
 #
 #   {"id":741803257,"name":"Accordion","category":"Carpentry",
 #    "categoryKey":"Crafting_Carpentry","requiredLevel":40,"refine":false,
-#    "ingredients":[{"name":"Wooden Board","quantity":8,"optional":false,"tool":false}],
-#    "results":[{"name":"Accordion","quantity":1}]}
+#    "ingredients":[{"name":"Wooden Board","quantity":8,"optional":false,"tool":false,
+#                    "group":true,"groupKey":"group:7","choiceCount":7,"choices":[...]}],
+#    "results":[{"name":"Accordion","quantity":1,"key":"item:...","stats":[...]}]}
+#
+# Older exports have no keys, groups or stats.
 class GameRecipe
 
-  Line = Data.define(:name, :count, :tool) do
+  # An ingredient or result. +key+ is the game's id for it (see ItemGameKey):
+  # "item:..." for an item, or "group:..." for a slot taking any member of a
+  # group, whose members' keys are +choice_keys+.
+  Line = Data.define(:name, :count, :tool, :key, :group, :choice_count, :choice_keys, :stats) do
+    def initialize(name:, count:, tool: false, key: nil, group: false, choice_count: nil,
+                   choice_keys: [], stats: [])
+      super
+    end
+
     def tool? = tool
+    def group? = group
+  end
+
+  # A full export: its recipes and top-level groups (see GameGroup).
+  Export = Data.define(:api_version, :full, :recipes, :groups) do
+    def full? = full
   end
 
   CATEGORY_PREFIX = 'Crafting_'
 
   attr_reader :payload
 
-  # Accepts either a full export ({"recipes": [...]}) or a single recipe
-  # object, as a JSON string or already-parsed Hash. Returns
-  # [ api_version, full_export?, [GameRecipe] ].
+  # Accepts either a full export ({"recipes": [...], "groups": [...]}) or a
+  # single recipe object, as a JSON string or already-parsed Hash. Returns an
+  # Export.
   def self.parse_export(json)
     data = json.is_a?(String) ? JSON.parse(json) : json
     if data.is_a?(Hash) && data.key?('recipes')
-      [ data['apiVersion'], true, Array(data['recipes']).map { new(_1) } ]
+      Export.new(data['apiVersion'], true, Array(data['recipes']).map { new(_1) },
+                 Array(data['groups']).map { GameGroup.new(_1) })
     elsif data.is_a?(Hash) && data.key?('ingredients')
-      [ nil, false, [ new(data) ] ]
+      Export.new(nil, false, [ new(data) ], [])
     elsif data.is_a?(Array)
-      [ nil, false, data.map { new(_1) } ]
+      Export.new(nil, false, data.map { new(_1) }, [])
     else
       raise ArgumentError, 'Not a recipe export: expected a "recipes" list or a single recipe'
     end
@@ -67,18 +85,31 @@ class GameRecipe
 
   def ingredients
     @ingredients ||= Array(payload['ingredients']).map do |i|
-      Line.new(i['name'].to_s.strip, i['quantity'].to_i, !!i['tool'])
+      if i['group']
+        choices = Array(i['choices'])
+        Line.new(name: i['name'].to_s.strip, count: i['quantity'].to_i, tool: !!i['tool'],
+                 key: i['groupKey'].presence, group: true, choice_count: i['choiceCount'],
+                 choice_keys: choices.filter_map { _1['key'] })
+      else
+        Line.new(name: i['name'].to_s.strip, count: i['quantity'].to_i, tool: !!i['tool'],
+                 key: i['key'].presence, stats: Array(i['stats']))
+      end
     end
   end
 
   def results
     @results ||= Array(payload['results']).map do |r|
-      Line.new(r['name'].to_s.strip, r['quantity'].to_i, false)
+      Line.new(name: r['name'].to_s.strip, count: r['quantity'].to_i, key: r['key'].presence,
+               stats: Array(r['stats']))
     end
   end
 
+  def lines
+    ingredients + results
+  end
+
   def item_names
-    (ingredients + results).map(&:name).uniq
+    lines.map(&:name).uniq
   end
 
   # Names of the results this recipe takes and gives back, no more of than it

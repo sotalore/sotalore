@@ -15,12 +15,13 @@ class ItemReview
   CATEGORY_NAME = /\ACrafted /i
 
   Row = Data.define(:item, :members, :groups, :ingredient_uses, :game_ingredient_uses,
-                    :result_uses, :game_result_uses, :modified, :made_from_groups, :issues) do
+                    :result_uses, :game_result_uses, :modified, :made_from_groups, :game_keys,
+                    :issues) do
     def modified? = modified
     def issues? = issues.any?
   end
 
-  FILTERS = %w[ abstract group archetype category suspect recent ].freeze
+  FILTERS = %w[ abstract group archetype category suspect unkeyed recent ].freeze
 
   attr_reader :filter
 
@@ -46,6 +47,7 @@ class ItemReview
       'archetype' => by_kind['archetype'].to_i,
       'category' => by_kind['category'].to_i,
       'suspect' => suspects.count,
+      'unkeyed' => unkeyed.count,
     }
     counts['recent'] = Item.where(created_at: recent_since..).count if recent_since
     counts
@@ -56,6 +58,20 @@ class ItemReview
     concrete = Item.kind_is_concrete
     concrete.where('items.name ILIKE ? OR items.name ILIKE ?', '% or %', 'Crafted %')
             .or(concrete.where(id: modified_item_ids))
+  end
+
+  # Items an active recipe uses or makes that have no game key (see
+  # ItemGameKey) yet. Recipe imports record keys for the items their recipes
+  # use, so these are items the game knows by another name, or recipes the
+  # export didn't include. Groups and categories are left out: a group key
+  # only belongs to one when a recipe slot takes it.
+  def self.unkeyed
+    active = Recipe.active.select(:id)
+    used = Ingredient.where(recipe_id: active).select(:item_id)
+    made = Result.where(recipe_id: active).select(:item_id)
+    Item.where(kind: %i[ concrete archetype ])
+        .where(id: used).or(Item.where(kind: %i[ concrete archetype ]).where(id: made))
+        .where.not(id: ItemGameKey.select(:item_id))
   end
 
   # Ids of items a modification recipe takes and gives back.
@@ -80,6 +96,7 @@ class ItemReview
       case @filter
       when 'abstract' then Item.abstract
       when 'suspect'  then self.class.suspects
+      when 'unkeyed'  then self.class.unkeyed
       when 'recent'   then Item.where(created_at: self.class.recent_since..)
       else Item.where(kind: @filter)
       end
@@ -96,6 +113,7 @@ class ItemReview
     game_result_uses = Result.joins(:recipe).where(item_id: ids)
                              .where.not(recipes: { game_id: nil }).group(:item_id).count
     modified = self.class.modified_item_ids.where(item_id: ids).distinct.pluck(:item_id).to_set
+    game_keys = ItemGameKey.where(item_id: ids).group(:item_id).count
     made_from_groups = Result.where(item_id: ids)
                              .joins('JOIN ingredients ON ingredients.recipe_id = results.recipe_id')
                              .joins('JOIN items ON items.id = ingredients.item_id')
@@ -112,6 +130,7 @@ class ItemReview
                     game_result_uses: game_result_uses[item.id].to_i,
                     modified: modified.include?(item.id),
                     made_from_groups: made_from_groups.fetch(item.id, []),
+                    game_keys: game_keys[item.id].to_i,
                     issues: [])
       row.with(issues: issues_for(row))
     end

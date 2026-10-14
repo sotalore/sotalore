@@ -215,6 +215,36 @@ RSpec.describe "Adm::RecipeImports", type: :request do
     end
   end
 
+  describe 'game keys' do
+    let(:json) do
+      game_export_json(
+        game_recipe_hash(name: 'Chair', id: 1, ingredients: { 'Wooden Board' => 2 },
+                         keys: { 'Wooden Board' => item_key('board'), 'Chair' => item_key('chair') }),
+        groups: [ { key: 'group:7', name: 'Wooden Board', members: { item_key('oak') => 'Oak Board' } } ])
+    end
+
+    it 'keeps the export groups' do
+      expect(import.game_groups.map(&:key)).to eq [ 'group:7' ]
+    end
+
+    it 'previews and records them' do
+      get game_keys_adm_recipe_import_path(import)
+      expect(response).to have_http_status(200)
+      expect(response.body).to include('Record 2 keys', item_key('chair'))
+
+      post record_game_keys_adm_recipe_import_path(import)
+      expect(response).to redirect_to(game_keys_adm_recipe_import_path(import))
+      expect(flash[:notice]).to eq 'Recorded 2 game keys.'
+      expect(chair.game_keys.pluck(:key)).to eq [ item_key('chair') ]
+    end
+
+    it 'says when an export has none' do
+      old = RecipeImport.create_from_json!(game_export_json(game_recipe_hash(name: 'Chair')), user: user)
+      get game_keys_adm_recipe_import_path(old)
+      expect(response.body).to include('This export has no game keys')
+    end
+  end
+
   it 'deletes an import' do
     import
     expect { delete adm_recipe_import_path(import) }.to change(RecipeImport, :count).by(-1)

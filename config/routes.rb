@@ -26,6 +26,8 @@ Rails.application.routes.draw do
         get :items
         get :stale
         post :retire_stale
+        get :game_keys
+        post :record_game_keys
       end
       resources :entries, only: [ :show ], controller: 'recipe_import_entries' do
         member do

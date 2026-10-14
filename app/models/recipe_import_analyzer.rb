@@ -67,7 +67,7 @@ class RecipeImportAnalyzer
 
   # [ingredients], where each is [item_id or nil, GameRecipe::Line]
   def resolve_lines(lines)
-    lines.map { |line| [ @lookup.id_for(line.name), line ] }
+    lines.map { |line| [ @lookup.id_for(line), line ] }
   end
 
   private
@@ -110,7 +110,7 @@ class RecipeImportAnalyzer
         if gr.modification?
           'modification'
         else
-          kinds = gr.results.map { @lookup.kind_for(_1.name) }
+          kinds = gr.results.map { @lookup.kind_for(_1) }
           if kinds.include?(nil) then nil
           elsif kinds.include?('group') then 'template'
           elsif kinds.any? { _1 != 'concrete' } then 'archetype'
@@ -142,7 +142,7 @@ class RecipeImportAnalyzer
 
   def match_by_result(gr)
     return nil unless gr.craft_skill && gr.results.size == 1
-    item_id = @lookup.id_for(gr.results.first.name) or return nil
+    item_id = @lookup.id_for(gr.results.first) or return nil
     candidates = @recipes_by_result[item_id].select do |r|
       r.craft_skill == gr.craft_skill && claimable?(r, gr)
     end
@@ -189,11 +189,11 @@ class RecipeImportAnalyzer
     problems << 'Has no results' if gr.results.empty?
     problems << 'Has no ingredients' if gr.ingredients.empty?
 
-    unknown = gr.item_names.reject { @lookup.known?(_1) }
+    unknown = gr.lines.reject { @lookup.known?(_1) }.map(&:name).uniq
     problems << "Unknown items: #{unknown.join(', ')}" if unknown.any?
 
     unless gr.modification?
-      groups = gr.results.map(&:name).select { @lookup.group?(_1) }
+      groups = gr.results.select { @lookup.group?(_1) }.map(&:name)
       if groups.any?
         problems << "Makes #{groups.join(', ')}, which the site has as a group; the game doesn't make " \
                     'groups. If which one you get depends on the ingredients, make it an archetype'

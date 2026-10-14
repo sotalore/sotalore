@@ -9,6 +9,7 @@ class Views::Adm::ItemReviews::Index < Views::Base
     'archetype' => 'Archetypes',
     'category'  => 'Categories',
     'suspect'   => 'Concrete suspects',
+    'unkeyed'   => 'No game key',
     'recent'    => 'Created since imports',
   }.freeze
 
@@ -136,6 +137,7 @@ class Views::Adm::ItemReviews::Index < Views::Base
       lines << "#{row.members} #{noun.pluralize(row.members)}"
     end
     lines << "in #{row.groups} #{row.groups == 1 ? 'group or category' : 'groups or categories'}" if row.groups.positive?
+    lines << "#{row.game_keys} game #{'key'.pluralize(row.game_keys)}" if row.game_keys.positive?
     if lines.empty?
       span(class: 'text-grey-500') { 'unused' }
     else
