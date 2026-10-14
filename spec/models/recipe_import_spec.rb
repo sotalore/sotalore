@@ -193,6 +193,19 @@ RSpec.describe RecipeImport do
       expect(recipe.results.map { [ _1.name, _1.count ] }).to eq [ [ 'Chair', 1 ] ]
     end
 
+    it 'records the game keys of items found by name' do
+      wax.game_keys.create!(key: item_key('wax'), name: 'Wax')
+      stats = [ { 'key' => 'durability', 'value' => 9 } ]
+      import = import_of(game_recipe_hash(name: 'Chair', ingredients: { 'Wooden Board' => 2, 'Wax' => 1 },
+                                          keys: { 'Wooden Board' => item_key('board'), 'Wax' => item_key('wax'),
+                                                  'Chair' => item_key('chair') },
+                                          stats: { 'Chair' => stats }))
+      expect(applier.apply(entry_named(import, 'Chair'))).to be true
+      expect(board.game_keys.sole).to have_attributes(key: item_key('board'), stats: nil)
+      expect(chair.game_keys.sole).to have_attributes(key: item_key('chair'), stats: stats)
+      expect(wax.game_keys.count).to eq 1
+    end
+
     it 'updates an outdated recipe, recording a revision' do
       recipe = create(:recipe, name: 'Chair', craft_skill: 'carpentry',
                                with_ingredients: { board => 1, wax => 3 }, with_results: { chair => 1 })

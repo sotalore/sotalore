@@ -8,6 +8,8 @@
 #
 #   record    - new key; its name is a site item of a suitable kind
 #   known     - already recorded for the item its name leads to
+#   renamed   - already recorded, but the game now uses a name the site
+#               doesn't know: renamed in the game
 #   elsewhere - already recorded for a different item than its name leads to
 #               (the game may have renamed it)
 #   ambiguous - the export uses its name for more than one key, so which is
@@ -17,11 +19,14 @@
 #               a site group
 #   unknown   - its name isn't a site item yet (see the import's unknown items)
 #
+# An ambiguous key can still be recorded for the item its name leads to by
+# hand (#record_one!), when the site doesn't tell the variants apart.
+#
 # Two group keys with the same name and the same members (the game has two
 # "Gem Fragment" groups) aren't ambiguous: both stand for the same thing.
 class GameKeyRecorder
 
-  STATUSES = %w[ record known elsewhere ambiguous unsuited unknown ].freeze
+  STATUSES = %w[ record known renamed elsewhere ambiguous unsuited unknown ].freeze
 
   Proposal = Data.define(:key, :name, :stats, :item, :status, :note) do
     def group_key? = ItemGameKey.group_key?(key)
@@ -68,6 +73,13 @@ class GameKeyRecorder
     added.size
   end
 
+  # Records one ambiguous key for the item its name leads to.
+  def record_one!(key)
+    proposal = proposals.find { _1.key == key && _1.status == 'ambiguous' } or
+      raise ArgumentError, "#{key} isn't an ambiguous key in this import"
+    proposal.item.game_keys.create!(key: key, name: proposal.name, stats: proposal.stats)
+  end
+
   private
 
   # { key => { name:, stats: } } for every key the export's recipes use.
@@ -107,8 +119,10 @@ class GameKeyRecorder
 
     if recorded
       holder = items[recorded.item_id]
-      if named.nil? || named == holder
+      if named == holder
         build.(holder, 'known')
+      elsif named.nil?
+        build.(holder, 'renamed', "the site calls it #{holder.name}")
       else
         build.(holder, 'elsewhere', "the name is #{named.name} on the site")
       end

@@ -182,9 +182,28 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       expect(flash[:alert]).to include "the game doesn't make groups"
     end
 
+    it 'creates an "(any)" group for a group slot named like an item, and uses existing items' do
+      slots = RecipeImport.create_from_json!(game_export_json(
+        game_recipe_hash(name: 'Chair', id: 1, ingredients: { 'Chair' => 1, 'Glue' => 1 },
+                         results: { 'Throne' => 1 },
+                         keys: { 'Chair' => 'group:3', 'Glue' => item_key('glue') })), user: user)
+      get items_adm_recipe_import_path(slots)
+      expect(response.body).to include('group slot', 'Create as group Chair (any)')
+
+      post adm_recipe_import_item_resolutions_path(slots),
+           params: { name: 'Chair', group_slot: '1', resolution: 'create_group' }
+      expect(flash[:notice]).to eq 'Created Chair (any) as a group.'
+      expect(Item.find_by_name('Chair (any)').first.game_keys.pluck(:key)).to eq [ 'group:3' ]
+
+      post adm_recipe_import_item_resolutions_path(slots),
+           params: { name: 'Glue', resolution: 'use', item_name: 'Citrine' }
+      expect(flash[:notice]).to eq "Citrine now has the game's keys for Glue."
+      expect(citrine.game_keys.pluck(:key)).to eq [ item_key('glue') ]
+    end
+
     it 'reports problems' do
       post adm_recipe_import_item_resolutions_path(import), params: { name: 'Chair', resolution: 'create' }
-      expect(flash[:alert]).to include 'already a known item'
+      expect(flash[:alert]).to include "isn't an unknown item"
     end
   end
 
@@ -236,6 +255,34 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       expect(response).to redirect_to(game_keys_adm_recipe_import_path(import))
       expect(flash[:notice]).to eq 'Recorded 2 game keys.'
       expect(chair.game_keys.pluck(:key)).to eq [ item_key('chair') ]
+    end
+
+    it 'records an ambiguous key by hand' do
+      two = game_export_json(
+        game_recipe_hash(name: 'Chair', id: 1, ingredients: { 'Wooden Board' => 1 },
+                         keys: { 'Wooden Board' => item_key('b1') }),
+        game_recipe_hash(name: 'Bench', id: 2, results: { 'Chair' => 1 }, ingredients: { 'Wooden Board' => 2 },
+                         keys: { 'Wooden Board' => item_key('b2') }))
+      ambiguous = RecipeImport.create_from_json!(two, user: user)
+      get game_keys_adm_recipe_import_path(ambiguous)
+      expect(response.body).to include('Name used for several keys (2)')
+
+      post record_game_keys_adm_recipe_import_path(ambiguous), params: { key: item_key('b1') }
+      expect(flash[:notice]).to eq "Recorded #{item_key('b1')} for Wooden Board."
+      expect(board.game_keys.pluck(:key)).to eq [ item_key('b1') ]
+    end
+
+    it 'adopts a name the game changed' do
+      board.game_keys.create!(key: item_key('board'), name: 'Wooden Board')
+      renamed = RecipeImport.create_from_json!(game_export_json(
+        game_recipe_hash(name: 'Chair', id: 1, ingredients: { 'Plank' => 2 }, keys: { 'Plank' => item_key('board') })),
+        user: user)
+      get game_keys_adm_recipe_import_path(renamed)
+      expect(response.body).to include('Renamed in the game (1)')
+
+      post adm_recipe_import_item_resolutions_path(renamed), params: { resolution: 'adopt_alias', key: item_key('board') }
+      expect(flash[:notice]).to eq 'Plank is now an alias of Wooden Board.'
+      expect(board.aliases.pluck(:name)).to eq [ 'Plank' ]
     end
 
     it 'says when an export has none' do

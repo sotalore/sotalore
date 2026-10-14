@@ -130,13 +130,23 @@ class Adm::RecipeImportsController < AdmController
     render Views::Adm::RecipeImports::GameKeys.new(import: @import, recorder: GameKeyRecorder.new(@import))
   end
 
+  # Records every key that can be, or one ambiguous key given as +key+.
   def record_game_keys
     @import = find_import
     authorize(@import)
-    added = GameKeyRecorder.new(@import).record!
+    recorder = GameKeyRecorder.new(@import)
+    notice =
+      if params[:key].present?
+        game_key = recorder.record_one!(params[:key])
+        "Recorded #{game_key.key} for #{game_key.item.name}."
+      else
+        added = recorder.record!
+        "Recorded #{added} game #{'key'.pluralize(added)}."
+      end
     @import.analyze!
-    redirect_to game_keys_adm_recipe_import_path(@import),
-                notice: "Recorded #{added} game #{'key'.pluralize(added)}."
+    redirect_to game_keys_adm_recipe_import_path(@import), notice: notice
+  rescue ArgumentError, ActiveRecord::RecordInvalid => e
+    redirect_to game_keys_adm_recipe_import_path(@import), alert: e.message
   end
 
   private

@@ -8,7 +8,8 @@
 # * addition  - creates the recipe, likewise via RecipeForm
 #
 # Every applied recipe gets game_id/game_synced_at set, is un-retired, and is
-# marked verified by the applying user. Entries that fail to save become
+# marked verified by the applying user, and the game keys (see ItemGameKey)
+# of items it found by name are recorded. Entries that fail to save become
 # blocked with the validation errors as problems.
 class RecipeImportApplier
 
@@ -40,6 +41,7 @@ class RecipeImportApplier
       now = Time.current
       recipe.update_columns(game_id: gr.game_id, game_synced_at: now, retired_at: nil)
       recipe.verify!(user)
+      record_keys(gr)
       entry.update_columns(status: RecipeImportEntry.statuses[:applied],
                            recipe_id: recipe.id, applied_at: now, updated_at: now)
       applied = true
@@ -53,6 +55,16 @@ class RecipeImportApplier
   end
 
   private
+
+  def record_keys(gr)
+    gr.lines.each do |line|
+      next unless line.key && !@lookup.id_for_key(line.key)
+      item_id = @lookup.id_for(line) or next
+      ItemGameKey.create!(key: line.key, item_id: item_id, name: line.name,
+                          stats: (line.stats.presence if gr.results.include?(line)))
+      @lookup.remember_key(line.key, item_id)
+    end
+  end
 
   def form_attributes(gr)
     {
