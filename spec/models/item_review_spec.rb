@@ -74,6 +74,22 @@ RSpec.describe ItemReview do
     expect(suggestions(row_for(archetype, filter: 'archetype'))).to eq [ 'group' ]
   end
 
+  it 'finds items active recipes use without a game key' do
+    keyed = create(:item, name: 'Wax')
+    keyed.game_keys.create!(key: item_key('wax'), name: 'Wax')
+    unused = create(:item, name: 'Unused')
+    group = create(:item, name: 'Metal Ingot', kind: :group)
+    create(:recipe, name: 'Board', with_ingredients: { keyed => 1, group => 1 }, with_results: { board => 1 })
+    create(:recipe, name: 'Gone', retired_at: Time.current, with_ingredients: { unused => 1 },
+                    with_results: { unused => 1 })
+
+    rows = ItemReview.new(filter: 'unkeyed').rows
+    expect(rows.map(&:item)).to eq [ board ]
+    expect(ItemReview.counts['unkeyed']).to eq 1
+    keyed.update!(name: 'Wax or Tallow')
+    expect(row_for(keyed, filter: 'suspect').game_keys).to eq 1
+  end
+
   it 'lists items created since imports began, and can hide those without issues' do
     old = create(:item, name: 'Old', created_at: 2.days.ago)
     RecipeImport.create!(filename: 'x', created_at: 1.day.ago)

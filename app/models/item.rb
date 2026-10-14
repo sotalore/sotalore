@@ -76,6 +76,8 @@ class Item < ApplicationRecord
 
   has_many :comments, as: :subject, dependent: :delete_all
   has_many :aliases, class_name: 'ItemAlias', inverse_of: :item, dependent: :delete_all
+  has_many :game_keys, -> { order(:key) }, class_name: 'ItemGameKey', inverse_of: :item,
+           dependent: :delete_all
   # TODO items shouldn't be deleteable if they are ingredients.
   has_many :ingredients, inverse_of: :item, dependent: :destroy
   has_many :recipe_uses, through: :ingredients, source: :recipe

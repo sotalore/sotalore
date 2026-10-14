@@ -15,15 +15,17 @@ class RecipeImport < ApplicationRecord
   # pasted (no filename, so it's labelled by the recipes in it). Raises
   # ArgumentError or JSON::ParserError on input that isn't a recipe export.
   def self.create_from_json!(json, filename: nil, user: nil)
-    api_version, full, game_recipes = GameRecipe.parse_export(json)
+    export = GameRecipe.parse_export(json)
+    game_recipes = export.recipes
     raise ArgumentError, 'No recipes found' if game_recipes.empty?
     if game_recipes.any? { _1.game_id.nil? }
       raise ArgumentError, 'Every recipe needs an "id"'
     end
     filename ||= pasted_label(game_recipes)
     transaction do
-      import = create!(filename: filename, api_version: api_version,
-                       full_export: full, uploaded_by: user)
+      import = create!(filename: filename, api_version: export.api_version,
+                       full_export: export.full?, uploaded_by: user,
+                       groups_payload: export.groups.map(&:payload))
       now = Time.current
       rows = game_recipes.uniq(&:game_id).map do |gr|
         {
@@ -90,6 +92,12 @@ class RecipeImport < ApplicationRecord
            .limit(limit)
   end
 
+  # The export's top-level groups (see GameGroup); none for older exports
+  # and pasted recipes.
+  def game_groups
+    @game_groups ||= groups_payload.map { GameGroup.new(_1) }
+  end
+
   def unresolved_item_names
     @unresolved_item_names ||= RecipeImportItemResolution.unresolved_names(self)
   end
@@ -103,6 +111,7 @@ class RecipeImport < ApplicationRecord
   def reset_analysis_caches
     @unresolved_item_names = nil
     @status_counts = nil
+    @game_groups = nil
     entries.reset
   end
 end

@@ -59,6 +59,7 @@ class Views::Adm::RecipeImports::Base < Views::Base
         tab('Recipes', adm_recipe_import_path(import), current == :recipes)
         tab("Unknown items (#{import.unresolved_item_names.size})", items_adm_recipe_import_path(import), current == :items)
         tab('Stale recipes', stale_adm_recipe_import_path(import), current == :stale)
+        tab('Game keys', game_keys_adm_recipe_import_path(import), current == :game_keys)
         tab('All imports', adm_recipe_imports_path, false)
       end
     end

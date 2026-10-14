@@ -55,13 +55,13 @@ class RecipeImportItemResolution
       gr = entry.game_recipe
       modified = gr.modified_names.map(&:downcase)
       gr.ingredients.each do |line|
-        next if lookup.known?(line.name)
+        next if lookup.known?(line)
         info = info_for.(line.name, entry)
         info[:ingredient] = true
         info[:tool] ||= line.tool?
       end
       gr.results.each do |line|
-        next if lookup.known?(line.name)
+        next if lookup.known?(line)
         info = info_for.(line.name, entry)
         if modified.include?(line.name.downcase)
           info[:modified] = true

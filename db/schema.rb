@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_03_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -106,6 +106,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_03_130000) do
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_item_aliases_on_item_id"
     t.index ["name"], name: "index_item_aliases_on_name", unique: true
+  end
+
+  create_table "item_game_keys", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "item_id", null: false
+    t.string "key", null: false
+    t.string "name", null: false
+    t.jsonb "stats"
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_item_game_keys_on_item_id"
+    t.index ["key"], name: "index_item_game_keys_on_key", unique: true
   end
 
   create_table "item_memberships", force: :cascade do |t|
@@ -208,6 +219,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_03_130000) do
     t.integer "entries_count", default: 0, null: false
     t.string "filename"
     t.boolean "full_export", default: false, null: false
+    t.jsonb "groups_payload", default: [], null: false
     t.datetime "updated_at", null: false
     t.integer "uploaded_by_id"
     t.index ["uploaded_by_id"], name: "index_recipe_imports_on_uploaded_by_id"
@@ -305,6 +317,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_03_130000) do
   add_foreign_key "ingredients", "items"
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "item_aliases", "items"
+  add_foreign_key "item_game_keys", "items"
   add_foreign_key "item_memberships", "items", column: "group_id", on_delete: :cascade
   add_foreign_key "item_memberships", "items", column: "member_id", on_delete: :cascade
   add_foreign_key "item_salvages", "items", column: "salvage_from_id"
