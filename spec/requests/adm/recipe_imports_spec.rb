@@ -329,6 +329,31 @@ RSpec.describe "Adm::RecipeImports", type: :request do
     end
   end
 
+  describe 'weights' do
+    let(:json) do
+      game_export_json(game_recipe_hash(name: 'Chair', id: 1, ingredients: { 'Wooden Board' => 2 },
+                                        keys: { 'Wooden Board' => item_key('board'), 'Chair' => item_key('chair') },
+                                        stats: { 'Chair' => [ { 'key' => 'weight', 'value' => 3.5 } ] }))
+    end
+
+    before { chair.game_keys.create!(key: item_key('chair'), name: 'Chair') }
+
+    it 'lists and fills missing weights' do
+      get weights_adm_recipe_import_path(import)
+      expect(response).to have_http_status(200)
+      expect(response.body).to include('Fill 1 missing weight', '3.5')
+
+      post set_weights_adm_recipe_import_path(import), params: { status: 'missing' }
+      expect(flash[:notice]).to eq 'Set 1 missing weight.'
+      expect(chair.reload.weight).to eq BigDecimal('3.5')
+    end
+
+    it 'refuses to set conflicting weights' do
+      post set_weights_adm_recipe_import_path(import), params: { status: 'conflict' }
+      expect(flash[:alert]).to include "Can't set conflict weights"
+    end
+  end
+
   it 'deletes an import' do
     import
     expect { delete adm_recipe_import_path(import) }.to change(RecipeImport, :count).by(-1)

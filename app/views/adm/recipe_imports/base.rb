@@ -61,6 +61,7 @@ class Views::Adm::RecipeImports::Base < Views::Base
         tab('Stale recipes', stale_adm_recipe_import_path(import), current == :stale)
         tab('Game keys', game_keys_adm_recipe_import_path(import), current == :game_keys)
         tab('Groups', groups_adm_recipe_import_path(import), current == :groups) if import.game_groups.any?
+        tab('Weights', weights_adm_recipe_import_path(import), current == :weights)
         tab('All imports', adm_recipe_imports_path, false)
       end
     end

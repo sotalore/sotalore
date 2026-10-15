@@ -31,6 +31,8 @@ Rails.application.routes.draw do
         get :groups
         post :add_group_members
         post :remove_group_members
+        get :weights
+        post :set_weights
       end
       resources :entries, only: [ :show ], controller: 'recipe_import_entries' do
         member do

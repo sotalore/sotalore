@@ -38,4 +38,12 @@ class RecipeImportPolicy < DefaultAdminPolicy
     update?
   end
 
+  def weights?
+    show?
+  end
+
+  def set_weights?
+    update?
+  end
+
 end
