@@ -175,6 +175,56 @@ RSpec.describe RecipeImport do
     end
   end
 
+  describe 'recipes without a fixed result' do
+    let!(:equipable) { create(:item, name: 'Crafted Carpentry Equipable', kind: :category) }
+    let!(:silver)    { create(:item, name: 'Silver Ingot') }
+    let!(:cask)      { create(:item, name: 'Beer Cask') }
+    let!(:ale)       { create(:item, name: 'Beer Cask (Ale)') }
+    let(:upgrade) do
+      game_recipe_hash(name: 'Masterwork Carpentry Upgrade', results: {},
+                       ingredients: { 'Crafted Carpentry Equipable' => 1, 'Silver Ingot' => 5 },
+                       keys: { 'Crafted Carpentry Equipable' => 'group:137' })
+    end
+    let(:ale_cask) { game_recipe_hash(name: 'Beer Cask (Ale)', results: {}, ingredients: { 'Beer Cask' => 1 }) }
+
+    before { equipable.game_keys.create!(key: 'group:137', name: 'Crafted Carpentry Equipable') }
+
+    it 'adds a modification of its first group slot' do
+      entry = entry_named(import_of(upgrade), 'Masterwork Carpentry Upgrade')
+      expect(entry).to be_addition
+      expect(RecipeImportApplier.new(user).apply(entry)).to be true
+      recipe = entry.reload.recipe
+      expect(recipe.kind).to eq 'modification'
+      expect(recipe.results.map { [ _1.name, _1.count ] }).to eq [ [ 'Crafted Carpentry Equipable', 1 ] ]
+    end
+
+    it 'fixes a site recipe that made itself, matching it by name whatever its kind' do
+      itself = create(:item, name: 'Masterwork Carpentry Upgrade')
+      recipe = create(:recipe, name: 'Masterwork Carpentry Upgrade', craft_skill: 'carpentry',
+                               with_ingredients: { equipable => 1, silver => 5 }, with_results: { itself => 1 })
+      entry = entry_named(import_of(upgrade), 'Masterwork Carpentry Upgrade')
+      expect([ entry.recipe, entry.status ]).to eq [ recipe, 'outdated' ]
+      expect(entry.diff['results']).to eq('added' => [ [ 'Crafted Carpentry Equipable', 1 ] ],
+                                          'removed' => [ [ 'Masterwork Carpentry Upgrade', 1 ] ])
+    end
+
+    it 'keeps the site results of a recipe with no result to take' do
+      recipe = create(:recipe, name: 'Beer Cask (Ale)', craft_skill: 'carpentry', proficiency: 5,
+                               with_ingredients: { cask => 1 }, with_results: { ale => 1 })
+      entry = entry_named(import_of(ale_cask.merge('requiredLevel' => 9)), 'Beer Cask (Ale)')
+      expect(entry).to be_outdated
+      expect(entry.diff.keys).to eq [ 'proficiency' ]
+      expect(RecipeImportApplier.new(user).apply(entry)).to be true
+      expect(recipe.reload.results.map(&:item)).to eq [ ale ]
+    end
+
+    it "can't add a recipe with no result to take" do
+      entry = entry_named(import_of(ale_cask), 'Beer Cask (Ale)')
+      expect(entry).to be_blocked
+      expect(entry.problems.join).to include 'The game gives no fixed result'
+    end
+  end
+
   describe 'applying' do
     let(:applier) { RecipeImportApplier.new(user) }
 

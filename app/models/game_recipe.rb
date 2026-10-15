@@ -97,11 +97,32 @@ class GameRecipe
     end
   end
 
+  # What the recipe makes. Recipes that change an item (Reshape, Masterwork,
+  # socketing, Enchantment) have no fixed result in the export; they give back
+  # what goes in their first group slot ("Crafted Carpentry Equipable"), so
+  # that's their result, which makes them modifications (see Recipe::KINDS).
+  # Other recipes without a fixed result (casks) have none.
   def results
-    @results ||= Array(payload['results']).map do |r|
-      Line.new(name: r['name'].to_s.strip, count: r['quantity'].to_i, key: r['key'].presence,
-               stats: Array(r['stats']))
-    end
+    @results ||=
+      if fixed_results?
+        Array(payload['results']).map do |r|
+          Line.new(name: r['name'].to_s.strip, count: r['quantity'].to_i, key: r['key'].presence,
+                   stats: Array(r['stats']))
+        end
+      elsif (target = modification_target)
+        [ target.with(tool: false) ]
+      else
+        []
+      end
+  end
+
+  def fixed_results?
+    Array(payload['results']).any?
+  end
+
+  # The group slot a recipe without a fixed result changes, if any.
+  def modification_target
+    ingredients.find(&:group?) unless fixed_results?
   end
 
   def lines

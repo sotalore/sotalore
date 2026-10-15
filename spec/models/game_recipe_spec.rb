@@ -41,6 +41,23 @@ RSpec.describe GameRecipe do
     expect(gr.lines.map(&:name)).to eq [ 'Wooden Board', 'Wax', 'Accordion' ]
   end
 
+  it 'gives a recipe without a fixed result its first group slot as its result' do
+    gr = GameRecipe.new(game_recipe_hash(
+      name: 'Masterwork Carpentry Upgrade', results: {},
+      ingredients: { 'Silver Ingot' => 5, 'Crafted Carpentry Equipable' => 1, 'Pattern' => 1 },
+      keys: { 'Crafted Carpentry Equipable' => 'group:137', 'Pattern' => 'group:9' }))
+    expect(gr).not_to be_fixed_results
+    expect(gr.modification_target.key).to eq 'group:137'
+    expect(gr.results.map { [ _1.name, _1.count, _1.key, _1.group? ] })
+      .to eq [ [ 'Crafted Carpentry Equipable', 1, 'group:137', true ] ]
+    expect(gr).to be_modification
+  end
+
+  it 'has no result for a recipe without a fixed result or a group slot' do
+    gr = GameRecipe.new(game_recipe_hash(name: 'Beer Cask (Ale)', results: {}, ingredients: { 'Beer Cask' => 1 }))
+    expect([ gr.results, gr.modification_target, gr.modification? ]).to eq [ [], nil, false ]
+  end
+
   it 'reads lines without keys from older exports' do
     expect(subject.lines.map(&:key)).to all(be_nil)
   end

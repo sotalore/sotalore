@@ -66,14 +66,16 @@ class RecipeImportApplier
     end
   end
 
+  # A recipe the export gives no fixed result to (a cask) keeps its results.
   def form_attributes(gr)
-    {
+    attributes = {
       name: gr.name,
       craft_skill: gr.craft_skill.to_param,
       proficiency: gr.proficiency,
       ingredients_attributes: lines_attributes(gr.ingredients),
-      results_attributes: lines_attributes(gr.results),
     }
+    attributes[:results_attributes] = lines_attributes(gr.results) if gr.results.any?
+    attributes
   end
 
   def lines_attributes(lines)
