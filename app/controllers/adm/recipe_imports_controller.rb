@@ -5,6 +5,8 @@ class Adm::RecipeImportsController < AdmController
   # Applying runs RecipeForm per recipe, so cap each request to stay well
   # inside the host's request timeout. Linking unchanged recipes is cheap.
   BULK_LIMITS = { 'unchanged' => 500, 'outdated' => 100, 'addition' => 100 }.freeze
+  # Each weight set records a revision too.
+  WEIGHT_LIMIT = 400
 
   def index
     authorize(RecipeImport)
@@ -183,6 +185,27 @@ class Adm::RecipeImportsController < AdmController
                                 "#{sync.row(params[:key]).item.name}."
   rescue ArgumentError, ActiveRecord::RecordNotFound => e
     redirect_back_or_to groups_adm_recipe_import_path(@import), alert: e.message
+  end
+
+  def weights
+    @import = find_import
+    authorize(@import)
+    page_title "#{@import}: Weights"
+    render Views::Adm::RecipeImports::Weights.new(import: @import,
+                                                  weights: GameWeights.new(@import, Current.user))
+  end
+
+  def set_weights
+    @import = find_import
+    authorize(@import)
+    status = params.require(:status)
+    set = GameWeights.new(@import, Current.user).set!(status, limit: WEIGHT_LIMIT)
+    remaining = GameWeights.new(@import, Current.user).counts[status]
+    message = "Set #{set} #{status} #{'weight'.pluralize(set)}."
+    message << " #{remaining} remaining; set again to continue." if remaining.positive?
+    redirect_to weights_adm_recipe_import_path(@import), notice: message
+  rescue ArgumentError, ActiveRecord::RecordInvalid => e
+    redirect_to weights_adm_recipe_import_path(@import), alert: e.message
   end
 
   private

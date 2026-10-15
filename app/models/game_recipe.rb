@@ -129,6 +129,23 @@ class GameRecipe
     ingredients + results
   end
 
+  # { item key => weight } for every item the recipe mentions, group slot
+  # choices included. A weight is per item, whatever the quantity.
+  def item_weights
+    rows = Array(payload['results']).map { [ _1['key'], _1['stats'] ] }
+    Array(payload['ingredients']).each do |i|
+      if i['group']
+        Array(i['choices']).each { rows << [ _1['key'], _1['stats'] ] }
+      else
+        rows << [ i['key'], i['stats'] ]
+      end
+    end
+    rows.each_with_object({}) do |(key, stats), weights|
+      weight = Array(stats).find { _1['key'] == 'weight' }&.dig('value')
+      weights[key] = weight if key && weight
+    end
+  end
+
   def item_names
     lines.map(&:name).uniq
   end
