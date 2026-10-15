@@ -125,8 +125,14 @@ class RecipeImportAnalyzer
     recipe unless @claimed.include?(recipe&.id)
   end
 
+  # A recipe the export gives no fixed result to matches by name whatever
+  # the site recipe's kind (except templates): the site may have it as making
+  # itself, from before the export said what it modifies.
   def match_by_name(gr)
-    candidates = Array(@recipes_by_name[gr.name.downcase]).select { claimable?(_1, gr) }
+    candidates = Array(@recipes_by_name[gr.name.downcase]).select do |r|
+      claimable?(r, gr) ||
+        (!gr.fixed_results? && r.game_id.nil? && !@claimed.include?(r.id) && @kinds[r.id] != 'template')
+    end
     key = recipe_key_for(gr)
     identical = candidates.find { |r| key && r.recipe_key == key }
     return identical if identical
@@ -186,7 +192,10 @@ class RecipeImportAnalyzer
     unless gr.craft_skill
       problems << "Game category #{gr.category_key.inspect} isn't a site craft skill"
     end
-    problems << 'Has no results' if gr.results.empty?
+    if gr.results.empty? && recipe.nil?
+      problems << "The game gives no fixed result, so it can't be added from the export; " \
+                  'add it on the site with its result, then re-analyze'
+    end
     problems << 'Has no ingredients' if gr.ingredients.empty?
 
     unknown = gr.lines.reject { @lookup.known?(_1) }.map(&:name).uniq
@@ -230,8 +239,11 @@ class RecipeImportAnalyzer
 
     ingredients = line_diff(recipe.ingredients, gr.ingredients)
     diff['ingredients'] = ingredients if ingredients.any?
-    results = line_diff(recipe.results, gr.results)
-    diff['results'] = results if results.any?
+    # A recipe without a fixed result keeps the site's results.
+    if gr.results.any?
+      results = line_diff(recipe.results, gr.results)
+      diff['results'] = results if results.any?
+    end
     diff
   end
 
