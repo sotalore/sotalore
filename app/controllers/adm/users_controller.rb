@@ -20,7 +20,13 @@ class Adm::UsersController < AdmController
   def update
     @user = User.find(params[:id])
     authorize(@user)
-    if @user.update(user_params)
+    attributes = user_params
+    if attributes.key?(:roles)
+      attributes[:roles] = attributes[:roles].compact_blank & User::ROLES
+      # Don't let an admin lock themselves out.
+      attributes[:roles] |= [ 'root' ] if @user == Current.user
+    end
+    if @user.update(attributes)
       redirect_to adm_users_path, notice: 'User was successfully updated.'
     else
       render Views::Adm::Users::Edit.new(user: @user), status: :unprocessable_content
@@ -30,7 +36,7 @@ class Adm::UsersController < AdmController
   protected
 
   def user_params
-    params.require(:user).permit(:name, :email, :disabled)
+    params.require(:user).permit(:name, :email, :disabled, roles: [])
   end
 
   # Treat NULL as the smallest possible value (e.g. a user who has never made a request),

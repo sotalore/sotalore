@@ -21,6 +21,12 @@ RSpec.describe "Authentication::Sessions", type: :request do
       expect(response.body).to include('Welcome back!')
     end
 
+    it "won't sign in a disabled user" do
+      user.update!(disabled: true)
+      post user_session_path, params: { user: { email: user.email, password: 'password' } }
+      expect(response).to have_http_status(:unprocessable_content)
+    end
+
     context 'Given wrong credentials' do
       it 'does not sign-in the user' do
         post user_session_path, params: { user: { email: user.email, password: 'wrong' } }
@@ -56,6 +62,12 @@ RSpec.describe "Authentication::Sessions", type: :request do
         post user_session_path, params: { user: { email: user.email, password: 'password' } }
         expect(response).to redirect_to(root_path)
       end
+    end
+
+    it 'is signed out once disabled' do
+      user.update!(disabled: true)
+      get new_user_session_path
+      expect(response).to have_http_status(:success)
     end
   end
 end

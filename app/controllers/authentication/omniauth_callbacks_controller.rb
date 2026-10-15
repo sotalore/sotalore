@@ -9,7 +9,10 @@ class Authentication::OmniauthCallbacksController < AuthenticationController
     provider = params[:provider]
     provider_name = t("auth.providers.#{provider}")
 
-    if user.present?
+    if user&.disabled?
+      flash[:alert] = t 'auth.oauth.failure', kind: provider_name, reason: "That account is disabled."
+      redirect_to new_user_session_path
+    elsif user.present?
       sign_in_user user
       flash[:success] = t 'auth.oauth.success', kind: provider_name
       redirect_to after_sign_in_path

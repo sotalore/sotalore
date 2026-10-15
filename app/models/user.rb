@@ -19,10 +19,19 @@ class User < ApplicationRecord
   has_many :user_recipes, dependent: :delete_all, inverse_of: :user
   has_many :recipes, through: :user_recipes
   has_many :plantings, inverse_of: :user, dependent: :delete_all
+  has_many :api_tokens, -> { newest_first }, dependent: :delete_all, inverse_of: :user
 
+  # root      - runs the site: the admin pages, users, imports
+  # editor    - edits game data: items, recipes, groups
+  # moderator - looks after comments
   ROLES = %w[ root editor moderator ]
 
+  # AI accounts have this domain; nobody receives mail there.
+  AI_EMAIL_DOMAIN = 'ai.sotalore.invalid'
+
   scope :confirmed, -> { where.not(confirmed_at: nil) }
+  scope :ai_accounts, -> { where(bot: true) }
+  scope :people, -> { where(bot: false) }
 
   before_validation :nilify_blanks
 
@@ -31,6 +40,7 @@ class User < ApplicationRecord
   validates :name, uniqueness: { ignore_case: true }
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validate  :ai_accounts_have_no_password
 
   def self.from_discord(email:, name:, uid:)
     user = find_by(uid: uid, provider: 'discord')
@@ -52,6 +62,19 @@ class User < ApplicationRecord
     user
   end
 
+
+  # An account through which AI uses the site (see ApiToken). It has no
+  # password and can't sign in to the site; an admin issues it tokens.
+  def self.create_ai_account!(name:)
+    create!(name: name, bot: true, confirmed_at: Time.current,
+            email: "#{name.parameterize.presence || 'ai'}-#{SecureRandom.hex(4)}@#{AI_EMAIL_DOMAIN}")
+  end
+
+  # Whether the account may sign in to the site itself (as opposed to an AI
+  # account using tokens).
+  def can_sign_in?
+    !bot? && !disabled?
+  end
 
   def has_role?(role)
     # root has all the roles
@@ -109,6 +132,7 @@ class User < ApplicationRecord
   end
 
   def password_required?
+    return false if bot?
     password_digest.present? || password.present? || uid.blank?
   end
 
@@ -116,5 +140,9 @@ class User < ApplicationRecord
   def nilify_blanks
     self.roles = [] if roles.nil?
     self.roles = self.roles.select(&:present?)
+  end
+
+  def ai_accounts_have_no_password
+    errors.add(:password, "can't be set on an AI account") if bot? && password_digest.present?
   end
 end
