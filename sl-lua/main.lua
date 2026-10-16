@@ -1,5 +1,5 @@
 local ScriptName = "SotaLore"
-local Version = "0.3.0"
+local Version = "0.4.0"
 local CreatorName = "Gravidy"
 local Description = "Recipe browser and data export for the SotaLore fansite."
 
@@ -267,6 +267,16 @@ local function writeFile(name, body)
     return path
 end
 
+-- The API documents weight and value as "one item", but a bag item's numbers are for its whole
+-- stack (seen: Animal Hide 31 at 12.4 where a recipe says 0.4 each). Divide by the stack size.
+local function perItem(it, field)
+    local v = it[field]
+    local q = it.quantity
+    if type(v) ~= "number" then return nil end
+    if type(q) ~= "number" or q < 1 then return v end
+    return math.floor(v / q * 10000 + 0.5) / 10000
+end
+
 local function exportItems()
     local bags = ShroudGetInventoryItems()
     if not bags then
@@ -282,7 +292,7 @@ local function exportItems()
         for _, it in ipairs(list or {}) do
             if it.key then
                 if not catalog[it.key] then added = added + 1 end
-                catalog[it.key] = { name = it.name, weight = it.weight, value = it.value }
+                catalog[it.key] = { name = it.name, weight = perItem(it, "weight"), value = perItem(it, "value") }
             else
                 skipped = skipped + 1
             end
@@ -319,12 +329,17 @@ end
 -- locked items you already had, moving items between bags, equipping, logging in or changing
 -- scenes. Each gain is credited to the scene you are in. Gains while the crafting window is
 -- open are ignored (crafting results are not finds).
+--
+-- Creatures: the API cannot list what is in a scene, so a creature is recorded when it shows
+-- up in your combat lines (you or your pet hit it, or it hit you or your pet). Only creatures
+-- you actually fight are seen. PvP scenes are skipped because the opponents are players.
 
-local finds = {}          -- scene name -> { raw, items = { id -> { name, key, quantity, times, weight, value } } }
+local finds = {}          -- scene name -> { raw, info, items = { id -> {...} }, creatures = { name -> {...} } }
 local findsDirty, lastSave = false, 0
 local tracking = true
-local clearAfter = true   -- clear the totals after a successful finds export
-local trackToggle, clearToggle, findsLabel
+local findsWin, trackToggle, resetButton, sceneLabel, itemsLabel, creaturesLabel, scenesLabel
+local seenKeys = {}       -- creature keys already counted on this visit to the scene
+local resetArmedUntil = nil
 
 local function saveFinds(force)
     if not findsDirty then return end
@@ -334,22 +349,67 @@ local function saveFinds(force)
     lastSave = ShroudTime
 end
 
-local function updateFindsLabel()
-    if not findsLabel then return end
-    local scenes, kinds = 0, 0
+local function updateFindsWindow()
+    if not findsWin then return end
+    local scenes, kinds, qty, creatures = 0, 0, 0, 0
+    local itemIds, creatureNames = {}, {}
     for _, s in pairs(finds) do
         scenes = scenes + 1
-        for _ in pairs(s.items) do kinds = kinds + 1 end
+        for id, e in pairs(s.items or {}) do
+            if not itemIds[id] then itemIds[id] = true; kinds = kinds + 1 end
+            qty = qty + (e.quantity or 0)
+        end
+        for name in pairs(s.creatures or {}) do
+            if not creatureNames[name] then creatureNames[name] = true; creatures = creatures + 1 end
+        end
     end
-    findsLabel:SetText("Finds: " .. kinds .. " item kinds in " .. scenes .. " scenes")
+    local scene = ShroudGetSceneInfo()
+    local here = (scene and scene.loaded and scene.name ~= "") and scene.name or "(no scene)"
+    sceneLabel:SetText(clip(here, 30))
+    itemsLabel:SetText("Items: " .. kinds .. " distinct (" .. qty .. " total)")
+    creaturesLabel:SetText("Creatures: " .. creatures .. " distinct")
+    scenesLabel:SetText("Scenes in list: " .. scenes)
 end
 
 local function loadFinds()
     local t = ShroudGetSavedVar("finds", "account")
     finds = type(t) == "table" and t or {}
     tracking = ShroudGetSavedVar("track", "account") ~= false
-    clearAfter = ShroudGetSavedVar("clearAfter", "account") ~= false
     findsDirty, lastSave = false, 0
+end
+
+local function resetFinds()
+    finds = {}
+    seenKeys = {}
+    findsDirty = true
+    saveFinds(true)
+    updateFindsWindow()
+end
+
+-- The scene's entry in the find list, created on first use; scene details are refreshed each
+-- time (a scene's caps can change with the game).
+local function sceneEntry(scene)
+    local s = finds[scene.name]
+    if not s then
+        s = { raw = scene.rawName, items = {}, creatures = {} }
+        finds[scene.name] = s
+    end
+    s.items = s.items or {}
+    s.creatures = s.creatures or {}
+    s.info = {
+        isOverworld = scene.isOverworld and true or false,
+        isDungeon = scene.isDungeon and true or false,
+        isBasement = scene.isBasement and true or false,
+        isSiege = scene.isSiege and true or false,
+        isBattleground = scene.isBattleground and true or false,
+        isPvp = scene.isPvp and true or false,
+        isPot = scene.isPot and true or false,
+        maxPlayers = scene.maxPlayers,
+        levelCap = scene.levelCap,
+        skillCap = scene.skillCap,
+        craftingSkillCap = scene.craftingSkillCap,
+    }
+    return s
 end
 
 -- The gain callback gives name, quantity and icon but no key; take the key from the bag.
@@ -371,11 +431,7 @@ local function recordFinds(items)
     if crafting and crafting.open then return end
 
     local bag = ShroudGetInventoryItems() or {}
-    local s = finds[scene.name]
-    if not s then
-        s = { raw = scene.rawName, items = {} }
-        finds[scene.name] = s
-    end
+    local s = sceneEntry(scene)
     for _, g in ipairs(items or {}) do
         local match = matchInventory(bag, g)
         local id = (match and match.key) or ("name:" .. g.name)
@@ -387,11 +443,71 @@ local function recordFinds(items)
         e.quantity = e.quantity + g.quantity
         e.times = e.times + 1
         if match then
-            e.key, e.weight, e.value = match.key, match.weight, match.value
+            e.key, e.weight, e.value = match.key, perItem(match, "weight"), perItem(match, "value")
         end
     end
     findsDirty = true
-    updateFindsLabel()
+    updateFindsWindow()
+end
+
+-- Combat lines that show an opponent. Heals, falls and anything without a name are left out.
+local FIGHT = {
+    hit = true, critical = true, glancing = true, block = true, parry = true,
+    dodge = true, noDamage = true, outOfReach = true, death = true,
+}
+
+-- Level of the creature you are targeting, when Animal Lore lets the game print it.
+local function targetLevel(name)
+    if not ShroudHasTarget() or ShroudGetTargetName() ~= name then return nil end
+    local lvl = ShroudGetTargetStatValueByName("AdventurerLevel")
+    if type(lvl) == "number" and lvl > 0 then return lvl end
+    return nil
+end
+
+local function recordCreatures(events)
+    local scene = ShroudGetSceneInfo()
+    if not scene or not scene.loaded or scene.name == "" then return end
+    if scene.isPvp or scene.isBattleground then return end
+
+    local me = ShroudGetPlayerName()
+    local changed = false
+    for _, e in ipairs(events or {}) do
+        if FIGHT[e.kind] then
+            local name, key
+            if e.fromYou or e.fromYourPet then
+                name, key = e.target, e.targetKey
+            elseif e.toYou or e.toYourPet then
+                name, key = e.source, e.sourceKey
+            end
+            if name and name ~= "" and name ~= me and key and key ~= 0 then
+                local s = finds[scene.name]
+                local c = s and s.creatures and s.creatures[name]
+                if not seenKeys[key] then
+                    seenKeys[key] = true
+                    s = sceneEntry(scene)
+                    c = s.creatures[name]
+                    if not c then
+                        c = { seen = 0 }
+                        s.creatures[name] = c
+                    end
+                    c.seen = c.seen + 1
+                    changed = true
+                end
+                if c then
+                    local lvl = targetLevel(name)
+                    if lvl then
+                        c.levelMin = math.min(c.levelMin or lvl, lvl)
+                        c.levelMax = math.max(c.levelMax or lvl, lvl)
+                        changed = true
+                    end
+                end
+            end
+        end
+    end
+    if changed then
+        findsDirty = true
+        updateFindsWindow()
+    end
 end
 
 local function exportFinds()
@@ -408,7 +524,7 @@ local function exportFinds()
     for _, n in ipairs(names) do
         local s = finds[n]
         local list = {}
-        for _, e in pairs(s.items) do list[#list + 1] = e end
+        for _, e in pairs(s.items or {}) do list[#list + 1] = e end
         table.sort(list, function(a, b) return a.name:lower() < b.name:lower() end)
         local parts = {}
         for _, e in ipairs(list) do
@@ -417,8 +533,30 @@ local function exportFinds()
                 .. ',"quantity":' .. jnum(e.quantity) .. ',"times":' .. jnum(e.times)
                 .. ',"weight":' .. jnum(e.weight) .. ',"value":' .. jnum(e.value) .. '}'
         end
+
+        local clist = {}
+        for cname, c in pairs(s.creatures or {}) do clist[#clist + 1] = { name = cname, c = c } end
+        table.sort(clist, function(a, b) return a.name:lower() < b.name:lower() end)
+        local cparts = {}
+        for _, cc in ipairs(clist) do
+            cparts[#cparts + 1] = '{"name":' .. jstr(cc.name) .. ',"seen":' .. jnum(cc.c.seen)
+                .. ',"levelMin":' .. jnum(cc.c.levelMin) .. ',"levelMax":' .. jnum(cc.c.levelMax) .. '}'
+        end
+
+        local i = s.info
+        local info = 'null'
+        if i then
+            info = '{"isOverworld":' .. tostring(i.isOverworld) .. ',"isDungeon":' .. tostring(i.isDungeon)
+                .. ',"isBasement":' .. tostring(i.isBasement) .. ',"isSiege":' .. tostring(i.isSiege)
+                .. ',"isBattleground":' .. tostring(i.isBattleground) .. ',"isPvp":' .. tostring(i.isPvp)
+                .. ',"isPot":' .. tostring(i.isPot) .. ',"maxPlayers":' .. jnum(i.maxPlayers)
+                .. ',"levelCap":' .. jnum(i.levelCap) .. ',"skillCap":' .. jnum(i.skillCap)
+                .. ',"craftingSkillCap":' .. jnum(i.craftingSkillCap) .. '}'
+        end
         scenes[#scenes + 1] = '{"scene":' .. jstr(n) .. ',"rawName":' .. jstr(s.raw or "")
-            .. ',"items":[' .. table.concat(parts, ',') .. ']}'
+            .. ',"info":' .. info
+            .. ',"items":[' .. table.concat(parts, ',') .. ']'
+            .. ',"creatures":[' .. table.concat(cparts, ',') .. ']}'
     end
     local body = '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
         .. ',"scenes":[\n' .. table.concat(scenes, ",\n") .. '\n]}\n'
@@ -428,15 +566,59 @@ local function exportFinds()
         ShroudConsoleLog("Finds export failed: " .. tostring(err))
         return
     end
-    local cleared = ""
-    if clearAfter then
-        finds = {}
-        findsDirty = true
-        saveFinds(true)
-        updateFindsLabel()
-        cleared = "; totals cleared"
+    ShroudConsoleLog("Saved finds for " .. #names .. " scenes to " .. path .. " (type /lua path to open the folder)")
+end
+
+-- Reset needs a second click within a few seconds, so a stray click on a window left up
+-- during play cannot throw the list away.
+local function onResetClick()
+    if resetArmedUntil and ShroudTime < resetArmedUntil then
+        resetArmedUntil = nil
+        resetButton:SetText("Reset")
+        resetFinds()
+        ShroudConsoleLog("Find list reset.")
+    else
+        resetArmedUntil = ShroudTime + 4
+        resetButton:SetText("Click again")
     end
-    ShroudConsoleLog("Exported finds for " .. #names .. " scenes to " .. path .. cleared .. " (type /lua path to open the folder)")
+end
+
+local function buildFindsWindow()
+    sceneLabel = UI.Label{ text = "", class = "heading" }
+    itemsLabel = UI.Label{ text = "" }
+    creaturesLabel = UI.Label{ text = "" }
+    scenesLabel = UI.Label{ text = "", class = "dim" }
+    trackToggle = UI.Toggle{
+        text = "Tracking",
+        value = tracking,
+        tooltip = "Turn off while banking or shopping: those gains look like loot",
+        onChange = function(_, on)
+            tracking = on and true or false
+            ShroudSetSavedVar("track", tracking, "account")
+        end,
+    }
+    resetButton = UI.Button{ text = "Reset", tooltip = "Clear the find list (click twice)", onClick = onResetClick }
+    findsWin = UI.Window{
+        id = "sotalorefinds",
+        title = "SotaLore Finds",
+        width = 230, height = 200,
+        x = 20, y = 540,
+        children = {
+            sceneLabel,
+            itemsLabel,
+            creaturesLabel,
+            scenesLabel,
+            trackToggle,
+            UI.Row{ children = {
+                UI.Button{ text = "Save", tooltip = "Write " .. FINDS_FILE .. " (keeps the list)", onClick = exportFinds },
+                resetButton,
+            } },
+        },
+    }
+end
+
+local function toggleFindsWindow()
+    if findsWin:IsShown() then findsWin:Hide() else findsWin:Show() end
 end
 
 -- Detail window ----------------------------------------------------------
@@ -599,23 +781,6 @@ local function buildList()
         end,
     }
     countLabel = UI.Label{ text = "", class = "dim" }
-    findsLabel = UI.Label{ text = "", class = "dim" }
-    trackToggle = UI.Toggle{
-        text = "Track items gained per scene",
-        value = tracking,
-        onChange = function(_, on)
-            tracking = on and true or false
-            ShroudSetSavedVar("track", tracking, "account")
-        end,
-    }
-    clearToggle = UI.Toggle{
-        text = "Clear finds after exporting them",
-        value = clearAfter,
-        onChange = function(_, on)
-            clearAfter = on and true or false
-            ShroudSetSavedVar("clearAfter", clearAfter, "account")
-        end,
-    }
 
     exportButton = UI.Button{ text = "Export new", tooltip = "Write only recipes not exported before", onClick = function() startExport("new") end }
     exportAllButton = UI.Button{ text = "Export all", tooltip = "Write every known recipe", onClick = function() startExport("all") end }
@@ -646,9 +811,9 @@ local function buildList()
             UI.Row{ children = { exportButton, exportAllButton } },
             UI.Row{ children = {
                 UI.Button{
-                    text = "Export finds",
-                    tooltip = "Write items gained per scene to " .. FINDS_FILE,
-                    onClick = exportFinds,
+                    text = "Finds window",
+                    tooltip = "Show or hide the small window that tracks items and creatures per scene",
+                    onClick = toggleFindsWindow,
                 },
                 UI.Button{
                     text = "Export my items",
@@ -656,9 +821,6 @@ local function buildList()
                     onClick = exportItems,
                 },
             } },
-            trackToggle,
-            clearToggle,
-            findsLabel,
             scroll,
         },
     }
@@ -672,12 +834,11 @@ local function toggleList(args)
     elseif args == "items" then
         exportItems()
     elseif args == "finds" then
+        toggleFindsWindow()
+    elseif args == "savefinds" then
         exportFinds()
     elseif args == "clearfinds" then
-        finds = {}
-        findsDirty = true
-        saveFinds(true)
-        updateFindsLabel()
+        resetFinds()
         ShroudConsoleLog("Cleared all recorded finds.")
     elseif args == "baseline" then
         startExport("baseline")
@@ -700,14 +861,16 @@ function ShroudOnStart()
     search, category = "", ALL
 
     loadFinds()
+    seenKeys, resetArmedUntil = {}, nil
     buildList()
+    buildFindsWindow()
     loadRecipes()
-    updateFindsLabel()
+    updateFindsWindow()
 
     -- /sotalore is refused ("sota" is a reserved prefix), so the command is /slore.
     local ok, reason = Shroud.Command{
         name = "slore",
-        help = "Open SotaLore. /slore <text> searches; export, exportall, items, finds, clearfinds.",
+        help = "Open SotaLore. /slore <text> searches; export, exportall, items, finds (window), savefinds, clearfinds.",
         run = toggleList,
     }
     if not ok then
@@ -719,11 +882,24 @@ end
 
 function ShroudOnUpdate()
     if exportState then stepExport() end
+    if resetArmedUntil and ShroudTime >= resetArmedUntil then
+        resetArmedUntil = nil
+        resetButton:SetText("Reset")
+    end
     saveFinds(false)
 end
 
 function ShroudOnItemsGained(items)
-    if tracking and findsLabel then recordFinds(items) end
+    if tracking and findsWin then recordFinds(items) end
+end
+
+function ShroudOnCombatEvents(events)
+    if tracking and findsWin then recordCreatures(events) end
+end
+
+function ShroudOnSceneLoaded()
+    seenKeys = {}
+    if findsWin then updateFindsWindow() end
 end
 
 function ShroudOnLogOut()
