@@ -20,6 +20,12 @@ Rails.application.routes.draw do
   namespace :adm do
     resources :users, except: [ :show, :new, :create, :destroy ]
     resources :ai_accounts, only: [ :create ]
+    resources :proposals, only: [ :index ] do
+      member do
+        post :accept
+        post :reject
+      end
+    end
     resources :api_tokens, only: [ :index, :create ] do
       member do
         post :revoke
@@ -166,6 +172,12 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       resource :me, only: [ :show ], controller: 'me'
+      resources :proposal_changes, only: [ :index ]
+      resources :proposals, only: [ :index, :show, :create ] do
+        member do
+          post :withdraw
+        end
+      end
     end
   end
 end

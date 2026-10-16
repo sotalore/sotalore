@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_15_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_15_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -208,6 +208,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_15_120000) do
     t.index ["parent_type", "parent_id"], name: "index_posts_on_parent_type_and_parent_id"
   end
 
+  create_table "proposals", force: :cascade do |t|
+    t.bigint "api_token_id"
+    t.integer "author_id", null: false
+    t.jsonb "before", default: {}, null: false
+    t.string "change", null: false
+    t.datetime "created_at", null: false
+    t.text "error"
+    t.text "evidence"
+    t.jsonb "params", default: {}, null: false
+    t.text "reason", null: false
+    t.text "review_note"
+    t.datetime "reviewed_at"
+    t.integer "reviewed_by_id"
+    t.integer "status", limit: 2, default: 0, null: false
+    t.integer "subject_id"
+    t.string "subject_type"
+    t.datetime "updated_at", null: false
+    t.index ["api_token_id"], name: "index_proposals_on_api_token_id"
+    t.index ["author_id"], name: "index_proposals_on_author_id"
+    t.index ["reviewed_by_id"], name: "index_proposals_on_reviewed_by_id"
+    t.index ["status", "created_at"], name: "index_proposals_on_status_and_created_at"
+    t.index ["subject_type", "subject_id"], name: "index_proposals_on_subject"
+  end
+
   create_table "recipe_import_entries", force: :cascade do |t|
     t.datetime "applied_at"
     t.datetime "created_at", null: false
@@ -344,6 +368,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_15_120000) do
   add_foreign_key "items", "users", column: "last_verified_by_id"
   add_foreign_key "plantings", "users"
   add_foreign_key "posts", "users", column: "author_id"
+  add_foreign_key "proposals", "api_tokens"
+  add_foreign_key "proposals", "users", column: "author_id"
+  add_foreign_key "proposals", "users", column: "reviewed_by_id"
   add_foreign_key "recipe_import_entries", "recipe_imports"
   add_foreign_key "recipe_import_entries", "recipes", on_delete: :nullify
   add_foreign_key "recipe_imports", "users", column: "uploaded_by_id"
