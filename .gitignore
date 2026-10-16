@@ -40,3 +40,4 @@ coverage/
 /.claude/settings.local.json
 
 sl-recipes-*.json
+!/data/plugin-examples/*.json

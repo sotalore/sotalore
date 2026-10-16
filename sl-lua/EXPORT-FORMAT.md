@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.2.0)
+# SotaLore plugin export format (plugin v0.3.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -67,11 +67,13 @@ overworld tiles are not split out). `quantity` = total units gained, `times` = n
 gain events. `key` is `null` when the item could not be matched to a top-level bag item (for example it
 went straight into a nested container); such items are identified by name only. `weight`/`value` come
 from the matching bag item.
+
 ## File shape
 
 ```json
 {
-  "apiVersion": 38,
+  "apiVersion": 40,
+  "scope": "all",
   "count": 1142,
   "recipes": [ { ...recipe... }, ... ],
   "groups":  [ { ...group... }, ... ]
@@ -79,6 +81,18 @@ from the matching bag item.
 ```
 
 `apiVersion` is the game's Lua API version when the file was written. `count` = number of recipes.
+
+`scope` says what the file holds (added in plugin v0.3.0; files from earlier versions have no `scope`,
+so treat a missing one as unknown):
+
+| `scope` | Written by | Meaning |
+|---------|-----------|---------|
+| `"all"` | "Export all" / `/slore exportall` | every recipe the character knows. Only this scope is a full export, the only kind that can show a recipe is gone from the game. |
+| `"new"` | "Export new" / `/slore export` | only recipes not exported before. Never a full export, even if it happens to hold everything. |
+| `"one"` | "Save this recipe to file" | exactly one recipe (`sl-recipes-one.json`). |
+
+A recipe book can differ between characters, so even an `"all"` file only covers what that one character
+knows; the uploader still decides whether to treat it as the whole game.
 
 ### Recipe
 

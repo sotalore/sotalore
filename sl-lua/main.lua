@@ -1,5 +1,5 @@
 local ScriptName = "SotaLore"
-local Version = "0.2.0"
+local Version = "0.3.0"
 local CreatorName = "Gravidy"
 local Description = "Recipe browser and data export for the SotaLore fansite."
 
@@ -179,6 +179,7 @@ local function finishExport()
     local root = ShroudLuaPath:gsub("[/\\]+$", "")
     local path = root .. "/" .. st.file
     local body = '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
+        .. ',"scope":' .. jstr(st.scope)
         .. ',"count":' .. #st.parts
         .. ',"recipes":[\n' .. table.concat(st.parts, ",\n") .. '\n]'
         .. ',"groups":' .. jgroups(st.groups) .. '}\n'
@@ -200,7 +201,7 @@ end
 local function startExport(mode, only)
     if exportState then return end
     if only then
-        exportState = { list = { only }, i = 1, parts = {}, ids = {}, groups = {}, file = ONE_FILE }
+        exportState = { list = { only }, i = 1, parts = {}, ids = {}, groups = {}, file = ONE_FILE, scope = "one" }
         return
     end
     local known = ShroudGetKnownRecipes() or {}
@@ -222,7 +223,7 @@ local function startExport(mode, only)
         return
     end
     table.sort(list, function(a, b) return a.id < b.id end)
-    exportState = { list = list, i = 1, parts = {}, ids = {}, groups = {}, file = EXPORT_FILE }
+    exportState = { list = list, i = 1, parts = {}, ids = {}, groups = {}, file = EXPORT_FILE, scope = mode }
 end
 
 local function stepExport()
