@@ -1,7 +1,7 @@
 {
   "manifest_version": 1,
   "slug": "sl-recipes",
-  "name": "SL Recipes",
+  "name": "SotaLore",
   "version": "0.2.0",
   "description": "Searchable list of your known recipes, with a detail window per recipe.",
   "author": "Darren",

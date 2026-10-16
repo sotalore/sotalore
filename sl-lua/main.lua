@@ -1,7 +1,7 @@
-local ScriptName = "SL Recipes"
+local ScriptName = "SotaLore"
 local Version = "0.2.0"
 local CreatorName = "Gravidy"
-local Description = "Searchable list of known recipes with a detail window per recipe."
+local Description = "Recipe browser and data export for the SotaLore fansite."
 
 local UI = Shroud.UI
 
@@ -253,10 +253,22 @@ end
 -- time. Only fields of the item kind are kept (no durability, crafter, etc.).
 
 local ITEMS_FILE = "sl-recipes-items.json"
+local FINDS_FILE = "sl-recipes-finds.json"
+
+-- Writes a file into the Lua folder. Returns the path, or nil and the error.
+local function writeFile(name, body)
+    local root = ShroudLuaPath:gsub("[/\\]+$", "")
+    local path = root .. "/" .. name
+    local f, err = io.open(path, "w")
+    if not f then return nil, err end
+    f:write(body)
+    f:close()
+    return path
+end
 
 local function exportItems()
-    local bags, worn = ShroudGetInventoryItems(), ShroudGetEquipmentItems()
-    if not bags and not worn then
+    local bags = ShroudGetInventoryItems()
+    if not bags then
         ShroudConsoleLog("Items are not loaded yet.")
         return
     end
@@ -276,7 +288,6 @@ local function exportItems()
         end
     end
     take(bags)
-    take(worn)
     ShroudSetSavedVar("items", catalog, "account")
 
     local keys = {}
@@ -291,18 +302,140 @@ local function exportItems()
     local body = '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
         .. ',"count":' .. #keys .. ',"items":[\n' .. table.concat(parts, ",\n") .. '\n]}\n'
 
-    local root = ShroudLuaPath:gsub("[/\\]+$", "")
-    local path = root .. "/" .. ITEMS_FILE
-    local f, err = io.open(path, "w")
-    if not f then
+    local path, err = writeFile(ITEMS_FILE, body)
+    if not path then
         ShroudConsoleLog("Item export failed: " .. tostring(err))
         return
     end
-    f:write(body)
-    f:close()
     ShroudConsoleLog("Items: " .. added .. " new, " .. #keys .. " total in " .. path
         .. (skipped > 0 and (" (" .. skipped .. " without a key skipped)") or "")
         .. " (type /lua path to open the folder)")
+end
+
+-- Finds per scene -------------------------------------------------------
+-- ShroudOnItemsGained is the game's "Recently Looted" rule: loot, purchases, crafting and
+-- harvest results, mail, trades, and items taken out of a bank or chest. It does NOT fire for
+-- locked items you already had, moving items between bags, equipping, logging in or changing
+-- scenes. Each gain is credited to the scene you are in. Gains while the crafting window is
+-- open are ignored (crafting results are not finds).
+
+local finds = {}          -- scene name -> { raw, items = { id -> { name, key, quantity, times, weight, value } } }
+local findsDirty, lastSave = false, 0
+local tracking = true
+local clearAfter = true   -- clear the totals after a successful finds export
+local trackToggle, clearToggle, findsLabel
+
+local function saveFinds(force)
+    if not findsDirty then return end
+    if not force and ShroudTime - lastSave < 5 then return end
+    ShroudSetSavedVar("finds", finds, "account")
+    findsDirty = false
+    lastSave = ShroudTime
+end
+
+local function updateFindsLabel()
+    if not findsLabel then return end
+    local scenes, kinds = 0, 0
+    for _, s in pairs(finds) do
+        scenes = scenes + 1
+        for _ in pairs(s.items) do kinds = kinds + 1 end
+    end
+    findsLabel:SetText("Finds: " .. kinds .. " item kinds in " .. scenes .. " scenes")
+end
+
+local function loadFinds()
+    local t = ShroudGetSavedVar("finds", "account")
+    finds = type(t) == "table" and t or {}
+    tracking = ShroudGetSavedVar("track", "account") ~= false
+    clearAfter = ShroudGetSavedVar("clearAfter", "account") ~= false
+    findsDirty, lastSave = false, 0
+end
+
+-- The gain callback gives name, quantity and icon but no key; take the key from the bag.
+local function matchInventory(bag, gained)
+    local byName
+    for _, it in ipairs(bag) do
+        if it.name == gained.name then
+            if gained.icon == nil or it.icon == gained.icon then return it end
+            byName = byName or it
+        end
+    end
+    return byName
+end
+
+local function recordFinds(items)
+    local scene = ShroudGetSceneInfo()
+    if not scene or not scene.loaded or scene.name == "" then return end
+    local crafting = ShroudGetCraftingState()
+    if crafting and crafting.open then return end
+
+    local bag = ShroudGetInventoryItems() or {}
+    local s = finds[scene.name]
+    if not s then
+        s = { raw = scene.rawName, items = {} }
+        finds[scene.name] = s
+    end
+    for _, g in ipairs(items or {}) do
+        local match = matchInventory(bag, g)
+        local id = (match and match.key) or ("name:" .. g.name)
+        local e = s.items[id]
+        if not e then
+            e = { name = g.name, quantity = 0, times = 0 }
+            s.items[id] = e
+        end
+        e.quantity = e.quantity + g.quantity
+        e.times = e.times + 1
+        if match then
+            e.key, e.weight, e.value = match.key, match.weight, match.value
+        end
+    end
+    findsDirty = true
+    updateFindsLabel()
+end
+
+local function exportFinds()
+    saveFinds(true)
+    local names = {}
+    for n in pairs(finds) do names[#names + 1] = n end
+    table.sort(names)
+    if #names == 0 then
+        ShroudConsoleLog("No finds recorded yet.")
+        return
+    end
+
+    local scenes = {}
+    for _, n in ipairs(names) do
+        local s = finds[n]
+        local list = {}
+        for _, e in pairs(s.items) do list[#list + 1] = e end
+        table.sort(list, function(a, b) return a.name:lower() < b.name:lower() end)
+        local parts = {}
+        for _, e in ipairs(list) do
+            parts[#parts + 1] = '{"key":' .. (e.key and jstr(e.key) or 'null')
+                .. ',"name":' .. jstr(e.name)
+                .. ',"quantity":' .. jnum(e.quantity) .. ',"times":' .. jnum(e.times)
+                .. ',"weight":' .. jnum(e.weight) .. ',"value":' .. jnum(e.value) .. '}'
+        end
+        scenes[#scenes + 1] = '{"scene":' .. jstr(n) .. ',"rawName":' .. jstr(s.raw or "")
+            .. ',"items":[' .. table.concat(parts, ',') .. ']}'
+    end
+    local body = '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
+        .. ',"scenes":[\n' .. table.concat(scenes, ",\n") .. '\n]}\n'
+
+    local path, err = writeFile(FINDS_FILE, body)
+    if not path then
+        ShroudConsoleLog("Finds export failed: " .. tostring(err))
+        return
+    end
+    local cleared = ""
+    if clearAfter then
+        finds = {}
+        findsDirty = true
+        saveFinds(true)
+        updateFindsLabel()
+        cleared = "; totals cleared"
+    end
+    ShroudConsoleLog("Exported finds for " .. #names .. " scenes to " .. path .. cleared .. " (type /lua path to open the folder)")
 end
 
 -- Detail window ----------------------------------------------------------
@@ -465,6 +598,23 @@ local function buildList()
         end,
     }
     countLabel = UI.Label{ text = "", class = "dim" }
+    findsLabel = UI.Label{ text = "", class = "dim" }
+    trackToggle = UI.Toggle{
+        text = "Track items gained per scene",
+        value = tracking,
+        onChange = function(_, on)
+            tracking = on and true or false
+            ShroudSetSavedVar("track", tracking, "account")
+        end,
+    }
+    clearToggle = UI.Toggle{
+        text = "Clear finds after exporting them",
+        value = clearAfter,
+        onChange = function(_, on)
+            clearAfter = on and true or false
+            ShroudSetSavedVar("clearAfter", clearAfter, "account")
+        end,
+    }
 
     exportButton = UI.Button{ text = "Export new", tooltip = "Write only recipes not exported before", onClick = function() startExport("new") end }
     exportAllButton = UI.Button{ text = "Export all", tooltip = "Write every known recipe", onClick = function() startExport("all") end }
@@ -485,7 +635,7 @@ local function buildList()
 
     listWin = UI.Window{
         id = "recipelist",
-        title = "Known Recipes",
+        title = "SotaLore: Known Recipes",
         width = 340, height = 480,
         x = 20, y = 80,
         escCloses = true,
@@ -493,11 +643,21 @@ local function buildList()
             UI.Row{ children = { searchField, catDrop } },
             countLabel,
             UI.Row{ children = { exportButton, exportAllButton } },
-            UI.Button{
-                text = "Export my items",
-                tooltip = "Add bag and worn items (key, name, weight, value) to " .. ITEMS_FILE,
-                onClick = exportItems,
-            },
+            UI.Row{ children = {
+                UI.Button{
+                    text = "Export finds",
+                    tooltip = "Write items gained per scene to " .. FINDS_FILE,
+                    onClick = exportFinds,
+                },
+                UI.Button{
+                    text = "Export my items",
+                    tooltip = "Add bag items (key, name, weight, value) to " .. ITEMS_FILE,
+                    onClick = exportItems,
+                },
+            } },
+            trackToggle,
+            clearToggle,
+            findsLabel,
             scroll,
         },
     }
@@ -510,6 +670,14 @@ local function toggleList(args)
         startExport("all")
     elseif args == "items" then
         exportItems()
+    elseif args == "finds" then
+        exportFinds()
+    elseif args == "clearfinds" then
+        finds = {}
+        findsDirty = true
+        saveFinds(true)
+        updateFindsLabel()
+        ShroudConsoleLog("Cleared all recorded finds.")
     elseif args == "baseline" then
         startExport("baseline")
     elseif args and args ~= "" then
@@ -530,28 +698,39 @@ function ShroudOnStart()
     rows, details, detailOrder, exportState = {}, {}, {}, nil
     search, category = "", ALL
 
+    loadFinds()
     buildList()
     loadRecipes()
+    updateFindsLabel()
 
+    -- /sotalore is refused ("sota" is a reserved prefix), so the command is /slore.
     local ok, reason = Shroud.Command{
-        name = "recipes",
-        help = "Open the recipe browser. /recipes <text> searches.",
+        name = "slore",
+        help = "Open SotaLore. /slore <text> searches; export, exportall, items, finds, clearfinds.",
         run = toggleList,
     }
     if not ok then
-        ShroudConsoleLog("/recipes unavailable (" .. tostring(reason) .. "), using /slrecipes")
-        Shroud.Command{
-            name = "slrecipes",
-            help = "Open the recipe browser. /slrecipes <text> searches.",
-            run = toggleList,
-        }
+        ShroudConsoleLog("/slore unavailable (" .. tostring(reason) .. ")")
     end
 
-    Shroud.Keybind{ id = "toggle", label = "SL Recipes: toggle list", onPress = function() toggleList("") end }
+    Shroud.Keybind{ id = "toggle", label = "SotaLore: toggle list", onPress = function() toggleList("") end }
 end
 
 function ShroudOnUpdate()
     if exportState then stepExport() end
+    saveFinds(false)
+end
+
+function ShroudOnItemsGained(items)
+    if tracking and findsLabel then recordFinds(items) end
+end
+
+function ShroudOnLogOut()
+    saveFinds(true)
+end
+
+function ShroudOnDisableScript()
+    saveFinds(true)
 end
 
 -- Change callbacks can fire before ShroudOnStart has built the windows.

@@ -1,21 +1,24 @@
-# SL Recipes export format (plugin v0.2.0)
+# SotaLore plugin export format (plugin v0.2.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
-*Shroud of the Avatar*. The data comes from an in-game Lua addon (`sl-recipes`, in this folder).
+*Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
 Lua API docs: https://catnipgames.net/lua/reference.html (needs Lua API 37+).
 
 ## What produces the files
+
+The slash command is `/slore` (`/sotalore` is refused by the game: "sota" is a reserved prefix).
+
 
 The addon writes JSON files into the game's `Lua/` folder (Lua cannot POST, has no clipboard):
 
 | File | Written by | Contents |
 |------|-----------|----------|
-| `sl-recipes-export.json` | "Export new" / "Export all" buttons, `/recipes export`, `/recipes exportall` | many recipes |
+| `sl-recipes-export.json` | "Export new" / "Export all" buttons, `/slore export`, `/slore exportall` | many recipes |
 | `sl-recipes-one.json` | "Save this recipe to file" in a recipe window | one recipe |
 
 Both files have the same shape. Each export overwrites the previous file of that name.
 "Export new" sends only recipes not exported before (remembered per account); "Export all" sends
-every recipe the character knows. `/recipes baseline` marks everything as already exported.
+every recipe the character knows. `/slore baseline` marks everything as already exported.
 
 ## Hard limits of the source (the API cannot do these)
 
@@ -27,20 +30,43 @@ every recipe the character knows. `/recipes baseline` marks everything as alread
 
 ### Item catalog file
 
-`sl-recipes-items.json` (button "Export my items", or `/recipes items`) lists items found in the
-character's top-level bags and worn gear (not nested containers, bank or chests). It accumulates
+`sl-recipes-items.json` (button "Export my items", or `/slore items`) lists items found in the
+character's top-level bags (not worn gear, nested containers, bank or chests). It accumulates
 across presses and characters (stored account-wide) and is rewritten in full each time:
 
 ```json
-{ "apiVersion": 38, "count": 2, "items": [
+{ "apiVersion": 40, "count": 2, "items": [
   {"key": "item:...", "name": "Wax", "weight": 0.05, "value": 1}, ... ] }
 ```
 
 `key` is the same item key used in recipes (join on it). `weight` is for one item; `value` is the
 game's gold value for one item (not verified to be the same as the fansite `price`). Items with no
-key are skipped. This is the only way to learn keys of items that are not recipe ingredients or
-results. Not yet verified against a real file.
+key are skipped. The API has no "locked" flag on items, so locked items cannot be excluded here.
+Not yet verified against a real file.
 
+### Finds file (items gained per scene)
+
+`sl-recipes-finds.json` (button "Export finds", or `/slore finds`). The addon listens to the game's
+`ShroudOnItemsGained` callback (the backpack's "Recently Looted" rule) and credits every gain to the
+scene the character is in. It counts: loot from bodies and chests, purchases, harvests, mail taken,
+accepted trades, and items taken out of a bank, a lot chest or a crafting station. It does NOT count:
+locked/other items already owned, moving items between bags, equipping, logging in, changing scenes.
+Gains while the crafting window is open are ignored. Data accumulates account-wide across sessions
+and characters until cleared. By default "Export finds" clears the totals after a successful write (toggle "Clear finds after exporting them" in the list window to keep them); `/slore clearfinds` clears on demand. A toggle in the list window pauses tracking (useful while
+banking or shopping, which the API cannot tell apart from loot).
+
+```json
+{ "apiVersion": 40, "scenes": [
+  { "scene": "Scene Name", "rawName": "InternalSceneName",
+    "items": [ {"key": "item:..." , "name": "Wax", "quantity": 12, "times": 4,
+                "weight": 0.05, "value": 1} ] } ] }
+```
+
+`scene`/`rawName` are the game's display and internal scene names (as `ShroudGetSceneInfo` gives them;
+overworld tiles are not split out). `quantity` = total units gained, `times` = number of separate
+gain events. `key` is `null` when the item could not be matched to a top-level bag item (for example it
+went straight into a nested container); such items are identified by name only. `weight`/`value` come
+from the matching bag item.
 ## File shape
 
 ```json
