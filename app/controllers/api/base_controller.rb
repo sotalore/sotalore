@@ -7,6 +7,7 @@
 class Api::BaseController < ActionController::API
   include ActionController::HttpAuthentication::Token::ControllerMethods
   include Pundit::Authorization
+  include Api::JsonRepresentations
 
   before_action :authenticate_token!
   after_action :verify_authorized

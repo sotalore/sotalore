@@ -173,6 +173,15 @@ Rails.application.routes.draw do
     namespace :v1 do
       resource :me, only: [ :show ], controller: 'me'
       resources :proposal_changes, only: [ :index ]
+      resources :items, only: [ :index, :show ]
+      resources :recipes, only: [ :index, :show ]
+      resources :recipe_imports, only: [ :index, :show ] do
+        member do
+          get :entries
+          get :stale
+        end
+      end
+      resources :item_reviews, only: [ :index ]
       resources :proposals, only: [ :index, :show, :create ] do
         member do
           post :withdraw

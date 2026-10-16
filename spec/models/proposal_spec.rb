@@ -86,6 +86,28 @@ RSpec.describe Proposal do
     end
   end
 
+  describe 'recipes' do
+    let!(:recipe) { create(:recipe, name: 'Old Chair', with_ingredients: { wax => 1 }, with_results: { iron => 1 }) }
+
+    it 'retires and brings back recipes, recording revisions' do
+      proposal = Proposal.create(author: ai, change: 'recipe.retire', subject: recipe, reason: 'Not in the export')
+      expect(proposal).to have_attributes(persisted?: true, summary: 'Retire Old Chair', before: { 'retired' => false })
+      expect(proposal.accept!(reviewer)).to be true
+      expect(recipe.reload).to be_retired
+      expect(recipe.comments.revision.sole).to have_attributes(author: reviewer)
+      expect(recipe.comments.revision.sole.revision_changes).to eq('retired' => %w[ no yes ])
+
+      expect(Proposal.create(author: ai, change: 'recipe.retire', subject: recipe, reason: 'x').errors.full_messages.join)
+        .to include 'already retired'
+      Proposal.create!(author: ai, change: 'recipe.unretire', subject: recipe, reason: 'Back in game').accept!(reviewer)
+      expect(recipe.reload).not_to be_retired
+    end
+
+    it "won't retire an item" do
+      expect(Proposal.create(author: ai, change: 'recipe.retire', subject: wax, reason: 'x').errors[:subject]).to be_present
+    end
+  end
+
   describe 'policy' do
     let(:editor) { create(:user, :editor) }
 

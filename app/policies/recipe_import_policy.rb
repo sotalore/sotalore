@@ -1,6 +1,16 @@
 # frozen-string-literal: true
 
+# Root manages imports; AI accounts can look at them (through the read-only
+# API) to find what needs cleaning up.
 class RecipeImportPolicy < DefaultAdminPolicy
+
+  def index?
+    super || user.bot?
+  end
+
+  def show?
+    super || user.bot?
+  end
 
   def analyze?
     update?
