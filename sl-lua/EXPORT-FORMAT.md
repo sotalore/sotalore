@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.3.0)
+# SotaLore plugin export format (plugin v0.4.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -44,30 +44,64 @@ game's gold value for one item (not verified to be the same as the fansite `pric
 key are skipped. The API has no "locked" flag on items, so locked items cannot be excluded here.
 Not yet verified against a real file.
 
-### Finds file (items gained per scene)
+### Finds file (items and creatures per scene)
 
-`sl-recipes-finds.json` (button "Export finds", or `/slore finds`). The addon listens to the game's
-`ShroudOnItemsGained` callback (the backpack's "Recently Looted" rule) and credits every gain to the
-scene the character is in. It counts: loot from bodies and chests, purchases, harvests, mail taken,
-accepted trades, and items taken out of a bank, a lot chest or a crafting station. It does NOT count:
-locked/other items already owned, moving items between bags, equipping, logging in, changing scenes.
-Gains while the crafting window is open are ignored. Data accumulates account-wide across sessions
-and characters until cleared. By default "Export finds" clears the totals after a successful write (toggle "Clear finds after exporting them" in the list window to keep them); `/slore clearfinds` clears on demand. A toggle in the list window pauses tracking (useful while
-banking or shopping, which the API cannot tell apart from loot).
+`sl-recipes-finds.json`, written by the **Save** button of the "SotaLore Finds" window (open it with the
+list window's "Finds window" button or `/slore finds`; `/slore savefinds` also saves). The small window
+is meant to stay up during play: it shows the current scene, how many distinct items and creatures are on
+the list, and has **Save** (writes the file, keeps the list), **Reset** (clears the list; needs a second
+click within 4 seconds) and a **Tracking** toggle (turn it off while banking or shopping, which the API
+cannot tell apart from loot). The list accumulates account-wide across sessions and characters until
+reset (`/slore clearfinds` resets without the confirmation click). Save never clears; Reset is separate.
+
+**Items.** The addon listens to the game's `ShroudOnItemsGained` callback (the backpack's "Recently
+Looted" rule) and credits every gain to the scene the character is in. It counts: loot from bodies and
+chests, purchases, harvests, mail taken, accepted trades, and items taken out of a bank, a lot chest or a
+crafting station. It does NOT count: locked/other items already owned, moving items between bags,
+equipping, logging in, changing scenes. Gains while the crafting window is open are ignored.
+
+**Creatures.** The API cannot list what is in a scene, so the addon records the creatures the player
+fights: from the combat lines (`ShroudOnCombatEvents`), the opponent in any hit, miss, block, parry,
+dodge or death line that involves you or your pet (the target when you or your pet act, the source when
+you or your pet are hit). Only creatures that actually fight you show up: nothing that is just standing
+nearby, and nothing the player only talks to. Heals and falls are ignored. PvP scenes and battlegrounds
+are skipped entirely, since the opponents are players. A creature is counted once per individual per
+visit to a scene (using the combat line's per-scene creature key, which the API does not expose as an id).
 
 ```json
 { "apiVersion": 40, "scenes": [
   { "scene": "Scene Name", "rawName": "InternalSceneName",
+    "info": { "isOverworld": false, "isDungeon": true, "isBasement": false, "isSiege": false,
+              "isBattleground": false, "isPvp": false, "isPot": false, "maxPlayers": 8,
+              "levelCap": 0, "skillCap": 0, "craftingSkillCap": 0 },
     "items": [ {"key": "item:..." , "name": "Wax", "quantity": 12, "times": 4,
-                "weight": 0.05, "value": 1} ] } ] }
+                "weight": 0.05, "value": 1} ],
+    "creatures": [ {"name": "Wolf", "seen": 7, "levelMin": 4, "levelMax": 6} ] } ] }
 ```
 
 `scene`/`rawName` are the game's display and internal scene names (as `ShroudGetSceneInfo` gives them;
-overworld tiles are not split out). `quantity` = total units gained, `times` = number of separate
-gain events. `key` is `null` when the item could not be matched to a top-level bag item (for example it
-went straight into a nested container); such items are identified by name only. `weight`/`value` come
-from the matching bag item.
+overworld tiles are not split out). `info` is the scene's details from `ShroudGetSceneInfo`: the kind
+flags (`isOverworld`, `isDungeon`, `isBasement`, `isSiege`, `isBattleground`, `isPvp`, `isPot`),
+`maxPlayers`, and the caps (`levelCap`, `skillCap`, `craftingSkillCap`; the example values above are
+placeholders, a scene with no cap probably reads 0 or -1, not yet verified). It is the scene's details as
+last seen when something was recorded there, so it is `null` only for finds recorded before this was
+added. Not in the API, so not exported: scene type (town, mine, control point...), region, tier, parent
+map, and a player dungeon's owner or name (the owner is a player, so it is deliberately left out).
 
+Items: `quantity` = total units gained, `times` = number of separate gain events. `key` is `null` when the
+item could not be matched to a top-level bag item (for example it went straight into a nested container);
+such items are identified by name only. `weight`/`value` come from the matching bag item and are
+**per item**. The API says so but actually reports the numbers for the whole stack (a stack of 31 Animal
+Hide read 12.4 where the recipe stats say 0.4 each), so the plugin divides by the stack size and rounds to 4
+decimals. This correction is in plugin 0.4.0; finds or catalogs saved by earlier versions hold stack totals
+for weight and value, so reset the list and treat older files as wrong for those two fields. Prefer the
+recipe stat-row `weight` where an item has one.
+
+Creatures: `name` is the name the combat line prints (creatures of one name are merged; the API gives
+no creature type or id). `seen` = individuals fought, summed over visits. `levelMin`/`levelMax` are the
+creature's level when it was the player's current target and the game's Animal Lore rule lets the level
+be read; otherwise `null`. A scene with only creatures has an empty `items` list and the reverse. Not
+yet verified against a real file, including whether creature names match the site's.
 ## File shape
 
 ```json
@@ -82,7 +116,7 @@ from the matching bag item.
 
 `apiVersion` is the game's Lua API version when the file was written. `count` = number of recipes.
 
-`scope` says what the file holds (added in plugin v0.3.0; files from earlier versions have no `scope`,
+`scope` says what the file holds (added in plugin v0.4.0; files from earlier versions have no `scope`,
 so treat a missing one as unknown):
 
 | `scope` | Written by | Meaning |
