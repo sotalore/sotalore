@@ -12,6 +12,7 @@ module AuthenticationSupport
   end
 
   def sign_in_user(user)
+    raise ArgumentError, "#{user.name} can't sign in" unless user.can_sign_in?
     Current.user = user
     user.update!(
       last_sign_in_ip: Current.ip_address,
@@ -65,8 +66,10 @@ module AuthenticationSupport
     Current.user.touch(:last_request_at)
   end
 
+  # Disabled and AI accounts can't be signed in, even with an old cookie.
   def find_current_user
-    User.find_by(id: cookies.signed[:current_user_id])
+    user = User.find_by(id: cookies.signed[:current_user_id])
+    user if user&.can_sign_in?
   end
 
 end

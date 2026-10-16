@@ -19,6 +19,12 @@ Rails.application.routes.draw do
 
   namespace :adm do
     resources :users, except: [ :show, :new, :create, :destroy ]
+    resources :ai_accounts, only: [ :create ]
+    resources :api_tokens, only: [ :index, :create ] do
+      member do
+        post :revoke
+      end
+    end
     resources :recipe_imports, only: [ :index, :show, :create, :destroy ] do
       member do
         post :analyze
@@ -156,4 +162,10 @@ Rails.application.routes.draw do
     resources :recipes, only: [ :index, :show ]
   end
 
+
+  namespace :api do
+    namespace :v1 do
+      resource :me, only: [ :show ], controller: 'me'
+    end
+  end
 end

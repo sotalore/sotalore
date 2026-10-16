@@ -15,7 +15,7 @@ class Authentication::PasswordResetsController < AuthenticationController
 
   def create
     email = params[:user][:email] if params[:user]
-    user = User.find_by(email: email)
+    user = User.people.find_by(email: email)
     if user
       UserMailer.password_reset(user).deliver_now
       redirect_to action: :show
@@ -49,6 +49,7 @@ class Authentication::PasswordResetsController < AuthenticationController
 
   def find_user_for_update
     @user = User.find_by_token_for(:password_reset, params[:token])
+    @user = nil unless @user&.can_sign_in?
     if @user.blank?
       flash[:alert] = "The password reset token you provided is invalid."
       redirect_to new_user_password_reset_path

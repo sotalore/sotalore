@@ -6,16 +6,20 @@ module Views::Comments::FlairHelper
 
   ROLE_COLORS = {
     'root' => 'bg-purple-500',
-    'editor' => 'bg-orange-500'
+    'editor' => 'bg-orange-500',
+    'ai' => 'bg-teal-600',
   }.freeze
 
   ROLE_NAMES = {
     'root' => 'developer',
     'editor' => 'editor',
+    'ai' => 'AI',
   }.freeze
 
   def user_flair_tag(user)
-    if user.has_role?('root')
+    if user.respond_to?(:bot?) && user.bot?
+      role = 'ai'
+    elsif user.has_role?('root')
       role = 'root'
     elsif user.has_role?('editor')
       role = 'editor'

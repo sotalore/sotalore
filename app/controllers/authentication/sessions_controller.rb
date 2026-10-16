@@ -12,6 +12,7 @@ class Authentication::SessionsController < AuthenticationController
   def create
     email, password = sign_in_params.values_at(:email, :password)
     @user = User.authenticate_by(email: email, password: password)
+    @user = nil unless @user&.can_sign_in?
     if @user && @user.confirmed?
       sign_in_user(@user)
       redirect_to after_sign_in_path, notice: "Welcome back!"

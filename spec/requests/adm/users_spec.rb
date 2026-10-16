@@ -77,6 +77,24 @@ RSpec.describe "Adm::Users", type: :request do
       expect(other_user.disabled?).to eq(true)
     end
 
+    it 'sets roles, ignoring unknown ones' do
+      patch adm_user_path(other_user), params: { user: { roles: [ '', 'editor', 'wizard' ] } }
+      expect(other_user.reload.roles).to eq [ 'editor' ]
+      patch adm_user_path(other_user), params: { user: { roles: [ '' ] } }
+      expect(other_user.reload.roles).to eq []
+    end
+
+    it "won't let an admin drop their own root role" do
+      patch adm_user_path(user), params: { user: { roles: [ '', 'editor' ] } }
+      expect(user.reload.roles).to contain_exactly('editor', 'root')
+    end
+
+    it 'shows roles but no secrets when editing' do
+      get edit_adm_user_path(other_user)
+      expect(response.body).to include('moderator', 'edits game data')
+      expect(response.body).not_to include('encrypted_password')
+    end
+
     it 'handle bad input properly' do
       patch adm_user_path(other_user), params: { user: { email: '' }}
       expect(response).to have_http_status(:unprocessable_content)

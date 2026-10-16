@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_15_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -53,6 +53,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
     t.bigint "blob_id", null: false
     t.string "variation_digest", null: false
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
+
+  create_table "api_tokens", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "created_by_id", null: false
+    t.datetime "expires_at"
+    t.datetime "last_used_at"
+    t.string "name", null: false
+    t.datetime "revoked_at"
+    t.string "scopes", default: [], null: false, array: true
+    t.string "token_digest", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["created_by_id"], name: "index_api_tokens_on_created_by_id"
+    t.index ["token_digest"], name: "index_api_tokens_on_token_digest", unique: true
+    t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
   create_table "avatars", force: :cascade do |t|
@@ -282,6 +298,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
+    t.boolean "bot", default: false, null: false
     t.datetime "confirmation_sent_at", precision: nil
     t.string "confirmation_token"
     t.datetime "confirmed_at", precision: nil
@@ -311,6 +328,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_14_120000) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "api_tokens", "users"
+  add_foreign_key "api_tokens", "users", column: "created_by_id"
   add_foreign_key "avatars", "users"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "earned_skills", "avatars"
