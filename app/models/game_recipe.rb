@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # A read-only view over one recipe from the in-game recipe export plugin
-# (see docs/EXPORT-FORMAT.md), e.g.
+# (see sl-lua/EXPORT-FORMAT.md), e.g.
 #
 #   {"id":741803257,"name":"Accordion","category":"Carpentry",
 #    "categoryKey":"Crafting_Carpentry","requiredLevel":40,"refine":false,
