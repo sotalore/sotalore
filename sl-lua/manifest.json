@@ -2,7 +2,7 @@
   "manifest_version": 1,
   "slug": "sl-recipes",
   "name": "SotaLore",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Searchable list of your known recipes, with a detail window per recipe.",
   "author": "Darren",
   "files": ["main.lua"],
