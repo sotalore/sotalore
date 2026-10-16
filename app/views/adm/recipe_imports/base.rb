@@ -54,6 +54,7 @@ class Views::Adm::RecipeImports::Base < Views::Base
           plain ' · uploaded '
           time_ago_tag import.created_at
         end
+        full_export_toggle(import)
       end
       nav(class: 'mt-2 flex flex-row flex-wrap gap-x-1 border-b border-grey-300 dark:border-grey-600') do
         tab('Recipes', adm_recipe_import_path(import), current == :recipes)
@@ -64,6 +65,16 @@ class Views::Adm::RecipeImports::Base < Views::Base
         tab('Weights', weights_adm_recipe_import_path(import), current == :weights)
         tab('All imports', adm_recipe_imports_path, false)
       end
+    end
+  end
+
+  def full_export_toggle(import)
+    if import.full_export?
+      post_button('Mark as partial', set_full_export_adm_recipe_import_path(import), params: { full_export: '0' })
+    elsif import.entries_count > 1
+      post_button('Mark as full export', set_full_export_adm_recipe_import_path(import), style: 'warning',
+                  params: { full_export: '1' },
+                  confirm: 'Only for an "Export all" file: recipes it lacks become candidates to retire. Mark as full?')
     end
   end
 

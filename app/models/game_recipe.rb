@@ -25,16 +25,19 @@ class GameRecipe
     def group? = group
   end
 
-  # A full export: its recipes and top-level groups (see GameGroup).
-  Export = Data.define(:api_version, :full, :recipes, :groups) do
-    def full? = full
+  # An export file: its recipes and top-level groups (see GameGroup). +list+
+  # is whether it has a "recipes" list, which every export file does, whether
+  # it holds every recipe ("Export all"), only new ones ("Export new") or one;
+  # only the uploader can say it's full.
+  Export = Data.define(:api_version, :list, :recipes, :groups) do
+    def list? = list
   end
 
   CATEGORY_PREFIX = 'Crafting_'
 
   attr_reader :payload
 
-  # Accepts either a full export ({"recipes": [...], "groups": [...]}) or a
+  # Accepts either an export file ({"recipes": [...], "groups": [...]}) or a
   # single recipe object, as a JSON string or already-parsed Hash. Returns an
   # Export.
   def self.parse_export(json)

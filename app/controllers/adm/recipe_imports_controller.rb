@@ -26,8 +26,8 @@ class Adm::RecipeImportsController < AdmController
       return
     end
 
-    import = RecipeImport.create_from_json!(json, filename: file&.original_filename,
-                                            user: Current.user)
+    import = RecipeImport.create_from_json!(json, filename: file&.original_filename, user: Current.user,
+                                            full_export: file.present? && params[:full_export] == '1')
     if import.entries_count == 1
       entry = import.entries.first
       redirect_to adm_recipe_import_entry_path(import, entry),
@@ -113,12 +113,33 @@ class Adm::RecipeImportsController < AdmController
                                                 retired: @retired)
   end
 
+  # Marks an import as a full export ("Export all") or not.
+  def set_full_export
+    @import = find_import
+    authorize(@import)
+    full = params[:full_export] == '1'
+    if full && @import.entries_count < 2
+      redirect_back_or_to adm_recipe_import_path(@import), alert: 'A single recipe is never a full export.'
+      return
+    end
+    @import.update!(full_export: full)
+    redirect_back_or_to adm_recipe_import_path(@import),
+                        notice: "#{@import} is now marked as #{full ? 'a full' : 'a partial'} export."
+  end
+
   def retire_stale
     @import = find_import
     authorize(@import, :apply?)
     unless @import.full_export?
       redirect_to stale_adm_recipe_import_path(@import),
                   alert: 'Only a full export can tell which recipes are gone.'
+      return
+    end
+    if @import.implausibly_stale?
+      redirect_to stale_adm_recipe_import_path(@import),
+                  alert: 'That would retire more than ' \
+                         "#{(RecipeImport::STALE_LIMIT * 100).round}% of the site's recipes; " \
+                         'check this is really a full export.'
       return
     end
     count = @import.stale_recipes.update_all(retired_at: Time.current)

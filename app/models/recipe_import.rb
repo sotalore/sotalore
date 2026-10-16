@@ -11,10 +11,21 @@ class RecipeImport < ApplicationRecord
   scope :newest_first, -> { order(created_at: :desc, id: :desc) }
   scope :full, -> { where(full_export: true) }
 
+  # A full export whose stale recipes are more than this share of the site's
+  # (and more than a handful) is almost certainly not full, and retiring them
+  # all is refused.
+  STALE_LIMIT = 0.3
+  STALE_MINIMUM = 20
+
   # Builds (and saves) an import from export JSON, uploaded as a file or
   # pasted (no filename, so it's labelled by the recipes in it). Raises
   # ArgumentError or JSON::ParserError on input that isn't a recipe export.
-  def self.create_from_json!(json, filename: nil, user: nil)
+  #
+  # Whether it's a full export ("Export all": every recipe a character knows,
+  # so recipes it lacks may be gone from the game) is the uploader's to say:
+  # the file looks the same for "Export new" and a single recipe. A single
+  # recipe is never full.
+  def self.create_from_json!(json, filename: nil, user: nil, full_export: false)
     export = GameRecipe.parse_export(json)
     game_recipes = export.recipes
     raise ArgumentError, 'No recipes found' if game_recipes.empty?
@@ -24,7 +35,8 @@ class RecipeImport < ApplicationRecord
     filename ||= pasted_label(game_recipes)
     transaction do
       import = create!(filename: filename, api_version: export.api_version,
-                       full_export: export.full?, uploaded_by: user,
+                       full_export: full_export && export.list? && game_recipes.size > 1,
+                       uploaded_by: user,
                        groups_payload: export.groups.map(&:payload))
       now = Time.current
       rows = game_recipes.uniq(&:game_id).map do |gr|
@@ -96,6 +108,13 @@ class RecipeImport < ApplicationRecord
   # and pasted recipes.
   def game_groups
     @game_groups ||= groups_payload.map { GameGroup.new(_1) }
+  end
+
+  # Whether this many stale recipes means it isn't really a full export.
+  def implausibly_stale?
+    return false unless full_export?
+    stale = stale_recipes.count
+    stale > STALE_MINIMUM && stale > Recipe.active.where.not(id: Recipe.templates).count * STALE_LIMIT
   end
 
   def unresolved_item_names

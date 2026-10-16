@@ -66,7 +66,7 @@ RSpec.describe GameRecipe do
     it 'parses a full export, with its groups' do
       export = GameRecipe.parse_export(game_export_json(
         hash, hash, groups: [ { key: 'group:7', name: 'Wooden Board', members: { item_key(1) => 'Oak Board' } } ]))
-      expect([ export.api_version, export.full?, export.recipes.size ]).to eq [ 26, true, 2 ]
+      expect([ export.api_version, export.list?, export.recipes.size ]).to eq [ 26, true, 2 ]
       group = export.groups.first
       expect([ group.key, group.name, group.complete?, group.choice_count ]).to eq [ 'group:7', 'Wooden Board', true, 1 ]
       expect(group.members).to eq [ GameGroup::Member.new(item_key(1), 'Oak Board') ]
@@ -74,7 +74,7 @@ RSpec.describe GameRecipe do
 
     it 'parses a single recipe' do
       export = GameRecipe.parse_export(hash.to_json)
-      expect([ export.api_version, export.full?, export.recipes.map(&:name), export.groups ])
+      expect([ export.api_version, export.list?, export.recipes.map(&:name), export.groups ])
         .to eq [ nil, false, [ 'Accordion' ], [] ]
     end
 

@@ -38,7 +38,12 @@ class Api::V1::RecipeImportsController < Api::BaseController
       return
     end
     recipes = import.stale_recipes.by_name.preload(ingredients: :item, results: :item)
-    render json: paged(:recipes, recipes) { recipe_summary(_1) }
+    json = paged(:recipes, recipes) { recipe_summary(_1) }
+    if import.implausibly_stale?
+      json[:warning] = "More than #{(RecipeImport::STALE_LIMIT * 100).round}% of the site's recipes are stale, " \
+                       'so this is probably not really a full export'
+    end
+    render json: json
   end
 
   private

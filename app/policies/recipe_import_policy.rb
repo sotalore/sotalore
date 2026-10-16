@@ -24,6 +24,10 @@ class RecipeImportPolicy < DefaultAdminPolicy
     update?
   end
 
+  def set_full_export?
+    update?
+  end
+
   def stale?
     show?
   end

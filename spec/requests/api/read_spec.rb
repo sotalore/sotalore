@@ -65,7 +65,7 @@ RSpec.describe "Read-only API", type: :request do
     it 'shows what helps decide whether one belongs' do
       import = RecipeImport.create_from_json!(game_export_json(
         game_recipe_hash(name: 'Chair', id: 1, ingredients: { 'Wooden Board' => 2 })), user: admin)
-      import.update_columns(full_export: true)
+      import.update_columns(full_export: true) # a single recipe can't be uploaded as full
       body = get_json(api_v1_recipe_path(old))
       expect(body).to include('saved_by_users' => 0, 'game_id' => nil)
       expect(body['same_name_recipes'].map { _1['id'] }).to eq [ synced.id ]
@@ -78,7 +78,7 @@ RSpec.describe "Read-only API", type: :request do
     let!(:import) do
       RecipeImport.create_from_json!(game_export_json(
         game_recipe_hash(name: 'Chair', id: 1, ingredients: { 'Wooden Board' => 2 }),
-        game_recipe_hash(name: 'Ring', id: 2, ingredients: { 'Gold' => 1 })), user: admin)
+        game_recipe_hash(name: 'Ring', id: 2, ingredients: { 'Gold' => 1 })), user: admin, full_export: true)
     end
 
     it 'lists imports and their entries' do
@@ -89,9 +89,13 @@ RSpec.describe "Read-only API", type: :request do
       expect(body['entries'].sole).to include('name' => 'Ring', 'problems' => include(/Unknown items/))
     end
 
-    it 'lists the stale recipes of a full export' do
+    it 'lists the stale recipes of a full export, warning when there are implausibly many' do
       body = get_json(stale_api_v1_recipe_import_path(import))
       expect(body['recipes'].map { _1['id'] }).to eq [ old.id ]
+      expect(body).not_to have_key('warning')
+
+      stub_const('RecipeImport::STALE_MINIMUM', 0)
+      expect(get_json(stale_api_v1_recipe_import_path(import))['warning']).to include 'probably not really a full export'
     end
   end
 

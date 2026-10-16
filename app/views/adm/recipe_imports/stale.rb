@@ -44,7 +44,11 @@ class Views::Adm::RecipeImports::Stale < Views::Adm::RecipeImports::Base
         plain 'link likely renames first. Resolving unknown items also lets more recipes match.'
       end
     end
-    if @recipes.total_count.positive?
+    if @import.implausibly_stale?
+      notice_warning("That's more than #{(RecipeImport::STALE_LIMIT * 100).round}% of the site's recipes, so this " \
+                     'is probably not really a full export (an "Export new" file, say). Mark it as partial ' \
+                     'above, or retire recipes one at a time.')
+    elsif @recipes.total_count.positive?
       div(class: 'mb-4') do
         post_button("Retire all #{@recipes.total_count}", retire_stale_adm_recipe_import_path(@import),
                     style: 'danger',
