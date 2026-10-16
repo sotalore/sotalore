@@ -45,7 +45,7 @@ class Proposal < ApplicationRecord
 
   # Whether what it would change has changed since it was proposed.
   def stale?
-    pending? && change_type && change_type.before(self) != before
+    pending? && change_type&.suits_subject?(self) && change_type.before(self) != before
   end
 
   # Makes the change as +reviewer+. Returns true when accepted; otherwise
@@ -90,7 +90,7 @@ class Proposal < ApplicationRecord
   end
 
   def snapshot_before
-    self.before = change_type.before(self) if change_type && errors.empty?
+    self.before = change_type.before(self) if change_type&.suits_subject?(self)
   rescue ProposalChanges::Invalid
     nil
   end

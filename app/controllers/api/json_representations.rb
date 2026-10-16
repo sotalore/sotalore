@@ -1,0 +1,97 @@
+# frozen_string_literal: true
+
+# How the API shows items and recipes, so every endpoint describes them the
+# same way. A "ref" is just enough to identify one and follow it up; a
+# summary is what a list shows; detail is everything for one.
+module Api::JsonRepresentations
+
+  MAX_PER_PAGE = 100
+
+  private
+
+  def item_ref(item)
+    { id: item.id, name: item.name, kind: item.kind }
+  end
+
+  def item_summary(item)
+    item_ref(item).merge(
+      use: item.use, source: item.source, weight: item.weight&.to_s('F'),
+      ingredient_of: item.ingredients_count, made_by: item.results_count, url: item_url(item)
+    )
+  end
+
+  def item_detail(item)
+    recipes = ->(scope) { scope.map { recipe_ref(_1) } }
+    makers, modifiers = item.recipes.to_a.partition { !_1.modification? }
+    item_summary(item).merge(
+      price: item.price,
+      aliases: item.aliases.map(&:name).sort,
+      game_keys: item.game_keys.map { { key: _1.key, name: _1.name } },
+      members: item.members.map { item_ref(_1) },
+      member_of: item.groups.map { item_ref(_1) },
+      made_by_recipes: recipes.(makers),
+      modified_by_recipes: recipes.(modifiers),
+      ingredient_of_recipes: recipes.(item.recipe_uses.distinct)
+    )
+  end
+
+  def recipe_ref(recipe)
+    { id: recipe.id, name: recipe.name, craft_skill: recipe.craft_skill&.key,
+      retired: recipe.retired? }
+  end
+
+  def recipe_summary(recipe)
+    recipe_ref(recipe).merge(
+      kind: recipe.kind, proficiency: recipe.proficiency,
+      game_id: recipe.game_id, game_synced_at: recipe.game_synced_at&.iso8601,
+      retired_at: recipe.retired_at&.iso8601, last_verified_at: recipe.last_verified_at&.iso8601,
+      ingredients: recipe.ingredients.map { line(_1) }, results: recipe.results.map { line(_1) },
+      url: recipe_url(recipe)
+    )
+  end
+
+  # Everything that helps decide whether a recipe belongs on the site.
+  def recipe_detail(recipe, import: RecipeImport.latest_full)
+    entry = import&.entries&.find_by(recipe_id: recipe.id)
+    recipe_summary(recipe).merge(
+      teachable: recipe.teachable,
+      created_at: recipe.created_at.iso8601, updated_at: recipe.updated_at.iso8601,
+      saved_by_users: recipe.user_recipes.count,
+      comments: recipe.comments.message.count, revisions: recipe.comments.revision.count,
+      same_name_recipes: Recipe.where('lower(name) = ?', recipe.name.downcase).where.not(id: recipe.id)
+                               .map { recipe_ref(_1) },
+      latest_full_import: import && {
+        id: import.id, created_at: import.created_at.iso8601,
+        entry: entry && { id: entry.id, name: entry.name, status: entry.status, match_method: entry.match_method },
+      }
+    )
+  end
+
+  def line(line)
+    { item: item_ref(line.item), count: line.count }
+  end
+
+  def page_params
+    page = [ params[:page].to_i, 1 ].max
+    per = params[:per].to_i.clamp(1, MAX_PER_PAGE)
+    per = 25 if params[:per].blank?
+    [ page, per ]
+  end
+
+  # A page of +scope+ as { key => [...], page: {...} }, each mapped by +block+.
+  def paged(key, scope, &block)
+    page, per = page_params
+    records = scope.page(page).per(per)
+    { key => records.map(&block),
+      page: { number: page, per: per, total_count: records.total_count, total_pages: records.total_pages } }
+  end
+
+  # Like #paged, for an Array.
+  def paged_array(key, array, &block)
+    page, per = page_params
+    records = Kaminari.paginate_array(array).page(page).per(per)
+    { key => records.map(&block),
+      page: { number: page, per: per, total_count: records.total_count, total_pages: records.total_pages } }
+  end
+
+end

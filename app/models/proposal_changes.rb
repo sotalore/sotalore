@@ -14,7 +14,7 @@ module ProposalChanges
   REGISTRY = {}
 
   # What a change can be about, by name.
-  SUBJECTS = { 'Item' => 'Item' }.freeze
+  SUBJECTS = { 'Item' => 'Item', 'Recipe' => 'Recipe' }.freeze
 
   def self.register(change)
     REGISTRY[change.key] = change
@@ -36,7 +36,8 @@ module ProposalChanges
   end
 
   def self.load_all
-    [ ItemCreate, ItemKind, ItemRename, ItemAliasAdd, ItemAttributes, MembershipAdd, MembershipRemove ]
+    [ ItemCreate, ItemKind, ItemRename, ItemAliasAdd, ItemAttributes, MembershipAdd, MembershipRemove,
+      RecipeRetire, RecipeUnretire ]
   end
 
   class Base
@@ -59,9 +60,14 @@ module ProposalChanges
         subject_type && SUBJECTS.fetch(subject_type).constantize
       end
 
+      # Whether the proposal is about the right kind of thing.
+      def suits_subject?(proposal)
+        subject_type.nil? || proposal.subject.is_a?(subject_class)
+      end
+
       # Adds errors to the proposal for anything wrong with it.
       def validate(proposal)
-        if subject_type && !proposal.subject.is_a?(subject_class)
+        unless suits_subject?(proposal)
           proposal.errors.add(:subject, "must be an #{subject_type.underscore.humanize(capitalize: false)}")
           return
         end
@@ -373,6 +379,67 @@ module ProposalChanges
         member = item(required(proposal, :member_id), 'member_id')
         ItemMembership.find_by(group: proposal.subject, member: member) or
           raise Invalid, "#{member.name} isn't in #{proposal.subject.name}"
+      end
+    end
+  end
+
+  # Marks a recipe as no longer in the game: hidden from listings and
+  # flagged on its page, but kept, along with anything saved or said about it.
+  class RecipeRetire < Base
+    change 'recipe.retire', subject: 'Recipe',
+           description: 'Retire a recipe that is no longer in the game (it is kept, but hidden)',
+           parameters: {}
+
+    class << self
+      def before(proposal) = { 'retired' => proposal.subject&.retired? }
+
+      def summary(proposal) = "Retire #{proposal.subject&.name}"
+
+      def differences(proposal) = [ [ 'retired', proposal.before['retired'], true ] ]
+
+      def apply!(proposal, reviewer)
+        check(proposal)
+        RecipeUnretire.set_retired(proposal.subject, true, reviewer)
+      end
+
+      protected
+
+      def check(proposal)
+        raise Invalid, "#{proposal.subject.name} is already retired" if proposal.subject.retired?
+      end
+    end
+  end
+
+  # Brings a retired recipe back.
+  class RecipeUnretire < Base
+    change 'recipe.unretire', subject: 'Recipe',
+           description: 'Bring back a retired recipe that is in the game after all',
+           parameters: {}
+
+    class << self
+      def before(proposal) = RecipeRetire.before(proposal)
+
+      def summary(proposal) = "Bring back #{proposal.subject&.name}"
+
+      def differences(proposal) = [ [ 'retired', proposal.before['retired'], false ] ]
+
+      def apply!(proposal, reviewer)
+        check(proposal)
+        set_retired(proposal.subject, false, reviewer)
+      end
+
+      # Retiring skips validations (old recipes may not pass today's), so the
+      # revision is recorded here.
+      def set_retired(recipe, retired, reviewer)
+        retired ? recipe.retire! : recipe.unretire!
+        recipe.comments.create!(author: reviewer, comment_type: 'revision',
+                                body: { changes: { retired: retired ? %w[ no yes ] : %w[ yes no ] } }.to_json)
+      end
+
+      protected
+
+      def check(proposal)
+        raise Invalid, "#{proposal.subject.name} isn't retired" unless proposal.subject.retired?
       end
     end
   end

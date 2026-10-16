@@ -70,10 +70,18 @@ class Views::Adm::Proposals::Index < Views::Base
   end
 
   def subject_link(proposal)
-    return unless proposal.subject.is_a?(Item)
-    div(class: 'text-sm') do
-      a(href: item_path(proposal.subject), class: 'Link Link--primary') { proposal.subject.name }
-      plain " (#{proposal.subject.kind})"
+    subject = proposal.subject
+    case subject
+    when Item
+      div(class: 'text-sm') do
+        a(href: item_path(subject), class: 'Link Link--primary') { subject.name }
+        plain " (#{subject.kind})"
+      end
+    when Recipe
+      div(class: 'text-sm') do
+        a(href: recipe_path(subject), class: 'Link Link--primary') { subject.name }
+        plain " (#{[ subject.craft_skill&.name, subject.kind, ('retired' if subject.retired?) ].compact.join(', ')})"
+      end
     end
   end
 
