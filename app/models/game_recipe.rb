@@ -27,11 +27,14 @@ class GameRecipe
 
   # An export file: its recipes and top-level groups (see GameGroup). +list+
   # is whether it has a "recipes" list, which every export file does, whether
-  # it holds every recipe ("Export all"), only new ones ("Export new") or one;
-  # only the uploader can say it's full.
-  Export = Data.define(:api_version, :list, :recipes, :groups) do
+  # it holds every recipe ("Export all"), only new ones ("Export new") or one.
+  # +scope+ is what the file says it holds ("all", "new" or "one"; plugin
+  # 0.4+), or nil when it doesn't say.
+  Export = Data.define(:api_version, :list, :recipes, :groups, :scope) do
     def list? = list
   end
+
+  SCOPES = %w[ all new one ].freeze
 
   CATEGORY_PREFIX = 'Crafting_'
 
@@ -44,11 +47,11 @@ class GameRecipe
     data = json.is_a?(String) ? JSON.parse(json) : json
     if data.is_a?(Hash) && data.key?('recipes')
       Export.new(data['apiVersion'], true, Array(data['recipes']).map { new(_1) },
-                 Array(data['groups']).map { GameGroup.new(_1) })
+                 Array(data['groups']).map { GameGroup.new(_1) }, data['scope'].presence_in(SCOPES))
     elsif data.is_a?(Hash) && data.key?('ingredients')
-      Export.new(nil, false, [ new(data) ], [])
+      Export.new(nil, false, [ new(data) ], [], nil)
     elsif data.is_a?(Array)
-      Export.new(nil, false, data.map { new(_1) }, [])
+      Export.new(nil, false, data.map { new(_1) }, [], nil)
     else
       raise ArgumentError, 'Not a recipe export: expected a "recipes" list or a single recipe'
     end

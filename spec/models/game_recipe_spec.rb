@@ -72,6 +72,12 @@ RSpec.describe GameRecipe do
       expect(group.members).to eq [ GameGroup::Member.new(item_key(1), 'Oak Board') ]
     end
 
+    it "reads the file's scope, ignoring ones it doesn't know" do
+      expect(GameRecipe.parse_export(game_export_json(hash, scope: 'all')).scope).to eq 'all'
+      expect(GameRecipe.parse_export(game_export_json(hash, scope: 'everything')).scope).to be_nil
+      expect(GameRecipe.parse_export(game_export_json(hash)).scope).to be_nil
+    end
+
     it 'parses a single recipe' do
       export = GameRecipe.parse_export(hash.to_json)
       expect([ export.api_version, export.list?, export.recipes.map(&:name), export.groups ])

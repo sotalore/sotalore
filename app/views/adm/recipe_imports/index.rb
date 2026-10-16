@@ -11,10 +11,11 @@ class Views::Adm::RecipeImports::Index < Views::Adm::RecipeImports::Base
       h1(class: 'text-2xl font-bold') { 'Recipe Imports' }
       p(class: 'my-2 max-w-prose') do
         plain 'Import JSON from the game recipe export plugin: paste a recipe copied from the game, '
-        plain 'or upload an export file (sl-recipes-export.json, or a single recipe). Tick '
+        plain 'or upload an export file (sl-recipes-export.json, or a single recipe). Files from plugin 0.4 '
+        plain 'on say whether they hold every recipe a character knows ("Export all"), which makes the import a '
+        plain 'full export: recipes it lacks become candidates to retire. For older files, tick '
         strong { 'Export all' }
-        plain ' only for a file made with the plugin\'s "Export all": every recipe a character knows. '
-        plain 'Recipes it lacks are then candidates to retire, so an "Export new" file must not be marked full. '
+        plain ' only for a file made with "Export all", never "Export new". '
         plain 'Nothing changes on the site until you apply entries from the import.'
       end
 
@@ -34,7 +35,7 @@ class Views::Adm::RecipeImports::Index < Views::Adm::RecipeImports::Base
             f.file_field :file, accept: 'application/json,.json', required: true
             label(class: 'flex flex-row items-center gap-1') do
               input(type: 'checkbox', name: 'full_export', value: '1')
-              plain 'Export all (full export)'
+              plain 'Export all (older files only)'
             end
             f.submit 'Upload export', class: 'Button Button--primary'
           end

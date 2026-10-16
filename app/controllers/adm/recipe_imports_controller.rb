@@ -118,8 +118,9 @@ class Adm::RecipeImportsController < AdmController
     @import = find_import
     authorize(@import)
     full = params[:full_export] == '1'
-    if full && @import.entries_count < 2
-      redirect_back_or_to adm_recipe_import_path(@import), alert: 'A single recipe is never a full export.'
+    if full && !@import.can_be_full?
+      reason = @import.entries_count < 2 ? 'a single recipe' : %(the file says it holds "#{@import.export_scope}" recipes)
+      redirect_back_or_to adm_recipe_import_path(@import), alert: "It can't be a full export: #{reason}."
       return
     end
     @import.update!(full_export: full)

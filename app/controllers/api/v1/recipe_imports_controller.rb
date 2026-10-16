@@ -56,7 +56,7 @@ class Api::V1::RecipeImportsController < Api::BaseController
   end
 
   def import_json(import)
-    { id: import.id, filename: import.filename, full_export: import.full_export?,
+    { id: import.id, filename: import.filename, full_export: import.full_export?, scope: import.export_scope,
       api_version: import.api_version, created_at: import.created_at.iso8601,
       analyzed_at: import.analyzed_at&.iso8601, entries: import.entries_count,
       statuses: import.status_counts }

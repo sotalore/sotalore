@@ -22,9 +22,10 @@ class RecipeImport < ApplicationRecord
   # ArgumentError or JSON::ParserError on input that isn't a recipe export.
   #
   # Whether it's a full export ("Export all": every recipe a character knows,
-  # so recipes it lacks may be gone from the game) is the uploader's to say:
-  # the file looks the same for "Export new" and a single recipe. A single
-  # recipe is never full.
+  # so recipes it lacks may be gone from the game) comes from the file's
+  # scope (plugin 0.4+): "all" is full, "new" and "one" never are. Older files
+  # don't say, so the uploader does (+full_export+). A single recipe is never
+  # full.
   def self.create_from_json!(json, filename: nil, user: nil, full_export: false)
     export = GameRecipe.parse_export(json)
     game_recipes = export.recipes
@@ -34,8 +35,9 @@ class RecipeImport < ApplicationRecord
     end
     filename ||= pasted_label(game_recipes)
     transaction do
-      import = create!(filename: filename, api_version: export.api_version,
-                       full_export: full_export && export.list? && game_recipes.size > 1,
+      full = export.scope ? export.scope == 'all' : full_export && export.list?
+      import = create!(filename: filename, api_version: export.api_version, export_scope: export.scope,
+                       full_export: full && game_recipes.size > 1,
                        uploaded_by: user,
                        groups_payload: export.groups.map(&:payload))
       now = Time.current
@@ -108,6 +110,12 @@ class RecipeImport < ApplicationRecord
   # and pasted recipes.
   def game_groups
     @game_groups ||= groups_payload.map { GameGroup.new(_1) }
+  end
+
+  # Whether it can be marked a full export: not when the file says it holds
+  # only new recipes or one, and never for a single recipe.
+  def can_be_full?
+    entries_count > 1 && export_scope.in?([ nil, 'all' ])
   end
 
   # Whether this many stale recipes means it isn't really a full export.

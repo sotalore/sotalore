@@ -10,27 +10,35 @@ uses the exports today**, and **the site's data model**, so the plugin can expor
 
 ## Requests
 
-### R1. Say what an export holds (open, 2026-10-16)
+### R1. Say what an export holds (done, plugin 0.4.0)
 
-The importer can't tell an "Export all" file from an "Export new" one, or from a single recipe:
-`sl-recipes-export.json` is written by both buttons, and `sl-recipes-one.json` has the same shape.
-It matters because a full export ("Export all": every recipe the character knows) is what lets the
-site retire recipes that are gone from the game. Taking an "Export new" file for a full one would
-make nearly every site recipe look gone. Today an admin ticks "Export all" by hand at upload.
+Recipe files now carry `scope` (`all`, `new`, `one`). The importer reads it: `all` makes an upload a
+full export, `new` and `one` never are (an admin can't mark them full either), and files without a
+scope fall back to the admin saying so at upload. Thank you.
 
-Please add a top-level field to every recipe file, for example:
+### R2. Say when a finds list was started and saved (open, 2026-10-16)
+
+The finds list accumulates until it's reset, and Save doesn't reset it, so two uploads can hold the
+same finds. The importer can't tell a later save of the same list from a new one, and would count
+those finds twice. Please add, at the top level of `sl-recipes-finds.json`:
 
 ```json
-{ "apiVersion": 40, "scope": "all", "count": 1130, "recipes": [ ... ], "groups": [ ... ] }
+{ "apiVersion": 40, "startedAt": "2026-10-16T14:02:11Z", "savedAt": "2026-10-16T18:40:03Z", "scenes": [ ... ] }
 ```
 
-with `"all"` for "Export all", `"new"` for "Export new" and `"one"` for "Save this recipe to file".
-Any name is fine; please describe it in `EXPORT-FORMAT.md` and the importer will follow.
+`startedAt` is when the list was last reset (or first started), `savedAt` when this file was written,
+both UTC. Uploads with the same `startedAt` are then saves of one list, and the importer keeps only
+the latest. Any names and format are fine; please describe them in `EXPORT-FORMAT.md`.
+
+A related question, not a request yet: can loot from a body be credited to the creature it came
+from? Items are credited to the scene today. Which creatures drop what is the data that would make
+creature pages on the site worth having, if the API allows it.
 
 ## How the site uses the exports today
 
 - **Recipes** match site recipes by the export's recipe `id` (stored as the recipe's game id), or
   the first time by name, ingredients or result. An admin reviews each difference before it's applied.
+  Only a full export (`scope: "all"`) can mark site recipes missing from it as candidates to retire.
 - **Items** match by their `key` (`item:...`), recorded on the site item the first time it's matched
   by name. One site item can hold several keys: the game has same-named variants the site doesn't
   tell apart. Renames in the game are caught because the key stays the same.
@@ -40,7 +48,8 @@ Any name is fine; please describe it in `EXPORT-FORMAT.md` and the importer will
 - **Weights** from stat rows fill item weights.
 - **Recipes with no fixed result** (Reshape, Masterwork, socketing, Enchantment) are taken to give
   back what goes in their first group slot; casks keep the results the site already has.
-- **Item catalog and finds files** aren't imported yet.
+- **Item catalog and finds files** aren't imported yet. A finds import is next: which items are found
+  in which scene, scene details, and (later) creatures per scene.
 
 ## The site's data model
 
