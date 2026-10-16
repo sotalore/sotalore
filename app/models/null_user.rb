@@ -25,6 +25,14 @@ class NullUser
     false
   end
 
+  def editor?
+    false
+  end
+
+  def bot?
+    false
+  end
+
   def user_recipes
     Recipe.none
   end

@@ -13,6 +13,8 @@ class AdmController < ActionController::Base
 
   after_action :verify_authorized
 
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
+
   protected
 
   def pundit_user
@@ -26,6 +28,10 @@ class AdmController < ActionController::Base
     request.env['page_title']
   end
   helper_method :page_title
+
+  def user_not_authorized
+    redirect_back_or_to adm_users_path, alert: 'You are not allowed to do that.'
+  end
 
   def verify_root_user
     unless Current.user.has_role?('root')
