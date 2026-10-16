@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Builds recipe hashes shaped like the game recipe export plugin's output.
-# +keys+ gives game keys by name (see docs/EXPORT-FORMAT.md); an ingredient
+# +keys+ gives game keys by name (see sl-lua/EXPORT-FORMAT.md); an ingredient
 # whose key is a "group:..." key becomes a group slot.
 module GameExportHelpers
   def game_recipe_hash(name:, id: rand(1..2**31), category: 'Carpentry', level: 1,

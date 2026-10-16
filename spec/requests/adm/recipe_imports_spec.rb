@@ -23,10 +23,10 @@ RSpec.describe "Adm::RecipeImports", type: :request do
   let(:chair_entry) { import.entries.find_by!(name: 'Chair') }
   let(:ring_entry) { import.entries.find_by!(name: 'Ring') }
 
-  def upload(content)
+  def upload(content, full_export: nil)
     file = Rack::Test::UploadedFile.new(StringIO.new(content), 'application/json',
                                         original_filename: 'export.json')
-    post adm_recipe_imports_path, params: { file: file }
+    post adm_recipe_imports_path, params: { file: file, full_export: full_export }.compact
   end
 
   it 'requires a root user' do
@@ -42,6 +42,30 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       expect(response).to redirect_to(adm_recipe_import_path(import))
       expect(import.status_counts).to include('outdated' => 1, 'blocked' => 1)
       expect(import.uploaded_by).to eq user
+    end
+
+    it 'is a full export only when the uploader says so' do
+      upload(json)
+      expect(RecipeImport.last.full_export).to be false
+      upload(json, full_export: '1')
+      expect(RecipeImport.last.full_export).to be true
+    end
+
+    it 'never takes a single recipe for a full export' do
+      upload(game_export_json(game_recipe_hash(name: 'Chair', id: 9)), full_export: '1')
+      expect(RecipeImport.last.full_export).to be false
+    end
+
+    it 'marks an import full or partial' do
+      post set_full_export_adm_recipe_import_path(import), params: { full_export: '1' }
+      expect(import.reload.full_export).to be true
+      post set_full_export_adm_recipe_import_path(import), params: { full_export: '0' }
+      expect(import.reload.full_export).to be false
+
+      single = RecipeImport.create_from_json!(game_export_json(game_recipe_hash(name: 'Chair', id: 9)), user: user)
+      post set_full_export_adm_recipe_import_path(single), params: { full_export: '1' }
+      expect(flash[:alert]).to eq 'A single recipe is never a full export.'
+      expect(single.reload.full_export).to be false
     end
 
     it 'imports a pasted recipe and goes straight to it' do
@@ -208,6 +232,8 @@ RSpec.describe "Adm::RecipeImports", type: :request do
   end
 
   describe 'stale recipes' do
+    let(:import) { RecipeImport.create_from_json!(json, filename: 'export.json', user: user, full_export: true) }
+
     it 'lists them' do
       get stale_adm_recipe_import_path(import)
       expect(response).to have_http_status(200)
@@ -224,6 +250,22 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       post retire_stale_adm_recipe_import_path(import)
       expect(stale.reload).to be_retired
       expect(outdated.reload).not_to be_retired
+    end
+
+    it "won't retire them all when there are implausibly many" do
+      stub_const('RecipeImport::STALE_MINIMUM', 0)
+      get stale_adm_recipe_import_path(import)
+      expect(response.body).to include 'probably not really a full export'
+      expect(response.body).not_to include 'Retire all'
+      post retire_stale_adm_recipe_import_path(import)
+      expect(flash[:alert]).to include 'check this is really a full export'
+      expect(stale.reload).not_to be_retired
+    end
+
+    it "won't retire anything for a partial export" do
+      import.update!(full_export: false)
+      post retire_stale_adm_recipe_import_path(import)
+      expect(stale.reload).not_to be_retired
     end
 
     it 'retires and unretires a single recipe' do

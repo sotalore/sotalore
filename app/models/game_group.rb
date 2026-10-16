@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # A read-only view over one entry of a recipe export's top-level "groups"
-# list (see docs/EXPORT-FORMAT.md): the members a recipe slot like "Wooden
+# list (see sl-lua/EXPORT-FORMAT.md): the members a recipe slot like "Wooden
 # Board" (key "group:7") accepts, e.g.
 #
 #   {"groupKey":"group:7","name":"Wooden Board","choiceCount":7,"memberCount":7,

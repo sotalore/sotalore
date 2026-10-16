@@ -38,6 +38,7 @@ Rails.application.routes.draw do
         get :items
         get :stale
         post :retire_stale
+        post :set_full_export
         get :game_keys
         post :record_game_keys
         get :groups
