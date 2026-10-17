@@ -81,6 +81,15 @@ local function looksLikeType(line, index)
     return true
 end
 
+-- A number as the tooltip writes it: thousands separators are commas ("6,380").
+local function num(s)
+    return tonumber((tostring(s):gsub(",", "")))
+end
+
+local function round4(x)
+    return math.floor(x * 10000 + 0.5) / 10000
+end
+
 -- One tooltip's text -> what it says. Lines are separated by newlines.
 local function parse(desc)
     local d = {
@@ -95,11 +104,20 @@ local function parse(desc)
         local line = raw:match("^%s*(.-)%s*$")
         if line ~= "" then
             lines[#lines + 1] = line
+            if #lines == 1 then d.title = line end
             if looksLikeType(line, #lines) and not seenTypes[line] then
                 seenTypes[line] = true
                 d.types[#d.types + 1] = line
                 if line == "Artifact" or line:match(" Artifact$") then d.artifact = true end
             end
+            -- A stack shows how many there are, and the whole stack's weight and value.
+            local q = line:match("^Quantity:%s*([%d,]+)$")
+            if q then d.stackQuantity = num(q) end
+            local sw = line:match("^Stack Weight:%s*([%d,%.]+)$")
+            if sw then d.stackWeight = num(sw) end
+            local sv = line:match("^Stack Value:%s*([%d,]+)$")
+            if sv then d.stackValue = num(sv) end
+
             if line:match("^Crafted by ") then d.crafted = true
             elseif line == "Quest Item" then d.questItem = true
             elseif line == "Tool" then d.tool = true
@@ -110,10 +128,11 @@ local function parse(desc)
             elseif line == "Durability: Indestructible" then d.indestructible = true
             elseif line:match("^Salvage or Reshape Yields:") then d.yields = line:match(":%s*(.*)$")
             elseif line:match("^Merchant pays:") then
-                -- "Merchant pays: 100 - 125" (a range) or "Merchant pays: 40"
-                local lo, hi = line:match("(%d+)%s*%-%s*(%d+)")
-                if not lo then lo = line:match("(%d+)"); hi = lo end
-                if lo then d.merchantPays = { min = tonumber(lo), max = tonumber(hi) } end
+                -- "Merchant pays: 100 - 125" (a range) or "Merchant pays: 40"; for a stack it is the whole
+                -- stack's price (made per item below)
+                local lo, hi = line:match("([%d,]+)%s*%-%s*([%d,]+)")
+                if not lo then lo = line:match("([%d,]+)"); hi = lo end
+                if lo then d.merchantPays = { min = num(lo), max = num(hi) } end
             end
 
             -- The two lists that run over several lines end at the next section heading.
@@ -132,29 +151,55 @@ local function parse(desc)
                     inSalvage = false
                 else
                     -- "Metal Scrap  1 - 50  90.5%" (a range) or "Bronze Hilt  1  5.7%" (one number)
-                    local name, lo, hi, pct = line:match("^(.-)%s+(%d+)%s*%-%s*(%d+)%s+([%d%.]+)%%$")
+                    local name, lo, hi, pct = line:match("^(.-)%s+([%d,]+)%s*%-%s*([%d,]+)%s+([%d%.]+)%%$")
                     if not name then
-                        name, lo, pct = line:match("^(.-)%s+(%d+)%s+([%d%.]+)%%$")
+                        name, lo, pct = line:match("^(.-)%s+([%d,]+)%s+([%d%.]+)%%$")
                         hi = lo
                     end
                     if name then
-                        d.salvage[#d.salvage + 1] = { name = name, min = tonumber(lo), max = tonumber(hi), chance = tonumber(pct) }
+                        d.salvage[#d.salvage + 1] = { name = name, min = num(lo), max = num(hi), chance = tonumber(pct) }
                     end
                 end
             end
         end
     end
+    -- A stack's numbers are for the whole stack. Per item: the value is a whole number, so it is exact; the
+    -- weight is shown to about one decimal, so it is only worked out when the stack is heavy enough for that
+    -- not to matter (a stack of 6 fireworks at 0.01 shows "0.1").
+    local qty = d.stackQuantity
+    if qty and qty >= 1 then
+        if d.stackValue then d.valueEach = round4(d.stackValue / qty) end
+        if d.stackWeight and d.stackWeight >= 10 then d.weightEach = round4(d.stackWeight / qty) end
+        if d.merchantPays and qty > 1 then
+            d.merchantPays = { min = round4(d.merchantPays.min / qty), max = round4(d.merchantPays.max / qty) }
+        end
+    end
+
     local text = table.concat(lines, "\n")
     if #text > MAX_TEXT then text = text:sub(1, MAX_TEXT) end
     d.text = text
     return d
 end
+-- The weight or value of one item (field "weight" or "value") of a bag item. The bag list's numbers are for
+-- the whole stack (util.perItem divides them), but some stacks report no size; for those the captured tooltip
+-- ("Quantity: 638 | Stack Weight: 191.4 | Stack Value: 6,380") gives it. nil when neither can tell.
+function M.perItem(it, field)
+    local v = util.perItem(it, field)
+    if v ~= nil then return v end
+    local d = it.key and all()[it.key]
+    if not d or d.crafted or not d.text then return nil end
+    local fresh = parse(d.text)
+    if field == "weight" then return fresh.weightEach end
+    if field == "value" then return fresh.valueEach end
+    return nil
+end
+
 -- A short text that changes whenever anything worth exporting about the item changes (not the quantities and
 -- durabilities in the tooltip text, which differ every time). Used to number the revisions of an item.
 local function fingerprint(d)
     local bits = { tostring(d.crafted), table.concat(d.types or {}, ","), tostring(d.questItem), tostring(d.artifact),
         tostring(d.tool), tostring(d.consumable), tostring(d.noTrade), tostring(d.noSell), tostring(d.noValue),
-        tostring(d.indestructible), tostring(d.yields or "") }
+        tostring(d.indestructible), tostring(d.yields or ""), tostring(d.title or "") }
     if d.merchantPays then bits[#bits + 1] = d.merchantPays.min .. "-" .. d.merchantPays.max end
     bits[#bits + 1] = table.concat(d.effects or {}, ",")
     for _, s in ipairs(d.salvage or {}) do
@@ -231,7 +276,7 @@ function M.tick()
     local d = parse(desc)
     local entry
     if d.crafted then
-        entry = { name = it.name, crafted = true, salvage = d.salvage, yields = d.yields }
+        entry = { name = it.name, crafted = true, title = d.title, salvage = d.salvage, yields = d.yields }
     else
         d.name = it.name
         entry = d
@@ -274,11 +319,13 @@ function M.toJson(key)
         -- salvage list and yields line saved at capture time are kept when the re-read finds none.)
         local fresh = parse(d.text)
         fresh.name = d.name
+        fresh.title = fresh.title or d.title
         if #fresh.salvage == 0 then fresh.salvage = d.salvage or {} end
         fresh.yields = fresh.yields or d.yields
         d = fresh
     end
     local s = '{"crafted":' .. tostring(d.crafted and true or false)
+        .. ',"title":' .. (d.title and jstr(d.title) or "null")
     if not d.crafted then
         s = s .. ',"types":' .. util.jlist(d.types, jstr)
             .. ',"questItem":' .. tostring(d.questItem and true or false)

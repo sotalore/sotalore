@@ -18,6 +18,7 @@
 
 local util = SotaLore.util
 local jstr, jnum = util.jstr, util.jnum
+local ItemDetails = SotaLore.ItemDetails
 
 local M = {}
 SotaLore.Finds = M
@@ -171,7 +172,7 @@ function M.recordItems(items)
         e.quantity = e.quantity + g.quantity
         e.times = e.times + 1
         if match then
-            e.key, e.weight, e.value = match.key, util.perItem(match, "weight"), util.perItem(match, "value")
+            e.key, e.weight, e.value = match.key, ItemDetails.perItem(match, "weight"), ItemDetails.perItem(match, "value")
         end
     end
     changed()
