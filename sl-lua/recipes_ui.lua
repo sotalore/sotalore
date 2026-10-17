@@ -15,6 +15,7 @@ local util = SotaLore.util
 local clip = util.clip
 local RecipeExport = SotaLore.RecipeExport
 local Items = SotaLore.Items
+local ItemDetails = SotaLore.ItemDetails
 local FindsUI = SotaLore.FindsUI
 
 local M = {}
@@ -30,7 +31,7 @@ local search = ""
 local category = ALL
 local newOnly = false    -- show only recipes "Export new" would export
 
-local listWin, searchField, catDrop, countLabel, newToggle
+local listWin, searchField, catDrop, countLabel, newToggle, captureToggle
 local exportButton, exportAllButton
 local rows = {}          -- the pooled list buttons
 local details = {}       -- recipe id -> { win, body }
@@ -233,6 +234,18 @@ function M.build()
         if newOnly then applyFilter() end
     end
 
+    -- Item capture (item_details.lua): while on, pointing at a bag item saves its tooltip. The same
+    -- switch as /slore capture, so the toggle follows the command.
+    captureToggle = UI.Toggle{
+        text = "Capture",
+        value = false,
+        tooltip = "Point at items in your bags to save what their tooltips say (the game's tooltips must be on)",
+        onChange = function(_, on)
+            if on ~= ItemDetails.isOn() then ItemDetails.toggle() end
+        end,
+    }
+    ItemDetails.onToggle = function(on) captureToggle:SetValue(on) end
+
     exportButton = UI.Button{ text = "Export new", tooltip = "Write only recipes not exported before", onClick = function() RecipeExport.start("new") end }
     exportAllButton = UI.Button{ text = "Export all", tooltip = "Write every known recipe", onClick = function() RecipeExport.start("all") end }
     -- While an export runs, show its progress on both buttons.
@@ -277,6 +290,7 @@ function M.build()
                     tooltip = "Add bag items (key, name, weight, value) to " .. SotaLore.files.items,
                     onClick = Items.export,
                 },
+                captureToggle,
             } },
             scroll,
         },

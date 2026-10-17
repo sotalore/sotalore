@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore"
-local Version = "0.5.2"
+local Version = "0.6.2"
 local CreatorName = "Gravidy"
 local Description = "Recipe browser and data export for the SotaLore fansite."
 
@@ -92,6 +92,22 @@ function util.getRecipe(id, categoryKey)
         bookCache[categoryKey] = byId
     end
     return byId[id]
+end
+
+-- The items with this name from a list function such as ShroudGetInventoryItems. A name read from a
+-- tooltip can differ from the list's: the list may add markers ("[u]Letter[/u]"), and a tooltip title
+-- can end with the base item's name in brackets ("Boots +15 (Leather Boots +15)"). Several items can
+-- share a name, so all matches are returned.
+function util.itemsNamed(getList, name)
+    local found = {}
+    local short = name:gsub("%s*%b()%s*$", "")
+    for _, it in ipairs(getList() or {}) do
+        local plain = it.name and it.name:gsub("%[/?%a+%]", "")
+        if it.name == name or plain == name or it.name == short or plain == short then
+            found[#found + 1] = it
+        end
+    end
+    return found
 end
 
 -- The API documents weight and value as "one item", but a bag item's numbers are for its whole

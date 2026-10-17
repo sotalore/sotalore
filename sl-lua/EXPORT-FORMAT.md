@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.5.2)
+# SotaLore plugin export format (plugin v0.6.2)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -48,12 +48,65 @@ across presses and characters (stored account-wide) and is rewritten in full eac
 
 ```json
 { "apiVersion": 40, "count": 2, "items": [
-  {"key": "item:...", "name": "Wax", "weight": 0.05, "value": 1}, ... ] }
+  {"key": "item:...", "name": "Wax", "weight": 0.05, "value": 1, "createdBy": "", "details": null}, ... ] }
 ```
 
 `key` is the same item key used in recipes (join on it). `weight` is for one item; `value` is the
 game's gold value for one item (not verified to be the same as the fansite `price`). Items with no
-key are skipped. The API has no "locked" flag on items, so locked items cannot be excluded here.
+key are skipped. Each entry also has `createdBy`, the API's field of that name. **Do not rely on it to spot
+crafted items:** in play it is empty even for items whose tooltip says "Crafted by <player>" (two crafted daggers
+both read `createdBy` empty and a `creationDate` of "January 1, 0 PC"), so it is probably not the crafter. If it
+is ever filled, the same `key` can appear more than once, once per `createdBy` value. Crafted items of one kind
+share the base item's `key` ("Bronze Dagger +10" and "+11" are one key, with the +N in the name). The API has
+no "locked", "quest item", "bound" or item-type
+flag (the only item fields are name, quantity, weight, value, key, icon, durability,
+createdBy/creationDate/creationScene, fish length, and PvP trophy provenance), so quest items cannot be told
+apart from other items here. **Names can carry formatting markers** (for example `[u]The Cleansing Manifesto[/u]`):
+that is the game's own text, passed through unchanged, so strip markers like `[u]`, `[/u]` before matching by name.
+
+**`details`** is what the item's tooltip said, captured while the player pointed at the item in the bags with
+capture on (the "Capture" toggle next to "Export my items", or `/slore capture`; the API has no field for any of it), or `null` for an item that was never hovered. It is keyed by
+the item `key`, so every entry of that key shares it. Holding Ctrl while hovering gives the full tooltip.
+The tooltip is English text, so these flags depend on the game language.
+
+```json
+"details": { "crafted": false, "types": ["Quest Item"], "questItem": true, "artifact": false, "tool": false, "consumable": false,
+             "noTrade": true, "noSell": false, "noValue": false, "indestructible": false,
+             "merchantPays": null, "effects": [],
+             "text": "Vigilante Plans Stage 2\nQuest Item\nValue: 0\nNo Trade",
+             "yields": null, "salvage": [] }
+```
+
+- `types` is the list of tooltip lines that name a kind of item, in tooltip order. **One item can have several**: the
+  Shroud of the Avatar reads `["Avatar Artifact", "Cloak", "Quest Item"]`, Bonesteel Crown `["Dread Artifact",
+  "Universal Heavy Armor (Head)", "Quest Item"]`. Values seen: Quest Item, Tool, Consumable, Fishing Bait, Ammo,
+  Artifact, Dread Artifact, Avatar Artifact, Music Instrument, Offhand Item, Necklace, Ring, Cloak, and armor and
+  weapon lines such as "Leather Light Armor (Head)", "Longsword - Bladed", "Mace - Bludgeon" (which is the best
+  hint for the site's `use`). **There is no list of kinds: a type line is recognised by its shape** (short, not the
+  title, no colon, digit, percent, plus, comma, full stop, ! or ?, and not "No Trade", "Equipped" and similar), so it
+  is a heuristic that can miss an unusual line or take a short description for a type. `text` is always complete.
+  Files written before plugin 0.6.2 have no `types`.
+- The flags come from tooltip lines: `questItem` "Quest Item", `artifact` a line "Artifact" or ending " Artifact"
+  (Dread Artifact, Avatar Artifact), `tool` "Tool", `consumable`
+  "Consumable", `noTrade` "No Trade", `noSell` "Cannot be sold to merchants", `noValue` "No Value", `indestructible`
+  "Durability: Indestructible". "Equipped" is a state of the one item, not of the kind, so it is not stored.
+- `merchantPays` is the tooltip's "Merchant pays: 100 - 125" as `{min, max}` (a single number gives min = max), or
+  `null` when the tooltip has no such line. That is what a merchant pays for it, which may be the site's `price`.
+- `effects` is the list under the tooltip's "Item Effects" heading, for example "+1 Double Slash Attack Count Bonus",
+  as plain strings; empty when there is no such heading.
+- `text` is the whole tooltip, one line per line, for anything else (the type line such as "Dagger - Bladed", bonuses,
+  the description). **It also holds state of the one item that was hovered**: "Quantity: 6", "Durability: 35/35",
+  "Major Repairs: 0", masterwork and engraving lines. Treat those as noise, and the first hovered item of a kind is
+  not necessarily typical (a masterworked tool, for example, still reads "Tool").
+- `salvage` is the tooltip's "Salvage Components" list: `{name, min, max, chance}` where `min`..`max` is how many
+  of that item comes back and `chance` is the percentage ("Metal Scrap  1 - 50  90.5%" is min 1, max 50, chance 90.5; a
+  single number gives min = max). `yields` is the "Salvage or Reshape Yields:" line, when there is one.
+- **A crafted item** (tooltip "Crafted by <name>") is unique, so for it only `crafted: true`, `salvage` and `yields` are
+  stored (the salvage list is the same for the kind of item, and a crafted item shares its `key` with the base item).
+  The flags and `text` are left out of `details` for it.
+- An item that is not in the bags when hovered (a chest, a vendor) can't be tied to a key and is skipped.
+- Entries can appear for items that are no longer in the bags, if they were captured earlier.
+
 Not yet verified against a real file.
 
 ### Finds file (items and creatures per scene)
