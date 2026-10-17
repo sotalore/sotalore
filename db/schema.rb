@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_16_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_16_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -257,6 +257,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_16_120000) do
     t.integer "api_version"
     t.datetime "created_at", null: false
     t.integer "entries_count", default: 0, null: false
+    t.string "export_scope"
     t.string "filename"
     t.boolean "full_export", default: false, null: false
     t.jsonb "groups_payload", default: [], null: false

@@ -51,6 +51,22 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       expect(RecipeImport.last.full_export).to be true
     end
 
+    it "goes by the file's scope when it has one" do
+      recipes = [ game_recipe_hash(name: 'Chair', id: 1), game_recipe_hash(name: 'Bench', id: 2) ]
+      upload(game_export_json(*recipes, scope: 'all'))
+      expect(RecipeImport.last).to have_attributes(full_export: true, export_scope: 'all')
+
+      upload(game_export_json(*recipes, scope: 'new'), full_export: '1')
+      new_only = RecipeImport.last
+      expect(new_only).to have_attributes(full_export: false, export_scope: 'new')
+      get adm_recipe_import_path(new_only)
+      expect(response.body).to include('file scope: new')
+      expect(response.body).not_to include('Mark as full export')
+      post set_full_export_adm_recipe_import_path(new_only), params: { full_export: '1' }
+      expect(flash[:alert]).to eq %(It can't be a full export: the file says it holds "new" recipes.)
+      expect(new_only.reload.full_export).to be false
+    end
+
     it 'never takes a single recipe for a full export' do
       upload(game_export_json(game_recipe_hash(name: 'Chair', id: 9)), full_export: '1')
       expect(RecipeImport.last.full_export).to be false
@@ -64,7 +80,7 @@ RSpec.describe "Adm::RecipeImports", type: :request do
 
       single = RecipeImport.create_from_json!(game_export_json(game_recipe_hash(name: 'Chair', id: 9)), user: user)
       post set_full_export_adm_recipe_import_path(single), params: { full_export: '1' }
-      expect(flash[:alert]).to eq 'A single recipe is never a full export.'
+      expect(flash[:alert]).to eq "It can't be a full export: a single recipe."
       expect(single.reload.full_export).to be false
     end
 

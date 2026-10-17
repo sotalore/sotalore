@@ -33,16 +33,16 @@ module GameExportHelpers
   end
 
   # +groups+ is [ { key:, name:, members: { key => name }, complete: } ].
-  def game_export_json(*recipes, groups: [])
+  def game_export_json(*recipes, groups: [], scope: nil)
     {
-      'apiVersion' => 26, 'count' => recipes.size, 'recipes' => recipes,
+      'apiVersion' => 26, 'scope' => scope, 'count' => recipes.size, 'recipes' => recipes,
       'groups' => groups.map do |g|
         members = g.fetch(:members, {})
         { 'groupKey' => g[:key], 'name' => g[:name], 'choiceCount' => members.size,
           'memberCount' => members.size, 'complete' => g.fetch(:complete, true),
           'members' => members.map { |k, n| { 'key' => k, 'name' => n } } }
       end,
-    }.to_json
+    }.compact.to_json
   end
 
   # A made-up item key, the same for the same seed.

@@ -10,27 +10,43 @@ uses the exports today**, and **the site's data model**, so the plugin can expor
 
 ## Requests
 
-### R1. Say what an export holds (open, 2026-10-16)
+### R1. Say what an export holds (done, plugin 0.4.0)
 
-The importer can't tell an "Export all" file from an "Export new" one, or from a single recipe:
-`sl-recipes-export.json` is written by both buttons, and `sl-recipes-one.json` has the same shape.
-It matters because a full export ("Export all": every recipe the character knows) is what lets the
-site retire recipes that are gone from the game. Taking an "Export new" file for a full one would
-make nearly every site recipe look gone. Today an admin ticks "Export all" by hand at upload.
+Recipe files now carry `scope` (`all`, `new`, `one`). The importer reads it: `all` makes an upload a
+full export, `new` and `one` never are (an admin can't mark them full either), and files without a
+scope fall back to the admin saying so at upload. Thank you.
 
-Please add a top-level field to every recipe file, for example:
+### R2. Say when a finds list was started and saved (withdrawn, 2026-10-17)
+
+Not needed after all: the site only records that something **can be found** in a scene, not how
+often, so saving the same list twice changes nothing. Counts (`quantity`, `times`, `seen`) are fine
+to keep but the site won't use them.
+
+What the site does want from finds is the **unusual** ones. Animal Hide turns up everywhere and says
+little; an item (a recipe scroll, say) that only drops from certain creatures, which only live in a
+few scenes, is the data worth having. So the most valuable thing the finds file can carry is
+**which creature an item came from**. Field dressing already gives that (thank you for `nodes`);
+loot from bodies would too, if the API ever allows it.
+
+### R3. Say which plugin version wrote a file (open, 2026-10-17)
+
+Full exports from before plugin 0.5.2 silently lack about 100 recipes, so a site recipe missing from
+one may not be gone from the game. The importer can't tell those files apart from complete ones,
+because nothing in a file says which plugin version wrote it. Please add the version at the top level
+of every file the plugin writes (recipe exports, items, finds), for example:
 
 ```json
-{ "apiVersion": 40, "scope": "all", "count": 1130, "recipes": [ ... ], "groups": [ ... ] }
+{ "apiVersion": 40, "pluginVersion": "0.7.0", "scope": "all", ... }
 ```
 
-with `"all"` for "Export all", `"new"` for "Export new" and `"one"` for "Save this recipe to file".
-Any name is fine; please describe it in `EXPORT-FORMAT.md` and the importer will follow.
+The importer will then refuse to treat a pre-0.5.2 "all" file as a full export. Any name is fine;
+please describe it in `EXPORT-FORMAT.md`.
 
 ## How the site uses the exports today
 
 - **Recipes** match site recipes by the export's recipe `id` (stored as the recipe's game id), or
   the first time by name, ingredients or result. An admin reviews each difference before it's applied.
+  Only a full export (`scope: "all"`) can mark site recipes missing from it as candidates to retire.
 - **Items** match by their `key` (`item:...`), recorded on the site item the first time it's matched
   by name. One site item can hold several keys: the game has same-named variants the site doesn't
   tell apart. Renames in the game are caught because the key stays the same.
@@ -38,9 +54,13 @@ Any name is fine; please describe it in `EXPORT-FORMAT.md` and the importer will
   repeat ("Gem Fragment" twice) and can be a real item's name too ("Dragon Head").
 - **Groups** (`groups`, `complete: true`) fill the site's group member lists.
 - **Weights** from stat rows fill item weights.
-- **Recipes with no fixed result** (Reshape, Masterwork, socketing, Enchantment) are taken to give
-  back what goes in their first group slot; casks keep the results the site already has.
-- **Item catalog and finds files** aren't imported yet.
+- **Recipes with no fixed result** that change an item give back their first ingredient standing for
+  "whatever you choose": a group slot (Reshape, Masterwork) or a keyless placeholder ("Worn Item" in
+  Repair Item, "Salvageable Item"); casks keep the results the site already has.
+  `Crafting_Farming` is the site's agriculture skill.
+- **Item catalog and finds files** aren't imported yet. Next: from finds, what can be found in which
+  scene (presence only, no counts), creatures per scene, and what field dressing a creature yields;
+  from the catalog, salvage results, merchant prices and item types.
 
 ## The site's data model
 

@@ -50,6 +50,7 @@ class Views::Adm::RecipeImports::Base < Views::Base
         h1(class: 'text-2xl font-bold') { import.to_s }
         span(class: 'text-sm text-grey-600 dark:text-grey-300') do
           plain [ import.filename, import.full_export? ? 'full export' : 'partial export',
+                  ("file scope: #{import.export_scope}" if import.export_scope),
                   ("api v#{import.api_version}" if import.api_version) ].compact.join(' · ')
           plain ' · uploaded '
           time_ago_tag import.created_at
@@ -71,7 +72,7 @@ class Views::Adm::RecipeImports::Base < Views::Base
   def full_export_toggle(import)
     if import.full_export?
       post_button('Mark as partial', set_full_export_adm_recipe_import_path(import), params: { full_export: '0' })
-    elsif import.entries_count > 1
+    elsif import.can_be_full?
       post_button('Mark as full export', set_full_export_adm_recipe_import_path(import), style: 'warning',
                   params: { full_export: '1' },
                   confirm: 'Only for an "Export all" file: recipes it lacks become candidates to retire. Mark as full?')
