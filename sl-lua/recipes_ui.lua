@@ -176,6 +176,7 @@ end
 
 -- Reads the character's known recipes again and refreshes the list and the category dropdown.
 function M.load()
+    local started = util.clock()
     recipes = {}
     local seen, cats = {}, { ALL }
     for _, r in ipairs(ShroudGetKnownRecipes() or {}) do
@@ -196,6 +197,7 @@ function M.load()
     catDrop:SetChoices(cats)
     catDrop:SetValue(category)
     applyFilter()
+    util.slow("reading the known recipes", started)
 end
 
 -- Creates the list window (it starts closed).

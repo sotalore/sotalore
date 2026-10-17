@@ -138,6 +138,19 @@ Untested ideas:
   chat about recipes they could not read, and `/slore checkrecipes` lists the unreadable ones. On Darren's
   character 103 of 1,234 known recipes failed (Alchemy gem fragment and fracture recipes, Tanning fishing-trophy
   recipes); the recipe book had them. Before 0.5.2 they were silently left out of every export. Cause unknown.
+- **The game stops a callback that runs longer than 1 second (5 seconds while the plugin starts).** The guide says
+  to spread work across frames or use `ShroudRegisterPeriodic`. Long jobs here (the recipe export, `/slore
+  checkrecipes`) work in slices of `util.sliceLimit` seconds per frame, cut by time as well as count because
+  recipes with many group slots are far slower to read than simple ones. `util.slow(what, since)` writes a
+  "SotaLore slow: ..." line to chat when a step takes over 0.3 s, to find the one that is too slow. A single
+  call that is itself slow (`ShroudGetRecipeBook` for a whole craft skill, saving a big saved variable) cannot
+  be sliced. A "Lua Watchdog ... exceeded its execution time budget" message seen once during exports on
+  2026-10-17; the cause was not identified before the slicing and the slow-step messages were added.
+- **A stopped callback must leave the job's state consistent.** The 0.7.1 export once wrote 10 recipes twice: the game
+  stopped a callback (the watchdog) after a batch of recipes had been stored but before the position was
+  advanced, so the next frame read the same batch again. `ShroudGetKnownRecipes` itself lists every id once (checked:
+  1,234 entries, 1,234 different recipes). Since 0.7.2 the export stores each recipe under its id and advances
+  one recipe at a time, so reading a recipe again changes nothing. Keep any multi-frame job idempotent like that.
 - A bag item's `key` (`item:` + 32 hex) is the same key recipes use for ingredients and results; this is the
   only game item id there is. Recipe `id` is a signed 32-bit integer and can be negative.
 - `ShroudOnItemsGained` ("Recently Looted") excludes items already owned, moves, equipping, login and

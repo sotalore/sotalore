@@ -24,6 +24,7 @@ local function jitem(key, name, weight, value, createdBy)
 end
 
 function M.export()
+    local started = util.clock()
     local bags = ShroudGetInventoryItems()
     if not bags then
         ShroudConsoleLog("Items are not loaded yet.")
@@ -76,10 +77,11 @@ function M.export()
         parts[#parts + 1] = jitem(key, ItemDetails.all()[key].name or key, nil, nil, "")
     end
 
-    local body = '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
+    local body = util.header("items")
         .. ',"count":' .. #parts .. ',"items":[\n' .. table.concat(parts, ",\n") .. '\n]}\n'
 
     local path, err = util.writeFile(SotaLore.files.items, body)
+    util.slow("exporting the items", started)
     if not path then
         ShroudConsoleLog("Item export failed: " .. tostring(err))
         return
