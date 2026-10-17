@@ -32,7 +32,7 @@ local category = ALL
 local newOnly = false    -- show only recipes "Export new" would export
 
 local listWin, searchField, catDrop, countLabel, newToggle, captureToggle
-local exportButton, exportAllButton
+local exportButton, exportAllButton, itemsNewButton, itemsAllButton
 local rows = {}          -- the pooled list buttons
 local details = {}       -- recipe id -> { win, body }
 local detailOrder = {}   -- recipe ids, oldest first
@@ -248,12 +248,20 @@ function M.build()
     }
     ItemDetails.onToggle = function(on) captureToggle:SetValue(on) end
 
-    exportButton = UI.Button{ text = "Export new", tooltip = "Write only recipes not exported before", onClick = function() RecipeExport.start("new") end }
-    exportAllButton = UI.Button{ text = "Export all", tooltip = "Write every known recipe", onClick = function() RecipeExport.start("all") end }
+    exportButton = UI.Button{ text = "New recipes", tooltip = "Write only recipes not exported before", onClick = function() RecipeExport.start("new") end }
+    exportAllButton = UI.Button{ text = "All recipes", tooltip = "Write every known recipe", onClick = function() RecipeExport.start("all") end }
     -- While an export runs, show its progress on both buttons.
     RecipeExport.onProgress = function(text)
-        exportButton:SetText(text or "Export new")
-        exportAllButton:SetText(text or "Export all")
+        exportButton:SetText(text or "New recipes")
+        exportAllButton:SetText(text or "All recipes")
+    end
+
+    -- The same for the items in the bags (items.lua).
+    itemsNewButton = UI.Button{ text = "New items", tooltip = "Write only items not exported before, or changed since", onClick = function() Items.start("new") end }
+    itemsAllButton = UI.Button{ text = "All items", tooltip = "Write every item in your bags", onClick = function() Items.start("all") end }
+    Items.onProgress = function(text)
+        itemsNewButton:SetText(text or "New items")
+        itemsAllButton:SetText(text or "All items")
     end
 
     local scroll = UI.Scroll{ style = { flexGrow = 1 } }
@@ -281,18 +289,13 @@ function M.build()
             newToggle,
             countLabel,
             UI.Row{ children = { exportButton, exportAllButton } },
+            UI.Row{ children = { itemsNewButton, itemsAllButton, captureToggle } },
             UI.Row{ children = {
                 UI.Button{
                     text = "Finds window",
                     tooltip = "Show or hide the small window that tracks items and creatures per scene",
                     onClick = FindsUI.toggle,
                 },
-                UI.Button{
-                    text = "Export my items",
-                    tooltip = "Add bag items (key, name, weight, value) to " .. SotaLore.files.items,
-                    onClick = Items.export,
-                },
-                captureToggle,
             } },
             scroll,
         },

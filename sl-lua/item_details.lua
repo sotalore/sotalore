@@ -44,6 +44,12 @@ function M.all()
     return all()
 end
 
+-- The revision number of what was captured for this item (0 when nothing was).
+function M.revOf(key)
+    local d = all()[key]
+    return d and d.rev or 0
+end
+
 function M.save(force)
     if not dirty then return end
     if not force and ShroudTime - lastSave < 5 then return end
@@ -143,6 +149,20 @@ local function parse(desc)
     d.text = text
     return d
 end
+-- A short text that changes whenever anything worth exporting about the item changes (not the quantities and
+-- durabilities in the tooltip text, which differ every time). Used to number the revisions of an item.
+local function fingerprint(d)
+    local bits = { tostring(d.crafted), table.concat(d.types or {}, ","), tostring(d.questItem), tostring(d.artifact),
+        tostring(d.tool), tostring(d.consumable), tostring(d.noTrade), tostring(d.noSell), tostring(d.noValue),
+        tostring(d.indestructible), tostring(d.yields or "") }
+    if d.merchantPays then bits[#bits + 1] = d.merchantPays.min .. "-" .. d.merchantPays.max end
+    bits[#bits + 1] = table.concat(d.effects or {}, ",")
+    for _, s in ipairs(d.salvage or {}) do
+        bits[#bits + 1] = tostring(s.name) .. ":" .. tostring(s.min) .. ":" .. tostring(s.max) .. ":" .. tostring(s.chance)
+    end
+    return table.concat(bits, "|")
+end
+
 -- A short description of what was captured, for the chat line.
 local function summary(d)
     local bits = {}
@@ -215,6 +235,17 @@ function M.tick()
     else
         d.name = it.name
         entry = d
+    end
+    -- Number the revisions of this item: a new capture of something that changed is a new revision, so the
+    -- item file can send just the items that changed since they were last exported (items.lua).
+    local old = all()[it.key]
+    entry.fp = fingerprint(d)
+    if not old then
+        entry.rev = 1
+    elseif old.fp ~= entry.fp then
+        entry.rev = (old.rev or 0) + 1
+    else
+        entry.rev = old.rev or 1
     end
     all()[it.key] = entry
     dirty = true
