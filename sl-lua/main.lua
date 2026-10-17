@@ -38,7 +38,11 @@ local function handleCommand(args)
     elseif args == "checkrecipes" then
         RecipeExport.check()
     elseif args == "items" then
-        Items.export()
+        Items.start("new")
+    elseif args == "itemsall" then
+        Items.start("all")
+    elseif args == "baselineitems" then
+        Items.start("baseline")
     elseif args == "finds" then
         FindsUI.toggle()
     elseif args == "savefinds" then
@@ -58,6 +62,7 @@ end
 -- Runs once when the plugin loads: builds the windows and registers the command and key binding.
 function ShroudOnStart()
     RecipeExport.reset()
+    Items.reset()
     Finds.load()
     RecipesUI.build()
     FindsUI.build()
@@ -67,7 +72,7 @@ function ShroudOnStart()
     -- /sotalore is refused ("sota" is a reserved prefix), so the command is /slore.
     local ok, reason = Shroud.Command{
         name = "slore",
-        help = "Open SotaLore. /slore <text> searches; new, checkrecipes, capture, hoverlog, export, exportall, items, finds (window), savefinds, clearfinds, gatherlog.",
+        help = "Open SotaLore. /slore <text> searches. Also: new export exportall items itemsall finds capture",
         run = handleCommand,
     }
     if not ok then
@@ -80,6 +85,7 @@ end
 -- Every frame.
 function ShroudOnUpdate()
     RecipeExport.step()
+    Items.step()
     HoverLog.tick()
     ItemDetails.tick()
     FindsUI.tick()

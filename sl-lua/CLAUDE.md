@@ -28,7 +28,7 @@ comment saying what it is for. This is the pattern the game's own multi-file exa
 |------|-----|
 | `core.lua` | creates the one global table `SotaLore`; shared helpers in `SotaLore.util` (JSON writing, text clipping, file writing, `perItem`) and file names in `SotaLore.files` |
 | `recipes_export.lua` | `SotaLore.RecipeExport`: known recipes to JSON files, the "already exported" list |
-| `items.lua` | `SotaLore.Items`: the bag item catalog |
+| `items.lua` | `SotaLore.Items`: the items file for the bags; exports only new or changed items (`new`), everything (`all`) or marks them exported (`baseline`), in time slices |
 | `finds_data.lua` | `SotaLore.Finds`: the per-scene find list (items, creatures, nodes), saving it, writing the finds file |
 | `finds_ui.lua` | `SotaLore.FindsUI`: the small finds window |
 | `recipes_ui.lua` | `SotaLore.RecipesUI`: the recipe list and recipe windows, with the export buttons |
@@ -119,11 +119,11 @@ Untested ideas:
 ## Slash command, windows, saved data
 
 - Command is `/slore` (`/sotalore` is refused: `sota` is a reserved prefix). Subcommands: `export`,
-  `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
+  `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items` (new or changed items), `itemsall`, `baselineitems`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
   `gatherlog`, `checkrecipes`, `capture`, `hoverlog`; other text searches the recipe list.
 - An addon may own at most **8 windows**: the list (1), the finds window (1) and up to 6 recipe windows.
 - Account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
-  `items` (item catalog), `finds` (the per-scene list), `track` (tracking toggle).
+  `itemSigs` (a fingerprint per item for what was last exported; no catalog of items is kept), `itemDetails` (captured tooltips), `exported` (recipes), `finds` (the per-scene list), `track` (tracking toggle).
 
 ## API facts learned in play (docs are at https://catnipgames.net/lua/reference.html)
 

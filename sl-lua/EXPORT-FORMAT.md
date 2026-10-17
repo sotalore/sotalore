@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.7.3)
+# SotaLore plugin export format (plugin v0.8.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -48,19 +48,29 @@ recipes because an older full export lacks them.
 - Nothing about the character is exported (carried counts are deliberately dropped).
 - Recipes that roll their product from a list have `results` = `[]` (no fixed yield).
 
-### Item catalog file
+### Items file
 
-`sotalore-items.json` (button "Export my items", or `/slore items`) lists items found in the
-character's top-level bags (not worn gear, nested containers, bank or chests). It accumulates
-across presses and characters (stored account-wide) and is rewritten in full each time:
+`sotalore-items.json` (the "New items" and "All items" buttons, `/slore items`, `/slore itemsall`) lists the items in
+the character's top-level bags (not worn gear, nested containers, bank or chests). The bags hold many things that
+never leave (gear, quest items, tools), so like the recipe files it has a `scope`:
+
+| `scope` | Written by | Meaning |
+|---------|-----------|---------|
+| `"new"` | "New items" / `/slore items` | only items not exported before, or **changed** since: the weight or value is different, or details were captured or changed by hovering. Never the whole list, even if it happens to hold everything. |
+| `"all"` | "All items" / `/slore itemsall` | every item in the bags, plus any item whose tooltip was captured earlier. |
+
+`/slore baselineitems` marks everything in the bags as already exported without writing a file (for items the
+site already has). The plugin remembers what it last exported as a short fingerprint per item (it does not keep a
+catalog of items between exports, so nothing grows however many items turn up), shared by all of the account's
+characters. A file from before plugin v0.8.0 has no `scope` and was always the whole list (an accumulating catalog
+of every item seen).
 
 ```json
-{ "apiVersion": 40, "pluginVersion": "0.7.1", "type": "items", "count": 2, "items": [
+{ "apiVersion": 40, "pluginVersion": "0.8.0", "type": "items", "scope": "new", "count": 2, "items": [
   {"key": "item:...", "name": "Wax", "weight": 0.05, "value": 1, "createdBy": "", "details": null}, ... ] }
 ```
 
-`key` is the same item key used in recipes (join on it). `weight` is for one item; `value` is the
-game's gold value for one item (not verified to be the same as the fansite `price`). Items with no
+`key` is the same item key used in recipes (join on it). `weight` is for one item; `value` is thegame's gold value for one item (not verified to be the same as the fansite `price`). Items with no
 key are skipped. Each entry also has `createdBy`, the API's field of that name. **Do not rely on it to spot
 crafted items:** in play it is empty even for items whose tooltip says "Crafted by <player>" (two crafted daggers
 both read `createdBy` empty and a `creationDate` of "January 1, 0 PC"), so it is probably not the crafter. If it
