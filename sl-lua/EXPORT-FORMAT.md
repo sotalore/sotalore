@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.5.0)
+# SotaLore plugin export format (plugin v0.5.1)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -108,7 +108,7 @@ item could not be matched to a top-level bag item (for example it went straight 
 such items are identified by name only. `weight`/`value` come from the matching bag item and are
 **per item**. The API says so but actually reports the numbers for the whole stack (a stack of 31 Animal
 Hide read 12.4 where the recipe stats say 0.4 each), so the plugin divides by the stack size and rounds to 4
-decimals. This correction is in plugin 0.5.0; finds or catalogs saved by earlier versions hold stack totals
+decimals. This correction is in plugin 0.4.0; finds or catalogs saved by earlier versions hold stack totals
 for weight and value, so reset the list and treat older files as wrong for those two fields. Prefer the
 recipe stat-row `weight` where an item has one.
 
@@ -137,7 +137,7 @@ yet verified against a real file, including whether creature names match the sit
 
 `apiVersion` is the game's Lua API version when the file was written. `count` = number of recipes.
 
-`scope` says what the file holds (added in plugin v0.5.0; files from earlier versions have no `scope`,
+`scope` says what the file holds (added in plugin v0.3.0; files from earlier versions have no `scope`,
 so treat a missing one as unknown):
 
 | `scope` | Written by | Meaning |
