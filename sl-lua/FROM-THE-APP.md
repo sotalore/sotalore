@@ -28,19 +28,38 @@ few scenes, is the data worth having. So the most valuable thing the finds file 
 **which creature an item came from**. Field dressing already gives that (thank you for `nodes`);
 loot from bodies would too, if the API ever allows it.
 
-### R3. Say which plugin version wrote a file (open, 2026-10-17)
+### R3. Say which plugin version wrote a file (done, plugin 0.7.1)
 
-Full exports from before plugin 0.5.2 silently lack about 100 recipes, so a site recipe missing from
-one may not be gone from the game. The importer can't tell those files apart from complete ones,
-because nothing in a file says which plugin version wrote it. Please add the version at the top level
-of every file the plugin writes (recipe exports, items, finds), for example:
+Every file now starts with `apiVersion`, `pluginVersion` and `type`. The importer uses them: a recipe
+file with `"scope": "all"` is a full export only from plugin 0.5.2 on (without a version, the
+uploader decides), anything older can't be marked full, and each import refuses a file whose `type`
+belongs elsewhere. Thank you.
 
-```json
-{ "apiVersion": 40, "pluginVersion": "0.7.0", "scope": "all", ... }
-```
+### R4. Some item weights and values are still whole-stack ones (open, 2026-10-17)
 
-The importer will then refuse to treat a pre-0.5.2 "all" file as a full export. Any name is fine;
-please describe it in `EXPORT-FORMAT.md`.
+The items example from plugin **0.7.3** (`data/plugin-examples/sotalore-items.json`) still has, for
+three potions, weights and values that look like a whole stack's:
+
+| Item | weight | value |
+|------|--------|-------|
+| Cure Plague Potion | 191.400009155273 | 6380 |
+| Cure Poison Potion | 192 | 6400 |
+| Explosive Potion | 485.400024414063 | 16180 |
+
+That's about 319 potions at 0.6 and 20 gold each, so the division by stack size seems not to happen
+for these (the first and last also aren't rounded to 4 decimals). Every other item looks right
+(Animal Hide 0.4, Poison Potion 0.3). Until it's clear which entries can be trusted, the importer
+takes no weights from the items file; recipe weights cover most items. If the plugin can tell when it
+couldn't divide (a stack size of 0 or 1 reported for a stack, say), leaving `weight` and `value`
+`null` for those would let the importer take the rest.
+
+A finding about salvage, too: `EXPORT-FORMAT.md` says a crafted item's salvage list is the same for
+the kind of item, but the example shows materials change it. Epic Leather Boots +13 salvage into Yard
+of Simple Leather, Supple Epic Leather Gloves +12 into Yard of Supple Leather, and Bronze Dagger +11 into
+Bronze Hilt and Bronze Dagger Blade, though each shares its base item's key. A reshaped item's Eternal
+Pattern is its own too. So the importer only takes a crafted item's salvage when its name, less "+N"
+and an "of ..." enchantment, is the base item's name, and never its pattern. If the tooltip says what
+the item was made from, that would let it do better.
 
 ## How the site uses the exports today
 
@@ -63,7 +82,12 @@ please describe it in `EXPORT-FORMAT.md`.
   and gathering nodes, and what each node gives. A node named like a creature is field dressing, so
   its items are that creature's. Presence only: counts are ignored. Scene `info` is compared with
   the site's scene and differences are shown for review, not applied.
-- **The item catalog** isn't imported yet. Next: salvage results, merchant prices and item types.
+- **The item catalog** is imported: keys (by key, or by name the first time), the tooltip kept on the
+  item's key (value, merchant pays, flags, effects, text), "Tool" items of unknown use made tools, and
+  salvage lists with their quantity ranges and chances (`yields` as one more component). Crafted items
+  are matched by key and give only their salvage, as described under R4. Weights aren't taken (R4).
+  Both scopes (`new`, `all`) are applied the same way: nothing is removed for an item a file leaves out.
+  Item `types` (plugin 0.6.2) aren't used yet: they'd suggest an item's `use`.
 
 ## The site's data model
 
@@ -144,8 +168,8 @@ site items, which may be groups or categories (a slot taking any member).
 
 ### Salvages
 
-Which items an item salvages into: pairs of "from" and "to" items, without quantities or chances
-(268 pairs). Curated by hand; nothing in the exports yet.
+Which items an item salvages into: pairs of "from" and "to" items, each with the quantity range and
+percentage chance when known. From the item catalog's tooltips, and curated by hand before that.
 
 ### Scenes
 

@@ -58,6 +58,13 @@ Rails.application.routes.draw do
       resources :item_resolutions, only: [ :create ], controller: 'recipe_import_item_resolutions'
     end
     resources :item_reviews, only: [ :index, :update ]
+    resources :item_catalog_imports, only: [ :index, :show, :create, :destroy ] do
+      member do
+        post :apply
+        post :resolve
+        post :remove_salvage
+      end
+    end
     resources :finds_imports, only: [ :index, :show, :create, :destroy ] do
       member do
         post :apply

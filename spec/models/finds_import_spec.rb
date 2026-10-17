@@ -20,6 +20,8 @@ RSpec.describe FindsImport do
   it 'rejects files that are not finds' do
     expect { FindsImport.create_from_json!({ recipes: [] }.to_json) }.to raise_error(ArgumentError)
     expect { FindsImport.create_from_json!({ scenes: [] }.to_json) }.to raise_error(ArgumentError, /No scenes/)
+    expect { FindsImport.create_from_json!({ type: 'items', scenes: [ scene_hash ] }.to_json) }
+      .to raise_error(ArgumentError, 'That file holds items, not finds')
   end
 
   describe 'analysis' do

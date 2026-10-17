@@ -6,6 +6,8 @@
 # creatures and gathering nodes are there, and what they yield. Applying is
 # idempotent, so an import can be applied again after resolving more of it.
 class FindsImport < ApplicationRecord
+  include GameItemResolution
+
   belongs_to :uploaded_by, class_name: 'User', optional: true
 
   scope :newest_first, -> { order(created_at: :desc, id: :desc) }
@@ -55,30 +57,6 @@ class FindsImport < ApplicationRecord
     "Finds ##{id}"
   end
 
-  class Error < StandardError; end
-
-  # Makes a concrete item for one the site doesn't know, with its key.
-  def create_item!(name:, key: nil)
-    unknown!(name, key)
-    Item.transaction do
-      item = Item.create!(name: name, kind: :concrete)
-      item.game_keys.create!(key: key, name: name) if key
-      item
-    end
-  end
-
-  # Takes an existing item as the unknown one: gives it the game's key, or
-  # without a key, the game's name as an alias.
-  def use_item!(item, name:, key: nil)
-    unknown!(name, key)
-    if key
-      item.game_keys.create!(key: key, name: name)
-    elsif !item.name.casecmp?(name)
-      item.aliases.create!(name: name)
-    end
-    item
-  end
-
   # Takes +scene+ as the export's scene named +name+, by recording the
   # game's internal name for it.
   def link_scene!(name, scene)
@@ -93,9 +71,7 @@ class FindsImport < ApplicationRecord
 
   private
 
-  def unknown!(name, key)
-    analysis.unknown_items.find { key ? _1.key == key : _1.key.nil? && _1.name.casecmp?(name) } or
-      raise Error, "#{name} isn't an unknown item in this import"
+  def reset_analysis!
     @analysis = nil
   end
 

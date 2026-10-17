@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_17_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_17_140000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -162,7 +162,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_17_120000) do
     t.index ["name"], name: "index_item_aliases_on_name", unique: true
   end
 
+  create_table "item_catalog_imports", force: :cascade do |t|
+    t.integer "api_version"
+    t.datetime "applied_at"
+    t.datetime "created_at", null: false
+    t.string "filename"
+    t.jsonb "payload", default: {}, null: false
+    t.string "plugin_version"
+    t.datetime "updated_at", null: false
+    t.integer "uploaded_by_id"
+    t.index ["uploaded_by_id"], name: "index_item_catalog_imports_on_uploaded_by_id"
+  end
+
   create_table "item_game_keys", force: :cascade do |t|
+    t.jsonb "catalog"
+    t.datetime "catalog_seen_at"
     t.datetime "created_at", null: false
     t.integer "item_id", null: false
     t.string "key", null: false
@@ -183,6 +197,10 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_17_120000) do
   end
 
   create_table "item_salvages", force: :cascade do |t|
+    t.decimal "chance", precision: 5, scale: 2
+    t.datetime "game_synced_at"
+    t.integer "max_count", limit: 2
+    t.integer "min_count", limit: 2
     t.bigint "salvage_from_id", null: false
     t.bigint "salvage_to_id", null: false
     t.index ["salvage_from_id", "salvage_to_id"], name: "index_item_salvages_on_salvage_from_id_and_salvage_to_id", unique: true
@@ -299,6 +317,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_17_120000) do
     t.string "filename"
     t.boolean "full_export", default: false, null: false
     t.jsonb "groups_payload", default: [], null: false
+    t.string "plugin_version"
     t.datetime "updated_at", null: false
     t.integer "uploaded_by_id"
     t.index ["uploaded_by_id"], name: "index_recipe_imports_on_uploaded_by_id"
@@ -432,6 +451,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_17_120000) do
   add_foreign_key "ingredients", "items"
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "item_aliases", "items"
+  add_foreign_key "item_catalog_imports", "users", column: "uploaded_by_id"
   add_foreign_key "item_game_keys", "items"
   add_foreign_key "item_memberships", "items", column: "group_id", on_delete: :cascade
   add_foreign_key "item_memberships", "items", column: "member_id", on_delete: :cascade

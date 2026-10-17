@@ -33,9 +33,10 @@ module GameExportHelpers
   end
 
   # +groups+ is [ { key:, name:, members: { key => name }, complete: } ].
-  def game_export_json(*recipes, groups: [], scope: nil)
+  def game_export_json(*recipes, groups: [], scope: nil, plugin_version: nil, type: nil)
     {
-      'apiVersion' => 26, 'scope' => scope, 'count' => recipes.size, 'recipes' => recipes,
+      'apiVersion' => 26, 'pluginVersion' => plugin_version, 'type' => type, 'scope' => scope,
+      'count' => recipes.size, 'recipes' => recipes,
       'groups' => groups.map do |g|
         members = g.fetch(:members, {})
         { 'groupKey' => g[:key], 'name' => g[:name], 'choiceCount' => members.size,

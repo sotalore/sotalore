@@ -1,0 +1,105 @@
+require 'rails_helper'
+
+RSpec.describe ItemCatalogImport do
+  let(:user) { create(:user, :root) }
+  let!(:boots)  { create(:item, name: 'Epic Leather Boots') }
+  let!(:scrap)  { create(:item, name: 'Leather Scrap') }
+  let!(:yard)   { create(:item, name: 'Yard of Simple Leather') }
+  let!(:supple) { create(:item, name: 'Yard of Supple Leather') }
+  let!(:gloves) { create(:item, name: 'Epic Leather Gloves') }
+  let!(:dagger) { create(:item, name: 'Dagger', kind: :archetype) }
+  let!(:knife)  { create(:item, name: 'Skinning Knife', weight: 2) }
+
+  before do
+    boots.game_keys.create!(key: item_key('boots'), name: boots.name)
+    gloves.game_keys.create!(key: item_key('gloves'), name: gloves.name)
+    dagger.game_keys.create!(key: item_key('dagger'), name: dagger.name)
+  end
+
+  def import_of(*entries)
+    ItemCatalogImport.create_from_json!(catalog_json(*entries), filename: 'sotalore-items.json', user: user)
+  end
+
+  let(:import) do
+    import_of(
+      catalog_entry(name: 'Epic Leather Boots +13', key: item_key('boots'), crafted: true,
+                    salvage: { 'Leather Scrap' => [ 1, 25, 90.5 ], 'Yard of Simple Leather' => [ 1, 1, 9.5 ] },
+                    yields: 'Eternal Pattern: Epic Leather Boots'),
+      catalog_entry(name: 'Supple Epic Leather Gloves +12', key: item_key('gloves'), crafted: true,
+                    salvage: { 'Yard of Supple Leather' => [ 1, 1, 9.5 ] }),
+      catalog_entry(name: 'Bronze Dagger +11', key: item_key('dagger'), crafted: true,
+                    salvage: { 'Bronze Hilt' => [ 1, 1, 5.7 ] }),
+      catalog_entry(name: 'Iron Sword +12', key: item_key('iron sword'), crafted: true),
+      catalog_entry(name: 'Skinning Knife', weight: 0.5, tool: true, salvage: { 'Metal Scrap' => [ 1, 15, 100 ] }),
+      catalog_entry(name: 'Leather Scrap', weight: 0.05),
+      catalog_entry(name: '[u]Love Letter[/u]', hovered: false)
+    )
+  end
+
+  it 'rejects files that are not item catalogs' do
+    expect { ItemCatalogImport.create_from_json!({ recipes: [] }.to_json) }.to raise_error(ArgumentError)
+    expect { ItemCatalogImport.create_from_json!({ scenes: [], items: [] }.to_json) }.to raise_error(ArgumentError)
+    expect { ItemCatalogImport.create_from_json!({ type: 'finds', items: [ catalog_entry(name: 'Wax') ] }.to_json) }
+      .to raise_error(ArgumentError, 'That file holds finds, not items')
+  end
+
+  describe 'analysis' do
+    subject(:analysis) { import.analysis }
+
+    it 'takes salvage from plain crafted items only, never archetypes, and skips unknown crafted items' do
+      rows = analysis.rows.index_by { _1.entry.name }
+      expect(rows['Epic Leather Boots +13'].salvage.map { [ _1.game.name, _1.missing? ] })
+        .to eq [ [ 'Leather Scrap', true ], [ 'Yard of Simple Leather', true ] ]
+      expect(rows['Supple Epic Leather Gloves +12'].salvage).to be_empty
+      expect(rows['Bronze Dagger +11'].salvage).to be_empty
+      expect(analysis.skipped_crafted.map(&:name)).to eq [ 'Iron Sword +12' ]
+    end
+
+    it 'finds weights to fill, tools, and unknown items' do
+      rows = analysis.rows.index_by { _1.entry.name }
+      expect(rows['Leather Scrap']).to be_missing_weight
+      expect(rows['Skinning Knife']).to have_attributes(different_weight?: true, tool?: true)
+      expect(rows['Epic Leather Boots +13']).not_to be_missing_weight
+      expect(analysis.unknown_components.map(&:name)).to eq [ 'Metal Scrap' ]
+      expect(analysis.unknown_catalog_items.map(&:name)).to eq [ 'Love Letter' ]
+    end
+  end
+
+  describe 'applying' do
+    it 'brings in salvage, tools and keys, with revisions, but not weights' do
+      counts = import.apply!(user)
+      expect(counts).to include(salvage_added: 2, tools: 1, keys: 2)
+      salvage = boots.item_salvages_as_source.index_by(&:salvage_to)
+      expect(salvage[scrap]).to have_attributes(min_count: 1, max_count: 25, chance: BigDecimal('90.5'))
+      expect(salvage[scrap].amount).to eq '1–25, 90.5%'
+      expect(salvage.keys).to contain_exactly(scrap, yard)
+      expect(scrap.reload.weight).to be_nil
+      expect(knife.reload).to have_attributes(use: 'tool', weight: BigDecimal('2'))
+      expect(knife.comments.revision.count).to eq 1
+      expect(knife.game_keys.sole.catalog).to include('value' => 1, 'details' => include('tool' => true))
+      expect(gloves.item_salvages_as_source).to be_empty
+
+      again = ItemCatalogImport.find(import.id).apply!(user)
+      expect(again.values_at(:salvage_added, :tools, :keys)).to all(eq 0)
+    end
+
+    it 'updates changed salvage numbers, and removes salvage the game does not list on request' do
+      old = ItemSalvage.create!(salvage_from: boots, salvage_to: scrap, min_count: 1, max_count: 10)
+      extra = ItemSalvage.create!(salvage_from: boots, salvage_to: supple)
+      row = import.analysis.rows.find { _1.item == boots }
+      expect(row.salvage.find { _1.item == scrap }).to be_changed
+      expect(row.extra_salvage).to eq [ extra ]
+
+      import.apply!(user)
+      expect(old.reload).to have_attributes(max_count: 25)
+      expect(import.remove_extra_salvage!(boots)).to eq 1
+      expect(ItemSalvage.exists?(extra.id)).to be false
+    end
+
+    it 'resolves unknown components so their salvage comes in' do
+      import.create_item!(name: 'Metal Scrap')
+      import.reload.apply!(user)
+      expect(knife.item_salvages_as_source.map(&:salvage_to).map(&:name)).to eq [ 'Metal Scrap' ]
+    end
+  end
+end
