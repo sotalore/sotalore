@@ -118,7 +118,7 @@ Untested ideas:
 
 - Command is `/slore` (`/sotalore` is refused: `sota` is a reserved prefix). Subcommands: `export`,
   `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
-  `gatherlog`; other text searches the recipe list.
+  `gatherlog`, `checkrecipes`; other text searches the recipe list.
 - An addon may own at most **8 windows**: the list (1), the finds window (1) and up to 6 recipe windows.
 - Account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
   `items` (item catalog), `finds` (the per-scene list), `track` (tracking toggle).
@@ -130,6 +130,12 @@ Untested ideas:
 - **Bag item `weight` and `value` are for the whole stack**, not "one item" as documented. The plugin
   divides by `quantity` (`perItem`). Darren was going to file this as an API bug; if the game fixes it,
   `perItem` would then divide wrongly, so re-check against a recipe's per-item weight first.
+- **`ShroudGetRecipe(id)` can return nil for a recipe `ShroudGetKnownRecipes` lists** (first seen with newly
+  learned recipes: the detail window said "You no longer know this recipe" and exports silently dropped
+  them). `util.getRecipe(id, categoryKey)` falls back to `ShroudGetRecipeBook(categoryKey)`; exports now warn in
+  chat about recipes they could not read, and `/slore checkrecipes` lists the unreadable ones. On Darren's
+  character 103 of 1,234 known recipes failed (Alchemy gem fragment and fracture recipes, Tanning fishing-trophy
+  recipes); the recipe book had them. Before 0.5.2 they were silently left out of every export. Cause unknown.
 - A bag item's `key` (`item:` + 32 hex) is the same key recipes use for ingredients and results; this is the
   only game item id there is. Recipe `id` is a signed 32-bit integer and can be negative.
 - `ShroudOnItemsGained` ("Recently Looted") excludes items already owned, moves, equipping, login and

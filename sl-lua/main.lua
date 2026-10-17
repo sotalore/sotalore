@@ -27,6 +27,8 @@ local function handleCommand(args)
         RecipeExport.start("baseline")
     elseif args == "new" then
         RecipesUI.showNew()
+    elseif args == "checkrecipes" then
+        RecipeExport.check()
     elseif args == "items" then
         Items.export()
     elseif args == "finds" then
@@ -57,7 +59,7 @@ function ShroudOnStart()
     -- /sotalore is refused ("sota" is a reserved prefix), so the command is /slore.
     local ok, reason = Shroud.Command{
         name = "slore",
-        help = "Open SotaLore. /slore <text> searches; new, export, exportall, items, finds (window), savefinds, clearfinds, gatherlog.",
+        help = "Open SotaLore. /slore <text> searches; new, checkrecipes, export, exportall, items, finds (window), savefinds, clearfinds, gatherlog.",
         run = handleCommand,
     }
     if not ok then
@@ -103,12 +105,14 @@ end
 
 -- The character's recipes or bags changed. These can fire before ShroudOnStart has built the windows.
 function ShroudOnRecipesChanged()
+    SotaLore.util.clearRecipeCache()
     if not RecipesUI.isBuilt() then return end
     RecipesUI.load()
     RecipesUI.refreshDetails()
 end
 
 function ShroudOnInventoryChanged()
+    SotaLore.util.clearRecipeCache()
     if not RecipesUI.isBuilt() then return end
     RecipesUI.refreshDetails()
 end

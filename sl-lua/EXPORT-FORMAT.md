@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.5.1)
+# SotaLore plugin export format (plugin v0.5.2)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -19,6 +19,18 @@ The addon writes JSON files into the game's `Lua/` folder (Lua cannot POST, has 
 Both files have the same shape. Each export overwrites the previous file of that name.
 "Export new" sends only recipes not exported before (remembered per account); "Export all" sends
 every recipe the character knows. `/slore baseline` marks everything as already exported. In the recipe list, the "New only" toggle (or `/slore new`) shows exactly the recipes "Export new" would send.
+
+A recipe the game lists but will not hand over (`ShroudGetRecipe` returns nothing, and the recipe book does not
+have it either) is left out of the file and is **not** marked as exported; the plugin says so in chat after the
+export ("WARNING: N recipes could not be read and are NOT in the file"). So `count` can be lower than the number
+of recipes the character knows, and the missing ones keep showing up as new.
+
+**Full exports made before plugin v0.5.2 are incomplete.** Until then the plugin dropped every recipe that
+`ShroudGetRecipe` could not read, without saying so. On the author's character that was 103 of 1,234 known
+recipes (the file had 1,131): Alchemy gem recipes such as Combine Gem Fragments and Fracture Gem/Jewel, and
+Tanning trophy recipes such as Arapaima Trophy, Peacock Bass Trophy and Spotted Bass Trophy. Plugin v0.5.2 reads
+them from the recipe book instead, so a fresh `"scope": "all"` export has all of them. Do not retire site
+recipes because an older full export lacks them.
 
 ## Hard limits of the source (the API cannot do these)
 

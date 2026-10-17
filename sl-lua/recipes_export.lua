@@ -169,6 +169,12 @@ local function finish()
     end
     markExported(st.ids)
     ShroudConsoleLog("Exported " .. #st.parts .. " recipes to " .. path .. " (type /lua path to open the folder)")
+    if st.unreadable then
+        local shown = {}
+        for i = 1, math.min(#st.unreadable, 8) do shown[i] = st.unreadable[i] end
+        ShroudConsoleLog("WARNING: " .. #st.unreadable .. " recipes could not be read and are NOT in the file: "
+            .. table.concat(shown, ", ") .. (#st.unreadable > 8 and ", ..." or ""))
+    end
     if M.onDone then M.onDone() end
 end
 
@@ -204,17 +210,66 @@ function M.start(mode, only)
     state = { list = list, i = 1, parts = {}, ids = {}, groups = {}, file = SotaLore.files.recipes, scope = mode }
 end
 
--- Called every frame (from main.lua's ShroudOnUpdate); does nothing unless an export is running.
+-- Checking that every known recipe can be read ------------------------------------------------
+
+local check = nil   -- the check in progress, or nil
+
+-- Starts a check (the /slore checkrecipes command): reads every known recipe, a few per frame, and
+-- reports in chat the ones ShroudGetRecipe cannot read, and whether the recipe book can.
+function M.check()
+    if check then return end
+    local known = ShroudGetKnownRecipes() or {}
+    check = { list = known, i = 1, bad = {} }
+    ShroudConsoleLog("Recipe check started: " .. #known .. " known recipes")
+end
+
+local function stepCheck()
+    local c = check
+    if not c then return end
+    local last = math.min(c.i + EXPORT_BATCH - 1, #c.list)
+    for i = c.i, last do
+        local k = c.list[i]
+        if not ShroudGetRecipe(k.id) then c.bad[#c.bad + 1] = k end
+    end
+    c.i = last + 1
+    if c.i <= #c.list then return end
+
+    check = nil
+    ShroudConsoleLog("Recipe check: " .. #c.list .. " known, " .. #c.bad .. " cannot be read with ShroudGetRecipe")
+    for i = 1, math.min(#c.bad, 8) do
+        local k = c.bad[i]
+        ShroudConsoleLog("  " .. tostring(k.name) .. "  id=" .. tostring(k.id) .. "  " .. tostring(k.categoryKey))
+    end
+    if #c.bad > 0 and ShroudGetRecipeBook then
+        local first = c.bad[1]
+        local ok, book = pcall(ShroudGetRecipeBook, first.categoryKey)
+        local found = false
+        if ok and type(book) == "table" then
+            for _, b in ipairs(book) do if b.id == first.id then found = true end end
+        end
+        ShroudConsoleLog("  ShroudGetRecipeBook(" .. tostring(first.categoryKey) .. "): "
+            .. (ok and (type(book) == "table" and (#book .. " recipes") or tostring(book)) or ("error: " .. tostring(book)))
+            .. "; contains " .. tostring(first.name) .. ": " .. tostring(found))
+    end
+end
+
+-- Called every frame (from main.lua's ShroudOnUpdate); does nothing unless an export or check is running.
 function M.step()
+    stepCheck()
     local st = state
     if not st then return end
     local last = math.min(st.i + EXPORT_BATCH - 1, #st.list)
     for i = st.i, last do
-        local r = ShroudGetRecipe(st.list[i].id)
+        local entry = st.list[i]
+        local r = util.getRecipe(entry.id, entry.categoryKey)
         if r then
             st.parts[#st.parts + 1] = jrecipe(r)
             st.ids[#st.ids + 1] = r.id
             noteGroups(st.groups, r)
+        else
+            -- Not exported (and so not marked exported either); say so rather than lose it quietly.
+            st.unreadable = st.unreadable or {}
+            st.unreadable[#st.unreadable + 1] = tostring(entry.name or entry.id)
         end
     end
     st.i = last + 1

@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore"
-local Version = "0.5.1"
+local Version = "0.5.2"
 local CreatorName = "Gravidy"
 local Description = "Recipe browser and data export for the SotaLore fansite."
 
@@ -66,6 +66,32 @@ function util.writeFile(name, body)
     f:write(body)
     f:close()
     return path
+end
+
+-- Reading one recipe. ShroudGetRecipe(id) sometimes returns nothing for a recipe that
+-- ShroudGetKnownRecipes lists (seen with newly learned recipes). Fall back to the recipe book
+-- (API 37), which returns the same tables, read once per crafting skill and kept until
+-- clearRecipeCache() (called when the recipes or bags change).
+local bookCache = {}   -- categoryKey -> { recipe id -> recipe }
+
+function util.clearRecipeCache()
+    bookCache = {}
+end
+
+function util.getRecipe(id, categoryKey)
+    local r = ShroudGetRecipe(id)
+    if r then return r end
+    if not categoryKey or not ShroudGetRecipeBook then return nil end
+    local byId = bookCache[categoryKey]
+    if not byId then
+        byId = {}
+        local ok, book = pcall(ShroudGetRecipeBook, categoryKey)
+        if ok and type(book) == "table" then
+            for _, b in ipairs(book) do byId[b.id] = b end
+        end
+        bookCache[categoryKey] = byId
+    end
+    return byId[id]
 end
 
 -- The API documents weight and value as "one item", but a bag item's numbers are for its whole

@@ -42,13 +42,21 @@ end
 
 -- A recipe's window ------------------------------------------------------------------------
 
+-- The entry for a recipe id in the list of known recipes (it carries the category key).
+local function knownEntry(id)
+    for _, r in ipairs(recipes) do
+        if r.id == id then return r end
+    end
+    return { id = id }
+end
+
 local function fillDetail(id)
     local d = details[id]
     if not d then return end
     local body = d.body
     body:Clear()
 
-    local r = ShroudGetRecipe(id)
+    local r = util.getRecipe(id, knownEntry(id).categoryKey)
     if not r then
         body:Add(UI.Label{ text = "You no longer know this recipe.", class = "warning" })
         return
@@ -111,7 +119,7 @@ local function openDetail(id)
                 UI.Button{
                     text = "Save this recipe to file",
                     tooltip = "Writes " .. SotaLore.files.oneRecipe .. " in the Lua folder",
-                    onClick = function() RecipeExport.start("one", { id = id }) end,
+                    onClick = function() RecipeExport.start("one", knownEntry(id)) end,
                 },
             },
         }
