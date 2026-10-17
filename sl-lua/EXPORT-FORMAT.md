@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.4.0)
+# SotaLore plugin export format (plugin v0.5.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -68,6 +68,19 @@ nearby, and nothing the player only talks to. Heals and falls are ignored. PvP s
 are skipped entirely, since the opponents are players. A creature is counted once per individual per
 visit to a scene (using the combat line's per-scene creature key, which the API does not expose as an id).
 
+**Nodes.** When a gathering action finishes (`ShroudOnGatherResults`), the addon records the node's name and
+what its loot window held. This is the only place a gathered item is tied to where it came from. Seen in
+play: mining and harvesting give the resource node's name ("Copper Vein", "Cotton Plant", "Maple Tree"),
+and **field dressing a corpse gives the creature's name** ("Rabbit", "Small Wolf Spider"), so the items of
+a field-dressed creature (Leather Scrap, Spider Silk, Venom Sack, even the carcass itself) are tied to that
+creature. Nothing tells the two kinds apart in the data; a name that is also in `creatures` is a creature.
+An interrupted harvest sends nothing. The loot window also lists the experience reward as items ("60
+Producer Experience", once per swing); those are dropped and the reward is in `experience` instead. The same
+items also arrive through `ShroudOnItemsGained`, so they are still counted under `items` as well; `nodes`
+is the attribution, not extra stock. Each result is also written to chat as `SotaLore gather: node=...`
+while the gather log is on (default on; `/slore gatherlog` toggles it) so unknown node kinds can be seen.
+Loot taken from a corpse or chest has no source in the API, so it is not attributed to anything.
+
 ```json
 { "apiVersion": 40, "scenes": [
   { "scene": "Scene Name", "rawName": "InternalSceneName",
@@ -76,7 +89,9 @@ visit to a scene (using the combat line's per-scene creature key, which the API 
               "levelCap": 0, "skillCap": 0, "craftingSkillCap": 0 },
     "items": [ {"key": "item:..." , "name": "Wax", "quantity": 12, "times": 4,
                 "weight": 0.05, "value": 1} ],
-    "creatures": [ {"name": "Wolf", "seen": 7, "levelMin": 4, "levelMax": 6} ] } ] }
+    "creatures": [ {"name": "Wolf", "seen": 7, "levelMin": 4, "levelMax": 6} ],
+    "nodes": [ {"name": "Iron Ore Vein", "harvests": 5, "failed": 1, "experience": 120,
+                "items": [ {"name": "Iron Ore", "quantity": 16} ] } ] } ] }
 ```
 
 `scene`/`rawName` are the game's display and internal scene names (as `ShroudGetSceneInfo` gives them;
@@ -93,9 +108,15 @@ item could not be matched to a top-level bag item (for example it went straight 
 such items are identified by name only. `weight`/`value` come from the matching bag item and are
 **per item**. The API says so but actually reports the numbers for the whole stack (a stack of 31 Animal
 Hide read 12.4 where the recipe stats say 0.4 each), so the plugin divides by the stack size and rounds to 4
-decimals. This correction is in plugin 0.4.0; finds or catalogs saved by earlier versions hold stack totals
+decimals. This correction is in plugin 0.5.0; finds or catalogs saved by earlier versions hold stack totals
 for weight and value, so reset the list and treat older files as wrong for those two fields. Prefer the
 recipe stat-row `weight` where an item has one.
+
+Nodes: `name` is the node's name as the game gives it (the example above is made up; real ones seen:
+Copper Vein, Cotton Plant, Maple Tree, and creature names for field dressing). `harvests` counts finished nodes, `failed` how many of those failed, `experience` the
+producer experience they paid, `items` what the loot windows held, by name and total quantity (no item
+keys here; join to `items` by name). A scene with no gathering has an empty `nodes` list; older saved
+finds have none.
 
 Creatures: `name` is the name the combat line prints (creatures of one name are merged; the API gives
 no creature type or id). `seen` = individuals fought, summed over visits. `levelMin`/`levelMax` are the
@@ -116,7 +137,7 @@ yet verified against a real file, including whether creature names match the sit
 
 `apiVersion` is the game's Lua API version when the file was written. `count` = number of recipes.
 
-`scope` says what the file holds (added in plugin v0.4.0; files from earlier versions have no `scope`,
+`scope` says what the file holds (added in plugin v0.5.0; files from earlier versions have no `scope`,
 so treat a missing one as unknown):
 
 | `scope` | Written by | Meaning |

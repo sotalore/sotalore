@@ -1,5 +1,5 @@
 local ScriptName = "SotaLore"
-local Version = "0.4.0"
+local Version = "0.5.0"
 local CreatorName = "Gravidy"
 local Description = "Recipe browser and data export for the SotaLore fansite."
 
@@ -337,7 +337,7 @@ end
 local finds = {}          -- scene name -> { raw, info, items = { id -> {...} }, creatures = { name -> {...} } }
 local findsDirty, lastSave = false, 0
 local tracking = true
-local findsWin, trackToggle, resetButton, sceneLabel, itemsLabel, creaturesLabel, scenesLabel
+local findsWin, trackToggle, resetButton, sceneLabel, itemsLabel, creaturesLabel, nodesLabel, scenesLabel
 local seenKeys = {}       -- creature keys already counted on this visit to the scene
 local resetArmedUntil = nil
 
@@ -351,10 +351,14 @@ end
 
 local function updateFindsWindow()
     if not findsWin then return end
-    local scenes, kinds, qty, creatures = 0, 0, 0, 0
-    local itemIds, creatureNames = {}, {}
+    local scenes, kinds, qty, creatures, nodes, harvests = 0, 0, 0, 0, 0, 0
+    local itemIds, creatureNames, nodeNames = {}, {}, {}
     for _, s in pairs(finds) do
         scenes = scenes + 1
+        for name, n in pairs(s.nodes or {}) do
+            if not nodeNames[name] then nodeNames[name] = true; nodes = nodes + 1 end
+            harvests = harvests + (n.harvests or 0)
+        end
         for id, e in pairs(s.items or {}) do
             if not itemIds[id] then itemIds[id] = true; kinds = kinds + 1 end
             qty = qty + (e.quantity or 0)
@@ -368,6 +372,7 @@ local function updateFindsWindow()
     sceneLabel:SetText(clip(here, 30))
     itemsLabel:SetText("Items: " .. kinds .. " distinct (" .. qty .. " total)")
     creaturesLabel:SetText("Creatures: " .. creatures .. " distinct")
+    nodesLabel:SetText("Nodes: " .. nodes .. " distinct (" .. harvests .. " harvests)")
     scenesLabel:SetText("Scenes in list: " .. scenes)
 end
 
@@ -396,6 +401,7 @@ local function sceneEntry(scene)
     end
     s.items = s.items or {}
     s.creatures = s.creatures or {}
+    s.nodes = s.nodes or {}
     s.info = {
         isOverworld = scene.isOverworld and true or false,
         isDungeon = scene.isDungeon and true or false,
@@ -510,6 +516,55 @@ local function recordCreatures(events)
     end
 end
 
+-- Resource nodes you finish (mining, logging, field dressing a carcass if the game counts it as
+-- one...): the node's name and what its loot window held. Whether field dressing arrives here
+-- is not known yet, so each result is also written to chat while gatherLog is on.
+local gatherLog = true
+
+-- The loot window lists the experience reward as an item ("60 Producer Experience"), once per
+-- swing. It is not an item; the experience total is already in the result's own field.
+local function isExperience(name)
+    return name:match("Experience$") ~= nil
+end
+
+local function recordGathers(results)
+    local scene = ShroudGetSceneInfo()
+    if not scene or not scene.loaded or scene.name == "" then return end
+
+    local s
+    for _, r in ipairs(results or {}) do
+        local name = r.node
+        if name and name ~= "" then
+            if gatherLog then
+                local got = {}
+                for _, it in ipairs(r.items or {}) do
+                    if not isExperience(it.name) then got[#got + 1] = it.quantity .. " " .. it.name end
+                end
+                ShroudConsoleLog("SotaLore gather: node=" .. name .. (r.failed and " (failed)" or "")
+                    .. " xp=" .. tostring(r.experience) .. " items=" .. table.concat(got, ", "))
+            end
+            s = s or sceneEntry(scene)
+            local n = s.nodes[name]
+            if not n then
+                n = { harvests = 0, failed = 0, experience = 0, items = {} }
+                s.nodes[name] = n
+            end
+            n.harvests = n.harvests + 1
+            if r.failed then n.failed = n.failed + 1 end
+            n.experience = n.experience + (r.experience or 0)
+            for _, it in ipairs(r.items or {}) do
+                if not isExperience(it.name) then
+                    n.items[it.name] = (n.items[it.name] or 0) + it.quantity
+                end
+            end
+        end
+    end
+    if s then
+        findsDirty = true
+        updateFindsWindow()
+    end
+end
+
 local function exportFinds()
     saveFinds(true)
     local names = {}
@@ -543,6 +598,23 @@ local function exportFinds()
                 .. ',"levelMin":' .. jnum(cc.c.levelMin) .. ',"levelMax":' .. jnum(cc.c.levelMax) .. '}'
         end
 
+        local nlist = {}
+        for nname, n in pairs(s.nodes or {}) do nlist[#nlist + 1] = { name = nname, n = n } end
+        table.sort(nlist, function(a, b) return a.name:lower() < b.name:lower() end)
+        local nparts = {}
+        for _, nn in ipairs(nlist) do
+            local inames = {}
+            for iname in pairs(nn.n.items) do inames[#inames + 1] = iname end
+            table.sort(inames, function(a, b) return a:lower() < b:lower() end)
+            local iparts = {}
+            for _, iname in ipairs(inames) do
+                iparts[#iparts + 1] = '{"name":' .. jstr(iname) .. ',"quantity":' .. jnum(nn.n.items[iname]) .. '}'
+            end
+            nparts[#nparts + 1] = '{"name":' .. jstr(nn.name) .. ',"harvests":' .. jnum(nn.n.harvests)
+                .. ',"failed":' .. jnum(nn.n.failed) .. ',"experience":' .. jnum(nn.n.experience)
+                .. ',"items":[' .. table.concat(iparts, ',') .. ']}'
+        end
+
         local i = s.info
         local info = 'null'
         if i then
@@ -556,7 +628,8 @@ local function exportFinds()
         scenes[#scenes + 1] = '{"scene":' .. jstr(n) .. ',"rawName":' .. jstr(s.raw or "")
             .. ',"info":' .. info
             .. ',"items":[' .. table.concat(parts, ',') .. ']'
-            .. ',"creatures":[' .. table.concat(cparts, ',') .. ']}'
+            .. ',"creatures":[' .. table.concat(cparts, ',') .. ']'
+            .. ',"nodes":[' .. table.concat(nparts, ',') .. ']}'
     end
     local body = '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
         .. ',"scenes":[\n' .. table.concat(scenes, ",\n") .. '\n]}\n'
@@ -587,6 +660,7 @@ local function buildFindsWindow()
     sceneLabel = UI.Label{ text = "", class = "heading" }
     itemsLabel = UI.Label{ text = "" }
     creaturesLabel = UI.Label{ text = "" }
+    nodesLabel = UI.Label{ text = "" }
     scenesLabel = UI.Label{ text = "", class = "dim" }
     trackToggle = UI.Toggle{
         text = "Tracking",
@@ -601,12 +675,13 @@ local function buildFindsWindow()
     findsWin = UI.Window{
         id = "sotalorefinds",
         title = "SotaLore Finds",
-        width = 230, height = 200,
+        width = 230, height = 220,
         x = 20, y = 540,
         children = {
             sceneLabel,
             itemsLabel,
             creaturesLabel,
+            nodesLabel,
             scenesLabel,
             trackToggle,
             UI.Row{ children = {
@@ -835,6 +910,9 @@ local function toggleList(args)
         exportItems()
     elseif args == "finds" then
         toggleFindsWindow()
+    elseif args == "gatherlog" then
+        gatherLog = not gatherLog
+        ShroudConsoleLog("Gather log " .. (gatherLog and "on" or "off"))
     elseif args == "savefinds" then
         exportFinds()
     elseif args == "clearfinds" then
@@ -870,7 +948,7 @@ function ShroudOnStart()
     -- /sotalore is refused ("sota" is a reserved prefix), so the command is /slore.
     local ok, reason = Shroud.Command{
         name = "slore",
-        help = "Open SotaLore. /slore <text> searches; export, exportall, items, finds (window), savefinds, clearfinds.",
+        help = "Open SotaLore. /slore <text> searches; export, exportall, items, finds (window), savefinds, clearfinds, gatherlog.",
         run = toggleList,
     }
     if not ok then
@@ -891,6 +969,10 @@ end
 
 function ShroudOnItemsGained(items)
     if tracking and findsWin then recordFinds(items) end
+end
+
+function ShroudOnGatherResults(results)
+    if tracking and findsWin then recordGathers(results) end
 end
 
 function ShroudOnCombatEvents(events)
