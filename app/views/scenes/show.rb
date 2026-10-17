@@ -25,6 +25,7 @@ class Views::Scenes::Show < Views::Scenes::Base
     end
 
     div(class: "grid grid-cols-6") do
+      render Components::Finds::ForScene.new(scene: @scene) if policy(:finds).show?
       posts_section if @scene.posts.any?
       gallery_section if policy(@scene).edit? || @scene.images.any?
       comments_section

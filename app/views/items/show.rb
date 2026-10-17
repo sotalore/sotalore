@@ -86,6 +86,7 @@ class Views::Items::Show < Views::Items::Base
         div(class: "flex flex-col gap-2") do
           tile_with_heading("Effects") { formatted_body(@item.effects) } if @item.effects
           tile_with_heading("Notes") { formatted_body(@item.notes) } if @item.notes
+          render Components::Finds::ForItem.new(item: @item) if policy(:finds).show?
 
           if @item.group?
             group_members_tile

@@ -37,6 +37,9 @@ class Views::Layouts::Adm < Views::Layouts::Base
               nav(class: "main-navigation text-center lg:text-left") do
                 site_nav_link_to("Users", adm_users_path, "book")
                 site_nav_link_to("Recipe Imports", adm_recipe_imports_path, "book")
+                site_nav_link_to("Finds Imports", adm_finds_imports_path, "book")
+                site_nav_link_to("Creatures", creatures_path, "book")
+                site_nav_link_to("Gathering Nodes", gathering_nodes_path, "book")
                 site_nav_link_to("Item Review", adm_item_reviews_path, "book")
                 site_nav_link_to("Proposals", adm_proposals_path, "book")
                 site_nav_link_to("AI Access", adm_api_tokens_path, "key")

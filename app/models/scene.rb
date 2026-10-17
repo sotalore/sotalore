@@ -54,6 +54,14 @@ class Scene < ApplicationRecord
   has_many :comments, as: :subject, dependent: :delete_all
   has_many :posts, as: :parent, dependent: :destroy
 
+  # What can be found here (see FindsImport).
+  has_many :scene_finds, dependent: :delete_all
+  has_many :found_items, -> { by_name }, through: :scene_finds, source: :item
+  has_many :scene_creatures, dependent: :delete_all
+  has_many :creatures, -> { by_name }, through: :scene_creatures
+  has_many :scene_nodes, dependent: :delete_all
+  has_many :gathering_nodes, -> { by_name }, through: :scene_nodes
+
   scope :by_name, -> { order(Arel.sql('lower(name)')) }
   scope :by_name_overworld_first, -> { order(Arel.sql('scene_type_id != 0, lower(name)')) }
 
@@ -61,6 +69,8 @@ class Scene < ApplicationRecord
   # Can only have one top-level
   validates :parent_id, uniqueness: true, if: ->(s) { s.parent_id.nil? }
   validates :sota_map_id, uniqueness: true, allow_nil: true
+  # The game's internal name ("HiddenVale_Plains02_Road_Tier1"), from finds.
+  validates :game_name, uniqueness: true, allow_nil: true
   validates :sota_map_parent_poi_id, uniqueness: true, allow_nil: true
   validate  :parent_is_not_self
 
