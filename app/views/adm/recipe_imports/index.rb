@@ -11,7 +11,8 @@ class Views::Adm::RecipeImports::Index < Views::Adm::RecipeImports::Base
       h1(class: 'text-2xl font-bold') { 'Recipe Imports' }
       p(class: 'my-2 max-w-prose') do
         plain 'Import JSON from the game recipe export plugin: paste a recipe copied from the game, '
-        plain 'or upload an export file (sl-recipes-export.json, or a single recipe). Files from plugin 0.4 '
+        plain 'or upload an export file (sotalore-export.json, or sotalore-one.json for one recipe; older '
+        plain 'plugins named them sl-recipes-*.json). Files from plugin 0.4 '
         plain 'on say whether they hold every recipe a character knows ("Export all"), which makes the import a '
         plain 'full export: recipes it lacks become candidates to retire. For older files, tick '
         strong { 'Export all' }

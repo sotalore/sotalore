@@ -53,6 +53,31 @@ RSpec.describe GameRecipe do
     expect(gr).to be_modification
   end
 
+  it 'takes a placeholder ingredient as what a recipe changes, ahead of a later group slot' do
+    hash = game_recipe_hash(name: 'Repair Item (Minor)', results: {},
+                            ingredients: { 'Worn Item' => 1, 'Tailoring Repair Kit' => 1 },
+                            keys: { 'Tailoring Repair Kit' => 'group:157' })
+    hash['ingredients'][0]['stats'] = []
+    gr = GameRecipe.new(hash)
+    expect(gr.ingredients.first).to be_placeholder
+    expect(gr.results.map { [ _1.name, _1.key ] }).to eq [ [ 'Worn Item', nil ] ]
+    expect(gr).to be_modification
+
+    salvage = game_recipe_hash(name: 'Salvage Item', results: {}, ingredients: { 'Salvageable Item' => 1 })
+    salvage['ingredients'][0]['stats'] = []
+    expect(GameRecipe.new(salvage).results.map(&:name)).to eq [ 'Salvageable Item' ]
+  end
+
+  it 'has no placeholders in files without keys' do
+    gr = GameRecipe.new(game_recipe_hash(name: 'Beer Cask (Ale)', results: {}, ingredients: { 'Beer Cask' => 1 }))
+    expect(gr.ingredients.first).not_to be_placeholder
+  end
+
+  it 'maps game categories the site names differently' do
+    expect(GameRecipe.new(game_recipe_hash(name: 'Sow Seed', category: 'Farming')).craft_skill)
+      .to eq CraftSkill.find('agriculture')
+  end
+
   it 'has no result for a recipe without a fixed result or a group slot' do
     gr = GameRecipe.new(game_recipe_hash(name: 'Beer Cask (Ale)', results: {}, ingredients: { 'Beer Cask' => 1 }))
     expect([ gr.results, gr.modification_target, gr.modification? ]).to eq [ [], nil, false ]

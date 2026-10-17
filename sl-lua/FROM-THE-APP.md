@@ -16,23 +16,31 @@ Recipe files now carry `scope` (`all`, `new`, `one`). The importer reads it: `al
 full export, `new` and `one` never are (an admin can't mark them full either), and files without a
 scope fall back to the admin saying so at upload. Thank you.
 
-### R2. Say when a finds list was started and saved (open, 2026-10-16)
+### R2. Say when a finds list was started and saved (withdrawn, 2026-10-17)
 
-The finds list accumulates until it's reset, and Save doesn't reset it, so two uploads can hold the
-same finds. The importer can't tell a later save of the same list from a new one, and would count
-those finds twice. Please add, at the top level of `sl-recipes-finds.json`:
+Not needed after all: the site only records that something **can be found** in a scene, not how
+often, so saving the same list twice changes nothing. Counts (`quantity`, `times`, `seen`) are fine
+to keep but the site won't use them.
+
+What the site does want from finds is the **unusual** ones. Animal Hide turns up everywhere and says
+little; an item (a recipe scroll, say) that only drops from certain creatures, which only live in a
+few scenes, is the data worth having. So the most valuable thing the finds file can carry is
+**which creature an item came from**. Field dressing already gives that (thank you for `nodes`);
+loot from bodies would too, if the API ever allows it.
+
+### R3. Say which plugin version wrote a file (open, 2026-10-17)
+
+Full exports from before plugin 0.5.2 silently lack about 100 recipes, so a site recipe missing from
+one may not be gone from the game. The importer can't tell those files apart from complete ones,
+because nothing in a file says which plugin version wrote it. Please add the version at the top level
+of every file the plugin writes (recipe exports, items, finds), for example:
 
 ```json
-{ "apiVersion": 40, "startedAt": "2026-10-16T14:02:11Z", "savedAt": "2026-10-16T18:40:03Z", "scenes": [ ... ] }
+{ "apiVersion": 40, "pluginVersion": "0.7.0", "scope": "all", ... }
 ```
 
-`startedAt` is when the list was last reset (or first started), `savedAt` when this file was written,
-both UTC. Uploads with the same `startedAt` are then saves of one list, and the importer keeps only
-the latest. Any names and format are fine; please describe them in `EXPORT-FORMAT.md`.
-
-A related question, not a request yet: can loot from a body be credited to the creature it came
-from? Items are credited to the scene today. Which creatures drop what is the data that would make
-creature pages on the site worth having, if the API allows it.
+The importer will then refuse to treat a pre-0.5.2 "all" file as a full export. Any name is fine;
+please describe it in `EXPORT-FORMAT.md`.
 
 ## How the site uses the exports today
 
@@ -46,10 +54,13 @@ creature pages on the site worth having, if the API allows it.
   repeat ("Gem Fragment" twice) and can be a real item's name too ("Dragon Head").
 - **Groups** (`groups`, `complete: true`) fill the site's group member lists.
 - **Weights** from stat rows fill item weights.
-- **Recipes with no fixed result** (Reshape, Masterwork, socketing, Enchantment) are taken to give
-  back what goes in their first group slot; casks keep the results the site already has.
-- **Item catalog and finds files** aren't imported yet. A finds import is next: which items are found
-  in which scene, scene details, and (later) creatures per scene.
+- **Recipes with no fixed result** that change an item give back their first ingredient standing for
+  "whatever you choose": a group slot (Reshape, Masterwork) or a keyless placeholder ("Worn Item" in
+  Repair Item, "Salvageable Item"); casks keep the results the site already has.
+  `Crafting_Farming` is the site's agriculture skill.
+- **Item catalog and finds files** aren't imported yet. Next: from finds, what can be found in which
+  scene (presence only, no counts), creatures per scene, and what field dressing a creature yields;
+  from the catalog, salvage results, merchant prices and item types.
 
 ## The site's data model
 

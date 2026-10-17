@@ -14,15 +14,20 @@ class GameRecipe
 
   # An ingredient or result. +key+ is the game's id for it (see ItemGameKey):
   # "item:..." for an item, or "group:..." for a slot taking any member of a
-  # group, whose members' keys are +choice_keys+.
-  Line = Data.define(:name, :count, :tool, :key, :group, :choice_count, :choice_keys, :stats) do
+  # group, whose members' keys are +choice_keys+. A +placeholder+ stands for
+  # whatever item you choose, with no key of its own ("Worn Item" in Repair
+  # Item, "Salvageable Item"): in files with keys, a plain ingredient without
+  # one. Older files have no keys at all, so nothing in them is a placeholder.
+  Line = Data.define(:name, :count, :tool, :key, :group, :choice_count, :choice_keys, :stats,
+                     :placeholder) do
     def initialize(name:, count:, tool: false, key: nil, group: false, choice_count: nil,
-                   choice_keys: [], stats: [])
+                   choice_keys: [], stats: [], placeholder: false)
       super
     end
 
     def tool? = tool
     def group? = group
+    def placeholder? = placeholder
   end
 
   # An export file: its recipes and top-level groups (see GameGroup). +list+
@@ -37,6 +42,9 @@ class GameRecipe
   SCOPES = %w[ all new one ].freeze
 
   CATEGORY_PREFIX = 'Crafting_'
+
+  # Game categories the site calls something else.
+  CATEGORY_SKILLS = { 'farming' => 'agriculture' }.freeze
 
   attr_reader :payload
 
@@ -77,7 +85,7 @@ class GameRecipe
   # (e.g. Crafting_ObsidianForge).
   def craft_skill
     key = category_key.delete_prefix(CATEGORY_PREFIX).underscore
-    skill = CraftSkill.find(key)
+    skill = CraftSkill.find(CATEGORY_SKILLS.fetch(key, key))
     skill if skill&.has_recipes?
   end
 
@@ -97,17 +105,19 @@ class GameRecipe
                  key: i['groupKey'].presence, group: true, choice_count: i['choiceCount'],
                  choice_keys: choices.filter_map { _1['key'] })
       else
+        # Files with keys give every plain ingredient stats, even placeholders.
         Line.new(name: i['name'].to_s.strip, count: i['quantity'].to_i, tool: !!i['tool'],
-                 key: i['key'].presence, stats: Array(i['stats']))
+                 key: i['key'].presence, stats: Array(i['stats']),
+                 placeholder: i['key'].blank? && i.key?('stats'))
       end
     end
   end
 
   # What the recipe makes. Recipes that change an item (Reshape, Masterwork,
-  # socketing, Enchantment) have no fixed result in the export; they give back
-  # what goes in their first group slot ("Crafted Carpentry Equipable"), so
-  # that's their result, which makes them modifications (see Recipe::KINDS).
-  # Other recipes without a fixed result (casks) have none.
+  # socketing, Enchantment, Repair, Salvage) have no fixed result in the
+  # export; they give back the item they change (see #modification_target),
+  # so that's their result, which makes them modifications (see
+  # Recipe::KINDS). Other recipes without a fixed result (casks) have none.
   def results
     @results ||=
       if fixed_results?
@@ -126,9 +136,12 @@ class GameRecipe
     Array(payload['results']).any?
   end
 
-  # The group slot a recipe without a fixed result changes, if any.
+  # What a recipe without a fixed result changes, if anything: its first
+  # ingredient that stands for whatever item you choose, a group slot
+  # ("Crafted Carpentry Equipable") or a placeholder ("Worn Item" in Repair
+  # Item, which also takes a repair kit group).
   def modification_target
-    ingredients.find(&:group?) unless fixed_results?
+    ingredients.find { |line| line.group? || line.placeholder? } unless fixed_results?
   end
 
   def lines
