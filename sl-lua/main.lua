@@ -7,6 +7,8 @@
 --   finds_data.lua      the per-scene find list: items, creatures, gathering nodes
 --   finds_ui.lua        the small finds window
 --   recipes_ui.lua      the recipe browser windows
+--   item_details.lua    what item tooltips say (quest item, tool, salvage...), captured by hovering (/slore capture)
+--   hoverlog.lua        a diagnostic: writes an item's tooltip text to chat (/slore hoverlog)
 --
 -- The files run in the order the manifest lists them.
 
@@ -15,6 +17,8 @@ local Items = SotaLore.Items
 local Finds = SotaLore.Finds
 local FindsUI = SotaLore.FindsUI
 local RecipesUI = SotaLore.RecipesUI
+local HoverLog = SotaLore.HoverLog
+local ItemDetails = SotaLore.ItemDetails
 
 -- The /slore command: a word picks an action, any other text searches the recipes, and nothing at
 -- all opens or closes the recipe window. The key binding does the same as the bare command.
@@ -27,6 +31,10 @@ local function handleCommand(args)
         RecipeExport.start("baseline")
     elseif args == "new" then
         RecipesUI.showNew()
+    elseif args == "capture" then
+        ItemDetails.toggle()
+    elseif args == "hoverlog" then
+        ShroudConsoleLog("Hover log " .. (HoverLog.toggle() and "on: point at items" or "off"))
     elseif args == "checkrecipes" then
         RecipeExport.check()
     elseif args == "items" then
@@ -59,7 +67,7 @@ function ShroudOnStart()
     -- /sotalore is refused ("sota" is a reserved prefix), so the command is /slore.
     local ok, reason = Shroud.Command{
         name = "slore",
-        help = "Open SotaLore. /slore <text> searches; new, checkrecipes, export, exportall, items, finds (window), savefinds, clearfinds, gatherlog.",
+        help = "Open SotaLore. /slore <text> searches; new, checkrecipes, capture, hoverlog, export, exportall, items, finds (window), savefinds, clearfinds, gatherlog.",
         run = handleCommand,
     }
     if not ok then
@@ -72,6 +80,8 @@ end
 -- Every frame.
 function ShroudOnUpdate()
     RecipeExport.step()
+    HoverLog.tick()
+    ItemDetails.tick()
     FindsUI.tick()
     Finds.save(false)
 end
@@ -96,10 +106,12 @@ end
 
 -- The find list is saved to the saved variables on these.
 function ShroudOnLogOut()
+    ItemDetails.save(true)
     Finds.save(true)
 end
 
 function ShroudOnDisableScript()
+    ItemDetails.save(true)
     Finds.save(true)
 end
 

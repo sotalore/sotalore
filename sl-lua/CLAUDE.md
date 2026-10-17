@@ -16,7 +16,7 @@ app. Lua cannot POST and has no clipboard, so files are the only way out.
   describes.
 - `FROM-THE-APP.md`: written by the app-side agent (requests, how the site uses exports, the site's data
   model). **Read it, never edit it.** Answer requests by updating `EXPORT-FORMAT.md`.
-- Real example outputs are in `data/plugin-examples/` (repo root). `.gitignore` ignores `sl-recipes-*.json`
+- Real example outputs are in `data/plugin-examples/` (repo root). `.gitignore` ignores `sotalore-*.json`
   everywhere else so game output is never committed by accident.
 
 ## Code organisation
@@ -32,6 +32,8 @@ comment saying what it is for. This is the pattern the game's own multi-file exa
 | `finds_data.lua` | `SotaLore.Finds`: the per-scene find list (items, creatures, nodes), saving it, writing the finds file |
 | `finds_ui.lua` | `SotaLore.FindsUI`: the small finds window |
 | `recipes_ui.lua` | `SotaLore.RecipesUI`: the recipe list and recipe windows, with the export buttons |
+| `item_details.lua` | `SotaLore.ItemDetails`: captures what item tooltips say (quest item, tool, no trade, salvage lists) by hovering, `/slore capture` |
+| `hoverlog.lua` | `SotaLore.HoverLog`: a diagnostic (`/slore hoverlog`) that writes the tooltip text of items under the mouse to chat |
 | `main.lua` | the only file with `ShroudOn...` callbacks, the `/slore` command and the key binding; read it first |
 
 Rules for keeping it working:
@@ -100,7 +102,7 @@ Untested ideas:
   this folder**. Edit here (`C:\dev\sotalore\sl-lua`). Editing through the game's path once failed with odd
   "file already exists" errors.
 - The addon's output files are written to the game's `Lua/` folder, **one level above the plugin folder**
-  (`sl-recipes-export.json`, `-one.json`, `-items.json`, `-finds.json`), not into `sl-lua/`. To use one as
+  (`sotalore-export.json`, `-one.json`, `-items.json`, `-finds.json`), not into `sl-lua/`. To use one as
   an example, copy it from there into `data/plugin-examples/`.
 - **The game cannot be launched from this session.** A standalone Lua (5.5, installed with scoop; `lua` and
   `luac` on the PATH) is available on Darren's machine: use `luac -p file.lua` to syntax-check every file
@@ -118,7 +120,7 @@ Untested ideas:
 
 - Command is `/slore` (`/sotalore` is refused: `sota` is a reserved prefix). Subcommands: `export`,
   `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
-  `gatherlog`, `checkrecipes`; other text searches the recipe list.
+  `gatherlog`, `checkrecipes`, `capture`, `hoverlog`; other text searches the recipe list.
 - An addon may own at most **8 windows**: the list (1), the finds window (1) and up to 6 recipe windows.
 - Account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
   `items` (item catalog), `finds` (the per-scene list), `track` (tracking toggle).
@@ -153,6 +155,9 @@ Untested ideas:
   is the game protecting players from misbehaving add-ons: **leave it alone, do not work around it** (no
   retry loops, no fresh window ids to dodge it). Darren decided this on purpose. Change
   callbacks can fire before `ShroudOnStart` has built the windows, so guard them.
+- The game has a hotkey that switches tooltips off. While they are off the `...UnderMouse` calls see nothing,
+  so `/slore capture` and `/slore hoverlog` capture nothing, and the plugin can't tell that from "not pointing at
+  an item". Nothing to do about it for now; the capture-on message in chat reminds the player.
 - Lua cannot open the folder, run slash commands or reach the clipboard. `/lua path` (typed by the player)
   opens the output folder.
 

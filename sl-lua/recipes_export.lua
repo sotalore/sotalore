@@ -1,6 +1,6 @@
 -- recipes_export.lua: turns the recipes the character knows into JSON files for the site.
 --
--- Writes Lua/sl-recipes-export.json (many recipes) or sl-recipes-one.json (one recipe); the format is
+-- Writes Lua/sotalore-export.json (many recipes) or sotalore-one.json (one recipe); the format is
 -- described in EXPORT-FORMAT.md. No character data is exported. It reads a few recipes per frame
 -- (see step) so a big recipe book never trips the game's watchdog.
 --
