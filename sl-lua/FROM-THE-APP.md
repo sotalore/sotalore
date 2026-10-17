@@ -58,9 +58,12 @@ please describe it in `EXPORT-FORMAT.md`.
   "whatever you choose": a group slot (Reshape, Masterwork) or a keyless placeholder ("Worn Item" in
   Repair Item, "Salvageable Item"); casks keep the results the site already has.
   `Crafting_Farming` is the site's agriculture skill.
-- **Item catalog and finds files** aren't imported yet. Next: from finds, what can be found in which
-  scene (presence only, no counts), creatures per scene, and what field dressing a creature yields;
-  from the catalog, salvage results, merchant prices and item types.
+- **Finds files** are imported: per scene (matched by `rawName`, or by name the first time), which
+  items can be found there (by key, or by name the first time), its creatures (with the levels seen)
+  and gathering nodes, and what each node gives. A node named like a creature is field dressing, so
+  its items are that creature's. Presence only: counts are ignored. Scene `info` is compared with
+  the site's scene and differences are shown for review, not applied.
+- **The item catalog** isn't imported yet. Next: salvage results, merchant prices and item types.
 
 ## The site's data model
 
@@ -158,7 +161,20 @@ The game's places, for the map and the finds:
 | parent | The overworld map it's reached from (the overworld has none). |
 | map ids | Its id on shroudoftheavatar.com's map, and its point of interest on the parent's map. |
 
-170 scenes. Curated by hand.
+170 scenes. Curated by hand, except the game's internal name (`rawName`), recorded from finds.
+
+### Creatures and gathering nodes
+
+From finds. A **creature** is a name the combat lines print (creatures of one name are one creature);
+a **gathering node** is a vein, plant or tree ("Copper Vein"). Each records the scenes it's in (a
+creature with the range of levels seen there) and what gathering from it gives: field dressing for a
+creature, harvesting for a node. Nothing else about them is recorded yet (no type, family, boss or
+loot table); the site would welcome anything the game can say about creatures.
+
+### Finds
+
+Which items can be found in which scene: looted, bought, gathered or otherwise gained there. Presence
+only. The interesting ones are those found in few scenes, or tied to a particular creature.
 
 ## Where game data would help most
 

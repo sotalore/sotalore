@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_16_130000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_17_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -95,6 +95,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_16_130000) do
     t.index ["subject_type", "subject_id"], name: "index_comments_on_subject_type_and_subject_id"
   end
 
+  create_table "creatures", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.citext "name", null: false
+    t.text "notes"
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_creatures_on_name", unique: true
+  end
+
   create_table "earned_skills", force: :cascade do |t|
     t.bigint "avatar_id", null: false
     t.datetime "created_at", null: false
@@ -103,6 +111,36 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_16_130000) do
     t.integer "target", limit: 2
     t.datetime "updated_at", null: false
     t.index ["avatar_id"], name: "index_earned_skills_on_avatar_id"
+  end
+
+  create_table "finds_imports", force: :cascade do |t|
+    t.integer "api_version"
+    t.datetime "applied_at"
+    t.datetime "created_at", null: false
+    t.string "filename"
+    t.jsonb "payload", default: {}, null: false
+    t.string "plugin_version"
+    t.datetime "updated_at", null: false
+    t.integer "uploaded_by_id"
+    t.index ["uploaded_by_id"], name: "index_finds_imports_on_uploaded_by_id"
+  end
+
+  create_table "gathering_nodes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.citext "name", null: false
+    t.text "notes"
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_gathering_nodes_on_name", unique: true
+  end
+
+  create_table "harvest_yields", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "item_id", null: false
+    t.bigint "source_id", null: false
+    t.string "source_type", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_harvest_yields_on_item_id"
+    t.index ["source_type", "source_id", "item_id"], name: "index_harvest_yields_on_source_type_and_source_id_and_item_id", unique: true
   end
 
   create_table "ingredients", id: :serial, force: :cascade do |t|
@@ -296,8 +334,38 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_16_130000) do
     t.index ["recipe_id"], name: "index_results_on_recipe_id"
   end
 
+  create_table "scene_creatures", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "creature_id", null: false
+    t.integer "level_max", limit: 2
+    t.integer "level_min", limit: 2
+    t.integer "scene_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["creature_id"], name: "index_scene_creatures_on_creature_id"
+    t.index ["scene_id", "creature_id"], name: "index_scene_creatures_on_scene_id_and_creature_id", unique: true
+  end
+
+  create_table "scene_finds", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "item_id", null: false
+    t.integer "scene_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id"], name: "index_scene_finds_on_item_id"
+    t.index ["scene_id", "item_id"], name: "index_scene_finds_on_scene_id_and_item_id", unique: true
+  end
+
+  create_table "scene_nodes", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "gathering_node_id", null: false
+    t.integer "scene_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["gathering_node_id"], name: "index_scene_nodes_on_gathering_node_id"
+    t.index ["scene_id", "gathering_node_id"], name: "index_scene_nodes_on_scene_id_and_gathering_node_id", unique: true
+  end
+
   create_table "scenes", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
+    t.string "game_name"
     t.integer "level_id"
     t.boolean "level_plus", default: false, null: false
     t.string "name"
@@ -308,6 +376,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_16_130000) do
     t.integer "sota_map_id"
     t.integer "sota_map_parent_poi_id"
     t.datetime "updated_at", precision: nil, null: false
+    t.index ["game_name"], name: "index_scenes_on_game_name", unique: true
     t.index ["sota_map_id"], name: "index_scenes_on_sota_map_id", unique: true
     t.index ["sota_map_parent_poi_id"], name: "index_scenes_on_sota_map_parent_poi_id", unique: true
   end
@@ -358,6 +427,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_16_130000) do
   add_foreign_key "avatars", "users"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "earned_skills", "avatars"
+  add_foreign_key "finds_imports", "users", column: "uploaded_by_id"
+  add_foreign_key "harvest_yields", "items"
   add_foreign_key "ingredients", "items"
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "item_aliases", "items"
@@ -378,6 +449,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_16_130000) do
   add_foreign_key "recipes", "users", column: "last_verified_by_id"
   add_foreign_key "results", "items"
   add_foreign_key "results", "recipes"
+  add_foreign_key "scene_creatures", "creatures"
+  add_foreign_key "scene_creatures", "scenes"
+  add_foreign_key "scene_finds", "items"
+  add_foreign_key "scene_finds", "scenes"
+  add_foreign_key "scene_nodes", "gathering_nodes"
+  add_foreign_key "scene_nodes", "scenes"
   add_foreign_key "user_recipes", "recipes"
   add_foreign_key "user_recipes", "users"
 end

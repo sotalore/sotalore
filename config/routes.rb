@@ -58,6 +58,12 @@ Rails.application.routes.draw do
       resources :item_resolutions, only: [ :create ], controller: 'recipe_import_item_resolutions'
     end
     resources :item_reviews, only: [ :index, :update ]
+    resources :finds_imports, only: [ :index, :show, :create, :destroy ] do
+      member do
+        post :apply
+        post :resolve
+      end
+    end
     resources :recipes, only: [] do
       member do
         post :retire
@@ -98,6 +104,8 @@ Rails.application.routes.draw do
   direct(:verify) { |verifiable| "/verify/#{verifiable.class.to_s.underscore}/#{verifiable.id}" }
 
   resources :item_memberships, only: [ :create, :destroy ]
+  resources :creatures, only: [ :index, :show ]
+  resources :gathering_nodes, only: [ :index, :show ]
   resources :items, controller: 'items' do
     collection do
       get 'use/:use', to: 'items#by_use', as: 'by_use'
