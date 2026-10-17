@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.8.0)
+# SotaLore plugin export format (plugin v0.8.1)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -114,6 +114,9 @@ The tooltip is English text, so these flags depend on the game language.
   or empty for older captures even though `text` shows them: read `text` if in doubt.
 - `merchantPays` is the tooltip's "Merchant pays: 100 - 125" as `{min, max}` (a single number gives min = max), or
   `null` when the tooltip has no such line. That is what a merchant pays for it, which may be the site's `price`.
+  **It is per item.** For a stack the tooltip gives the whole stack's price ("Quantity: 638 ... Merchant pays: 5,104 -
+  6,380"), so the plugin divides it by the stack's quantity (8 - 10). Numbers with thousands commas are read correctly
+  (plugin v0.8.1 and later; before that a stack's price was written whole, and a comma number was misread).
 - `effects` is the list under the tooltip's "Item Effects" heading, for example "+1 Double Slash Attack Count Bonus",
   as plain strings; empty when there is no such heading.
 - `text` is the whole tooltip, one line per line, for anything else (the type line such as "Dagger - Bladed", bonuses,
@@ -123,9 +126,16 @@ The tooltip is English text, so these flags depend on the game language.
 - `salvage` is the tooltip's "Salvage Components" list: `{name, min, max, chance}` where `min`..`max` is how many
   of that item comes back and `chance` is the percentage ("Metal Scrap  1 - 50  90.5%" is min 1, max 50, chance 90.5; a
   single number gives min = max). `yields` is the "Salvage or Reshape Yields:" line, when there is one.
-- **A crafted item** (tooltip "Crafted by <name>") is unique, so for it only `crafted: true`, `salvage` and `yields` are
-  stored (the salvage list is the same for the kind of item, and a crafted item shares its `key` with the base item).
-  The flags and `text` are left out of `details` for it.
+- `title` is the tooltip's first line. For gear that was crafted and then given a pattern it ends with the base item's
+  name in brackets, for example `Supple Virtue Aeronaut Boots +15 (Supple Fortified Leather Boots +15)`, while the
+  item's `name` is only the part before the brackets. It is the closest thing the tooltip gives to "what it was made
+  from" (plugin v0.8.1 and later; older captures have `null`).
+- **A crafted item** (tooltip "Crafted by <name>") is unique, so for it only `crafted: true`, `title`, `salvage` and
+  `yields` are stored; the flags and `text` are left out of `details` for it. **Its salvage list is that one item's, not
+  the kind's**: it depends on what the item was made of (Epic Leather Boots +13 give Yard of Simple Leather, Supple Epic
+  Leather Gloves +12 give Yard of Supple Leather, Bronze Dagger +11 gives Bronze Hilt and Bronze Dagger Blade), although
+  they share the base item's `key`, and a reshaped item's "Eternal Pattern" yields line is its own too. Only use a
+  crafted item's salvage if its name, less "+N" and any "of ..." enchantment, is the base item's name.
 - An item that is not in the bags when hovered (a chest, a vendor) can't be tied to a key and is skipped.
 - Entries can appear for items that are no longer in the bags, if they were captured earlier.
 
@@ -198,6 +208,14 @@ Hide read 12.4 where the recipe stats say 0.4 each), so the plugin divides by th
 decimals. This correction is in plugin 0.4.0; finds or catalogs saved by earlier versions hold stack totals
 for weight and value, so reset the list and treat older files as wrong for those two fields. Prefer the
 recipe stat-row `weight` where an item has one.
+
+**When the game reports no stack size** (a missing or zero `quantity`; seen on three potion stacks) the number
+cannot be made per-item from the API's numbers. From plugin v0.8.1, if the item's tooltip was captured and shows a
+stack ("Quantity: 638 | Stack Weight: 191.4 | Stack Value: 6,380"), the per-item numbers come from it (weight 0.3, value
+10; the weight only when the stack weighs 10 or more, because the tooltip rounds it); otherwise `weight` and `value`
+are `null` for that item, in the items and finds files alike. Before 0.8.1 the raw stack total was written instead
+(Cure Plague Potion: weight 191.4, value 6380 for 638 potions); such numbers are not rounded to 4 decimals, which is
+how to recognise them. So a `null` weight or value means "not known", and hovering the item with capture on can fill it.
 
 Nodes: `name` is the node's name as the game gives it (the example above is made up; real ones seen:
 Copper Vein, Cotton Plant, Maple Tree, and creature names for field dressing). `harvests` counts finished nodes, `failed` how many of those failed, `experience` the

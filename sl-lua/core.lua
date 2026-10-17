@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore"
-local Version = "0.8.0"
+local Version = "0.8.1"
 local CreatorName = "Gravidy"
 local Description = "Recipe browser and data export for the SotaLore fansite."
 
@@ -139,11 +139,14 @@ function util.itemsNamed(getList, name)
 end
 
 -- The API documents weight and value as "one item", but a bag item's numbers are for its whole
--- stack (seen: Animal Hide 31 at 12.4 where a recipe says 0.4 each). Divide by the stack size.
+-- stack (seen: Animal Hide 31 at 12.4 where a recipe says 0.4 each). Divide by the stack size. When the game
+-- reports no stack size (a missing or zero quantity: seen on three potion stacks, whose weight and value were
+-- 319 potions' worth), the number can't be made per-item, so it is left out (nil, null in the file) rather
+-- than passed on as if it were.
 function util.perItem(it, field)
     local v = it[field]
     local q = it.quantity
     if type(v) ~= "number" then return nil end
-    if type(q) ~= "number" or q < 1 then return v end
+    if type(q) ~= "number" or q < 1 then return nil end
     return math.floor(v / q * 10000 + 0.5) / 10000
 end

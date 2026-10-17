@@ -131,7 +131,15 @@ Untested ideas:
   fetch loses detail. The docs and the live API can differ and the API version moves (it was 40).
 - **Bag item `weight` and `value` are for the whole stack**, not "one item" as documented. The plugin
   divides by `quantity` (`perItem`). Darren was going to file this as an API bug; if the game fixes it,
-  `perItem` would then divide wrongly, so re-check against a recipe's per-item weight first.
+  `perItem` would then divide wrongly, so re-check against a recipe's per-item weight first. Some stacks report
+  no `quantity` (missing or 0; three potions, found by the site agent): the number can't be made per-item, so
+  `util.perItem` returns nil (null in the file) and `ItemDetails.perItem` then tries the captured tooltip, which
+  shows "Quantity: 638 | Stack Weight: 191.4 | Stack Value: 6,380" for a stack (so that potion is 0.3 and 10 gold).
+  Before 0.8.1 it passed the raw stack total through. The tooltip's "Merchant pays" for a stack is also a whole-stack
+  price (divided by the quantity), and tooltip numbers use thousands commas ("6,380").
+- **A crafted item's salvage list is its own** (it depends on the materials), not the kind's, although it shares
+  the base item's `key`. The tooltip title of crafted gear ends with the base item's name in brackets; the plugin
+  exports the title (`details.title`) so the site can use it.
 - **`ShroudGetRecipe(id)` can return nil for a recipe `ShroudGetKnownRecipes` lists** (first seen with newly
   learned recipes: the detail window said "You no longer know this recipe" and exports silently dropped
   them). `util.getRecipe(id, categoryKey)` falls back to `ShroudGetRecipeBook(categoryKey)`; exports now warn in

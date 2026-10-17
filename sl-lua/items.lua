@@ -77,8 +77,8 @@ function M.start(mode)
                 entries[id] = {
                     key = it.key,
                     name = it.name,
-                    weight = util.perItem(it, "weight"),
-                    value = util.perItem(it, "value"),
+                    weight = ItemDetails.perItem(it, "weight"),
+                    value = ItemDetails.perItem(it, "value"),
                     createdBy = maker,
                 }
                 order[#order + 1] = id
