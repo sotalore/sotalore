@@ -148,7 +148,10 @@ Untested ideas:
   source.
 - Group slots in recipes list at most 30 choices; the larger "any item of this kind" groups are truncated
   (`complete: false` in `groups`). Names repeat, so groups are identified by `groupKey`.
-- `Shroud.UI` windows start closed; `Show()` is refused for 3 s after the player closes it. Change
+- `Shroud.UI` windows start closed; `Show()` is refused for 3 s after the player closes it
+  (so clicking a recipe again right after closing its window does nothing until 3 s have passed). That
+  is the game protecting players from misbehaving add-ons: **leave it alone, do not work around it** (no
+  retry loops, no fresh window ids to dodge it). Darren decided this on purpose. Change
   callbacks can fire before `ShroudOnStart` has built the windows, so guard them.
 - Lua cannot open the folder, run slash commands or reach the clipboard. `/lua path` (typed by the player)
   opens the output folder.
