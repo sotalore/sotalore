@@ -16,7 +16,7 @@ app. Lua cannot POST and has no clipboard, so files are the only way out.
   describes.
 - `FROM-THE-APP.md`: written by the app-side agent (requests, how the site uses exports, the site's data
   model). **Read it, never edit it.** Answer requests by updating `EXPORT-FORMAT.md`.
-- Real example outputs are in `data/plugin-examples/` (repo root). `.gitignore` ignores `sl-recipes-*.json`
+- Real example outputs are in `data/plugin-examples/` (repo root). `.gitignore` ignores `sotalore-*.json`
   everywhere else so game output is never committed by accident.
 
 ## Code organisation
@@ -102,7 +102,7 @@ Untested ideas:
   this folder**. Edit here (`C:\dev\sotalore\sl-lua`). Editing through the game's path once failed with odd
   "file already exists" errors.
 - The addon's output files are written to the game's `Lua/` folder, **one level above the plugin folder**
-  (`sl-recipes-export.json`, `-one.json`, `-items.json`, `-finds.json`), not into `sl-lua/`. To use one as
+  (`sotalore-export.json`, `-one.json`, `-items.json`, `-finds.json`), not into `sl-lua/`. To use one as
   an example, copy it from there into `data/plugin-examples/`.
 - **The game cannot be launched from this session.** A standalone Lua (5.5, installed with scoop; `lua` and
   `luac` on the PATH) is available on Darren's machine: use `luac -p file.lua` to syntax-check every file

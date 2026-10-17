@@ -1,7 +1,7 @@
 -- finds_data.lua: what the player finds, scene by scene. No windows here: finds_ui.lua shows it.
 --
 -- The find list is a table, scene name -> { raw, info, items, creatures, nodes }, kept in the account
--- saved variable "finds" and written out as Lua/sl-recipes-finds.json (format in EXPORT-FORMAT.md).
+-- saved variable "finds" and written out as Lua/sotalore-finds.json (format in EXPORT-FORMAT.md).
 --
 --   items      what arrived in the bags (ShroudOnItemsGained, the game's "Recently Looted" rule: loot,
 --              purchases, harvests, mail, trades, and items taken out of a bank or chest. NOT items you
@@ -333,7 +333,7 @@ local function jinfo(i)
         .. ',"craftingSkillCap":' .. jnum(i.craftingSkillCap) .. '}'
 end
 
--- Writes Lua/sl-recipes-finds.json. The list is kept; use reset() to empty it.
+-- Writes Lua/sotalore-finds.json. The list is kept; use reset() to empty it.
 function M.export()
     M.save(true)
     local names = {}

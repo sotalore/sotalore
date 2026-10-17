@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore"
-local Version = "0.6.2"
+local Version = "0.7.0"
 local CreatorName = "Gravidy"
 local Description = "Recipe browser and data export for the SotaLore fansite."
 
@@ -19,10 +19,10 @@ SotaLore = {}
 
 -- Names of the files the plugin writes into the game's Lua folder.
 SotaLore.files = {
-    recipes = "sl-recipes-export.json",
-    oneRecipe = "sl-recipes-one.json",
-    items = "sl-recipes-items.json",
-    finds = "sl-recipes-finds.json",
+    recipes = "sotalore-export.json",
+    oneRecipe = "sotalore-one.json",
+    items = "sotalore-items.json",
+    finds = "sotalore-finds.json",
 }
 
 local util = {}

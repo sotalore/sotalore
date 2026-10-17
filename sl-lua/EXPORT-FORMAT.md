@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.6.2)
+# SotaLore plugin export format (plugin v0.7.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -9,12 +9,14 @@ Lua API docs: https://catnipgames.net/lua/reference.html (needs Lua API 37+).
 The slash command is `/slore` (`/sotalore` is refused by the game: "sota" is a reserved prefix).
 
 
-The addon writes JSON files into the game's `Lua/` folder (Lua cannot POST, has no clipboard):
+The addon writes JSON files into the game's `Lua/` folder (Lua cannot POST, has no clipboard). The files are
+named `sotalore-<kind>.json`; before plugin 0.7.0 they were called `sl-recipes-<kind>.json` (same contents and
+shapes), so an older file may still carry that name.
 
 | File | Written by | Contents |
 |------|-----------|----------|
-| `sl-recipes-export.json` | "Export new" / "Export all" buttons, `/slore export`, `/slore exportall` | many recipes |
-| `sl-recipes-one.json` | "Save this recipe to file" in a recipe window | one recipe |
+| `sotalore-export.json` | "Export new" / "Export all" buttons, `/slore export`, `/slore exportall` | many recipes |
+| `sotalore-one.json` | "Save this recipe to file" in a recipe window | one recipe |
 
 Both files have the same shape. Each export overwrites the previous file of that name.
 "Export new" sends only recipes not exported before (remembered per account); "Export all" sends
@@ -42,7 +44,7 @@ recipes because an older full export lacks them.
 
 ### Item catalog file
 
-`sl-recipes-items.json` (button "Export my items", or `/slore items`) lists items found in the
+`sotalore-items.json` (button "Export my items", or `/slore items`) lists items found in the
 character's top-level bags (not worn gear, nested containers, bank or chests). It accumulates
 across presses and characters (stored account-wide) and is rewritten in full each time:
 
@@ -111,7 +113,7 @@ Not yet verified against a real file.
 
 ### Finds file (items and creatures per scene)
 
-`sl-recipes-finds.json`, written by the **Save** button of the "SotaLore Finds" window (open it with the
+`sotalore-finds.json`, written by the **Save** button of the "SotaLore Finds" window (open it with the
 list window's "Finds window" button or `/slore finds`; `/slore savefinds` also saves). The small window
 is meant to stay up during play: it shows the current scene, how many distinct items and creatures are on
 the list, and has **Save** (writes the file, keeps the list), **Reset** (clears the list; needs a second
@@ -209,7 +211,7 @@ so treat a missing one as unknown):
 |---------|-----------|---------|
 | `"all"` | "Export all" / `/slore exportall` | every recipe the character knows. Only this scope is a full export, the only kind that can show a recipe is gone from the game. |
 | `"new"` | "Export new" / `/slore export` | only recipes not exported before. Never a full export, even if it happens to hold everything. |
-| `"one"` | "Save this recipe to file" | exactly one recipe (`sl-recipes-one.json`). |
+| `"one"` | "Save this recipe to file" | exactly one recipe (`sotalore-one.json`). |
 
 A recipe book can differ between characters, so even an `"all"` file only covers what that one character
 knows; the uploader still decides whether to treat it as the whole game.
@@ -335,7 +337,7 @@ names are in `groups`.
 
 ## Verified against a complete full export (plugin 0.5.2)
 
-`data/plugin-examples/sl-recipes-export.json`: `"scope": "all"`, API 40, **1,234 recipes** (the character knows
+`data/plugin-examples/sotalore-export.json`: `"scope": "all"`, API 40, **1,234 recipes** (the character knows
 1,234; no duplicate ids, 604 negative), 3,994 ingredient slots (877 are group slots), 240 groups, 1.9 MB. Every
 recipe has a `station`; every `locations` is `["any"]`; no stat `value` is `null`.
 

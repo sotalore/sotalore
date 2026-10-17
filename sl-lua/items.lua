@@ -2,7 +2,7 @@
 --
 -- Bag items carry the same item key as recipes (API 37). Each export adds what the character holds
 -- to an account-wide catalog (saved variable "items") and rewrites the whole file
--- Lua/sl-recipes-items.json, so it grows over time. Kept per item: key, name, weight, value, createdBy
+-- Lua/sotalore-items.json, so it grows over time. Kept per item: key, name, weight, value, createdBy
 -- (the API's field of that name; in play it is empty even for crafted items, so it can't be used to spot
 -- them) and "details": what the item's tooltip said when it was captured (see item_details.lua), or null.
 -- The API gives no "locked", "quest item" or item-type flag; the details are the only source for those.
