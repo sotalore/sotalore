@@ -47,7 +47,9 @@ end
 function M.save(force)
     if not dirty then return end
     if not force and ShroudTime - lastSave < 5 then return end
+    local started = util.clock()
     ShroudSetSavedVar("itemDetails", all(), "account")
+    util.slow("saving the item details", started)
     dirty = false
     lastSave = ShroudTime
 end
@@ -235,6 +237,16 @@ end
 function M.toJson(key)
     local d = all()[key]
     if not d then return "null" end
+    if not d.crafted and d.text then
+        -- Read the stored tooltip again with today's rules, so what an older plugin version captured gets
+        -- later improvements without hovering the item again. (The stored text can be cut short, so the
+        -- salvage list and yields line saved at capture time are kept when the re-read finds none.)
+        local fresh = parse(d.text)
+        fresh.name = d.name
+        if #fresh.salvage == 0 then fresh.salvage = d.salvage or {} end
+        fresh.yields = fresh.yields or d.yields
+        d = fresh
+    end
     local s = '{"crafted":' .. tostring(d.crafted and true or false)
     if not d.crafted then
         s = s .. ',"types":' .. util.jlist(d.types, jstr)

@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore"
-local Version = "0.7.0"
+local Version = "0.7.3"
 local CreatorName = "Gravidy"
 local Description = "Recipe browser and data export for the SotaLore fansite."
 
@@ -44,6 +44,18 @@ function util.jstr(s)
     return '"' .. escaped .. '"'
 end
 
+-- The version of the plugin, written into every file it makes (see util.header).
+SotaLore.version = Version
+
+-- The opening of every file the plugin writes, without the closing brace: the game's API version, the
+-- plugin's version, and what kind of file it is ("recipes", "items" or "finds"). The site uses them to
+-- refuse a file uploaded to the wrong place and to tell files from older plugin versions apart.
+function util.header(kind)
+    return '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
+        .. ',"pluginVersion":' .. util.jstr(Version)
+        .. ',"type":' .. util.jstr(kind)
+end
+
 -- A number, or null for a missing or non-finite value.
 function util.jnum(v)
     if type(v) ~= "number" or v ~= v or v == math.huge or v == -math.huge then return "null" end
@@ -68,6 +80,20 @@ function util.writeFile(name, body)
     return path
 end
 
+-- Time. The game stops any callback that runs longer than 1 second (5 seconds while the plugin starts), so
+-- long jobs are cut into slices of a fraction of a second, one slice per frame (util.sliceLimit), and any
+-- step that runs unusually long says so in chat (util.slow) so the slow one can be found.
+util.clock = os.clock or function() return 0 end
+util.sliceLimit = 0.15     -- seconds of work per frame for a sliced job
+
+-- Says in chat when something that started at `since` (a util.clock() value) took a long time.
+function util.slow(what, since)
+    local took = util.clock() - since
+    if took > 0.3 then
+        ShroudConsoleLog(string.format("SotaLore slow: %s took %.0f ms (the game stops a callback at 1000 ms)", what, took * 1000))
+    end
+end
+
 -- Reading one recipe. ShroudGetRecipe(id) sometimes returns nothing for a recipe that
 -- ShroudGetKnownRecipes lists (seen with newly learned recipes). Fall back to the recipe book
 -- (API 37), which returns the same tables, read once per crafting skill and kept until
@@ -85,7 +111,9 @@ function util.getRecipe(id, categoryKey)
     local byId = bookCache[categoryKey]
     if not byId then
         byId = {}
+        local started = util.clock()
         local ok, book = pcall(ShroudGetRecipeBook, categoryKey)
+        util.slow("reading the recipe book for " .. categoryKey, started)
         if ok and type(book) == "table" then
             for _, b in ipairs(book) do byId[b.id] = b end
         end

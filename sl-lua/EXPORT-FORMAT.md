@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.7.0)
+# SotaLore plugin export format (plugin v0.7.3)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -21,6 +21,12 @@ shapes), so an older file may still carry that name.
 Both files have the same shape. Each export overwrites the previous file of that name.
 "Export new" sends only recipes not exported before (remembered per account); "Export all" sends
 every recipe the character knows. `/slore baseline` marks everything as already exported. In the recipe list, the "New only" toggle (or `/slore new`) shows exactly the recipes "Export new" would send.
+
+**Each recipe `id` appears once in a file** (plugin v0.7.2 and later). A `sotalore-export.json` written by 0.7.1 or
+earlier can repeat recipes: if the game stopped the plugin part way through an export (it does when a callback runs
+over a second), the batch it was reading was written twice (10 recipes, identical both times, in the one file seen).
+The game's own list of known recipes has no repeats. If an importer sees a repeated `id`, the entries are the same
+recipe: use either.
 
 A recipe the game lists but will not hand over (`ShroudGetRecipe` returns nothing, and the recipe book does not
 have it either) is left out of the file and is **not** marked as exported; the plugin says so in chat after the
@@ -49,7 +55,7 @@ character's top-level bags (not worn gear, nested containers, bank or chests). I
 across presses and characters (stored account-wide) and is rewritten in full each time:
 
 ```json
-{ "apiVersion": 40, "count": 2, "items": [
+{ "apiVersion": 40, "pluginVersion": "0.7.1", "type": "items", "count": 2, "items": [
   {"key": "item:...", "name": "Wax", "weight": 0.05, "value": 1, "createdBy": "", "details": null}, ... ] }
 ```
 
@@ -92,6 +98,10 @@ The tooltip is English text, so these flags depend on the game language.
   (Dread Artifact, Avatar Artifact), `tool` "Tool", `consumable`
   "Consumable", `noTrade` "No Trade", `noSell` "Cannot be sold to merchants", `noValue` "No Value", `indestructible`
   "Durability: Indestructible". "Equipped" is a state of the one item, not of the kind, so it is not stored.
+- Everything in `details` except `crafted` items is worked out **when the file is written**, from the tooltip text
+  stored at capture time (plugin v0.7.3 and later), so an item captured by an older plugin version gets today's
+  rules without being hovered again. In a file from before 0.7.3, `types`, `artifact` and similar can be missing
+  or empty for older captures even though `text` shows them: read `text` if in doubt.
 - `merchantPays` is the tooltip's "Merchant pays: 100 - 125" as `{min, max}` (a single number gives min = max), or
   `null` when the tooltip has no such line. That is what a merchant pays for it, which may be the site's `price`.
 - `effects` is the list under the tooltip's "Item Effects" heading, for example "+1 Double Slash Attack Count Bonus",
@@ -149,7 +159,7 @@ while the gather log is on (default on; `/slore gatherlog` toggles it) so unknow
 Loot taken from a corpse or chest has no source in the API, so it is not attributed to anything.
 
 ```json
-{ "apiVersion": 40, "scenes": [
+{ "apiVersion": 40, "pluginVersion": "0.7.1", "type": "finds", "scenes": [
   { "scene": "Scene Name", "rawName": "InternalSceneName",
     "info": { "isOverworld": false, "isDungeon": true, "isBasement": false, "isSiege": false,
               "isBattleground": false, "isPvp": false, "isPot": false, "maxPlayers": 8,
@@ -190,11 +200,35 @@ no creature type or id). `seen` = individuals fought, summed over visits. `level
 creature's level when it was the player's current target and the game's Animal Lore rule lets the level
 be read; otherwise `null`. A scene with only creatures has an empty `items` list and the reverse. Not
 yet verified against a real file, including whether creature names match the site's.
+
+## Every file starts the same way
+
+Every file the plugin writes begins with the same three fields (added in plugin v0.7.1):
+
+```json
+{ "apiVersion": 40, "pluginVersion": "0.7.1", "type": "recipes", ... }
+```
+
+| Field | Meaning |
+|-------|---------|
+| `apiVersion` | The game's Lua API version when the file was written. |
+| `pluginVersion` | The version of the plugin that wrote the file (`major.minor.patch`). It is the plugin's `Version` in `core.lua` and `manifest.json`. |
+| `type` | What kind of file it is: `"recipes"` (`sotalore-export.json` and `sotalore-one.json`, which also have a `scope`), `"items"` (`sotalore-items.json`) or `"finds"` (`sotalore-finds.json`). Use it to refuse a file uploaded to the wrong place. |
+
+**Files written before 0.7.1 have no `pluginVersion` or `type`** (the file name says the kind). Their plugin
+version is unknown, so treat a missing `pluginVersion` as "older than 0.7.1", not as any particular version. This
+matters for one thing: a `"scope": "all"` recipe file from before **0.5.2** is missing the recipes the game would
+not hand over (about 100), and cannot be told apart from a complete one without the version.
+
 ## File shape
+
+The recipe files (`"type": "recipes"`):
 
 ```json
 {
   "apiVersion": 40,
+  "pluginVersion": "0.7.1",
+  "type": "recipes",
   "scope": "all",
   "count": 1142,
   "recipes": [ { ...recipe... }, ... ],

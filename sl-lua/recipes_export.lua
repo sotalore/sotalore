@@ -12,7 +12,7 @@ local jstr, jnum, jlist = util.jstr, util.jnum, util.jlist
 local M = {}
 SotaLore.RecipeExport = M
 
-local EXPORT_BATCH = 10   -- recipes read per frame; group slots make a recipe table big
+local MAX_PER_SLICE = 40   -- most recipes read in one frame; a slice also stops after util.sliceLimit seconds (group slots make a recipe table big and slow to read)
 local state = nil         -- the export in progress, or nil
 
 -- The UI sets this to hear about progress: fn(text) while running, fn(nil) when it is over.
@@ -156,10 +156,21 @@ local function finish()
     state = nil
     progress(nil)
 
-    local body = '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
+    -- The recipes were stored by id as they were read (see M.step); list them in order, once each.
+    local parts, ids, unreadable = {}, {}, {}
+    for _, entry in ipairs(st.list) do
+        if st.byId[entry.id] then
+            parts[#parts + 1] = st.byId[entry.id]
+            ids[#ids + 1] = entry.id
+        elseif st.bad[entry.id] then
+            unreadable[#unreadable + 1] = st.bad[entry.id]
+        end
+    end
+
+    local body = util.header("recipes")
         .. ',"scope":' .. jstr(st.scope)
-        .. ',"count":' .. #st.parts
-        .. ',"recipes":[\n' .. table.concat(st.parts, ",\n") .. '\n]'
+        .. ',"count":' .. #parts
+        .. ',"recipes":[\n' .. table.concat(parts, ",\n") .. '\n]'
         .. ',"groups":' .. jgroups(st.groups) .. '}\n'
 
     local path, err = util.writeFile(st.file, body)
@@ -167,13 +178,13 @@ local function finish()
         ShroudConsoleLog("Export failed: " .. tostring(err))
         return
     end
-    markExported(st.ids)
-    ShroudConsoleLog("Exported " .. #st.parts .. " recipes to " .. path .. " (type /lua path to open the folder)")
-    if st.unreadable then
+    markExported(ids)
+    ShroudConsoleLog("Exported " .. #parts .. " recipes to " .. path .. " (type /lua path to open the folder)")
+    if #unreadable > 0 then
         local shown = {}
-        for i = 1, math.min(#st.unreadable, 8) do shown[i] = st.unreadable[i] end
-        ShroudConsoleLog("WARNING: " .. #st.unreadable .. " recipes could not be read and are NOT in the file: "
-            .. table.concat(shown, ", ") .. (#st.unreadable > 8 and ", ..." or ""))
+        for i = 1, math.min(#unreadable, 8) do shown[i] = unreadable[i] end
+        ShroudConsoleLog("WARNING: " .. #unreadable .. " recipes could not be read and are NOT in the file: "
+            .. table.concat(shown, ", ") .. (#unreadable > 8 and ", ..." or ""))
     end
     if M.onDone then M.onDone() end
 end
@@ -184,7 +195,7 @@ end
 function M.start(mode, only)
     if state then return end
     if only then
-        state = { list = { only }, i = 1, parts = {}, ids = {}, groups = {}, file = SotaLore.files.oneRecipe, scope = "one" }
+        state = { list = { only }, i = 1, byId = {}, bad = {}, groups = {}, file = SotaLore.files.oneRecipe, scope = "one" }
         return
     end
     local known = ShroudGetKnownRecipes() or {}
@@ -207,7 +218,7 @@ function M.start(mode, only)
         return
     end
     table.sort(list, function(a, b) return a.id < b.id end)
-    state = { list = list, i = 1, parts = {}, ids = {}, groups = {}, file = SotaLore.files.recipes, scope = mode }
+    state = { list = list, i = 1, byId = {}, bad = {}, groups = {}, file = SotaLore.files.recipes, scope = mode }
 end
 
 -- Checking that every known recipe can be read ------------------------------------------------
@@ -226,12 +237,15 @@ end
 local function stepCheck()
     local c = check
     if not c then return end
-    local last = math.min(c.i + EXPORT_BATCH - 1, #c.list)
-    for i = c.i, last do
-        local k = c.list[i]
+    local started = util.clock()
+    local count = 0
+    while c.i <= #c.list and count < MAX_PER_SLICE and util.clock() - started < util.sliceLimit do
+        local k = c.list[c.i]
         if not ShroudGetRecipe(k.id) then c.bad[#c.bad + 1] = k end
+        c.i = c.i + 1
+        count = count + 1
     end
-    c.i = last + 1
+    util.slow("a slice of the recipe check", started)
     if c.i <= #c.list then return end
 
     check = nil
@@ -258,26 +272,36 @@ function M.step()
     stepCheck()
     local st = state
     if not st then return end
-    local last = math.min(st.i + EXPORT_BATCH - 1, #st.list)
-    for i = st.i, last do
-        local entry = st.list[i]
+
+    -- All recipes are read: writing the file is a frame of its own.
+    if st.i > #st.list then
+        local started = util.clock()
+        finish()
+        util.slow("writing the recipe file", started)
+        return
+    end
+
+    -- Read recipes until the slice is used up. Some recipes are far slower to read than others, so the
+    -- slice is cut by time as well as by count, but always reads at least one.
+    local started = util.clock()
+    local count = 0
+    while st.i <= #st.list and count < MAX_PER_SLICE and (count == 0 or util.clock() - started < util.sliceLimit) do
+        local entry = st.list[st.i]
+        -- Everything is stored under the recipe's id, so if the game stops this callback part way (it
+        -- does after 1 second) and the same recipe is read again next frame, nothing is written twice.
         local r = util.getRecipe(entry.id, entry.categoryKey)
         if r then
-            st.parts[#st.parts + 1] = jrecipe(r)
-            st.ids[#st.ids + 1] = r.id
+            st.byId[entry.id] = jrecipe(r)
             noteGroups(st.groups, r)
         else
             -- Not exported (and so not marked exported either); say so rather than lose it quietly.
-            st.unreadable = st.unreadable or {}
-            st.unreadable[#st.unreadable + 1] = tostring(entry.name or entry.id)
+            st.bad[entry.id] = tostring(entry.name or entry.id)
         end
+        st.i = st.i + 1
+        count = count + 1
     end
-    st.i = last + 1
-    if st.i > #st.list then
-        finish()
-    else
-        progress("Exporting " .. math.floor(100 * (st.i - 1) / #st.list) .. "%")
-    end
+    util.slow("a slice of the recipe export", started)
+    progress("Exporting " .. math.floor(100 * (st.i - 1) / #st.list) .. "%")
 end
 
 -- Forgets any export in progress (used when the plugin starts).

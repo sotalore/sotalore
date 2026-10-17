@@ -42,7 +42,9 @@ end
 function M.save(force)
     if not dirty then return end
     if not force and ShroudTime - lastSave < 5 then return end
+    local started = util.clock()
     ShroudSetSavedVar("finds", finds, "account")
+    util.slow("saving the find list", started)
     dirty = false
     lastSave = ShroudTime
 end
@@ -335,6 +337,7 @@ end
 
 -- Writes Lua/sotalore-finds.json. The list is kept; use reset() to empty it.
 function M.export()
+    local started = util.clock()
     M.save(true)
     local names = {}
     for n in pairs(finds) do names[#names + 1] = n end
@@ -353,10 +356,11 @@ function M.export()
             .. ',"creatures":[' .. jcreatures(s) .. ']'
             .. ',"nodes":[' .. jnodes(s) .. ']}'
     end
-    local body = '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
+    local body = util.header("finds")
         .. ',"scenes":[\n' .. table.concat(scenes, ",\n") .. '\n]}\n'
 
     local path, err = util.writeFile(SotaLore.files.finds, body)
+    util.slow("writing the finds file", started)
     if not path then
         ShroudConsoleLog("Finds export failed: " .. tostring(err))
         return
