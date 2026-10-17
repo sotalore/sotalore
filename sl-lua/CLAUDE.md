@@ -117,7 +117,7 @@ Untested ideas:
 ## Slash command, windows, saved data
 
 - Command is `/slore` (`/sotalore` is refused: `sota` is a reserved prefix). Subcommands: `export`,
-  `exportall`, `baseline`, `items`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
+  `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
   `gatherlog`; other text searches the recipe list.
 - An addon may own at most **8 windows**: the list (1), the finds window (1) and up to 6 recipe windows.
 - Account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),

@@ -28,8 +28,9 @@ local recipes = {}       -- known recipes, sorted by name
 local filtered = {}      -- the ones matching the search and category
 local search = ""
 local category = ALL
+local newOnly = false    -- show only recipes "Export new" would export
 
-local listWin, searchField, catDrop, countLabel
+local listWin, searchField, catDrop, countLabel, newToggle
 local exportButton, exportAllButton
 local rows = {}          -- the pooled list buttons
 local details = {}       -- recipe id -> { win, body }
@@ -134,9 +135,12 @@ end
 local function applyFilter()
     filtered = {}
     local needle = search:lower()
+    -- "New" means not exported yet: the same test "Export new" uses.
+    local exported = newOnly and RecipeExport.exportedSet() or nil
     for _, r in ipairs(recipes) do
         if (category == ALL or r.category == category)
-            and (needle == "" or r.name:lower():find(needle, 1, true)) then
+            and (needle == "" or r.name:lower():find(needle, 1, true))
+            and not (exported and exported[tostring(r.id)]) then
             filtered[#filtered + 1] = r
         end
     end
@@ -154,6 +158,8 @@ local function applyFilter()
     local total = #filtered
     if total > MAX_ROWS then
         countLabel:SetText("Showing " .. MAX_ROWS .. " of " .. total .. " - refine the search")
+    elseif newOnly then
+        countLabel:SetText(total .. " new (not exported yet), of " .. #recipes .. " recipes")
     else
         countLabel:SetText(total .. " of " .. #recipes .. " recipes")
     end
@@ -186,7 +192,7 @@ end
 -- Creates the list window (it starts closed).
 function M.build()
     rows, details, detailOrder = {}, {}, {}
-    search, category = "", ALL
+    search, category, newOnly = "", ALL, false
 
     searchField = UI.TextField{
         placeholder = "Search recipes",
@@ -205,6 +211,19 @@ function M.build()
         end,
     }
     countLabel = UI.Label{ text = "", class = "dim" }
+    newToggle = UI.Toggle{
+        text = "New only",
+        value = false,
+        tooltip = "Show only the recipes that Export new would export",
+        onChange = function(_, on)
+            newOnly = on and true or false
+            applyFilter()
+        end,
+    }
+    -- A finished export (or baseline) changes which recipes are new.
+    RecipeExport.onDone = function()
+        if newOnly then applyFilter() end
+    end
 
     exportButton = UI.Button{ text = "Export new", tooltip = "Write only recipes not exported before", onClick = function() RecipeExport.start("new") end }
     exportAllButton = UI.Button{ text = "Export all", tooltip = "Write every known recipe", onClick = function() RecipeExport.start("all") end }
@@ -236,6 +255,7 @@ function M.build()
         escCloses = true,
         children = {
             UI.Row{ children = { searchField, catDrop } },
+            newToggle,
             countLabel,
             UI.Row{ children = { exportButton, exportAllButton } },
             UI.Row{ children = {
@@ -264,6 +284,14 @@ end
 function M.showSearch(text)
     search = text
     searchField:SetText(text)
+    applyFilter()
+    listWin:Show()
+end
+
+-- Open the list window showing only the new (not yet exported) recipes.
+function M.showNew()
+    newOnly = true
+    newToggle:SetValue(true)
     applyFilter()
     listWin:Show()
 end

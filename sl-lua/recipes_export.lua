@@ -18,6 +18,9 @@ local state = nil         -- the export in progress, or nil
 -- The UI sets this to hear about progress: fn(text) while running, fn(nil) when it is over.
 M.onProgress = nil
 
+-- The UI sets this to hear when recipes were marked as exported (after a file is written, or a baseline).
+M.onDone = nil
+
 local function progress(text)
     if M.onProgress then M.onProgress(text) end
 end
@@ -140,6 +143,12 @@ local function markExported(ids)
     ShroudSetSavedVar("exported", t, "account")
 end
 
+-- The recipes already exported, as a set: set[tostring(recipe id)] is true. A recipe that is not in
+-- it is what "Export new" would export.
+function M.exportedSet()
+    return loadExported()
+end
+
 -- Running an export ------------------------------------------------------------------------
 
 local function finish()
@@ -160,6 +169,7 @@ local function finish()
     end
     markExported(st.ids)
     ShroudConsoleLog("Exported " .. #st.parts .. " recipes to " .. path .. " (type /lua path to open the folder)")
+    if M.onDone then M.onDone() end
 end
 
 -- mode "new": only recipes not exported before. "all": everything.
@@ -183,6 +193,7 @@ function M.start(mode, only)
         for _, r in ipairs(list) do ids[#ids + 1] = r.id end
         markExported(ids)
         ShroudConsoleLog("Marked " .. #ids .. " recipes as already exported.")
+        if M.onDone then M.onDone() end
         return
     end
     if #list == 0 then

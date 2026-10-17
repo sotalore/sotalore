@@ -25,6 +25,8 @@ local function handleCommand(args)
         RecipeExport.start("all")
     elseif args == "baseline" then
         RecipeExport.start("baseline")
+    elseif args == "new" then
+        RecipesUI.showNew()
     elseif args == "items" then
         Items.export()
     elseif args == "finds" then
@@ -55,7 +57,7 @@ function ShroudOnStart()
     -- /sotalore is refused ("sota" is a reserved prefix), so the command is /slore.
     local ok, reason = Shroud.Command{
         name = "slore",
-        help = "Open SotaLore. /slore <text> searches; export, exportall, items, finds (window), savefinds, clearfinds, gatherlog.",
+        help = "Open SotaLore. /slore <text> searches; new, export, exportall, items, finds (window), savefinds, clearfinds, gatherlog.",
         run = handleCommand,
     }
     if not ok then

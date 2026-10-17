@@ -18,7 +18,7 @@ The addon writes JSON files into the game's `Lua/` folder (Lua cannot POST, has 
 
 Both files have the same shape. Each export overwrites the previous file of that name.
 "Export new" sends only recipes not exported before (remembered per account); "Export all" sends
-every recipe the character knows. `/slore baseline` marks everything as already exported.
+every recipe the character knows. `/slore baseline` marks everything as already exported. In the recipe list, the "New only" toggle (or `/slore new`) shows exactly the recipes "Export new" would send.
 
 ## Hard limits of the source (the API cannot do these)
 
