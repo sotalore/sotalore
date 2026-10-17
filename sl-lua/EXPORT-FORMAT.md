@@ -211,7 +211,7 @@ ones are recipes tied to a station inside a dungeon; map them to a normal skill 
 |-------|---------|
 | `name`, `quantity` | Item name (localized) and count needed. |
 | `optional`, `tool` | `tool: true` corresponds to the fansite item `use = "tool"`. |
-| `key` | The game's item id: `item:` + 32 hex digits, same in every language. Present on plain ingredients; absent on group slots (the slot is a group, the members have keys). |
+| `key` | The game's item id: `item:` + 32 hex digits, same in every language. Present on plain ingredients; absent on group slots (the slot is a group, the members have keys). Also absent on a few generic placeholders in Repair/Salvage/Sow Seed recipes ("Worn Item", "Salvageable Item", "Seed"): match those by name. |
 | `stats` | Plain ingredients only. Rows of `{key, value[, name]}`: the item's weight, and what this recipe's quantity of it adds to the finished item (recipe-specific). |
 | `group` | Present and true when the slot accepts any member of a group (the fansite's "abstract" items, e.g. Wooden Board, Metal Sheet). |
 | `groupKey` | `group:<number>`. Identifies the group; members are in the top-level `groups` list. |
@@ -280,7 +280,30 @@ A real v0.2.0 single-recipe file (recipe "Spear", API 38) matches this document:
 `groupKey` as the identity. Group choices carry only `key` and `stats` inside the recipe; their
 names are in `groups`.
 
-## Verified against a full export
+## Verified against a complete full export (plugin 0.5.2)
+
+`data/plugin-examples/sl-recipes-export.json`: `"scope": "all"`, API 40, **1,234 recipes** (the character knows
+1,234; no duplicate ids, 604 negative), 3,994 ingredient slots (877 are group slots), 240 groups, 1.9 MB. Every
+recipe has a `station`; every `locations` is `["any"]`; no stat `value` is `null`.
+
+- **The 103 recipes older plugin versions dropped are in it**, with the same fields as any other recipe
+  (station, ingredients with keys and stats, group slots, results with key and stats). Examples: Combine Gem
+  Fragments, Fracture Gem/Jewel (Alchemy), Arapaima/Peacock Bass/Spotted Bass Trophy (Tanning). Counts per
+  `categoryKey`: Carpentry 299, Blacksmithing 187, Smelting 162, Alchemy 127, Cooking 126, Tailoring 109,
+  Tanning 101, Butchery 53, Milling 30, Textiles 26, Obsidian Forge 12, Obsidian Forge single-player 1,
+  **Farming 1**. Note `Crafting_Farming`: dropping `Crafting_` gives `farming`, but the site's skill is called
+  `agriculture`, so that one needs a mapping.
+- 71 recipes have an empty `results` list (Reshape, Repair, and similar recipes with no fixed product).
+- **10 ingredients are plain (not group) but have no `key`**: generic placeholders in the Repair Item,
+  Salvage Item and Sow Seed recipes ("Worn Item", "Salvageable Item", "Seed"). They stand for "whatever
+  item you choose", not a real item, so match them by name and do not expect a key.
+- Groups: 202 are `complete: true`; 38 are cut off at exactly 30 members (see the note below) and 35 recipes
+  use one of them.
+
+The sections below describe an earlier full export (plugin 0.4.0, 1,130 recipes) that found the same
+patterns; its group figures are superseded by the numbers above.
+
+## Verified against an earlier full export
 
 A full export from one character (API 38): 1,130 recipes (559 with negative ids, no duplicate ids),
 3,759 ingredient slots (742 are group slots), 152 groups, file size 1.7 MB. Every recipe has a
@@ -301,8 +324,8 @@ never by name. Recipe count differs from an earlier export of the same character
 
 ## Known uncertainties
 
-- Only a one-recipe file with the new fields has been checked. A full export has not been inspected;
-  the older v0.1 full file was from API 23 (1,142 recipes, no keys, no results).
+- Recipes read through the recipe-book fallback look identical to the others in the example file, but only
+  by inspection of a few (the eight named above); there is no per-recipe marker saying which path was used.
 - Recipe `id` stability across characters, patches and test/live servers.
 - Whether ingredient names always equal the fansite item names (localization, renames).
 - File size: with group choices and stats the file may be several MB.
