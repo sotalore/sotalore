@@ -34,8 +34,9 @@ class GameRecipe
   # is whether it has a "recipes" list, which every export file does, whether
   # it holds every recipe ("Export all"), only new ones ("Export new") or one.
   # +scope+ is what the file says it holds ("all", "new" or "one"; plugin
-  # 0.4+), or nil when it doesn't say.
-  Export = Data.define(:api_version, :list, :recipes, :groups, :scope) do
+  # 0.4+), or nil when it doesn't say; +plugin_version+ which plugin wrote it
+  # (0.7.1+).
+  Export = Data.define(:api_version, :list, :recipes, :groups, :scope, :plugin_version) do
     def list? = list
   end
 
@@ -53,13 +54,15 @@ class GameRecipe
   # Export.
   def self.parse_export(json)
     data = json.is_a?(String) ? JSON.parse(json) : json
+    PluginFile.check_type!(data, 'recipes')
     if data.is_a?(Hash) && data.key?('recipes')
       Export.new(data['apiVersion'], true, Array(data['recipes']).map { new(_1) },
-                 Array(data['groups']).map { GameGroup.new(_1) }, data['scope'].presence_in(SCOPES))
+                 Array(data['groups']).map { GameGroup.new(_1) }, data['scope'].presence_in(SCOPES),
+                 PluginFile.version(data))
     elsif data.is_a?(Hash) && data.key?('ingredients')
-      Export.new(nil, false, [ new(data) ], [], nil)
+      Export.new(nil, false, [ new(data) ], [], nil, nil)
     elsif data.is_a?(Array)
-      Export.new(nil, false, data.map { new(_1) }, [], nil)
+      Export.new(nil, false, data.map { new(_1) }, [], nil, nil)
     else
       raise ArgumentError, 'Not a recipe export: expected a "recipes" list or a single recipe'
     end

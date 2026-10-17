@@ -17,4 +17,12 @@ class ItemSalvage < ApplicationRecord
     salvage_to.name if salvage_to
   end
 
+  # "1–15, 90.5%": how many come back and the chance, as the game's tooltip
+  # gives them (see ItemCatalogImport); nil when not known.
+  def amount
+    count = min_count == max_count ? min_count&.to_s : "#{min_count}–#{max_count}" if min_count || max_count
+    percent = chance && "#{chance.to_s('F').sub(/\.0\z/, '')}%"
+    [ count, percent ].compact.join(', ').presence
+  end
+
 end

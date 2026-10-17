@@ -21,3 +21,26 @@ end
 RSpec.configure do |config|
   config.include FindsHelpers
 end
+
+# Builds item catalogs shaped like the game plugin's.
+module CatalogHelpers
+  # +salvage+ is { name => [min, max, chance] }.
+  def catalog_entry(name:, key: item_key(name), weight: 1, value: 1, tool: false, crafted: false,
+                    salvage: nil, yields: nil, hovered: true)
+    details =
+      if hovered
+        base = { 'crafted' => crafted, 'salvage' => (salvage || {}).map { |n, (min, max, chance)| { 'name' => n, 'min' => min, 'max' => max, 'chance' => chance } },
+                 'yields' => yields }
+        crafted ? base : base.merge('tool' => tool, 'questItem' => false, 'merchantPays' => nil, 'text' => name)
+      end
+    { 'key' => key, 'name' => name, 'weight' => weight, 'value' => value, 'createdBy' => '', 'details' => details }
+  end
+
+  def catalog_json(*entries)
+    { 'apiVersion' => 40, 'count' => entries.size, 'items' => entries }.to_json
+  end
+end
+
+RSpec.configure do |config|
+  config.include CatalogHelpers
+end

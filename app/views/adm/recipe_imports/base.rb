@@ -51,6 +51,7 @@ class Views::Adm::RecipeImports::Base < Views::Base
         span(class: 'text-sm text-grey-600 dark:text-grey-300') do
           plain [ import.filename, import.full_export? ? 'full export' : 'partial export',
                   ("file scope: #{import.export_scope}" if import.export_scope),
+                  ("plugin #{import.plugin_version}" if import.plugin_version),
                   ("api v#{import.api_version}" if import.api_version) ].compact.join(' · ')
           plain ' · uploaded '
           time_ago_tag import.created_at

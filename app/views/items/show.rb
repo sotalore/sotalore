@@ -150,6 +150,7 @@ class Views::Items::Show < Views::Items::Base
           @item.item_salvages_as_result.each do |item_salvage|
             li do
               link_to(item_salvage.salvage_from, item_salvage.salvage_from)
+              span(class: "text-sm text-grey-500") { " (#{item_salvage.amount})" } if item_salvage.amount
               destroy_icon_to(item_salvage, size: :small) if policy(:item_salvage).destroy?
             end
           end
@@ -162,6 +163,7 @@ class Views::Items::Show < Views::Items::Base
           @item.item_salvages_as_source.each do |item_salvage|
             li do
               link_to(item_salvage.salvage_to, item_salvage.salvage_to)
+              span(class: "text-sm text-grey-500") { " (#{item_salvage.amount})" } if item_salvage.amount
               destroy_icon_to(item_salvage, size: :small) if policy(:item_salvage).destroy?
             end
           end

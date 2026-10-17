@@ -30,6 +30,7 @@ class GameFinds
   # Raises ArgumentError for anything that isn't a finds file.
   def self.parse(json)
     data = json.is_a?(String) ? JSON.parse(json) : json
+    PluginFile.check_type!(data, 'finds')
     unless data.is_a?(Hash) && data['scenes'].is_a?(Array)
       raise ArgumentError, 'Not a finds file: expected a "scenes" list'
     end

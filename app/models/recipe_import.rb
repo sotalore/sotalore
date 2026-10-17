@@ -22,10 +22,11 @@ class RecipeImport < ApplicationRecord
   # ArgumentError or JSON::ParserError on input that isn't a recipe export.
   #
   # Whether it's a full export ("Export all": every recipe a character knows,
-  # so recipes it lacks may be gone from the game) comes from the file's
-  # scope (plugin 0.4+): "all" is full, "new" and "one" never are. Older files
-  # don't say, so the uploader does (+full_export+). A single recipe is never
-  # full.
+  # so recipes it lacks may be gone from the game) comes from the file: an
+  # "all" scope from plugin 0.5.2 or later is full; "new" and "one" never
+  # are, nor is anything from before 0.5.2 (those lack ~100 recipes). When
+  # the file doesn't say enough (no scope, or "all" with no plugin version),
+  # the uploader does (+full_export+). A single recipe is never full.
   def self.create_from_json!(json, filename: nil, user: nil, full_export: false)
     export = GameRecipe.parse_export(json)
     game_recipes = export.recipes
@@ -35,8 +36,9 @@ class RecipeImport < ApplicationRecord
     end
     filename ||= pasted_label(game_recipes)
     transaction do
-      full = export.scope ? export.scope == 'all' : full_export && export.list?
+      full = full_from_file(export, full_export)
       import = create!(filename: filename, api_version: export.api_version, export_scope: export.scope,
+                       plugin_version: export.plugin_version,
                        full_export: full && game_recipes.size > 1,
                        uploaded_by: user,
                        groups_payload: export.groups.map(&:payload))
@@ -56,6 +58,20 @@ class RecipeImport < ApplicationRecord
       import.analyze!
       import
     end
+  end
+
+  def self.full_from_file(export, uploader_says)
+    return false unless export.list?
+    return false if export.scope.in?(%w[ new one ])
+    return false if too_old_to_be_full?(export.plugin_version)
+    return true if export.scope == 'all' && export.plugin_version
+    uploader_says
+  end
+  private_class_method :full_from_file
+
+  # A plugin version known to be before complete full exports.
+  def self.too_old_to_be_full?(version)
+    version.present? && !PluginFile.at_least?(version, PluginFile::COMPLETE_FULL_EXPORTS)
   end
 
   def self.pasted_label(game_recipes)
@@ -115,7 +131,7 @@ class RecipeImport < ApplicationRecord
   # Whether it can be marked a full export: not when the file says it holds
   # only new recipes or one, and never for a single recipe.
   def can_be_full?
-    entries_count > 1 && export_scope.in?([ nil, 'all' ])
+    entries_count > 1 && export_scope.in?([ nil, 'all' ]) && !self.class.too_old_to_be_full?(plugin_version)
   end
 
   # Whether this many stale recipes means it isn't really a full export.

@@ -1,0 +1,115 @@
+# frozen_string_literal: true
+
+# One uploaded item catalog from the game plugin (see GameCatalog): items
+# seen in a character's bags, and their tooltips. Reviewed (see
+# ItemCatalogAnalysis) and applied (see #apply!), which records the game's
+# keys and tooltips, makes tools of unknown-use items the tooltip calls
+# tools, and brings in salvage lists with their quantities and chances. A
+# crafted item gives only its salvage list. Applying is idempotent.
+#
+# Weights aren't taken from the catalog: it keeps entries across plugin
+# versions, and older ones hold whole-stack weights (a potion at 191.4).
+# Recipe exports' weights are reliable; the catalog's are shown for review.
+class ItemCatalogImport < ApplicationRecord
+  include GameItemResolution
+
+  belongs_to :uploaded_by, class_name: 'User', optional: true
+
+  scope :newest_first, -> { order(created_at: :desc, id: :desc) }
+
+  # Raises ArgumentError or JSON::ParserError for anything that isn't an
+  # item catalog.
+  def self.create_from_json!(json, filename: nil, user: nil)
+    data = JSON.parse(json)
+    catalog = GameCatalog.parse(data)
+    raise ArgumentError, 'No items found' if catalog.entries.empty?
+    create!(filename: filename, api_version: catalog.api_version, plugin_version: catalog.plugin_version,
+            payload: data, uploaded_by: user)
+  end
+
+  def catalog
+    @catalog ||= GameCatalog.parse(payload)
+  end
+
+  def analysis
+    @analysis ||= ItemCatalogAnalysis.new(self)
+  end
+
+  def reload(*)
+    @catalog = nil
+    reset_analysis!
+    super
+  end
+
+  def to_s
+    "Item Catalog ##{id}"
+  end
+
+  # Applies what the catalog says about the items the site knows, as +user+,
+  # recording revisions. Returns { what => how many }.
+  def apply!(user)
+    counts = Hash.new(0)
+    lookup = ItemLookup.new
+    now = Time.current
+    transaction do
+      analysis.rows.select(&:known?).each do |row|
+        entry, item = row.entry, row.item
+        unless entry.crafted?
+          counts[:keys] += 1 if record_key(entry, item, lookup)
+          record_catalog(entry, now)
+        end
+
+        item.use = 'tool' if row.tool?
+        if item.changed?
+          counts[:tools] += 1
+          item.save!
+          RevisionRecorder.call(item, user)
+        end
+
+        row.salvage.select(&:known?).each do |salvage|
+          counts[salvage.site ? :salvage_updated : :salvage_added] += 1 if salvage.missing? || salvage.changed?
+          record_salvage(item, salvage, now)
+        end
+      end
+      update!(applied_at: now)
+    end
+    reset_analysis!
+    counts
+  end
+
+  # Removes the site's salvages from +item+ that the game's list doesn't
+  # have. Returns how many.
+  def remove_extra_salvage!(item)
+    row = analysis.rows.find { _1.item == item } or raise Error, "#{item.name} isn't in this catalog"
+    row.extra_salvage.each(&:destroy!)
+    reset_analysis!
+    row.extra_salvage.size
+  end
+
+  private
+
+  def reset_analysis!
+    @analysis = nil
+  end
+
+  def record_key(entry, item, lookup)
+    return false if entry.key.nil? || lookup.id_for_key(entry.key) || !ItemGameKey.suits?(entry.key, item)
+    ItemGameKey.create!(key: entry.key, item: item, name: entry.name)
+    lookup.remember_key(entry.key, item.id)
+    true
+  end
+
+  # Keeps what the tooltip said on the item's game key, for later use.
+  def record_catalog(entry, now)
+    game_key = entry.key && ItemGameKey.find_by(key: entry.key) or return
+    catalog = { 'value' => entry.value }
+    catalog['details'] = entry.details if entry.details?
+    game_key.update!(catalog: (game_key.catalog || {}).merge(catalog), catalog_seen_at: now)
+  end
+
+  def record_salvage(item, salvage, now)
+    record = salvage.site || ItemSalvage.new(salvage_from: item, salvage_to: salvage.item)
+    record.update!(min_count: salvage.game.min, max_count: salvage.game.max, chance: salvage.game.chance,
+                   game_synced_at: now)
+  end
+end

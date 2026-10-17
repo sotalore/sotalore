@@ -53,8 +53,8 @@ RSpec.describe "Adm::RecipeImports", type: :request do
 
     it "goes by the file's scope when it has one" do
       recipes = [ game_recipe_hash(name: 'Chair', id: 1), game_recipe_hash(name: 'Bench', id: 2) ]
-      upload(game_export_json(*recipes, scope: 'all'))
-      expect(RecipeImport.last).to have_attributes(full_export: true, export_scope: 'all')
+      upload(game_export_json(*recipes, scope: 'all', plugin_version: '0.7.3'))
+      expect(RecipeImport.last).to have_attributes(full_export: true, export_scope: 'all', plugin_version: '0.7.3')
 
       upload(game_export_json(*recipes, scope: 'new'), full_export: '1')
       new_only = RecipeImport.last
@@ -65,6 +65,25 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       post set_full_export_adm_recipe_import_path(new_only), params: { full_export: '1' }
       expect(flash[:alert]).to eq %(It can't be a full export: the file says it holds "new" recipes.)
       expect(new_only.reload.full_export).to be false
+    end
+
+    it "won't take an \"all\" file as full without knowing it's complete" do
+      recipes = [ game_recipe_hash(name: 'Chair', id: 1), game_recipe_hash(name: 'Bench', id: 2) ]
+      upload(game_export_json(*recipes, scope: 'all'))
+      expect(RecipeImport.last.full_export).to be false
+      upload(game_export_json(*recipes, scope: 'all'), full_export: '1')
+      expect(RecipeImport.last.full_export).to be true
+
+      upload(game_export_json(*recipes, scope: 'all', plugin_version: '0.5.1'), full_export: '1')
+      old = RecipeImport.last
+      expect(old.full_export).to be false
+      post set_full_export_adm_recipe_import_path(old), params: { full_export: '1' }
+      expect(flash[:alert]).to include "plugin 0.5.1 full exports lack recipes"
+    end
+
+    it 'refuses a file of another type' do
+      upload({ 'apiVersion' => 40, 'pluginVersion' => '0.7.3', 'type' => 'items', 'items' => [] }.to_json)
+      expect(flash[:alert]).to include 'That file holds items, not recipes'
     end
 
     it 'never takes a single recipe for a full export' do
