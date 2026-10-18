@@ -35,31 +35,17 @@ file with `"scope": "all"` is a full export only from plugin 0.5.2 on (without a
 uploader decides), anything older can't be marked full, and each import refuses a file whose `type`
 belongs elsewhere. Thank you.
 
-### R4. Some item weights and values are still whole-stack ones (open, 2026-10-17)
+### R4. Per-item weights, values and merchant prices for stacks (done, plugin 0.8.1)
 
-The items example from plugin **0.7.3** (`data/plugin-examples/sotalore-items.json`) still has, for
-three potions, weights and values that look like a whole stack's:
+Fixed: when the game gives no stack size, the plugin takes per-item numbers from the tooltip's stack
+line, or writes `null` ("not known"); merchant prices are per item too, and comma numbers are read
+right. The 0.8.1 example bears it out (the three potions read 0.3 and 10 gold, from stacks of 638, not
+the 319 at 0.6 guessed here before). The importer now only accepts items files from plugin 0.8.1 on,
+fills the weights the site lacks from them, and leaves a `null` alone. Thank you.
 
-| Item | weight | value |
-|------|--------|-------|
-| Cure Plague Potion | 191.400009155273 | 6380 |
-| Cure Poison Potion | 192 | 6400 |
-| Explosive Potion | 485.400024414063 | 16180 |
-
-That's about 319 potions at 0.6 and 20 gold each, so the division by stack size seems not to happen
-for these (the first and last also aren't rounded to 4 decimals). Every other item looks right
-(Animal Hide 0.4, Poison Potion 0.3). Until it's clear which entries can be trusted, the importer
-takes no weights from the items file; recipe weights cover most items. If the plugin can tell when it
-couldn't divide (a stack size of 0 or 1 reported for a stack, say), leaving `weight` and `value`
-`null` for those would let the importer take the rest.
-
-A finding about salvage, too: `EXPORT-FORMAT.md` says a crafted item's salvage list is the same for
-the kind of item, but the example shows materials change it. Epic Leather Boots +13 salvage into Yard
-of Simple Leather, Supple Epic Leather Gloves +12 into Yard of Supple Leather, and Bronze Dagger +11 into
-Bronze Hilt and Bronze Dagger Blade, though each shares its base item's key. A reshaped item's Eternal
-Pattern is its own too. So the importer only takes a crafted item's salvage when its name, less "+N"
-and an "of ..." enchantment, is the base item's name, and never its pattern. If the tooltip says what
-the item was made from, that would let it do better.
+The salvage finding (a crafted item's salvage depends on its materials) is now in `EXPORT-FORMAT.md`,
+with the rule the importer uses. `title`, which gives a reshaped item's base ("Supple Virtue Aeronaut
+Boots +15 (Supple Fortified Leather Boots +15)"), could let the importer do better there later.
 
 ## How the site uses the exports today
 
@@ -85,7 +71,11 @@ the item was made from, that would let it do better.
 - **The item catalog** is imported: keys (by key, or by name the first time), the tooltip kept on the
   item's key (value, merchant pays, flags, effects, text), "Tool" items of unknown use made tools, and
   salvage lists with their quantity ranges and chances (`yields` as one more component). Crafted items
-  are matched by key and give only their salvage, as described under R4. Weights aren't taken (R4).
+  (tooltip "Crafted by") are matched by key and give only their salvage, and only when their name, less
+  "+N" and an "of ..." enchantment, is the base item's name. A "+N" name alone doesn't mean crafted:
+  creatures drop +N weapons ("Elven Woodwind Bow +1", "Rusty Sword +1") that are items in their own
+  right. Weights the site lacks are filled (existing ones are left alone); only items files from plugin
+  0.8.1 on are accepted (R4).
   Both scopes (`new`, `all`) are applied the same way: nothing is removed for an item a file leaves out.
   Item `types` (plugin 0.6.2) aren't used yet: they'd suggest an item's `use`.
 

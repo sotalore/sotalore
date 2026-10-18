@@ -20,9 +20,11 @@ class GameCatalog
     def details? = !details.nil?
 
     # A crafted item ("Bronze Dagger +11"): one of a kind, sharing the base
-    # item's key, with a salvage list that depends on its materials. Told by
-    # its tooltip, or a "+N" at the end of its name when it wasn't hovered.
-    def crafted? = !!details&.dig('crafted') || name.match?(/\s\+\d+\z/)
+    # item's key, with a salvage list that depends on its materials. Only the
+    # tooltip's "Crafted by" says so: a "+N" name doesn't (creatures drop +N
+    # weapons that are items in their own right), and the API's own field
+    # for it is unreliable.
+    def crafted? = !!details&.dig('crafted')
     def tool? = !!details&.dig('tool')
     def quest_item? = !!details&.dig('questItem')
 
@@ -46,10 +48,18 @@ class GameCatalog
 
   attr_reader :api_version, :plugin_version, :scope, :entries
 
-  # Raises ArgumentError for anything that isn't an item catalog.
+  # Per-item weights, values and merchant prices are only right from here.
+  MINIMUM_VERSION = Gem::Version.new('0.8.1')
+
+  # Raises ArgumentError for anything that isn't an item catalog, or is one
+  # from a plugin too old to trust.
   def self.parse(json)
     data = json.is_a?(String) ? JSON.parse(json) : json
     PluginFile.check_type!(data, 'items')
+    unless PluginFile.at_least?(PluginFile.version(data), MINIMUM_VERSION)
+      raise ArgumentError, "Items files from plugins before #{MINIMUM_VERSION} give whole-stack weights " \
+                           "and prices; export again with plugin #{MINIMUM_VERSION} or later"
+    end
     unless data.is_a?(Hash) && data['items'].is_a?(Array) && !data.key?('recipes') && !data.key?('scenes')
       raise ArgumentError, 'Not an item catalog: expected an "items" list'
     end
