@@ -81,6 +81,10 @@ function ShroudOnStart()
     end
 
     Shroud.Keybind{ id = "toggle", label = "SotaLore Admin: toggle list", onPress = function() handleCommand("") end }
+
+    -- Last, so everything above is set up even if this is slow: read the recipe books that some recipes need
+    -- (too slow for a normal callback; the game allows the start 5 seconds) and keep copies for the exports.
+    SotaLoreAdmin.util.readNeededBooks(2.0)
 end
 
 -- Every frame.
@@ -131,7 +135,6 @@ function ShroudOnRecipesChanged()
 end
 
 function ShroudOnInventoryChanged()
-    SotaLoreAdmin.util.clearRecipeCache()
     if not RecipesUI.isBuilt() then return end
     RecipesUI.refreshDetails()
 end

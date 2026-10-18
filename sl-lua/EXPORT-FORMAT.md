@@ -1,4 +1,4 @@
-# SotaLore plugin export format (sl-admin v0.10.0, sl-skills v0.1.0)
+# SotaLore plugin export format (sl-admin v0.10.1, sl-skills v0.1.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:
@@ -44,6 +44,12 @@ A recipe the game lists but will not hand over (`ShroudGetRecipe` returns nothin
 have it either) is left out of the file and is **not** marked as exported; the plugin says so in chat after the
 export ("WARNING: N recipes could not be read and are NOT in the file"). So `count` can be lower than the number
 of recipes the character knows, and the missing ones keep showing up as new.
+
+Reading the recipe book can take longer than the game allows (Alchemy's took 1.8 s on 2026-10-18), so from sl-admin
+v0.10.1 the plugin keeps a copy of every recipe it had to get from the book, and later exports use that copy; it
+refreshes the copies whenever it starts (`/lua reload`), when the game allows more time. Such a recipe can therefore
+be as old as the plugin's last start, not the moment of the export. Its contents are written exactly as the book gave
+them; nothing in the file marks which recipes came from a copy.
 
 **Full exports made before plugin v0.5.2 are incomplete.** Until then the plugin dropped every recipe that
 `ShroudGetRecipe` could not read, without saying so. On the author's character that was 103 of 1,234 known

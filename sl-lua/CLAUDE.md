@@ -204,8 +204,15 @@ command from the plugin's name. For a plugin about `<name>`:
   recipes with many group slots are far slower to read than simple ones. `util.slow(what, since)` writes a
   "SotaLore slow: ..." line to chat when a step takes over 0.3 s, to find the one that is too slow. A single
   call that is itself slow (`ShroudGetRecipeBook` for a whole craft skill, saving a big saved variable) cannot
-  be sliced. A "Lua Watchdog ... exceeded its execution time budget" message seen once during exports on
-  2026-10-17; the cause was not identified before the slicing and the slow-step messages were added.
+  be sliced. On 2026-10-18 the slow-step messages showed `ShroudGetRecipeBook("Crafting_Alchemy")` taking
+  1.8 s (Tanning 0.3 s; the day before it had been fast enough), so the game stopped it, and the old code read the
+  book again every frame (it marked a book as read only after the call returned, and bag changes emptied the
+  cache). Since sl-admin 0.10.1: a book is marked as tried before the call and read at most once per export, in
+  a frame of its own; recipes got from a book are kept (saved variables `bookRecipes`, and `needBook` for which
+  recipes need one) and later exports use those copies; and `ShroudOnStart`, which gets 5 s, reads the books
+  those recipes need (`util.readNeededBooks`), so `/lua reload` refreshes the copies. **A call that can take over
+  a second belongs in `ShroudOnStart` or not at all**; never retry a call the game may have stopped (a burst of
+  errors makes the game switch the plugin off).
 - **A stopped callback must leave the job's state consistent.** The 0.7.1 export once wrote 10 recipes twice: the game
   stopped a callback (the watchdog) after a batch of recipes had been stored but before the position was
   advanced, so the next frame read the same batch again. `ShroudGetKnownRecipes` itself lists every id once (checked:

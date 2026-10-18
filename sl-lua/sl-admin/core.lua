@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore Admin"
-local Version = "0.10.0"
+local Version = "0.10.1"
 local CreatorName = "Gravidy"
 local Description = "SotaLore site admin tools: recipe, item and find exports for upload to the site."
 
@@ -99,32 +99,111 @@ function util.slow(what, since)
     end
 end
 
--- Reading one recipe. ShroudGetRecipe(id) sometimes returns nothing for a recipe that
--- ShroudGetKnownRecipes lists (seen with newly learned recipes). Fall back to the recipe book
--- (API 37), which returns the same tables, read once per crafting skill and kept until
--- clearRecipeCache() (called when the recipes or bags change).
-local bookCache = {}   -- categoryKey -> { recipe id -> recipe }
+-- Recipes the game won't hand over.
+--
+-- ShroudGetRecipe(id) returns nothing for some recipes that ShroudGetKnownRecipes lists (about 100 of 1,234:
+-- Alchemy gem recipes, Tanning trophies). The recipe book (ShroudGetRecipeBook, one craft skill at a time) has
+-- them, but reading a whole skill's book can take longer than the 1 second the game allows a callback (Alchemy
+-- took 1.8 s on 2026-10-18), and the game stops a call that slow part way. So:
+--   * every recipe got from a book is kept (account saved variable "bookRecipes"), with a note of which recipes
+--     need a book ("needBook"); later reads use that copy instead of reading the slow book again;
+--   * a book is read at most once until clearRecipeCache() (each export starts with it): it is marked as tried
+--     before the call, so a read the game stops is not tried again, and cannot pile up the repeated errors that
+--     make the game switch a plugin off;
+--   * readNeededBooks() reads the books those recipes need while the plugin starts, when the game allows 5
+--     seconds instead of 1, which keeps the copies fresh: /lua reload runs it.
+local bookCache = {}   -- categoryKey -> { recipe id -> recipe } once read; false once tried without a result
 
+local function savedTable(name)
+    local t = ShroudGetSavedVar(name, "account")
+    if type(t) ~= "table" then t = {} end
+    return t
+end
+
+-- Forgets the books read so far, so each is read again when next needed.
 function util.clearRecipeCache()
     bookCache = {}
 end
 
+-- Reads one craft skill's recipe book (at most once until clearRecipeCache) and keeps the recipes that need it.
+function util.readBook(categoryKey)
+    if not categoryKey or not ShroudGetRecipeBook or bookCache[categoryKey] ~= nil then return end
+    bookCache[categoryKey] = false
+    local started = util.clock()
+    local ok, book = pcall(ShroudGetRecipeBook, categoryKey)
+    util.slow("reading the recipe book for " .. categoryKey, started)
+    if not ok or type(book) ~= "table" then return end
+    local byId = {}
+    for _, b in ipairs(book) do byId[b.id] = b end
+    bookCache[categoryKey] = byId
+
+    local need, kept = savedTable("needBook"), savedTable("bookRecipes")
+    for key, cat in pairs(need) do
+        local r = (cat == categoryKey) and byId[tonumber(key)]
+        if r then kept[key] = r end
+    end
+    ShroudSetSavedVar("bookRecipes", kept, "account")
+end
+
+-- Whether getting this recipe would mean reading a book that has not been tried yet (the recipe export gives
+-- such a read a frame of its own). A recipe with a kept copy never needs one.
+function util.bookPending(id, categoryKey)
+    if not categoryKey or not ShroudGetRecipeBook or bookCache[categoryKey] ~= nil then return false end
+    return savedTable("bookRecipes")[tostring(id)] == nil
+end
+
+-- A recipe ShroudGetRecipe did not hand over: from a book read since the last clearRecipeCache, else the kept
+-- copy, else by reading the book now. Returns the recipe and where it came from ("book" or "kept"), or nil.
+function util.fallbackRecipe(id, categoryKey)
+    if not categoryKey then return nil end
+    local key = tostring(id)
+    local need = savedTable("needBook")
+    if need[key] ~= categoryKey then
+        need[key] = categoryKey
+        ShroudSetSavedVar("needBook", need, "account")
+    end
+
+    local kept = savedTable("bookRecipes")
+    local byId = bookCache[categoryKey]
+    if byId and byId[id] then
+        kept[key] = byId[id]
+        ShroudSetSavedVar("bookRecipes", kept, "account")
+        return byId[id], "book"
+    end
+    if kept[key] then return kept[key], "kept" end
+
+    util.readBook(categoryKey)
+    byId = bookCache[categoryKey]
+    if byId and byId[id] then return byId[id], "book" end
+    return nil
+end
+
+-- One recipe the character knows, however the game will give it. Returns the recipe and where it came from
+-- ("game", "book" or "kept"), or nil.
 function util.getRecipe(id, categoryKey)
     local r = ShroudGetRecipe(id)
-    if r then return r end
-    if not categoryKey or not ShroudGetRecipeBook then return nil end
-    local byId = bookCache[categoryKey]
-    if not byId then
-        byId = {}
-        local started = util.clock()
-        local ok, book = pcall(ShroudGetRecipeBook, categoryKey)
-        util.slow("reading the recipe book for " .. categoryKey, started)
-        if ok and type(book) == "table" then
-            for _, b in ipairs(book) do byId[b.id] = b end
+    if r then return r, "game" end
+    return util.fallbackRecipe(id, categoryKey)
+end
+
+-- Reads the books that the recipes noted in "needBook" need, starting no new read after `seconds`. Meant for
+-- ShroudOnStart, which the game allows 5 seconds. Does nothing before a character is loaded (the book is nil).
+function util.readNeededBooks(seconds)
+    if not ShroudGetRecipeBook then return end
+    util.clearRecipeCache()   -- a book that was too slow during play gets its chance here
+    local cats, seen = {}, {}
+    for _, cat in pairs(savedTable("needBook")) do
+        if not seen[cat] then
+            seen[cat] = true
+            cats[#cats + 1] = cat
         end
-        bookCache[categoryKey] = byId
     end
-    return byId[id]
+    table.sort(cats)
+    local started = util.clock()
+    for _, cat in ipairs(cats) do
+        if util.clock() - started > seconds then break end
+        util.readBook(cat)
+    end
 end
 
 -- The items with this name from a list function such as ShroudGetInventoryItems. A name read from a
