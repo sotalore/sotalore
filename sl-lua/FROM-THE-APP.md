@@ -88,9 +88,15 @@ to load the skill list any more, but it's still welcome for checking.
   0.8.1 on are accepted (R4).
   Both scopes (`new`, `all`) are applied the same way: nothing is removed for an item a file leaves out.
   Item `types` (plugin 0.6.2) aren't used yet: they'd suggest an item's `use`.
-- **Skill codes** (sl-skills) aren't imported yet. The plan: a player pastes the pages on an avatar's
-  skills page, the site matches each id to its skill by game id, shows the changes, and sets the
-  avatar's current levels (never the targets). A trained skill absent from the code reads as level 0.
+- **Skill codes** (sl-skills) are pasted by players on an avatar's skills page ("Import from game"):
+  every page into one box, in any order, with anything around them ignored. The page checks each
+  page's check as it's pasted and says which are missing; pages whose page count, id digits, offset
+  flag or character differ are refused as two codes. Each id is matched to a site skill by game id
+  (unknown ids are counted and left out), the changes are shown, and saving sets the avatar's current
+  levels. A skill the avatar has a level for that the code doesn't list is cleared (the player can
+  untick that). Targets change only if the player asks (for those below the game's level). The
+  code's character name is compared with the avatar's name, to offer the avatar of that name instead.
+  The file (`sotalore-skills.json`) isn't read by the site.
 
 ## The site's data model
 

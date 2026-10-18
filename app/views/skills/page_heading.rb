@@ -3,8 +3,6 @@
 class Views::Skills::PageHeading < Views::Skills::Base
   include Phlex::Rails::Helpers::SelectTag
 
-  register_value_helper :request
-
   def initialize(activity:, with_avatar_controls:, avatars: nil, avatar: nil)
     @activity = activity
     @with_avatar_controls = with_avatar_controls
@@ -20,6 +18,7 @@ class Views::Skills::PageHeading < Views::Skills::Base
         page_heading_tab(@activity == "adventuring", "Adventuring", current_skills_path(activity: "adventuring"), suffix: " Skills")
         page_heading_tab(@activity == "crafting", "Crafting", current_skills_path(activity: "crafting"), suffix: " Skills")
         page_heading_tab(@activity.nil?, "Basics", skills_basics_path)
+        page_heading_tab(import?, "Import", current_skills_import_path)
       end
 
       if @with_avatar_controls
@@ -29,7 +28,7 @@ class Views::Skills::PageHeading < Views::Skills::Base
               strong { "Avatar:" }
               avatar_select_tag
             end
-            clear_skills_button if @avatar
+            clear_skills_button if @avatar && !import?
           else
             primary_button_to("create an avatar", avatars_path, size: :sm)
           end
@@ -54,6 +53,11 @@ class Views::Skills::PageHeading < Views::Skills::Base
     span(class: "hidden md:inline") { suffix } if suffix
   end
 
+  # The Import tab: pasting skill levels from the game (SkillImportsController).
+  def import?
+    @activity == "import"
+  end
+
   def clear_skills_button
     destroy_button_to(
       "Clear all skills",
@@ -65,16 +69,17 @@ class Views::Skills::PageHeading < Views::Skills::Base
     )
   end
 
-  def avatar_select_tag
-    current_path = request.path
+  # Choosing an avatar stays on this tab.
+  def avatar_page_path(avatar)
+    import? ? new_avatar_skill_import_path(avatar_id: avatar) : avatar_skills_path(avatar_id: avatar, activity: @activity)
+  end
 
+  def avatar_select_tag
     select_tag('avatar', class: 'py-0 pl-2 pr-7 md:pl-3 md:pr-10 h-8 text-xs md:text-base bg-white text-grey-700 border-grey-300 dark:bg-grey-800 dark:text-grey-100 dark:border-grey-600') do
-      none_path = avatar_skills_path(avatar_id: 'none', activity: @activity)
-      option(value: none_path, selected: none_path == current_path) { '~ none ~' }
+      option(value: avatar_page_path('none'), selected: @avatar.nil?) { '~ none ~' }
 
       @avatars.each do |a|
-        avatar_path = avatar_skills_path(avatar_id: a, activity: @activity)
-        option(value: avatar_path, selected: avatar_path == current_path) { a.name }
+        option(value: avatar_page_path(a), selected: a.id == @avatar&.id) { a.name }
       end
     end
   end

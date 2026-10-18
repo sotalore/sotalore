@@ -65,6 +65,13 @@ RSpec.describe Skill, type: :model do
     end
   end
 
+  describe 'position' do
+    it 'follows the skills pages: adventuring then crafting, by category, school and skill' do
+      in_page_order = [ Skill::ADVENTURING, Skill::CRAFTING ].flat_map { _1.values.flat_map(&:values).flatten }
+      expect(in_page_order.map(&:position)).to eq (0...in_page_order.size).to_a
+    end
+  end
+
   describe 'game ids' do
     let(:skills) { Skill::BY_KEY.values }
 

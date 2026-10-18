@@ -11,7 +11,7 @@ class Skill
       JSON.parse(File.read(filename)).each do |category, schools|
         schools.each do |school, skills|
           skills.each do |skill|
-            s = Skill.new(skill.merge({ category: category, school: school }))
+            s = Skill.new(skill.merge({ category: category, school: school, position: BY_KEY.size }))
             container[category] ||= {}
             container[category][school] ||= []
             container[category][school] << s
@@ -46,7 +46,9 @@ class Skill
 
   # game_id and game_key are the game's id and internal name ("Deflect"), from
   # the development team's data/skill-costs.csv (see `rails skills:game_ids`).
-  attr_accessor :id, :key, :name, :xp_factor, :category, :school, :game_id, :game_key
+  # position is the skill's place on the skills pages (adventuring then
+  # crafting, each by category, school and skill), which is the game's order.
+  attr_accessor :id, :key, :name, :xp_factor, :category, :school, :game_id, :game_key, :position
 
   # Total XP needed to reach a level, fit to the game's published values
   # (data/skill-costs.csv) for levels 50-200. The base curve grows 10% per
