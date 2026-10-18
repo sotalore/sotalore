@@ -35,6 +35,42 @@ RSpec.describe "Adm::ItemCatalogImports", type: :request do
     expect(response.body).to include('sotalore-items.json')
   end
 
+  it 'creates many unknown items at once, keeping their list open' do
+    import = upload(catalog_json(catalog_entry(name: 'Odd Note', key: item_key('note')), catalog_entry(name: 'Quest Key'),
+                                 catalog_entry(name: 'Backpack')))
+    get adm_item_catalog_import_path(import)
+    expect(response.body).to include('Create selected', 'Select all')
+
+    selected = [ { name: 'Odd Note', key: item_key('note') }, { name: 'Quest Key', key: item_key('Quest Key') } ]
+    post resolve_adm_item_catalog_import_path(import),
+         params: { resolution: 'create_many', open: 'catalog', selected: selected.map(&:to_json) }
+    expect(response).to redirect_to(adm_item_catalog_import_path(import, open: 'catalog', anchor: 'catalog'))
+    expect(flash[:notice]).to eq 'Created 2 items.'
+    expect(Item.find_by_name('Odd Note').sole.game_keys.pluck(:key)).to eq [ item_key('note') ]
+
+    post resolve_adm_item_catalog_import_path(import), params: { resolution: 'create_many', selected: [ selected.first.to_json ] }
+    expect(flash[:alert]).to include "Couldn't create Odd Note"
+  end
+
+  it 'lists unknown catalog items open when asked, and crafted ones left out as a list' do
+    import = upload(catalog_json(catalog_entry(name: 'Odd Note'),
+                                 catalog_entry(name: 'Iron Sword +12', key: item_key('sword'), crafted: true)))
+    get adm_item_catalog_import_path(import, open: 'catalog')
+    expect(response.body).to match(/<details[^>]*open[^>]*>\s*<summary[^>]*>Catalog items/)
+    expect(response.body).to include('<li>Iron Sword +12</li>')
+  end
+
+  it 'updates weights that differ on request' do
+    scrap.update!(weight: 0.1)
+    import = upload(catalog_json(catalog_entry(name: 'Leather Scrap', weight: 0.05)))
+    get adm_item_catalog_import_path(import)
+    expect(response.body).to include('Update 1 different weight')
+    post update_weights_adm_item_catalog_import_path(import)
+    expect(flash[:notice]).to eq "Updated 1 weight to the game's."
+    expect(scrap.reload.weight).to eq BigDecimal('0.05')
+    expect(scrap.comments.revision.count).to eq 1
+  end
+
   it 'rejects other files' do
     upload('{"scenes": []}')
     expect(flash[:alert]).to include "Couldn't import"

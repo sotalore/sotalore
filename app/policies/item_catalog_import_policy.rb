@@ -10,6 +10,10 @@ class ItemCatalogImportPolicy < DefaultAdminPolicy
     update?
   end
 
+  def update_weights?
+    update?
+  end
+
   def remove_salvage?
     update?
   end

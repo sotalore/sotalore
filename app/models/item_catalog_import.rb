@@ -77,6 +77,20 @@ class ItemCatalogImport < ApplicationRecord
     counts
   end
 
+  # Replaces the site's weights that differ from the game's with the game's,
+  # recording revisions. Returns how many.
+  def update_weights!(user)
+    rows = analysis.rows.select(&:different_weight?)
+    transaction do
+      rows.each do |row|
+        row.item.update!(weight: row.entry.weight)
+        RevisionRecorder.call(row.item, user)
+      end
+    end
+    reset_analysis!
+    rows.size
+  end
+
   # Removes the site's salvages from +item+ that the game's list doesn't
   # have. Returns how many.
   def remove_extra_salvage!(item)

@@ -6,20 +6,22 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
 
   INPUT_CSS = 'border border-grey-400 rounded px-2 py-1 text-sm dark:bg-grey-700'
 
-  def initialize(import:, analysis:)
+  # +open+ names a list section to show expanded (after acting on it).
+  def initialize(import:, analysis:, open: nil)
     @import = import
     @analysis = analysis
     @counts = analysis.counts
+    @open = open
   end
 
   def view_template
     div(class: 'm-2 p-4 bg-white dark:bg-grey-800') do
       header
       summary_list
-      unknown_items('Salvage components the site doesn\'t know', @analysis.unknown_components,
+      unknown_items('components', 'Salvage components the site doesn\'t know', @analysis.unknown_components,
                     'Their salvage is left out until they\'re resolved.')
       changes
-      unknown_items('Catalog items the site doesn\'t know', @analysis.unknown_catalog_items,
+      unknown_items('catalog', 'Catalog items the site doesn\'t know', @analysis.unknown_catalog_items,
                     'Often quest notes and keys; only add the ones worth having on the site.', collapsed: true)
       skipped_crafted
     end
@@ -46,7 +48,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
     p(class: 'my-2 max-w-prose text-sm') do
       plain 'Applying records the game\'s key and tooltip for each item the site knows, fills weights the site '
       plain 'lacks, makes "Tool" items of unknown use tools, and adds or updates salvage. It doesn\'t remove '
-      plain 'salvage or change weights the site already has (differences are shown below). A crafted item (its '
+      plain 'salvage, or change weights the site already has unless you ask. A crafted item (its '
       plain 'tooltip says "Crafted by") only gives its salvage, and only when it\'s the plain base item (materials '
       plain 'change what it salvages into).'
     end
@@ -55,12 +57,20 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
   def summary_list
     ul(class: 'mb-2 text-sm') do
       li { "#{@counts[:known]} items the site knows, #{@counts[:unknown]} it doesn't" }
-      li { "#{@counts[:missing_weights]} weights to fill (#{@counts[:different_weights]} differ, left alone)" }
+      li { "#{@counts[:missing_weights]} weights to fill, #{@counts[:different_weights]} that differ (updated only on request)" }
       li { "#{@counts[:tools]} to make tools" }
       li { "Salvage: #{@counts[:salvage_to_add]} to add and #{@counts[:salvage_to_update]} to update, on #{@counts[:salvage_items]} items; #{@counts[:extra_salvage]} on the site the game doesn't list" }
     end
-    button_to(@import.applied_at ? 'Apply again' : 'Apply', apply_adm_item_catalog_import_path(@import), method: :post,
-              class: 'Button Button--sm Button--primary', form: { class: 'inline-block mb-4' })
+    div(class: 'mb-4 flex flex-row flex-wrap gap-2') do
+      button_to(@import.applied_at ? 'Apply again' : 'Apply', apply_adm_item_catalog_import_path(@import), method: :post,
+                class: 'Button Button--sm Button--primary', form: { class: 'inline-block' })
+      if @counts[:different_weights].positive?
+        n = @counts[:different_weights]
+        button_to("Update #{n} different #{'weight'.pluralize(n)}", update_weights_adm_item_catalog_import_path(@import),
+                  method: :post, class: 'Button Button--sm Button--warning',
+                  form: { class: 'inline-block', data: { turbo_confirm: "Replace #{n} site #{'weight'.pluralize(n)} with the game's?" } })
+      end
+    end
   end
 
   def changes
@@ -91,7 +101,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
       end
       td(class: 'pr-3 py-1') do
         if row.missing_weight? then plain "– → #{row.entry.weight}"
-        elsif row.different_weight? then plain "#{row.item.weight.to_s('F')} (game: #{row.entry.weight}, left alone)"
+        elsif row.different_weight? then plain "#{row.item.weight.to_s('F')} (game: #{row.entry.weight})"
         end
       end
       td(class: 'pr-3 py-1') { salvage_cell(row) }
@@ -130,32 +140,54 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
     min == max ? min.to_s : "#{min}–#{max}"
   end
 
-  def unknown_items(title, items, hint, collapsed: false)
+  # A list of unknown items, each with Create and Use, and a "Create
+  # selected" for many at once (checkboxes tied to a form of their own, as
+  # each row has its own Use form). The forms skip Turbo, which drops the
+  # redirect's #anchor, so the page comes back at the list.
+  def unknown_items(section, title, items, hint, collapsed: false)
     return if items.empty?
+    form_id = "create-#{section}"
     body = lambda do
       p(class: 'mb-2 text-sm max-w-prose') { hint }
-      table(class: 'table-auto text-sm') { items.each { unknown_row(_1) } }
+      form(id: form_id, action: resolve_adm_item_catalog_import_path(@import, anchor: section), method: 'post',
+           class: 'mb-2 flex flex-row flex-wrap items-center gap-3', data: { turbo: 'false' }) do
+        hidden_fields(section)
+        input(type: 'hidden', name: 'resolution', value: 'create_many')
+        label(class: 'flex flex-row items-center gap-1 text-sm') do
+          input(type: 'checkbox', data: { action: 'check-all#toggle' })
+          plain 'Select all'
+        end
+        button(type: 'submit', class: 'Button Button--sm Button--primary') { 'Create selected' }
+      end
+      table(class: 'table-auto text-sm') { items.each { unknown_row(section, form_id, _1) } }
     end
-    if collapsed
-      details(class: 'mt-4') do
-        summary(class: 'cursor-pointer text-lg font-bold') { "#{title} (#{items.size})" }
+    div(id: section, data: { controller: 'check-all' }) do
+      if collapsed
+        details(class: 'mt-4', open: @open == section) do
+          summary(class: 'cursor-pointer text-lg font-bold') { "#{title} (#{items.size})" }
+          body.call
+        end
+      else
+        h2(class: 'mt-4 mb-1 text-lg font-bold') { "#{title} (#{items.size})" }
         body.call
       end
-    else
-      h2(class: 'mt-4 mb-1 text-lg font-bold') { "#{title} (#{items.size})" }
-      body.call
     end
   end
 
-  def unknown_row(unknown)
+  def unknown_row(section, form_id, unknown)
     tr(class: 'border-b border-grey-200 dark:border-grey-700 align-top') do
+      td(class: 'pr-2 py-1') do
+        input(type: 'checkbox', name: 'selected[]', form: form_id, value: { name: unknown.name, key: unknown.key }.to_json,
+              data: { check_all_target: 'box' }, aria: { label: "Select #{unknown.name}" })
+      end
       td(class: 'pr-3 py-1') do
         strong { unknown.name }
         div(class: 'text-xs text-grey-500') { [ unknown.key || 'no key', unknown.uses ].join(' · ') }
       end
       td(class: 'py-1') do
-        form(action: resolve_adm_item_catalog_import_path(@import), method: 'post', class: 'flex flex-row flex-wrap items-center gap-1') do
-          input(type: 'hidden', name: 'authenticity_token', value: view_context.form_authenticity_token)
+        form(action: resolve_adm_item_catalog_import_path(@import, anchor: section), method: 'post',
+             class: 'flex flex-row flex-wrap items-center gap-1', data: { turbo: 'false' }) do
+          hidden_fields(section)
           input(type: 'hidden', name: 'name', value: unknown.name)
           input(type: 'hidden', name: 'key', value: unknown.key) if unknown.key
           button(type: 'submit', name: 'resolution', value: 'create', class: 'Button Button--sm Button--default') { 'Create' }
@@ -166,15 +198,18 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
     end
   end
 
+  def hidden_fields(section)
+    input(type: 'hidden', name: 'authenticity_token', value: view_context.form_authenticity_token)
+    input(type: 'hidden', name: 'open', value: section)
+  end
+
   def skipped_crafted
     skipped = @analysis.skipped_crafted
     return if skipped.empty?
     details(class: 'mt-4') do
       summary(class: 'cursor-pointer text-lg font-bold') { "Crafted items left out (#{skipped.size})" }
-      p(class: 'text-sm') do
-        plain 'Crafted items share their base item\'s key, and the site doesn\'t have one for these: '
-        plain skipped.map(&:name).join(', ')
-      end
+      p(class: 'text-sm mb-1') { 'Crafted items share their base item\'s key, and the site doesn\'t have one for these:' }
+      ul(class: 'text-sm list-disc ml-6') { skipped.each { |entry| li { entry.name } } }
     end
   end
 end

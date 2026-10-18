@@ -28,7 +28,8 @@ class Adm::ItemCatalogImportsController < AdmController
     @import = find_import
     authorize(@import)
     page_title @import.to_s
-    render Views::Adm::ItemCatalogImports::Show.new(import: @import, analysis: @import.analysis)
+    render Views::Adm::ItemCatalogImports::Show.new(import: @import, analysis: @import.analysis,
+                                                    open: params[:open].presence)
   end
 
   def destroy
@@ -52,12 +53,16 @@ class Adm::ItemCatalogImportsController < AdmController
     redirect_to adm_item_catalog_import_path(@import), notice: "Applied: #{summary.to_sentence}."
   end
 
-  # Creates or uses an item for an unknown one (+resolution+ create or use).
+  # Creates or uses an item for an unknown one (+resolution+ create or use),
+  # or creates many (+resolution+ create_many, +selected+ as JSON
+  # { name:, key: } each).
   def resolve
     @import = find_import
     authorize(@import)
     notice =
       case params[:resolution]
+      when 'create_many'
+        create_many
       when 'create'
         item = @import.create_item!(name: params.require(:name), key: params[:key].presence)
         "Created #{item.name}."
@@ -68,9 +73,17 @@ class Adm::ItemCatalogImportsController < AdmController
       else
         raise ActionController::BadRequest, 'unknown resolution'
       end
-    redirect_to adm_item_catalog_import_path(@import), notice: notice
+    redirect_to review_path, notice: notice
   rescue ItemCatalogImport::Error, ActiveRecord::RecordInvalid => e
-    redirect_to adm_item_catalog_import_path(@import), alert: e.message
+    redirect_to review_path, alert: e.message
+  end
+
+  def update_weights
+    @import = find_import
+    authorize(@import)
+    updated = @import.update_weights!(Current.user)
+    redirect_to adm_item_catalog_import_path(@import),
+                notice: "Updated #{updated} #{'weight'.pluralize(updated)} to the game's."
   end
 
   def remove_salvage
@@ -85,6 +98,29 @@ class Adm::ItemCatalogImportsController < AdmController
   end
 
   private
+
+  # Back to the review, with the section acted on still open.
+  def review_path
+    adm_item_catalog_import_path(@import, open: params[:open].presence, anchor: params[:open].presence)
+  end
+
+  def create_many
+    selected = Array(params[:selected]).filter_map do |json|
+      JSON.parse(json)
+    rescue JSON::ParserError
+      nil
+    end
+    raise ItemCatalogImport::Error, 'Select the items to create.' if selected.empty?
+    created, failed = [], []
+    selected.each do |item|
+      created << @import.create_item!(name: item['name'].to_s, key: item['key'].presence)
+    rescue ItemCatalogImport::Error, ActiveRecord::RecordInvalid => e
+      failed << "#{item['name']} (#{e.message})"
+    end
+    message = "Created #{created.size} #{'item'.pluralize(created.size)}."
+    flash[:alert] = "Couldn't create #{failed.to_sentence}." if failed.any?
+    message
+  end
 
   def find_import
     ItemCatalogImport.find(params[:id])

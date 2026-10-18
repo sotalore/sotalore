@@ -63,6 +63,7 @@ Rails.application.routes.draw do
         post :apply
         post :resolve
         post :remove_salvage
+        post :update_weights
       end
     end
     resources :finds_imports, only: [ :index, :show, :create, :destroy ] do
