@@ -15,6 +15,11 @@ export default class extends Controller {
       this.rollupGroups[rollupTarget].push(element)
       element.addEventListener('skill:change', ev => this.onSkillChange(ev))
     })
+    // The skill rows may have connected first (on a full page load the
+    // controllers start in the order they're registered), and their changes
+    // went unheard: add up what they already hold. Each group passes its sum
+    // up to the group it's in.
+    Object.keys(this.rollupGroups).forEach(id => this.updateRollupTarget(id))
   }
 
   onSkillChange(event) {

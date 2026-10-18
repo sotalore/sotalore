@@ -50,6 +50,14 @@ class Components::Base < Phlex::HTML
     avatar_skills_path(avatar, activity: activity)
   end
 
+  # The Import tab of the skills pages, for the avatar being looked at.
+  def current_skills_import_path
+    return new_avatar_skill_import_path(avatar_id: 'none') if params[:avatar_id] == 'none'
+
+    avatar = current_avatar
+    avatar ? new_avatar_skill_import_path(avatar) : skills_import_path
+  end
+
   def current_avatar
     return nil if Current.user.null?
 

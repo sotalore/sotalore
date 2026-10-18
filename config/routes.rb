@@ -156,10 +156,14 @@ Rails.application.routes.draw do
 
   get 'skills', to: redirect('/skills/adventuring'), as: 'skills_redirect'
   get 'skills/basics', to: 'skills#basics', as: 'skills_basics'
+  get 'skills/import', to: 'skill_imports#new', as: 'skills_import'
   get 'skills/:activity', to: 'skills#index', as: 'skills', defaults: { activity: 'adventuring' }
   resources :avatars, except: [ :show ] do
     get 'skills/:activity', to: 'skills#index', as: 'skills', defaults: { activity: 'adventuring' }
     delete 'skills', to: 'skills#clear', as: 'clear_skills'
+    resource :skill_import, path: 'import-skills', only: [ :new, :create ] do
+      post :preview
+    end
     resources :skills, only: [ :update ] do
       member do
         patch :ignore, to: 'skills#ignore'

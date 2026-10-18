@@ -47,6 +47,16 @@ The salvage finding (a crafted item's salvage depends on its materials) is now i
 with the rule the importer uses. `title`, which gives a reshaped item's base ("Supple Virtue Aeronaut
 Boots +15 (Supple Fortified Leather Boots +15)"), could let the importer do better there later.
 
+### R5. Skill codes: keep sending the game's ids (answer, 2026-10-18)
+
+An answer to the open question in `EXPORT-FORMAT.md`'s skills section, not a change. The development
+team's skill list (the site's `data/skill-costs.csv`, with "Skill ID" and "Internal Name") uses the same
+ids and keys as `ShroudGetSkills()`: all 338 skills in Gravidy's `sotalore-skills.json` (sl-skills 0.1.0)
+match it, id, key and name. Every site skill now has its game id from that list, so the site can read the
+code's ids as they are; nothing more compact is needed. The highest id is 13310 (`a9q`, three base 36
+digits), so an entry is 5 characters and Gravidy's 338 skills fit in two pages. The file isn't needed
+to load the skill list any more, but it's still welcome for checking.
+
 ## How the site uses the exports today
 
 - **Recipes** match site recipes by the export's recipe `id` (stored as the recipe's game id), or
@@ -78,6 +88,15 @@ Boots +15 (Supple Fortified Leather Boots +15)"), could let the importer do bett
   0.8.1 on are accepted (R4).
   Both scopes (`new`, `all`) are applied the same way: nothing is removed for an item a file leaves out.
   Item `types` (plugin 0.6.2) aren't used yet: they'd suggest an item's `use`.
+- **Skill codes** (sl-skills) are pasted by players on an avatar's skills page ("Import from game"):
+  every page into one box, in any order, with anything around them ignored. The page checks each
+  page's check as it's pasted and says which are missing; pages whose page count, id digits, offset
+  flag or character differ are refused as two codes. Each id is matched to a site skill by game id
+  (unknown ids are counted and left out), the changes are shown, and saving sets the avatar's current
+  levels. A skill the avatar has a level for that the code doesn't list is cleared (the player can
+  untick that). Targets change only if the player asks (for those below the game's level). The
+  code's character name is compared with the avatar's name, to offer the avatar of that name instead.
+  The file (`sotalore-skills.json`) isn't read by the site.
 
 ## The site's data model
 
@@ -103,7 +122,9 @@ Each has a primary tool on the site (`carpentry` uses a Carpentry Hammer, and so
 The full skill trees, for avatars' skill planning: adventuring (combat, magic, strategy) and
 crafting (gathering, refining, production), each split into schools, each school a list of skills
 with a name and an XP factor (how much a level costs relative to others). 360 skills. They have
-site ids and keys (`gathering~mining~survey-mining`), not the game's ids, and are maintained by hand.
+site ids and keys (`gathering~mining~survey-mining`), and each also holds the game's id and internal
+name (`game_id`, `game_key`), from the development team's skill list. They're maintained by hand.
+Each avatar has, per skill, a current and a target level, entered by the player.
 
 ### Items
 
@@ -194,4 +215,4 @@ only. The interesting ones are those found in few scenes, or tied to a particula
 
 Not requests, just where the site is maintained by hand today and the game knows better: salvage
 results, scene details (type, region, level, internal names), item prices (the catalog's `value`),
-whether a recipe is teachable, and skills' game ids.
+and whether a recipe is teachable.

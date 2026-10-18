@@ -11,12 +11,13 @@ class Skill
       JSON.parse(File.read(filename)).each do |category, schools|
         schools.each do |school, skills|
           skills.each do |skill|
-            s = Skill.new(skill.merge({ category: category, school: school }))
+            s = Skill.new(skill.merge({ category: category, school: school, position: BY_KEY.size }))
             container[category] ||= {}
             container[category][school] ||= []
             container[category][school] << s
             BY_KEY[s.key] = s
             BY_ID[s.id] = s
+            BY_GAME_ID[s.game_id] = s if s.game_id
           end
         end
       end
@@ -30,14 +31,24 @@ class Skill
         BY_KEY[key]
       end
     end
+
+    # The skill with the game's id (as the sl-skills plugin exports it).
+    def find_by_game_id(game_id)
+      BY_GAME_ID[game_id]
+    end
   end
 
   ADVENTURING = {}
   CRAFTING = {}
   BY_KEY = {}
   BY_ID = {}
+  BY_GAME_ID = {}
 
-  attr_accessor :id, :key, :name, :xp_factor, :category, :school
+  # game_id and game_key are the game's id and internal name ("Deflect"), from
+  # the development team's data/skill-costs.csv (see `rails skills:game_ids`).
+  # position is the skill's place on the skills pages (adventuring then
+  # crafting, each by category, school and skill), which is the game's order.
+  attr_accessor :id, :key, :name, :xp_factor, :category, :school, :game_id, :game_key, :position
 
   # Total XP needed to reach a level, fit to the game's published values
   # (data/skill-costs.csv) for levels 50-200. The base curve grows 10% per

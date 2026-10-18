@@ -5,25 +5,33 @@
         "name": "Mining",
         "xp_factor": 1.0,
         "key": "gathering~mining~mining",
-        "id": 10001
+        "id": 10001,
+        "game_id": 2041,
+        "game_key": "MiningProficiency"
       },
       {
         "name": "Survey - Mining",
         "xp_factor": 1.0,
         "key": "gathering~mining~survey-mining",
-        "id": 10002
+        "id": 10002,
+        "game_id": 2005,
+        "game_key": "MiningSurvey"
       },
       {
         "name": "Swift Gathering - Mining",
         "xp_factor": 1.0,
         "key": "gathering~mining~swift-gathering-mining",
-        "id": 10003
+        "id": 10003,
+        "game_id": 2000,
+        "game_key": "MiningSwiftGathering"
       },
       {
         "name": "Meticulous Collection - Mining",
         "xp_factor": 2.0,
         "key": "gathering~mining~meticulous-collection-mining",
-        "id": 10004
+        "id": 10004,
+        "game_id": 2010,
+        "game_key": "MiningMeticulousCollection"
       }
     ],
     "foraging": [
@@ -31,25 +39,33 @@
         "name": "Foraging",
         "xp_factor": 1.0,
         "key": "gathering~foraging~foraging",
-        "id": 10005
+        "id": 10005,
+        "game_id": 2039,
+        "game_key": "ForagingProficiency"
       },
       {
         "name": "Survey - Foraging",
         "xp_factor": 1.0,
         "key": "gathering~foraging~survey-foraging",
-        "id": 10006
+        "id": 10006,
+        "game_id": 2009,
+        "game_key": "ForagingSurvey"
       },
       {
         "name": "Swift Gathering - Foraging",
         "xp_factor": 1.0,
         "key": "gathering~foraging~swift-gathering-foraging",
-        "id": 10007
+        "id": 10007,
+        "game_id": 2004,
+        "game_key": "ForagingSwiftGathering"
       },
       {
         "name": "Meticulous Collection - Foraging",
         "xp_factor": 2.0,
         "key": "gathering~foraging~meticulous-collection-foraging",
-        "id": 10008
+        "id": 10008,
+        "game_id": 2014,
+        "game_key": "ForagingMeticulousCollection"
       }
     ],
     "forestry": [
@@ -57,25 +73,33 @@
         "name": "Forestry",
         "xp_factor": 1.0,
         "key": "gathering~forestry~forestry",
-        "id": 10009
+        "id": 10009,
+        "game_id": 2040,
+        "game_key": "ForestryProficiency"
       },
       {
         "name": "Survey - Forestry",
         "xp_factor": 1.0,
         "key": "gathering~forestry~survey-forestry",
-        "id": 10010
+        "id": 10010,
+        "game_id": 2006,
+        "game_key": "ForestrySurvey"
       },
       {
         "name": "Swift Gathering - Forestry",
         "xp_factor": 1.0,
         "key": "gathering~forestry~swift-gathering-forestry",
-        "id": 10011
+        "id": 10011,
+        "game_id": 2001,
+        "game_key": "ForestrySwiftGathering"
       },
       {
         "name": "Meticulous Collection - Forestry",
         "xp_factor": 2.0,
         "key": "gathering~forestry~meticulous-collection-forestry",
-        "id": 10012
+        "id": 10012,
+        "game_id": 2011,
+        "game_key": "ForestryMeticulousCollection"
       }
     ],
     "field dressing": [
@@ -83,25 +107,33 @@
         "name": "Field Dressing",
         "xp_factor": 1.0,
         "key": "gathering~field-dressing~field-dressing",
-        "id": 10013
+        "id": 10013,
+        "game_id": 2037,
+        "game_key": "FieldDressingProficiency"
       },
       {
         "name": "Survey - Field Dressing",
         "xp_factor": 1.0,
         "key": "gathering~field-dressing~survey-field-dressing",
-        "id": 10014
+        "id": 10014,
+        "game_id": 2008,
+        "game_key": "FieldDressingSurvey"
       },
       {
         "name": "Swift Gathering - Field Dressing",
         "xp_factor": 1.0,
         "key": "gathering~field-dressing~swift-gathering-field-dressing",
-        "id": 10015
+        "id": 10015,
+        "game_id": 2003,
+        "game_key": "FieldDressingSwiftGathering"
       },
       {
         "name": "Meticulous Collection - Field Dressing",
         "xp_factor": 2.0,
         "key": "gathering~field-dressing~meticulous-collection-field-dressing",
-        "id": 10016
+        "id": 10016,
+        "game_id": 2013,
+        "game_key": "FieldDressingMeticulousCollection"
       }
     ],
     "fishing": [
@@ -109,37 +141,49 @@
         "name": "Fishing",
         "xp_factor": 1.0,
         "key": "gathering~fishing~fishing",
-        "id": 10017
+        "id": 10017,
+        "game_id": 2042,
+        "game_key": "FishingBase"
       },
       {
         "name": "Bait Recovery",
         "xp_factor": 1.0,
         "key": "gathering~fishing~bait-recovery",
-        "id": 10018
+        "id": 10018,
+        "game_id": 2043,
+        "game_key": "FishingBaitRecovery"
       },
       {
         "name": "Freshwater Fishing",
         "xp_factor": 1.0,
         "key": "gathering~fishing~freshwater-fishing",
-        "id": 10019
+        "id": 10019,
+        "game_id": 2044,
+        "game_key": "FishingWaterFresh"
       },
       {
         "name": "Fetid Water Fishing",
         "xp_factor": 1.0,
         "key": "gathering~fishing~fetid-water-fishing",
-        "id": 10020
+        "id": 10020,
+        "game_id": 2076,
+        "game_key": "FishingWaterFetid"
       },
       {
         "name": "Saltwater Fishing",
         "xp_factor": 1.0,
         "key": "gathering~fishing~saltwater-fishing",
-        "id": 10021
+        "id": 10021,
+        "game_id": 2077,
+        "game_key": "FishingWaterSalt"
       },
       {
         "name": "Lava Fishing",
         "xp_factor": 1.0,
         "key": "gathering~fishing~lava-fishing",
-        "id": 10022
+        "id": 10022,
+        "game_id": 2078,
+        "game_key": "FishingLava"
       }
     ]
   },
@@ -149,25 +193,33 @@
         "name": "Butchery",
         "xp_factor": 1.0,
         "key": "refining~butchery~butchery",
-        "id": 10023
+        "id": 10023,
+        "game_id": 2025,
+        "game_key": "ButcheryProficiency"
       },
       {
         "name": "Batching Materials - Butchery",
         "xp_factor": 1.0,
         "key": "refining~butchery~batching-materials-butchery",
-        "id": 10024
+        "id": 10024,
+        "game_id": 2066,
+        "game_key": "ButcheryBatchRefine"
       },
       {
         "name": "Swift Refine Materials - Butchery",
         "xp_factor": 1.0,
         "key": "refining~butchery~swift-refine-butchery",
-        "id": 10025
+        "id": 10025,
+        "game_id": 2002,
+        "game_key": "ButcherySwiftRefine"
       },
       {
         "name": "Efficient Refine Materials - Butchery",
         "xp_factor": 2.0,
         "key": "refining~butchery~efficient-refine-butchery",
-        "id": 10026
+        "id": 10026,
+        "game_id": 2071,
+        "game_key": "ButcheryEfficientRefine"
       }
     ],
     "smelting": [
@@ -175,25 +227,33 @@
         "name": "Smelting",
         "xp_factor": 1.0,
         "key": "refining~smelting~smelting",
-        "id": 10027
+        "id": 10027,
+        "game_id": 2027,
+        "game_key": "SmeltingProficiency"
       },
       {
         "name": "Batching Materials - Smelting",
         "xp_factor": 1.0,
         "key": "refining~smelting~batching-materials-smelting",
-        "id": 10028
+        "id": 10028,
+        "game_id": 2070,
+        "game_key": "SmeltingBatchRefine"
       },
       {
         "name": "Swift Refine Materials - Smelting",
         "xp_factor": 1.0,
         "key": "refining~smelting~swift-refine-smelting",
-        "id": 10029
+        "id": 10029,
+        "game_id": 2017,
+        "game_key": "SmeltingSwiftRefine"
       },
       {
         "name": "Efficient Refine Materials - Smelting",
         "xp_factor": 2.0,
         "key": "refining~smelting~efficient-refine-smelting",
-        "id": 10030
+        "id": 10030,
+        "game_id": 2075,
+        "game_key": "SmeltingEfficientRefine"
       }
     ],
     "tanning": [
@@ -201,25 +261,33 @@
         "name": "Tanning",
         "xp_factor": 1.0,
         "key": "refining~tanning~tanning",
-        "id": 10031
+        "id": 10031,
+        "game_id": 2028,
+        "game_key": "TanningProficiency"
       },
       {
         "name": "Batching Materials - Tanning",
         "xp_factor": 1.0,
         "key": "refining~tanning~batching-materials-tanning",
-        "id": 10032
+        "id": 10032,
+        "game_id": 2069,
+        "game_key": "TanningBatchRefine"
       },
       {
         "name": "Swift Refine Materials - Tanning",
         "xp_factor": 1.0,
         "key": "refining~tanning~swift-refine-tanning",
-        "id": 10033
+        "id": 10033,
+        "game_id": 2016,
+        "game_key": "TanningSwiftRefine"
       },
       {
         "name": "Efficient Refine Materials - Tanning",
         "xp_factor": 2.0,
         "key": "refining~tanning~efficient-refine-tanning",
-        "id": 10034
+        "id": 10034,
+        "game_id": 2074,
+        "game_key": "TanningEfficientRefine"
       }
     ],
     "milling": [
@@ -227,25 +295,33 @@
         "name": "Milling",
         "xp_factor": 1.0,
         "key": "refining~milling~milling",
-        "id": 10035
+        "id": 10035,
+        "game_id": 2026,
+        "game_key": "MillingProficiency"
       },
       {
         "name": "Batching Materials - Milling",
         "xp_factor": 1.0,
         "key": "refining~milling~batching-materials-milling",
-        "id": 10036
+        "id": 10036,
+        "game_id": 2067,
+        "game_key": "MillingBatchRefine"
       },
       {
         "name": "Swift Refine Materials - Milling",
         "xp_factor": 1.0,
         "key": "refining~milling~swift-refine-milling",
-        "id": 10037
+        "id": 10037,
+        "game_id": 2012,
+        "game_key": "MillingSwiftRefine"
       },
       {
         "name": "Efficient Refine Materials - Milling",
         "xp_factor": 2.0,
         "key": "refining~milling~efficient-refine-milling",
-        "id": 10038
+        "id": 10038,
+        "game_id": 2072,
+        "game_key": "MillingEfficientRefine"
       }
     ],
     "agriculture": [
@@ -253,19 +329,25 @@
         "name": "Water Plants",
         "xp_factor": 1.0,
         "key": "refining~agriculture~water-plants",
-        "id": 10039
+        "id": 10039,
+        "game_id": 855,
+        "game_key": "AgricultureBatchWaterPlants"
       },
       {
         "name": "Sow Seeds Bonus",
         "xp_factor": 1.0,
         "key": "refining~agriculture~sow-seed-bonus",
-        "id": 10040
+        "id": 10040,
+        "game_id": 860,
+        "game_key": "AgricultureBatchSowSeedsPassive"
       },
       {
         "name": "Harvest Plants",
         "xp_factor": 1.0,
         "key": "refining~agriculture~harvest-plants",
-        "id": 10041
+        "id": 10041,
+        "game_id": 857,
+        "game_key": "AgricultureBatchHarvestPlants"
       }
     ],
     "textiles": [
@@ -273,25 +355,33 @@
         "name": "Textiles",
         "xp_factor": 1.0,
         "key": "refining~textiles~textiles",
-        "id": 10042
+        "id": 10042,
+        "game_id": 2029,
+        "game_key": "TextilesProficiency"
       },
       {
         "name": "Batching Materials - Textiles",
         "xp_factor": 1.0,
         "key": "refining~textiles~batching-materials-textiles",
-        "id": 10043
+        "id": 10043,
+        "game_id": 2068,
+        "game_key": "TextilesBatchRefine"
       },
       {
         "name": "Swift Refine Materials - Textiles",
         "xp_factor": 1.0,
         "key": "refining~textiles~swift-refine-textiles",
-        "id": 10044
+        "id": 10044,
+        "game_id": 2015,
+        "game_key": "TextilesSwiftRefine"
       },
       {
         "name": "Efficient Refine Materials - Textiles",
         "xp_factor": 2.0,
         "key": "refining~textiles~efficient-refine-textiles",
-        "id": 10045
+        "id": 10045,
+        "game_id": 2073,
+        "game_key": "TextilesEfficientRefine"
       }
     ]
   },
@@ -301,55 +391,73 @@
         "name": "Blacksmithing",
         "xp_factor": 1.0,
         "key": "production~blacksmithing~blacksmithing",
-        "id": 10046
+        "id": 10046,
+        "game_id": 2020,
+        "game_key": "BlacksmithingProficiency"
       },
       {
         "name": "Blacksmithing Repair",
         "xp_factor": 1.0,
         "key": "production~blacksmithing~blacksmithing-repair",
-        "id": 10047
+        "id": 10047,
+        "game_id": 2030,
+        "game_key": "BlacksmithingRepairProficiency"
       },
       {
         "name": "Blacksmithing Salvage",
         "xp_factor": 1.0,
         "key": "production~blacksmithing~blacksmithing-salvage",
-        "id": 10048
+        "id": 10048,
+        "game_id": 2031,
+        "game_key": "BlacksmithingSalvageProficiency"
       },
       {
         "name": "Blacksmithing Masterwork",
         "xp_factor": 1.0,
         "key": "production~blacksmithing~blacksmithing-masterwork",
-        "id": 10049
+        "id": 10049,
+        "game_id": 2059,
+        "game_key": "BlacksmithingMasterworkProficiency"
       },
       {
         "name": "Blacksmithing Mastery",
         "xp_factor": 2.0,
         "key": "production~blacksmithing~blacksmithing-mastery",
-        "id": 10050
+        "id": 10050,
+        "game_id": 2080,
+        "game_key": "MasteryBlacksmithing"
       },
       {
         "name": "Masterwork Blade Weapon",
         "xp_factor": 1.0,
         "key": "production~blacksmithing~masterwork-blade",
-        "id": 10051
+        "id": 10051,
+        "game_id": 2045,
+        "game_key": "MasterworkBladesProficiency"
       },
       {
         "name": "Masterwork Plate Armor",
         "xp_factor": 1.0,
         "key": "production~blacksmithing~masterwork-plate-armor",
-        "id": 10052
+        "id": 10052,
+        "game_id": 2047,
+        "game_key": "MasterworkPlateArmorProficiency"
       },
       {
         "name": "Masterwork Chain Armor",
         "xp_factor": 1.0,
         "key": "production~blacksmithing~masterwork-chain-armor",
-        "id": 10053
+        "id": 10053,
+        "game_id": 2046,
+        "game_key": "MasterworkChainArmorProficiency"
       },
       {
         "name": "Masterwork Shield",
         "xp_factor": 1.0,
         "key": "production~blacksmithing~masterwork-shield",
-        "id": 10054
+        "id": 10054,
+        "game_id": 2062,
+        "game_key": "MasterworkShieldProficiency"
       }
     ],
     "cooking": [
@@ -357,7 +465,9 @@
         "name": "Cooking",
         "xp_factor": 1.0,
         "key": "production~cooking~cooking",
-        "id": 10055
+        "id": 10055,
+        "game_id": 2024,
+        "game_key": "CookingProficiency"
       }
     ],
     "carpentry": [
@@ -365,49 +475,65 @@
         "name": "Carpentry",
         "xp_factor": 1.0,
         "key": "production~carpentry~carpentry",
-        "id": 10056
+        "id": 10056,
+        "game_id": 2023,
+        "game_key": "CarpentryProficiency"
       },
       {
         "name": "Carpentry Repair",
         "xp_factor": 1.0,
         "key": "production~carpentry~carpentry-repair",
-        "id": 10057
+        "id": 10057,
+        "game_id": 2032,
+        "game_key": "CarpentryRepairProficiency"
       },
       {
         "name": "Carpentry Salvage",
         "xp_factor": 1.0,
         "key": "production~carpentry~carpentry-salvage",
-        "id": 10058
+        "id": 10058,
+        "game_id": 2033,
+        "game_key": "CarpentrySalvageProficiency"
       },
       {
         "name": "Carpentry Masterwork",
         "xp_factor": 1.0,
         "key": "production~carpentry~carpentry-masterwork",
-        "id": 10059
+        "id": 10059,
+        "game_id": 2060,
+        "game_key": "CarpentryMasterworkProficiency"
       },
       {
         "name": "Carpentry Mastery",
         "xp_factor": 2.0,
         "key": "production~carpentry~carpentry-mastery",
-        "id": 10060
+        "id": 10060,
+        "game_id": 2081,
+        "game_key": "MasteryCarpentry"
       },
       {
         "name": "Masterwork Bludgeon Weapon",
         "xp_factor": 1.0,
         "key": "production~carpentry~masterwork-bludgeon-weapon",
-        "id": 10061
+        "id": 10061,
+        "game_id": 2052,
+        "game_key": "MasterworkBludgeonProficiency"
       },
       {
         "name": "Masterwork Polearm Weapon",
         "xp_factor": 1.0,
         "key": "production~carpentry~masterwork-polearm-weapon",
-        "id": 10062
+        "id": 10062,
+        "game_id": 2053,
+        "game_key": "MasterworkPolearmProficiency"
       },
       {
         "name": "Masterwork Ranged Weapon",
         "xp_factor": 1.0,
         "key": "production~carpentry~masterwork-ranged-weapon",
-        "id": 10063
+        "id": 10063,
+        "game_id": 2054,
+        "game_key": "MasterworkRangedProficiency"
       }
     ],
     "alchemy": [
@@ -415,31 +541,41 @@
         "name": "Alchemy",
         "xp_factor": 1.0,
         "key": "production~alchemy~alchemy",
-        "id": 10064
+        "id": 10064,
+        "game_id": 2021,
+        "game_key": "AlchemyProficiency"
       },
       {
         "name": "Enchantment",
         "xp_factor": 1.0,
         "key": "production~alchemy~enchantment",
-        "id": 10065
+        "id": 10065,
+        "game_id": 2050,
+        "game_key": "AlchemyEnchantmentProficiency"
       },
       {
         "name": "Alchemy Mastery",
         "xp_factor": 2.0,
         "key": "production~alchemy~alchemy-mastery",
-        "id": 10066
+        "id": 10066,
+        "game_id": 2079,
+        "game_key": "MasteryAlchemy"
       },
       {
         "name": "Weapon Enchantment",
         "xp_factor": 2.0,
         "key": "production~alchemy~weapon-enchantment",
-        "id": 10067
+        "id": 10067,
+        "game_id": 2064,
+        "game_key": "AlchemyEnchantmentWeaponProficiency"
       },
       {
         "name": "Armor Enchantment",
         "xp_factor": 2.0,
         "key": "production~alchemy~armor-enchantment",
-        "id": 10068
+        "id": 10068,
+        "game_id": 2065,
+        "game_key": "AlchemyEnchantmentArmorProficiency"
       }
     ],
     "tailoring": [
@@ -447,43 +583,57 @@
         "name": "Tailoring",
         "xp_factor": 1.0,
         "key": "production~tailoring~tailoring",
-        "id": 10069
+        "id": 10069,
+        "game_id": 2022,
+        "game_key": "TailoringProficiency"
       },
       {
         "name": "Tailoring Repair",
         "xp_factor": 1.0,
         "key": "production~tailoring~tailoring-repair",
-        "id": 10070
+        "id": 10070,
+        "game_id": 2034,
+        "game_key": "TailoringRepairProficiency"
       },
       {
         "name": "Tailoring Salvage",
         "xp_factor": 1.0,
         "key": "production~tailoring~tailoring-salvage",
-        "id": 10071
+        "id": 10071,
+        "game_id": 2035,
+        "game_key": "TailoringSalvageProficiency"
       },
       {
         "name": "Tailoring Masterwork",
         "xp_factor": 1.0,
         "key": "production~tailoring~tailoring-masterwork",
-        "id": 10072
+        "id": 10072,
+        "game_id": 2061,
+        "game_key": "TailoringMasterworkProficiency"
       },
       {
         "name": "Tailoring Mastery",
         "xp_factor": 2.0,
         "key": "production~tailoring~tailoring-mastery",
-        "id": 10073
+        "id": 10073,
+        "game_id": 2082,
+        "game_key": "MasteryTailoring"
       },
       {
         "name": "Masterwork Leather Armor",
         "xp_factor": 1.0,
         "key": "production~tailoring~masterwork-leather-armor",
-        "id": 10074
+        "id": 10074,
+        "game_id": 2056,
+        "game_key": "MasterworkLeatherArmorProficiency"
       },
       {
         "name": "Masterwork Cloth Armor",
         "xp_factor": 1.0,
         "key": "production~tailoring~masterwork-cloth-armor",
-        "id": 10075
+        "id": 10075,
+        "game_id": 2055,
+        "game_key": "MasterworkClothArmorProficiency"
       }
     ]
   }
