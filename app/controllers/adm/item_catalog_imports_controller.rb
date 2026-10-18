@@ -51,6 +51,8 @@ class Adm::ItemCatalogImportsController < AdmController
       "#{counts[:salvage_updated]} updated",
     ]
     redirect_to adm_item_catalog_import_path(@import), notice: "Applied: #{summary.to_sentence}."
+  rescue ItemCatalogImport::Error => e
+    redirect_to adm_item_catalog_import_path(@import), alert: e.message
   end
 
   # Creates or uses an item for an unknown one (+resolution+ create or use),
@@ -84,6 +86,8 @@ class Adm::ItemCatalogImportsController < AdmController
     updated = @import.update_weights!(Current.user)
     redirect_to adm_item_catalog_import_path(@import),
                 notice: "Updated #{updated} #{'weight'.pluralize(updated)} to the game's."
+  rescue ItemCatalogImport::Error => e
+    redirect_to adm_item_catalog_import_path(@import), alert: e.message
   end
 
   def remove_salvage

@@ -25,8 +25,15 @@ class ItemCatalogImport < ApplicationRecord
             payload: data, uploaded_by: user)
   end
 
+  # Parsed without the version check, so an import stored before it (or from
+  # an older plugin) can still be looked at and deleted.
   def catalog
-    @catalog ||= GameCatalog.parse(payload)
+    @catalog ||= GameCatalog.parse(payload, require_version: false)
+  end
+
+  # Whether it's from a plugin new enough to apply (see GameCatalog).
+  def supported?
+    GameCatalog.supported?(catalog.plugin_version)
   end
 
   def analysis
@@ -46,6 +53,7 @@ class ItemCatalogImport < ApplicationRecord
   # Applies what the catalog says about the items the site knows, as +user+,
   # recording revisions. Returns { what => how many }.
   def apply!(user)
+    unsupported!
     counts = Hash.new(0)
     lookup = ItemLookup.new
     now = Time.current
@@ -80,6 +88,7 @@ class ItemCatalogImport < ApplicationRecord
   # Replaces the site's weights that differ from the game's with the game's,
   # recording revisions. Returns how many.
   def update_weights!(user)
+    unsupported!
     rows = analysis.rows.select(&:different_weight?)
     transaction do
       rows.each do |row|
@@ -104,6 +113,12 @@ class ItemCatalogImport < ApplicationRecord
 
   def reset_analysis!
     @analysis = nil
+  end
+
+  def unsupported!
+    return if supported?
+    raise Error, "#{self} is from a plugin before #{GameCatalog::MINIMUM_VERSION}, whose weights and prices " \
+                 'are for whole stacks; delete it and import a new export'
   end
 
   def record_key(entry, item, lookup)

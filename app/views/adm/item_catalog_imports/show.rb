@@ -18,6 +18,8 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
     div(class: 'm-2 p-4 bg-white dark:bg-grey-800') do
       header
       summary_list
+      next unless @import.supported?
+
       unknown_items('components', 'Salvage components the site doesn\'t know', @analysis.unknown_components,
                     'Their salvage is left out until they\'re resolved.')
       changes
@@ -55,6 +57,14 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
   end
 
   def summary_list
+    unless @import.supported?
+      notice_warning("This file is from a plugin before #{GameCatalog::MINIMUM_VERSION}, whose weights and prices are " \
+                     'for whole stacks, so it can\'t be applied. Delete it and import a new export.')
+      button_to('Delete this import', adm_item_catalog_import_path(@import), method: :delete,
+                class: 'Button Button--sm Button--danger',
+                form: { class: 'inline-block mb-4', data: { turbo_confirm: "Delete #{@import}?" } })
+      return
+    end
     ul(class: 'mb-2 text-sm') do
       li { "#{@counts[:known]} items the site knows, #{@counts[:unknown]} it doesn't" }
       li { "#{@counts[:missing_weights]} weights to fill, #{@counts[:different_weights]} that differ (updated only on request)" }

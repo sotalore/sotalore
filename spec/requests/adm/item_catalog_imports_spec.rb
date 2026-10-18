@@ -71,6 +71,27 @@ RSpec.describe "Adm::ItemCatalogImports", type: :request do
     expect(scrap.comments.revision.count).to eq 1
   end
 
+  it 'lists, shows and deletes an import from an older plugin, but won\'t apply it' do
+    old = ItemCatalogImport.create!(filename: 'old.json', uploaded_by: admin,
+                                    payload: JSON.parse(catalog_json(catalog_entry(name: 'Backpack', weight: 99),
+                                                                     plugin_version: '0.7.3')))
+    get adm_item_catalog_imports_path
+    expect(response).to have_http_status(200)
+    expect(response.body).to include('too old to apply')
+
+    get adm_item_catalog_import_path(old)
+    expect(response).to have_http_status(200)
+    expect(response.body).to include("can't be applied", 'Delete this import')
+    expect(response.body).not_to include('>Apply<')
+
+    post apply_adm_item_catalog_import_path(old)
+    expect(flash[:alert]).to include 'from a plugin before 0.8.1'
+    expect(backpack.reload.weight).to be_nil
+
+    delete adm_item_catalog_import_path(old)
+    expect(ItemCatalogImport.exists?(old.id)).to be false
+  end
+
   it 'rejects other files' do
     upload('{"scenes": []}')
     expect(flash[:alert]).to include "Couldn't import"

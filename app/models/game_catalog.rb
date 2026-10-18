@@ -51,12 +51,13 @@ class GameCatalog
   # Per-item weights, values and merchant prices are only right from here.
   MINIMUM_VERSION = Gem::Version.new('0.8.1')
 
-  # Raises ArgumentError for anything that isn't an item catalog, or is one
-  # from a plugin too old to trust.
-  def self.parse(json)
+  # Raises ArgumentError for anything that isn't an item catalog, or (unless
+  # +require_version+ is false, for one already stored) is one from a plugin
+  # too old to trust.
+  def self.parse(json, require_version: true)
     data = json.is_a?(String) ? JSON.parse(json) : json
     PluginFile.check_type!(data, 'items')
-    unless PluginFile.at_least?(PluginFile.version(data), MINIMUM_VERSION)
+    if require_version && !supported?(PluginFile.version(data))
       raise ArgumentError, "Items files from plugins before #{MINIMUM_VERSION} give whole-stack weights " \
                            "and prices; export again with plugin #{MINIMUM_VERSION} or later"
     end
@@ -64,6 +65,10 @@ class GameCatalog
       raise ArgumentError, 'Not an item catalog: expected an "items" list'
     end
     new(data)
+  end
+
+  def self.supported?(version)
+    PluginFile.at_least?(version, MINIMUM_VERSION)
   end
 
   def initialize(data)
