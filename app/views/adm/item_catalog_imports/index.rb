@@ -34,7 +34,10 @@ class Views::Adm::ItemCatalogImports::Index < Views::Base
             tr(class: 'border-b border-grey-200 dark:border-grey-700') do
               td { import.id.to_s }
               td { a(href: adm_item_catalog_import_path(import), class: 'Link Link--primary') { import.filename || import.to_s } }
-              td { import.catalog.entries.size.to_s }
+              td do
+                plain import.catalog.entries.size.to_s
+                span(class: 'text-xs text-red-700 dark:text-red-300') { ' · too old to apply' } unless import.supported?
+              end
               td(class: 'text-sm') do
                 time_ago_tag import.created_at
                 plain " by #{import.uploaded_by.name}" if import.uploaded_by
