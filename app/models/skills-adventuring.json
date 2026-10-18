@@ -5,85 +5,113 @@
         "name": "Deflect",
         "xp_factor": 1.0,
         "key": "combat~shield~deflect",
-        "id": 1
+        "id": 1,
+        "game_id": 131,
+        "game_key": "Deflect"
       },
       {
         "name": "Bolster Balance",
         "xp_factor": 1.0,
         "key": "combat~shield~bolster-balance",
-        "id": 2
+        "id": 2,
+        "game_id": 133,
+        "game_key": "BolsterBalance"
       },
       {
         "name": "Angles",
         "xp_factor": 4.0,
         "key": "combat~shield~angles",
-        "id": 3
+        "id": 3,
+        "game_id": 137,
+        "game_key": "Angles"
       },
       {
         "name": "Shield Bash",
         "xp_factor": 1.0,
         "key": "combat~shield~shield-bash",
-        "id": 4
+        "id": 4,
+        "game_id": 132,
+        "game_key": "ShieldBash"
       },
       {
         "name": "Dig In",
         "xp_factor": 1.0,
         "key": "combat~shield~dig-in",
-        "id": 5
+        "id": 5,
+        "game_id": 134,
+        "game_key": "DigIn"
       },
       {
         "name": "Redirection",
         "xp_factor": 4.0,
         "key": "combat~shield~redirection",
-        "id": 6
+        "id": 6,
+        "game_id": 138,
+        "game_key": "Redirection"
       },
       {
         "name": "Shield Preservation",
         "xp_factor": 4.0,
         "key": "combat~shield~shield-preservation",
-        "id": 7
+        "id": 7,
+        "game_id": 139,
+        "game_key": "ShieldPreservation"
       },
       {
         "name": "Charge",
         "xp_factor": 1.0,
         "key": "combat~shield~charge",
-        "id": 8
+        "id": 8,
+        "game_id": 135,
+        "game_key": "Charge"
       },
       {
         "name": "Testudo",
         "xp_factor": 1.0,
         "key": "combat~shield~testudo",
-        "id": 9
+        "id": 9,
+        "game_id": 136,
+        "game_key": "Testudo"
       },
       {
         "name": "Stand Your Ground",
         "xp_factor": 4.0,
         "key": "combat~shield~stand-your-ground",
-        "id": 10
+        "id": 10,
+        "game_id": 140,
+        "game_key": "StandYourGround"
       },
       {
         "name": "Shield Specialization",
         "xp_factor": 20.0,
         "key": "combat~shield~shield-specialization",
-        "id": 11
+        "id": 11,
+        "game_id": 2514,
+        "game_key": "MasteryShield"
       },
       {
         "name": "Ranged Defense",
         "xp_factor": 4.0,
         "key": "combat~shield~shield-ranged-defense",
-        "id": 12
+        "id": 12,
+        "game_id": 3515,
+        "game_key": "RangedDefense"
       },
       {
         "name": "Arcane Defense",
         "xp_factor": 4.0,
         "key": "combat~shield~arcane-defense",
-        "id": 280
+        "id": 280,
+        "game_id": 3516,
+        "game_key": "ArcaneDefense"
       },
       {
         "name": "Answering Blow",
         "xp_factor": 1.0,
         "key": "combat~shield~answering-blow",
-        "id": 281
+        "id": 281,
+        "game_id": 3517,
+        "game_key": "AnsweringBlow"
       }
     ],
     "polearm": [
@@ -91,67 +119,89 @@
         "name": "Polearm Combat",
         "xp_factor": 1.0,
         "key": "combat~polearm~polearm-combat",
-        "id": 13
+        "id": 13,
+        "game_id": 472,
+        "game_key": "PolearmAttack"
       },
       {
         "name": "Push",
         "xp_factor": 1.0,
         "key": "combat~polearm~push",
-        "id": 14
+        "id": 14,
+        "game_id": 111,
+        "game_key": "Push"
       },
       {
         "name": "Puncture",
         "xp_factor": 1.0,
         "key": "combat~polearm~puncture",
-        "id": 15
+        "id": 15,
+        "game_id": 113,
+        "game_key": "Puncture"
       },
       {
         "name": "Reach",
         "xp_factor": 4.0,
         "key": "combat~polearm~reach",
-        "id": 16
+        "id": 16,
+        "game_id": 114,
+        "game_key": "Reach"
       },
       {
         "name": "Pull",
         "xp_factor": 1.0,
         "key": "combat~polearm~pull",
-        "id": 17
+        "id": 17,
+        "game_id": 115,
+        "game_key": "Pull"
       },
       {
         "name": "Spinning Attack",
         "xp_factor": 1.0,
         "key": "combat~polearm~spinning-attack",
-        "id": 18
+        "id": 18,
+        "game_id": 116,
+        "game_key": "SpinningAttack"
       },
       {
         "name": "Defensive Positions",
         "xp_factor": 4.0,
         "key": "combat~polearm~defensive-positions",
-        "id": 19
+        "id": 19,
+        "game_id": 120,
+        "game_key": "DefensivePositions"
       },
       {
         "name": "Bec de Faucon",
         "xp_factor": 4.0,
         "key": "combat~polearm~bec-de-faucon",
-        "id": 20
+        "id": 20,
+        "game_id": 3323,
+        "game_key": "PowerfulSwing"
       },
       {
         "name": "Leg Sweep",
         "xp_factor": 1.0,
         "key": "combat~polearm~leg-sweep",
-        "id": 21
+        "id": 21,
+        "game_id": 117,
+        "game_key": "LegSweep"
       },
       {
         "name": "Polearm Specialization",
         "xp_factor": 20.0,
         "key": "combat~polearm~polearm-specialization",
-        "id": 22
+        "id": 22,
+        "game_id": 2512,
+        "game_key": "MasteryPolearm"
       },
       {
         "name": "Skewer",
         "xp_factor": 1.0,
         "key": "combat~polearm~skewer",
-        "id": 23
+        "id": 23,
+        "game_id": 118,
+        "game_key": "Skewer"
       }
     ],
     "blades": [
@@ -159,67 +209,89 @@
         "name": "Bladed Combat",
         "xp_factor": 1.0,
         "key": "combat~blade~bladed-combat",
-        "id": 24
+        "id": 24,
+        "game_id": 470,
+        "game_key": "BladeAttack"
       },
       {
         "name": "Thrust",
         "xp_factor": 1.0,
         "key": "combat~blade~thrust",
-        "id": 25
+        "id": 25,
+        "game_id": 10,
+        "game_key": "Thrust"
       },
       {
         "name": "Riposte",
         "xp_factor": 1.0,
         "key": "combat~blade~riposte",
-        "id": 26
+        "id": 26,
+        "game_id": 14,
+        "game_key": "Riposte"
       },
       {
         "name": "Blade Speed",
         "xp_factor": 4.0,
         "key": "combat~blade~blade-speed",
-        "id": 27
+        "id": 27,
+        "game_id": 16,
+        "game_key": "BladeSpeed"
       },
       {
         "name": "Double Slash",
         "xp_factor": 1.0,
         "key": "combat~blade~double-slash",
-        "id": 28
+        "id": 28,
+        "game_id": 12,
+        "game_key": "DoubleThrust"
       },
       {
         "name": "Rend",
         "xp_factor": 1.0,
         "key": "combat~blade~rend",
-        "id": 29
+        "id": 29,
+        "game_id": 15,
+        "game_key": "Rend"
       },
       {
         "name": "Vital Points",
         "xp_factor": 1.0,
         "key": "combat~blade~vital-points",
-        "id": 30
+        "id": 30,
+        "game_id": 13,
+        "game_key": "VitalPoints"
       },
       {
         "name": "Blade Mastery",
         "xp_factor": 4.0,
         "key": "combat~blade~blade-mastery",
-        "id": 31
+        "id": 31,
+        "game_id": 17,
+        "game_key": "BladeMastery"
       },
       {
         "name": "Whirling Blades",
         "xp_factor": 2.0,
         "key": "combat~blade~whirlwind-blades",
-        "id": 32
+        "id": 32,
+        "game_id": 18,
+        "game_key": "WhirlingBlades"
       },
       {
         "name": "Blade Specialization",
         "xp_factor": 20.0,
         "key": "combat~blade~blade-specialization",
-        "id": 33
+        "id": 33,
+        "game_id": 2502,
+        "game_key": "MasteryBlade"
       },
       {
         "name": "Coup De Grace",
         "xp_factor": 2.0,
         "key": "combat~blade~coup-de-grace",
-        "id": 34
+        "id": 34,
+        "game_id": 19,
+        "game_key": "CoupDeGrace"
       }
     ],
     "heavy armor": [
@@ -227,73 +299,97 @@
         "name": "Glancing Blow",
         "xp_factor": 1.0,
         "key": "combat~heavy-armor~glancing-blow",
-        "id": 35
+        "id": 35,
+        "game_id": 72,
+        "game_key": "GlancingBlow"
       },
       {
         "name": "Body Slam",
         "xp_factor": 2.0,
         "key": "combat~heavy-armor~body-slam",
-        "id": 36
+        "id": 36,
+        "game_id": 75,
+        "game_key": "BodySlam"
       },
       {
         "name": "Inner Strength",
         "xp_factor": 2.0,
         "key": "combat~heavy-armor~inner-strength",
-        "id": 37
+        "id": 37,
+        "game_id": 73,
+        "game_key": "InnerStrength"
       },
       {
         "name": "Deflection",
         "xp_factor": 1.0,
         "key": "combat~heavy-armor~deflection",
-        "id": 38
+        "id": 38,
+        "game_id": 76,
+        "game_key": "Deflection"
       },
       {
         "name": "Absorb Impacts",
         "xp_factor": 1.0,
         "key": "combat~heavy-armor~absorb-impacts",
-        "id": 39
+        "id": 39,
+        "game_id": 74,
+        "game_key": "AbsorbImpacts"
       },
       {
         "name": "Taunt",
         "xp_factor": 1.0,
         "key": "combat~heavy-armor~taunt",
-        "id": 40
+        "id": 40,
+        "game_id": 80,
+        "game_key": "Taunt"
       },
       {
         "name": "Hard Headed",
         "xp_factor": 4.0,
         "key": "combat~heavy-armor~hard-headed",
-        "id": 41
+        "id": 41,
+        "game_id": 77,
+        "game_key": "HardHeaded"
       },
       {
         "name": "Endurance",
         "xp_factor": 4.0,
         "key": "combat~heavy-armor~endurance",
-        "id": 42
+        "id": 42,
+        "game_id": 78,
+        "game_key": "Endurance"
       },
       {
         "name": "Knight's Grace",
         "xp_factor": 3.0,
         "key": "combat~heavy-armor~knight-s-grace",
-        "id": 43
+        "id": 43,
+        "game_id": 79,
+        "game_key": "KnightsGrace"
       },
       {
         "name": "Valiant Warden",
         "xp_factor": 3.0,
         "key": "combat~heavy-armor~valiant-warden",
-        "id": 44
+        "id": 44,
+        "game_id": 2541,
+        "game_key": "ValiantWarden"
       },
       {
         "name": "Provoking Shout",
         "xp_factor": 1.0,
         "key": "combat~heavy-armor~provoking-shout",
-        "id": 45
+        "id": 45,
+        "game_id": 3541,
+        "game_key": "ProvokingShout"
       },
       {
         "name": "Heavy Armor Specialization",
         "xp_factor": 20.0,
         "key": "combat~heavy-armor~heavy-armor-specialization",
-        "id": 46
+        "id": 46,
+        "game_id": 2508,
+        "game_key": "MasteryHeavyArmor"
       }
     ],
     "light armor": [
@@ -301,49 +397,65 @@
         "name": "Dodge",
         "xp_factor": 1.0,
         "key": "combat~light-armor~dodge",
-        "id": 47
+        "id": 47,
+        "game_id": 91,
+        "game_key": "Dodge"
       },
       {
         "name": "Evasion",
         "xp_factor": 1.0,
         "key": "combat~light-armor~evasion",
-        "id": 48
+        "id": 48,
+        "game_id": 92,
+        "game_key": "Tumble"
       },
       {
         "name": "Escape",
         "xp_factor": 1.0,
         "key": "combat~light-armor~escape",
-        "id": 49
+        "id": 49,
+        "game_id": 93,
+        "game_key": "Escape"
       },
       {
         "name": "Swiftness",
         "xp_factor": 4.0,
         "key": "combat~light-armor~swiftness",
-        "id": 50
+        "id": 50,
+        "game_id": 95,
+        "game_key": "Swiftness"
       },
       {
         "name": "Flurry",
         "xp_factor": 1.0,
         "key": "combat~light-armor~flurry",
-        "id": 51
+        "id": 51,
+        "game_id": 96,
+        "game_key": "Flurry"
       },
       {
         "name": "Sprint",
         "xp_factor": 1.0,
         "key": "combat~light-armor~sprint",
-        "id": 52
+        "id": 52,
+        "game_id": 97,
+        "game_key": "Sprint"
       },
       {
         "name": "Acrobatics",
         "xp_factor": 1.0,
         "key": "combat~light-armor~acrobatics",
-        "id": 53
+        "id": 53,
+        "game_id": 99,
+        "game_key": "Acrobatics"
       },
       {
         "name": "Light Armor Specialization",
         "xp_factor": 20.0,
         "key": "combat~light-armor~light-armor-specialization",
-        "id": 54
+        "id": 54,
+        "game_id": 2510,
+        "game_key": "MasteryLightArmor"
       }
     ],
     "bludgeon": [
@@ -351,73 +463,97 @@
         "name": "Bludgeon Combat",
         "xp_factor": 1.0,
         "key": "combat~bludgeon~bludgeon-combat",
-        "id": 55
+        "id": 55,
+        "game_id": 471,
+        "game_key": "BludgeonAttack"
       },
       {
         "name": "Crushing Blow",
         "xp_factor": 1.0,
         "key": "combat~bludgeon~crushing-blow",
-        "id": 56
+        "id": 56,
+        "game_id": 20,
+        "game_key": "CrushingBlow"
       },
       {
         "name": "Break Weapon",
         "xp_factor": 1.0,
         "key": "combat~bludgeon~break-weapon",
-        "id": 57
+        "id": 57,
+        "game_id": 21,
+        "game_key": "BreakWeapon"
       },
       {
         "name": "Stunner",
         "xp_factor": 4.0,
         "key": "combat~bludgeon~stunner",
-        "id": 58
+        "id": 58,
+        "game_id": 23,
+        "game_key": "Stunner"
       },
       {
         "name": "Knockback",
         "xp_factor": 2.0,
         "key": "combat~bludgeon~knockback",
-        "id": 59
+        "id": 59,
+        "game_id": 22,
+        "game_key": "Knockback"
       },
       {
         "name": "Knockdown",
         "xp_factor": 2.0,
         "key": "combat~bludgeon~knockdown",
-        "id": 60
+        "id": 60,
+        "game_id": 25,
+        "game_key": "Knockdown"
       },
       {
         "name": "Break Armor",
         "xp_factor": 1.0,
         "key": "combat~bludgeon~break-armor",
-        "id": 61
+        "id": 61,
+        "game_id": 24,
+        "game_key": "BreakArmor"
       },
       {
         "name": "Crusher",
         "xp_factor": 4.0,
         "key": "combat~bludgeon~crusher",
-        "id": 62
+        "id": 62,
+        "game_id": 26,
+        "game_key": "Crusher"
       },
       {
         "name": "Breaker",
         "xp_factor": 4.0,
         "key": "combat~bludgeon~breaker",
-        "id": 63
+        "id": 63,
+        "game_id": 27,
+        "game_key": "Breaker"
       },
       {
         "name": "Berserk",
         "xp_factor": 1.0,
         "key": "combat~bludgeon~berserk",
-        "id": 64
+        "id": 64,
+        "game_id": 28,
+        "game_key": "Berserk"
       },
       {
         "name": "Bludgeon Specialization",
         "xp_factor": 20.0,
         "key": "combat~bludgeon~bludgeon-specialization",
-        "id": 65
+        "id": 65,
+        "game_id": 2503,
+        "game_key": "MasteryBludgeon"
       },
       {
         "name": "Ground Pound",
         "xp_factor": 1.0,
         "key": "combat~bludgeon~ground-pound",
-        "id": 66
+        "id": 66,
+        "game_id": 29,
+        "game_key": "GroundPound"
       }
     ],
     "ranged": [
@@ -425,73 +561,97 @@
         "name": "Ranged Combat",
         "xp_factor": 1.0,
         "key": "combat~ranged~ranged-combat",
-        "id": 67
+        "id": 67,
+        "game_id": 473,
+        "game_key": "RangedAttack"
       },
       {
         "name": "Aimed Shot",
         "xp_factor": 1.0,
         "key": "combat~ranged~aimed-shot",
-        "id": 68
+        "id": 68,
+        "game_id": 121,
+        "game_key": "AimedShot"
       },
       {
         "name": "Disabling Shot",
         "xp_factor": 1.0,
         "key": "combat~ranged~disabling-shot",
-        "id": 69
+        "id": 69,
+        "game_id": 122,
+        "game_key": "DisablingShot"
       },
       {
         "name": "Ammo Scavenger",
         "xp_factor": 4.0,
         "key": "combat~ranged~ammo-scavenger",
-        "id": 70
+        "id": 70,
+        "game_id": 129,
+        "game_key": "AmmoScavenger"
       },
       {
         "name": "Piercing Shot",
         "xp_factor": 1.0,
         "key": "combat~ranged~piercing-shot",
-        "id": 71
+        "id": 71,
+        "game_id": 123,
+        "game_key": "PiercingShot"
       },
       {
         "name": "Blinding Shot",
         "xp_factor": 1.0,
         "key": "combat~ranged~blinding-shot",
-        "id": 72
+        "id": 72,
+        "game_id": 124,
+        "game_key": "BlindingShot"
       },
       {
         "name": "Eagle Eye",
         "xp_factor": 4.0,
         "key": "combat~ranged~eagle-eye",
-        "id": 73
+        "id": 73,
+        "game_id": 127,
+        "game_key": "EagleEye"
       },
       {
         "name": "Rapid Fire",
         "xp_factor": 1.0,
         "key": "combat~ranged~rapid-fire",
-        "id": 74
+        "id": 74,
+        "game_id": 126,
+        "game_key": "RapidFire"
       },
       {
         "name": "Range",
         "xp_factor": 4.0,
         "key": "combat~ranged~range",
-        "id": 75
+        "id": 75,
+        "game_id": 128,
+        "game_key": "Range"
       },
       {
         "name": "Multi Shot",
         "xp_factor": 1.0,
         "key": "combat~ranged~multi-shot",
-        "id": 76
+        "id": 76,
+        "game_id": 125,
+        "game_key": "Multishot"
       },
       {
         "name": "Draw Strength",
         "xp_factor": 4.0,
         "key": "combat~ranged~draw-strength",
-        "id": 77
+        "id": 77,
+        "game_id": 130,
+        "game_key": "DrawStrength"
       },
       {
         "name": "Ranged Specialization",
         "xp_factor": 20.0,
         "key": "combat~ranged~ranged-specialization",
-        "id": 78
+        "id": 78,
+        "game_id": 2513,
+        "game_key": "MasteryRanged"
       }
     ]
   },
@@ -501,85 +661,113 @@
         "name": "Light",
         "xp_factor": 1.0,
         "key": "magic~sun~light",
-        "id": 79
+        "id": 79,
+        "game_id": 142,
+        "game_key": "Light"
       },
       {
         "name": "Searing Ray",
         "xp_factor": 1.0,
         "key": "magic~sun~searing-ray",
-        "id": 80
+        "id": 80,
+        "game_id": 141,
+        "game_key": "SearingRay"
       },
       {
         "name": "Enlightenment",
         "xp_factor": 1.0,
         "key": "magic~sun~enlightenment",
-        "id": 81
+        "id": 81,
+        "game_id": 143,
+        "game_key": "Enlightenment"
       },
       {
         "name": "Blind",
         "xp_factor": 1.0,
         "key": "magic~sun~blind",
-        "id": 82
+        "id": 82,
+        "game_id": 144,
+        "game_key": "Blind"
       },
       {
         "name": "Sun Worship",
         "xp_factor": 4.0,
         "key": "magic~sun~sun-worship",
-        "id": 83
+        "id": 83,
+        "game_id": 149,
+        "game_key": "SunWorship"
       },
       {
         "name": "Reveal Hidden",
         "xp_factor": 1.0,
         "key": "magic~sun~reveal-hidden",
-        "id": 84
+        "id": 84,
+        "game_id": 146,
+        "game_key": "RevealHidden"
       },
       {
         "name": "Dazzling Rays",
         "xp_factor": 1.0,
         "key": "magic~sun~dazzling-rays",
-        "id": 85
+        "id": 85,
+        "game_id": 313,
+        "game_key": "DazzlingRays"
       },
       {
         "name": "Sun Eater",
         "xp_factor": 4.0,
         "key": "magic~sun~sun-eater",
-        "id": 86
+        "id": 86,
+        "game_id": 150,
+        "game_key": "SunEater"
       },
       {
         "name": "Summon Phoenix",
         "xp_factor": 1.0,
         "key": "magic~sun~summon-phoenix",
-        "id": 87
+        "id": 87,
+        "game_id": 148,
+        "game_key": "SummonPhoenix"
       },
       {
         "name": "Elysian Illumination",
         "xp_factor": 1.0,
         "key": "magic~sun~elysian-illumination",
-        "id": 88
+        "id": 88,
+        "game_id": 1352,
+        "game_key": "ElysianIllumination"
       },
       {
         "name": "Solar Flare",
         "xp_factor": 1.0,
         "key": "magic~sun~solar-flare",
-        "id": 89
+        "id": 89,
+        "game_id": 3783,
+        "game_key": "SolarFlare"
       },
       {
         "name": "Sun Magic Specialization",
         "xp_factor": 20.0,
         "key": "magic~sun~sun-magic-specialization",
-        "id": 90
+        "id": 90,
+        "game_id": 2516,
+        "game_key": "MasterySun"
       },
       {
         "name": "Moon Warding",
         "xp_factor": 20.0,
         "key": "magic~sun~moon-warding",
-        "id": 91
+        "id": 91,
+        "game_id": 3752,
+        "game_key": "WardMoon"
       },
       {
         "name": "Judgment",
         "xp_factor": 1.0,
         "key": "magic~sun~judgment",
-        "id": 284
+        "id": 284,
+        "game_id": 4347,
+        "game_key": "Judgment"
       }
     ],
     "fire": [
@@ -587,73 +775,97 @@
         "name": "Flame Fist",
         "xp_factor": 1.0,
         "key": "magic~fire~flame-fist",
-        "id": 92
+        "id": 92,
+        "game_id": 62,
+        "game_key": "FlameFist"
       },
       {
         "name": "Fire Arrow",
         "xp_factor": 2.0,
         "key": "magic~fire~fire-arrow",
-        "id": 93
+        "id": 93,
+        "game_id": 63,
+        "game_key": "FireArrow"
       },
       {
         "name": "Ignite Weapon",
         "xp_factor": 1.0,
         "key": "magic~fire~ignite-weapon",
-        "id": 94
+        "id": 94,
+        "game_id": 65,
+        "game_key": "IgniteWeapon"
       },
       {
         "name": "Highly Flammable",
         "xp_factor": 4.0,
         "key": "magic~fire~highly-flammable",
-        "id": 95
+        "id": 95,
+        "game_id": 68,
+        "game_key": "HighlyFlammable"
       },
       {
         "name": "Fireball",
         "xp_factor": 3.0,
         "key": "magic~fire~fireball",
-        "id": 96
+        "id": 96,
+        "game_id": 61,
+        "game_key": "Fireball"
       },
       {
         "name": "Immolation",
         "xp_factor": 1.0,
         "key": "magic~fire~immolation",
-        "id": 97
+        "id": 97,
+        "game_id": 64,
+        "game_key": "Immolation"
       },
       {
         "name": "Fire Speed",
         "xp_factor": 4.0,
         "key": "magic~fire~fire-speed",
-        "id": 98
+        "id": 98,
+        "game_id": 69,
+        "game_key": "FireReach"
       },
       {
         "name": "Fire Proof",
         "xp_factor": 4.0,
         "key": "magic~fire~fire-proof",
-        "id": 99
+        "id": 99,
+        "game_id": 70,
+        "game_key": "FireProof"
       },
       {
         "name": "Ring of Fire",
         "xp_factor": 2.0,
         "key": "magic~fire~ring-of-fire",
-        "id": 100
+        "id": 100,
+        "game_id": 66,
+        "game_key": "RingOfFire"
       },
       {
         "name": "Fire Magic Specialization",
         "xp_factor": 20.0,
         "key": "magic~fire~fire-magic-specialization",
-        "id": 101
+        "id": 101,
+        "game_id": 2507,
+        "game_key": "MasteryFire"
       },
       {
         "name": "Water Warding",
         "xp_factor": 20.0,
         "key": "magic~fire~water-warding",
-        "id": 102
+        "id": 102,
+        "game_id": 3755,
+        "game_key": "WardWater"
       },
       {
         "name": "Summon Fire Elemental",
         "xp_factor": 4.0,
         "key": "magic~fire~summon-fire-elemental",
-        "id": 103
+        "id": 103,
+        "game_id": 67,
+        "game_key": "SummonFireElemental"
       }
     ],
     "earth": [
@@ -661,79 +873,105 @@
         "name": "Stone Fist",
         "xp_factor": 1.0,
         "key": "magic~earth~stone-fist",
-        "id": 104
+        "id": 104,
+        "game_id": 52,
+        "game_key": "StoneFist"
       },
       {
         "name": "Root",
         "xp_factor": 2.0,
         "key": "magic~earth~root",
-        "id": 105
+        "id": 105,
+        "game_id": 51,
+        "game_key": "Root"
       },
       {
         "name": "Stone Arrow",
         "xp_factor": 2.0,
         "key": "magic~earth~stone-arrow",
-        "id": 106
+        "id": 106,
+        "game_id": 53,
+        "game_key": "ObsidianArrow"
       },
       {
         "name": "Strength of Earth",
         "xp_factor": 1.0,
         "key": "magic~earth~strength-of-earth",
-        "id": 107
+        "id": 107,
+        "game_id": 57,
+        "game_key": "StrengthOfEarth"
       },
       {
         "name": "Sympathy of Stone",
         "xp_factor": 4.0,
         "key": "magic~earth~sympathy-of-stone",
-        "id": 108
+        "id": 108,
+        "game_id": 60,
+        "game_key": "SympathyOfStone"
       },
       {
         "name": "Shield of Crystal",
         "xp_factor": 2.0,
         "key": "magic~earth~shield-of-crystal",
-        "id": 109
+        "id": 109,
+        "game_id": 314,
+        "game_key": "ShieldOfCrystal"
       },
       {
         "name": "Earthquake",
         "xp_factor": 3.0,
         "key": "magic~earth~earthquake",
-        "id": 110
+        "id": 110,
+        "game_id": 55,
+        "game_key": "Earthquake"
       },
       {
         "name": "Earth's Embrace",
         "xp_factor": 2.0,
         "key": "magic~earth~earth-s-embrace",
-        "id": 111
+        "id": 111,
+        "game_id": 58,
+        "game_key": "EarthsEmbrace"
       },
       {
         "name": "Bulwark of Earth",
         "xp_factor": 4.0,
         "key": "magic~earth~bulwark-of-earth",
-        "id": 112
+        "id": 112,
+        "game_id": 59,
+        "game_key": "AttunementWithEarth"
       },
       {
         "name": "Summon Earth Elemental",
         "xp_factor": 4.0,
         "key": "magic~earth~summon-earth-elemental",
-        "id": 113
+        "id": 113,
+        "game_id": 56,
+        "game_key": "SummonEarthElemental"
       },
       {
         "name": "Torpor",
         "xp_factor": 2.0,
         "key": "magic~earth~torpor",
-        "id": 114
+        "id": 114,
+        "game_id": 1353,
+        "game_key": "Torpor"
       },
       {
         "name": "Earth Magic Specialization",
         "xp_factor": 20.0,
         "key": "magic~earth~earth-magic-specialization",
-        "id": 115
+        "id": 115,
+        "game_id": 2506,
+        "game_key": "MasteryEarth"
       },
       {
         "name": "Air Warding",
         "xp_factor": 20.0,
         "key": "magic~earth~air-warding",
-        "id": 116
+        "id": 116,
+        "game_id": 3756,
+        "game_key": "WardAir"
       }
     ],
     "death": [
@@ -741,85 +979,113 @@
         "name": "Tap Soul",
         "xp_factor": 2.0,
         "key": "magic~death~tap-soul",
-        "id": 117
+        "id": 117,
+        "game_id": 450,
+        "game_key": "TapSoul"
       },
       {
         "name": "Corpse Explosion",
         "xp_factor": 1.0,
         "key": "magic~death~corpse-explosion",
-        "id": 118
+        "id": 118,
+        "game_id": 41,
+        "game_key": "CorpseExplosion"
       },
       {
         "name": "Death Touch",
         "xp_factor": 1.0,
         "key": "magic~death~death-touch",
-        "id": 119
+        "id": 119,
+        "game_id": 43,
+        "game_key": "DeathTouch"
       },
       {
         "name": "Death Mastery",
         "xp_factor": 4.0,
         "key": "magic~death~death-mastery",
-        "id": 120
+        "id": 120,
+        "game_id": 48,
+        "game_key": "DeathMastery"
       },
       {
         "name": "Summon Skeleton",
         "xp_factor": 4.0,
         "key": "magic~death~summon-skeleton",
-        "id": 121
+        "id": 121,
+        "game_id": 46,
+        "game_key": "SummonSkeleton"
       },
       {
         "name": "Death Ray",
         "xp_factor": 2.0,
         "key": "magic~death~death-ray",
-        "id": 122
+        "id": 122,
+        "game_id": 42,
+        "game_key": "DeathRay"
       },
       {
         "name": "Undead Mastery",
         "xp_factor": 4.0,
         "key": "magic~death~undead-mastery",
-        "id": 123
+        "id": 123,
+        "game_id": 49,
+        "game_key": "UndeadMastery"
       },
       {
         "name": "Mummified Undead",
         "xp_factor": 4.0,
         "key": "magic~death~mummified-undead",
-        "id": 124
+        "id": 124,
+        "game_id": 50,
+        "game_key": "MummifiedUndead"
       },
       {
         "name": "Death Shield",
         "xp_factor": 2.0,
         "key": "magic~death~death-shield",
-        "id": 125
+        "id": 125,
+        "game_id": 44,
+        "game_key": "DeathShield"
       },
       {
         "name": "Death Field",
         "xp_factor": 2.0,
         "key": "magic~death~death-field",
-        "id": 126
+        "id": 126,
+        "game_id": 45,
+        "game_key": "DeathField"
       },
       {
         "name": "Death Magic Specialization",
         "xp_factor": 20.0,
         "key": "magic~death~death-magic-specialization",
-        "id": 127
+        "id": 127,
+        "game_id": 2505,
+        "game_key": "MasteryDeath"
       },
       {
         "name": "Life Warding",
         "xp_factor": 20.0,
         "key": "magic~death~life-warding",
-        "id": 128
+        "id": 128,
+        "game_id": 3757,
+        "game_key": "WardLife"
       },
       {
         "name": "Summon Lich",
         "xp_factor": 6.0,
         "key": "magic~death~summon-lich",
-        "id": 129
+        "id": 129,
+        "game_id": 47,
+        "game_key": "SummonLich"
       },
       {
         "name": "Revenant Stance",
         "xp_factor": 8.0,
         "key": "magic~death~revenant-stance",
-        "id": 283
+        "id": 283,
+        "game_id": 4348,
+        "game_key": "RevenantStance"
       }
     ],
     "chaos": [
@@ -827,67 +1093,89 @@
         "name": "Confusion",
         "xp_factor": 2.0,
         "key": "magic~chaos~confusion",
-        "id": 130
+        "id": 130,
+        "game_id": 34,
+        "game_key": "ChaoticConfusion"
       },
       {
         "name": "Chaos Bolt",
         "xp_factor": 1.0,
         "key": "magic~chaos~chaos-bolt",
-        "id": 131
+        "id": 131,
+        "game_id": 30,
+        "game_key": "ChaosBolt"
       },
       {
         "name": "Juxtapose",
         "xp_factor": 4.0,
         "key": "magic~chaos~juxtapose",
-        "id": 132
+        "id": 132,
+        "game_id": 420,
+        "game_key": "Juxtapose"
       },
       {
         "name": "Chaotic Clone",
         "xp_factor": 2.0,
         "key": "magic~chaos~chaotic-clone",
-        "id": 133
+        "id": 133,
+        "game_id": 35,
+        "game_key": "ChaoticClone"
       },
       {
         "name": "Torpid Torment",
         "xp_factor": 1.0,
         "key": "magic~chaos~torpid-torment",
-        "id": 134
+        "id": 134,
+        "game_id": 524,
+        "game_key": "TorpidTorment"
       },
       {
         "name": "Tabula Rasa",
         "xp_factor": 2.0,
         "key": "magic~chaos~tabula-rasa",
-        "id": 135
+        "id": 135,
+        "game_id": 31,
+        "game_key": "TabulaRasa"
       },
       {
         "name": "Chaotic Step",
         "xp_factor": 1.0,
         "key": "magic~chaos~chaotic-step",
-        "id": 136
+        "id": 136,
+        "game_id": 497,
+        "game_key": "ChaoticStep"
       },
       {
         "name": "Chaotic Shield",
         "xp_factor": 1.0,
         "key": "magic~chaos~chaotic-shield",
-        "id": 137
+        "id": 137,
+        "game_id": 3303,
+        "game_key": "ChaoticShield"
       },
       {
         "name": "Chaotic Feedback",
         "xp_factor": 1.0,
         "key": "magic~chaos~chaotic-feedback",
-        "id": 138
+        "id": 138,
+        "game_id": 523,
+        "game_key": "ChaoticFeedback"
       },
       {
         "name": "Summon Daemon",
         "xp_factor": 6.0,
         "key": "magic~chaos~summon-daemon",
-        "id": 139
+        "id": 139,
+        "game_id": 37,
+        "game_key": "SummonDemon"
       },
       {
         "name": "Chaos Magic Specialization",
         "xp_factor": 20.0,
         "key": "magic~chaos~chaos-magic-specialization",
-        "id": 140
+        "id": 140,
+        "game_id": 2504,
+        "game_key": "MasteryChaos"
       }
     ],
     "life": [
@@ -895,85 +1183,113 @@
         "name": "Healing Touch",
         "xp_factor": 1.0,
         "key": "magic~life~healing-touch",
-        "id": 141
+        "id": 141,
+        "game_id": 81,
+        "game_key": "HealingTouch"
       },
       {
         "name": "Healing Ray",
         "xp_factor": 2.0,
         "key": "magic~life~healing-ray",
-        "id": 142
+        "id": 142,
+        "game_id": 82,
+        "game_key": "HealingRay"
       },
       {
         "name": "Purify",
         "xp_factor": 1.0,
         "key": "magic~life~purify",
-        "id": 143
+        "id": 143,
+        "game_id": 83,
+        "game_key": "Purify"
       },
       {
         "name": "Beneficent Blessing",
         "xp_factor": 4.0,
         "key": "magic~life~beneficent-blessing",
-        "id": 144
+        "id": 144,
+        "game_id": 777,
+        "game_key": "BeneficentBlessing"
       },
       {
         "name": "Healing Burst",
         "xp_factor": 3.0,
         "key": "magic~life~healing-burst",
-        "id": 145
+        "id": 145,
+        "game_id": 84,
+        "game_key": "HealingBurst"
       },
       {
         "name": "Purify Burst",
         "xp_factor": 3.0,
         "key": "magic~life~purify-burst",
-        "id": 146
+        "id": 146,
+        "game_id": 85,
+        "game_key": "PurifyBurst"
       },
       {
         "name": "Banish Undead",
         "xp_factor": 2.0,
         "key": "magic~life~banish-undead",
-        "id": 147
+        "id": 147,
+        "game_id": 86,
+        "game_key": "BanishUndead"
       },
       {
         "name": "Life Power",
         "xp_factor": 4.0,
         "key": "magic~life~life-power",
-        "id": 148
+        "id": 148,
+        "game_id": 89,
+        "game_key": "LifePower"
       },
       {
         "name": "Life Reach",
         "xp_factor": 4.0,
         "key": "magic~life~life-reach",
-        "id": 149
+        "id": 149,
+        "game_id": 90,
+        "game_key": "LifeReach"
       },
       {
         "name": "Healing Grace",
         "xp_factor": 2.0,
         "key": "magic~life~healing-grace",
-        "id": 150
+        "id": 150,
+        "game_id": 87,
+        "game_key": "HealingGrace"
       },
       {
         "name": "Resurrection",
         "xp_factor": 4.0,
         "key": "magic~life~resurrection",
-        "id": 151
+        "id": 151,
+        "game_id": 88,
+        "game_key": "Resurrection"
       },
       {
         "name": "Life Magic Specialization",
         "xp_factor": 20.0,
         "key": "magic~life~life-magic-specialization",
-        "id": 152
+        "id": 152,
+        "game_id": 2509,
+        "game_key": "MasteryLife"
       },
       {
         "name": "Death Warding",
         "xp_factor": 20.0,
         "key": "magic~life~death-warding",
-        "id": 153
+        "id": 153,
+        "game_id": 3754,
+        "game_key": "WardDeath"
       },
       {
         "name": "Healing Blast",
         "xp_factor": 2.0,
         "key": "magic~life~healing-blast",
-        "id": 154
+        "id": 154,
+        "game_id": 3155,
+        "game_key": "HealingBlast"
       }
     ],
     "air": [
@@ -981,91 +1297,121 @@
         "name": "Gust",
         "xp_factor": 0.5,
         "key": "magic~air~gust",
-        "id": 155
+        "id": 155,
+        "game_id": 1,
+        "game_key": "Gust"
       },
       {
         "name": "Discharge",
         "xp_factor": 1.0,
         "key": "magic~air~discharge",
-        "id": 156
+        "id": 156,
+        "game_id": 221,
+        "game_key": "Discharge"
       },
       {
         "name": "Air's Embrace",
         "xp_factor": 1.0,
         "key": "magic~air~air-s-embrace",
-        "id": 157
+        "id": 157,
+        "game_id": 5,
+        "game_key": "AirsEmbrace"
       },
       {
         "name": "Dash",
         "xp_factor": 1.0,
         "key": "magic~air~dash",
-        "id": 158
+        "id": 158,
+        "game_id": 6,
+        "game_key": "Dash"
       },
       {
         "name": "Rapid Discharge",
         "xp_factor": 2.0,
         "key": "magic~air~rapid-discharge",
-        "id": 159
+        "id": 159,
+        "game_id": 8,
+        "game_key": "RapidDischarge"
       },
       {
         "name": "Lightning",
         "xp_factor": 1.0,
         "key": "magic~air~lightning",
-        "id": 160
+        "id": 160,
+        "game_id": 2,
+        "game_key": "Lightning"
       },
       {
         "name": "Shield of Air",
         "xp_factor": 1.0,
         "key": "magic~air~shield-of-air",
-        "id": 161
+        "id": 161,
+        "game_id": 515,
+        "game_key": "ShieldOfAir"
       },
       {
         "name": "Blink",
         "xp_factor": 1.0,
         "key": "magic~air~blink",
-        "id": 162
+        "id": 162,
+        "game_id": 7,
+        "game_key": "Blink"
       },
       {
         "name": "Well Grounded",
         "xp_factor": 2.0,
         "key": "magic~air~well-grounded",
-        "id": 163
+        "id": 163,
+        "game_id": 9,
+        "game_key": "WellGrounded"
       },
       {
         "name": "Chain Lightning",
         "xp_factor": 2.0,
         "key": "magic~air~chain-lightning",
-        "id": 164
+        "id": 164,
+        "game_id": 3,
+        "game_key": "ChainLightning"
       },
       {
         "name": "Air Magic Specialization",
         "xp_factor": 20.0,
         "key": "magic~air~air-magic-specialization",
-        "id": 165
+        "id": 165,
+        "game_id": 2501,
+        "game_key": "MasteryAir"
       },
       {
         "name": "Earth Warding",
         "xp_factor": 20.0,
         "key": "magic~air~earth-warding",
-        "id": 166
+        "id": 166,
+        "game_id": 3758,
+        "game_key": "WardEarth"
       },
       {
         "name": "Lightning Storm",
         "xp_factor": 2.0,
         "key": "magic~air~lightning-storm",
-        "id": 167
+        "id": 167,
+        "game_id": 13310,
+        "game_key": "LightningStorm"
       },
       {
         "name": "Summon Air Elemental",
         "xp_factor": 2.0,
         "key": "magic~air~summon-air-elemental",
-        "id": 168
+        "id": 168,
+        "game_id": 4,
+        "game_key": "SummonAirElemental"
       },
       {
         "name": "Shock Weapon",
         "xp_factor": 1.0,
         "key": "magic~air~shock-weapon",
-        "id": 282
+        "id": 282,
+        "game_id": 3761,
+        "game_key": "ShockWeapon"
       }
     ],
     "water": [
@@ -1073,85 +1419,113 @@
         "name": "Ice Fist",
         "xp_factor": 1.0,
         "key": "magic~water~ice-fist",
-        "id": 169
+        "id": 169,
+        "game_id": 161,
+        "game_key": "IceFist"
       },
       {
         "name": "Ice Arrow",
         "xp_factor": 1.0,
         "key": "magic~water~ice-arrow",
-        "id": 170
+        "id": 170,
+        "game_id": 165,
+        "game_key": "IceArrow"
       },
       {
         "name": "Douse",
         "xp_factor": 1.0,
         "key": "magic~water~douse",
-        "id": 171
+        "id": 171,
+        "game_id": 162,
+        "game_key": "Douse"
       },
       {
         "name": "Icy Breath",
         "xp_factor": 4.0,
         "key": "magic~water~icy-breath",
-        "id": 172
+        "id": 172,
+        "game_id": 169,
+        "game_key": "IcyBreath"
       },
       {
         "name": "Ice Field",
         "xp_factor": 1.0,
         "key": "magic~water~ice-field",
-        "id": 173
+        "id": 173,
+        "game_id": 167,
+        "game_key": "IceField"
       },
       {
         "name": "Soothing Rain",
         "xp_factor": 1.0,
         "key": "magic~water~soothing-rain",
-        "id": 174
+        "id": 174,
+        "game_id": 163,
+        "game_key": "SoothingRain"
       },
       {
         "name": "Shield of Ice",
         "xp_factor": 1.0,
         "key": "magic~water~shield-of-ice",
-        "id": 175
+        "id": 175,
+        "game_id": 164,
+        "game_key": "ShieldOfIce"
       },
       {
         "name": "Blue Blooded",
         "xp_factor": 4.0,
         "key": "magic~water~blue-blooded",
-        "id": 176
+        "id": 176,
+        "game_id": 170,
+        "game_key": "BlueBlooded"
       },
       {
         "name": "Summon Water Elemental",
         "xp_factor": 1.0,
         "key": "magic~water~summon-water-elemental",
-        "id": 177
+        "id": 177,
+        "game_id": 166,
+        "game_key": "SummonWaterElemental"
       },
       {
         "name": "Cone of Cold",
         "xp_factor": 1.0,
         "key": "magic~water~cone-of-cold",
-        "id": 178
+        "id": 178,
+        "game_id": 13308,
+        "game_key": "ConeOfCold"
       },
       {
         "name": "Water Magic Specialization",
         "xp_factor": 20.0,
         "key": "magic~water~water-magic-specialization",
-        "id": 179
+        "id": 179,
+        "game_id": 2518,
+        "game_key": "MasteryWater"
       },
       {
         "name": "Fire Warding",
         "xp_factor": 20.0,
         "key": "magic~water~fire-warding",
-        "id": 180
+        "id": 180,
+        "game_id": 3750,
+        "game_key": "WardFire"
       },
       {
         "name": "Summon Ice Elemental",
         "xp_factor": 1.0,
         "key": "magic~water~summon-ice-elemental",
-        "id": 181
+        "id": 181,
+        "game_id": 168,
+        "game_key": "SummonIceElemental"
       },
       {
         "name": "Frost Weapon",
         "xp_factor": 1.0,
         "key": "magic~water~frost-weapon",
-        "id": 285
+        "id": 285,
+        "game_id": 3759,
+        "game_key": "FrostWeapon"
       }
     ],
     "lunar": [
@@ -1159,97 +1533,129 @@
         "name": "Night Vision",
         "xp_factor": 1.0,
         "key": "magic~lunar~night-vision",
-        "id": 182
+        "id": 182,
+        "game_id": 102,
+        "game_key": "NightVision"
       },
       {
         "name": "Vanish",
         "xp_factor": 1.0,
         "key": "magic~lunar~vanish",
-        "id": 183
+        "id": 183,
+        "game_id": 101,
+        "game_key": "Vanish"
       },
       {
         "name": "Celestial Blessing",
         "xp_factor": 1.0,
         "key": "magic~lunar~celestial-blessing",
-        "id": 184
+        "id": 184,
+        "game_id": 103,
+        "game_key": "CelestialBlessing"
       },
       {
         "name": "Fireflies",
         "xp_factor": 1.0,
         "key": "magic~lunar~fireflies",
-        "id": 185
+        "id": 185,
+        "game_id": 2811,
+        "game_key": "FireFlies"
       },
       {
         "name": "Animal Charm",
         "xp_factor": 1.0,
         "key": "magic~lunar~animal-charm",
-        "id": 186
+        "id": 186,
+        "game_id": 358,
+        "game_key": "AnimalCharm"
       },
       {
         "name": "Moon Worship",
         "xp_factor": 4.0,
         "key": "magic~lunar~moon-worship",
-        "id": 187
+        "id": 187,
+        "game_id": 109,
+        "game_key": "MoonWorship"
       },
       {
         "name": "Shadow Form",
         "xp_factor": 1.0,
         "key": "magic~lunar~shadow-form",
-        "id": 188
+        "id": 188,
+        "game_id": 104,
+        "game_key": "ShadowForm"
       },
       {
         "name": "Cocoon of Night",
         "xp_factor": 1.0,
         "key": "magic~lunar~cocoon-of-night",
-        "id": 189
+        "id": 189,
+        "game_id": 1351,
+        "game_key": "CocoonOfNight"
       },
       {
         "name": "Meteor Shower",
         "xp_factor": 1.0,
         "key": "magic~lunar~meteor-shower",
-        "id": 190
+        "id": 190,
+        "game_id": 2812,
+        "game_key": "MeteorShower"
       },
       {
         "name": "Shooting Star",
         "xp_factor": 1.0,
         "key": "magic~lunar~shooting-star",
-        "id": 191
+        "id": 191,
+        "game_id": 3766,
+        "game_key": "ShootingStar"
       },
       {
         "name": "Moon Beams",
         "xp_factor": 1.0,
         "key": "magic~lunar~moon-beams",
-        "id": 192
+        "id": 192,
+        "game_id": 312,
+        "game_key": "MoonBeams"
       },
       {
         "name": "Moon Eater",
         "xp_factor": 4.0,
         "key": "magic~lunar~moon-eater",
-        "id": 193
+        "id": 193,
+        "game_id": 110,
+        "game_key": "MoonEater"
       },
       {
         "name": "Night Step",
         "xp_factor": 1.0,
         "key": "magic~lunar~night-step",
-        "id": 194
+        "id": 194,
+        "game_id": 359,
+        "game_key": "NightStep"
       },
       {
         "name": "Summon Will-O-Wisp",
         "xp_factor": 1.0,
         "key": "magic~lunar~summon-will-o-wisp",
-        "id": 195
+        "id": 195,
+        "game_id": 108,
+        "game_key": "SummonWilloWisp"
       },
       {
         "name": "Lunar Magic Specialization",
         "xp_factor": 20.0,
         "key": "magic~lunar~lunar-magic-specialization",
-        "id": 196
+        "id": 196,
+        "game_id": 2511,
+        "game_key": "MasteryLunar"
       },
       {
         "name": "Sun Warding",
         "xp_factor": 20.0,
         "key": "magic~lunar~sun-warding",
-        "id": 197
+        "id": 197,
+        "game_id": 3753,
+        "game_key": "WardSun"
       }
     ]
   },
@@ -1259,133 +1665,177 @@
         "name": "Healthy",
         "xp_factor": 5.0,
         "key": "strategy~tactics~healthy",
-        "id": 198
+        "id": 198,
+        "game_id": 151,
+        "game_key": "Healthy"
       },
       {
         "name": "Armor Preservation",
         "xp_factor": 4.0,
         "key": "strategy~tactics~armor-preservation",
-        "id": 199
+        "id": 199,
+        "game_id": 155,
+        "game_key": "ArmorPreservation"
       },
       {
         "name": "Reckless Stance",
         "xp_factor": 1.0,
         "key": "strategy~tactics~reckless-stance",
-        "id": 200
+        "id": 200,
+        "game_id": 305,
+        "game_key": "RecklessStance"
       },
       {
         "name": "Defensive Stance",
         "xp_factor": 1.0,
         "key": "strategy~tactics~defensive-stance",
-        "id": 201
+        "id": 201,
+        "game_id": 71,
+        "game_key": "DefensiveStance"
       },
       {
         "name": "Mounted Proficiency",
         "xp_factor": 10.0,
         "key": "strategy~tactics~horsemanship",
-        "id": 202
+        "id": 202,
+        "game_id": 5773,
+        "game_key": "Horsemanship"
       },
       {
         "name": "Train Strength",
         "xp_factor": 10.0,
         "key": "strategy~tactics~train-strength",
-        "id": 203
+        "id": 203,
+        "game_id": 154,
+        "game_key": "TrainStrength"
       },
       {
         "name": "Parry",
         "xp_factor": 1.0,
         "key": "strategy~tactics~parry",
-        "id": 204
+        "id": 204,
+        "game_id": 11,
+        "game_key": "Parry"
       },
       {
         "name": "Weapon Preservation",
         "xp_factor": 4.0,
         "key": "strategy~tactics~weapon-preservation",
-        "id": 205
+        "id": 205,
+        "game_id": 159,
+        "game_key": "WeaponPreservation"
       },
       {
         "name": "Berserker's Stance",
         "xp_factor": 1.0,
         "key": "strategy~tactics~berserker-s-stance",
-        "id": 206
+        "id": 206,
+        "game_id": 306,
+        "game_key": "BerserkersStance"
       },
       {
         "name": "Passive Stance",
         "xp_factor": 1.0,
         "key": "strategy~tactics~passive-stance",
-        "id": 207
+        "id": 207,
+        "game_id": 307,
+        "game_key": "PassiveStance"
       },
       {
         "name": "Mounted Gallop Speed",
         "xp_factor": 10.0,
         "key": "strategy~tactics~horse-gallop-speed",
-        "id": 208
+        "id": 208,
+        "game_id": 5774,
+        "game_key": "HorseSprintSpeed"
       },
       {
         "name": "Magic Warding",
         "xp_factor": 20.0,
         "key": "strategy~tactics~magic-warding",
-        "id": 209
+        "id": 209,
+        "game_id": 3751,
+        "game_key": "WardMagic"
       },
       {
         "name": "Heavy Lifter",
         "xp_factor": 4.0,
         "key": "strategy~tactics~heavy-lifter",
-        "id": 210
+        "id": 210,
+        "game_id": 156,
+        "game_key": "HeavyLifter"
       },
       {
         "name": "Offhand Attack",
         "xp_factor": 1.0,
         "key": "strategy~tactics~offhand-attack",
-        "id": 211
+        "id": 211,
+        "game_id": 152,
+        "game_key": "OffhandAttack"
       },
       {
         "name": "Elixir Extension",
         "xp_factor": 4.0,
         "key": "strategy~tactics~elixir-extension",
-        "id": 212
+        "id": 212,
+        "game_id": 3554,
+        "game_key": "ElixirExtension"
       },
       {
         "name": "Fortify Defenses",
         "xp_factor": 1.0,
         "key": "strategy~tactics~fortify-defenses",
-        "id": 213
+        "id": 213,
+        "game_id": 1358,
+        "game_key": "FortifyDefenses"
       },
       {
         "name": "Mounted Carry Capacity Focus",
         "xp_factor": 10.0,
         "key": "strategy~tactics~horse-cary-capacity-focus",
-        "id": 214
+        "id": 214,
+        "game_id": 5776,
+        "game_key": "HorseCarryCapacity"
       },
       {
         "name": "Mounted Speed Focus",
         "xp_factor": 10.0,
         "key": "strategy~tactics~horse-speed-focus",
-        "id": 215
+        "id": 215,
+        "game_id": 5879,
+        "game_key": "HorseSpeed"
       },
       {
         "name": "Tactics Specialization",
         "xp_factor": 20.0,
         "key": "strategy~tactics~tactics-specialization",
-        "id": 216
+        "id": 216,
+        "game_id": 2517,
+        "game_key": "MasteryTactics"
       },
       {
         "name": "Offhand Defense",
         "xp_factor": 4.0,
         "key": "strategy~tactics~offhand-defense",
-        "id": 217
+        "id": 217,
+        "game_id": 157,
+        "game_key": "OffhandDefense"
       },
       {
         "name": "Offhand Power",
         "xp_factor": 4.0,
         "key": "strategy~tactics~offhand-power",
-        "id": 218
+        "id": 218,
+        "game_id": 160,
+        "game_key": "OffhandPower"
       },
       {
         "name": "Pugilism",
         "xp_factor": 1.0,
         "key": "strategy~tactics~pugilism",
-        "id": 224
+        "id": 224,
+        "game_id": 3231,
+        "game_key": "UnarmedAttack"
       }
     ],
     "subterfuge": [
@@ -1393,97 +1843,129 @@
         "name": "Distract",
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~distract",
-        "id": 219
+        "id": 219,
+        "game_id": 522,
+        "game_key": "Distract"
       },
       {
         "name": "Engage Opponent",
         "xp_factor": 1.0,
         "key": "strategy~subterfuge~engage-opponent",
-        "id": 220
+        "id": 220,
+        "game_id": 521,
+        "game_key": "Engage"
       },
       {
         "name": "Trip",
         "xp_factor": 1.0,
         "key": "strategy~subterfuge~trip",
-        "id": 221
+        "id": 221,
+        "game_id": 158,
+        "game_key": "Trip"
       },
       {
         "name": "Camouflage",
         "xp_factor": 1.0,
         "key": "strategy~subterfuge~camouflage",
-        "id": 222
+        "id": 222,
+        "game_id": 94,
+        "game_key": "Camouflage"
       },
       {
         "name": "Train Dexterity",
         "xp_factor": 10.0,
         "key": "strategy~subterfuge~train-dexterity",
-        "id": 223
+        "id": 223,
+        "game_id": 153,
+        "game_key": "TrainDexterity"
       },
       {
         "name": "Poison Weapon",
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~poison-weapon",
-        "id": 225
+        "id": 225,
+        "game_id": 517,
+        "game_key": "PoisonWeapon"
       },
       {
         "name": "Silent Movement",
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~silent-movement",
-        "id": 226
+        "id": 226,
+        "game_id": 98,
+        "game_key": "SilentMovement"
       },
       {
         "name": "Armor Weak Points",
         "xp_factor": 4.0,
         "key": "strategy~subterfuge~armor-weak-points",
-        "id": 227
+        "id": 227,
+        "game_id": 119,
+        "game_key": "ArmorWeakPoints"
       },
       {
         "name": "Safe Fall",
         "xp_factor": 5.0,
         "key": "strategy~subterfuge~safe-fall",
-        "id": 228
+        "id": 228,
+        "game_id": 934,
+        "game_key": "SafeFall"
       },
       {
         "name": "Subterfuge Specialization",
         "xp_factor": 20.0,
         "key": "strategy~subterfuge~subterfuge-specialization",
-        "id": 229
+        "id": 229,
+        "game_id": 2515,
+        "game_key": "MasterySubterfuge"
       },
       {
         "name": "Sneak Attack",
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~sneak-attack",
-        "id": 230
+        "id": 230,
+        "game_id": 100,
+        "game_key": "SneakAttack"
       },
       {
         "name": "Sap",
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~sap",
-        "id": 231
+        "id": 231,
+        "game_id": 516,
+        "game_key": "Sap"
       },
       {
         "name": "Pick Pockets",
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~pick-pockets",
-        "id": 232
+        "id": 232,
+        "game_id": 518,
+        "game_key": "PickPocket"
       },
       {
         "name": "Backstab",
         "xp_factor": 4.0,
         "key": "strategy~subterfuge~backstab",
-        "id": 233
+        "id": 233,
+        "game_id": 2557,
+        "game_key": "Backstab"
       },
       {
         "name": "Opportunity Strike",
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~opportunity-strike",
-        "id": 234
+        "id": 234,
+        "game_id": 1359,
+        "game_key": "OpportunityStrike"
       },
       {
         "name": "Obfuscate",
         "xp_factor": 2.0,
         "key": "strategy~subterfuge~obfuscate",
-        "id": 286
+        "id": 286,
+        "game_id": 3300,
+        "game_key": "Obfuscate"
       }
     ],
     "bard": [
@@ -1491,79 +1973,105 @@
         "name": "Melody of Mending",
         "xp_factor": 1.0,
         "key": "strategy~bard~melody-of-mending",
-        "id": 235
+        "id": 235,
+        "game_id": 4302,
+        "game_key": "MelodyOfMending"
       },
       {
         "name": "Savage Sonata",
         "xp_factor": 1.0,
         "key": "strategy~bard~savage-sonata",
-        "id": 241
+        "id": 241,
+        "game_id": 4309,
+        "game_key": "SavageSonata"
       },
       {
         "name": "Resounding Reach",
         "xp_factor": 5.0,
         "key": "strategy~bard~resounding-reach",
-        "id": 242
+        "id": 242,
+        "game_id": 4314,
+        "game_key": "ResoundingReach"
       },
       {
         "name": "Musical Fortitude",
         "xp_factor": 5.0,
         "key": "strategy~bard~musical-fortitude",
-        "id": 243
+        "id": 243,
+        "game_id": 4311,
+        "game_key": "MusicalFortitude"
       },
       {
         "name": "Rhapsody of Recovery",
         "xp_factor": 1.0,
         "key": "strategy~bard~rhapsody-of-recovery",
-        "id": 245
+        "id": 245,
+        "game_id": 4325,
+        "game_key": "RhapsodyOfRecovery"
       },
       {
         "name": "Bard Specialization",
         "xp_factor": 20.0,
         "key": "strategy~bard~bard-specialization",
-        "id": 248
+        "id": 248,
+        "game_id": 4301,
+        "game_key": "MasteryBard"
       },
       {
         "name": "Dirge of Dissonance",
         "xp_factor": 1.0,
         "key": "strategy~bard~dirge-of-dissonance",
-        "id": 287
+        "id": 287,
+        "game_id": 4339,
+        "game_key": "DirgeOfDissonance"
       },
       {
         "name": "Requiem of Ruin",
         "xp_factor": 1.0,
         "key": "strategy~bard~requiem-of-ruin",
-        "id": 288
+        "id": 288,
+        "game_id": 4340,
+        "game_key": "RequiemOfRuin"
       },
       {
         "name": "Performance Stance",
         "xp_factor": 1.0,
         "key": "strategy~bard~performance-stance",
-        "id": 289
+        "id": 289,
+        "game_id": 4329,
+        "game_key": "PerformanceStance"
       },
       {
         "name": "Flourish",
         "xp_factor": 1.0,
         "key": "strategy~bard~flourish",
-        "id": 290
+        "id": 290,
+        "game_id": 4332,
+        "game_key": "Flourish"
       },
       {
         "name": "Dance",
         "xp_factor": 1.0,
         "key": "strategy~bard~dance",
-        "id": 291
+        "id": 291,
+        "game_id": 4333,
+        "game_key": "Dance"
       },
       {
         "name": "Group Dance",
         "xp_factor": 1.0,
         "key": "strategy~bard~group-dance",
-        "id": 292
+        "id": 292,
+        "game_id": 4334,
+        "game_key": "GroupDance"
       },
       {
         "name": "Instrument Proficiency",
         "xp_factor": 5.0,
         "key": "strategy~bard~instrument-proficiency",
-        "id": 293
+        "id": 293,
+        "game_id": 4331,
+        "game_key": "InstrumentProficiency"
       }
     ],
     "taming": [
@@ -1571,97 +2079,129 @@
         "name": "Tame Creature",
         "xp_factor": 4.0,
         "key": "strategy~taming~tame-creature",
-        "id": 249
+        "id": 249,
+        "game_id": 430,
+        "game_key": "TameCreature"
       },
       {
         "name": "Heal Creature",
         "xp_factor": 1.0,
         "key": "strategy~taming~heal-creature",
-        "id": 250
+        "id": 250,
+        "game_id": 531,
+        "game_key": "TameHeal"
       },
       {
         "name": "Summoning",
         "xp_factor": 4.0,
         "key": "strategy~taming~summoning",
-        "id": 251
+        "id": 251,
+        "game_id": 437,
+        "game_key": "SummonTamed"
       },
       {
         "name": "Obedience",
         "xp_factor": 1.0,
         "key": "strategy~taming~obedience",
-        "id": 252
+        "id": 252,
+        "game_id": 432,
+        "game_key": "TameObedience"
       },
       {
         "name": "Collar Recovery",
         "xp_factor": 1.0,
         "key": "strategy~taming~collar-recovery",
-        "id": 253
+        "id": 253,
+        "game_id": 476,
+        "game_key": "TameCollarRecovery"
       },
       {
         "name": "Resurrect Creature",
         "xp_factor": 1.0,
         "key": "strategy~taming~resurrect-creature",
-        "id": 254
+        "id": 254,
+        "game_id": 530,
+        "game_key": "TameResurrect"
       },
       {
         "name": "Combat Training",
         "xp_factor": 4.0,
         "key": "strategy~taming~combat-training",
-        "id": 256
+        "id": 256,
+        "game_id": 433,
+        "game_key": "TameCombatTraining"
       },
       {
         "name": "Pet Speed Training",
         "xp_factor": 1.0,
         "key": "strategy~taming~pet-speed-training",
-        "id": 257
+        "id": 257,
+        "game_id": 3560,
+        "game_key": "TameSpeedTraining"
       },
       {
         "name": "Pet Strength Training",
         "xp_factor": 1.0,
         "key": "strategy~taming~pet-strength-training",
-        "id": 258
+        "id": 258,
+        "game_id": 3562,
+        "game_key": "TameStrengthTraining"
       },
       {
         "name": "Concentration",
         "xp_factor": 1.0,
         "key": "strategy~taming~concentration",
-        "id": 259
+        "id": 259,
+        "game_id": 435,
+        "game_key": "TameConcentration"
       },
       {
         "name": "Taming Specialization",
         "xp_factor": 20.0,
         "key": "strategy~taming~taming-specialization",
-        "id": 261
+        "id": 261,
+        "game_id": 2520,
+        "game_key": "MasteryTaming"
       },
       {
         "name": "Pet Taunting Training",
         "xp_factor": 1.0,
         "key": "strategy~taming~pet-taunting-training",
-        "id": 262
+        "id": 262,
+        "game_id": 3564,
+        "game_key": "TameTauntTraining"
       },
       {
         "name": "Pet Attack Precision Training",
         "xp_factor": 4.0,
         "key": "strategy~taming~pet-attack-precision-training",
-        "id": 263
+        "id": 263,
+        "game_id": 3563,
+        "game_key": "TamePrecisionTraining"
       },
       {
         "name": "Pet Hide Toughness Training",
         "xp_factor": 4.0,
         "key": "strategy~taming~pet-hide-toughness-training",
-        "id": 264
+        "id": 264,
+        "game_id": 3561,
+        "game_key": "TameHideTraining"
       },
       {
         "name": "Pet Range",
         "xp_factor": 4.0,
         "key": "strategy~taming~pet-range",
-        "id": 294
+        "id": 294,
+        "game_id": 3565,
+        "game_key": "TamePetRange"
       },
       {
         "name": "Animal Lore",
         "xp_factor": 4.0,
         "key": "strategy~taming~animal-lore",
-        "id": 295
+        "id": 295,
+        "game_id": 3566,
+        "game_key": "AnimalLore"
       }
     ],
     "focus": [
@@ -1669,91 +2209,121 @@
         "name": "Heightened Awareness",
         "xp_factor": 5.0,
         "key": "strategy~focus~heightened-awareness",
-        "id": 265
+        "id": 265,
+        "game_id": 181,
+        "game_key": "HightenedAwareness"
       },
       {
         "name": "Mind Wipe",
         "xp_factor": 1.0,
         "key": "strategy~focus~mind-wipe",
-        "id": 266
+        "id": 266,
+        "game_id": 172,
+        "game_key": "MindWipe"
       },
       {
         "name": "Train Intelligence",
         "xp_factor": 10.0,
         "key": "strategy~focus~train-intelligence",
-        "id": 267
+        "id": 267,
+        "game_id": 173,
+        "game_key": "TrainIntelligence"
       },
       {
         "name": "Quick Swapping",
         "xp_factor": 4.0,
         "key": "strategy~focus~quick-swapping",
-        "id": 268
+        "id": 268,
+        "game_id": 180,
+        "game_key": "QuickSwapping"
       },
       {
         "name": "Train Summoned Pet Health",
         "xp_factor": 4.0,
         "key": "strategy~focus~train-summoned-pet-health",
-        "id": 269
+        "id": 269,
+        "game_id": 3550,
+        "game_key": "SummonedHealth"
       },
       {
         "name": "Elixir Receptive",
         "xp_factor": 4.0,
         "key": "strategy~focus~elixir-receptive",
-        "id": 270
+        "id": 270,
+        "game_id": 3553,
+        "game_key": "ElixirReceptive"
       },
       {
         "name": "Mind Lock",
         "xp_factor": 1.0,
         "key": "strategy~focus~mind-lock",
-        "id": 271
+        "id": 271,
+        "game_id": 177,
+        "game_key": "MindLock"
       },
       {
         "name": "Spellbinder Stance",
         "xp_factor": 1.0,
         "key": "strategy~focus~spellbinder-stance",
-        "id": 272
+        "id": 272,
+        "game_id": 1357,
+        "game_key": "SpellBinderStance"
       },
       {
         "name": "Focus Specialization",
         "xp_factor": 20.0,
         "key": "strategy~focus~focus-specialization",
-        "id": 273
+        "id": 273,
+        "game_id": 2519,
+        "game_key": "MasteryFocus"
       },
       {
         "name": "Inner Calm",
         "xp_factor": 4.0,
         "key": "strategy~focus~inner-calm",
-        "id": 274
+        "id": 274,
+        "game_id": 182,
+        "game_key": "InnerCalm"
       },
       {
         "name": "Train Summoned Pet Resistance",
         "xp_factor": 4.0,
         "key": "strategy~focus~train-summoned-pet-resistance",
-        "id": 275
+        "id": 275,
+        "game_id": 3551,
+        "game_key": "SummonedToughness"
       },
       {
         "name": "Train Summoned Pet Damage",
         "xp_factor": 4.0,
         "key": "strategy~focus~train-summoned-pet-damage",
-        "id": 276
+        "id": 276,
+        "game_id": 3552,
+        "game_key": "SummonedDamage"
       },
       {
         "name": "Aetheric Feedback",
         "xp_factor": 1.0,
         "key": "strategy~focus~aetheric-feedback",
-        "id": 277
+        "id": 277,
+        "game_id": 1360,
+        "game_key": "AethericFeedback"
       },
       {
         "name": "Follow Through",
         "xp_factor": 4.0,
         "key": "strategy~focus~follow-through",
-        "id": 278
+        "id": 278,
+        "game_id": 183,
+        "game_key": "FollowThrough"
       },
       {
         "name": "Tranquility",
         "xp_factor": 4.0,
         "key": "strategy~focus~tranquility",
-        "id": 279
+        "id": 279,
+        "game_id": 175,
+        "game_key": "Concentration"
       }
     ]
   }

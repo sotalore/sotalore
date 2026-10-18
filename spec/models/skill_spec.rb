@@ -56,6 +56,32 @@ RSpec.describe Skill, type: :model do
     it 'simply returns nil with no key' do
       expect(Skill.find('foo|bar|baz')).to be_nil
     end
+
+    it 'finds a skill by the game\'s id' do
+      skill = Skill.find_by_game_id(131)
+      expect(skill.key).to eq 'combat~shield~deflect'
+      expect(skill.game_key).to eq 'Deflect'
+      expect(Skill.find_by_game_id(999_999)).to be_nil
+    end
+  end
+
+  describe 'game ids' do
+    let(:skills) { Skill::BY_KEY.values }
+
+    it 'gives every skill a different game id' do
+      expect(skills.map(&:game_id)).to all(be_an(Integer))
+      expect(skills.map(&:game_id).uniq.size).to eq skills.size
+    end
+
+    it 'agrees with the development team\'s skill list' do
+      rows = CSV.read(Rails.root.join('data/skill-costs.csv'), headers: true).index_by { _1['Skill ID'].to_i }
+      expect(rows.size).to eq skills.size
+      skills.each do |skill|
+        row = rows.fetch(skill.game_id)
+        expect([ row['Skill Name'].downcase, row['Internal Name'], row['Exp Factor'].to_f ])
+          .to eq([ skill.name.downcase, skill.game_key, skill.xp_factor ]), "#{skill.key} vs game id #{skill.game_id}"
+      end
+    end
   end
 
   describe 'validating adventuring data' do
