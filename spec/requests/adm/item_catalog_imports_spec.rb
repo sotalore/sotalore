@@ -25,8 +25,8 @@ RSpec.describe "Adm::ItemCatalogImports", type: :request do
     post resolve_adm_item_catalog_import_path(import), params: { resolution: 'create', name: 'Strap' }
     expect(flash[:notice]).to eq 'Created Strap.'
     post apply_adm_item_catalog_import_path(import)
-    expect(flash[:notice]).to eq 'Applied: 1 game key recorded, 0 tools set, 2 salvage results added, and 0 updated.'
-    expect(backpack.reload.weight).to be_nil
+    expect(flash[:notice]).to eq 'Applied: 1 game key recorded, 1 weight filled, 0 tools set, 2 salvage results added, and 0 updated.'
+    expect(backpack.reload.weight).to eq 2
     expect(backpack.item_salvages_as_source.map { _1.salvage_to.name }).to contain_exactly('Leather Scrap', 'Strap')
 
     get item_path(backpack)

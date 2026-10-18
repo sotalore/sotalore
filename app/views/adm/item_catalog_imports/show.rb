@@ -44,18 +44,18 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
       a(href: adm_item_catalog_imports_path, class: 'Link text-sm') { 'All item catalogs' }
     end
     p(class: 'my-2 max-w-prose text-sm') do
-      plain 'Applying records the game\'s key and tooltip for each item the site knows, makes "Tool" items of '
-      plain 'unknown use tools, and adds or updates salvage. It doesn\'t remove salvage. A crafted item only gives '
-      plain 'its salvage, and only when it\'s the plain base item (materials change what it salvages into). '
-      plain 'Weights aren\'t applied: the catalog keeps entries from older plugins, some with whole-stack weights, '
-      plain 'so they\'re shown for comparison only (recipe imports set weights reliably).'
+      plain 'Applying records the game\'s key and tooltip for each item the site knows, fills weights the site '
+      plain 'lacks, makes "Tool" items of unknown use tools, and adds or updates salvage. It doesn\'t remove '
+      plain 'salvage or change weights the site already has (differences are shown below). A crafted item (its '
+      plain 'tooltip says "Crafted by") only gives its salvage, and only when it\'s the plain base item (materials '
+      plain 'change what it salvages into).'
     end
   end
 
   def summary_list
     ul(class: 'mb-2 text-sm') do
       li { "#{@counts[:known]} items the site knows, #{@counts[:unknown]} it doesn't" }
-      li { "Weights, not applied: #{@counts[:missing_weights]} the site lacks, #{@counts[:different_weights]} that differ" }
+      li { "#{@counts[:missing_weights]} weights to fill (#{@counts[:different_weights]} differ, left alone)" }
       li { "#{@counts[:tools]} to make tools" }
       li { "Salvage: #{@counts[:salvage_to_add]} to add and #{@counts[:salvage_to_update]} to update, on #{@counts[:salvage_items]} items; #{@counts[:extra_salvage]} on the site the game doesn't list" }
     end
@@ -71,7 +71,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
       thead do
         tr(class: 'border-b-2 border-grey-400 text-left') do
           th { 'Item' }
-          th { 'Catalog weight (not applied)' }
+          th { 'Weight' }
           th { 'Salvage' }
           th { 'Merchant pays / price' }
         end
@@ -90,8 +90,8 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
         div(class: 'text-xs') { 'becomes a tool' } if row.tool?
       end
       td(class: 'pr-3 py-1') do
-        if row.missing_weight? then plain "#{row.entry.weight.round(4)} (site has none)"
-        elsif row.different_weight? then plain "#{row.entry.weight.round(4)} (site: #{row.item.weight.to_s('F')})"
+        if row.missing_weight? then plain "– → #{row.entry.weight}"
+        elsif row.different_weight? then plain "#{row.item.weight.to_s('F')} (game: #{row.entry.weight}, left alone)"
         end
       end
       td(class: 'pr-3 py-1') { salvage_cell(row) }

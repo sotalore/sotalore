@@ -32,7 +32,8 @@ RSpec.describe ItemCatalogImport do
       catalog_entry(name: 'Iron Sword +12', key: item_key('iron sword'), crafted: true),
       catalog_entry(name: 'Skinning Knife', weight: 0.5, tool: true, salvage: { 'Metal Scrap' => [ 1, 15, 100 ] }),
       catalog_entry(name: 'Leather Scrap', weight: 0.05),
-      catalog_entry(name: '[u]Love Letter[/u]', hovered: false)
+      catalog_entry(name: '[u]Love Letter[/u]', hovered: false),
+      catalog_entry(name: 'Elven Woodwind Bow +1', hovered: false)
     )
   end
 
@@ -41,6 +42,13 @@ RSpec.describe ItemCatalogImport do
     expect { ItemCatalogImport.create_from_json!({ scenes: [], items: [] }.to_json) }.to raise_error(ArgumentError)
     expect { ItemCatalogImport.create_from_json!({ type: 'finds', items: [ catalog_entry(name: 'Wax') ] }.to_json) }
       .to raise_error(ArgumentError, 'That file holds finds, not items')
+  end
+
+  it 'refuses files from plugins before 0.8.1' do
+    expect { ItemCatalogImport.create_from_json!(catalog_json(catalog_entry(name: 'Wax'), plugin_version: '0.7.3')) }
+      .to raise_error(ArgumentError, /before 0.8.1/)
+    expect { ItemCatalogImport.create_from_json!(catalog_json(catalog_entry(name: 'Wax'), plugin_version: nil)) }
+      .to raise_error(ArgumentError, /before 0.8.1/)
   end
 
   describe 'analysis' do
@@ -61,26 +69,33 @@ RSpec.describe ItemCatalogImport do
       expect(rows['Skinning Knife']).to have_attributes(different_weight?: true, tool?: true)
       expect(rows['Epic Leather Boots +13']).not_to be_missing_weight
       expect(analysis.unknown_components.map(&:name)).to eq [ 'Metal Scrap' ]
-      expect(analysis.unknown_catalog_items.map(&:name)).to eq [ 'Love Letter' ]
+      expect(analysis.unknown_catalog_items.map(&:name)).to eq [ 'Elven Woodwind Bow +1', 'Love Letter' ]
     end
   end
 
   describe 'applying' do
-    it 'brings in salvage, tools and keys, with revisions, but not weights' do
+    it 'brings in salvage, missing weights, tools and keys, with revisions' do
       counts = import.apply!(user)
-      expect(counts).to include(salvage_added: 2, tools: 1, keys: 2)
+      expect(counts).to include(salvage_added: 2, weights: 1, tools: 1, keys: 2)
       salvage = boots.item_salvages_as_source.index_by(&:salvage_to)
       expect(salvage[scrap]).to have_attributes(min_count: 1, max_count: 25, chance: BigDecimal('90.5'))
       expect(salvage[scrap].amount).to eq '1–25, 90.5%'
       expect(salvage.keys).to contain_exactly(scrap, yard)
-      expect(scrap.reload.weight).to be_nil
+      expect(scrap.reload.weight).to eq BigDecimal('0.05')
       expect(knife.reload).to have_attributes(use: 'tool', weight: BigDecimal('2'))
       expect(knife.comments.revision.count).to eq 1
       expect(knife.game_keys.sole.catalog).to include('value' => 1, 'details' => include('tool' => true))
       expect(gloves.item_salvages_as_source).to be_empty
 
       again = ItemCatalogImport.find(import.id).apply!(user)
-      expect(again.values_at(:salvage_added, :tools, :keys)).to all(eq 0)
+      expect(again.values_at(:salvage_added, :weights, :tools, :keys)).to all(eq 0)
+    end
+
+    it 'leaves a weight the game does not know alone' do
+      unweighed = import_of(catalog_entry(name: 'Leather Scrap', weight: nil))
+      expect(unweighed.analysis.rows.sole).not_to be_missing_weight
+      unweighed.apply!(user)
+      expect(scrap.reload.weight).to be_nil
     end
 
     it 'updates changed salvage numbers, and removes salvage the game does not list on request' do
