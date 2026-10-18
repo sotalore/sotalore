@@ -1,4 +1,4 @@
-# SotaLore plugin export format (sl-admin v0.10.1, sl-skills v0.1.0)
+# SotaLore plugin export format (sl-admin v0.10.1, sl-skills v0.2.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:
@@ -247,21 +247,21 @@ creature's level when it was the player's current target and the game's Animal L
 be read; otherwise `null`. A scene with only creatures has an empty `items` list and the reverse. Not
 yet verified against a real file, including whether creature names match the site's.
 
-### Skills (file and code), from `sl-skills` v0.1.0, under evaluation
+### Skills (code and file), from `sl-skills` v0.1.0, in use
 
 Written by the players' add-on, **`sl-skills`** (SotaLore Skills), not by `sl-admin`. The site keeps, per avatar,
 each skill's current level and a target level. The target exists only on the site;
 the current level comes from `ShroudGetSkills()`, which lists only the skills the character has **trained** (an
 untrained skill is simply absent: read it as level 0). The level used is `trainedLevel` (what the experience has
 bought), not `level`, which a scene's skill cap can lower. `/slskills` (or its key binding) opens the "SotaLore
-Skills" window; `/slskills file` or the window's "Save file" writes `sotalore-skills.json`. (In sl-admin v0.9.0,
-which was never released, the same window lived in the admin add-on.)
+Skills" window; `/slskills file` writes `sotalore-skills.json`. (In sl-admin v0.9.0,
+which was never released, the same window lived in the admin add-on.) sl-skills v0.2.0 changed only the window's wording and dropped its "Save file" button; the code and the file are unchanged.
 
 **The file** (`"type": "skills"`) has the header, `character` (the avatar's name) and `skills`, one entry per trained
 skill, sorted by `id`: `id` (the game's stable number), `key` (the game's stable name, e.g. "Fireball"), `name`,
 `school`, `schoolKey`, `subcategory` (the names the skills window shows, in the player's language), `trainedLevel`,
-`level`, `effectiveLevel`, `experience`, `grandmaster`, `mode`. It is for loading the skill list into the site
-once (matching the site's own skills to the game's ids) and for checking sizes.
+`level`, `effectiveLevel`, `experience`, `grandmaster`, `mode`. The site does not read it (its skills already
+carry the game's ids, from the development team's skill list); it is for checking.
 
 **The code** is for the player to copy and paste without saving a file. A plugin text box holds at most 1024
 characters and Lua cannot reach the clipboard, so the code is cut into pages of up to 1000 characters; the window
@@ -276,8 +276,11 @@ shows one page at a time and the player copies each in turn (click the box, Ctrl
 the check is `sum` in 2 digits. The pages of one code have the same `<pages>` and `<id digits>`, and the
 site should accept them in any order. The character name has `|` and control characters removed.
 
-Not decided yet: how many pages a real character needs (that depends on the real skill ids), and whether to send
-ids at all or something the site can map more compactly.
+**In use.** Players paste the code on an avatar's skills page on the site ("Import from game"), all pages into
+one box. Measured on 2026-10-18: the game's skill ids are the same as the development team's skill list
+(`data/skill-costs.csv`, "Skill ID"), the highest is 13310 (`a9q`), so `<id digits>` is 3 and an entry is 5
+characters; a character with 338 trained skills needs **two pages**. Copying from the plugin's text box with
+Ctrl+A, Ctrl+C works in the game. The format stays as described; a change to it would be `SLS2`.
 
 ## Every file starts the same way
 

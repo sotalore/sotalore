@@ -123,7 +123,7 @@ end
 function M.export()
     local info = M.read()
     if not info then
-        ShroudConsoleLog("Skills are not loaded yet.")
+        ShroudConsoleLog("SotaLore Skills: your skills aren't loaded yet.")
         return nil
     end
     local parts = {}
@@ -134,14 +134,10 @@ function M.export()
 
     local path, err = util.writeFile(SotaLoreSkills.files.skills, body)
     if not path then
-        ShroudConsoleLog("Skills export failed: " .. tostring(err))
+        ShroudConsoleLog("SotaLore Skills: could not save the file: " .. tostring(err))
         return info
     end
 
-    local pages = M.pages(info)
-    local codeChars = 0
-    for _, p in ipairs(pages) do codeChars = codeChars + #p end
-    ShroudConsoleLog(string.format("Skills: %d trained, ids %s to %s, highest level %d. File %d bytes. Code %d characters in %d page(s). Saved to %s",
-        info.count, tostring(info.minId), tostring(info.maxId), info.maxLevel, #body, codeChars, #pages, path))
+    ShroudConsoleLog(string.format("SotaLore Skills: saved %d skills to %s", info.count, path))
     return info
 end

@@ -25,7 +25,7 @@ function ShroudOnStart()
 
     local ok, reason = Shroud.Command{
         name = "slskills",
-        help = "Open SotaLore Skills: your trained skills as a code to paste into the site. /slskills file saves them.",
+        help = "Copy your skill levels to the SotaLore website (www.sotalore.com) to plan them there.",
         run = handleCommand,
     }
     if not ok then

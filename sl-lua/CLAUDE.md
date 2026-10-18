@@ -54,8 +54,13 @@ comment saying what it is for. This is the pattern the game's own multi-file exa
 |------|-----|
 | `core.lua` | creates the one global table `SotaLoreSkills`; a few helpers in `SotaLoreSkills.util` (JSON writing, file writing, the file header) |
 | `skills.lua` | `SotaLoreSkills.Skills`: the trained skills (`ShroudGetSkills`), the skills file, and the paged base 36 code the player copies into the site |
-| `skills_ui.lua` | `SotaLoreSkills.SkillsUI`: the skills window with the code in a text box, pages, Refresh and Save file |
+| `skills_ui.lua` | `SotaLoreSkills.SkillsUI`: the skills window: what the add-on is for (with the site address), how to copy, the code in a text box, pages, Refresh. Every text in it is for a player who only copies and pastes (no ids or sizes) |
 | `main.lua` | the `ShroudOn...` callbacks, the `/slskills` command and the key binding |
+
+`sl-skills/icon.png` is the add-on's icon in the add-on manager and the store (named by the manifest's `"icon"`): the
+site's favicon (`public/android-chrome-512x512.png`) scaled to 256x256, the size other store add-ons use. A
+package may hold only `icon.png`, `README.md`, its listed files and a few images, sounds or data files; any other
+file makes the store upload fail.
 
 Rules for keeping them working:
 
@@ -171,7 +176,7 @@ command from the plugin's name. For a plugin about `<name>`:
   changed items), `itemsall`, `baselineitems`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
   `gatherlog`, `checkrecipes`, `capture`, `hoverlog`; other text searches the recipe list. The command's help
   text must be at most 120 characters.
-- `sl-skills`: `/slskills` opens the skills window, `/slskills file` saves the skills file.
+- `sl-skills`: `/slskills` opens the skills window, `/slskills file` saves the skills file (not mentioned to players; the window has no button for it since 0.2.0).
 - An add-on may own at most **8 windows**. `sl-admin`: the list (1), the finds window (1) and up to 6 recipe
   windows. `sl-skills`: the skills window.
 - `sl-admin` account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
