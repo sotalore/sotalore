@@ -11,9 +11,9 @@
 -- loads, so files only define things at load time. main.lua is last and holds the ShroudOn... callbacks.
 
 local ScriptName = "SotaLore Skills"
-local Version = "0.1.0"
+local Version = "0.2.0"
 local CreatorName = "Gravidy"
-local Description = "Copy your trained skills into the SotaLore site's skill planner."
+local Description = "Copy your skill levels to the SotaLore website (www.sotalore.com) to plan them there. Open it with /slskills."
 
 SotaLoreSkills = {}
 SotaLoreSkills.version = Version
