@@ -2,6 +2,8 @@
 
 # Upload, review and apply finds files from the game plugin (see FindsImport).
 class Adm::FindsImportsController < AdmController
+  include ResolvesGameItems
+
   def index
     authorize(FindsImport)
     page_title 'Finds Imports'
@@ -26,7 +28,7 @@ class Adm::FindsImportsController < AdmController
     authorize(@import)
     page_title @import.to_s
     render Views::Adm::FindsImports::Show.new(import: @import, analysis: @import.analysis,
-                                              scenes: Scene.by_name.where(game_name: nil))
+                                              scenes: Scene.by_name.where(game_name: nil), open: open_section)
   end
 
   def destroy
@@ -46,12 +48,15 @@ class Adm::FindsImportsController < AdmController
   end
 
   # Creates or uses an item for an unknown one (+resolution+ create or use),
-  # or links an unmatched scene (+resolution+ scene).
+  # creates many (+resolution+ create_many), or links an unmatched scene
+  # (+resolution+ scene).
   def resolve
     @import = find_import
     authorize(@import)
     notice =
       case params[:resolution]
+      when 'create_many'
+        create_selected_items(@import)
       when 'create'
         item = @import.create_item!(name: params.require(:name), key: params[:key].presence)
         "Created #{item.name}."
@@ -66,12 +71,17 @@ class Adm::FindsImportsController < AdmController
       else
         raise ActionController::BadRequest, 'unknown resolution'
       end
-    redirect_to adm_finds_import_path(@import), notice: notice
+    redirect_to review_path, notice: notice
   rescue FindsImport::Error, ActiveRecord::RecordInvalid => e
-    redirect_to adm_finds_import_path(@import), alert: e.message
+    redirect_to review_path, alert: e.message
   end
 
   private
+
+  # Back to the review, with the section acted on still open.
+  def review_path
+    adm_finds_import_path(@import, open: open_section, anchor: open_section)
+  end
 
   def find_import
     FindsImport.find(params[:id])

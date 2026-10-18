@@ -34,6 +34,20 @@ RSpec.describe 'Finds', type: :request do
       expect(response.body).to include('sotalore-finds.json')
     end
 
+    it 'creates many unknown items at once, coming back at the list' do
+      import = upload
+      get adm_finds_import_path(import)
+      expect(response.body).to include('Create selected', 'Select all')
+      post resolve_adm_finds_import_path(import),
+           params: { resolution: 'create_many', open: 'items', selected: [ { name: 'Wolf Pelt', key: nil }.to_json ] }
+      expect(response).to redirect_to(adm_finds_import_path(import, open: 'items', anchor: 'items'))
+      expect(flash[:notice]).to eq 'Created 1 item.'
+      expect(Item.find_by_name('Wolf Pelt')).to exist
+
+      post resolve_adm_finds_import_path(import), params: { resolution: 'create_many', open: 'items' }
+      expect(flash[:alert]).to eq 'Select the items to create.'
+    end
+
     it 'rejects other files' do
       file = Rack::Test::UploadedFile.new(StringIO.new('{"recipes": []}'), 'application/json', original_filename: 'x.json')
       post adm_finds_imports_path, params: { file: file }
