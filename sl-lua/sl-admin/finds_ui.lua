@@ -7,11 +7,11 @@
 -- Used by: recipes_ui.lua (the "Finds window" button), main.lua (build, update, toggle, tick).
 
 local UI = Shroud.UI
-local util = SotaLore.util
-local Finds = SotaLore.Finds
+local util = SotaLoreAdmin.util
+local Finds = SotaLoreAdmin.Finds
 
 local M = {}
-SotaLore.FindsUI = M
+SotaLoreAdmin.FindsUI = M
 
 local win, trackToggle, resetButton
 local sceneLabel, itemsLabel, creaturesLabel, nodesLabel, scenesLabel
@@ -87,7 +87,7 @@ function M.build()
             UI.Row{ children = {
                 UI.Button{
                     text = "Save",
-                    tooltip = "Write " .. SotaLore.files.finds .. " (keeps the list)",
+                    tooltip = "Write " .. SotaLoreAdmin.files.finds .. " (keeps the list)",
                     onClick = Finds.export,
                 },
                 resetButton,

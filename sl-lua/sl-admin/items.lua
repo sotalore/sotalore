@@ -17,14 +17,14 @@
 -- The work is cut into slices of a fraction of a second per frame (like the recipe export), because the game
 -- stops a callback that runs over a second, and a character can carry thousands of items.
 --
--- Used by: recipes_ui.lua (the item buttons), main.lua (the /slore commands and the per-frame step).
+-- Used by: recipes_ui.lua (the item buttons), main.lua (the /sladmin commands and the per-frame step).
 
-local util = SotaLore.util
+local util = SotaLoreAdmin.util
 local jstr, jnum = util.jstr, util.jnum
-local ItemDetails = SotaLore.ItemDetails
+local ItemDetails = SotaLoreAdmin.ItemDetails
 
 local M = {}
-SotaLore.Items = M
+SotaLoreAdmin.Items = M
 
 local MAX_PER_SLICE = 400   -- most items handled in one frame; a slice also stops after util.sliceLimit seconds
 local state = nil           -- the export in progress, or nil
@@ -135,7 +135,7 @@ local function finish()
     local body = util.header("items")
         .. ',"scope":' .. jstr(st.mode)
         .. ',"count":' .. #parts .. ',"items":[\n' .. table.concat(parts, ",\n") .. '\n]}\n'
-    local path, err = util.writeFile(SotaLore.files.items, body)
+    local path, err = util.writeFile(SotaLoreAdmin.files.items, body)
     if not path then
         ShroudConsoleLog("Item export failed: " .. tostring(err))
         return

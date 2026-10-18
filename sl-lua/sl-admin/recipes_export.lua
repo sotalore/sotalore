@@ -4,13 +4,13 @@
 -- described in EXPORT-FORMAT.md. No character data is exported. It reads a few recipes per frame
 -- (see step) so a big recipe book never trips the game's watchdog.
 --
--- Used by: recipes_ui.lua (the buttons), main.lua (the /slore commands and the per-frame step).
+-- Used by: recipes_ui.lua (the buttons), main.lua (the /sladmin commands and the per-frame step).
 
-local util = SotaLore.util
+local util = SotaLoreAdmin.util
 local jstr, jnum, jlist = util.jstr, util.jnum, util.jlist
 
 local M = {}
-SotaLore.RecipeExport = M
+SotaLoreAdmin.RecipeExport = M
 
 local MAX_PER_SLICE = 40   -- most recipes read in one frame; a slice also stops after util.sliceLimit seconds (group slots make a recipe table big and slow to read)
 local state = nil         -- the export in progress, or nil
@@ -180,11 +180,20 @@ local function finish()
     end
     markExported(ids)
     ShroudConsoleLog("Exported " .. #parts .. " recipes to " .. path .. " (type /lua path to open the folder)")
+    local kept = 0
+    for id in pairs(st.kept) do
+        if st.byId[id] then kept = kept + 1 end
+    end
+    if kept > 0 then
+        ShroudConsoleLog(kept .. " recipes came from the copy kept from an earlier read of the recipe book (the game "
+            .. "would not hand them over directly). /lua reload refreshes those copies.")
+    end
     if #unreadable > 0 then
         local shown = {}
         for i = 1, math.min(#unreadable, 8) do shown[i] = unreadable[i] end
         ShroudConsoleLog("WARNING: " .. #unreadable .. " recipes could not be read and are NOT in the file: "
-            .. table.concat(shown, ", ") .. (#unreadable > 8 and ", ..." or ""))
+            .. table.concat(shown, ", ") .. (#unreadable > 8 and ", ..." or "")
+            .. ". Type /lua reload and export again: the plugin reads the slow recipe books while it starts.")
     end
     if M.onDone then M.onDone() end
 end
@@ -194,8 +203,10 @@ end
 -- With `only` (a recipe table), exports just that recipe to its own file.
 function M.start(mode, only)
     if state then return end
+    -- Each export may try each recipe book again (once): one that was too slow last time may not be now.
+    util.clearRecipeCache()
     if only then
-        state = { list = { only }, i = 1, byId = {}, bad = {}, groups = {}, file = SotaLore.files.oneRecipe, scope = "one" }
+        state = { list = { only }, i = 1, byId = {}, bad = {}, kept = {}, groups = {}, file = SotaLoreAdmin.files.oneRecipe, scope = "one" }
         return
     end
     local known = ShroudGetKnownRecipes() or {}
@@ -218,14 +229,14 @@ function M.start(mode, only)
         return
     end
     table.sort(list, function(a, b) return a.id < b.id end)
-    state = { list = list, i = 1, byId = {}, bad = {}, groups = {}, file = SotaLore.files.recipes, scope = mode }
+    state = { list = list, i = 1, byId = {}, bad = {}, kept = {}, groups = {}, file = SotaLoreAdmin.files.recipes, scope = mode }
 end
 
 -- Checking that every known recipe can be read ------------------------------------------------
 
 local check = nil   -- the check in progress, or nil
 
--- Starts a check (the /slore checkrecipes command): reads every known recipe, a few per frame, and
+-- Starts a check (the /sladmin checkrecipes command): reads every known recipe, a few per frame, and
 -- reports in chat the ones ShroudGetRecipe cannot read, and whether the recipe book can.
 function M.check()
     if check then return end
@@ -289,10 +300,16 @@ function M.step()
         local entry = st.list[st.i]
         -- Everything is stored under the recipe's id, so if the game stops this callback part way (it
         -- does after 1 second) and the same recipe is read again next frame, nothing is written twice.
-        local r = util.getRecipe(entry.id, entry.categoryKey)
+        local r, source = ShroudGetRecipe(entry.id), "game"
+        if not r then
+            -- Reading a recipe book can take most of a second (or more): give that read a frame of its own.
+            if count > 0 and util.bookPending(entry.id, entry.categoryKey) then break end
+            r, source = util.fallbackRecipe(entry.id, entry.categoryKey)
+        end
         if r then
             st.byId[entry.id] = jrecipe(r)
             noteGroups(st.groups, r)
+            if source == "kept" then st.kept[entry.id] = true end
         else
             -- Not exported (and so not marked exported either); say so rather than lose it quietly.
             st.bad[entry.id] = tostring(entry.name or entry.id)

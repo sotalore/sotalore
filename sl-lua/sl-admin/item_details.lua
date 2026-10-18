@@ -1,7 +1,7 @@
 -- item_details.lua: what the game's tooltips say about items, which the API has no fields for.
 --
 -- The API gives no quest, tool, trade or salvage information for an item, but the tooltip shows it. While
--- capture is on (/slore capture), pointing the mouse at an item in the bags saves what its tooltip says,
+-- capture is on (/sladmin capture), pointing the mouse at an item in the bags saves what its tooltip says,
 -- under the item's key, in the account saved variable "itemDetails". items.lua adds it to the item file.
 -- Sweep the mouse over the bags to fill it in. Holding Ctrl expands a tooltip; the longer text is then
 -- captured too. The game has a hotkey that switches tooltips off; while they are off, the API reports
@@ -16,11 +16,11 @@
 --
 -- Used by: items.lua (the item file), main.lua (the command, the per-frame tick, saving).
 
-local util = SotaLore.util
+local util = SotaLoreAdmin.util
 local jstr, jnum = util.jstr, util.jnum
 
 local M = {}
-SotaLore.ItemDetails = M
+SotaLoreAdmin.ItemDetails = M
 
 local MAX_TEXT = 2000    -- characters of tooltip text kept per item
 
@@ -221,7 +221,7 @@ end
 
 -- Capturing --------------------------------------------------------------------------------
 
--- The UI sets this to hear when capture is switched on or off (including by the /slore command).
+-- The UI sets this to hear when capture is switched on or off (including by the /sladmin command).
 M.onToggle = nil
 
 function M.isOn()
