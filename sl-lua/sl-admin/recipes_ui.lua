@@ -11,19 +11,18 @@
 -- Used by: main.lua.
 
 local UI = Shroud.UI
-local util = SotaLore.util
+local util = SotaLoreAdmin.util
 local clip = util.clip
-local RecipeExport = SotaLore.RecipeExport
-local Items = SotaLore.Items
-local ItemDetails = SotaLore.ItemDetails
-local FindsUI = SotaLore.FindsUI
-local SkillsUI = SotaLore.SkillsUI
+local RecipeExport = SotaLoreAdmin.RecipeExport
+local Items = SotaLoreAdmin.Items
+local ItemDetails = SotaLoreAdmin.ItemDetails
+local FindsUI = SotaLoreAdmin.FindsUI
 
 local M = {}
-SotaLore.RecipesUI = M
+SotaLoreAdmin.RecipesUI = M
 
 local MAX_ROWS = 60      -- pooled buttons in the list; refine the search to see more
-local MAX_DETAIL = 5     -- recipe windows open at once (8 windows in all: the list, finds, skills and these)
+local MAX_DETAIL = 6     -- recipe windows open at once (8 windows in all: the list, finds and these)
 local ALL = "All"
 
 local recipes = {}       -- known recipes, sorted by name
@@ -120,7 +119,7 @@ local function openDetail(id)
                 body,
                 UI.Button{
                     text = "Save this recipe to file",
-                    tooltip = "Writes " .. SotaLore.files.oneRecipe .. " in the Lua folder",
+                    tooltip = "Writes " .. SotaLoreAdmin.files.oneRecipe .. " in the Lua folder",
                     onClick = function() RecipeExport.start("one", knownEntry(id)) end,
                 },
             },
@@ -238,7 +237,7 @@ function M.build()
     end
 
     -- Item capture (item_details.lua): while on, pointing at a bag item saves its tooltip. The same
-    -- switch as /slore capture, so the toggle follows the command.
+    -- switch as /sladmin capture, so the toggle follows the command.
     captureToggle = UI.Toggle{
         text = "Capture",
         value = false,
@@ -296,11 +295,6 @@ function M.build()
                     text = "Finds window",
                     tooltip = "Show or hide the small window that tracks items and creatures per scene",
                     onClick = FindsUI.toggle,
-                },
-                UI.Button{
-                    text = "Skills window",
-                    tooltip = "Show your trained skills as a code to copy into the site",
-                    onClick = SkillsUI.toggle,
                 },
             } },
             scroll,

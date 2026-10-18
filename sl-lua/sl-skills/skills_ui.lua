@@ -4,13 +4,13 @@
 -- than one page (a text box holds 1024 characters), Next and Previous move between the pages and the player
 -- copies each in turn. The window is also where the sizes are shown: how many skills, how many pages.
 --
--- Used by: recipes_ui.lua (the "Skills window" button), main.lua (the /slore skills command).
+-- Used by: main.lua (the /slskills command, the key binding, and ShroudOnSkillsChanged).
 
 local UI = Shroud.UI
-local Skills = SotaLore.Skills
+local Skills = SotaLoreSkills.Skills
 
 local M = {}
-SotaLore.SkillsUI = M
+SotaLoreSkills.SkillsUI = M
 
 local win, summaryLabel, pageLabel, codeBox
 local pages = {}
@@ -22,8 +22,9 @@ local function showPage()
     pageLabel:SetText("Page " .. page .. " of " .. #pages .. "  (" .. #(pages[page] or "") .. " characters)")
 end
 
--- Reads the skills again and fills the window.
-function M.refresh()
+-- Reads the skills again and fills the window. With keepPage it stays on the page being copied (as far as
+-- that page still exists), so a level going up mid-copy does not throw the player back to page 1.
+function M.refresh(keepPage)
     if not win then return end
     local info = Skills.read()
     if not info then
@@ -34,7 +35,11 @@ function M.refresh()
         return
     end
     pages = Skills.pages(info)
-    page = 1
+    if keepPage == true then
+        page = math.max(1, math.min(page, #pages))
+    else
+        page = 1
+    end
     summaryLabel:SetText(info.count .. " trained skills for " .. info.character .. ". Ids " .. info.minId .. " to "
         .. info.maxId .. ", highest level " .. info.maxLevel)
     showPage()
@@ -63,8 +68,8 @@ function M.build()
                 UI.Button{ text = "Next", onClick = function()
                     if page < #pages then page = page + 1; showPage() end
                 end },
-                UI.Button{ text = "Refresh", tooltip = "Read the skills again", onClick = M.refresh },
-                UI.Button{ text = "Save file", tooltip = "Write " .. SotaLore.files.skills .. " (every field, for checking)", onClick = Skills.export },
+                UI.Button{ text = "Refresh", tooltip = "Read the skills again", onClick = function() M.refresh(false) end },
+                UI.Button{ text = "Save file", tooltip = "Write " .. SotaLoreSkills.files.skills .. " (every field, for checking)", onClick = Skills.export },
             } },
         },
     }
@@ -75,7 +80,13 @@ function M.toggle()
     if win:IsShown() then
         win:Hide()
     else
-        M.refresh()
+        M.refresh(false)
         win:Show()
     end
+end
+
+-- Keeps the window up to date while it is open (from ShroudOnSkillsChanged, which can fire before the window
+-- exists).
+function M.refreshIfShown()
+    if win and win:IsShown() then M.refresh(true) end
 end

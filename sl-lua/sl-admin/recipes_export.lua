@@ -4,13 +4,13 @@
 -- described in EXPORT-FORMAT.md. No character data is exported. It reads a few recipes per frame
 -- (see step) so a big recipe book never trips the game's watchdog.
 --
--- Used by: recipes_ui.lua (the buttons), main.lua (the /slore commands and the per-frame step).
+-- Used by: recipes_ui.lua (the buttons), main.lua (the /sladmin commands and the per-frame step).
 
-local util = SotaLore.util
+local util = SotaLoreAdmin.util
 local jstr, jnum, jlist = util.jstr, util.jnum, util.jlist
 
 local M = {}
-SotaLore.RecipeExport = M
+SotaLoreAdmin.RecipeExport = M
 
 local MAX_PER_SLICE = 40   -- most recipes read in one frame; a slice also stops after util.sliceLimit seconds (group slots make a recipe table big and slow to read)
 local state = nil         -- the export in progress, or nil
@@ -195,7 +195,7 @@ end
 function M.start(mode, only)
     if state then return end
     if only then
-        state = { list = { only }, i = 1, byId = {}, bad = {}, groups = {}, file = SotaLore.files.oneRecipe, scope = "one" }
+        state = { list = { only }, i = 1, byId = {}, bad = {}, groups = {}, file = SotaLoreAdmin.files.oneRecipe, scope = "one" }
         return
     end
     local known = ShroudGetKnownRecipes() or {}
@@ -218,14 +218,14 @@ function M.start(mode, only)
         return
     end
     table.sort(list, function(a, b) return a.id < b.id end)
-    state = { list = list, i = 1, byId = {}, bad = {}, groups = {}, file = SotaLore.files.recipes, scope = mode }
+    state = { list = list, i = 1, byId = {}, bad = {}, groups = {}, file = SotaLoreAdmin.files.recipes, scope = mode }
 end
 
 -- Checking that every known recipe can be read ------------------------------------------------
 
 local check = nil   -- the check in progress, or nil
 
--- Starts a check (the /slore checkrecipes command): reads every known recipe, a few per frame, and
+-- Starts a check (the /sladmin checkrecipes command): reads every known recipe, a few per frame, and
 -- reports in chat the ones ShroudGetRecipe cannot read, and whether the recipe book can.
 function M.check()
     if check then return end

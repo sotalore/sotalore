@@ -1,4 +1,4 @@
--- hoverlog.lua: a diagnostic, switched on and off with /slore hoverlog. Not part of the exports.
+-- hoverlog.lua: a diagnostic, switched on and off with /sladmin hoverlog. Not part of the exports.
 --
 -- While it is on, pointing the mouse at an item (in the bags, a chest, a vendor...) writes one line to
 -- chat with what the game says about it: the tooltip's title and text, and, when the item is in the
@@ -7,10 +7,10 @@
 --
 -- Used by: main.lua (the command and the per-frame tick).
 
-local util = SotaLore.util
+local util = SotaLoreAdmin.util
 
 local M = {}
-SotaLore.HoverLog = M
+SotaLoreAdmin.HoverLog = M
 
 local on = false
 local lastShown = nil    -- "kind|name" of the last thing logged, so one hover logs one line

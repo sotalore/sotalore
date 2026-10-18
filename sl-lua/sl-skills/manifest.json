@@ -1,0 +1,11 @@
+{
+  "manifest_version": 1,
+  "slug": "sl-skills",
+  "name": "SotaLore Skills",
+  "version": "0.1.0",
+  "description": "Copy your trained skills into the SotaLore site's skill planner.",
+  "author": "Darren",
+  "files": ["core.lua", "skills.lua", "skills_ui.lua", "main.lua"],
+  "min_api_version": 14,
+  "permissions": []
+}

@@ -15,13 +15,13 @@
 -- The level sent is trainedLevel (the level the experience has bought), not `level`, which a scene's skill
 -- cap can lower.
 --
--- Used by: skills_ui.lua (the window), main.lua (the /slore skills command).
+-- Used by: skills_ui.lua (the window), main.lua (the /slskills file command).
 
-local util = SotaLore.util
+local util = SotaLoreSkills.util
 local jstr, jnum = util.jstr, util.jnum
 
 local M = {}
-SotaLore.Skills = M
+SotaLoreSkills.Skills = M
 
 local PAGE_CHARS = 1000      -- characters per page of the code; a text box holds 1024
 local CODE_TAG = "SLS1"      -- starts every page: SotaLore Skills, format 1
@@ -132,7 +132,7 @@ function M.export()
         .. ',"character":' .. jstr(info.character)
         .. ',"count":' .. info.count .. ',"skills":[\n' .. table.concat(parts, ",\n") .. '\n]}\n'
 
-    local path, err = util.writeFile(SotaLore.files.skills, body)
+    local path, err = util.writeFile(SotaLoreSkills.files.skills, body)
     if not path then
         ShroudConsoleLog("Skills export failed: " .. tostring(err))
         return info

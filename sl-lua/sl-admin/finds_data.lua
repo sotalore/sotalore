@@ -16,12 +16,12 @@
 --
 -- Used by: finds_ui.lua (the window), main.lua (the callbacks call the record... functions).
 
-local util = SotaLore.util
+local util = SotaLoreAdmin.util
 local jstr, jnum = util.jstr, util.jnum
-local ItemDetails = SotaLore.ItemDetails
+local ItemDetails = SotaLoreAdmin.ItemDetails
 
 local M = {}
-SotaLore.Finds = M
+SotaLoreAdmin.Finds = M
 
 M.tracking = true     -- recording on or off (the window's Tracking toggle)
 M.onChange = nil      -- the window sets this: called whenever the list changes
@@ -360,7 +360,7 @@ function M.export()
     local body = util.header("finds")
         .. ',"scenes":[\n' .. table.concat(scenes, ",\n") .. '\n]}\n'
 
-    local path, err = util.writeFile(SotaLore.files.finds, body)
+    local path, err = util.writeFile(SotaLoreAdmin.files.finds, body)
     util.slow("writing the finds file", started)
     if not path then
         ShroudConsoleLog("Finds export failed: " .. tostring(err))

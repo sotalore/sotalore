@@ -1,12 +1,24 @@
-# SotaLore plugin export format (plugin v0.9.0)
+# SotaLore plugin export format (sl-admin v0.10.0, sl-skills v0.1.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
-*Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
-Lua API docs: https://catnipgames.net/lua/reference.html (needs Lua API 37+).
+*Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:
+
+| Plugin (slug) | Name | Who uses it | Writes |
+|---------------|------|-------------|--------|
+| `sl-admin` | SotaLore Admin | site admins | recipe files, the items file, the finds file |
+| `sl-skills` | SotaLore Skills | players | the skills code (copied and pasted) and the skills file |
+
+Until 2026-10-18 there was one add-on, `sl-recipes` (display name SotaLore), which did everything; it became
+`sl-admin`, and the skills work moved to `sl-skills`. **Version numbers before 0.10.0 are that one add-on's**, which
+is `sl-admin`'s history; `sl-skills` counts from 0.1.0. Every version-specific note below names `sl-admin`'s
+version unless it says otherwise. Lua API docs: https://catnipgames.net/lua/reference.html (sl-admin needs Lua API
+37+, sl-skills 14+).
 
 ## What produces the files
 
-The slash command is `/slore` (`/sotalore` is refused by the game: "sota" is a reserved prefix).
+`sl-admin`'s slash command is `/sladmin` (until 2026-10-18 it was `/slore`); `sl-skills`' is `/slskills`. Every
+SotaLore plugin's command is `/sl<name>` for the plugin `sl-<name>` (`/sotalore` is refused by the game: "sota" is a
+reserved prefix).
 
 
 The addon writes JSON files into the game's `Lua/` folder (Lua cannot POST, has no clipboard). The files are
@@ -15,12 +27,12 @@ shapes), so an older file may still carry that name.
 
 | File | Written by | Contents |
 |------|-----------|----------|
-| `sotalore-export.json` | "Export new" / "Export all" buttons, `/slore export`, `/slore exportall` | many recipes |
+| `sotalore-export.json` | "Export new" / "Export all" buttons, `/sladmin export`, `/sladmin exportall` | many recipes |
 | `sotalore-one.json` | "Save this recipe to file" in a recipe window | one recipe |
 
 Both files have the same shape. Each export overwrites the previous file of that name.
 "Export new" sends only recipes not exported before (remembered per account); "Export all" sends
-every recipe the character knows. `/slore baseline` marks everything as already exported. In the recipe list, the "New only" toggle (or `/slore new`) shows exactly the recipes "Export new" would send.
+every recipe the character knows. `/sladmin baseline` marks everything as already exported. In the recipe list, the "New only" toggle (or `/sladmin new`) shows exactly the recipes "Export new" would send.
 
 **Each recipe `id` appears once in a file** (plugin v0.7.2 and later). A `sotalore-export.json` written by 0.7.1 or
 earlier can repeat recipes: if the game stopped the plugin part way through an export (it does when a callback runs
@@ -50,16 +62,16 @@ recipes because an older full export lacks them.
 
 ### Items file
 
-`sotalore-items.json` (the "New items" and "All items" buttons, `/slore items`, `/slore itemsall`) lists the items in
+`sotalore-items.json` (the "New items" and "All items" buttons, `/sladmin items`, `/sladmin itemsall`) lists the items in
 the character's top-level bags (not worn gear, nested containers, bank or chests). The bags hold many things that
 never leave (gear, quest items, tools), so like the recipe files it has a `scope`:
 
 | `scope` | Written by | Meaning |
 |---------|-----------|---------|
-| `"new"` | "New items" / `/slore items` | only items not exported before, or **changed** since: the weight or value is different, or details were captured or changed by hovering. Never the whole list, even if it happens to hold everything. |
-| `"all"` | "All items" / `/slore itemsall` | every item in the bags, plus any item whose tooltip was captured earlier. |
+| `"new"` | "New items" / `/sladmin items` | only items not exported before, or **changed** since: the weight or value is different, or details were captured or changed by hovering. Never the whole list, even if it happens to hold everything. |
+| `"all"` | "All items" / `/sladmin itemsall` | every item in the bags, plus any item whose tooltip was captured earlier. |
 
-`/slore baselineitems` marks everything in the bags as already exported without writing a file (for items the
+`/sladmin baselineitems` marks everything in the bags as already exported without writing a file (for items the
 site already has). The plugin remembers what it last exported as a short fingerprint per item (it does not keep a
 catalog of items between exports, so nothing grows however many items turn up), shared by all of the account's
 characters. A file from before plugin v0.8.0 has no `scope` and was always the whole list (an accumulating catalog
@@ -83,7 +95,7 @@ apart from other items here. **Names can carry formatting markers** (for example
 that is the game's own text, passed through unchanged, so strip markers like `[u]`, `[/u]` before matching by name.
 
 **`details`** is what the item's tooltip said, captured while the player pointed at the item in the bags with
-capture on (the "Capture" toggle next to "Export my items", or `/slore capture`; the API has no field for any of it), or `null` for an item that was never hovered. It is keyed by
+capture on (the "Capture" toggle next to "Export my items", or `/sladmin capture`; the API has no field for any of it), or `null` for an item that was never hovered. It is keyed by
 the item `key`, so every entry of that key shares it. Holding Ctrl while hovering gives the full tooltip.
 The tooltip is English text, so these flags depend on the game language.
 
@@ -144,12 +156,12 @@ Not yet verified against a real file.
 ### Finds file (items and creatures per scene)
 
 `sotalore-finds.json`, written by the **Save** button of the "SotaLore Finds" window (open it with the
-list window's "Finds window" button or `/slore finds`; `/slore savefinds` also saves). The small window
+list window's "Finds window" button or `/sladmin finds`; `/sladmin savefinds` also saves). The small window
 is meant to stay up during play: it shows the current scene, how many distinct items and creatures are on
 the list, and has **Save** (writes the file, keeps the list), **Reset** (clears the list; needs a second
 click within 4 seconds) and a **Tracking** toggle (turn it off while banking or shopping, which the API
 cannot tell apart from loot). The list accumulates account-wide across sessions and characters until
-reset (`/slore clearfinds` resets without the confirmation click). Save never clears; Reset is separate.
+reset (`/sladmin clearfinds` resets without the confirmation click). Save never clears; Reset is separate.
 
 **Items.** The addon listens to the game's `ShroudOnItemsGained` callback (the backpack's "Recently
 Looted" rule) and credits every gain to the scene the character is in. It counts: loot from bodies and
@@ -175,7 +187,7 @@ An interrupted harvest sends nothing. The loot window also lists the experience 
 Producer Experience", once per swing); those are dropped and the reward is in `experience` instead. The same
 items also arrive through `ShroudOnItemsGained`, so they are still counted under `items` as well; `nodes`
 is the attribution, not extra stock. Each result is also written to chat as `SotaLore gather: node=...`
-while the gather log is on (default on; `/slore gatherlog` toggles it) so unknown node kinds can be seen.
+while the gather log is on (default on; `/sladmin gatherlog` toggles it) so unknown node kinds can be seen.
 Loot taken from a corpse or chest has no source in the API, so it is not attributed to anything.
 
 ```json
@@ -229,13 +241,15 @@ creature's level when it was the player's current target and the game's Animal L
 be read; otherwise `null`. A scene with only creatures has an empty `items` list and the reverse. Not
 yet verified against a real file, including whether creature names match the site's.
 
-### Skills (file and code), plugin v0.9.0, under evaluation
+### Skills (file and code), from `sl-skills` v0.1.0, under evaluation
 
-The site keeps, per avatar, each skill's current level and a target level. The target exists only on the site;
+Written by the players' add-on, **`sl-skills`** (SotaLore Skills), not by `sl-admin`. The site keeps, per avatar,
+each skill's current level and a target level. The target exists only on the site;
 the current level comes from `ShroudGetSkills()`, which lists only the skills the character has **trained** (an
 untrained skill is simply absent: read it as level 0). The level used is `trainedLevel` (what the experience has
-bought), not `level`, which a scene's skill cap can lower. The "Skills window" button (or `/slore skills`) shows the
-skills; `/slore skillsfile` or the window's "Save file" writes `sotalore-skills.json`.
+bought), not `level`, which a scene's skill cap can lower. `/slskills` (or its key binding) opens the "SotaLore
+Skills" window; `/slskills file` or the window's "Save file" writes `sotalore-skills.json`. (In sl-admin v0.9.0,
+which was never released, the same window lived in the admin add-on.)
 
 **The file** (`"type": "skills"`) has the header, `character` (the avatar's name) and `skills`, one entry per trained
 skill, sorted by `id`: `id` (the game's stable number), `key` (the game's stable name, e.g. "Fireball"), `name`,
@@ -261,17 +275,19 @@ ids at all or something the site can map more compactly.
 
 ## Every file starts the same way
 
-Every file the plugin writes begins with the same three fields (added in plugin v0.7.1):
+Every file the plugins write begins with the same fields (`plugin` added in sl-admin v0.10.0 / sl-skills v0.1.0,
+the others in v0.7.1):
 
 ```json
-{ "apiVersion": 40, "pluginVersion": "0.7.1", "type": "recipes", ... }
+{ "apiVersion": 40, "plugin": "sl-admin", "pluginVersion": "0.10.0", "type": "recipes", ... }
 ```
 
 | Field | Meaning |
 |-------|---------|
 | `apiVersion` | The game's Lua API version when the file was written. |
-| `pluginVersion` | The version of the plugin that wrote the file (`major.minor.patch`). It is the plugin's `Version` in `core.lua` and `manifest.json`. |
-| `type` | What kind of file it is: `"recipes"` (`sotalore-export.json` and `sotalore-one.json`, which also have a `scope`), `"items"` (`sotalore-items.json`) or `"finds"` (`sotalore-finds.json`). Use it to refuse a file uploaded to the wrong place. |
+| `plugin` | Which add-on wrote it: `"sl-admin"` or `"sl-skills"`. **Missing means the old single add-on, `sl-recipes`**, which is `sl-admin`'s past (versions 0.7.1 to 0.9.0). |
+| `pluginVersion` | The version of that add-on (`major.minor.patch`), its `Version` in `core.lua` and `manifest.json`. Compare versions only within one `plugin`. |
+| `type` | What kind of file it is: `"recipes"` (`sotalore-export.json` and `sotalore-one.json`, which also have a `scope`), `"items"` (`sotalore-items.json`), `"finds"` (`sotalore-finds.json`) or `"skills"` (`sotalore-skills.json`, from `sl-skills`). Use it to refuse a file uploaded to the wrong place. |
 
 **Files written before 0.7.1 have no `pluginVersion` or `type`** (the file name says the kind). Their plugin
 version is unknown, so treat a missing `pluginVersion` as "older than 0.7.1", not as any particular version. This
@@ -301,8 +317,8 @@ so treat a missing one as unknown):
 
 | `scope` | Written by | Meaning |
 |---------|-----------|---------|
-| `"all"` | "Export all" / `/slore exportall` | every recipe the character knows. Only this scope is a full export, the only kind that can show a recipe is gone from the game. |
-| `"new"` | "Export new" / `/slore export` | only recipes not exported before. Never a full export, even if it happens to hold everything. |
+| `"all"` | "Export all" / `/sladmin exportall` | every recipe the character knows. Only this scope is a full export, the only kind that can show a recipe is gone from the game. |
+| `"new"` | "Export new" / `/sladmin export` | only recipes not exported before. Never a full export, even if it happens to hold everything. |
 | `"one"` | "Save this recipe to file" | exactly one recipe (`sotalore-one.json`). |
 
 A recipe book can differ between characters, so even an `"all"` file only covers what that one character

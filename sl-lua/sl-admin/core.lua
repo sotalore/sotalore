@@ -1,33 +1,36 @@
--- core.lua: loaded first. Creates the one global table, SotaLore, and the small helpers every
+-- core.lua: loaded first. Creates the one global table, SotaLoreAdmin, and the small helpers every
 -- other file uses.
 --
 -- How this plugin is organised: the manifest lists the files in the order the game runs them, and
 -- they all share one environment. Everything else in a file is `local`; the only way files talk to
--- each other is through the SotaLore table. Each file adds one piece to it (SotaLore.RecipeExport,
--- SotaLore.Finds, ...) and starts by saying what that piece is for. main.lua is the last file and the
+-- each other is through the SotaLoreAdmin table. Each file adds one piece to it (SotaLoreAdmin.RecipeExport,
+-- SotaLoreAdmin.Finds, ...) and starts by saying what that piece is for. main.lua is the last file and the
 -- only one with the ShroudOn... callbacks, so read it first to see what happens when.
 --
 -- Files can't load each other (no require), and the Shroud... functions don't exist yet while a
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
-local ScriptName = "SotaLore"
-local Version = "0.9.0"
+local ScriptName = "SotaLore Admin"
+local Version = "0.10.0"
 local CreatorName = "Gravidy"
-local Description = "Recipe browser and data export for the SotaLore fansite."
+local Description = "SotaLore site admin tools: recipe, item and find exports for upload to the site."
 
-SotaLore = {}
+-- This is the admin plugin (folder and slug sl-admin). The skills export for players is a separate plugin,
+-- sl-skills, with its own global table (SotaLoreSkills): all add-ons share one global environment, so the two
+-- must never use the same global name.
+
+SotaLoreAdmin = {}
 
 -- Names of the files the plugin writes into the game's Lua folder.
-SotaLore.files = {
+SotaLoreAdmin.files = {
     recipes = "sotalore-export.json",
     oneRecipe = "sotalore-one.json",
     items = "sotalore-items.json",
     finds = "sotalore-finds.json",
-    skills = "sotalore-skills.json",
 }
 
 local util = {}
-SotaLore.util = util
+SotaLoreAdmin.util = util
 
 -- Shortens text to n characters, ending with an ellipsis.
 function util.clip(text, n)
@@ -46,13 +49,14 @@ function util.jstr(s)
 end
 
 -- The version of the plugin, written into every file it makes (see util.header).
-SotaLore.version = Version
+SotaLoreAdmin.version = Version
 
 -- The opening of every file the plugin writes, without the closing brace: the game's API version, the
 -- plugin's version, and what kind of file it is ("recipes", "items" or "finds"). The site uses them to
 -- refuse a file uploaded to the wrong place and to tell files from older plugin versions apart.
 function util.header(kind)
     return '{"apiVersion":' .. tostring(ShroudLuaApiVersion)
+        .. ',"plugin":"sl-admin"'
         .. ',"pluginVersion":' .. util.jstr(Version)
         .. ',"type":' .. util.jstr(kind)
 end

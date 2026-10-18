@@ -1,21 +1,31 @@
 # CLAUDE.md (sl-lua)
 
-Notes for the agent working on the SotaLore in-game Lua plugin. The repo-root `CLAUDE.md` still applies
+Notes for the agent working on the SotaLore in-game Lua plugins. The repo-root `CLAUDE.md` still applies
 (notably: do not stage or commit unless asked). Work only inside `sl-lua/`.
 
 ## What this is
 
-A Lua addon for *Shroud of the Avatar* (display name **SotaLore**, slug and folder `sl-recipes`). It
-browses the player's known recipes and writes JSON files that an admin uploads to the SotA Lore web
-app. Lua cannot POST and has no clipboard, so files are the only way out.
+Two Lua add-ons (packages) for *Shroud of the Avatar*, one folder each. A package folder must be flat (no
+subfolders), and its folder name is its slug:
 
-- The code is split into modules (see "Code organisation"). `manifest.json` lists them in load order
-  and holds the package metadata (`min_api_version` 37).
-- `EXPORT-FORMAT.md`: **the contract with the importer, and yours to keep accurate.** Change it in the
-  same change as any export change, and flag breaking changes in it. The app side reads exactly what it
-  describes.
-- `FROM-THE-APP.md`: written by the app-side agent (requests, how the site uses exports, the site's data
-  model). **Read it, never edit it.** Answer requests by updating `EXPORT-FORMAT.md`.
+| Folder (= slug) | Name | For | Global table |
+|-----------------|------|-----|--------------|
+| `sl-admin/` | SotaLore Admin | site admins: recipe, item and per-scene find exports, as files to upload | `SotaLoreAdmin` |
+| `sl-skills/` | SotaLore Skills | players: copy their trained skills into the site's skill planner | `SotaLoreSkills` |
+
+Until 2026-10-18 there was one package, `sl-recipes`; it became `sl-admin` (the skills work moved out).
+
+- **The two must stay independent.** All add-ons share one global environment, so they never use the same
+  global name, and `sl-skills` must not use anything from `sl-admin`: most players will only have `sl-skills`.
+  Each has its own small `core.lua`; a little duplication (JSON helpers) is the price of that.
+- Each has its own `manifest.json` (load order and package metadata) and its own version number. Every file
+  either writes starts with `"plugin"` (the slug) and `"pluginVersion"`.
+- The shared docs stay here at the top of `sl-lua/`, outside the packages:
+  - `EXPORT-FORMAT.md`: **the contract with the importer, and yours to keep accurate.** Change it in the
+    same change as any export change, and flag breaking changes in it. The app side reads exactly what it
+    describes.
+  - `FROM-THE-APP.md`: written by the app-side agent (requests, how the site uses exports, the site's data
+    model). **Read it, never edit it.** Answer requests by updating `EXPORT-FORMAT.md`.
 - Real example outputs are in `data/plugin-examples/` (repo root). `.gitignore` ignores `sotalore-*.json`
   everywhere else so game output is never committed by accident.
 
@@ -24,33 +34,44 @@ app. Lua cannot POST and has no clipboard, so files are the only way out.
 Darren is new to Lua, so the layout is meant to be easy to read: each file does one job and starts with a
 comment saying what it is for. This is the pattern the game's own multi-file example addon uses.
 
+`sl-admin/`:
+
 | File | Job |
 |------|-----|
-| `core.lua` | creates the one global table `SotaLore`; shared helpers in `SotaLore.util` (JSON writing, text clipping, file writing, `perItem`) and file names in `SotaLore.files` |
-| `recipes_export.lua` | `SotaLore.RecipeExport`: known recipes to JSON files, the "already exported" list |
-| `items.lua` | `SotaLore.Items`: the items file for the bags; exports only new or changed items (`new`), everything (`all`) or marks them exported (`baseline`), in time slices |
-| `finds_data.lua` | `SotaLore.Finds`: the per-scene find list (items, creatures, nodes), saving it, writing the finds file |
-| `finds_ui.lua` | `SotaLore.FindsUI`: the small finds window |
-| `skills.lua` | `SotaLore.Skills`: the trained skills (`ShroudGetSkills`), the skills file, and the paged base 36 code the player copies into the site |
-| `skills_ui.lua` | `SotaLore.SkillsUI`: the skills window with the code in a text box, pages, Refresh and Save file |
-| `recipes_ui.lua` | `SotaLore.RecipesUI`: the recipe list and recipe windows, with the export buttons |
-| `item_details.lua` | `SotaLore.ItemDetails`: captures what item tooltips say (quest item, tool, no trade, salvage lists) by hovering, `/slore capture` |
-| `hoverlog.lua` | `SotaLore.HoverLog`: a diagnostic (`/slore hoverlog`) that writes the tooltip text of items under the mouse to chat |
-| `main.lua` | the only file with `ShroudOn...` callbacks, the `/slore` command and the key binding; read it first |
+| `core.lua` | creates the one global table `SotaLoreAdmin`; shared helpers in `SotaLoreAdmin.util` (JSON writing, text clipping, file writing, `perItem`) and file names in `SotaLoreAdmin.files` |
+| `recipes_export.lua` | `SotaLoreAdmin.RecipeExport`: known recipes to JSON files, the "already exported" list |
+| `item_details.lua` | `SotaLoreAdmin.ItemDetails`: captures what item tooltips say (quest item, tool, no trade, salvage lists) by hovering, `/sladmin capture` |
+| `items.lua` | `SotaLoreAdmin.Items`: the items file for the bags; exports only new or changed items (`new`), everything (`all`) or marks them exported (`baseline`), in time slices |
+| `finds_data.lua` | `SotaLoreAdmin.Finds`: the per-scene find list (items, creatures, nodes), saving it, writing the finds file |
+| `finds_ui.lua` | `SotaLoreAdmin.FindsUI`: the small finds window |
+| `recipes_ui.lua` | `SotaLoreAdmin.RecipesUI`: the recipe list and recipe windows, with the export buttons |
+| `hoverlog.lua` | `SotaLoreAdmin.HoverLog`: a diagnostic (`/sladmin hoverlog`) that writes the tooltip text of items under the mouse to chat |
+| `main.lua` | the only file with `ShroudOn...` callbacks, the `/sladmin` command and the key binding; read it first |
 
-Rules for keeping it working:
+`sl-skills/`:
 
-- The files run in the order `manifest.json` lists them and share one environment. A file may only use
-  modules from files listed **before** it (at load time). A new file must be added to the manifest.
-- Everything is `local` except the single global `SotaLore` (all addons share one global environment, so a
-  second global invites clashes). Share things between files by hanging them on `SotaLore`.
+| File | Job |
+|------|-----|
+| `core.lua` | creates the one global table `SotaLoreSkills`; a few helpers in `SotaLoreSkills.util` (JSON writing, file writing, the file header) |
+| `skills.lua` | `SotaLoreSkills.Skills`: the trained skills (`ShroudGetSkills`), the skills file, and the paged base 36 code the player copies into the site |
+| `skills_ui.lua` | `SotaLoreSkills.SkillsUI`: the skills window with the code in a text box, pages, Refresh and Save file |
+| `main.lua` | the `ShroudOn...` callbacks, the `/slskills` command and the key binding |
+
+Rules for keeping them working:
+
+- The files of a package run in the order its `manifest.json` lists them and share one environment. A file
+  may only use modules from files listed **before** it (at load time). A new file must be added to the
+  manifest.
+- Everything is `local` except the package's single global (`SotaLoreAdmin` or `SotaLoreSkills`). Share things
+  between files by hanging them on it. Check with `luac -o NUL -l -l file.lua` that a file reads no stray
+  globals (a local function used before it is defined shows up as one).
 - Files can't load each other (`require` and `dofile` are not allowed) and the `Shroud...` functions don't
   exist while a file loads: **do not call the game's API at the top level of a file**, only inside
   functions (`Shroud.UI` is the one exception). `local UI = Shroud.UI` at the top is fine.
-- Only `main.lua` defines `ShroudOn...` functions; each should just call into a module.
+- Only `main.lua` defines `ShroudOn...` functions; each should just call into a module. (The game keeps each
+  package's callbacks apart, so both packages having a `ShroudOnStart` is fine.)
 - Data modules (`recipes_export`, `finds_data`) know nothing about windows. They tell a window about
   changes through a hook (`Finds.onChange`, `RecipeExport.onProgress`) that the UI file sets.
-
 ## What the finds window is for
 
 Darren walks a scene with the finds window up, then saves the list for upload. The goal is to keep the
@@ -100,12 +121,18 @@ Untested ideas:
 
 ## Environment
 
-- The game's folder `...\Catnip Games\Shroud of the Avatar(DEV)\Lua\sl-recipes` is a **Windows junction to
-  this folder**. Edit here (`C:\dev\sotalore\sl-lua`). Editing through the game's path once failed with odd
-  "file already exists" errors.
-- The addon's output files are written to the game's `Lua/` folder, **one level above the plugin folder**
-  (`sotalore-export.json`, `-one.json`, `-items.json`, `-finds.json`), not into `sl-lua/`. To use one as
-  an example, copy it from there into `data/plugin-examples/`.
+- The game loads a package only from `Lua/<slug>/`. Each package folder here is linked into the game's Lua
+  folder with a **Windows junction**: `...\Catnip Games\Shroud of the Avatar(DEV)\Lua\sl-admin` to
+  `C:\dev\sotalore\sl-lua\sl-admin`, and `...\Lua\sl-skills` to `C:\dev\sotalore\sl-lua\sl-skills` (before the
+  split a single junction `Lua\sl-recipes` pointed at `sl-lua`). Edit here (`C:\dev\sotalore\sl-lua`), never
+  through the game's path: that once failed with odd "file already exists" errors. Remove a junction with
+  `cmd /c rmdir <path>`, which removes only the link; a recursive delete can go through it into the repo.
+- The plugins' output files are written to the game's `Lua/` folder, **one level above the plugin folders**
+  (`sotalore-export.json`, `-one.json`, `-items.json`, `-finds.json`, `-skills.json`), not into `sl-lua/`. To
+  use one as an example, copy it from there into `data/plugin-examples/`.
+- **Saved variables are kept per slug**: `Lua\SavedVariables\<slug>.account.json` (and per character). Renaming
+  a package starts it with empty saved data unless that file is copied to the new slug's name while the game
+  is closed or logged out (the game writes it at logout). `sl-recipes.account.json` was the admin plugin's.
 - **The game cannot be launched from this session.** A standalone Lua (5.5, installed with scoop; `lua` and
   `luac` on the PATH) is available on Darren's machine: use `luac -p file.lua` to syntax-check every file
   after an edit. For behaviour, write a throwaway fake-game script (stub `Shroud.UI`, `Shroud.Command`,
@@ -113,21 +140,43 @@ Untested ideas:
   files with the previous version's; the 0.5.1 refactor was verified that way (old single file vs the
   modules gave byte-identical output). It is only a fake game, and the game's interpreter is older
   (5.2-style), so say plainly that a change is untested in game. Darren tests in game (`/lua reload`,
-  `/lua check sl-recipes`) and reports errors or pastes the output files.
+  `/lua check sl-admin`, `/lua check sl-skills`) and reports errors or pastes the output files.
 - Edit tool calls in parallel on one file can collide; make edits to one file one at a time.
-- Bump the version together in `core.lua` (`local Version`), `manifest.json` and the heading of
-  `EXPORT-FORMAT.md`.
+- Bump a package's version together in its `core.lua` (`local Version`) and its `manifest.json`, and mention
+  it in `EXPORT-FORMAT.md` where a format changed.
 
-## Slash command, windows, saved data
+## Naming rules for every SotaLore plugin
 
-- Command is `/slore` (`/sotalore` is refused: `sota` is a reserved prefix). Subcommands: `export`,
-  `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items` (new or changed items), `itemsall`, `baselineitems`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
-  `gatherlog`, `checkrecipes`, `capture`, `hoverlog`, `skills` (the skills window), `skillsfile`; other text searches the recipe list.
-- An addon may own at most **8 windows**: the list (1), the finds window (1), the skills window (1) and up to 5
-  recipe windows.
-- Account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
-  `itemSigs` (a fingerprint per item for what was last exported; no catalog of items is kept), `itemDetails` (captured tooltips), `exported` (recipes), `finds` (the per-scene list), `track` (tracking toggle).
+Keep every plugin (these two and any later one) named the same way, so players and admins can guess the
+command from the plugin's name. For a plugin about `<name>`:
 
+| What | Rule | sl-admin | sl-skills |
+|------|------|----------|-----------|
+| Folder and slug | `sl-<name>` | `sl-admin` | `sl-skills` |
+| Display name (manifest `name`, `ScriptName`) | `SotaLore <Name>` | SotaLore Admin | SotaLore Skills |
+| Slash command | `/sl<name>` (lower case, no hyphen; the game allows `[a-z][a-z0-9]{2,23}`) | `/sladmin` | `/slskills` |
+| Key binding label | `SotaLore <Name>: ...` | SotaLore Admin: toggle list | SotaLore Skills: toggle window |
+| Window titles | start `SotaLore` | SotaLore: Known Recipes, SotaLore Finds | SotaLore Skills |
+| Chat lines | the game prefixes `[Add-on: <display name>]` itself | | |
+| Output files | `sotalore-<kind>.json`, `"plugin"` = the slug in the header | | `sotalore-skills.json` |
+| Global table (the only global the plugin defines besides its `ShroudOn...` callbacks) | `SotaLore<Name>` | `SotaLoreAdmin` | `SotaLoreSkills` |
+
+`/sotalore` itself is refused by the game ("sota" is a reserved prefix), which is why the prefix is `sl`. Before
+2026-10-18 the admin plugin's global was `SotaLore` and its command `/slore`.
+
+## Slash commands, windows, saved data
+
+- `sl-admin`: `/sladmin` (until 2026-10-18 `/slore`). Subcommands: `export`,
+  `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items` (new or
+  changed items), `itemsall`, `baselineitems`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
+  `gatherlog`, `checkrecipes`, `capture`, `hoverlog`; other text searches the recipe list. The command's help
+  text must be at most 120 characters.
+- `sl-skills`: `/slskills` opens the skills window, `/slskills file` saves the skills file.
+- An add-on may own at most **8 windows**. `sl-admin`: the list (1), the finds window (1) and up to 6 recipe
+  windows. `sl-skills`: the skills window.
+- `sl-admin` account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
+  `itemSigs` (a fingerprint per item for what was last exported; no catalog of items is kept), `itemDetails`
+  (captured tooltips), `finds` (the per-scene list), `track` (tracking toggle). `sl-skills` keeps none.
 ## API facts learned in play (docs are at https://catnipgames.net/lua/reference.html)
 
 - Read the docs by downloading the page, stripping the HTML to text and searching it; a summarising
@@ -146,11 +195,11 @@ Untested ideas:
 - **`ShroudGetRecipe(id)` can return nil for a recipe `ShroudGetKnownRecipes` lists** (first seen with newly
   learned recipes: the detail window said "You no longer know this recipe" and exports silently dropped
   them). `util.getRecipe(id, categoryKey)` falls back to `ShroudGetRecipeBook(categoryKey)`; exports now warn in
-  chat about recipes they could not read, and `/slore checkrecipes` lists the unreadable ones. On Darren's
+  chat about recipes they could not read, and `/sladmin checkrecipes` lists the unreadable ones. On Darren's
   character 103 of 1,234 known recipes failed (Alchemy gem fragment and fracture recipes, Tanning fishing-trophy
   recipes); the recipe book had them. Before 0.5.2 they were silently left out of every export. Cause unknown.
 - **The game stops a callback that runs longer than 1 second (5 seconds while the plugin starts).** The guide says
-  to spread work across frames or use `ShroudRegisterPeriodic`. Long jobs here (the recipe export, `/slore
+  to spread work across frames or use `ShroudRegisterPeriodic`. Long jobs here (the recipe export, `/sladmin
   checkrecipes`) work in slices of `util.sliceLimit` seconds per frame, cut by time as well as count because
   recipes with many group slots are far slower to read than simple ones. `util.slow(what, since)` writes a
   "SotaLore slow: ..." line to chat when a step takes over 0.3 s, to find the one that is too slow. A single
@@ -180,7 +229,7 @@ Untested ideas:
   retry loops, no fresh window ids to dodge it). Darren decided this on purpose. Change
   callbacks can fire before `ShroudOnStart` has built the windows, so guard them.
 - The game has a hotkey that switches tooltips off. While they are off the `...UnderMouse` calls see nothing,
-  so `/slore capture` and `/slore hoverlog` capture nothing, and the plugin can't tell that from "not pointing at
+  so `/sladmin capture` and `/sladmin hoverlog` capture nothing, and the plugin can't tell that from "not pointing at
   an item". Nothing to do about it for now; the capture-on message in chat reminds the player.
 - Lua cannot open the folder, run slash commands or reach the clipboard. `/lua path` (typed by the player)
   opens the output folder.

@@ -1,28 +1,26 @@
 -- main.lua: loaded last. The only file with the game's ShroudOn... callbacks, so read this first
 -- to see what the plugin does and when. Each callback just hands over to the file that knows how.
 --
---   core.lua            the SotaLore table and shared helpers (JSON, files, text)
+--   core.lua            the SotaLoreAdmin table and shared helpers (JSON, files, text)
 --   recipes_export.lua  known recipes -> JSON files for the site
 --   items.lua           bag items -> item catalog file
 --   finds_data.lua      the per-scene find list: items, creatures, gathering nodes
 --   finds_ui.lua        the small finds window
 --   recipes_ui.lua      the recipe browser windows
---   item_details.lua    what item tooltips say (quest item, tool, salvage...), captured by hovering (/slore capture)
---   hoverlog.lua        a diagnostic: writes an item's tooltip text to chat (/slore hoverlog)
+--   item_details.lua    what item tooltips say (quest item, tool, salvage...), captured by hovering (/sladmin capture)
+--   hoverlog.lua        a diagnostic: writes an item's tooltip text to chat (/sladmin hoverlog)
 --
 -- The files run in the order the manifest lists them.
 
-local RecipeExport = SotaLore.RecipeExport
-local Items = SotaLore.Items
-local Finds = SotaLore.Finds
-local FindsUI = SotaLore.FindsUI
-local RecipesUI = SotaLore.RecipesUI
-local HoverLog = SotaLore.HoverLog
-local Skills = SotaLore.Skills
-local SkillsUI = SotaLore.SkillsUI
-local ItemDetails = SotaLore.ItemDetails
+local RecipeExport = SotaLoreAdmin.RecipeExport
+local Items = SotaLoreAdmin.Items
+local Finds = SotaLoreAdmin.Finds
+local FindsUI = SotaLoreAdmin.FindsUI
+local RecipesUI = SotaLoreAdmin.RecipesUI
+local HoverLog = SotaLoreAdmin.HoverLog
+local ItemDetails = SotaLoreAdmin.ItemDetails
 
--- The /slore command: a word picks an action, any other text searches the recipes, and nothing at
+-- The /sladmin command: a word picks an action, any other text searches the recipes, and nothing at
 -- all opens or closes the recipe window. The key binding does the same as the bare command.
 local function handleCommand(args)
     if args == "export" then
@@ -35,10 +33,6 @@ local function handleCommand(args)
         RecipesUI.showNew()
     elseif args == "capture" then
         ItemDetails.toggle()
-    elseif args == "skills" then
-        SkillsUI.toggle()
-    elseif args == "skillsfile" then
-        Skills.export()
     elseif args == "hoverlog" then
         ShroudConsoleLog("Hover log " .. (HoverLog.toggle() and "on: point at items" or "off"))
     elseif args == "checkrecipes" then
@@ -72,21 +66,21 @@ function ShroudOnStart()
     Finds.load()
     RecipesUI.build()
     FindsUI.build()
-    SkillsUI.build()
     RecipesUI.load()
     FindsUI.update()
 
-    -- /sotalore is refused ("sota" is a reserved prefix), so the command is /slore.
+    -- Every SotaLore plugin's command is /sl<name> for the package sl-<name> (/sotalore itself is refused:
+    -- "sota" is a reserved prefix).
     local ok, reason = Shroud.Command{
-        name = "slore",
-        help = "Open SotaLore. /slore <text> searches. Also: new export exportall items itemsall finds skills capture",
+        name = "sladmin",
+        help = "Open SotaLore Admin. /sladmin <text> searches. Also: new export exportall items itemsall finds capture",
         run = handleCommand,
     }
     if not ok then
-        ShroudConsoleLog("/slore unavailable (" .. tostring(reason) .. ")")
+        ShroudConsoleLog("/sladmin unavailable (" .. tostring(reason) .. ")")
     end
 
-    Shroud.Keybind{ id = "toggle", label = "SotaLore: toggle list", onPress = function() handleCommand("") end }
+    Shroud.Keybind{ id = "toggle", label = "SotaLore Admin: toggle list", onPress = function() handleCommand("") end }
 end
 
 -- Every frame.
@@ -130,14 +124,14 @@ end
 
 -- The character's recipes or bags changed. These can fire before ShroudOnStart has built the windows.
 function ShroudOnRecipesChanged()
-    SotaLore.util.clearRecipeCache()
+    SotaLoreAdmin.util.clearRecipeCache()
     if not RecipesUI.isBuilt() then return end
     RecipesUI.load()
     RecipesUI.refreshDetails()
 end
 
 function ShroudOnInventoryChanged()
-    SotaLore.util.clearRecipeCache()
+    SotaLoreAdmin.util.clearRecipeCache()
     if not RecipesUI.isBuilt() then return end
     RecipesUI.refreshDetails()
 end
