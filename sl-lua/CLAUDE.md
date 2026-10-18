@@ -31,6 +31,8 @@ comment saying what it is for. This is the pattern the game's own multi-file exa
 | `items.lua` | `SotaLore.Items`: the items file for the bags; exports only new or changed items (`new`), everything (`all`) or marks them exported (`baseline`), in time slices |
 | `finds_data.lua` | `SotaLore.Finds`: the per-scene find list (items, creatures, nodes), saving it, writing the finds file |
 | `finds_ui.lua` | `SotaLore.FindsUI`: the small finds window |
+| `skills.lua` | `SotaLore.Skills`: the trained skills (`ShroudGetSkills`), the skills file, and the paged base 36 code the player copies into the site |
+| `skills_ui.lua` | `SotaLore.SkillsUI`: the skills window with the code in a text box, pages, Refresh and Save file |
 | `recipes_ui.lua` | `SotaLore.RecipesUI`: the recipe list and recipe windows, with the export buttons |
 | `item_details.lua` | `SotaLore.ItemDetails`: captures what item tooltips say (quest item, tool, no trade, salvage lists) by hovering, `/slore capture` |
 | `hoverlog.lua` | `SotaLore.HoverLog`: a diagnostic (`/slore hoverlog`) that writes the tooltip text of items under the mouse to chat |
@@ -120,8 +122,9 @@ Untested ideas:
 
 - Command is `/slore` (`/sotalore` is refused: `sota` is a reserved prefix). Subcommands: `export`,
   `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items` (new or changed items), `itemsall`, `baselineitems`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
-  `gatherlog`, `checkrecipes`, `capture`, `hoverlog`; other text searches the recipe list.
-- An addon may own at most **8 windows**: the list (1), the finds window (1) and up to 6 recipe windows.
+  `gatherlog`, `checkrecipes`, `capture`, `hoverlog`, `skills` (the skills window), `skillsfile`; other text searches the recipe list.
+- An addon may own at most **8 windows**: the list (1), the finds window (1), the skills window (1) and up to 5
+  recipe windows.
 - Account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
   `itemSigs` (a fingerprint per item for what was last exported; no catalog of items is kept), `itemDetails` (captured tooltips), `exported` (recipes), `finds` (the per-scene list), `track` (tracking toggle).
 

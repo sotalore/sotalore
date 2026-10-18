@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore"
-local Version = "0.8.1"
+local Version = "0.9.0"
 local CreatorName = "Gravidy"
 local Description = "Recipe browser and data export for the SotaLore fansite."
 
@@ -23,6 +23,7 @@ SotaLore.files = {
     oneRecipe = "sotalore-one.json",
     items = "sotalore-items.json",
     finds = "sotalore-finds.json",
+    skills = "sotalore-skills.json",
 }
 
 local util = {}

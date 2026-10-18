@@ -1,4 +1,4 @@
-# SotaLore plugin export format (plugin v0.8.1)
+# SotaLore plugin export format (plugin v0.9.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from an in-game Lua addon (SotaLore; folder/slug `sl-recipes`, in this folder).
@@ -228,6 +228,36 @@ no creature type or id). `seen` = individuals fought, summed over visits. `level
 creature's level when it was the player's current target and the game's Animal Lore rule lets the level
 be read; otherwise `null`. A scene with only creatures has an empty `items` list and the reverse. Not
 yet verified against a real file, including whether creature names match the site's.
+
+### Skills (file and code), plugin v0.9.0, under evaluation
+
+The site keeps, per avatar, each skill's current level and a target level. The target exists only on the site;
+the current level comes from `ShroudGetSkills()`, which lists only the skills the character has **trained** (an
+untrained skill is simply absent: read it as level 0). The level used is `trainedLevel` (what the experience has
+bought), not `level`, which a scene's skill cap can lower. The "Skills window" button (or `/slore skills`) shows the
+skills; `/slore skillsfile` or the window's "Save file" writes `sotalore-skills.json`.
+
+**The file** (`"type": "skills"`) has the header, `character` (the avatar's name) and `skills`, one entry per trained
+skill, sorted by `id`: `id` (the game's stable number), `key` (the game's stable name, e.g. "Fireball"), `name`,
+`school`, `schoolKey`, `subcategory` (the names the skills window shows, in the player's language), `trainedLevel`,
+`level`, `effectiveLevel`, `experience`, `grandmaster`, `mode`. It is for loading the skill list into the site
+once (matching the site's own skills to the game's ids) and for checking sizes.
+
+**The code** is for the player to copy and paste without saving a file. A plugin text box holds at most 1024
+characters and Lua cannot reach the clipboard, so the code is cut into pages of up to 1000 characters; the window
+shows one page at a time and the player copies each in turn (click the box, Ctrl+A, Ctrl+C). A page reads
+
+    SLS1|<page>/<pages>|<id digits>|<o or ->|<character>|<entries>|<check>
+
+`SLS1` is the format. `<entries>` is a run of fixed-width entries, each a skill `id` then its `trainedLevel`, both
+**base 36, lower case**: the id in `<id digits>` characters, the level in 2. If any id is negative the plugin adds
+2147483648 to every id and writes `o` in the fourth field (subtract it again); otherwise it writes `-`.
+`<check>` is two base 36 digits: with `sum = 0`, for each byte `b` of `<entries>`: `sum = (sum * 31 + b) mod 1296`;
+the check is `sum` in 2 digits. The pages of one code have the same `<pages>` and `<id digits>`, and the
+site should accept them in any order. The character name has `|` and control characters removed.
+
+Not decided yet: how many pages a real character needs (that depends on the real skill ids), and whether to send
+ids at all or something the site can map more compactly.
 
 ## Every file starts the same way
 

@@ -2,10 +2,10 @@
   "manifest_version": 1,
   "slug": "sl-recipes",
   "name": "SotaLore",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "Searchable list of your known recipes, with a detail window per recipe.",
   "author": "Darren",
-  "files": ["core.lua", "recipes_export.lua", "item_details.lua", "items.lua", "finds_data.lua", "finds_ui.lua", "recipes_ui.lua", "hoverlog.lua", "main.lua"],
+  "files": ["core.lua", "recipes_export.lua", "item_details.lua", "items.lua", "finds_data.lua", "finds_ui.lua", "skills.lua", "skills_ui.lua", "recipes_ui.lua", "hoverlog.lua", "main.lua"],
   "min_api_version": 37,
   "permissions": []
 }

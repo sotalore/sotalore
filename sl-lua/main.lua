@@ -18,6 +18,8 @@ local Finds = SotaLore.Finds
 local FindsUI = SotaLore.FindsUI
 local RecipesUI = SotaLore.RecipesUI
 local HoverLog = SotaLore.HoverLog
+local Skills = SotaLore.Skills
+local SkillsUI = SotaLore.SkillsUI
 local ItemDetails = SotaLore.ItemDetails
 
 -- The /slore command: a word picks an action, any other text searches the recipes, and nothing at
@@ -33,6 +35,10 @@ local function handleCommand(args)
         RecipesUI.showNew()
     elseif args == "capture" then
         ItemDetails.toggle()
+    elseif args == "skills" then
+        SkillsUI.toggle()
+    elseif args == "skillsfile" then
+        Skills.export()
     elseif args == "hoverlog" then
         ShroudConsoleLog("Hover log " .. (HoverLog.toggle() and "on: point at items" or "off"))
     elseif args == "checkrecipes" then
@@ -66,13 +72,14 @@ function ShroudOnStart()
     Finds.load()
     RecipesUI.build()
     FindsUI.build()
+    SkillsUI.build()
     RecipesUI.load()
     FindsUI.update()
 
     -- /sotalore is refused ("sota" is a reserved prefix), so the command is /slore.
     local ok, reason = Shroud.Command{
         name = "slore",
-        help = "Open SotaLore. /slore <text> searches. Also: new export exportall items itemsall finds capture",
+        help = "Open SotaLore. /slore <text> searches. Also: new export exportall items itemsall finds skills capture",
         run = handleCommand,
     }
     if not ok then

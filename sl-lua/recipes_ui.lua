@@ -17,12 +17,13 @@ local RecipeExport = SotaLore.RecipeExport
 local Items = SotaLore.Items
 local ItemDetails = SotaLore.ItemDetails
 local FindsUI = SotaLore.FindsUI
+local SkillsUI = SotaLore.SkillsUI
 
 local M = {}
 SotaLore.RecipesUI = M
 
 local MAX_ROWS = 60      -- pooled buttons in the list; refine the search to see more
-local MAX_DETAIL = 6     -- recipe windows open at once
+local MAX_DETAIL = 5     -- recipe windows open at once (8 windows in all: the list, finds, skills and these)
 local ALL = "All"
 
 local recipes = {}       -- known recipes, sorted by name
@@ -295,6 +296,11 @@ function M.build()
                     text = "Finds window",
                     tooltip = "Show or hide the small window that tracks items and creatures per scene",
                     onClick = FindsUI.toggle,
+                },
+                UI.Button{
+                    text = "Skills window",
+                    tooltip = "Show your trained skills as a code to copy into the site",
+                    onClick = SkillsUI.toggle,
                 },
             } },
             scroll,
