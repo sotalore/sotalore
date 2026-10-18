@@ -23,6 +23,18 @@ module GameItemResolution
     end
   end
 
+  # Creates each of +selected+ ([{ 'name' =>, 'key' => }]), going on past
+  # any that can't be. Returns [created items, failure messages].
+  def create_items!(selected)
+    created, failed = [], []
+    selected.each do |item|
+      created << create_item!(name: item['name'].to_s, key: item['key'].presence)
+    rescue Error, ActiveRecord::RecordInvalid => e
+      failed << "#{item['name']} (#{e.message})"
+    end
+    [ created, failed ]
+  end
+
   def use_item!(item, name:, key: nil)
     unknown!(name, key)
     if key

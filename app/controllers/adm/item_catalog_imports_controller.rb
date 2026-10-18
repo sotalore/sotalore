@@ -3,6 +3,8 @@
 # Upload, review and apply item catalogs from the game plugin (see
 # ItemCatalogImport).
 class Adm::ItemCatalogImportsController < AdmController
+  include ResolvesGameItems
+
   def index
     authorize(ItemCatalogImport)
     page_title 'Item Catalog Imports'
@@ -64,7 +66,7 @@ class Adm::ItemCatalogImportsController < AdmController
     notice =
       case params[:resolution]
       when 'create_many'
-        create_many
+        create_selected_items(@import)
       when 'create'
         item = @import.create_item!(name: params.require(:name), key: params[:key].presence)
         "Created #{item.name}."
@@ -105,25 +107,7 @@ class Adm::ItemCatalogImportsController < AdmController
 
   # Back to the review, with the section acted on still open.
   def review_path
-    adm_item_catalog_import_path(@import, open: params[:open].presence, anchor: params[:open].presence)
-  end
-
-  def create_many
-    selected = Array(params[:selected]).filter_map do |json|
-      JSON.parse(json)
-    rescue JSON::ParserError
-      nil
-    end
-    raise ItemCatalogImport::Error, 'Select the items to create.' if selected.empty?
-    created, failed = [], []
-    selected.each do |item|
-      created << @import.create_item!(name: item['name'].to_s, key: item['key'].presence)
-    rescue ItemCatalogImport::Error, ActiveRecord::RecordInvalid => e
-      failed << "#{item['name']} (#{e.message})"
-    end
-    message = "Created #{created.size} #{'item'.pluralize(created.size)}."
-    flash[:alert] = "Couldn't create #{failed.to_sentence}." if failed.any?
-    message
+    adm_item_catalog_import_path(@import, open: open_section, anchor: open_section)
   end
 
   def find_import

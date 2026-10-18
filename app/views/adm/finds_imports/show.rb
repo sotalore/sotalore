@@ -6,10 +6,12 @@ class Views::Adm::FindsImports::Show < Views::Base
 
   INPUT_CSS = 'border border-grey-400 rounded px-2 py-1 text-sm dark:bg-grey-700'
 
-  def initialize(import:, analysis:, scenes:)
+  # +open+ names the section acted on, to come back to.
+  def initialize(import:, analysis:, scenes:, open: nil)
     @import = import
     @analysis = analysis
     @unlinked_scenes = scenes
+    @open = open
   end
 
   def view_template
@@ -51,14 +53,16 @@ class Views::Adm::FindsImports::Show < Views::Base
   def unmatched_scenes
     rows = @analysis.unmatched_scenes
     return if rows.empty?
-    h2(class: 'mt-6 mb-1 text-lg font-bold') { "Scenes not on the site (#{rows.size})" }
+    h2(id: 'scenes', class: 'mt-6 mb-1 text-lg font-bold') { "Scenes not on the site (#{rows.size})" }
     p(class: 'mb-2 text-sm max-w-prose') do
       plain 'Link each to the site\'s scene (recording the game\'s internal name for it), or add the scene on '
       plain 'the Scenes page first.'
     end
     rows.each do |row|
-      form(action: resolve_adm_finds_import_path(@import), method: 'post', class: 'mb-2 flex flex-row flex-wrap items-center gap-2') do
+      form(action: resolve_adm_finds_import_path(@import, anchor: 'scenes'), method: 'post',
+           class: 'mb-2 flex flex-row flex-wrap items-center gap-2', data: { turbo: 'false' }) do
         authenticity_token_field
+        input(type: 'hidden', name: 'open', value: 'scenes')
         input(type: 'hidden', name: 'resolution', value: 'scene')
         input(type: 'hidden', name: 'name', value: row.game.name)
         strong { row.game.name }
@@ -73,33 +77,13 @@ class Views::Adm::FindsImports::Show < Views::Base
   end
 
   def unknown_items
-    items = @analysis.unknown_items
-    return if items.empty?
-    h2(class: 'mt-6 mb-1 text-lg font-bold') { "Items the site doesn't know (#{items.size})" }
-    p(class: 'mb-2 text-sm max-w-prose') do
-      plain 'Create each as a new concrete item, or use an existing item (which gets the game\'s key, or the '
-      plain 'game\'s name as an alias when there\'s no key).'
-    end
-    table(class: 'table-auto text-sm') do
-      items.each do |unknown|
-        tr(class: 'border-b border-grey-200 dark:border-grey-700 align-top') do
-          td(class: 'pr-3 py-1') do
-            strong { unknown.name }
-            div(class: 'text-xs text-grey-500') { [ unknown.key || 'no key', "in #{unknown.scene_names.to_sentence}" ].join(' · ') }
-          end
-          td(class: 'py-1') do
-            form(action: resolve_adm_finds_import_path(@import), method: 'post', class: 'flex flex-row flex-wrap items-center gap-1') do
-              authenticity_token_field
-              input(type: 'hidden', name: 'name', value: unknown.name)
-              input(type: 'hidden', name: 'key', value: unknown.key) if unknown.key
-              button(type: 'submit', name: 'resolution', value: 'create', class: 'Button Button--sm Button--primary') { 'Create' }
-              input(type: 'text', name: 'item_name', placeholder: 'or an existing item', class: "#{INPUT_CSS} w-48")
-              button(type: 'submit', name: 'resolution', value: 'use', class: 'Button Button--sm Button--default') { 'Use' }
-            end
-          end
-        end
-      end
-    end
+    render Components::Imports::UnknownItems.new(
+      section: 'items', title: 'Items the site doesn\'t know', items: @analysis.unknown_items,
+      hint: 'Create each as a new concrete item, or use an existing item (which gets the game\'s key, or the ' \
+            'game\'s name as an alias when there\'s no key).',
+      action: resolve_adm_finds_import_path(@import, anchor: 'items'),
+      describe: ->(unknown) { "in #{unknown.scene_names.to_sentence}" }
+    )
   end
 
   def new_things

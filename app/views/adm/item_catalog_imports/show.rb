@@ -4,8 +4,6 @@
 class Views::Adm::ItemCatalogImports::Show < Views::Base
   include Phlex::Rails::Helpers::ButtonTo
 
-  INPUT_CSS = 'border border-grey-400 rounded px-2 py-1 text-sm dark:bg-grey-700'
-
   # +open+ names a list section to show expanded (after acting on it).
   def initialize(import:, analysis:, open: nil)
     @import = import
@@ -150,67 +148,11 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
     min == max ? min.to_s : "#{min}–#{max}"
   end
 
-  # A list of unknown items, each with Create and Use, and a "Create
-  # selected" for many at once (checkboxes tied to a form of their own, as
-  # each row has its own Use form). The forms skip Turbo, which drops the
-  # redirect's #anchor, so the page comes back at the list.
   def unknown_items(section, title, items, hint, collapsed: false)
-    return if items.empty?
-    form_id = "create-#{section}"
-    body = lambda do
-      p(class: 'mb-2 text-sm max-w-prose') { hint }
-      form(id: form_id, action: resolve_adm_item_catalog_import_path(@import, anchor: section), method: 'post',
-           class: 'mb-2 flex flex-row flex-wrap items-center gap-3', data: { turbo: 'false' }) do
-        hidden_fields(section)
-        input(type: 'hidden', name: 'resolution', value: 'create_many')
-        label(class: 'flex flex-row items-center gap-1 text-sm') do
-          input(type: 'checkbox', data: { action: 'check-all#toggle' })
-          plain 'Select all'
-        end
-        button(type: 'submit', class: 'Button Button--sm Button--primary') { 'Create selected' }
-      end
-      table(class: 'table-auto text-sm') { items.each { unknown_row(section, form_id, _1) } }
-    end
-    div(id: section, data: { controller: 'check-all' }) do
-      if collapsed
-        details(class: 'mt-4', open: @open == section) do
-          summary(class: 'cursor-pointer text-lg font-bold') { "#{title} (#{items.size})" }
-          body.call
-        end
-      else
-        h2(class: 'mt-4 mb-1 text-lg font-bold') { "#{title} (#{items.size})" }
-        body.call
-      end
-    end
-  end
-
-  def unknown_row(section, form_id, unknown)
-    tr(class: 'border-b border-grey-200 dark:border-grey-700 align-top') do
-      td(class: 'pr-2 py-1') do
-        input(type: 'checkbox', name: 'selected[]', form: form_id, value: { name: unknown.name, key: unknown.key }.to_json,
-              data: { check_all_target: 'box' }, aria: { label: "Select #{unknown.name}" })
-      end
-      td(class: 'pr-3 py-1') do
-        strong { unknown.name }
-        div(class: 'text-xs text-grey-500') { [ unknown.key || 'no key', unknown.uses ].join(' · ') }
-      end
-      td(class: 'py-1') do
-        form(action: resolve_adm_item_catalog_import_path(@import, anchor: section), method: 'post',
-             class: 'flex flex-row flex-wrap items-center gap-1', data: { turbo: 'false' }) do
-          hidden_fields(section)
-          input(type: 'hidden', name: 'name', value: unknown.name)
-          input(type: 'hidden', name: 'key', value: unknown.key) if unknown.key
-          button(type: 'submit', name: 'resolution', value: 'create', class: 'Button Button--sm Button--default') { 'Create' }
-          input(type: 'text', name: 'item_name', placeholder: 'or an existing item', class: "#{INPUT_CSS} w-48")
-          button(type: 'submit', name: 'resolution', value: 'use', class: 'Button Button--sm Button--default') { 'Use' }
-        end
-      end
-    end
-  end
-
-  def hidden_fields(section)
-    input(type: 'hidden', name: 'authenticity_token', value: view_context.form_authenticity_token)
-    input(type: 'hidden', name: 'open', value: section)
+    render Components::Imports::UnknownItems.new(
+      section: section, title: title, items: items, hint: hint, collapsed: collapsed, open: @open == section,
+      action: resolve_adm_item_catalog_import_path(@import, anchor: section), describe: ->(unknown) { unknown.uses }
+    )
   end
 
   def skipped_crafted
