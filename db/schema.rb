@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_18_190801) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_19_001704) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -385,6 +385,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_18_190801) do
 
   create_table "scenes", id: :serial, force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
+    t.datetime "finds_imported_at"
     t.string "game_name"
     t.integer "level_id"
     t.boolean "level_plus", default: false, null: false

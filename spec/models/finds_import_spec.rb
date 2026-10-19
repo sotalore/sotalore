@@ -48,6 +48,7 @@ RSpec.describe FindsImport do
     it 'records what can be found where, once' do
       expect(import.apply!).to eq(items: 3, creatures: 2, nodes: 1, yields: 3)
       expect(kingsroad.reload.game_name).to eq 'HiddenVale_Road'
+      expect(kingsroad.finds_imported_at).to be_within(1.minute).of(Time.current)
       expect(kingsroad.found_items).to eq [ hide, ore, scrap ]
       expect(kingsroad.creatures.map(&:name)).to eq [ 'Brown Bear', 'Rabbit' ]
       expect(kingsroad.scene_creatures.find_by(creature: Creature.find_by!(name: 'Brown Bear')).levels).to eq '18'

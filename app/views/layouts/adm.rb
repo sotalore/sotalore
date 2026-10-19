@@ -38,6 +38,7 @@ class Views::Layouts::Adm < Views::Layouts::Base
                 site_nav_link_to("Users", adm_users_path, "book")
                 site_nav_link_to("Recipe Imports", adm_recipe_imports_path, "book")
                 site_nav_link_to("Finds Imports", adm_finds_imports_path, "book")
+                site_nav_link_to("Scene Finds", adm_scenes_path, "book")
                 site_nav_link_to("Item Catalogs", adm_item_catalog_imports_path, "book")
                 site_nav_link_to("Creatures", creatures_path, "book")
                 site_nav_link_to("Gathering Nodes", gathering_nodes_path, "book")

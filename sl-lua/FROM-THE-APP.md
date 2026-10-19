@@ -188,13 +188,15 @@ The game's places, for the map and the finds:
 
 | Field | Meaning |
 |-------|---------|
-| name | Unique, ignoring case. The display name. The internal name (`rawName` in the finds file) isn't stored yet. |
+| name | Unique, ignoring case. The display name. |
+| game name | The internal name (`rawName` in the finds file), recorded the first time a finds file's scene is matched; later finds match by it. |
 | scene type | Overworld, Adventure, Control Point, Dungeon, Mine, Underground Passage, NPC Town, Player Owned Town, Player Run Town. |
 | level | Tier 0 to 10. |
 | region | Hidden Vale, Norgard, North Paladis, Regalis, Drachvald, Verdantis, Forsaken Vale, South Paladis, Midmaer, Grunvald, Longfall, Elysium, Quel, Perennial Coast. |
 | pvp | Whether it's a PvP scene. |
 | parent | The overworld map it's reached from (the overworld has none). |
 | map ids | Its id on shroudoftheavatar.com's map, and its point of interest on the parent's map. |
+| finds imported | When a finds file last recorded what's found there. An admin report lists the scenes never imported, lowest tier first, as the places to play next. |
 
 170 scenes. Curated by hand, except the game's internal name (`rawName`), recorded from finds.
 
