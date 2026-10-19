@@ -80,6 +80,7 @@ class FindsImport < ApplicationRecord
     if scene.game_name.nil? && row.game.raw_name && !Scene.exists?(game_name: row.game.raw_name)
       scene.update_columns(game_name: row.game.raw_name)
     end
+    scene.update_columns(finds_imported_at: Time.current)
 
     row.items.each do |found|
       next unless found.item
