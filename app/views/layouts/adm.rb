@@ -48,7 +48,7 @@ class Views::Layouts::Adm < Views::Layouts::Base
                 hr(class: "my-2")
                 site_nav_link_to("Styles", adm_styles_path, "key")
                 hr(class: "my-2")
-                site_nav_link_to("Sign Out", destroy_user_session_path, "sign_out")
+                sign_out_nav_button
               end
             end
           end

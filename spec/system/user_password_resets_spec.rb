@@ -37,7 +37,7 @@ RSpec.describe "UserPasswordResets", type: :system do
     expect(page).to have_current_path(root_path)
     expect(page).to have_content('Sign Out')
 
-    click_link 'Sign Out'
+    click_button 'Sign Out'
     click_link 'Sign In'
     fill_in 'Email', with: user.email
     fill_in 'Password', with: 'newpassword'

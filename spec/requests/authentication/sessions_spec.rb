@@ -38,8 +38,13 @@ RSpec.describe "Authentication::Sessions", type: :request do
 
   describe "DELETE /destroy" do
     it 'signs-out the user' do
-      delete destroy_user_session_path
+      delete user_session_path
       expect(response).to redirect_to(root_path)
+    end
+
+    it "can't be reached by GET" do
+      get '/user/session'
+      expect(response).to have_http_status(:not_found)
     end
   end
 

@@ -19,7 +19,7 @@ RSpec.describe "UserSignIns", type: :system do
 
       expect(page).to have_content 'Sign Out'
 
-      click_link 'Sign Out'
+      click_button 'Sign Out'
       expect(page).to have_content 'Sign In'
     end
   end

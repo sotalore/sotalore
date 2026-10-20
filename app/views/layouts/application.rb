@@ -65,7 +65,7 @@ class Views::Layouts::Application < Views::Layouts::Base
 
               hr(class: "my-2")
               if Current.user.not_null?
-                site_nav_link_to("Sign Out", destroy_user_session_path, "sign_out", data: { turbo: "false" })
+                sign_out_nav_button
               else
                 site_nav_link_to("Sign In", new_user_session_path, "sign_in", data: { turbo: "false" })
                 site_nav_link_to("Register", new_user_registration_path, "user_plus", data: { turbo: "false" })
