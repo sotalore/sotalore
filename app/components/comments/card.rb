@@ -21,19 +21,21 @@ class Components::Comments::Card < Components::Base
         end
         div(class: "Comment-subject") do
           if @parent != :front_page && @comment.subject != @parent
-            link_to(@comment.subject, @comment.subject, data: { "turbo-frame": "_top" })
+            link_to(@comment.subject, @comment.subject)
           end
         end
         div(class: "Comment-authorTime") { local_time_ago(@comment.created_at) }
       end
 
-      div(id: dom_id(@comment, :editable)) { comment_content }
+      # Edit swaps the form into this frame, keeping the comment where it is on
+      # the page.
+      turbo_frame_tag(@comment, :body) { comment_content }
 
       if can_delete || can_edit || invisible
         div(class: "Comment-controls") do
           comment_visibility_button(@comment)
           destroy_icon_to([ @comment.subject, @comment ], control: true, size: :sm) if can_delete
-          edit_icon_to([ :edit, @comment.subject, @comment ], control: true, size: :sm, data: { turbo_stream: "true" }) if can_edit
+          edit_icon_to([ :edit, @comment.subject, @comment ], control: true, size: :sm, data: { turbo_frame: dom_id(@comment, :body) }) if can_edit
         end
       end
     end
@@ -43,12 +45,11 @@ class Components::Comments::Card < Components::Base
 
   def comment_visibility_button(comment)
     if policy(comment).moderate?
-      data = { turbo_method: :patch }
       path    = comment_path(comment, comment: { visible: !comment.visible })
       if comment.visible
-        default_button_to('hide', path, size: :sm, data: data)
+        default_button_to('hide', path, size: :sm, method: :patch)
       else
-        primary_button_to('show', path, size: :sm, data: data)
+        primary_button_to('show', path, size: :sm, method: :patch)
       end
     else
       if !comment.visible

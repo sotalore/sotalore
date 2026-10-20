@@ -18,6 +18,7 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::ImageTag
   include Phlex::Rails::Helpers::ImagePath
   include Phlex::Rails::Helpers::TurboFrameTag
+  include Phlex::Rails::Helpers::ButtonTo
 
   register_value_helper :policy
   register_value_helper :l
@@ -26,6 +27,13 @@ class Components::Base < Phlex::HTML
   register_value_helper :session
 
   register_output_helper :local_time_ago
+
+  # Every table scrolls sideways on its own when it's wider than the screen,
+  # rather than widening the page (which scrolls in the window, so the
+  # content around it can't scroll for it without breaking sticky rows).
+  def table(...)
+    div(class: "overflow-x-auto") { super }
+  end
 
   def time_ago_tag(time, options={})
     local_time_ago(time) if time

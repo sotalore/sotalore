@@ -27,6 +27,7 @@ RSpec.describe "Scenes", type: :request do
         it 'deletes the attachment' do
           delete scene_path(scene, attachment_id: scene.images.first.id)
           expect(response).to redirect_to(scene_path(scene))
+          expect(response).to have_http_status(:see_other)
           expect(scene.reload.images).to be_empty
         end
       end

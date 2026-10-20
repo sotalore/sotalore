@@ -6,9 +6,7 @@ Rails.application.routes.draw do
     resource :confirmation, only: [ :new, :create, :show ]
     get '/resend-confirmation', to: 'confirmations#resend_confirmation', as: :resend_confirmation
     resource :password_reset, only: [ :new, :create, :edit, :update, :show ]
-    resource :session, only: [ :new, :create, :destroy ] do
-      get :destroy, as: :destroy
-    end
+    resource :session, only: [ :new, :create, :destroy ]
     get '/oauth/:provider/callback', to: 'omniauth_callbacks#callback', as: :oauth_callback
   end
 

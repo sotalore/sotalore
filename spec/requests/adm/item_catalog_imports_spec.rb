@@ -44,7 +44,7 @@ RSpec.describe "Adm::ItemCatalogImports", type: :request do
     selected = [ { name: 'Odd Note', key: item_key('note') }, { name: 'Quest Key', key: item_key('Quest Key') } ]
     post resolve_adm_item_catalog_import_path(import),
          params: { resolution: 'create_many', open: 'catalog', selected: selected.map(&:to_json) }
-    expect(response).to redirect_to(adm_item_catalog_import_path(import, open: 'catalog', anchor: 'catalog'))
+    expect(response).to redirect_to(adm_item_catalog_import_path(import, open: 'catalog'))
     expect(flash[:notice]).to eq 'Created 2 items.'
     expect(Item.find_by_name('Odd Note').sole.game_keys.pluck(:key)).to eq [ item_key('note') ]
 

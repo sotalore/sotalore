@@ -40,39 +40,42 @@ class SkillsController < ApplicationController
     redirect_to avatar_skills_path(@avatar, activity: activity), status: :see_other
   end
 
+  # Ignoring or revealing a skill updates just its row: the page is too big
+  # to re-render for it. Without Turbo, it goes back to the page it was done
+  # from.
   def ignore
     skill = Skill.find(params[:id])
     @avatar.ignore_skill!(skill)
-    current_skill = @avatar.skills.find_by(skill_key: skill.key)
 
     respond_to do |format|
-      format.html { redirect_to avatar_skills_path(@avatar) }
       format.turbo_stream do
+        # The page hides ignored skills unless it's showing all of them.
         if params.key?(:show_all)
-          render turbo_stream: turbo_stream
-            .replace(skill, Views::Skills::Row.new(skill, @avatar, current_skill))
+          render turbo_stream: turbo_stream.replace(skill, skill_row(skill))
         else
           render turbo_stream: turbo_stream.remove(skill)
         end
       end
+      format.html { redirect_back fallback_location: avatar_skills_path(@avatar), status: :see_other }
     end
   end
 
   def reveal
     skill = Skill.find(params[:id])
     @avatar.reveal_skill!(skill)
-    current_skill = @avatar.skills.find_by(skill_key: skill.key)
 
     respond_to do |format|
-      format.html { redirect_to avatar_skills_path(@avatar, show_all: true) }
-      format.turbo_stream {
-        render turbo_stream: turbo_stream
-          .replace(skill, Views::Skills::Row.new(skill, @avatar, current_skill))
-      }
+      format.turbo_stream { render turbo_stream: turbo_stream.replace(skill, skill_row(skill)) }
+      format.html { redirect_back fallback_location: avatar_skills_path(@avatar, show_all: true), status: :see_other }
     end
   end
 
   private
+
+  def skill_row(skill)
+    Views::Skills::Row.new(skill, @avatar, @avatar.skills.find_by(skill_key: skill.key))
+  end
+
   def set_activity
     @activity = params[:activity].to_s.inquiry
   end

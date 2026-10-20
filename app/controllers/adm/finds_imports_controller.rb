@@ -80,7 +80,7 @@ class Adm::FindsImportsController < AdmController
 
   # Back to the review, with the section acted on still open.
   def review_path
-    adm_finds_import_path(@import, open: open_section, anchor: open_section)
+    adm_finds_import_path(@import, open: open_section)
   end
 
   def find_import

@@ -17,7 +17,7 @@ class Views::Adm::ItemCatalogImports::Index < Views::Base
         plain 'changes until you apply an import.'
       end
       form_with(url: adm_item_catalog_imports_path, multipart: true, class: 'my-4 flex flex-row flex-wrap items-center gap-4') do |f|
-        f.file_field :file, accept: 'application/json,.json', required: true
+        f.file_field :file, accept: 'application/json,.json', required: true, class: 'max-w-full'
         f.submit 'Upload catalog', class: 'Button Button--primary'
       end
 

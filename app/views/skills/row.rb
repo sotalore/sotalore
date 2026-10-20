@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 class Views::Skills::Row < Views::Base
-  include Phlex::Rails::Helpers::TurboFrameTag
   include Phlex::Rails::Helpers::ButtonTo
 
   register_value_helper :dom_id
@@ -61,12 +60,14 @@ class Views::Skills::Row < Views::Base
   def toggle_skill_button(avatar, skill)
     return unless avatar
 
+    # Passed along so the row that comes back fits the page: with all skills
+    # shown, an ignored one stays (dimmed) rather than being removed.
+    show_all_param = params.key?(:show_all) ? { show_all: true } : {}
     if @avatar.ignoring_skill?(skill)
       icon_name = 'eye_slash'
-      path = reveal_avatar_skill_path(@avatar, skill.id)
+      path = reveal_avatar_skill_path(@avatar, skill.id, **show_all_param)
     else
       icon_name = 'eye'
-      show_all_param = params.key?(:show_all) ? { show_all: true } : {}
       path = ignore_avatar_skill_path(@avatar, skill.id, **show_all_param)
     end
 

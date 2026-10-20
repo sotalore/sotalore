@@ -9,11 +9,10 @@ class CommentsController < ApplicationController
   def show
     @comment = find_comment
     authorize @comment
-    respond_to do |format|
-      format.html { redirect_to url_for_parent }
-      format.turbo_stream {
-        render turbo_stream: turbo_stream.replace(@comment, Components::Comments::Card.new(comment: @comment, parent: @parent))
-      }
+    if turbo_frame_request?
+      render_card # Cancelling an edit in place.
+    else
+      redirect_to url_for_parent
     end
   end
 
@@ -54,22 +53,10 @@ class CommentsController < ApplicationController
 
     if submit_allowed
       if @comment.save
-        respond_to do |format|
-          format.html { redirect_to url_for_parent }
-          format.turbo_stream do
-            render turbo_stream: [
-              turbo_stream.prepend('comments', Components::Comments::Card.new(comment: @comment, parent: @parent)),
-              turbo_stream.replace('new_comment', Components::Comments::Form.new(subject: @parent, comment: Comment.new))
-            ]
-          end
-        end
+        # Usually the page the comment was posted from, so Turbo morphs it.
+        redirect_to url_for_parent
       else
-        respond_to do |format|
-          format.html { render Views::Comments::New.new(comment: @comment), status: :unprocessable_content }
-          format.turbo_stream do
-            render(status: :unprocessable_content, turbo_stream: turbo_stream.replace('new_comment', Components::Comments::Form.new(subject: @parent, comment: @comment)))
-          end
-        end
+        render Views::Comments::New.new(comment: @comment), status: :unprocessable_content
       end
     else
       @comments = find_comments_index
@@ -80,23 +67,20 @@ class CommentsController < ApplicationController
   def edit
     @comment = find_comment
     authorize @comment
-    respond_to do |format|
-      format.html { render Views::Comments::Edit.new(comment: @comment) }
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.replace([ @comment, :editable ], Components::Comments::Form.new(subject: @parent, comment: @comment))
-        ]
-      end
-    end
+    render Views::Comments::Edit.new(comment: @comment)
   end
 
   def update
     @comment = find_comment
     authorize @comment
     if @comment.update(permitted_params)
-      respond_to do |format|
-        format.html { redirect_back(fallback_location: url_for_parent) }
-        format.turbo_stream { render turbo_stream: turbo_stream.replace(@comment, Components::Comments::Card.new(comment: @comment, parent: @parent)) }
+      if turbo_frame_request?
+        render_card # Edited in place.
+      elsif params[:comment].key?(:body)
+        redirect_to url_for_parent, status: :see_other
+      else
+        # Hiding or showing it, from wherever it's listed.
+        redirect_back fallback_location: url_for_parent, status: :see_other
       end
     else
       render Views::Comments::Edit.new(comment: @comment), status: :unprocessable_content
@@ -107,13 +91,15 @@ class CommentsController < ApplicationController
     @comment = find_comment
     authorize @comment
     @comment.destroy
-    respond_to do |format|
-      format.html { redirect_to url_for_parent }
-      format.turbo_stream { render turbo_stream: turbo_stream.remove(@comment) }
-    end
+    redirect_back fallback_location: url_for_parent, status: :see_other
   end
 
   private
+
+  # For a request from the comment's frame, which takes its body from this.
+  def render_card
+    render Components::Comments::Card.new(comment: @comment, parent: @parent), layout: false
+  end
 
   def find_parent
     if params[:item_id]

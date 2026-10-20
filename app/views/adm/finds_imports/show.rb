@@ -59,8 +59,8 @@ class Views::Adm::FindsImports::Show < Views::Base
       plain 'the Scenes page first.'
     end
     rows.each do |row|
-      form(action: resolve_adm_finds_import_path(@import, anchor: 'scenes'), method: 'post',
-           class: 'mb-2 flex flex-row flex-wrap items-center gap-2', data: { turbo: 'false' }) do
+      form(action: resolve_adm_finds_import_path(@import), method: 'post',
+           class: 'mb-2 flex flex-row flex-wrap items-center gap-2', data: { turbo_action: 'replace' }) do
         authenticity_token_field
         input(type: 'hidden', name: 'open', value: 'scenes')
         input(type: 'hidden', name: 'resolution', value: 'scene')
@@ -81,7 +81,7 @@ class Views::Adm::FindsImports::Show < Views::Base
       section: 'items', title: 'Items the site doesn\'t know', items: @analysis.unknown_items,
       hint: 'Create each as a new concrete item, or use an existing item (which gets the game\'s key, or the ' \
             'game\'s name as an alias when there\'s no key).',
-      action: resolve_adm_finds_import_path(@import, anchor: 'items'),
+      action: resolve_adm_finds_import_path(@import),
       describe: ->(unknown) { "in #{unknown.scene_names.to_sentence}" }
     )
   end

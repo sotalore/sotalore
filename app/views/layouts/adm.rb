@@ -11,11 +11,12 @@ class Views::Layouts::Adm < Views::Layouts::Base
         meta(content: "text/html; charset=UTF-8", http_equiv: safe("Content-Type"))
         title { page_title ? "#{page_title} -- SOTA LORE: ADM" : "SOTA LORE: ADM" }
         csrf_meta_tags
+        turbo_refresh_meta_tags
         meta(charset: "utf-8")
         meta(name: "viewport", content: "width=device-width, initial-scale=1.0")
         stylesheet_link_tag "trix", "actiontext", "tailwind", media: "all", data_turbo_track: "reload"
         javascript_importmap_tags
-        javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js", async: true, defer: true
+        javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", async: true, defer: true
         action_cable_meta_tag
 
         link(rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png")
@@ -25,8 +26,10 @@ class Views::Layouts::Adm < Views::Layouts::Base
       end
 
       body(class: "bg-white dark:bg-grey-900", data: { controller: "mousetrap", turbo_prefetch: "false" }) do
-        div(class: "flex h-screen") do
-          div(class: "bg-slorange-700 dark:bg-grey-800 w-16 lg:w-40") do
+        # The window scrolls the page (so Turbo restores its position going
+        # back, and keeps it when morphing); the sidebar stays put beside it.
+        div(class: "flex min-h-dvh") do
+          div(class: "sticky top-0 h-dvh shrink-0 overflow-y-auto bg-slorange-700 dark:bg-grey-800 w-16 lg:w-40") do
             div(class: "h-12 p-3 text-center") do
               link_to("/", class: "text-xl font-bold text-zinc-200 dark:text-slorange-300") do
                 span(class: "hidden lg:inline") { "SOTA LORE" }
@@ -48,13 +51,13 @@ class Views::Layouts::Adm < Views::Layouts::Base
                 hr(class: "my-2")
                 site_nav_link_to("Styles", adm_styles_path, "key")
                 hr(class: "my-2")
-                site_nav_link_to("Sign Out", destroy_user_session_path, "sign_out")
+                sign_out_nav_button
               end
             end
           end
 
-          div(class: "flex-1 flex overflow-hidden") do
-            div(class: "flex-1 overflow-y-scroll") do
+          div(class: "flex-1 min-w-0 flex") do
+            div(class: "flex-1 min-w-0") do
               div(class: "flex-grow flex flex-col") do
                 div(class: "z-50 bg-blue-700 dark:bg-blue-950 h-12 flex flex-row items-center justify-between") do
                   h2(class: "h-12 text-white") { "ADM" }

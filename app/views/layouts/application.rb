@@ -11,6 +11,7 @@ class Views::Layouts::Application < Views::Layouts::Base
         meta(content: "text/html; charset=UTF-8", http_equiv: safe("Content-Type"))
         title { page_title ? "#{page_title} -- SotA Lore" : "SotA Lore" }
         csrf_meta_tags
+        turbo_refresh_meta_tags
         meta(charset: "utf-8")
         meta(name: "viewport", content: "width=device-width, initial-scale=1.0")
         stylesheet_link_tag "trix", "actiontext", "tailwind", media: "all", data_turbo_track: "reload"
@@ -22,7 +23,7 @@ class Views::Layouts::Application < Views::Layouts::Base
           referrerpolicy: "no-referrer"
         )
         javascript_importmap_tags
-        javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js", async: true, defer: true
+        javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", async: true, defer: true
         action_cable_meta_tag
 
         link(rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png")
@@ -32,8 +33,10 @@ class Views::Layouts::Application < Views::Layouts::Base
       end
 
       body(class: "bg-grey-100 dark:bg-grey-900", data: { controller: "mousetrap", turbo_prefetch: "false" }) do
-        div(class: "flex flex-row h-screen") do
-          div(class: "bg-slorange-700 dark:bg-grey-800 w-16 lg:w-40") do
+        # The window scrolls the page (so Turbo restores its position going
+        # back, and keeps it when morphing); the sidebar stays put beside it.
+        div(class: "flex flex-row min-h-dvh") do
+          div(class: "sticky top-0 h-dvh shrink-0 overflow-y-auto bg-slorange-700 dark:bg-grey-800 w-16 lg:w-40") do
             div(class: "h-12 p-3 pl-1 text-center") do
               link_to("/", class: "text-xl font-bold text-zinc-200 dark:text-slorange-300") do
                 span(class: "hidden lg:inline") do
@@ -65,7 +68,7 @@ class Views::Layouts::Application < Views::Layouts::Base
 
               hr(class: "my-2")
               if Current.user.not_null?
-                site_nav_link_to("Sign Out", destroy_user_session_path, "sign_out", data: { turbo: "false" })
+                sign_out_nav_button
               else
                 site_nav_link_to("Sign In", new_user_session_path, "sign_in", data: { turbo: "false" })
                 site_nav_link_to("Register", new_user_registration_path, "user_plus", data: { turbo: "false" })
@@ -73,12 +76,15 @@ class Views::Layouts::Application < Views::Layouts::Base
             end
           end
 
-          div(class: "flex-1 flex overflow-hidden") do
-            div(class: "flex-1 overflow-y-scroll") do
+          div(class: "flex-1 min-w-0 flex") do
+            div(class: "flex-1 min-w-0") do
               div(class: "z-50 bg-slorange-700 dark:bg-grey-800 h-12 flex flex-row items-center justify-between") do
-                div(class: "global-search text-slate-200 dark:text-slorange-300 relative", data: { controller: "autocomplete", "autocomplete-url-value" => search_global_path }) do
+                div(class: "global-search text-slate-200 dark:text-slorange-300 relative",
+                    data: { controller: "autocomplete search", "autocomplete-url-value" => search_global_path, action: "autocomplete.change->search#visit" }) do
                   form(class: "inline-block h-12 px-4", action: search_path, method: "GET") do
                     input(id: "global-search", class: "global-search-input", name: "q", placeholder: "Search", type: "text", data: { "autocomplete-target" => "input" })
+                    # Takes the chosen result's URL, so the search box keeps showing its name.
+                    input(type: "hidden", data: { "autocomplete-target" => "hidden" })
                     div(class: "global-search-results", data: { "autocomplete-target" => "results" })
                   end
                 end

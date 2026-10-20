@@ -36,7 +36,7 @@ class RecipesController < ApplicationController
   def show_partial
     @recipe = find_recipe
     authorize @recipe
-    render Components::Recipes::Card.new(recipe: @recipe), layout: false
+    render Views::Recipes::ShowPartial.new(recipe: @recipe, frame_id: turbo_frame_request_id), layout: false
   end
 
   # Preview of the items and recipes a template implies for the members of

@@ -1,28 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
+// Shows or hides the recipe for an ingredient under it. The recipe is in a
+// lazy frame, so Turbo loads it the first time it's shown.
 export default class extends Controller {
-  static values = { url: String }
-  static targets = [ 'subDetail' ]
-
-  load(event) {
+  toggle(event) {
     event.preventDefault()
-    let url = event.currentTarget.dataset.url
-    let more_id = event.currentTarget.dataset.moreId
-
     event.currentTarget.classList.toggle('Displayed')
-
-    let curr_element = document.getElementById(more_id)
-    if (curr_element) {
-      curr_element.classList.toggle('MoreHidden')
-    } else {
-      fetch(url)
-      .then(response => response.text())
-      .then((html) => {
-        let container = document.createElement('div')
-        container.id = more_id
-        container.innerHTML = html
-        this.subDetailTarget.prepend(container)
-      })
-    }
+    const frame = document.getElementById(event.params.frame)
+    frame.hidden = !frame.hidden
   }
 }

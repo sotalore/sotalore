@@ -23,7 +23,11 @@ class Views::Comments::Edit < Views::Comments::Base
               div(class: "Comment-authorTime") { "now" }
             end
             div(class: "Comment-body p-2") do
-              render Components::Comments::Form.new(subject: @comment.subject, comment: @comment)
+              # The comment's frame on the page it's listed on takes the form from
+              # here.
+              turbo_frame_tag(@comment, :body) do
+                render Components::Comments::Form.new(subject: @comment.subject, comment: @comment)
+              end
             end
           end
         end

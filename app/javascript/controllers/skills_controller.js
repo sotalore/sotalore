@@ -9,6 +9,18 @@ export default class extends Controller {
   static maxLevel = 32767
 
   connect() {
+    this.recalculate = this.recalculate.bind(this)
+    document.addEventListener("turbo:morph", this.recalculate)
+    this.recalculate()
+  }
+
+  disconnect() {
+    document.removeEventListener("turbo:morph", this.recalculate)
+  }
+
+  // The XP cells are filled in here, so a morph (after ignoring or revealing
+  // a skill) puts back the server's blank ones, and the levels it saved.
+  recalculate() {
     this.originalFromValue = this.fromTarget.value
     this.originalToValue = this.toTarget.value
     this.calculateCurrent()

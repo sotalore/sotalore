@@ -94,12 +94,54 @@ RSpec.describe "Comments", type: :request do
       end
     end
 
+    context 'editing in place, from the comment frame' do
+      let(:frame) { { 'Turbo-Frame' => "body_comment_#{comment.id}" } }
+
+      it 'renders the form in the frame' do
+        get edit_item_comment_path(parent, comment), headers: frame
+        expect(response.body).to include(%(<turbo-frame id="body_comment_#{comment.id}">))
+        expect(response.body).to include('Update Comment')
+        expect(response.body).not_to include('<html') # Turbo takes only the frame
+      end
+
+      it 'renders the updated comment, for the frame' do
+        patch comment_path(comment, item_id: parent), params: { comment: { body: 'new body' } }, headers: frame
+        expect(comment.reload.body).to eq 'new body'
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(%(<turbo-frame id="body_comment_#{comment.id}">))
+        expect(response.body).not_to include('<html')
+      end
+
+      it 'renders the comment again when cancelled' do
+        get item_comment_path(parent, comment), headers: frame
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(%(<turbo-frame id="body_comment_#{comment.id}">))
+      end
+    end
+
     describe 'DELETE destroy' do
       it 'deletes the comment' do
         expect {
           delete item_comment_path(parent, comment)
         }.to change { parent.comments.size }.by(-1)
         expect(response).to redirect_to(parent)
+      end
+
+      it 'returns to the page it was deleted from' do
+        delete item_comment_path(parent, comment), headers: { 'HTTP_REFERER' => comments_url }
+        expect(response).to redirect_to(comments_url)
+        expect(response).to have_http_status(:see_other)
+      end
+    end
+
+    describe 'PATCH update hiding it' do
+      let(:current_user) { create :user, :root }
+
+      it 'returns to the page it was hidden from' do
+        patch comment_path(comment, item_id: parent, comment: { visible: false }),
+              headers: { 'HTTP_REFERER' => moderate_comments_url }
+        expect(comment.reload.visible).to eq false
+        expect(response).to redirect_to(moderate_comments_url)
       end
     end
 

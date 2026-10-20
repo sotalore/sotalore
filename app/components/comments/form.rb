@@ -10,9 +10,7 @@ class Components::Comments::Form < Components::Base
   end
 
   def view_template
-    wrapper_id = model.persisted? ? dom_id(model) : "new-comment"
-
-    div(id: wrapper_id, class: "my-2") do
+    div(class: "my-2") do
       super do
         text_area_field(:body, skip_label: model.persisted?, rows: body_rows)
 

@@ -22,6 +22,9 @@
 @layer base {
   html {
     @apply text-grey-800 font-sans dark:text-grey-100;
+    /* The window scrolls the page: keep room for its scrollbar, so pages
+       don't shift sideways between short and long ones. */
+    scrollbar-gutter: stable;
   }
 
   h1 {
@@ -105,7 +108,7 @@
   }
 
   .Comment-subject {
-    @apply text-lg flex-grow whitespace-nowrap text-ellipsis;
+    @apply text-lg flex-grow min-w-0 max-w-full truncate;
   }
 
   .Comment-authorTime {
@@ -117,7 +120,7 @@
   }
 
   .farming-plan-table {
-    @apply grid grid-cols-12 auto-cols-min w-max;
+    @apply grid grid-cols-12 auto-cols-min w-max max-w-full overflow-x-auto;
   }
 
   .farming-plan-label {
@@ -168,13 +171,14 @@
     z-index: 1000;
   }
 
-  .global-search .global-search-results a {
+  .global-search .global-search-results [role="option"] {
     display: block;
+    cursor: pointer;
     padding-top: 5px;
     padding-bottom: 5px;
   }
 
-  .global-search .global-search-results a.active {
+  .global-search .global-search-results [role="option"].active {
     @apply bg-orange-900 text-zinc-100 dark:bg-slorange-800;
   }
 
@@ -301,10 +305,6 @@
   .Recipe-ingredient > .Recipe-ingredientSummary > a.Displayed > span > svg {
     transform: rotate(90deg);
     transition: transform 100ms linear;
-  }
-
-  .Recipe-ingredient > .Recipe-ingredientSubDetail  div.MoreHidden {
-    display: none;
   }
 
   .Recipe-ingredient > .Recipe-ingredientSubDetail .Recipe .Recipe-name {

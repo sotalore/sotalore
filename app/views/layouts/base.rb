@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Views::Layouts::Base < Views::Base
+  include Phlex::Rails::Helpers::ButtonTo
 
   register_output_helper :active_link_to
 
@@ -62,6 +63,22 @@ class Views::Layouts::Base < Views::Base
     active_link_to(url, options) do
       render_icon(icon, color: :current)
       span(class: 'hidden lg:inline') { text }
+    end
+  end
+
+  # A form that redirects back to the page it's on refreshes it by morphing,
+  # keeping the scroll position and anything the page's JavaScript holds.
+  def turbo_refresh_meta_tags
+    meta(name: "turbo-refresh-method", content: "morph")
+    meta(name: "turbo-refresh-scroll", content: "preserve")
+  end
+
+  # Signing out changes state, so it's a form (DELETE) rather than a link.
+  def sign_out_nav_button
+    button_to(user_session_path, method: :delete, class: "site-nav-link w-full cursor-pointer", title: "Sign Out",
+              form: { class: "contents" }) do
+      render_icon("sign_out", color: :current)
+      span(class: 'hidden lg:inline') { "Sign Out" }
     end
   end
 

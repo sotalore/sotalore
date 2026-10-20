@@ -23,7 +23,7 @@ class Views::Recipes::FilterForm < Views::Base
       number_field(:rsmin, skip_label: true, placeholder: "min skill")
       number_field(:rsmax, skip_label: true, placeholder: "max skill")
 
-      div(class: "whitespace-nowrap") do
+      div(class: "md:whitespace-nowrap") do
         submit_button("Filter", name: "")
         new_button_to("Add Recipe", new_recipe_path, class: "button middle secondary") if policy(Recipe).create?
         primary_button_to("Verify Recipes", recipe_verifications_path) if policy(:verification).index?

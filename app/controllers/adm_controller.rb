@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class AdmController < ActionController::Base
-  layout -> { Views::Layouts::Adm }
+  # Turbo takes only the frame from a frame request's response.
+  layout -> { turbo_frame_request? ? false : Views::Layouts::Adm }
 
   helper Views::ButtonHelper
 
