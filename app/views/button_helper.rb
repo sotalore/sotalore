@@ -16,7 +16,7 @@ module Views::ButtonHelper
     end
     options = { style: 'primary' }.merge(options || {})
     add_button_css_classes(options)
-    link_to(label, path, options)
+    link_or_button_to(path, options, label)
   end
 
   def default_button_to(label, path=nil, options={})
@@ -26,7 +26,7 @@ module Views::ButtonHelper
     end
     options = { style: 'default' }.merge(options || {})
     add_button_css_classes(options)
-    link_to(label, path, options)
+    link_or_button_to(path, options, label)
   end
 
   def view_icon_to(path, options={})
@@ -56,17 +56,11 @@ module Views::ButtonHelper
   end
 
   def destroy_button_to(label, path, options={})
-    options[:data] ||= {}
-    options[:data][:turbo_method] ||= :delete
-    options[:data][:turbo_confirm] = 'Are you sure?' unless options[:data].key?(:turbo_confirm)
-    simple_button_with_icon(label, path, 'trash', { style: 'danger' }.merge(options))
+    simple_button_with_icon(label, path, 'trash', destroy_options(options))
   end
 
   def destroy_icon_to(path, options={})
-    options[:data] ||= {}
-    options[:data][:turbo_method] ||= :delete
-    options[:data][:turbo_confirm] = 'Are you sure?' unless options[:data].key?(:turbo_confirm)
-    simple_icon_only_button(path, 'trash', 'delete', { style: 'danger' }.merge(options))
+    simple_icon_only_button(path, 'trash', 'delete', destroy_options(options))
   end
 
   def simple_icon_only_button(path, icon, title=nil, options={})
@@ -75,7 +69,7 @@ module Views::ButtonHelper
     options[:style] ||= 'default'
     options[:size]  ||= :sm
     add_button_css_classes(options)
-    link_to(path, options) do
+    link_or_button_to(path, options) do
       render_icon(icon, size: :sm)
     end
   end
@@ -98,7 +92,30 @@ module Views::ButtonHelper
   def simple_button_with_icon(label, path, icon, options={})
     options[:style] ||= 'default'
     add_button_css_classes(options)
-    link_to(path, options) { icon_plus_label(icon, label) }
+    link_or_button_to(path, options) { icon_plus_label(icon, label) }
+  end
+
+  def destroy_options(options)
+    options = { style: 'danger', method: :delete }.merge(options)
+    options[:data] = { turbo_confirm: 'Are you sure?' }.merge(options[:data] || {})
+    options
+  end
+
+  # A link, or for a +method+ that changes something (:post, :patch,
+  # :delete), a button in a form of its own. The form's display: contents
+  # leaves the button laid out as a link would be, and it carries the
+  # +turbo_confirm+.
+  def link_or_button_to(path, options, label = nil, &)
+    content = [ label ].compact
+    method = options.delete(:method)
+    return link_to(*content, path, options, &) if method.nil? || method.to_s == 'get'
+
+    options = options.except(:alt)
+    data = (options.delete(:data) || {}).dup
+    confirm = data.delete(:turbo_confirm)
+    form = { class: 'contents' }
+    form[:data] = { turbo_confirm: confirm } if confirm
+    button_to(*content, path, method: method, form: form, data: data, **options, &)
   end
 
   def icon_plus_label(icon, label)

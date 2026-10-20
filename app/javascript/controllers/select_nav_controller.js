@@ -1,15 +1,9 @@
 import { Controller } from "@hotwired/stimulus"
+import { Turbo } from "@hotwired/turbo-rails"
 
+// Goes to the page chosen in a <select> whose option values are URLs.
 export default class extends Controller {
-
-  connect() {
-    this.selectElement = this.element.querySelector('select')
-    if (this.selectElement) {
-      this.selectElement.addEventListener('change', (event) => { this.navChanged(event) })
-    }
-  }
-
-  navChanged(e) {
-    window.location = e.target.value
+  navigate(event) {
+    Turbo.visit(event.target.value)
   }
 }

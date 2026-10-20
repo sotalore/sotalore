@@ -126,14 +126,14 @@ class Views::Scenes::Show < Views::Scenes::Base
     div(class: "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 items-center",
         data: { controller: "lightbox", "lightbox-options-value": '{"selector": ".gallery-image"}' }) do
       @scene.images.each do |image|
-        turbo_frame_tag(image, class: "inline-block relative") do
+        div(id: dom_id(image), class: "inline-block relative") do
           a(href: rails_blob_path(image), class: "gallery-image") do
             image_tag(image.variant(:preview), class: "h-auto max-w-full rounded-md drop-shadow-lg")
           end
 
           if policy(@scene).destroy?
             div(class: "absolute bottom-1 right-1 opacity-30 hover:opacity-100") do
-              destroy_icon_to(scene_path(attachment_id: image.id), size: :xs, data: { turbo_method: :delete, turbo_confirm: "Are you sure?" })
+              destroy_icon_to(scene_path(attachment_id: image.id), size: :xs)
             end
           end
         end

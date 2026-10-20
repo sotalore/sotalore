@@ -116,6 +116,31 @@ RSpec.describe "Recipes", type: :request do
         expect(response.body).not_to include 'no recipes make this'
       end
 
+      it "loads an ingredient's own recipe in a lazy frame, shown on request" do
+        part = create :item, name: 'Blade'
+        part_recipe = create :recipe, name: 'Blade', with_results: { part => 1 }, with_ingredients: { create(:item) => 1 }
+        whole = create :recipe, name: 'Sword', with_ingredients: { part => 1 }
+        frame_id = ActionView::RecordIdentifier.dom_id(part_recipe, ActionView::RecordIdentifier.dom_id(whole.ingredients.first))
+
+        get recipe_path(whole)
+        expect(response.body).to include(%(data-more-link-frame-param="#{frame_id}"))
+        frame = Nokogiri::HTML(response.body).at_css("turbo-frame##{frame_id}")
+        expect(frame.to_h).to include('src' => show_partial_recipe_path(part_recipe), 'loading' => 'lazy',
+                                      'target' => '_top', 'hidden' => 'hidden')
+
+        get show_partial_recipe_path(part_recipe), headers: { 'Turbo-Frame' => frame_id }
+        expect(response.body).to start_with(%(<turbo-frame id="#{frame_id}">))
+        expect(response.body).to include(part_recipe.name)
+      end
+
+      it 'deletes with a form button, confirming first' do
+        get recipe_path(recipe)
+        form = Nokogiri::HTML(response.body).at_css(%(form[action="#{recipe_path(recipe)}"][method="post"]))
+        expect(form['data-turbo-confirm']).to eq 'Are you sure?'
+        expect(form.at_css('input[name="_method"]')['value']).to eq 'delete'
+        expect(form.at_css('button').text).to include 'Delete Recipe'
+      end
+
       it 'flags a retired recipe' do
         recipe.retire!
         get recipe_path(recipe)

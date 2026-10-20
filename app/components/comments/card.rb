@@ -45,12 +45,11 @@ class Components::Comments::Card < Components::Base
 
   def comment_visibility_button(comment)
     if policy(comment).moderate?
-      data = { turbo_method: :patch }
       path    = comment_path(comment, comment: { visible: !comment.visible })
       if comment.visible
-        default_button_to('hide', path, size: :sm, data: data)
+        default_button_to('hide', path, size: :sm, method: :patch)
       else
-        primary_button_to('show', path, size: :sm, data: data)
+        primary_button_to('show', path, size: :sm, method: :patch)
       end
     else
       if !comment.visible

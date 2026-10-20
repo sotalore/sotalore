@@ -32,6 +32,13 @@ RSpec.describe "User::UserRecipes", type: :request do
         delete user_user_recipe_path(existing), params: { recipe_id: recipe.id }
         expect(response).to have_http_status(:ok)
       end
+
+      it 'answers with the star to add it again, as a form button' do
+        delete user_user_recipe_path(existing), params: { recipe_id: recipe.id }
+        form = Nokogiri::HTML(response.body).at_css('turbo-frame form')
+        expect(form['action']).to eq user_user_recipes_path(recipe_id: recipe.id)
+        expect(form.at_css('button.UserRecipeStar')).to be_present
+      end
     end
   end
 end

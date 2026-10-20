@@ -304,10 +304,6 @@
     transition: transform 100ms linear;
   }
 
-  .Recipe-ingredient > .Recipe-ingredientSubDetail  div.MoreHidden {
-    display: none;
-  }
-
   .Recipe-ingredient > .Recipe-ingredientSubDetail .Recipe .Recipe-name {
     display: none;
   }

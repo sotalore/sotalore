@@ -54,16 +54,12 @@ class ScenesController < ApplicationController
     end
   end
 
+  # Deletes one of the scene's images (+attachment_id+); scenes themselves
+  # aren't deleted. Back on the scene's page, Turbo morphs the image away.
   def destroy
     @scene = authorize find_scene
-    respond_to do |format|
-      if att_id = params[:attachment_id]
-        image = @scene.images.find(att_id)
-        image.purge
-        format.turbo_stream { render html: helpers.turbo_frame_tag(image), layout: false }
-      end
-      format.html { redirect_to @scene }
-    end
+    @scene.images.find(params[:attachment_id]).purge if params[:attachment_id]
+    redirect_to @scene, status: :see_other
   end
 
   private

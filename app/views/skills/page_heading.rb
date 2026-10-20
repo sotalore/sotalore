@@ -24,7 +24,7 @@ class Views::Skills::PageHeading < Views::Skills::Base
       if @with_avatar_controls
         div(class: "flex flex-wrap items-center justify-between md:justify-end gap-2 pb-2 text-xs md:text-base") do
           if @avatars
-            form(class: "flex items-center gap-1 md:gap-2", data: { controller: "select-nav" }) do
+            form(class: "flex items-center gap-1 md:gap-2", data: { controller: "select-nav", action: "change->select-nav#navigate" }) do
               strong { "Avatar:" }
               avatar_select_tag
             end

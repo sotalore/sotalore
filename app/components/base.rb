@@ -18,6 +18,7 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::ImageTag
   include Phlex::Rails::Helpers::ImagePath
   include Phlex::Rails::Helpers::TurboFrameTag
+  include Phlex::Rails::Helpers::ButtonTo
 
   register_value_helper :policy
   register_value_helper :l

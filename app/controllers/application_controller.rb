@@ -1,7 +1,8 @@
 # frozen-string-literal: true
 
 class ApplicationController < ActionController::Base
-  layout -> { Views::Layouts::Application }
+  # Turbo takes only the frame from a frame request's response.
+  layout -> { turbo_frame_request? ? false : Views::Layouts::Application }
 
   helper Views::ButtonHelper
 

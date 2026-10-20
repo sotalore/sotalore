@@ -120,6 +120,8 @@ class Components::Recipes::Card < Components::Recipes::Base
     ingredient_dom_id = dom_id(ingredient)
     item = ingredient.item
 
+    other_recipes = item.recipes.reject { |r| r == @recipe }
+
     div(class: "Recipe-ingredient", data: { controller: "more-link" }) do
       div(class: "Recipe-ingredientSummary flex flex-row items-center gap-1") do
         span(class: "inline-block text-right min-w-8") { ingredient.count.to_s }
@@ -134,14 +136,18 @@ class Components::Recipes::Card < Components::Recipes::Base
         whitespace
         item_abstract_tag(item)
 
-        item.recipes.each do |r|
-          next if @recipe == r
-
+        other_recipes.each do |r|
           whitespace
-          more_link_to(recipe_path(r), data: { action: "more-link#load", url: show_partial_recipe_path(r), more_id: dom_id(r, ingredient_dom_id) })
+          more_link_to(recipe_path(r), data: { action: "more-link#toggle", more_link_frame_param: dom_id(r, ingredient_dom_id) })
         end
       end
-      div(class: "Recipe-ingredientSubDetail pl-4 -mr-1", data: { "more-link-target": "subDetail" })
+      # Each of the ingredient's recipes, loaded the first time it's shown.
+      # Links in it go to their page, not into the frame.
+      div(class: "Recipe-ingredientSubDetail pl-4 -mr-1") do
+        other_recipes.each do |r|
+          turbo_frame_tag(dom_id(r, ingredient_dom_id), src: show_partial_recipe_path(r), loading: :lazy, target: "_top", hidden: true)
+        end
+      end
     end
   end
 

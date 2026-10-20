@@ -101,6 +101,7 @@ RSpec.describe "Comments", type: :request do
         get edit_item_comment_path(parent, comment), headers: frame
         expect(response.body).to include(%(<turbo-frame id="body_comment_#{comment.id}">))
         expect(response.body).to include('Update Comment')
+        expect(response.body).not_to include('<html') # Turbo takes only the frame
       end
 
       it 'renders the updated comment, for the frame' do
