@@ -5,6 +5,7 @@ class Views::Adm::FindsImports::Show < Views::Base
   include Phlex::Rails::Helpers::ButtonTo
 
   INPUT_CSS = 'border border-grey-400 rounded px-2 py-1 text-sm dark:bg-grey-700'
+  SEEN_NOTES = { 'linked' => '(a creature here)', 'ignored' => '(ignored here)', 'dressed' => '(field dressed)' }.freeze
 
   # +open+ names the section acted on, to come back to.
   def initialize(import:, analysis:, scenes:, open: nil)
@@ -19,6 +20,7 @@ class Views::Adm::FindsImports::Show < Views::Base
       header
       unmatched_scenes
       unknown_items
+      seen_to_review
       new_things
       @analysis.scenes.each { scene_section(_1) }
     end
@@ -86,6 +88,53 @@ class Views::Adm::FindsImports::Show < Views::Base
     )
   end
 
+  # Targeted in a scene but never fought: a creature living there (add it,
+  # or link it when the site has it), or an NPC, a player or a pet (ignore
+  # it there, for later imports too).
+  def seen_to_review
+    rows = @analysis.scenes.select { _1.pending_seen.any? }
+    return if rows.empty?
+    h2(id: 'seen', class: 'mt-6 mb-1 text-lg font-bold') do
+      plain "Targeted, never fought (#{rows.sum { _1.pending_seen.size }})"
+    end
+    p(class: 'mb-2 text-sm max-w-prose') do
+      plain 'The game doesn\'t say whether a target is a creature, an NPC or a player. Add each that lives in '
+      plain 'the scene as one of its creatures (linking the site\'s creature when it has one), or ignore it '
+      plain 'there; later imports leave ignored names out. Scenes not on the site wait until they\'re linked.'
+    end
+    rows.each do |row|
+      h3(class: 'mt-3 mb-1 font-bold') { row.scene.name }
+      table(class: 'table-auto text-sm') do
+        row.pending_seen.each { seen_row(row.scene, _1) }
+      end
+    end
+  end
+
+  def seen_row(scene, seen)
+    tr(class: 'border-b border-grey-200 dark:border-grey-700') do
+      td(class: 'pr-3 py-1') do
+        strong { seen.name }
+        whitespace
+        span(class: 'text-xs text-grey-500') { [ level_text(seen), ('on the site' if seen.creature) ].compact.join(' · ') }
+      end
+      td(class: 'py-1 flex flex-row gap-1') do
+        seen_button(scene, seen, 'creature', seen.creature ? 'Link' : 'Add', 'primary')
+        seen_button(scene, seen, 'ignore', 'Ignore', 'default')
+      end
+    end
+  end
+
+  def seen_button(scene, seen, resolution, label, style)
+    form(action: resolve_adm_finds_import_path(@import), method: 'post', data: { turbo_action: 'replace' }) do
+      authenticity_token_field
+      input(type: 'hidden', name: 'open', value: 'seen')
+      input(type: 'hidden', name: 'resolution', value: resolution)
+      input(type: 'hidden', name: 'scene_id', value: scene.id)
+      input(type: 'hidden', name: 'name', value: seen.name)
+      button(type: 'submit', class: "Button Button--sm Button--#{style}") { label }
+    end
+  end
+
   def new_things
     creatures = @analysis.new_creatures
     nodes = @analysis.new_nodes
@@ -102,7 +151,7 @@ class Views::Adm::FindsImports::Show < Views::Base
         plain " → #{row.scene ? row.scene.name : 'not on the site'}"
         span(class: 'text-sm text-grey-500') do
           plain " · #{row.items.size} items (#{row.unknown_items.size} unknown), #{row.creatures.size} creatures, " \
-                "#{row.nodes.size} nodes"
+                "#{row.seen.size} targeted, #{row.nodes.size} nodes"
         end
       end
       if row.differences.any?
@@ -113,6 +162,7 @@ class Views::Adm::FindsImports::Show < Views::Base
       end
       labelled('Items', row.items.map { |f| f.item ? f.item.name : "#{f.game_item.name} (unknown)" })
       labelled('Creatures', row.creatures.map { |c| [ c.name, level_text(c) ].compact.join(' ') })
+      labelled('Targeted, never fought', row.seen.map { |c| [ c.name, level_text(c), SEEN_NOTES[c.status] ].compact.join(' ') })
       row.nodes.each do |node|
         labelled("#{node.creature? ? 'Field dressing' : 'Node'} #{node.name}",
                  node.items.map { |f| f.item ? f.item.name : "#{f.game_item.name} (unknown)" })

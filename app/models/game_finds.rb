@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
 # A read-only view over the plugin's finds file (see sl-lua/EXPORT-FORMAT.md):
-# per scene, the items gained there, the creatures fought there, and the
-# nodes gathered from (with what each gave), e.g.
+# per scene, the items gained there, the creatures fought there, what was
+# targeted there but never fought (+seen+, from plugin 0.11.0: creatures, but
+# also NPCs, players and pets, for review), and the nodes gathered from
+# (with what each gave), e.g.
 #
 #   {"apiVersion":40,"scenes":[{"scene":"Kingsroad","rawName":"HiddenVale_Plains02_Road_Tier1",
 #     "info":{"isPvp":false,...},
 #     "items":[{"key":"item:...","name":"Animal Hide","quantity":12,"times":2}],
 #     "creatures":[{"name":"Brown Bear","seen":3,"levelMin":18,"levelMax":18}],
+#     "seen":[{"name":"Large Stag","seen":1,"levelMin":null,"levelMax":null}],
 #     "nodes":[{"name":"Copper Vein","items":[{"name":"Copper Ore","quantity":9}]}]}]}
 #
 # The site only cares that something can be found somewhere, so counts are
@@ -18,7 +21,7 @@ class GameFinds
   Item = Data.define(:key, :name)
   CreatureSighting = Data.define(:name, :level_min, :level_max)
   Node = Data.define(:name, :item_names)
-  Scene = Data.define(:name, :raw_name, :info, :items, :creatures, :nodes) do
+  Scene = Data.define(:name, :raw_name, :info, :items, :creatures, :seen, :nodes) do
     # The scene's items by name, for nodes, which give names only.
     def item_named(name)
       items.find { _1.name.casecmp?(name) }
@@ -61,14 +64,18 @@ class GameFinds
       info: s['info'],
       items: Array(s['items']).map { Item.new(_1['key'].presence, self.class.clean_name(_1['name'])) }
                               .reject { _1.name.blank? },
-      creatures: Array(s['creatures']).map do
-        CreatureSighting.new(self.class.clean_name(_1['name']), _1['levelMin'], _1['levelMax'])
-      end.reject { _1.name.blank? },
+      creatures: sightings(s['creatures']),
+      seen: sightings(s['seen']),
       nodes: Array(s['nodes']).map do
         Node.new(self.class.clean_name(_1['name']),
                  Array(_1['items']).map { |i| self.class.clean_name(i['name']) }.compact_blank.uniq)
       end.reject { _1.name.blank? }
     )
+  end
+
+  def sightings(list)
+    Array(list).map { CreatureSighting.new(self.class.clean_name(_1['name']), _1['levelMin'], _1['levelMax']) }
+               .reject { _1.name.blank? }
   end
 
 end

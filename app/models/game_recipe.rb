@@ -30,15 +30,12 @@ class GameRecipe
     def placeholder? = placeholder
   end
 
-  # An export file: its recipes and top-level groups (see GameGroup). +list+
-  # is whether it has a "recipes" list, which every export file does, whether
-  # it holds every recipe ("Export all"), only new ones ("Export new") or one.
-  # +scope+ is what the file says it holds ("all", "new" or "one"; plugin
-  # 0.4+), or nil when it doesn't say; +plugin_version+ which plugin wrote it
-  # (0.7.1+).
-  Export = Data.define(:api_version, :list, :recipes, :groups, :scope, :plugin_version) do
-    def list? = list
-  end
+  # An export file: its recipes and top-level groups (see GameGroup). Every
+  # export file has a "recipes" list, whether it holds every recipe ("Export
+  # all"), only new ones ("Export new") or one. +scope+ is what the file says
+  # it holds ("all", "new" or "one"; plugin 0.4+), or nil when it doesn't
+  # say; +plugin_version+ which plugin wrote it (0.7.1+).
+  Export = Data.define(:api_version, :recipes, :groups, :scope, :plugin_version)
 
   SCOPES = %w[ all new one ].freeze
 
@@ -49,23 +46,17 @@ class GameRecipe
 
   attr_reader :payload
 
-  # Accepts either an export file ({"recipes": [...], "groups": [...]}) or a
-  # single recipe object, as a JSON string or already-parsed Hash. Returns an
-  # Export.
+  # Reads an export file ({"recipes": [...], "groups": [...]}), as a JSON
+  # string or already-parsed Hash. Returns an Export.
   def self.parse_export(json)
     data = json.is_a?(String) ? JSON.parse(json) : json
     PluginFile.check_type!(data, 'recipes')
-    if data.is_a?(Hash) && data.key?('recipes')
-      Export.new(data['apiVersion'], true, Array(data['recipes']).map { new(_1) },
-                 Array(data['groups']).map { GameGroup.new(_1) }, data['scope'].presence_in(SCOPES),
-                 PluginFile.version(data))
-    elsif data.is_a?(Hash) && data.key?('ingredients')
-      Export.new(nil, false, [ new(data) ], [], nil, nil)
-    elsif data.is_a?(Array)
-      Export.new(nil, false, data.map { new(_1) }, [], nil, nil)
-    else
-      raise ArgumentError, 'Not a recipe export: expected a "recipes" list or a single recipe'
+    unless data.is_a?(Hash) && data.key?('recipes')
+      raise ArgumentError, 'Not a recipe export: expected a "recipes" list'
     end
+    Export.new(data['apiVersion'], Array(data['recipes']).map { new(_1) },
+               Array(data['groups']).map { GameGroup.new(_1) }, data['scope'].presence_in(SCOPES),
+               PluginFile.version(data))
   end
 
   def initialize(payload)

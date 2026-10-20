@@ -11,6 +11,12 @@ require 'set'
 #
 #   manual      - an admin linked the entry to a recipe by hand
 #   game_id     - the recipe was previously synced from this game recipe
+#   replaced    - the game changed the recipe, which gives it a new id: same
+#                 name, craft skill and kind as a site recipe synced from
+#                 another id that this export doesn't have. Only when that's
+#                 unambiguous (one such site recipe, one such entry). Works
+#                 for "new" exports too, which hold changed recipes; applying
+#                 updates the site recipe, new id and all
 #   name        - same name; when several site recipes share it, one with
 #                 identical ingredients is preferred, then the same craft
 #                 skill, then the oldest
@@ -29,7 +35,7 @@ require 'set'
 # the recipe they were matched to.
 class RecipeImportAnalyzer
 
-  MATCH_PASSES = %i[ game_id name ingredients result ].freeze
+  MATCH_PASSES = %i[ game_id replaced name ingredients result ].freeze
 
   def initialize(import, lookup: ItemLookup.new)
     @import = import
@@ -49,6 +55,7 @@ class RecipeImportAnalyzer
     end
 
     pending = entries.reject { |e| e.final? || @matches.key?(e.id) }
+    note_new_game_ids(entries, pending)
     MATCH_PASSES.each do |pass|
       pending.each do |entry|
         next if @matches.key?(entry.id)
@@ -125,6 +132,31 @@ class RecipeImportAnalyzer
     recipe unless @claimed.include?(recipe&.id)
   end
 
+  # For the replaced pass: the game ids in this export, and how many of its
+  # pending entries with an id the site doesn't know share each name and
+  # craft skill.
+  def note_new_game_ids(entries, pending)
+    @export_game_ids = entries.to_set(&:game_id)
+    @new_by_name_and_skill = pending.map(&:game_recipe)
+                                    .reject { @recipes_by_game_id.key?(_1.game_id) }
+                                    .group_by { name_and_skill(_1) }
+  end
+
+  def match_by_replaced(gr)
+    return nil if @recipes_by_game_id.key?(gr.game_id) || !gr.craft_skill
+    return nil unless @new_by_name_and_skill[name_and_skill(gr)]&.one?
+
+    candidates = Array(@recipes_by_name[gr.name.downcase]).select do |r|
+      r.game_id && !@export_game_ids.include?(r.game_id) && r.craft_skill == gr.craft_skill &&
+        !@claimed.include?(r.id) && same_kind?(r, gr)
+    end
+    candidates.first if candidates.one?
+  end
+
+  def name_and_skill(gr)
+    [ gr.name.downcase, gr.craft_skill&.key ]
+  end
+
   # A recipe the export gives no fixed result to matches by name whatever
   # the site recipe's kind (except templates): the site may have it as making
   # itself, from before the export said what it modifies.
@@ -179,8 +211,8 @@ class RecipeImportAnalyzer
         'blocked'
       elsif recipe.nil?
         'addition'
-      elsif entry.diff.empty?
-        'unchanged'
+      elsif entry.diff.except('game_id').empty?
+        'unchanged' # linking it takes the new id
       else
         'outdated'
       end
@@ -228,6 +260,8 @@ class RecipeImportAnalyzer
 
   def diff_for(gr, recipe)
     diff = {}
+    # The game replaced the recipe (see the replaced match).
+    diff['game_id'] = [ recipe.game_id, gr.game_id ] if recipe.game_id && recipe.game_id != gr.game_id
     diff['name'] = [ recipe.name, gr.name ] if recipe.name != gr.name
     if recipe.craft_skill != gr.craft_skill
       diff['craft_skill'] = [ recipe.craft_skill&.key, gr.craft_skill&.key ]

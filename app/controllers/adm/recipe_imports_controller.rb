@@ -15,19 +15,17 @@ class Adm::RecipeImportsController < AdmController
     render Views::Adm::RecipeImports::Index.new(imports: @imports)
   end
 
-  # Takes either an uploaded export file or JSON pasted from the game. A
-  # single pasted recipe goes straight to its entry for review.
+  # Takes an uploaded export file. A file of one recipe goes straight to its
+  # entry for review.
   def create
     authorize(RecipeImport)
     file = params[:file].presence
-    json = file ? file.read : params[:json].to_s.strip
-    if json.blank?
-      redirect_to adm_recipe_imports_path, alert: 'Choose an export file, or paste recipe JSON.'
+    unless file
+      redirect_to adm_recipe_imports_path, alert: 'Choose a recipe export file (sotalore-recipes-all.json).'
       return
     end
 
-    import = RecipeImport.create_from_json!(json, filename: file&.original_filename, user: Current.user,
-                                            full_export: file.present? && params[:full_export] == '1')
+    import = RecipeImport.create_from_json!(file.read, filename: file.original_filename, user: Current.user)
     if import.entries_count == 1
       entry = import.entries.first
       redirect_to adm_recipe_import_entry_path(import, entry),

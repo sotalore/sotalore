@@ -10,38 +10,14 @@ class Views::Adm::RecipeImports::Index < Views::Adm::RecipeImports::Base
     div(class: 'm-2 p-4 bg-white dark:bg-grey-800') do
       h1(class: 'text-2xl font-bold') { 'Recipe Imports' }
       p(class: 'my-2 max-w-prose') do
-        plain 'Import JSON from the game recipe export plugin: paste a recipe copied from the game, '
-        plain 'or upload an export file (sotalore-export.json, or sotalore-one.json for one recipe; older '
-        plain 'plugins named them sl-recipes-*.json). Files from plugin 0.4 '
-        plain 'on say whether they hold every recipe a character knows ("Export all"), which makes the import a '
-        plain 'full export: recipes it lacks become candidates to retire. For older files, tick '
-        strong { 'Export all' }
-        plain ' only for a file made with "Export all", never "Export new". '
+        plain 'Upload a recipe export from the plugin: sotalore-recipes-all.json ("Export all", every recipe '
+        plain 'a character knows), sotalore-recipes-new.json ("Export new") or sotalore-recipes-one.json (one '
+        plain 'recipe). Plugins before 0.11.0 named them sotalore-export.json and sotalore-one.json. An "Export '
+        plain 'all" file makes the import a full export: recipes it lacks become candidates to retire. '
         plain 'Nothing changes on the site until you apply entries from the import.'
       end
 
-      div(class: 'my-4 grid grid-cols-1 lg:grid-cols-2 gap-6') do
-        div do
-          h2(class: 'font-bold mb-2') { 'Paste a recipe' }
-          form_with(url: adm_recipe_imports_path, class: 'flex flex-col gap-2') do |f|
-            f.text_area :json, rows: 6, required: true, spellcheck: false,
-                        placeholder: '{"id":-1599494009,"name":"Bark Bread","categoryKey":"Crafting_Cooking",...}',
-                        class: 'w-full font-mono text-xs border border-grey-400 rounded p-2 dark:bg-grey-700'
-            div { f.submit 'Import pasted JSON', class: 'Button Button--primary' }
-          end
-        end
-        div do
-          h2(class: 'font-bold mb-2') { 'Upload an export file' }
-          form_with(url: adm_recipe_imports_path, multipart: true, class: 'flex flex-row flex-wrap items-center gap-4') do |f|
-            f.file_field :file, accept: 'application/json,.json', required: true, class: 'max-w-full'
-            label(class: 'flex flex-row items-center gap-1') do
-              input(type: 'checkbox', name: 'full_export', value: '1')
-              plain 'Export all (older files only)'
-            end
-            f.submit 'Upload export', class: 'Button Button--primary'
-          end
-        end
-      end
+      render Components::Imports::UploadForm.new(url: adm_recipe_imports_path, label: 'Upload export')
 
       paginate @imports
       table(class: 'table-auto w-full') do

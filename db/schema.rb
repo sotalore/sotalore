@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_20_191632) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_20_221618) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -142,6 +142,14 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_191632) do
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_harvest_yields_on_item_id"
     t.index ["source_type", "source_id", "item_id"], name: "index_harvest_yields_on_source_type_and_source_id_and_item_id", unique: true
+  end
+
+  create_table "ignored_sightings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.citext "name", null: false
+    t.integer "scene_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["scene_id", "name"], name: "index_ignored_sightings_on_scene_id_and_name", unique: true
   end
 
   create_table "ingredients", id: :serial, force: :cascade do |t|
@@ -450,6 +458,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_20_191632) do
   add_foreign_key "earned_skills", "avatars"
   add_foreign_key "finds_imports", "users", column: "uploaded_by_id"
   add_foreign_key "harvest_yields", "items"
+  add_foreign_key "ignored_sightings", "scenes"
   add_foreign_key "ingredients", "items"
   add_foreign_key "ingredients", "recipes"
   add_foreign_key "item_aliases", "items"

@@ -69,7 +69,37 @@ class FindsImport < ApplicationRecord
     scene
   end
 
+  # Takes +name+, targeted but never fought in the site scene +scene_id+
+  # (see FindsImportAnalysis::SeenRow), as a creature living there: creates
+  # the Creature unless the site has it, and links it to the scene with the
+  # levels seen. Returns the creature.
+  def add_seen_creature!(scene_id, name)
+    row, seen = pending_seen(scene_id, name)
+    creature = seen.creature || Creature.create!(name: seen.name)
+    link = SceneCreature.find_or_initialize_by(scene: row.scene, creature: creature)
+    link.widen(seen.level_min, seen.level_max)
+    link.save!
+    @analysis = nil
+    creature
+  end
+
+  # Ignores +name+ in the site scene +scene_id+ (see IgnoredSighting), so
+  # this and later imports leave it out of review there.
+  def ignore_seen!(scene_id, name)
+    row, seen = pending_seen(scene_id, name)
+    IgnoredSighting.create!(scene: row.scene, name: seen.name)
+    @analysis = nil
+  end
+
   private
+
+  def pending_seen(scene_id, name)
+    row = analysis.scenes.find { _1.scene&.id == scene_id.to_i } or
+      raise Error, "This import has no scene ##{scene_id} on the site"
+    seen = row.pending_seen.find { _1.name.casecmp?(name) } or
+      raise Error, "#{name} isn't waiting for review in #{row.scene.name}"
+    [ row, seen ]
+  end
 
   def reset_analysis!
     @analysis = nil

@@ -23,10 +23,10 @@ RSpec.describe "Adm::RecipeImports", type: :request do
   let(:chair_entry) { import.entries.find_by!(name: 'Chair') }
   let(:ring_entry) { import.entries.find_by!(name: 'Ring') }
 
-  def upload(content, full_export: nil)
+  def upload(content)
     file = Rack::Test::UploadedFile.new(StringIO.new(content), 'application/json',
-                                        original_filename: 'export.json')
-    post adm_recipe_imports_path, params: { file: file, full_export: full_export }.compact
+                                        original_filename: 'sotalore-recipes-all.json')
+    post adm_recipe_imports_path, params: { file: file }
   end
 
   it 'requires a root user' do
@@ -44,11 +44,21 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       expect(import.uploaded_by).to eq user
     end
 
-    it 'is a full export only when the uploader says so' do
+    it "isn't a full export when the file doesn't say it is" do
       upload(json)
-      expect(RecipeImport.last.full_export).to be false
-      upload(json, full_export: '1')
-      expect(RecipeImport.last.full_export).to be true
+      expect(RecipeImport.last).to have_attributes(full_export: false, filename: 'sotalore-recipes-all.json')
+    end
+
+    it 'asks for a file when none is chosen' do
+      expect { post adm_recipe_imports_path }.not_to change(RecipeImport, :count)
+      expect(flash[:alert]).to include 'sotalore-recipes-all.json'
+    end
+
+    it 'takes only export files, not a bare recipe' do
+      upload(game_recipe_hash(name: 'Bark Bread', id: 1).to_json)
+      expect(flash[:alert]).to include 'expected a "recipes" list'
+      upload(game_export_json(game_recipe_hash(name: 'X').except('id')))
+      expect(flash[:alert]).to include 'needs an "id"'
     end
 
     it "goes by the file's scope when it has one" do
@@ -56,7 +66,7 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       upload(game_export_json(*recipes, scope: 'all', plugin_version: '0.7.3'))
       expect(RecipeImport.last).to have_attributes(full_export: true, export_scope: 'all', plugin_version: '0.7.3')
 
-      upload(game_export_json(*recipes, scope: 'new'), full_export: '1')
+      upload(game_export_json(*recipes, scope: 'new'))
       new_only = RecipeImport.last
       expect(new_only).to have_attributes(full_export: false, export_scope: 'new')
       get adm_recipe_import_path(new_only)
@@ -71,10 +81,8 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       recipes = [ game_recipe_hash(name: 'Chair', id: 1), game_recipe_hash(name: 'Bench', id: 2) ]
       upload(game_export_json(*recipes, scope: 'all'))
       expect(RecipeImport.last.full_export).to be false
-      upload(game_export_json(*recipes, scope: 'all'), full_export: '1')
-      expect(RecipeImport.last.full_export).to be true
 
-      upload(game_export_json(*recipes, scope: 'all', plugin_version: '0.5.1'), full_export: '1')
+      upload(game_export_json(*recipes, scope: 'all', plugin_version: '0.5.1'))
       old = RecipeImport.last
       expect(old.full_export).to be false
       post set_full_export_adm_recipe_import_path(old), params: { full_export: '1' }
@@ -87,7 +95,7 @@ RSpec.describe "Adm::RecipeImports", type: :request do
     end
 
     it 'never takes a single recipe for a full export' do
-      upload(game_export_json(game_recipe_hash(name: 'Chair', id: 9)), full_export: '1')
+      upload(game_export_json(game_recipe_hash(name: 'Chair', id: 9), scope: 'all', plugin_version: '0.7.3'))
       expect(RecipeImport.last.full_export).to be false
     end
 
@@ -103,34 +111,11 @@ RSpec.describe "Adm::RecipeImports", type: :request do
       expect(single.reload.full_export).to be false
     end
 
-    it 'imports a pasted recipe and goes straight to it' do
-      pasted = game_recipe_hash(name: 'Bark Bread', id: -1599494009, category: 'Cooking',
-                                ingredients: { 'Wooden Board' => 2 }, results: { 'Bark Bread' => 4 }).to_json
-      expect { post adm_recipe_imports_path, params: { json: "  #{pasted}\n" } }
-        .to change(RecipeImport, :count).by(1)
-      import = RecipeImport.last
-      entry = import.entries.sole
-      expect(response).to redirect_to(adm_recipe_import_entry_path(import, entry))
-      expect(import).to have_attributes(filename: 'Pasted: Bark Bread', full_export: false)
-      expect(entry).to have_attributes(name: 'Bark Bread', game_id: -1599494009)
-    end
-
-    it 'labels a pasted list by its recipes' do
-      post adm_recipe_imports_path, params: { json: json }
-      expect(RecipeImport.last.filename).to eq 'Pasted: Chair + 1 more'
-      expect(response).to redirect_to(adm_recipe_import_path(RecipeImport.last))
-    end
-
-    it 'rejects pasted junk or nothing' do
-      expect { post adm_recipe_imports_path, params: { json: '{"name": "Bark Bread"' } }
-        .not_to change(RecipeImport, :count)
-      expect(flash[:alert]).to include "Couldn't import"
-
-      post adm_recipe_imports_path, params: { json: game_recipe_hash(name: 'X').except('id').to_json }
-      expect(flash[:alert]).to include 'needs an "id"'
-
-      post adm_recipe_imports_path, params: { json: '  ' }
-      expect(flash[:alert]).to include 'paste recipe JSON'
+    it "offers only an upload, naming the plugin's files" do
+      get adm_recipe_imports_path
+      expect(response.body).to include('sotalore-recipes-all.json', 'sotalore-recipes-one.json', 'Upload export')
+      expect(response.body).not_to include('Paste a recipe')
+      expect(response.body).not_to include('older files only')
     end
 
     it 'rejects junk' do
@@ -267,7 +252,9 @@ RSpec.describe "Adm::RecipeImports", type: :request do
   end
 
   describe 'stale recipes' do
-    let(:import) { RecipeImport.create_from_json!(json, filename: 'export.json', user: user, full_export: true) }
+    let(:import) do
+      RecipeImport.create_from_json!(json, filename: 'export.json', user: user).tap { _1.update!(full_export: true) }
+    end
 
     it 'lists them' do
       get stale_adm_recipe_import_path(import)

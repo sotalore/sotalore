@@ -77,7 +77,11 @@ to load the skill list any more, but it's still welcome for checking.
   items can be found there (by key, or by name the first time), its creatures (with the levels seen)
   and gathering nodes, and what each node gives. A node named like a creature is field dressing, so
   its items are that creature's. Presence only: counts are ignored. Scene `info` is compared with
-  the site's scene and differences are shown for review, not applied.
+  the site's scene and differences are shown for review, not applied. `seen` (sl-admin 0.11.0) is
+  reviewed by an admin, name by name in each scene: added as one of the scene's creatures (linking the
+  site's creature of that name if it has one), or ignored in that scene, which later imports remember.
+  A `seen` name that is also a node in the scene is taken as a creature (field dressing), as the
+  format suggests. Thank you for `seen`.
 - **The item catalog** is imported: keys (by key, or by name the first time), the tooltip kept on the
   item's key (value, merchant pays, flags, effects, text), "Tool" items of unknown use made tools, and
   salvage lists with their quantity ranges and chances (`yields` as one more component). Crafted items
@@ -205,7 +209,9 @@ The game's places, for the map and the finds:
 From finds. A **creature** is a name the combat lines print (creatures of one name are one creature);
 a **gathering node** is a vein, plant or tree ("Copper Vein"). Each records the scenes it's in (a
 creature with the range of levels seen there) and what gathering from it gives: field dressing for a
-creature, harvesting for a node. Nothing else about them is recorded yet (no type, family, boss or
+creature, harvesting for a node. A creature can also come from a scene's `seen` list, when an admin
+accepts it; names ignored there (NPCs, players, pets) are kept per scene, so the same name can still be
+a creature elsewhere. Nothing else about them is recorded yet (no type, family, boss or
 loot table); the site would welcome anything the game can say about creatures.
 
 ### Finds

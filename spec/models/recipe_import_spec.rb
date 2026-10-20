@@ -92,6 +92,44 @@ RSpec.describe RecipeImport do
       expect(entry_named(import, 'Chair').recipe).to be_nil
     end
 
+    describe 'a recipe the game replaced (changing a recipe gives it a new id)' do
+      let!(:synced) do
+        create(:recipe, name: 'Chair', craft_skill: 'carpentry', proficiency: 1, game_id: 111,
+                        with_ingredients: { board => 2 }, with_results: { chair => 1 })
+      end
+
+      it 'matches the site recipe synced from the old id, even in a "new" export' do
+        import = RecipeImport.create_from_json!(
+          game_export_json(game_recipe_hash(name: 'chair', id: 222, ingredients: { 'Wooden Board' => 5 }), scope: 'new'),
+          user: user)
+        entry = entry_named(import, 'chair')
+        expect(entry).to have_attributes(recipe: synced, match_method: 'replaced')
+        expect(entry).to be_outdated
+        expect(entry.diff).to include('game_id' => [ 111, 222 ],
+                                      'ingredients' => { 'changed' => [ [ 'Wooden Board', 2, 5 ] ] })
+      end
+
+      it 'links it, taking the new id, when only the id changed' do
+        import = import_of(game_recipe_hash(name: 'Chair', id: 222, ingredients: { 'Wooden Board' => 2 }))
+        expect(entry_named(import, 'Chair')).to have_attributes(recipe: synced, match_method: 'replaced', status: 'unchanged')
+      end
+
+      it "doesn't when the export still has the old id, another skill makes it, or it's ambiguous" do
+        other_skill = import_of(game_recipe_hash(name: 'Chair', id: 222, category: 'Tailoring',
+                                                 ingredients: { 'Wooden Board' => 5 }))
+        expect(entry_named(other_skill, 'Chair').recipe).to be_nil
+
+        two_new = import_of(game_recipe_hash(name: 'Chair', id: 222, ingredients: { 'Wooden Board' => 5 }),
+                            game_recipe_hash(name: 'Chair', id: 333, ingredients: { 'Wax' => 5 }))
+        expect(two_new.entries.map(&:recipe)).to all(be_nil)
+
+        create(:recipe, name: 'Chair', craft_skill: 'carpentry', game_id: 444,
+                        with_ingredients: { wax => 1 }, with_results: { chair => 1 })
+        two_old = import_of(game_recipe_hash(name: 'Chair', id: 222, ingredients: { 'Wooden Board' => 5 }))
+        expect(entry_named(two_old, 'Chair').recipe).to be_nil
+      end
+    end
+
     it 'blocks entries with unknown items or skills' do
       import = import_of(
         game_recipe_hash(name: 'Mystery', ingredients: { 'Unobtainium' => 1 }),
@@ -270,6 +308,16 @@ RSpec.describe RecipeImport do
       expect(recipe).not_to be_retired
       body = JSON.parse(recipe.comments.last.body)
       expect(body['ingredient_changes']).to eq('removed' => [ [ 'Wax', 3 ] ], 'changes' => { 'Wooden Board' => [ 1, 2 ] })
+    end
+
+    it 'updates a recipe the game replaced in place, taking the new id' do
+      recipe = create(:recipe, name: 'Chair', craft_skill: 'carpentry', proficiency: 1, game_id: 111,
+                               with_ingredients: { board => 2 }, with_results: { chair => 1 })
+      import = import_of(game_recipe_hash(name: 'Chair', id: 222, ingredients: { 'Wax' => 3 }))
+
+      expect { applier.apply(entry_named(import, 'Chair')) }.not_to change(Recipe, :count)
+      expect(recipe.reload).to have_attributes(game_id: 222, verified?: true)
+      expect(recipe.ingredients.map { [ _1.name, _1.count ] }).to eq [ [ 'Wax', 3 ] ]
     end
 
     it 'links an unchanged recipe without a revision' do

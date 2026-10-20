@@ -10,15 +10,13 @@ class Views::Adm::FindsImports::Index < Views::Base
     div(class: 'm-2 p-4 bg-white dark:bg-grey-800') do
       h1(class: 'text-2xl font-bold') { 'Finds Imports' }
       p(class: 'my-2 max-w-prose') do
-        plain 'Upload the plugin\'s finds file (sotalore-finds.json): what was found in each scene, the '
+        plain 'Upload the plugin\'s finds file (sotalore-scene-finds.json; sotalore-finds.json from plugins '
+        plain 'before 0.11.0): what was found in each scene, the '
         plain 'creatures fought there and the nodes gathered from. The site records only that something '
         plain 'can be found somewhere, so uploading the same finds again changes nothing. Nothing changes '
         plain 'until you apply an import.'
       end
-      form_with(url: adm_finds_imports_path, multipart: true, class: 'my-4 flex flex-row flex-wrap items-center gap-4') do |f|
-        f.file_field :file, accept: 'application/json,.json', required: true, class: 'max-w-full'
-        f.submit 'Upload finds', class: 'Button Button--primary'
-      end
+      render Components::Imports::UploadForm.new(url: adm_finds_imports_path, label: 'Upload finds')
 
       paginate @imports
       table(class: 'table-auto w-full') do

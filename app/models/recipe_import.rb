@@ -17,29 +17,26 @@ class RecipeImport < ApplicationRecord
   STALE_LIMIT = 0.3
   STALE_MINIMUM = 20
 
-  # Builds (and saves) an import from export JSON, uploaded as a file or
-  # pasted (no filename, so it's labelled by the recipes in it). Raises
+  # Builds (and saves) an import from an uploaded export file. Raises
   # ArgumentError or JSON::ParserError on input that isn't a recipe export.
   #
   # Whether it's a full export ("Export all": every recipe a character knows,
   # so recipes it lacks may be gone from the game) comes from the file: an
   # "all" scope from plugin 0.5.2 or later is full; "new" and "one" never
-  # are, nor is anything from before 0.5.2 (those lack ~100 recipes). When
-  # the file doesn't say enough (no scope, or "all" with no plugin version),
-  # the uploader does (+full_export+). A single recipe is never full.
-  def self.create_from_json!(json, filename: nil, user: nil, full_export: false)
+  # are, nor is anything from before 0.5.2 (those lack ~100 recipes), nor a
+  # file that doesn't say. A single recipe is never full. An import's page
+  # can still mark it full or partial (see #can_be_full?).
+  def self.create_from_json!(json, filename: nil, user: nil)
     export = GameRecipe.parse_export(json)
     game_recipes = export.recipes
     raise ArgumentError, 'No recipes found' if game_recipes.empty?
     if game_recipes.any? { _1.game_id.nil? }
       raise ArgumentError, 'Every recipe needs an "id"'
     end
-    filename ||= pasted_label(game_recipes)
     transaction do
-      full = full_from_file(export, full_export)
       import = create!(filename: filename, api_version: export.api_version, export_scope: export.scope,
                        plugin_version: export.plugin_version,
-                       full_export: full && game_recipes.size > 1,
+                       full_export: full_from_file?(export) && game_recipes.size > 1,
                        uploaded_by: user,
                        groups_payload: export.groups.map(&:payload))
       now = Time.current
@@ -60,25 +57,15 @@ class RecipeImport < ApplicationRecord
     end
   end
 
-  def self.full_from_file(export, uploader_says)
-    return false unless export.list?
-    return false if export.scope.in?(%w[ new one ])
-    return false if too_old_to_be_full?(export.plugin_version)
-    return true if export.scope == 'all' && export.plugin_version
-    uploader_says
+  def self.full_from_file?(export)
+    export.scope == 'all' && export.plugin_version.present? && !too_old_to_be_full?(export.plugin_version)
   end
-  private_class_method :full_from_file
+  private_class_method :full_from_file?
 
   # A plugin version known to be before complete full exports.
   def self.too_old_to_be_full?(version)
     version.present? && !PluginFile.at_least?(version, PluginFile::COMPLETE_FULL_EXPORTS)
   end
-
-  def self.pasted_label(game_recipes)
-    more = game_recipes.size - 1
-    "Pasted: #{game_recipes.first.name}#{" + #{more} more" if more.positive?}"
-  end
-  private_class_method :pasted_label
 
   def self.latest_full
     full.newest_first.first
@@ -123,7 +110,7 @@ class RecipeImport < ApplicationRecord
   end
 
   # The export's top-level groups (see GameGroup); none for older exports
-  # and pasted recipes.
+  # (and recipes pasted, back when that was possible).
   def game_groups
     @game_groups ||= groups_payload.map { GameGroup.new(_1) }
   end
