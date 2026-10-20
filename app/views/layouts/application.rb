@@ -11,6 +11,7 @@ class Views::Layouts::Application < Views::Layouts::Base
         meta(content: "text/html; charset=UTF-8", http_equiv: safe("Content-Type"))
         title { page_title ? "#{page_title} -- SotA Lore" : "SotA Lore" }
         csrf_meta_tags
+        turbo_refresh_meta_tags
         meta(charset: "utf-8")
         meta(name: "viewport", content: "width=device-width, initial-scale=1.0")
         stylesheet_link_tag "trix", "actiontext", "tailwind", media: "all", data_turbo_track: "reload"

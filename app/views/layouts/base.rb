@@ -66,6 +66,14 @@ class Views::Layouts::Base < Views::Base
     end
   end
 
+  # A form that redirects back to the page it's on refreshes it by morphing,
+  # keeping the scroll position (the content scrolls in its own div, which
+  # morphing keeps) and anything the page's JavaScript holds.
+  def turbo_refresh_meta_tags
+    meta(name: "turbo-refresh-method", content: "morph")
+    meta(name: "turbo-refresh-scroll", content: "preserve")
+  end
+
   # Signing out changes state, so it's a form (DELETE) rather than a link.
   def sign_out_nav_button
     button_to(user_session_path, method: :delete, class: "site-nav-link w-full cursor-pointer", title: "Sign Out",
