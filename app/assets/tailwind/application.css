@@ -168,13 +168,14 @@
     z-index: 1000;
   }
 
-  .global-search .global-search-results a {
+  .global-search .global-search-results [role="option"] {
     display: block;
+    cursor: pointer;
     padding-top: 5px;
     padding-bottom: 5px;
   }
 
-  .global-search .global-search-results a.active {
+  .global-search .global-search-results [role="option"].active {
     @apply bg-orange-900 text-zinc-100 dark:bg-slorange-800;
   }
 

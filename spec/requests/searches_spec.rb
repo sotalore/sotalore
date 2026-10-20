@@ -27,6 +27,19 @@ RSpec.describe "Searches", type: :request do
       get search_global_path, params: { q: 'fake' }
       expect(response.body).not_to include('<html')
     end
+
+    # Link options are clicked by the autocomplete controller as well as by
+    # the user, which started two Turbo visits.
+    it 'renders results as options carrying their URL, not links' do
+      get search_global_path, params: { q: 'fake' }
+      expect(response.body).not_to include('<a')
+      expect(response.body).to include(%(data-autocomplete-value="#{item_path(item)}"))
+    end
+
+    it 'disables the no-results option' do
+      get search_global_path, params: { q: 'zzzz' }
+      expect(response.body).to include('aria-disabled="true"')
+    end
   end
 
   describe 'GET show' do

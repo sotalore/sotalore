@@ -76,9 +76,12 @@ class Views::Layouts::Application < Views::Layouts::Base
           div(class: "flex-1 flex overflow-hidden") do
             div(class: "flex-1 overflow-y-scroll") do
               div(class: "z-50 bg-slorange-700 dark:bg-grey-800 h-12 flex flex-row items-center justify-between") do
-                div(class: "global-search text-slate-200 dark:text-slorange-300 relative", data: { controller: "autocomplete", "autocomplete-url-value" => search_global_path }) do
+                div(class: "global-search text-slate-200 dark:text-slorange-300 relative",
+                    data: { controller: "autocomplete search", "autocomplete-url-value" => search_global_path, action: "autocomplete.change->search#visit" }) do
                   form(class: "inline-block h-12 px-4", action: search_path, method: "GET") do
                     input(id: "global-search", class: "global-search-input", name: "q", placeholder: "Search", type: "text", data: { "autocomplete-target" => "input" })
+                    # Takes the chosen result's URL, so the search box keeps showing its name.
+                    input(type: "hidden", data: { "autocomplete-target" => "hidden" })
                     div(class: "global-search-results", data: { "autocomplete-target" => "results" })
                   end
                 end
