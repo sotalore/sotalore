@@ -151,7 +151,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
   def unknown_items(section, title, items, hint, collapsed: false)
     render Components::Imports::UnknownItems.new(
       section: section, title: title, items: items, hint: hint, collapsed: collapsed, open: @open == section,
-      action: resolve_adm_item_catalog_import_path(@import, anchor: section), describe: ->(unknown) { unknown.uses }
+      action: resolve_adm_item_catalog_import_path(@import), describe: ->(unknown) { unknown.uses }
     )
   end
 

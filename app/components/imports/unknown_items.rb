@@ -3,11 +3,13 @@
 # On an import's review page: items the site doesn't know, each with Create
 # (a new item) and Use (an existing one), and Create selected for many at
 # once. The checkboxes belong to a form of their own, since each row has its
-# own Use form. The forms skip Turbo, which drops a redirect's #anchor, so
-# the page comes back at this list (open, if it collapses).
+# own Use form. The forms redirect back to the review page, which Turbo
+# refreshes by morphing (they're replace visits, so the redirect's ?open=
+# still counts as the same page): it stays where it was scrolled to, with
+# this list open.
 #
-# +action+ is where the forms post (the import's resolve path, with this
-# section's anchor); +describe+ gives an item's line under its name.
+# +action+ is where the forms post (the import's resolve path); +describe+
+# gives an item's line under its name.
 class Components::Imports::UnknownItems < Components::Base
 
   INPUT_CSS = 'border border-grey-400 rounded px-2 py-1 text-sm dark:bg-grey-700'
@@ -54,7 +56,7 @@ class Components::Imports::UnknownItems < Components::Base
   def body
     p(class: 'mb-2 text-sm max-w-prose') { @hint }
     form(id: form_id, action: @action, method: 'post', class: 'mb-2 flex flex-row flex-wrap items-center gap-3',
-         data: { turbo: 'false' }) do
+         data: { turbo_action: 'replace' }) do
       hidden_fields
       input(type: 'hidden', name: 'resolution', value: 'create_many')
       label(class: 'flex flex-row items-center gap-1 text-sm') do
@@ -77,7 +79,7 @@ class Components::Imports::UnknownItems < Components::Base
         div(class: 'text-xs text-grey-500') { [ unknown.key || 'no key', @describe.(unknown) ].compact.join(' · ') }
       end
       td(class: 'py-1') do
-        form(action: @action, method: 'post', class: 'flex flex-row flex-wrap items-center gap-1', data: { turbo: 'false' }) do
+        form(action: @action, method: 'post', class: 'flex flex-row flex-wrap items-center gap-1', data: { turbo_action: 'replace' }) do
           hidden_fields
           input(type: 'hidden', name: 'name', value: unknown.name)
           input(type: 'hidden', name: 'key', value: unknown.key) if unknown.key

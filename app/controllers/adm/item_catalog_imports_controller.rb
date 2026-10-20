@@ -107,7 +107,7 @@ class Adm::ItemCatalogImportsController < AdmController
 
   # Back to the review, with the section acted on still open.
   def review_path
-    adm_item_catalog_import_path(@import, open: open_section, anchor: open_section)
+    adm_item_catalog_import_path(@import, open: open_section)
   end
 
   def find_import

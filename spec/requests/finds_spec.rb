@@ -40,12 +40,21 @@ RSpec.describe 'Finds', type: :request do
       expect(response.body).to include('Create selected', 'Select all')
       post resolve_adm_finds_import_path(import),
            params: { resolution: 'create_many', open: 'items', selected: [ { name: 'Wolf Pelt', key: nil }.to_json ] }
-      expect(response).to redirect_to(adm_finds_import_path(import, open: 'items', anchor: 'items'))
+      expect(response).to redirect_to(adm_finds_import_path(import, open: 'items'))
       expect(flash[:notice]).to eq 'Created 1 item.'
       expect(Item.find_by_name('Wolf Pelt')).to exist
 
       post resolve_adm_finds_import_path(import), params: { resolution: 'create_many', open: 'items' }
       expect(flash[:alert]).to eq 'Select the items to create.'
+    end
+
+    # Replace visits, so Turbo takes the redirect back (with ?open=) as a
+    # refresh of the same page, and morphs it.
+    it 'resolves through Turbo, as a refresh of the review page' do
+      import = upload
+      get adm_finds_import_path(import)
+      expect(response.body).to include('data-turbo-action="replace"')
+      expect(response.body).not_to include('data-turbo="false"')
     end
 
     it 'rejects other files' do
