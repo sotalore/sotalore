@@ -7,8 +7,7 @@ module Views::TurnstileHelper
   end
 
   def turnstile_tag
-    data_attr = { sitekey: CloudflareTurnstile.site_key, theme: 'light', controller: 'turnstile' }
-    div(class: "cf-turnstile mx-2", data: data_attr)
+    div(class: "mx-2", data: { controller: 'turnstile', turnstile_sitekey_value: CloudflareTurnstile.site_key })
   end
 
 end

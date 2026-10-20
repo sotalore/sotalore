@@ -4,7 +4,7 @@ class Views::Authentication::Registrations::Form < Views::Authentication::Base
   include Grav::Views::Forms::Base
 
   def initialize(user:)
-    super(model: user, data: { turbo: "false" })
+    super(model: user)
   end
 
   def form_action

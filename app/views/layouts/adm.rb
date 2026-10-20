@@ -15,7 +15,7 @@ class Views::Layouts::Adm < Views::Layouts::Base
         meta(name: "viewport", content: "width=device-width, initial-scale=1.0")
         stylesheet_link_tag "trix", "actiontext", "tailwind", media: "all", data_turbo_track: "reload"
         javascript_importmap_tags
-        javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js", async: true, defer: true
+        javascript_include_tag "https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit", async: true, defer: true
         action_cable_meta_tag
 
         link(rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png")
