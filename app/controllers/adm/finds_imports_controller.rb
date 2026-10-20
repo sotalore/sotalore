@@ -14,7 +14,7 @@ class Adm::FindsImportsController < AdmController
     authorize(FindsImport)
     file = params[:file].presence
     unless file
-      redirect_to adm_finds_imports_path, alert: 'Choose a finds file (sotalore-finds.json).'
+      redirect_to adm_finds_imports_path, alert: 'Choose a finds file (sotalore-scene-finds.json).'
       return
     end
     import = FindsImport.create_from_json!(file.read, filename: file.original_filename, user: Current.user)

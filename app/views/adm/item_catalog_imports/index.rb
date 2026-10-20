@@ -10,7 +10,8 @@ class Views::Adm::ItemCatalogImports::Index < Views::Base
     div(class: 'm-2 p-4 bg-white dark:bg-grey-800') do
       h1(class: 'text-2xl font-bold') { 'Item Catalog Imports' }
       p(class: 'my-2 max-w-prose') do
-        plain 'Upload the plugin\'s item catalog (sotalore-items.json): items seen in a character\'s bags, '
+        plain 'Upload the plugin\'s item catalog (sotalore-item-catalog.json; sotalore-items.json from plugins '
+        plain 'before 0.11.0): items seen in a character\'s bags, '
         plain 'with what their tooltips say when hovered with capture on (hover everything first: only the '
         plain 'tooltip tells crafted items apart). It brings in salvage lists (with quantities and chances), '
         plain 'fills missing weights and records the game\'s keys. Files need plugin 0.8.1 or later. Nothing '

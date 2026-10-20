@@ -78,7 +78,8 @@ RSpec.describe "Read-only API", type: :request do
     let!(:import) do
       RecipeImport.create_from_json!(game_export_json(
         game_recipe_hash(name: 'Chair', id: 1, ingredients: { 'Wooden Board' => 2 }),
-        game_recipe_hash(name: 'Ring', id: 2, ingredients: { 'Gold' => 1 })), user: admin, full_export: true)
+        game_recipe_hash(name: 'Ring', id: 2, ingredients: { 'Gold' => 1 }), scope: 'all', plugin_version: '0.7.3'),
+        user: admin)
     end
 
     it 'lists imports and their entries' do

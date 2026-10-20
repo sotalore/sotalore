@@ -17,7 +17,7 @@ class Adm::ItemCatalogImportsController < AdmController
     authorize(ItemCatalogImport)
     file = params[:file].presence
     unless file
-      redirect_to adm_item_catalog_imports_path, alert: 'Choose an item catalog (sotalore-items.json).'
+      redirect_to adm_item_catalog_imports_path, alert: 'Choose an item catalog (sotalore-item-catalog.json).'
       return
     end
     import = ItemCatalogImport.create_from_json!(file.read, filename: file.original_filename, user: Current.user)
