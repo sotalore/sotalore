@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore Admin"
-local Version = "0.10.1"
+local Version = "0.11.0"
 local CreatorName = "Gravidy"
 local Description = "SotaLore site admin tools: recipe, item and find exports for upload to the site."
 
@@ -23,10 +23,11 @@ SotaLoreAdmin = {}
 
 -- Names of the files the plugin writes into the game's Lua folder.
 SotaLoreAdmin.files = {
-    recipes = "sotalore-export.json",
-    oneRecipe = "sotalore-one.json",
-    items = "sotalore-items.json",
-    finds = "sotalore-finds.json",
+    recipesNew = "sotalore-recipes-new.json",   -- the names follow the site's navigation (Recipes, Items, Scene Finds)
+    recipesAll = "sotalore-recipes-all.json",
+    oneRecipe = "sotalore-recipes-one.json",
+    items = "sotalore-item-catalog.json",
+    finds = "sotalore-scene-finds.json",
 }
 
 local util = {}

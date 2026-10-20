@@ -46,6 +46,7 @@ comment saying what it is for. This is the pattern the game's own multi-file exa
 | `finds_ui.lua` | `SotaLoreAdmin.FindsUI`: the small finds window |
 | `recipes_ui.lua` | `SotaLoreAdmin.RecipesUI`: the recipe list and recipe windows, with the export buttons |
 | `hoverlog.lua` | `SotaLoreAdmin.HoverLog`: a diagnostic (`/sladmin hoverlog`) that writes the tooltip text of items under the mouse to chat |
+| `targetlog.lua` | `SotaLoreAdmin.TargetLog`: a diagnostic (`/sladmin targetlog`) that writes each new target to chat (name, id, dead, health, focus, the stats Animal Lore shows, pet or party member), to learn whether targeting can add creatures to the finds that are never fought |
 | `main.lua` | the only file with `ShroudOn...` callbacks, the `/sladmin` command and the key binding; read it first |
 
 `sl-skills/`:
@@ -83,7 +84,7 @@ Darren walks a scene with the finds window up, then saves the list for upload. T
 site's data about each scene current:
 
 1. **Scene information**: the scene's kind flags, player cap and level/skill caps (`info`).
-2. **Creatures** that can be met in the scene (the ones fought) and **what they can drop**.
+2. **Creatures** that can be met in the scene (the ones fought, and since sl-admin 0.11.0 the ones only targeted, under `seen`, for the site to review) and **what they can drop**.
 3. **Gathering nodes** available in the scene and **what each yields**.
 
 A creature's drops are only attributed when its corpse is field dressed (the node is the creature's name).
@@ -113,7 +114,7 @@ skinned automatically. The player often never points at the thing.
 
 Untested ideas:
 
-- At the moment of a gain, read the current target (`ShroudHasTarget`, `ShroudGetTargetName`,
+- At the moment of a gain, read the current target (the target log, `/sladmin targetlog`, showed it switches between nearby combatants several times a second, so this is a weak signal) (`ShroudHasTarget`, `ShroudGetTargetName`,
   `ShroudIsTargetDead`); a corpse being looted or skinned may still be the target. Test with a debug log
   before building on it.
 - Use the combat lines: a `death` line with a time and creature key, then loot arriving soon after, suggests
@@ -133,7 +134,8 @@ Untested ideas:
   through the game's path: that once failed with odd "file already exists" errors. Remove a junction with
   `cmd /c rmdir <path>`, which removes only the link; a recursive delete can go through it into the repo.
 - The plugins' output files are written to the game's `Lua/` folder, **one level above the plugin folders**
-  (`sotalore-export.json`, `-one.json`, `-items.json`, `-finds.json`, `-skills.json`), not into `sl-lua/`. To
+  (`sotalore-recipes-new.json`, `-recipes-all.json`, `-recipes-one.json`, `-item-catalog.json`, `-scene-finds.json`,
+  `-skills.json`; named after the site's navigation since sl-admin 0.11.0), not into `sl-lua/`. To
   use one as an example, copy it from there into `data/plugin-examples/`.
 - **Saved variables are kept per slug**: `Lua\SavedVariables\<slug>.account.json` (and per character). Renaming
   a package starts it with empty saved data unless that file is copied to the new slug's name while the game
@@ -163,7 +165,7 @@ command from the plugin's name. For a plugin about `<name>`:
 | Key binding label | `SotaLore <Name>: ...` | SotaLore Admin: toggle list | SotaLore Skills: toggle window |
 | Window titles | start `SotaLore` | SotaLore: Known Recipes, SotaLore Finds | SotaLore Skills |
 | Chat lines | the game prefixes `[Add-on: <display name>]` itself | | |
-| Output files | `sotalore-<kind>.json`, `"plugin"` = the slug in the header | | `sotalore-skills.json` |
+| Output files | `sotalore-<kind>.json`, the kind named after the site's navigation; `"plugin"` = the slug in the header | `sotalore-scene-finds.json` | `sotalore-skills.json` |
 | Global table (the only global the plugin defines besides its `ShroudOn...` callbacks) | `SotaLore<Name>` | `SotaLoreAdmin` | `SotaLoreSkills` |
 
 `/sotalore` itself is refused by the game ("sota" is a reserved prefix), which is why the prefix is `sl`. Before
@@ -174,7 +176,7 @@ command from the plugin's name. For a plugin about `<name>`:
 - `sl-admin`: `/sladmin` (until 2026-10-18 `/slore`). Subcommands: `export`,
   `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items` (new or
   changed items), `itemsall`, `baselineitems`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
-  `gatherlog`, `checkrecipes`, `capture`, `hoverlog`; other text searches the recipe list. The command's help
+  `gatherlog`, `checkrecipes`, `capture`, `hoverlog`, `targetlog`; other text searches the recipe list. The command's help
   text must be at most 120 characters.
 - `sl-skills`: `/slskills` opens the skills window, `/slskills file` saves the skills file (not mentioned to players; the window has no button for it since 0.2.0).
 - An add-on may own at most **8 windows**. `sl-admin`: the list (1), the finds window (1) and up to 6 recipe
@@ -224,11 +226,21 @@ command from the plugin's name. For a plugin about `<name>`:
   1,234 entries, 1,234 different recipes). Since 0.7.2 the export stores each recipe under its id and advances
   one recipe at a time, so reading a recipe again changes nothing. Keep any multi-frame job idempotent like that.
 - A bag item's `key` (`item:` + 32 hex) is the same key recipes use for ingredients and results; this is the
-  only game item id there is. Recipe `id` is a signed 32-bit integer and can be negative.
+  only game item id there is. Recipe `id` is a signed 32-bit integer and can be negative, and it names one version of a recipe: when the game
+  changes a recipe (three Shrines had one ingredient replaced, seen 2026-10-20) it gets a new id and the old one is gone.
 - `ShroudOnItemsGained` ("Recently Looted") excludes items already owned, moves, equipping, login and
   scene changes, but includes bank/chest/vendor/crafting-station takes. The API has no locked flag.
-- Combat lines (`ShroudOnCombatEvents`) are the only way to see creatures: there is no call that lists a
-  scene's creatures. A creature's level shows only when it is the target and Animal Lore allows it.
+- There is no call that lists a scene's creatures. Two ways to see them: combat lines (`ShroudOnCombatEvents`,
+  only fights involving the player, party or pet) and the **target** (`ShroudOnTargetChanged`, since sl-admin
+  0.11.0 the finds' `seen` list). A creature's level shows only when it is the target and Animal Lore allows it.
+- **The target** (tested 2026-10-20 with `/sladmin targetlog`): it follows the target frame, the locked target or
+  else the closest combatant, so creatures walking past or fighting each other become the target; with several
+  near it switches between them a few times a second. `ShroudGetTargetId` is stable per individual (and can be
+  negative; only -1 means none). The level shows at once or never. Every creature has focus. **Nothing tells a
+  creature from an NPC ("Fighter", "Practice Dummy") or a player**: all show health and focus only when Animal
+  Lore can't read them. Clues that do exist: another player's pet or companion has a second line with its owner
+  ("You can call me Ned\n<Nedley Mandingo>"), an away player has "[AFK]" after the name. A decoration pet
+  ("Mylo") read like a level 3 creature with every stat. Not every nearby player becomes the target.
 - `ShroudOnGatherResults` node is the resource name for mining and harvesting, and **the creature's name
   for field dressing**. Its `items` include "N Producer Experience" entries that are not items (filtered).
   An interrupted harvest sends nothing (see "Interrupted harvests" above). Corpse and chest loot has no

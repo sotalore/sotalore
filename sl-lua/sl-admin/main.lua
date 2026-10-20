@@ -9,6 +9,7 @@
 --   recipes_ui.lua      the recipe browser windows
 --   item_details.lua    what item tooltips say (quest item, tool, salvage...), captured by hovering (/sladmin capture)
 --   hoverlog.lua        a diagnostic: writes an item's tooltip text to chat (/sladmin hoverlog)
+--   targetlog.lua       a diagnostic: writes what the game says about each new target to chat (/sladmin targetlog)
 --
 -- The files run in the order the manifest lists them.
 
@@ -18,6 +19,7 @@ local Finds = SotaLoreAdmin.Finds
 local FindsUI = SotaLoreAdmin.FindsUI
 local RecipesUI = SotaLoreAdmin.RecipesUI
 local HoverLog = SotaLoreAdmin.HoverLog
+local TargetLog = SotaLoreAdmin.TargetLog
 local ItemDetails = SotaLoreAdmin.ItemDetails
 
 -- The /sladmin command: a word picks an action, any other text searches the recipes, and nothing at
@@ -35,6 +37,8 @@ local function handleCommand(args)
         ItemDetails.toggle()
     elseif args == "hoverlog" then
         ShroudConsoleLog("Hover log " .. (HoverLog.toggle() and "on: point at items" or "off"))
+    elseif args == "targetlog" then
+        ShroudConsoleLog("Target log " .. (TargetLog.toggle() and "on: each new target is written to chat once per scene visit" or "off"))
     elseif args == "checkrecipes" then
         RecipeExport.check()
     elseif args == "items" then
@@ -112,7 +116,15 @@ end
 
 function ShroudOnSceneLoaded()
     Finds.newVisit()
+    TargetLog.newVisit()
     FindsUI.update()
+end
+
+-- The player's target changed (id -1 when it cleared): a creature seen, for the find list, and a line for the
+-- target log while it is on.
+function ShroudOnTargetChanged(id, name)
+    if Finds.tracking and FindsUI.isBuilt() then Finds.recordTarget(id, name) end
+    TargetLog.onChange(id, name)
 end
 
 -- The find list is saved to the saved variables on these.
