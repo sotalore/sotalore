@@ -57,6 +57,30 @@ RSpec.describe 'Finds', type: :request do
       expect(response.body).not_to include('data-turbo="false"')
     end
 
+    it 'reviews what was targeted but never fought, adding or ignoring each' do
+      json = finds_json(finds_scene_hash(scene: 'Kingsroad', seen: { 'Large Stag' => [ 30, 30 ], 'Fighter' => [] }))
+      file = Rack::Test::UploadedFile.new(StringIO.new(json), 'application/json', original_filename: 'sotalore-scene-finds.json')
+      post adm_finds_imports_path, params: { file: file }
+      import = FindsImport.last
+      get adm_finds_import_path(import)
+      expect(response.body).to include('Targeted, never fought (2)', 'Large Stag', 'Fighter')
+
+      post resolve_adm_finds_import_path(import),
+           params: { resolution: 'creature', scene_id: kingsroad.id, name: 'Large Stag', open: 'seen' }
+      expect(response).to redirect_to(adm_finds_import_path(import, open: 'seen'))
+      expect(flash[:notice]).to eq 'Large Stag now lives in Kingsroad.'
+      expect(kingsroad.creatures.map(&:name)).to eq [ 'Large Stag' ]
+
+      post resolve_adm_finds_import_path(import), params: { resolution: 'ignore', scene_id: kingsroad.id, name: 'Fighter' }
+      expect(flash[:notice]).to eq 'Ignoring Fighter in Kingsroad.'
+      get adm_finds_import_path(import)
+      expect(response.body).not_to include('Targeted, never fought (')
+      expect(response.body).to include('Fighter (ignored here)')
+
+      post resolve_adm_finds_import_path(import), params: { resolution: 'ignore', scene_id: kingsroad.id, name: 'Fighter' }
+      expect(flash[:alert]).to include "isn't waiting for review"
+    end
+
     it 'rejects other files' do
       file = Rack::Test::UploadedFile.new(StringIO.new('{"recipes": []}'), 'application/json', original_filename: 'x.json')
       post adm_finds_imports_path, params: { file: file }

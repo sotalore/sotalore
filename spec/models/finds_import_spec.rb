@@ -75,6 +75,61 @@ RSpec.describe FindsImport do
     end
   end
 
+  describe 'targeted, never fought (seen)' do
+    let!(:stag) { Creature.create!(name: 'Large Stag') }
+    let!(:fox)  { Creature.create!(name: 'Fox') }
+    let(:seen_import) do
+      scene = finds_scene_hash(scene: 'Kingsroad', raw_name: 'HiddenVale_Road',
+                               seen: { 'Fighter' => [ nil, nil ], 'large stag' => [ 30, 30 ], 'Fox' => [ nil, nil ],
+                                       'Timber Wolf' => [ 30, 33 ], 'Grey Wolf' => [ 20, 20 ] },
+                               nodes: { 'Grey Wolf' => [ 'Animal Hide' ] })
+      FindsImport.create_from_json!(finds_json(scene))
+    end
+
+    before { SceneCreature.create!(scene: kingsroad, creature: fox) }
+
+    it "reads it, as empty from files that don't have it" do
+      expect(import.finds.scenes.sole.seen).to be_empty
+      expect(seen_import.finds.scenes.sole.seen.map(&:name)).to eq [ 'Fighter', 'large stag', 'Fox', 'Timber Wolf', 'Grey Wolf' ]
+    end
+
+    it 'leaves for review what the scene lacks, taking a field dressed name for a creature' do
+      row = seen_import.analysis.scenes.sole
+      expect(row.seen.to_h { [ _1.name, _1.status ] })
+        .to eq('Fighter' => 'pending', 'large stag' => 'pending', 'Fox' => 'linked',
+               'Timber Wolf' => 'pending', 'Grey Wolf' => 'dressed')
+      expect(row.pending_seen.find { _1.name == 'large stag' }.creature).to eq stag
+      expect(row.nodes.sole).to be_creature
+      expect(seen_import.analysis).to be_pending_seen
+    end
+
+    it 'adds one as a creature of the scene, linking the one the site has' do
+      expect { seen_import.add_seen_creature!(kingsroad.id, 'Large Stag') }.not_to change(Creature, :count)
+      expect(kingsroad.scene_creatures.find_by!(creature: stag).levels).to eq '30'
+
+      wolf = seen_import.add_seen_creature!(kingsroad.id, 'Timber Wolf')
+      expect(wolf).to have_attributes(name: 'Timber Wolf', persisted?: true)
+      expect(kingsroad.scene_creatures.find_by!(creature: wolf).levels).to eq '30–33'
+      expect(seen_import.analysis.scenes.sole.pending_seen.map(&:name)).to eq [ 'Fighter' ]
+    end
+
+    it 'ignores one in the scene, for later imports too' do
+      seen_import.ignore_seen!(kingsroad.id, 'Fighter')
+      expect(IgnoredSighting.sole).to have_attributes(scene: kingsroad, name: 'Fighter')
+      expect(Creature.find_by(name: 'Fighter')).to be_nil
+
+      later = FindsImport.create_from_json!(seen_import.payload.to_json)
+      expect(later.analysis.scenes.sole.seen.find { _1.name == 'Fighter' }.status).to eq 'ignored'
+      expect { later.ignore_seen!(kingsroad.id, 'fighter') }.to raise_error(FindsImport::Error, /isn't waiting/)
+    end
+
+    it 'waits for an unmatched scene to be linked' do
+      other = FindsImport.create_from_json!(finds_json(finds_scene_hash(scene: 'Nowhere', seen: { 'Fighter' => [] })))
+      expect(other.analysis.scenes.sole.pending_seen).to be_empty
+      expect { other.ignore_seen!(kingsroad.id, 'Fighter') }.to raise_error(FindsImport::Error, /no scene/)
+    end
+  end
+
   describe 'resolving' do
     it 'creates unknown items with their keys' do
       item = import.create_item!(name: 'Wolf Pelt', key: item_key('pelt'))

@@ -4,13 +4,13 @@
 module FindsHelpers
   # +items+ is { name => key }; +creatures+ { name => [min, max] }; +nodes+
   # { name => [item names] }.
-  def finds_scene_hash(scene:, raw_name: "#{scene.delete(' ')}_Raw", items: {}, creatures: {}, nodes: {}, info: nil)
+  def finds_scene_hash(scene:, raw_name: "#{scene.delete(' ')}_Raw", items: {}, creatures: {}, seen: nil, nodes: {}, info: nil)
     {
       'scene' => scene, 'rawName' => raw_name, 'info' => info,
       'items' => items.map { |name, key| { 'key' => key, 'name' => name, 'quantity' => 1, 'times' => 1 } },
       'creatures' => creatures.map { |name, (min, max)| { 'name' => name, 'seen' => 1, 'levelMin' => min, 'levelMax' => max } },
       'nodes' => nodes.map { |name, names| { 'name' => name, 'harvests' => 1, 'items' => names.map { { 'name' => _1, 'quantity' => 1 } } } },
-    }
+    }.merge(seen ? { 'seen' => seen.map { |name, (min, max)| { 'name' => name, 'seen' => 1, 'levelMin' => min, 'levelMax' => max } } } : {})
   end
 
   def finds_json(*scenes)

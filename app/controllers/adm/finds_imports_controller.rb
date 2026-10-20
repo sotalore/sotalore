@@ -48,8 +48,10 @@ class Adm::FindsImportsController < AdmController
   end
 
   # Creates or uses an item for an unknown one (+resolution+ create or use),
-  # creates many (+resolution+ create_many), or links an unmatched scene
-  # (+resolution+ scene).
+  # creates many (+resolution+ create_many), links an unmatched scene
+  # (+resolution+ scene), or takes something targeted but never fought in a
+  # scene (+name+ in +scene_id+) as a creature there (+resolution+ creature)
+  # or ignores it there (+resolution+ ignore).
   def resolve
     @import = find_import
     authorize(@import)
@@ -68,6 +70,12 @@ class Adm::FindsImportsController < AdmController
         scene = Scene.find_by(id: params[:scene_id]) or raise FindsImport::Error, 'Choose a scene.'
         @import.link_scene!(params.require(:name), scene)
         "#{scene.name} is now #{params[:name]} in the game."
+      when 'creature'
+        creature = @import.add_seen_creature!(params.require(:scene_id), params.require(:name))
+        "#{creature.name} now lives in #{Scene.find(params[:scene_id]).name}."
+      when 'ignore'
+        @import.ignore_seen!(params.require(:scene_id), params.require(:name))
+        "Ignoring #{params[:name]} in #{Scene.find(params[:scene_id]).name}."
       else
         raise ActionController::BadRequest, 'unknown resolution'
       end

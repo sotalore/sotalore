@@ -60,6 +60,7 @@ class Scene < ApplicationRecord
   has_many :scene_creatures, dependent: :delete_all
   has_many :creatures, -> { by_name }, through: :scene_creatures
   has_many :scene_nodes, dependent: :delete_all
+  has_many :ignored_sightings, dependent: :delete_all
   has_many :gathering_nodes, -> { by_name }, through: :scene_nodes
 
   scope :by_name, -> { order(Arel.sql('lower(name)')) }
