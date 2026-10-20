@@ -152,7 +152,8 @@ class GameRecipe
   end
 
   # { item key => weight } for every item the recipe mentions, group slot
-  # choices included. A weight is per item, whatever the quantity.
+  # choices included. A weight is per item, whatever the quantity, and a
+  # BigDecimal (see GameWeights.decimal).
   def item_weights
     rows = Array(payload['results']).map { [ _1['key'], _1['stats'] ] }
     Array(payload['ingredients']).each do |i|
@@ -164,7 +165,7 @@ class GameRecipe
     end
     rows.each_with_object({}) do |(key, stats), weights|
       weight = Array(stats).find { _1['key'] == 'weight' }&.dig('value')
-      weights[key] = weight if key && weight
+      weights[key] = GameWeights.decimal(weight) if key && weight
     end
   end
 

@@ -80,7 +80,7 @@ class GameCatalog
     @entries = data['items'].filter_map do |i|
       name = GameFinds.clean_name(i['name'])
       next if name.blank?
-      Entry.new(i['key'].presence, name, i['weight'], i['value'], i['details'])
+      Entry.new(i['key'].presence, name, GameWeights.decimal(i['weight']), i['value'], i['details'])
     end
   end
 

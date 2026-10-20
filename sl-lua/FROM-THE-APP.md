@@ -134,7 +134,7 @@ Each avatar has, per skill, a current and a target level, entered by the player.
 | kind | What the name stands for (below). |
 | use | armor, artifact, component, decoration, dye, fishing-bait, food, fuel, house, instrument, pattern, pet-food, pet-gear, potion, scroll, socketable-gem, socketable-jewel, socketable-imbued-gem, socketable-imbued-jewel, seed, tool, weapon, or unknown. A recipe ingredient with `tool: true` is an item whose use is tool. |
 | source | How it's obtained: agriculture, drop, gathering, merchant, quest, recipe, salvage, or unknown. |
-| weight | Per item. From the export (stat rows). |
+| weight | Per item, to 4 decimals (the game's UI shows 2; the site keeps the 4 the exports give, and rounds anything finer to 4). From the export (stat rows) and item catalogs. |
 | price | Merchant price, for concrete items only. Not yet compared with the item catalog's `value`. |
 | gathering skill | For gathered items: the gathering skill that yields it. |
 | game keys | The game's `item:...` keys (from the export), and `group:...` keys for groups and categories, each with the name the game last used and, for things recipes make, their base stats. |

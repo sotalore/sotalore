@@ -91,6 +91,19 @@ RSpec.describe ItemCatalogImport do
       expect(again.values_at(:salvage_added, :weights, :tools, :keys)).to all(eq 0)
     end
 
+    it "updates weights to the game's, to 4 decimals" do
+      fine = import_of(catalog_entry(name: 'Skinning Knife', weight: 0.0525))
+      expect(fine.update_weights!(user)).to eq 1
+      expect(knife.reload.weight).to eq BigDecimal('0.0525')
+      expect(ItemCatalogImport.find(fine.id).analysis.rows.sole).not_to be_different_weight
+    end
+
+    it "doesn't take float noise for a different weight" do
+      knife.update!(weight: 0.13)
+      noisy = import_of(catalog_entry(name: 'Skinning Knife', weight: 0.129999995231628))
+      expect(noisy.analysis.rows.sole).not_to be_different_weight
+    end
+
     it 'leaves a weight the game does not know alone' do
       unweighed = import_of(catalog_entry(name: 'Leather Scrap', weight: nil))
       expect(unweighed.analysis.rows.sole).not_to be_missing_weight

@@ -16,6 +16,13 @@ class GameWeights
     def weight = weights.first
   end
 
+  # A weight from the game as the site keeps it, to 4 decimals: the plugin
+  # rounds per-item weights to 4, and older files carry float noise
+  # (0.129999995231628 for 0.13), which would never equal the stored weight.
+  def self.decimal(weight)
+    BigDecimal(weight.to_s).round(4) unless weight.nil?
+  end
+
   def initialize(import, user)
     @import = import
     @user = user
@@ -26,7 +33,7 @@ class GameWeights
       by_key = @import.entries.map { _1.game_recipe.item_weights }.reduce({}, :merge)
       by_item = Hash.new { |h, k| h[k] = [] }
       ItemGameKey.where(key: by_key.keys).pluck(:key, :item_id).each do |key, item_id|
-        by_item[item_id] << BigDecimal(by_key[key].to_s)
+        by_item[item_id] << by_key[key]
       end
       items = Item.where(id: by_item.keys).index_by(&:id)
       by_item.map { |item_id, weights| row_for(items[item_id], weights.uniq.sort) }

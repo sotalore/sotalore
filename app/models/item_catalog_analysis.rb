@@ -31,7 +31,7 @@ class ItemCatalogAnalysis
     def missing_weight? = known? && !entry.crafted? && item.weight.nil? && !entry.weight.nil?
 
     def different_weight?
-      known? && !entry.crafted? && item.weight && entry.weight && item.weight != BigDecimal(entry.weight.to_s)
+      known? && !entry.crafted? && item.weight && entry.weight && item.weight != entry.weight
     end
 
     def tool? = known? && !entry.crafted? && entry.tool? && item.use_is_unknown?

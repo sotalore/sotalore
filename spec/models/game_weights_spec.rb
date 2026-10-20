@@ -53,6 +53,29 @@ RSpec.describe GameWeights do
     expect { weights.set!('conflict') }.to raise_error(ArgumentError)
   end
 
+  it "keeps the game's weights to 4 decimals, rounding float noise to them" do
+    expect(GameWeights.decimal(0.0525)).to eq BigDecimal('0.0525')
+    expect(GameWeights.decimal(0.129999995231628)).to eq BigDecimal('0.13')
+    expect(GameWeights.decimal(2)).to eq BigDecimal('2')
+    expect(GameWeights.decimal(nil)).to be_nil
+  end
+
+  context 'with a weight to 4 decimals' do
+    let(:import) do
+      recipe = game_recipe_hash(name: 'Candle', ingredients: { 'Wax' => 1 },
+                                keys: { 'Wax' => item_key('wax'), 'Candle' => item_key('candle') })
+      recipe['ingredients'][0]['stats'] = [ { 'key' => 'weight', 'value' => 0.0525 } ]
+      RecipeImport.create_from_json!(game_export_json(recipe), user: user)
+    end
+
+    it 'sets it exactly, after which the site agrees' do
+      expect(weights.rows.sole).to have_attributes(item: wax, status: 'different')
+      expect(weights.set!('different')).to eq 1
+      expect(wax.reload.weight).to eq BigDecimal('0.0525')
+      expect(GameWeights.new(import, user).rows.sole.status).to eq 'same'
+    end
+  end
+
   it 'sets at most a limited number at a time' do
     wax.update!(weight: nil)
     expect(weights.set!('missing', limit: 1)).to eq 1

@@ -36,7 +36,7 @@ class Views::Items::Form < Views::Items::Base
           checkbox_field(:basic, label: "Basic material (the easy, common kind, such as Iron or Copper)")
 
           div(class: "grid grid-cols-1 md:grid-cols-2 gap-4") do
-            number_field(:weight, step: "0.01")
+            number_field(:weight, step: "0.0001")
             number_field(:price, min: 1)
           end
 
