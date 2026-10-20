@@ -17,10 +17,7 @@ class Views::Adm::RecipeImports::Index < Views::Adm::RecipeImports::Base
         plain 'Nothing changes on the site until you apply entries from the import.'
       end
 
-      form_with(url: adm_recipe_imports_path, multipart: true, class: 'my-4 flex flex-row flex-wrap items-center gap-4') do |f|
-        f.file_field :file, accept: 'application/json,.json', required: true, class: 'max-w-full'
-        f.submit 'Upload export', class: 'Button Button--primary'
-      end
+      render Components::Imports::UploadForm.new(url: adm_recipe_imports_path, label: 'Upload export')
 
       paginate @imports
       table(class: 'table-auto w-full') do

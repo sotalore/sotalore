@@ -17,10 +17,7 @@ class Views::Adm::ItemCatalogImports::Index < Views::Base
         plain 'fills missing weights and records the game\'s keys. Files need plugin 0.8.1 or later. Nothing '
         plain 'changes until you apply an import.'
       end
-      form_with(url: adm_item_catalog_imports_path, multipart: true, class: 'my-4 flex flex-row flex-wrap items-center gap-4') do |f|
-        f.file_field :file, accept: 'application/json,.json', required: true, class: 'max-w-full'
-        f.submit 'Upload catalog', class: 'Button Button--primary'
-      end
+      render Components::Imports::UploadForm.new(url: adm_item_catalog_imports_path, label: 'Upload catalog')
 
       paginate @imports
       table(class: 'table-auto w-full') do
