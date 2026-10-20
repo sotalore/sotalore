@@ -33,7 +33,7 @@ class Views::Adm::RecipeImports::Index < Views::Adm::RecipeImports::Base
         div do
           h2(class: 'font-bold mb-2') { 'Upload an export file' }
           form_with(url: adm_recipe_imports_path, multipart: true, class: 'flex flex-row flex-wrap items-center gap-4') do |f|
-            f.file_field :file, accept: 'application/json,.json', required: true
+            f.file_field :file, accept: 'application/json,.json', required: true, class: 'max-w-full'
             label(class: 'flex flex-row items-center gap-1') do
               input(type: 'checkbox', name: 'full_export', value: '1')
               plain 'Export all (older files only)'

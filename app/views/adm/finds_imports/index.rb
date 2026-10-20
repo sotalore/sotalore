@@ -16,7 +16,7 @@ class Views::Adm::FindsImports::Index < Views::Base
         plain 'until you apply an import.'
       end
       form_with(url: adm_finds_imports_path, multipart: true, class: 'my-4 flex flex-row flex-wrap items-center gap-4') do |f|
-        f.file_field :file, accept: 'application/json,.json', required: true
+        f.file_field :file, accept: 'application/json,.json', required: true, class: 'max-w-full'
         f.submit 'Upload finds', class: 'Button Button--primary'
       end
 

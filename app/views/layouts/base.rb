@@ -67,8 +67,7 @@ class Views::Layouts::Base < Views::Base
   end
 
   # A form that redirects back to the page it's on refreshes it by morphing,
-  # keeping the scroll position (the content scrolls in its own div, which
-  # morphing keeps) and anything the page's JavaScript holds.
+  # keeping the scroll position and anything the page's JavaScript holds.
   def turbo_refresh_meta_tags
     meta(name: "turbo-refresh-method", content: "morph")
     meta(name: "turbo-refresh-scroll", content: "preserve")

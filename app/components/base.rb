@@ -28,6 +28,13 @@ class Components::Base < Phlex::HTML
 
   register_output_helper :local_time_ago
 
+  # Every table scrolls sideways on its own when it's wider than the screen,
+  # rather than widening the page (which scrolls in the window, so the
+  # content around it can't scroll for it without breaking sticky rows).
+  def table(...)
+    div(class: "overflow-x-auto") { super }
+  end
+
   def time_ago_tag(time, options={})
     local_time_ago(time) if time
   end

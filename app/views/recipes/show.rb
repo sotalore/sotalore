@@ -16,7 +16,7 @@ class Views::Recipes::Show < Views::Base
     end
 
     div(class: "flex flex-wrap") do
-      div(class: "min-w-md grow") do
+      div(class: "w-full md:w-auto md:min-w-md grow") do
         tile do
           tile_body do
             render Components::Recipes::Card.new(recipe: @recipe)

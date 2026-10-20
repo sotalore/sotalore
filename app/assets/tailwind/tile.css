@@ -22,7 +22,7 @@
     }
 
     .Tile-controls {
-      @apply grow flex items-center justify-end my-2;
+      @apply grow flex flex-wrap items-center justify-end gap-y-1 my-2;
     }
 
     .Tile-controls .Button {

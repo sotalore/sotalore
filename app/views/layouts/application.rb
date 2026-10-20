@@ -33,8 +33,10 @@ class Views::Layouts::Application < Views::Layouts::Base
       end
 
       body(class: "bg-grey-100 dark:bg-grey-900", data: { controller: "mousetrap", turbo_prefetch: "false" }) do
-        div(class: "flex flex-row h-screen") do
-          div(class: "bg-slorange-700 dark:bg-grey-800 w-16 lg:w-40") do
+        # The window scrolls the page (so Turbo restores its position going
+        # back, and keeps it when morphing); the sidebar stays put beside it.
+        div(class: "flex flex-row min-h-dvh") do
+          div(class: "sticky top-0 h-dvh shrink-0 overflow-y-auto bg-slorange-700 dark:bg-grey-800 w-16 lg:w-40") do
             div(class: "h-12 p-3 pl-1 text-center") do
               link_to("/", class: "text-xl font-bold text-zinc-200 dark:text-slorange-300") do
                 span(class: "hidden lg:inline") do
@@ -74,8 +76,8 @@ class Views::Layouts::Application < Views::Layouts::Base
             end
           end
 
-          div(class: "flex-1 flex overflow-hidden") do
-            div(class: "flex-1 overflow-y-scroll") do
+          div(class: "flex-1 min-w-0 flex") do
+            div(class: "flex-1 min-w-0") do
               div(class: "z-50 bg-slorange-700 dark:bg-grey-800 h-12 flex flex-row items-center justify-between") do
                 div(class: "global-search text-slate-200 dark:text-slorange-300 relative",
                     data: { controller: "autocomplete search", "autocomplete-url-value" => search_global_path, action: "autocomplete.change->search#visit" }) do
