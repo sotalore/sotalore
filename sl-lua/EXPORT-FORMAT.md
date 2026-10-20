@@ -1,4 +1,4 @@
-# SotaLore plugin export format (sl-admin v0.10.1, sl-skills v0.2.0)
+# SotaLore plugin export format (sl-admin v0.11.0, sl-skills v0.2.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:
@@ -22,19 +22,25 @@ reserved prefix).
 
 
 The addon writes JSON files into the game's `Lua/` folder (Lua cannot POST, has no clipboard). The files are
-named `sotalore-<kind>.json`; before plugin 0.7.0 they were called `sl-recipes-<kind>.json` (same contents and
-shapes), so an older file may still carry that name.
+named after the site's navigation, `sotalore-<kind>.json`. **From sl-admin v0.11.0 the names changed** (contents
+and shapes did not): `sotalore-export.json` became `sotalore-recipes-new.json` or `sotalore-recipes-all.json` (one
+file per scope, so a "new" export no longer overwrites an "all" one), `sotalore-one.json` became
+`sotalore-recipes-one.json`, `sotalore-items.json` became `sotalore-item-catalog.json`, and `sotalore-finds.json` became
+`sotalore-scene-finds.json`. `sotalore-skills.json` is unchanged. Before plugin 0.7.0 the files were called
+`sl-recipes-<kind>.json`. So an upload may carry any of these names: tell files apart by their `type` (and a
+recipe file's `scope`), never by the name. The site's upload pages still mention the old names in their hints.
 
 | File | Written by | Contents |
 |------|-----------|----------|
-| `sotalore-export.json` | "Export new" / "Export all" buttons, `/sladmin export`, `/sladmin exportall` | many recipes |
-| `sotalore-one.json` | "Save this recipe to file" in a recipe window | one recipe |
+| `sotalore-recipes-new.json` | "Export new" button, `/sladmin export` | recipes not exported before |
+| `sotalore-recipes-all.json` | "Export all" button, `/sladmin exportall` | every recipe the character knows |
+| `sotalore-recipes-one.json` | "Save this recipe to file" in a recipe window | one recipe |
 
-Both files have the same shape. Each export overwrites the previous file of that name.
+All three have the same shape. Each export overwrites the previous file of that name.
 "Export new" sends only recipes not exported before (remembered per account); "Export all" sends
 every recipe the character knows. `/sladmin baseline` marks everything as already exported. In the recipe list, the "New only" toggle (or `/sladmin new`) shows exactly the recipes "Export new" would send.
 
-**Each recipe `id` appears once in a file** (plugin v0.7.2 and later). A `sotalore-export.json` written by 0.7.1 or
+**Each recipe `id` appears once in a file** (plugin v0.7.2 and later). A recipe file written by 0.7.1 or
 earlier can repeat recipes: if the game stopped the plugin part way through an export (it does when a callback runs
 over a second), the batch it was reading was written twice (10 recipes, identical both times, in the one file seen).
 The game's own list of known recipes has no repeats. If an importer sees a repeated `id`, the entries are the same
@@ -68,7 +74,7 @@ recipes because an older full export lacks them.
 
 ### Items file
 
-`sotalore-items.json` (the "New items" and "All items" buttons, `/sladmin items`, `/sladmin itemsall`) lists the items in
+`sotalore-item-catalog.json` (`sotalore-items.json` before v0.11.0; the "New items" and "All items" buttons, `/sladmin items`, `/sladmin itemsall`) lists the items in
 the character's top-level bags (not worn gear, nested containers, bank or chests). The bags hold many things that
 never leave (gear, quest items, tools), so like the recipe files it has a `scope`:
 
@@ -161,9 +167,9 @@ Not yet verified against a real file.
 
 ### Finds file (items and creatures per scene)
 
-`sotalore-finds.json`, written by the **Save** button of the "SotaLore Finds" window (open it with the
+`sotalore-scene-finds.json` (`sotalore-finds.json` before v0.11.0), written by the **Save** button of the "SotaLore Finds" window (open it with the
 list window's "Finds window" button or `/sladmin finds`; `/sladmin savefinds` also saves). The small window
-is meant to stay up during play: it shows the current scene, how many distinct items and creatures are on
+is meant to stay up during play: it shows the current scene, how many distinct items and creatures (fought, and only seen) are on
 the list, and has **Save** (writes the file, keeps the list), **Reset** (clears the list; needs a second
 click within 4 seconds) and a **Tracking** toggle (turn it off while banking or shopping, which the API
 cannot tell apart from loot). The list accumulates account-wide across sessions and characters until
@@ -178,7 +184,7 @@ equipping, logging in, changing scenes. Gains while the crafting window is open 
 **Creatures.** The API cannot list what is in a scene, so the addon records the creatures the player
 fights: from the combat lines (`ShroudOnCombatEvents`), the opponent in any hit, miss, block, parry,
 dodge or death line that involves you or your pet (the target when you or your pet act, the source when
-you or your pet are hit). Only creatures that actually fight you show up: nothing that is just standing
+you or your pet are hit). Only creatures that actually fight you show up here (from v0.11.0 the others the player targets are under `seen`, below): nothing that is just standing
 nearby, and nothing the player only talks to. Heals and falls are ignored. PvP scenes and battlegrounds
 are skipped entirely, since the opponents are players. A creature is counted once per individual per
 visit to a scene (using the combat line's per-scene creature key, which the API does not expose as an id).
@@ -205,6 +211,7 @@ Loot taken from a corpse or chest has no source in the API, so it is not attribu
     "items": [ {"key": "item:..." , "name": "Wax", "quantity": 12, "times": 4,
                 "weight": 0.05, "value": 1} ],
     "creatures": [ {"name": "Wolf", "seen": 7, "levelMin": 4, "levelMax": 6} ],
+    "seen": [ {"name": "Large Stag", "seen": 1, "levelMin": null, "levelMax": null} ],
     "nodes": [ {"name": "Iron Ore Vein", "harvests": 5, "failed": 1, "experience": 120,
                 "items": [ {"name": "Iron Ore", "quantity": 16} ] } ] } ] }
 ```
@@ -246,6 +253,40 @@ no creature type or id). `seen` = individuals fought, summed over visits. `level
 creature's level when it was the player's current target and the game's Animal Lore rule lets the level
 be read; otherwise `null`. A scene with only creatures has an empty `items` list and the reverse. Not
 yet verified against a real file, including whether creature names match the site's.
+
+**Seen (new in sl-admin v0.11.0; adds a key, nothing else changes).** Each scene also has `seen`: things that
+were the player's **target** in that scene but are **not** on its `creatures` list, i.e. never fought there.
+Same fields as `creatures`: `name`, `seen` (different individuals, summed over visits), `levelMin`/`levelMax`
+(when Animal Lore shows the level; `null` otherwise). Files from before v0.11.0 have no `seen` key: read it as
+empty.
+
+```json
+"seen": [ {"name": "Fighter", "seen": 2, "levelMin": null, "levelMax": null},
+          {"name": "Large Stag", "seen": 1, "levelMin": null, "levelMax": null},
+          {"name": "Timber Wolf", "seen": 3, "levelMin": 30, "levelMax": 33} ]
+```
+
+The target follows the game's target frame: the locked target, or otherwise the closest combatant, so creatures
+that only walk past, or that fight each other and never the player, get in (seen in play: a Large Stag and a
+Large Timber Wolf fighting each other). **The game does not say whether a target is a creature, an NPC or a
+player**, and some NPCs and players look exactly like a creature whose level Animal Lore can't read. The add-on
+drops what is clearly not a creature: a name with an owner line (another player's pet or companion, "You can
+call me Ned" with "<Nedley Mandingo>"), a name with a tag after it (a player away, "Atos[AFK]"), the player,
+their pet and their party; PvP scenes and battlegrounds are skipped, as for `creatures`. What gets through
+still includes **NPCs** ("Fighter", "Practice Dummy"), **decoration pets** (another player's "Mylo", whose stats
+read like a low-level creature) and **players without a tag**. So `seen` is a list for an admin to review on
+import: a name the site already knows as a creature confirms that it lives in the scene; any other name needs a
+person to accept or ignore it (and an ignored name, such as an NPC's, should stay ignored on later imports).
+Player names can be in it; keep only names that are accepted.
+
+The levels of fought creatures are better too from v0.11.0: a creature that was the target before the fight
+(the usual case) keeps the level read then, where before it was only read during the fight.
+
+**A real file:** `data/plugin-examples/sotalore-scene-finds.json` (sl-admin v0.11.0, API 44, Whiteguard Foothills).
+Five creatures fought (Bandit and Thug without a level; Large Brown Bear 20, Rabbit 1, Timber Wolf 30) and three
+only seen (Grizzly Bear 34, Large Grey Wolf 20, and two Stags at 30). Note "Large Grey Wolf": only seen, yet also a
+node, because its corpse was field dressed (someone else, or a pet, did the killing). So a `seen` name that is also
+a node name in the same scene is a creature too.
 
 ### Skills (code and file), from `sl-skills` v0.1.0, in use
 
@@ -296,7 +337,7 @@ the others in v0.7.1):
 | `apiVersion` | The game's Lua API version when the file was written. |
 | `plugin` | Which add-on wrote it: `"sl-admin"` or `"sl-skills"`. **Missing means the old single add-on, `sl-recipes`**, which is `sl-admin`'s past (versions 0.7.1 to 0.9.0). |
 | `pluginVersion` | The version of that add-on (`major.minor.patch`), its `Version` in `core.lua` and `manifest.json`. Compare versions only within one `plugin`. |
-| `type` | What kind of file it is: `"recipes"` (`sotalore-export.json` and `sotalore-one.json`, which also have a `scope`), `"items"` (`sotalore-items.json`), `"finds"` (`sotalore-finds.json`) or `"skills"` (`sotalore-skills.json`, from `sl-skills`). Use it to refuse a file uploaded to the wrong place. |
+| `type` | What kind of file it is: `"recipes"` (`sotalore-recipes-new.json`, `-all.json` and `-one.json`, which also have a `scope`), `"items"` (`sotalore-item-catalog.json`), `"finds"` (`sotalore-scene-finds.json`) or `"skills"` (`sotalore-skills.json`, from `sl-skills`). Use it to refuse a file uploaded to the wrong place. |
 
 **Files written before 0.7.1 have no `pluginVersion` or `type`** (the file name says the kind). Their plugin
 version is unknown, so treat a missing `pluginVersion` as "older than 0.7.1", not as any particular version. This
@@ -328,7 +369,7 @@ so treat a missing one as unknown):
 |---------|-----------|---------|
 | `"all"` | "Export all" / `/sladmin exportall` | every recipe the character knows. Only this scope is a full export, the only kind that can show a recipe is gone from the game. |
 | `"new"` | "Export new" / `/sladmin export` | only recipes not exported before. Never a full export, even if it happens to hold everything. |
-| `"one"` | "Save this recipe to file" | exactly one recipe (`sotalore-one.json`). |
+| `"one"` | "Save this recipe to file" | exactly one recipe (`sotalore-recipes-one.json`). |
 
 A recipe book can differ between characters, so even an `"all"` file only covers what that one character
 knows; the uploader still decides whether to treat it as the whole game.
@@ -452,11 +493,23 @@ A real v0.2.0 single-recipe file (recipe "Spear", API 38) matches this document:
 `groupKey` as the identity. Group choices carry only `key` and `stats` inside the recipe; their
 names are in `groups`.
 
-## Verified against a complete full export (plugin 0.5.2)
+## Verified against a complete full export (plugin 0.5.2, refreshed with sl-admin 0.11.0)
 
-`data/plugin-examples/sotalore-export.json`: `"scope": "all"`, API 40, **1,234 recipes** (the character knows
-1,234; no duplicate ids, 604 negative), 3,994 ingredient slots (877 are group slots), 240 groups, 1.9 MB. Every
-recipe has a `station`; every `locations` is `["any"]`; no stat `value` is `null`.
+The numbers below were measured on a full export from 2026-10-17 (plugin 0.7.2, API 40): **1,234 recipes** (the
+character knows 1,234; no duplicate ids, 604 negative), 3,994 ingredient slots (877 are group slots), 240 groups,
+1.9 MB. Every recipe has a `station`; every `locations` is `["any"]`; no stat `value` is `null`.
+
+The example now in `data/plugin-examples/sotalore-recipes-all.json` is the same character's full export of
+2026-10-20 (sl-admin 0.11.0, API 44): 1,235 recipes, no duplicate ids, 606 negative, 3,998 slots (878 group
+slots), 240 groups. Against the earlier file: one recipe learned (Triangle Kobold Tent), and **three recipes
+changed id with the same name**: Shrine of Gaiaism 7001803 → 1973457948, Shrine of Lunaism 376721338 →
+1870032165, Shrine of Sorcery 1297782815 → -1367767929. The old ids are gone. **The recipes themselves changed**:
+in each, one ingredient was replaced (Gaiaism: 10 Pure Elemental Sand → 1 Ring of Earth, Uncommon; Lunaism: 10
+Shadow Essence → 1 Ring of the Moon, Uncommon; Sorcery: 1 Red Dragon Egg → 1 Ring of Fire, Uncommon); the rest is
+the same. So the game appears to treat a recipe as immutable: **changing a recipe gives it a new `id`**. For an
+importer: an `id` names one version of a recipe, not the recipe as players think of it. An `"all"` import that
+finds an id gone and a new id with the same name and category is most likely the same recipe, changed; showing
+it as "changed" (old and new ingredients side by side) is more useful than "one removed, one added".
 
 - **The 103 recipes older plugin versions dropped are in it**, with the same fields as any other recipe
   (station, ingredients with keys and stats, group slots, results with key and stats). Examples: Combine Gem

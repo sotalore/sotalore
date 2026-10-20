@@ -29,7 +29,7 @@ function M.update()
     local here = (scene and scene.loaded and scene.name ~= "") and scene.name or "(no scene)"
     sceneLabel:SetText(util.clip(here, 30))
     itemsLabel:SetText("Items: " .. c.items .. " distinct (" .. c.quantity .. " total)")
-    creaturesLabel:SetText("Creatures: " .. c.creatures .. " distinct")
+    creaturesLabel:SetText("Creatures: " .. c.creatures .. " fought, " .. c.seenOnly .. " only seen")
     nodesLabel:SetText("Nodes: " .. c.nodes .. " distinct (" .. c.harvests .. " harvests)")
     scenesLabel:SetText("Scenes in list: " .. c.scenes)
 end

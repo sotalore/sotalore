@@ -1,7 +1,7 @@
 -- finds_data.lua: what the player finds, scene by scene. No windows here: finds_ui.lua shows it.
 --
 -- The find list is a table, scene name -> { raw, info, items, creatures, nodes }, kept in the account
--- saved variable "finds" and written out as Lua/sotalore-finds.json (format in EXPORT-FORMAT.md).
+-- saved variable "finds" and written out as Lua/sotalore-scene-finds.json (format in EXPORT-FORMAT.md).
 --
 --   items      what arrived in the bags (ShroudOnItemsGained, the game's "Recently Looted" rule: loot,
 --              purchases, harvests, mail, trades, and items taken out of a bank or chest. NOT items you
@@ -10,6 +10,12 @@
 --   creatures  the API can't list what is in a scene, so a creature is recorded when it shows up in
 --              your combat lines. Only creatures you actually fight are seen. PvP scenes are skipped
 --              because the opponents are players.
+--   seen       creatures that were the player's target (ShroudOnTargetChanged), fought or not. The target
+--              follows the game's target frame (the locked target, otherwise the closest combatant), so
+--              walking past a creature is enough. The game does not say whether a target is a creature, an
+--              NPC or a player: names that are clearly not creatures are dropped here (a name with an owner
+--              line, an [AFK] tag, the player, their pet and party), and the site reviews the rest. The file
+--              lists only names that are not also under creatures for that scene.
 --   nodes      gathering actions you finish (ShroudOnGatherResults): the node's name and what its
 --              loot window held. Field dressing a corpse reports the creature's name as the node. An
 --              interrupted harvest sends nothing.
@@ -30,6 +36,7 @@ local finds = {}      -- scene name -> { raw, info, items = {...}, creatures = {
 local dirty = false   -- changed since the last save to the saved variables
 local lastSave = 0
 local seenKeys = {}   -- creature keys already counted on this visit to the scene
+local seenTargets = {}   -- target ids already counted on this visit to the scene
 local gatherLog = true
 
 local function changed()
@@ -54,7 +61,7 @@ function M.load()
     local t = ShroudGetSavedVar("finds", "account")
     finds = type(t) == "table" and t or {}
     M.tracking = ShroudGetSavedVar("track", "account") ~= false
-    seenKeys = {}
+    seenKeys, seenTargets = {}, {}
     dirty, lastSave = false, 0
 end
 
@@ -66,7 +73,7 @@ end
 -- Empties the list.
 function M.reset()
     finds = {}
-    seenKeys = {}
+    seenKeys, seenTargets = {}, {}
     dirty = true
     M.save(true)
     if M.onChange then M.onChange() end
@@ -74,7 +81,7 @@ end
 
 -- A new visit to a scene: its creatures count again.
 function M.newVisit()
-    seenKeys = {}
+    seenKeys, seenTargets = {}, {}
 end
 
 -- Turns the chat line for every gather result on or off. Returns the new state.
@@ -85,8 +92,8 @@ end
 
 -- Totals for the window.
 function M.counts()
-    local c = { scenes = 0, items = 0, quantity = 0, creatures = 0, nodes = 0, harvests = 0 }
-    local itemIds, creatureNames, nodeNames = {}, {}, {}
+    local c = { scenes = 0, items = 0, quantity = 0, creatures = 0, seenOnly = 0, nodes = 0, harvests = 0 }
+    local itemIds, creatureNames, nodeNames, seenNames = {}, {}, {}, {}
     for _, s in pairs(finds) do
         c.scenes = c.scenes + 1
         for name, n in pairs(s.nodes or {}) do
@@ -99,6 +106,13 @@ function M.counts()
         end
         for name in pairs(s.creatures or {}) do
             if not creatureNames[name] then creatureNames[name] = true; c.creatures = c.creatures + 1 end
+        end
+        -- Seen but not fought in that scene: the names the file lists under seen.
+        for name in pairs(s.seen or {}) do
+            if not (s.creatures and s.creatures[name]) and not seenNames[name] then
+                seenNames[name] = true
+                c.seenOnly = c.seenOnly + 1
+            end
         end
     end
     return c
@@ -116,6 +130,7 @@ local function sceneEntry(scene)
     end
     s.items = s.items or {}
     s.creatures = s.creatures or {}
+    s.seen = s.seen or {}
     s.nodes = s.nodes or {}
     s.info = {
         isOverworld = scene.isOverworld and true or false,
@@ -216,7 +231,9 @@ function M.recordCreatures(events)
                     s = sceneEntry(scene)
                     c = s.creatures[name]
                     if not c then
-                        c = { seen = 0 }
+                        -- A creature often is the target before the fight starts: keep the level read then.
+                        local t = s.seen[name]
+                        c = { seen = 0, levelMin = t and t.levelMin, levelMax = t and t.levelMax }
                         s.creatures[name] = c
                     end
                     c.seen = c.seen + 1
@@ -234,6 +251,52 @@ function M.recordCreatures(events)
         end
     end
     if any then changed() end
+end
+
+-- Whether a target's name is clearly not a creature. Seen in play (2026-10-20): another player's pet or
+-- companion has a second line with its owner, "You can call me Ned\n<Nedley Mandingo>"; a player who is away
+-- has a tag after the name, "Atos[AFK]". Players without a tag, NPCs ("Fighter", "Practice Dummy") and
+-- decoration pets look like creatures to the API; the site reviews those.
+local function notACreature(name)
+    if name == "" or name:find("[\r\n<>]") or name:match("%[[^%]]*%]%s*$") then return true end
+    if name == ShroudGetPlayerName() then return true end
+    local pet = ShroudGetPetInfo()
+    if pet and pet.Name == name then return true end
+    for slot = 1, (ShroudGetPartyMemberCount() or 0) - 1 do
+        if ShroudGetPartyMemberName(slot) == name then return true end
+    end
+    return false
+end
+
+-- A new target (from ShroudOnTargetChanged): counted once per individual per visit under seen, with its level
+-- when Animal Lore shows it. A creature also on the fought list gets the level there too.
+function M.recordTarget(id, name)
+    if id == -1 or not name or not ShroudHasTarget() then return end
+    local scene = currentScene()
+    if not scene or scene.isPvp or scene.isBattleground then return end
+    -- With several combatants near, the target switches between them a few times a second; an individual
+    -- already counted on this visit adds nothing (its level does not change).
+    if seenTargets[id] or notACreature(name) then return end
+    seenTargets[id] = true
+
+    local lvl = targetLevel(name)
+    local s = sceneEntry(scene)
+    local fought = s.creatures[name]
+    if fought and lvl then
+        fought.levelMin = math.min(fought.levelMin or lvl, lvl)
+        fought.levelMax = math.max(fought.levelMax or lvl, lvl)
+    end
+    local t = s.seen[name]
+    if not t then
+        t = { seen = 0 }
+        s.seen[name] = t
+    end
+    t.seen = t.seen + 1
+    if lvl then
+        t.levelMin = math.min(t.levelMin or lvl, lvl)
+        t.levelMax = math.max(t.levelMax or lvl, lvl)
+    end
+    changed()
 end
 
 -- The loot window lists the experience reward as an item ("60 Producer Experience"), once per
@@ -306,6 +369,21 @@ local function jcreatures(s)
     return table.concat(parts, ',')
 end
 
+-- Targets of this scene that are not on its fought list.
+local function jseen(s)
+    local list = {}
+    for tname, t in pairs(s.seen or {}) do
+        if not (s.creatures and s.creatures[tname]) then list[#list + 1] = { name = tname, t = t } end
+    end
+    table.sort(list, function(a, b) return a.name:lower() < b.name:lower() end)
+    local parts = {}
+    for _, tt in ipairs(list) do
+        parts[#parts + 1] = '{"name":' .. jstr(tt.name) .. ',"seen":' .. jnum(tt.t.seen)
+            .. ',"levelMin":' .. jnum(tt.t.levelMin) .. ',"levelMax":' .. jnum(tt.t.levelMax) .. '}'
+    end
+    return table.concat(parts, ',')
+end
+
 local function jnodes(s)
     local list = {}
     for nname, n in pairs(s.nodes or {}) do list[#list + 1] = { name = nname, n = n } end
@@ -336,7 +414,7 @@ local function jinfo(i)
         .. ',"craftingSkillCap":' .. jnum(i.craftingSkillCap) .. '}'
 end
 
--- Writes Lua/sotalore-finds.json. The list is kept; use reset() to empty it.
+-- Writes Lua/sotalore-scene-finds.json. The list is kept; use reset() to empty it.
 function M.export()
     local started = util.clock()
     M.save(true)
@@ -355,6 +433,7 @@ function M.export()
             .. ',"info":' .. jinfo(s.info)
             .. ',"items":[' .. jitems(s) .. ']'
             .. ',"creatures":[' .. jcreatures(s) .. ']'
+            .. ',"seen":[' .. jseen(s) .. ']'
             .. ',"nodes":[' .. jnodes(s) .. ']}'
     end
     local body = util.header("finds")

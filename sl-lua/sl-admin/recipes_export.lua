@@ -1,6 +1,6 @@
 -- recipes_export.lua: turns the recipes the character knows into JSON files for the site.
 --
--- Writes Lua/sotalore-export.json (many recipes) or sotalore-one.json (one recipe); the format is
+-- Writes Lua/sotalore-recipes-new.json or -all.json (many recipes) or -one.json (one recipe); the format is
 -- described in EXPORT-FORMAT.md. No character data is exported. It reads a few recipes per frame
 -- (see step) so a big recipe book never trips the game's watchdog.
 --
@@ -229,7 +229,7 @@ function M.start(mode, only)
         return
     end
     table.sort(list, function(a, b) return a.id < b.id end)
-    state = { list = list, i = 1, byId = {}, bad = {}, kept = {}, groups = {}, file = SotaLoreAdmin.files.recipes, scope = mode }
+    state = { list = list, i = 1, byId = {}, bad = {}, kept = {}, groups = {}, file = (mode == "all") and SotaLoreAdmin.files.recipesAll or SotaLoreAdmin.files.recipesNew, scope = mode }
 end
 
 -- Checking that every known recipe can be read ------------------------------------------------
