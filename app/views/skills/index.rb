@@ -44,8 +44,10 @@ class Views::Skills::Index < Views::Skills::Base
   def header_row
     div(class: "tableRow bg-white dark:bg-grey-800 font-bold sticky top-0") do
       div(class: "skillCell flex flex-row items-baseline") do
-        span(class: "shrink mr-1") { "Skill" }
-        span(class: "text-xs opacity-8 font-normal") { "(cost)" }
+        div(class: 'flex flex-row items-center gap-x-1') do
+          span(class: "shrink mr-1") { "Skill" }
+          span(class: "text-xs font-normal") { "(cost)" }
+        end
         div(class: "grow text-center font-normal italic text-sm") do
           if @avatar
             hidden = @skills.values.flat_map(&:values).flatten.count { @avatar.ignoring_skill?(_1) }
