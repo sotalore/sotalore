@@ -27,6 +27,29 @@ RSpec.describe Avatar, type: :model do
     end
   end
 
+  describe "#ignore_skills!" do
+    let(:avatar) { create :avatar }
+    let(:skills) { Skill.in_school('heavy-armor') }
+
+    it "ignores all the skills, once each" do
+      avatar.ignore_skill!(skills.first)
+      avatar.ignore_skills!(skills)
+      expect(avatar.reload.ignored_skills).to eq(skills.map(&:id))
+    end
+  end
+
+  describe "#reveal_skills!" do
+    let(:avatar) { create :avatar }
+    let(:skills) { Skill.in_school('heavy-armor') }
+
+    it "reveals just those skills" do
+      other = Skill.in_school('shield').first
+      avatar.ignore_skills!(skills + [ other ])
+      avatar.reveal_skills!(skills)
+      expect(avatar.reload.ignored_skills).to eq([ other.id ])
+    end
+  end
+
   describe "#ignoring_skill?" do
     let(:avatar) { build :avatar }
     let(:skill) { Skill.find(1) }

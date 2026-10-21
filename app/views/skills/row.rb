@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Views::Skills::Row < Views::Base
-  include Phlex::Rails::Helpers::ButtonTo
-
   register_value_helper :dom_id
 
   def initialize(skill, avatar, current_skill=nil)
@@ -25,12 +23,7 @@ class Views::Skills::Row < Views::Base
     }
 
     div(id: dom_id(@skill), class: 'tableRow hover:bg-grey-200 dark:hover:bg-grey-800', data: row_data) do
-      classes = [
-        'skillCell flex flex-row items-center gap-x-1',
-        ('opacity-50' if @avatar&.ignoring_skill?(@skill))
-      ]
-      div(class: classes) do
-        toggle_skill_button(@avatar, @skill)
+      div(class: 'skillCell flex flex-row items-center gap-x-1') do
         span { @skill.name }
         unless @skill.xp_factor == 1.0
           span(class: 'text-xs font-normal') { "(#{@skill.xp_factor.to_s.sub(/.0$/, '')}x)" }
@@ -56,25 +49,6 @@ class Views::Skills::Row < Views::Base
   end
 
   private
-
-  def toggle_skill_button(avatar, skill)
-    return unless avatar
-
-    # Passed along so the row that comes back fits the page: with all skills
-    # shown, an ignored one stays (dimmed) rather than being removed.
-    show_all_param = params.key?(:show_all) ? { show_all: true } : {}
-    if @avatar.ignoring_skill?(skill)
-      icon_name = 'eye_slash'
-      path = reveal_avatar_skill_path(@avatar, skill.id, **show_all_param)
-    else
-      icon_name = 'eye'
-      path = ignore_avatar_skill_path(@avatar, skill.id, **show_all_param)
-    end
-
-    button_to(path, class: 'inline-flex items-center text-slorange-500', method: :patch, tabindex: "-1", form: { class: 'flex flex-row items-center' }) do
-      render_icon(icon_name, size: :sm)
-    end
-  end
 
   def xp_input(**args)
     input(type: 'number', step: "1", min: "0", max: "200", autocomplete: 'off', **args)

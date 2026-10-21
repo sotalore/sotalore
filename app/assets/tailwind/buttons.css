@@ -68,6 +68,23 @@
     }
   }
 
+  /* On a parchment row (the hidden skills page's school rows): the default
+     outline in light mode, and the row's own light text in dark mode, where
+     the orange is lost on the dark parchment. */
+  &.Button--onParchment {
+    @apply dark:border-parchment-200 dark:text-parchment-200;
+
+    &:focus,
+    &:hover {
+      @apply dark:bg-parchment-200 dark:border-parchment-200 dark:text-parchment-900;
+    }
+
+    &:active,
+    &:active:hover {
+      @apply dark:bg-parchment-300 dark:border-parchment-300 dark:text-parchment-900;
+    }
+  }
+
   &.Button--success {
     @apply bg-green-600 border-green-800 text-grey-100 drop-shadow-md;
 

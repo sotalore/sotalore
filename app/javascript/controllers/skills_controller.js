@@ -18,8 +18,8 @@ export default class extends Controller {
     document.removeEventListener("turbo:morph", this.recalculate)
   }
 
-  // The XP cells are filled in here, so a morph (after ignoring or revealing
-  // a skill) puts back the server's blank ones, and the levels it saved.
+  // The XP cells are filled in here, so a morph (after clearing the skills)
+  // puts back the server's blank ones, and the levels it saved.
   recalculate() {
     this.originalFromValue = this.fromTarget.value
     this.originalToValue = this.toTarget.value

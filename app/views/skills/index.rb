@@ -2,12 +2,11 @@
 
 class Views::Skills::Index < Views::Skills::Base
 
-  def initialize(activity:, skills:, avatar: nil, avatars: nil, show_all: false)
+  def initialize(activity:, skills:, avatar: nil, avatars: nil)
     @activity = activity
     @skills = skills
     @avatar = avatar
     @avatars = avatars
-    @show_all = show_all
   end
 
   def view_template
@@ -23,11 +22,11 @@ class Views::Skills::Index < Views::Skills::Base
         @skills.each do |category, schools|
           category_row(category)
 
-          schools.each do |school, school_skills|
-            school_skills = avatar_visible_skills(@avatar, school_skills) unless @show_all
-            next unless school_skills.any?
+          schools.each_value do |school_skills|
+            visible_skills = avatar_visible_skills(@avatar, school_skills)
+            next unless visible_skills.any?
 
-            school_row(category, school, school_skills)
+            school_row(visible_skills, hidden_count: school_skills.size - visible_skills.size)
           end
         end
       end
@@ -45,15 +44,15 @@ class Views::Skills::Index < Views::Skills::Base
   def header_row
     div(class: "tableRow bg-white dark:bg-grey-800 font-bold sticky top-0") do
       div(class: "skillCell flex flex-row items-baseline") do
-        span(class: "shrink mr-1") { "Skill" }
-        span(class: "text-xs opacity-8 font-normal") { "(cost)" }
+        div(class: 'flex flex-row items-center gap-x-1') do
+          span(class: "shrink mr-1") { "Skill" }
+          span(class: "text-xs font-normal") { "(cost)" }
+        end
         div(class: "grow text-center font-normal italic text-sm") do
           if @avatar
-            if @show_all
-              link_to("hide ignored", avatar_skills_path(@avatar, activity: @activity))
-            else
-              link_to("show all", avatar_skills_path(@avatar, activity: @activity, show_all: true))
-            end
+            hidden = @skills.values.flat_map(&:values).flatten.count { @avatar.ignoring_skill?(_1) }
+            label = hidden.zero? ? "hide skills" : "manage hidden (#{hidden})"
+            link_to(label, avatar_hidden_skills_path(@avatar, activity: @activity))
           end
         end
       end
@@ -88,14 +87,8 @@ class Views::Skills::Index < Views::Skills::Base
     end
   end
 
-  def school_row(category, school, school_skills)
-    div(id: "#{category}-#{school}", class: "tableRow bg-parchment-color dark:bg-parchment-800 dark:text-parchment-200",
-        data: { "skills-rollup-target": "member", "rollup-target": category }) do
-      div(class: "skillCell") { school.titleize }
-      div(class: "xpCell currentCell") { div(class: "xp currentXP") }
-      div(class: "xpCell targetCell") { div(class: "xp totalXP") }
-      div(class: "remainingXPCell") { div(class: "remainingXP") }
-    end
+  def school_row(school_skills, hidden_count:)
+    render Views::Skills::SchoolRow.new(school_skills, @avatar, hidden_count: hidden_count)
 
     school_skills.each do |skill|
       render Views::Skills::Row.new(skill, @avatar)

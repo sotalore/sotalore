@@ -163,10 +163,17 @@ Rails.application.routes.draw do
     resource :skill_import, path: 'import-skills', only: [ :new, :create ] do
       post :preview
     end
+    get 'hidden-skills/:activity', to: 'hidden_skills#index', as: 'hidden_skills', defaults: { activity: 'adventuring' }
     resources :skills, only: [ :update ] do
       member do
-        patch :ignore, to: 'skills#ignore'
-        patch :reveal, to: 'skills#reveal'
+        patch :hide, to: 'hidden_skills#hide'
+        patch :reveal, to: 'hidden_skills#reveal'
+      end
+    end
+    resources :skill_schools, path: 'skill-schools', only: [] do
+      member do
+        patch :hide, to: 'hidden_skills#hide_school'
+        patch :reveal, to: 'hidden_skills#reveal_school'
       end
     end
   end

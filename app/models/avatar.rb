@@ -12,9 +12,16 @@ class Avatar < ApplicationRecord
   end
 
   def ignore_skill!(skill)
-    unless ignored_skills.include?(skill.id)
-      ignored_skills << skill.id
-      self.save!
+    ignore_skills!([ skill ])
+  end
+
+  # Ignores a whole school (or any set) of skills at once. The hidden skills
+  # page saves each click as it's made, so the row is locked to keep quick
+  # clicks from overwriting each other's changes.
+  def ignore_skills!(skills)
+    with_lock do
+      self.ignored_skills |= skills.map(&:id)
+      save! if changed?
     end
   end
 
@@ -23,8 +30,14 @@ class Avatar < ApplicationRecord
   end
 
   def reveal_skill!(skill)
-    self.ignored_skills.delete(skill.id)
-    self.save!
+    reveal_skills!([ skill ])
+  end
+
+  def reveal_skills!(skills)
+    with_lock do
+      self.ignored_skills -= skills.map(&:id)
+      save! if changed?
+    end
   end
 
   # This preloads skills, to be used when viewing them all
