@@ -82,8 +82,8 @@ class Views::SkillImports::Preview < Views::SkillImports::Page
 
   def ignored_trained
     return if @sync.ignored_trained.empty?
-    heading("Ignored, but trained in the game (#{@sync.ignored_trained.size})")
-    option('reveal_ignored', false, 'Stop ignoring these.')
+    heading("Hidden, but trained in the game (#{@sync.ignored_trained.size})")
+    option('reveal_ignored', false, 'Stop hiding these.')
     p(class: 'text-sm') { @sync.ignored_trained.map(&:name).join(', ') }
   end
 

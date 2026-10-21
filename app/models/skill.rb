@@ -18,6 +18,7 @@ class Skill
             BY_KEY[s.key] = s
             BY_ID[s.id] = s
             BY_GAME_ID[s.game_id] = s if s.game_id
+            (BY_SCHOOL[school.parameterize] ||= []) << s
           end
         end
       end
@@ -32,6 +33,11 @@ class Skill
       end
     end
 
+    # The skills of a school, by its name as a URL parameter ("heavy-armor").
+    def in_school(param)
+      BY_SCHOOL[param]
+    end
+
     # The skill with the game's id (as the sl-skills plugin exports it).
     def find_by_game_id(game_id)
       BY_GAME_ID[game_id]
@@ -43,6 +49,7 @@ class Skill
   BY_KEY = {}
   BY_ID = {}
   BY_GAME_ID = {}
+  BY_SCHOOL = {}
 
   # game_id and game_key are the game's id and internal name ("Deflect"), from
   # the development team's data/skill-costs.csv (see `rails skills:game_ids`).

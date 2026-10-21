@@ -88,58 +88,30 @@ RSpec.describe 'Skills', type: :request do
       end
     end
 
-    describe "ignore" do
-      it "adds the skill to the avatar's ignore list" do
-        patch ignore_avatar_skill_path(avatar, id: skill.id)
+    describe "hidden skills on the index" do
+      let(:school) { Skill.in_school('heavy-armor') }
 
-        expect(response).to redirect_to(avatar_skills_path(avatar))
-
-        avatar.reload
-        expect(avatar.ignored_skills).to include(skill.id)
+      it "links to choosing hidden skills" do
+        get avatar_skills_path(avatar, activity: 'adventuring')
+        expect(response.body).to include(avatar_hidden_skills_path(avatar, activity: 'adventuring'))
+        expect(response.body).to include('hide skills')
       end
 
-      it 'returns to the page it was done from' do
-        page = avatar_skills_url(avatar, activity: 'crafting', show_all: true)
-        patch ignore_avatar_skill_path(avatar, id: skill.id), headers: { 'HTTP_REFERER' => page }
-        expect(response).to redirect_to(page)
-        expect(response).to have_http_status(:see_other)
-      end
-    end
+      it "leaves out hidden skills, counting them in their school and the page" do
+        avatar.ignore_skills!(school.first(3))
 
-    describe "reveal" do
-      it "adds the skill to the avatar's ignore list" do
-        avatar.ignore_skill!(skill)
-
-        patch reveal_avatar_skill_path(avatar, id: skill.id)
-
-        expect(response).to redirect_to(avatar_skills_path(avatar, show_all: true))
-
-        avatar.reload
-        expect(avatar.ignored_skills).to_not include(skill.id)
-      end
-    end
-
-    describe "ignoring and revealing through Turbo" do
-      let(:stream) { { 'Accept' => 'text/vnd.turbo-stream.html' } }
-
-      it "removes an ignored skill's row" do
-        patch ignore_avatar_skill_path(avatar, id: skill.id), headers: stream
-        expect(response.body).to include(%(<turbo-stream action="remove" target="skill_#{skill.id}">))
+        get avatar_skills_path(avatar, activity: 'adventuring')
+        expect(response.body).not_to include(%(id="skill_#{school.first.id}"))
+        expect(response.body).to include(%(id="skill_#{school.last.id}"))
+        expect(response.body).to include('3 hidden')
+        expect(response.body).to include('manage hidden (3)')
       end
 
-      it "keeps an ignored skill's row, dimmed, when showing all skills" do
-        patch ignore_avatar_skill_path(avatar, id: skill.id, show_all: true), headers: stream
-        expect(response.body).to include(%(<turbo-stream action="replace" target="skill_#{skill.id}">))
-        expect(response.body).to include('opacity-50')
-        expect(response.body).to include(reveal_avatar_skill_path(avatar, skill.id, show_all: true))
-      end
+      it "leaves out a school with every skill hidden" do
+        avatar.ignore_skills!(school)
 
-      it "replaces a revealed skill's row, keeping show_all on its ignore button" do
-        avatar.ignore_skill!(skill)
-        patch reveal_avatar_skill_path(avatar, id: skill.id, show_all: true), headers: stream
-        expect(response.body).to include(%(<turbo-stream action="replace" target="skill_#{skill.id}">))
-        expect(response.body).not_to include('opacity-50')
-        expect(response.body).to include(ignore_avatar_skill_path(avatar, skill.id, show_all: true))
+        get avatar_skills_path(avatar, activity: 'adventuring')
+        expect(response.body).not_to include('id="combat-heavy armor"')
       end
     end
   end

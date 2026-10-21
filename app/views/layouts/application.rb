@@ -50,7 +50,7 @@ class Views::Layouts::Application < Views::Layouts::Base
             nav do
               site_nav_link_to("My Recipes", user_recipes_path, "book") if Current.user.not_null?
               site_nav_link_to("My Avatars", avatars_path, "shield", active: [ [ "avatars" ], [] ])
-              site_nav_link_to("Skills", current_skills_path, "jewel", active: [ [ "skills" ], [] ])
+              site_nav_link_to("Skills", current_skills_path, "jewel", active: [ %w[ skills hidden_skills skill_imports ], [] ])
               site_nav_link_to("Items", items_path, "box")
               site_nav_link_to("Recipes", recipes_path, "recipe")
               site_nav_link_to("Scenes", scenes_path, "map")

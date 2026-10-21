@@ -3,8 +3,11 @@
 class Views::Skills::PageHeading < Views::Skills::Base
   include Phlex::Rails::Helpers::SelectTag
 
-  def initialize(activity:, with_avatar_controls:, avatars: nil, avatar: nil)
+  # With +hiding+, it heads the page for choosing the avatar's hidden skills,
+  # and its activity tabs stay on that page.
+  def initialize(activity:, with_avatar_controls:, avatars: nil, avatar: nil, hiding: false)
     @activity = activity
+    @hiding = hiding
     @with_avatar_controls = with_avatar_controls
     @avatars = avatars
     @avatar = avatar
@@ -15,8 +18,8 @@ class Views::Skills::PageHeading < Views::Skills::Base
     # the avatar controls; from md up they're classic tabs joined to the table.
     div(class: "flex flex-col md:flex-row md:justify-between md:items-end") do
       div(class: "PageTabs") do
-        page_heading_tab(@activity == "adventuring", "Adventuring", current_skills_path(activity: "adventuring"), suffix: " Skills")
-        page_heading_tab(@activity == "crafting", "Crafting", current_skills_path(activity: "crafting"), suffix: " Skills")
+        page_heading_tab(@activity == "adventuring", "Adventuring", activity_path("adventuring"), suffix: " Skills")
+        page_heading_tab(@activity == "crafting", "Crafting", activity_path("crafting"), suffix: " Skills")
         page_heading_tab(@activity.nil?, "Basics", skills_basics_path)
         page_heading_tab(import?, "Import", current_skills_import_path)
       end
@@ -51,6 +54,10 @@ class Views::Skills::PageHeading < Views::Skills::Base
   def tab_label(name, suffix)
     plain name
     span(class: "hidden md:inline") { suffix } if suffix
+  end
+
+  def activity_path(activity)
+    @hiding ? avatar_hidden_skills_path(@avatar, activity: activity) : current_skills_path(activity: activity)
   end
 
   # The Import tab: pasting skill levels from the game (SkillImportsController).

@@ -11,6 +11,10 @@ class SkillImportsController < ApplicationController
   before_action :require_avatar, except: [ :new ]
   skip_after_action :verify_authorized
 
+  # Part of the skills pages in the site nav, rather than My Avatars, which
+  # their paths start with.
+  before_action { @portal_nav_active_link = skills_path }
+
   def new
     render page(Views::SkillImports::New)
   end
