@@ -33,6 +33,23 @@ RSpec.describe "Scenes", type: :request do
       end
     end
 
+    describe "the gallery" do
+      let!(:scene) { create :scene, parent: overworld }
+
+      it "has the upload form, which takes pasted images" do
+        get scene_path(scene)
+        expect(response.body).to include('data-controller="image-upload"')
+        expect(response.body).to include('accept="image/*"')
+      end
+
+      it "uploads images" do
+        image = fixture_file_upload('hawk-on-agave.jpg', 'image/jpeg')
+        patch scene_path(scene), params: { scene: { images: [ image ] } }
+        expect(response).to redirect_to(scene_path(scene))
+        expect(scene.reload.images.map { _1.filename.to_s }).to eq([ 'hawk-on-agave.jpg' ])
+      end
+    end
+
     it_behaves_like "an editable resource", except: [:destroy] do
       let(:model) { Scene }
       let(:fixture) { :scene }

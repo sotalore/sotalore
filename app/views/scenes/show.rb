@@ -115,7 +115,8 @@ class Views::Scenes::Show < Views::Scenes::Base
       end
 
       if can_upload
-        div(class: "mt-8 border-t-2 border-gray-200 pt-4") do
+        # Set apart from the images, when there are any.
+        div(class: ("mt-8 border-t-2 border-gray-200 pt-4" if have_images)) do
           upload_form
         end
       end
@@ -141,11 +142,37 @@ class Views::Scenes::Show < Views::Scenes::Base
     end
   end
 
+  # Takes pasted screenshots as well as chosen files, previewing them before
+  # they're uploaded (image_upload_controller.js).
   def upload_form
-    sl_form_with(model: @scene) do |form|
-      form.file_field(:images, multiple: true, direct_upload: true, label: "Upload images")
+    actions = "paste@window->image-upload#paste turbo:submit-end->image-upload#uploaded turbo:morph@document->image-upload#morphed"
+    sl_form_with(model: @scene, data: { controller: "image-upload", action: actions }) do |form|
+      form.file_field(:images, multiple: true, direct_upload: true, accept: "image/*", label: "Upload images",
+                      hint: "Choose images, or paste a screenshot.",
+                      data: { image_upload_target: "input", action: "image-upload#choose" })
+
+      div(class: "grid grid-cols-2 md:grid-cols-3 gap-4 mb-4", data: { image_upload_target: "previews" })
+      template(data: { image_upload_target: "template" }) { upload_preview }
+      p(class: "text-sm text-red-600 dark:text-red-400", hidden: true, data: { image_upload_target: "message" })
+
       form.actions do
-        form.submit("Upload")
+        button(type: "button", hidden: true, **add_button_css_classes(style: "default"),
+               data: { image_upload_target: "paste", action: "image-upload#pasteFromClipboard" }) { "Paste" }
+        button(type: "button", hidden: true, **add_button_css_classes(style: "default"),
+               data: { image_upload_target: "clear", action: "image-upload#clear" }) { "Clear" }
+        form.submit("Upload", data: { image_upload_target: "submit" })
+      end
+    end
+  end
+
+  def upload_preview
+    figure(class: "m-0") do
+      img(class: "h-auto max-w-full rounded-md drop-shadow-lg")
+      figcaption(class: "mt-1 flex flex-row items-start gap-x-1 text-xs") do
+        span(class: "grow min-w-0 truncate", data: { name: true })
+        span(class: "shrink-0 text-grey-500", data: { size: true })
+        button(type: "button", aria: { label: "Remove this image" }, title: "Remove", **add_button_css_classes(style: "dangerOutline", size: :xs),
+               data: { action: "image-upload#remove" }) { render_icon(:trash, size: :xs) }
       end
     end
   end
