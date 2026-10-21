@@ -1,4 +1,4 @@
-# SotaLore plugin export format (sl-admin v0.11.0, sl-skills v0.2.0)
+# SotaLore plugin export format (sl-admin v0.11.1, sl-skills v0.2.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:
@@ -228,11 +228,28 @@ map, and a player dungeon's owner or name (the owner is a player, so it is delib
 Items: `quantity` = total units gained, `times` = number of separate gain events. `key` is `null` when the
 item could not be matched to a top-level bag item (for example it went straight into a nested container);
 such items are identified by name only. `weight`/`value` come from the matching bag item and are
-**per item**. The API says so but actually reports the numbers for the whole stack (a stack of 31 Animal
-Hide read 12.4 where the recipe stats say 0.4 each), so the plugin divides by the stack size and rounds to 4
-decimals. This correction is in plugin 0.4.0; finds or catalogs saved by earlier versions hold stack totals
-for weight and value, so reset the list and treat older files as wrong for those two fields. Prefer the
-recipe stat-row `weight` where an item has one.
+**per item**, rounded to 4 decimals. Prefer the recipe stat-row `weight` where an item has one.
+
+**Wrong weights and values (fixed in sl-admin v0.11.1).** Up to Lua API 40 the game reported a bag item's
+`weight` and `value` for the whole stack, although documented as one item's (a stack of 31 Animal Hide read 12.4
+where the recipe stats say 0.4 each), so from plugin 0.4.0 the plugin divided them by the stack size. **The game
+fixed this in API 41**: since then they are one item's figures. The plugin kept dividing, so every file written on
+API 41 or later by sl-admin **v0.11.0 or earlier** has `weight` and `value` divided by the stack size a second
+time: far too small, and different for every stack size (Animal Hide read 0.0105 and 0.2632 in a stack of 38,
+where it is 0.4 and 10). That is why "New items" kept listing common items as changed. **To recognise a bad
+file: `apiVersion` 41 or more and `pluginVersion` 0.11.0 or lower** (the header has both; real ones seen: API 44,
+v0.11.0); distrust both fields in its items and finds, and do not overwrite good numbers with them. The true
+figure can't be worked out from the file (the stack size isn't in it). From v0.11.1 the plugin divides only on API
+40 and older. After updating, one "New items" export re-sends every item whose numbers were wrong, once, with the
+right ones; the finds list keeps the wrong numbers of items gained before the update until it is reset (a new gain
+of the same item corrects it). Files saved by plugins before 0.4.0 hold stack totals.
+
+**A real file:** `data/plugin-examples/sotalore-item-catalog.json` is an "All items" export from sl-admin v0.11.1 (API 44,
+2026-10-21): 302 items. Every weight that can be compared with a recipe stat-row weight matches it (63 of 63; Animal
+Hide 0.4 and 10). 134 items have `null` weight and value: items whose tooltip was captured earlier but that are no
+longer in the bags (the plugin reads weight and value only from the bags). A `null` there means "not known", never
+"weighs nothing": keep what the site already has. Such an item gets its numbers again when it is next in the bags
+during an export.
 
 **When the game reports no stack size** (a missing or zero `quantity`; seen on three potion stacks) the number
 cannot be made per-item from the API's numbers. From plugin v0.8.1, if the item's tooltip was captured and shows a
@@ -282,11 +299,13 @@ Player names can be in it; keep only names that are accepted.
 The levels of fought creatures are better too from v0.11.0: a creature that was the target before the fight
 (the usual case) keeps the level read then, where before it was only read during the fight.
 
-**A real file:** `data/plugin-examples/sotalore-scene-finds.json` (sl-admin v0.11.0, API 44, Whiteguard Foothills).
-Five creatures fought (Bandit and Thug without a level; Large Brown Bear 20, Rabbit 1, Timber Wolf 30) and three
-only seen (Grizzly Bear 34, Large Grey Wolf 20, and two Stags at 30). Note "Large Grey Wolf": only seen, yet also a
-node, because its corpse was field dressed (someone else, or a pet, did the killing). So a `seen` name that is also
-a node name in the same scene is a creature too.
+**A real file:** `data/plugin-examples/sotalore-scene-finds.json` (sl-admin v0.11.1, API 44, Serpent's Spine
+Foothills; right weights and values, e.g. Animal Hide 0.4 and 10). Three fought: Large Timber Wolf (40), Large Stag
+(no level) and **Fighter** (7 of them, no level), which is an NPC: NPCs that fight the player get onto `creatures`
+from the combat lines, not only onto `seen`, so the site's review of unknown names applies to both lists. Three
+only seen: Doe (2), Rabbit (1), Squirrel (1). Note "Squirrel": only seen, yet also a node, because its corpse was
+field dressed (someone else, or a pet, did the killing; an earlier file had a Large Grey Wolf the same way). So a
+`seen` name that is also a node name in the same scene is a creature too.
 
 ### Skills (code and file), from `sl-skills` v0.1.0, in use
 

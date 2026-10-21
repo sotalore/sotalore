@@ -188,11 +188,15 @@ command from the plugin's name. For a plugin about `<name>`:
 
 - Read the docs by downloading the page, stripping the HTML to text and searching it; a summarising
   fetch loses detail. The docs and the live API can differ and the API version moves (it was 40).
-- **Bag item `weight` and `value` are for the whole stack**, not "one item" as documented. The plugin
-  divides by `quantity` (`perItem`). Darren was going to file this as an API bug; if the game fixes it,
-  `perItem` would then divide wrongly, so re-check against a recipe's per-item weight first. Some stacks report
-  no `quantity` (missing or 0; three potions, found by the site agent): the number can't be made per-item, so
-  `util.perItem` returns nil (null in the file) and `ItemDetails.perItem` then tries the captured tooltip, which
+- **Bag item `weight` and `value`: one item's figures from API 41, the whole stack's before.** Up to API 40
+  they were stack totals although documented as "one item", so the plugin divided by `quantity` (`perItem`). The
+  game fixed that in API 41 (and added `totalWeight`/`totalValue` for the stack), but the plugin kept dividing,
+  which made every weight and value of sl-admin 0.11.0 and earlier on API 41+ far too small and different for each
+  stack size (Darren noticed Animal Hide changing on every "New items" export, 2026-10-21). Since 0.11.1
+  `util.perItem` divides only when `ShroudLuaApiVersion` < 41. Lesson: when the plugin works around an API bug,
+  gate the workaround on the API version, and re-read the docs when the API version moves. Before API 41, some
+  stacks report no `quantity` (missing or 0; three potions, found by the site agent): the number can't be made
+  per-item, so `util.perItem` returns nil (null in the file) and `ItemDetails.perItem` then tries the captured tooltip, which
   shows "Quantity: 638 | Stack Weight: 191.4 | Stack Value: 6,380" for a stack (so that potion is 0.3 and 10 gold).
   Before 0.8.1 it passed the raw stack total through. The tooltip's "Merchant pays" for a stack is also a whole-stack
   price (divided by the quantity), and tooltip numbers use thousands commas ("6,380").
