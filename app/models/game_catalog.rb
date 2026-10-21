@@ -50,16 +50,20 @@ class GameCatalog
 
   # Per-item weights, values and merchant prices are only right from here.
   MINIMUM_VERSION = Gem::Version.new('0.8.1')
+  # From this game API on, bag weights and values are already one item's, and
+  # plugins before FIXED_VERSION divided them by the stack size again: far
+  # too small, and different for every stack size.
+  PER_ITEM_API = 41
+  FIXED_VERSION = Gem::Version.new('0.11.1')
 
   # Raises ArgumentError for anything that isn't an item catalog, or (unless
-  # +require_version+ is false, for one already stored) is one from a plugin
-  # too old to trust.
+  # +require_version+ is false, for one already stored) is one whose weights
+  # and prices can't be trusted (see .problem).
   def self.parse(json, require_version: true)
     data = json.is_a?(String) ? JSON.parse(json) : json
     PluginFile.check_type!(data, 'items')
-    if require_version && !supported?(PluginFile.version(data))
-      raise ArgumentError, "Items files from plugins before #{MINIMUM_VERSION} give whole-stack weights " \
-                           "and prices; export again with plugin #{MINIMUM_VERSION} or later"
+    if require_version && (problem = problem(data.is_a?(Hash) && data['apiVersion'], PluginFile.version(data)))
+      raise ArgumentError, "Items files from #{problem}; export again with the current plugin"
     end
     unless data.is_a?(Hash) && data['items'].is_a?(Array) && !data.key?('recipes') && !data.key?('scenes')
       raise ArgumentError, 'Not an item catalog: expected an "items" list'
@@ -67,8 +71,16 @@ class GameCatalog
     new(data)
   end
 
-  def self.supported?(version)
-    PluginFile.at_least?(version, MINIMUM_VERSION)
+  # Why a file from game API +api_version+ and plugin +version+ has weights
+  # and prices that can't be trusted (as "a plugin before ..., whose ..."),
+  # or nil when they can.
+  def self.problem(api_version, version)
+    if !PluginFile.at_least?(version, MINIMUM_VERSION)
+      "a plugin before #{MINIMUM_VERSION}, whose weights and prices are for whole stacks"
+    elsif api_version.to_i >= PER_ITEM_API && !PluginFile.at_least?(version, FIXED_VERSION)
+      "a plugin before #{FIXED_VERSION} on game API #{PER_ITEM_API} or later, whose weights and prices are " \
+        'divided by the stack size twice'
+    end
   end
 
   def initialize(data)
