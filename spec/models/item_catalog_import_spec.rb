@@ -51,6 +51,21 @@ RSpec.describe ItemCatalogImport do
       .to raise_error(ArgumentError, /before 0.8.1/)
   end
 
+  it 'refuses files from plugins before 0.11.1 on game API 41 or later, which divide by the stack size twice' do
+    expect { ItemCatalogImport.create_from_json!(catalog_json(catalog_entry(name: 'Wax'), plugin_version: '0.11.0', api_version: 44)) }
+      .to raise_error(ArgumentError, /before 0.11.1 on game API 41 or later/)
+    expect(ItemCatalogImport.create_from_json!(catalog_json(catalog_entry(name: 'Wax'), plugin_version: '0.11.1', api_version: 44)))
+      .to be_supported
+  end
+
+  it "won't apply a stored file that divided by the stack size twice" do
+    stored = ItemCatalogImport.create!(payload: JSON.parse(catalog_json(catalog_entry(name: 'Skinning Knife', weight: 0.01),
+                                                                        plugin_version: '0.11.0', api_version: 44)))
+    expect(stored).not_to be_supported
+    expect { stored.update_weights!(user) }.to raise_error(ItemCatalogImport::Error, /divided by the stack size twice/)
+    expect(knife.reload.weight).to eq 2
+  end
+
   describe 'analysis' do
     subject(:analysis) { import.analysis }
 
@@ -109,6 +124,12 @@ RSpec.describe ItemCatalogImport do
       expect(unweighed.analysis.rows.sole).not_to be_missing_weight
       unweighed.apply!(user)
       expect(scrap.reload.weight).to be_nil
+    end
+
+    it 'keeps a known value when the game does not know it' do
+      import_of(catalog_entry(name: 'Leather Scrap', value: 3)).apply!(user)
+      import_of(catalog_entry(name: 'Leather Scrap', value: nil)).apply!(user)
+      expect(scrap.game_keys.sole.catalog).to include('value' => 3)
     end
 
     it 'updates changed salvage numbers, and removes salvage the game does not list on request' do

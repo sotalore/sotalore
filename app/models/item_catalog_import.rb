@@ -6,8 +6,8 @@
 # keys and tooltips, fills weights the site lacks, makes tools of unknown-use
 # items the tooltip calls tools, and brings in salvage lists with their
 # quantities and chances. A crafted item gives only its salvage list.
-# Applying is idempotent. Only files from plugin 0.8.1 on are taken (see
-# GameCatalog), whose weights are per item, or null when not known.
+# Applying is idempotent. Only files whose weights are per item, or null when
+# not known, are taken (see GameCatalog.problem).
 class ItemCatalogImport < ApplicationRecord
   include GameItemResolution
 
@@ -31,10 +31,12 @@ class ItemCatalogImport < ApplicationRecord
     @catalog ||= GameCatalog.parse(payload, require_version: false)
   end
 
-  # Whether it's from a plugin new enough to apply (see GameCatalog).
-  def supported?
-    GameCatalog.supported?(catalog.plugin_version)
+  # Why it can't be applied (see GameCatalog.problem), or nil.
+  def problem
+    GameCatalog.problem(catalog.api_version, catalog.plugin_version)
   end
+
+  def supported? = problem.nil?
 
   def analysis
     @analysis ||= ItemCatalogAnalysis.new(self)
@@ -117,8 +119,7 @@ class ItemCatalogImport < ApplicationRecord
 
   def unsupported!
     return if supported?
-    raise Error, "#{self} is from a plugin before #{GameCatalog::MINIMUM_VERSION}, whose weights and prices " \
-                 'are for whole stacks; delete it and import a new export'
+    raise Error, "#{self} is from #{problem}; delete it and import a new export"
   end
 
   def record_key(entry, item, lookup)
@@ -128,10 +129,11 @@ class ItemCatalogImport < ApplicationRecord
     true
   end
 
-  # Keeps what the tooltip said on the item's game key, for later use.
+  # Keeps what the tooltip said on the item's game key, for later use. A null
+  # value isn't known (the item wasn't in the bags), so keeps the one before.
   def record_catalog(entry, now)
     game_key = entry.key && ItemGameKey.find_by(key: entry.key) or return
-    catalog = { 'value' => entry.value }
+    catalog = { 'value' => entry.value }.compact
     catalog['details'] = entry.details if entry.details?
     game_key.update!(catalog: (game_key.catalog || {}).merge(catalog), catalog_seen_at: now)
   end

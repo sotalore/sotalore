@@ -36,8 +36,8 @@ module CatalogHelpers
     { 'key' => key, 'name' => name, 'weight' => weight, 'value' => value, 'createdBy' => '', 'details' => details }
   end
 
-  def catalog_json(*entries, plugin_version: '0.8.1')
-    { 'apiVersion' => 40, 'pluginVersion' => plugin_version, 'type' => 'items', 'scope' => 'all',
+  def catalog_json(*entries, plugin_version: '0.8.1', api_version: 40)
+    { 'apiVersion' => api_version, 'pluginVersion' => plugin_version, 'type' => 'items', 'scope' => 'all',
       'count' => entries.size, 'items' => entries }.compact.to_json
   end
 end

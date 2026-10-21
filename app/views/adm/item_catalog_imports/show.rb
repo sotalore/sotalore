@@ -56,8 +56,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
 
   def summary_list
     unless @import.supported?
-      notice_warning("This file is from a plugin before #{GameCatalog::MINIMUM_VERSION}, whose weights and prices are " \
-                     'for whole stacks, so it can\'t be applied. Delete it and import a new export.')
+      notice_warning("This file is from #{@import.problem}, so it can't be applied. Delete it and import a new export.")
       button_to('Delete this import', adm_item_catalog_import_path(@import), method: :delete,
                 class: 'Button Button--sm Button--danger',
                 form: { class: 'inline-block mb-4', data: { turbo_confirm: "Delete #{@import}?" } })
