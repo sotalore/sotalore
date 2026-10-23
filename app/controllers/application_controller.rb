@@ -60,7 +60,6 @@ class ApplicationController < ActionController::Base
   NEW_NAME_MESSAGE = "We've come up with a better name. We're now SotA Lore.
 We have a new URL to reflect that, we're now at: www.sotalore.com"
   def redirect_herokuapp_url
-    return if request.host == 'sotalore.onrender.com'
     return if request.host == 'www.sotalore.com'
 
     flash[:notice] = NEW_NAME_MESSAGE
