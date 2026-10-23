@@ -26,12 +26,12 @@ end
 module CatalogHelpers
   # +salvage+ is { name => [min, max, chance] }.
   def catalog_entry(name:, key: item_key(name), weight: 1, value: 1, tool: false, crafted: false,
-                    salvage: nil, yields: nil, hovered: true)
+                    salvage: nil, yields: nil, hovered: true, text: name, no_value: false)
     details =
       if hovered
         base = { 'crafted' => crafted, 'salvage' => (salvage || {}).map { |n, (min, max, chance)| { 'name' => n, 'min' => min, 'max' => max, 'chance' => chance } },
                  'yields' => yields }
-        crafted ? base : base.merge('tool' => tool, 'questItem' => false, 'merchantPays' => nil, 'text' => name)
+        crafted ? base : base.merge('tool' => tool, 'questItem' => false, 'noValue' => no_value, 'merchantPays' => nil, 'text' => text)
       end
     { 'key' => key, 'name' => name, 'weight' => weight, 'value' => value, 'createdBy' => '', 'details' => details }
   end

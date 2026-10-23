@@ -41,8 +41,26 @@ class GameCatalog
       components.uniq { _1.name.downcase }
     end
 
-    def merchant_pays
-      details&.dig('merchantPays')&.values_at('min', 'max')
+    # One item's value, from the tooltip: its "Value", or a stack's "Stack
+    # Value" over its "Quantity", and 0 for "No Value". Nil when the tooltip
+    # wasn't captured or doesn't say. ("Merchant pays" is a range at or below
+    # it, lower for a worn item.) The file's own +value+ isn't used: plugins
+    # before 0.11.1 divided it by the stack size twice, and it was kept.
+    def tooltip_value
+      lines = details&.dig('text').to_s.split(/\n|\s\|\s/).map(&:strip)
+      return 0 if details&.dig('noValue') || lines.include?('No Value')
+      if (value = tooltip_number(lines, 'Value'))
+        value.round
+      elsif (stack = tooltip_number(lines, 'Stack Value')) && (count = tooltip_number(lines, 'Quantity'))&.positive?
+        (stack / count).round
+      end
+    end
+
+    private
+
+    def tooltip_number(lines, label)
+      line = lines.find { _1.start_with?("#{label}: ") } or return
+      Float(line.delete_prefix("#{label}: ").delete(','), exception: false)
     end
   end
 

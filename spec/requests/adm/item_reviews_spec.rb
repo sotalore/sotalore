@@ -26,10 +26,10 @@ RSpec.describe "Adm::ItemReviews", type: :request do
     expect(flash[:notice]).to eq 'Dagger is now an archetype.'
   end
 
-  it 'clears the price of an item made abstract' do
-    item = create(:item, name: 'Bucket', price: 5)
+  it 'clears the merchant price of an item made abstract' do
+    item = create(:item, name: 'Bucket', merchant_price: 5)
     patch adm_item_review_path(item), params: { kind: 'category' }
-    expect(item.reload).to have_attributes(kind: 'category', price: nil)
+    expect(item.reload).to have_attributes(kind: 'category', merchant_price: nil)
   end
 
   it 'explains a change that would break memberships' do

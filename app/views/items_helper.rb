@@ -19,16 +19,25 @@ module Views::ItemsHelper
 
   USES_FOR_RECIPES = %w[ fuel tool ]
 
-  def item_price_tag(item, options={})
-    return unless item.price
+  def merchant_price_tag(item, options={})
+    return unless item.merchant_price
 
-    price = item.price
+    price = item.merchant_price
     price = price * options[:count] if options.key?(:count)
     span(class: item_css('text-golden-700 dark:text-golden-300', options)) do
       span do
         plain price.to_s
         raw(safe('&nbsp;gold'))
       end
+    end
+  end
+
+  # What a merchant pays for one; 0 is "No Value".
+  def item_value_tag(item, options={})
+    return unless item.value
+
+    span(class: item_css('text-grey-700 dark:text-grey-300', options)) do
+      span { item.value.zero? ? 'no value' : "value: #{item.value} gold" }
     end
   end
 

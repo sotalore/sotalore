@@ -139,7 +139,8 @@ Each avatar has, per skill, a current and a target level, entered by the player.
 | use | armor, artifact, component, decoration, dye, fishing-bait, food, fuel, house, instrument, pattern, pet-food, pet-gear, potion, scroll, socketable-gem, socketable-jewel, socketable-imbued-gem, socketable-imbued-jewel, seed, tool, weapon, or unknown. A recipe ingredient with `tool: true` is an item whose use is tool. |
 | source | How it's obtained: agriculture, drop, gathering, merchant, quest, recipe, salvage, or unknown. |
 | weight | Per item, to 4 decimals (the game's UI shows 2; the site keeps the 4 the exports give, and rounds anything finer to 4). From the export (stat rows) and item catalogs. |
-| price | Merchant price, for concrete items only. Not yet compared with the item catalog's `value`. |
+| value | What a merchant **pays** for one, for concrete items: the tooltip's "Value" (or "Stack Value" over "Quantity"), and 0 for "No Value". Set by item catalog imports from the captured tooltip only; the file's `value` field isn't used, because files from before 0.11.1 left wrong ones behind. |
+| merchant price | What a merchant **sells** it for, for concrete items only; maintained by hand, and many items have none. Not the value (garlic: value 3, merchant price 6). Called `price` before 2026-10-23, so where EXPORT-FORMAT.md says `merchantPays` "may be the site's `price`", it isn't. |
 | gathering skill | For gathered items: the gathering skill that yields it. |
 | game keys | The game's `item:...` keys (from the export), and `group:...` keys for groups and categories, each with the name the game last used and, for things recipes make, their base stats. |
 | notes, effects | Free text shown on the item page. |
@@ -222,5 +223,5 @@ only. The interesting ones are those found in few scenes, or tied to a particula
 ## Where game data would help most
 
 Not requests, just where the site is maintained by hand today and the game knows better: salvage
-results, scene details (type, region, level, internal names), item prices (the catalog's `value`),
+results, scene details (type, region, level, internal names), item values (from tooltips, so only for items someone hovered),
 and whether a recipe is teachable.

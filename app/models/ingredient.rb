@@ -14,7 +14,7 @@ class Ingredient < ApplicationRecord
   def fuel_price
     # For now, just add up direct fuel costs.
     if item.use_is_fuel?
-      (item.price || 0) * (count || 1)
+      (item.merchant_price || 0) * (count || 1)
     end
   end
 end

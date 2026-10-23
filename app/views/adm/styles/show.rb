@@ -62,7 +62,7 @@ class Views::Adm::Styles::Show < Views::Adm::Styles::Base
         Views::ItemsHelper::USES_FOR_RECIPES.each do |use|
           raw item_use_for_recipe_tag(Item.new(use: use))
         end
-        raw item_price_tag(Item.new(price: 12))
+        raw merchant_price_tag(Item.new(merchant_price: 12))
         CraftSkill::ALL.select { |skill| skill.gathering? }.each do |skill|
           raw item_gathering_tag(Item.new(gathering_skill: skill))
         end

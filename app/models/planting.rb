@@ -38,7 +38,7 @@ class Planting < ApplicationRecord
   end
 
   def total_growing_time
-    case seed.price
+    case seed.merchant_price
     when 16..29
       48 / location_type_factor
     when 30..1000

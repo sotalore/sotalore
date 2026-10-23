@@ -172,7 +172,7 @@ class ItemReview
         issue.('The name reads like a category', 'category')
       end
     end
-    issue.('Has a price, which abstract items can\'t') if item.abstract? && item.price
+    issue.('Has a merchant price, which abstract items can\'t') if item.abstract? && item.merchant_price
     issues
   end
 

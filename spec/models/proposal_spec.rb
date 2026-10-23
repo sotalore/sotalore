@@ -61,10 +61,10 @@ RSpec.describe Proposal do
       expect(propose('item.create', name: 'wax').errors.full_messages.join).to include 'already an item'
     end
 
-    it 'changes kinds, clearing the price of what becomes abstract' do
-      wax.update!(price: 5)
+    it 'changes kinds, clearing the merchant price of what becomes abstract' do
+      wax.update!(merchant_price: 5)
       propose('item.kind', subject: wax, kind: 'category').accept!(reviewer)
-      expect(wax.reload).to have_attributes(kind: 'category', price: nil)
+      expect(wax.reload).to have_attributes(kind: 'category', merchant_price: nil)
     end
 
     it 'renames, keeping the old name, and adds aliases' do

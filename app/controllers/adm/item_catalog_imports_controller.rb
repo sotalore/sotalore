@@ -48,6 +48,7 @@ class Adm::ItemCatalogImportsController < AdmController
     summary = [
       "#{counts[:keys]} game #{'key'.pluralize(counts[:keys])} recorded",
       "#{counts[:weights]} #{'weight'.pluralize(counts[:weights])} filled",
+      "#{counts[:values]} #{'value'.pluralize(counts[:values])} set",
       "#{counts[:tools]} #{'tool'.pluralize(counts[:tools])} set",
       "#{counts[:salvage_added]} salvage #{'result'.pluralize(counts[:salvage_added])} added",
       "#{counts[:salvage_updated]} updated",

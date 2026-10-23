@@ -19,7 +19,7 @@ class Views::Farmings::Show < Views::Farmings::Base
             plain "Seeds are grouped by the time it takes to fully grow. There are three " \
               "different speeds, which take 24 hours, 48 hours and 72 hours (a " \
               "greenhouse halves the time, planting inside is a 10-fold increase). " \
-              "These seeds also happen to be grouped by price, as shown in this table."
+              "These seeds also happen to be grouped by merchant price, as shown in this table."
           end
         end
 
@@ -124,12 +124,12 @@ class Views::Farmings::Show < Views::Farmings::Base
       plain "."
     end
 
-    seeds = Item.use_is_seed.all.order(:price, "lower(name)").to_a
+    seeds = Item.use_is_seed.all.order(:merchant_price, "lower(name)").to_a
 
     div(class: "flex flex-row flex-wrap gap-2") do
-      seed_column("Quick Growing Seeds", seeds.select { |s| s.price && s.price < 16 })
-      seed_column("Medium Growing Seeds", seeds.select { |s| s.price == 16 })
-      seed_column("Slow Growing Seeds", seeds.select { |s| s.price && s.price > 16 })
+      seed_column("Quick Growing Seeds", seeds.select { |s| s.merchant_price && s.merchant_price < 16 })
+      seed_column("Medium Growing Seeds", seeds.select { |s| s.merchant_price == 16 })
+      seed_column("Slow Growing Seeds", seeds.select { |s| s.merchant_price && s.merchant_price > 16 })
     end
   end
 
@@ -156,7 +156,7 @@ class Views::Farmings::Show < Views::Farmings::Base
         em { "(#{seed.yield})" }
       end
       whitespace
-      item_price_tag(seed)
+      merchant_price_tag(seed)
     end
   end
 

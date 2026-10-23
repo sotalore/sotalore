@@ -130,7 +130,7 @@ class Components::Recipes::Card < Components::Recipes::Base
         whitespace
         item_use_for_recipe_tag(item)
         whitespace
-        item_price_tag(item)
+        merchant_price_tag(item)
         whitespace
         item_gathering_tag(item)
         whitespace
