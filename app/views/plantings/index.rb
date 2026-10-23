@@ -2,7 +2,7 @@
 
 class Views::Plantings::Index < Views::Base
 
-  SEED_PRICE_TO_SPEED = {
+  SEED_MERCHANT_PRICE_TO_SPEED = {
     (0..15)    => 'Quick (24 hours)',
     (16..29)   => 'Medium (48 hours)',
     (30..1000) => 'Slow (72 hours)',
@@ -41,9 +41,9 @@ class Views::Plantings::Index < Views::Base
   private
 
   def seeds_grouped_by_speed
-    Item.use_is_seed.order(:price, :name)
-      .group_by { |s| SEED_PRICE_TO_SPEED[SEED_PRICE_TO_SPEED.keys.find { |k| k === s.price }] }
-      .sort_by { |k,v| SEED_PRICE_TO_SPEED.values.index(k) }
+    Item.use_is_seed.order(:merchant_price, :name)
+      .group_by { |s| SEED_MERCHANT_PRICE_TO_SPEED[SEED_MERCHANT_PRICE_TO_SPEED.keys.find { |k| k === s.merchant_price }] }
+      .sort_by { |k,v| SEED_MERCHANT_PRICE_TO_SPEED.values.index(k) }
   end
 
   def seeds_grouped_by_speed_options

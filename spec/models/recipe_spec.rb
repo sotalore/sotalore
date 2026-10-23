@@ -6,8 +6,8 @@ RSpec.describe Recipe do
     Recipe.create(name: 'Thing', craft_skill: 'carpentry')
   end
 
-  let(:fuel1) { create :item, name: 'Fuel 1', use: 'fuel', price: 10 }
-  let(:fuel2) { create :item, name: 'Fuel 2', use: 'fuel', price: 20 }
+  let(:fuel1) { create :item, name: 'Fuel 1', use: 'fuel', merchant_price: 10 }
+  let(:fuel2) { create :item, name: 'Fuel 2', use: 'fuel', merchant_price: 20 }
   let(:tool1) { create :item, name: 'Tool 1', use: 'tool' }
   let(:tool2) { create :item, name: 'Tool 2', use: 'tool' }
 

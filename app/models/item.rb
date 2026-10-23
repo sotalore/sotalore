@@ -124,7 +124,7 @@ class Item < ApplicationRecord
   validates :name, presence: true, uniqueness: { case_sensitive: false, allow_blank: true }
 
   validate  :gathering_skill_is_gathering
-  validates :price, absence: { if: :abstract?, message: 'does not apply to abstract items' }
+  validates :merchant_price, absence: { if: :abstract?, message: 'does not apply to abstract items' }
   validate  :kind_change_keeps_memberships_valid
 
   # TYPE DATA VALIDATIONS

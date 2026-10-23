@@ -19,8 +19,8 @@ RSpec.describe Item do
       expect(archetype.kind_label).to eq 'an archetype'
     end
 
-    it 'refuses a price on abstract items' do
-      expect(build(:item, kind: :category, price: 10)).not_to be_valid
+    it 'refuses a merchant price on abstract items' do
+      expect(build(:item, kind: :category, merchant_price: 10)).not_to be_valid
     end
   end
 

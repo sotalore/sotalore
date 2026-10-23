@@ -23,7 +23,7 @@ class Views::Items::Show < Views::Items::Base
             item_use_specific_tags(@item, large: true)
             item_abstract_tag(@item, large: true)
             item_basic_tag(@item, large: true)
-            item_price_tag(@item, large: true)
+            merchant_price_tag(@item, large: true)
             item_gathering_tag(@item, large: true)
             item_weight_tag(@item, large: true)
             div(class: "grow flex flex-row justify-end") { render Views::Verifications::Controls.new(@item) }

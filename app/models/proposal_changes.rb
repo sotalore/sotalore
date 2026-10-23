@@ -187,7 +187,7 @@ module ProposalChanges
       def apply!(proposal, reviewer)
         item = proposal.subject
         item.kind = kind_param(proposal)
-        item.price = nil if item.abstract?
+        item.merchant_price = nil if item.abstract?
         raise Invalid, item.errors.full_messages.to_sentence unless item.save
         RevisionRecorder.call(item, reviewer)
       end
@@ -261,14 +261,14 @@ module ProposalChanges
 
   # Sets plain facts about an item.
   class ItemAttributes < Base
-    ATTRIBUTES = %w[ weight use source price notes effects ].freeze
+    ATTRIBUTES = %w[ weight use source merchant_price notes effects ].freeze
 
     change 'item.attributes', subject: 'Item',
            description: "Change an item's details",
            parameters: { 'weight' => 'the weight, as the game gives it',
                          'use' => "one of #{Item.uses.keys.join(', ')}",
                          'source' => "one of #{Item.sources.keys.join(', ')}",
-                         'price' => 'the merchant price, for concrete items',
+                         'merchant_price' => 'what a merchant sells it for, for concrete items',
                          'notes' => 'notes shown on the item page',
                          'effects' => 'effects shown on the item page' }
 

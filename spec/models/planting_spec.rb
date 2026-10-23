@@ -11,7 +11,7 @@ RSpec.describe Planting, type: :model do
 
 
   describe 'Plan calculations' do
-    let(:item) { build :item, use: :seed, price: 16 }
+    let(:item) { build :item, use: :seed, merchant_price: 16 }
     subject { Planting.new(planted_at: Time.zone.parse('Nov 30, 2016 12:00'), seed: item) }
 
     it 'figures out location_type_factor' do
@@ -59,7 +59,7 @@ RSpec.describe Planting, type: :model do
 
     context 'Given a very fast planting starting late in the day' do
 
-      let(:item) { build :item, use: :seed, price: 6 }
+      let(:item) { build :item, use: :seed, merchant_price: 6 }
       subject { Planting.new(planted_at: Time.zone.parse('Nov 30, 2016 18:00'), seed: item) }
       # two calendar days, but growing time of 12 hours or 24 hours
       # 18 hours -> 8/4 -> 8/4 -> 8/4

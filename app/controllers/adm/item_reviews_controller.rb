@@ -20,12 +20,12 @@ class Adm::ItemReviewsController < AdmController
       raise ActionController::BadRequest, 'unknown kind'
 
     item.kind = kind
-    cleared_price = item.abstract? && item.price
-    item.price = nil if cleared_price
+    cleared_merchant_price = item.abstract? && item.merchant_price
+    item.merchant_price = nil if cleared_merchant_price
     if item.save
       RevisionRecorder.call(item, Current.user)
       notice = "#{item.name} is now #{item.kind_label}."
-      notice += ' Its price was cleared.' if cleared_price
+      notice += ' Its merchant price was cleared.' if cleared_merchant_price
       redirect_back_or_to adm_item_reviews_path, notice: notice
     else
       redirect_back_or_to adm_item_reviews_path,

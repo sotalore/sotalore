@@ -37,7 +37,7 @@ class Views::Items::Form < Views::Items::Base
 
           div(class: "grid grid-cols-1 md:grid-cols-2 gap-4") do
             number_field(:weight, step: "0.0001")
-            number_field(:price, min: 1)
+            number_field(:merchant_price, min: 1)
           end
 
           select_field(:gathering_skill, value: model.gathering_skill&.key) do |select|

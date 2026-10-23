@@ -90,7 +90,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
           th { 'Item' }
           th { 'Weight' }
           th { 'Salvage' }
-          th { 'Merchant pays / price' }
+          th { 'Value / merchant price' }
         end
       end
       tbody do
@@ -114,7 +114,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
       td(class: 'pr-3 py-1') { salvage_cell(row) }
       td(class: 'py-1') do
         pays = row.entry.merchant_pays
-        plain [ pays && pays.uniq.join('–'), row.item.price ].map { _1 || '–' }.join(' / ') if pays || row.item.price
+        plain [ pays && pays.uniq.join('–'), row.item.merchant_price ].map { _1 || '–' }.join(' / ') if pays || row.item.merchant_price
       end
     end
   end

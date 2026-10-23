@@ -28,7 +28,7 @@ class Views::Items::Index < Views::Items::Base
                 td { link_to(item.name, item) }
                 td do
                   item_use_tag(item)
-                  item_price_tag(item)
+                  merchant_price_tag(item)
                 end
                 td do
                   plain "Used in #{pluralize(item.ingredients_count, 'recipe')}." if item.ingredients_count > 0

@@ -31,7 +31,7 @@ class Components::Recipes::WorkList < Components::Recipes::Base
     list.fuels.each do |item, count|
       li(class: "pl-4") do
         plain "#{count} #{item} "
-        item_price_tag(item)
+        merchant_price_tag(item)
       end
     end
   end
@@ -58,7 +58,7 @@ class Components::Recipes::WorkList < Components::Recipes::Base
     list.components.each do |item, count|
       li(class: "pl-4") do
         plain "#{count} #{item} "
-        item_price_tag(item)
+        merchant_price_tag(item)
       end
     end
   end
