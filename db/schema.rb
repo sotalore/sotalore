@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_23_140000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_24_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -239,6 +239,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_140000) do
     t.integer "value"
     t.decimal "weight", precision: 8, scale: 4
     t.index ["kind"], name: "index_items_on_kind"
+  end
+
+  create_table "market_prices", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "item_id", null: false
+    t.decimal "price", precision: 12, scale: 2, null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["item_id", "user_id"], name: "index_market_prices_on_item_id_and_user_id", unique: true
+    t.index ["user_id"], name: "index_market_prices_on_user_id"
   end
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|
@@ -470,6 +480,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_140000) do
   add_foreign_key "item_salvages", "items", column: "salvage_from_id"
   add_foreign_key "item_salvages", "items", column: "salvage_to_id"
   add_foreign_key "items", "users", column: "last_verified_by_id"
+  add_foreign_key "market_prices", "items"
+  add_foreign_key "market_prices", "users"
   add_foreign_key "plantings", "users"
   add_foreign_key "posts", "users", column: "author_id"
   add_foreign_key "proposals", "api_tokens"

@@ -99,6 +99,7 @@ class Item < ApplicationRecord
   has_many :scene_finds, dependent: :delete_all
   has_many :found_in_scenes, -> { by_name }, through: :scene_finds, source: :scene
   has_many :harvest_yields, dependent: :delete_all
+  has_many :market_prices, inverse_of: :item, dependent: :delete_all
 
   has_many :item_salvages_as_source, class_name: 'ItemSalvage', foreign_key: 'salvage_from_id', dependent: :delete_all
   has_many :item_salvages_as_result, class_name: 'ItemSalvage', foreign_key: 'salvage_to_id', dependent: :delete_all
