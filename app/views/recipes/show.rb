@@ -2,8 +2,10 @@
 
 class Views::Recipes::Show < Views::Base
 
-  def initialize(recipe:)
+  # +cost+ is what the recipe costs the user (see RecipeCost).
+  def initialize(recipe:, cost: nil)
     @recipe = recipe
+    @cost = cost
   end
 
   include Phlex::Rails::Helpers::ButtonTo
@@ -29,6 +31,7 @@ class Views::Recipes::Show < Views::Base
 
       div(class: "max-w-sm") do
         render Components::Recipes::WorkList.new(recipe: @recipe, count: params.fetch(:count, 1).to_i)
+        render Components::Recipes::Cost.new(cost: @cost) if @cost
       end
     end
 

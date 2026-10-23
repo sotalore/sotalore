@@ -30,7 +30,7 @@ class RecipesController < ApplicationController
   def show
     @recipe = find_recipe
     authorize @recipe
-    render Views::Recipes::Show.new(recipe: @recipe)
+    render Views::Recipes::Show.new(recipe: @recipe, cost: RecipeCost.new(@recipe, Current.user))
   end
 
   def show_partial
