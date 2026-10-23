@@ -125,6 +125,7 @@ class Item < ApplicationRecord
 
   validate  :gathering_skill_is_gathering
   validates :merchant_price, absence: { if: :abstract?, message: 'does not apply to abstract items' }
+  validate  :merchant_price_above_value, if: :merchant_price_changed?
   validate  :kind_change_keeps_memberships_valid
 
   # TYPE DATA VALIDATIONS
@@ -213,6 +214,15 @@ class Item < ApplicationRecord
   def gathering_skill_is_gathering
     if gathering_skill && !gathering_skill.gathering?
       errors.add(:gathering_skill, 'must be a gathering skill')
+    end
+  end
+
+  # A merchant sells for more than it pays, so a merchant price at or below the
+  # value is the value entered by mistake. Checked only when the merchant price
+  # changes, so a catalog import's new value never stops an item saving.
+  def merchant_price_above_value
+    if merchant_price && value&.positive? && merchant_price <= value
+      errors.add(:merchant_price, "must be more than the value (#{value}), which is what a merchant pays")
     end
   end
 
