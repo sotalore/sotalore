@@ -32,6 +32,15 @@ module Views::ItemsHelper
     end
   end
 
+  # What a merchant pays for one; 0 is "No Value".
+  def item_value_tag(item, options={})
+    return unless item.value
+
+    span(class: item_css('text-grey-700 dark:text-grey-300', options)) do
+      span { item.value.zero? ? 'no value' : "value: #{item.value} gold" }
+    end
+  end
+
   def item_weight_tag(item, options={})
     return unless item.weight
 

@@ -47,7 +47,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
     end
     p(class: 'my-2 max-w-prose text-sm') do
       plain 'Applying records the game\'s key and tooltip for each item the site knows, fills weights the site '
-      plain 'lacks, makes "Tool" items of unknown use tools, and adds or updates salvage. It doesn\'t remove '
+      plain 'lacks, sets values from the tooltips, makes "Tool" items of unknown use tools, and adds or updates salvage. It doesn\'t remove '
       plain 'salvage, or change weights the site already has unless you ask. A crafted item (its '
       plain 'tooltip says "Crafted by") only gives its salvage, and only when it\'s the plain base item (materials '
       plain 'change what it salvages into).'
@@ -65,6 +65,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
     ul(class: 'mb-2 text-sm') do
       li { "#{@counts[:known]} items the site knows, #{@counts[:unknown]} it doesn't" }
       li { "#{@counts[:missing_weights]} weights to fill, #{@counts[:different_weights]} that differ (updated only on request)" }
+      li { "#{@counts[:values]} values to set or change" }
       li { "#{@counts[:tools]} to make tools" }
       li { "Salvage: #{@counts[:salvage_to_add]} to add and #{@counts[:salvage_to_update]} to update, on #{@counts[:salvage_items]} items; #{@counts[:extra_salvage]} on the site the game doesn't list" }
     end
@@ -90,7 +91,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
           th { 'Item' }
           th { 'Weight' }
           th { 'Salvage' }
-          th { 'Value / merchant price' }
+          th { 'Value' }
         end
       end
       tbody do
@@ -113,8 +114,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
       end
       td(class: 'pr-3 py-1') { salvage_cell(row) }
       td(class: 'py-1') do
-        pays = row.entry.merchant_pays
-        plain [ pays && pays.uniq.join('–'), row.item.merchant_price ].map { _1 || '–' }.join(' / ') if pays || row.item.merchant_price
+        plain "#{row.item.value || '–'} → #{row.entry.tooltip_value}" if row.value_change?
       end
     end
   end

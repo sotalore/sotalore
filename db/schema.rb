@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_23_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_23_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -236,6 +236,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_120000) do
     t.jsonb "type_data", default: {}, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "use", default: 0, null: false
+    t.integer "value"
     t.decimal "weight", precision: 8, scale: 4
     t.index ["kind"], name: "index_items_on_kind"
   end

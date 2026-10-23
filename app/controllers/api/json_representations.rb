@@ -24,7 +24,7 @@ module Api::JsonRepresentations
     recipes = ->(scope) { scope.map { recipe_ref(_1) } }
     makers, modifiers = item.recipes.to_a.partition { !_1.modification? }
     item_summary(item).merge(
-      merchant_price: item.merchant_price,
+      value: item.value, merchant_price: item.merchant_price,
       aliases: item.aliases.map(&:name).sort,
       game_keys: item.game_keys.map { { key: _1.key, name: _1.name } },
       members: item.members.map { item_ref(_1) },

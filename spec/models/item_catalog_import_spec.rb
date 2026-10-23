@@ -126,6 +126,24 @@ RSpec.describe ItemCatalogImport do
       expect(scrap.reload.weight).to be_nil
     end
 
+    it "sets values from the tooltip, not the file's value, with revisions" do
+      counts = import_of(catalog_entry(name: 'Leather Scrap', value: 0.0625, text: "Leather Scrap\nValue: 1\nMerchant pays: 1"),
+                         catalog_entry(name: 'Skinning Knife', text: "Quantity: 3 | Stack Weight: 6 | Stack Value: 1,500"),
+                         catalog_entry(name: 'Yard of Simple Leather', no_value: true, text: "Yard of Simple Leather\nNo Value")).apply!(user)
+      expect(counts[:values]).to eq 3
+      expect([ scrap, knife, yard ].map { _1.reload.value }).to eq [ 1, 500, 0 ]
+      expect(scrap.comments.revision.sole.body).to include('"value":[null,1]')
+    end
+
+    it 'leaves values alone when the tooltip does not give one, and for crafted items and archetypes' do
+      scrap.update!(value: 2)
+      import_of(catalog_entry(name: 'Leather Scrap', text: 'Leather Scrap'),
+                catalog_entry(name: 'Bronze Dagger +11', key: item_key('dagger'), crafted: true),
+                catalog_entry(name: 'Dagger', key: item_key('dagger'), text: "Dagger\nValue: 30")).apply!(user)
+      expect(scrap.reload.value).to eq 2
+      expect(dagger.reload.value).to be_nil
+    end
+
     it 'keeps a known value when the game does not know it' do
       import_of(catalog_entry(name: 'Leather Scrap', value: 3)).apply!(user)
       import_of(catalog_entry(name: 'Leather Scrap', value: nil)).apply!(user)
