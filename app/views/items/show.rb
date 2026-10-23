@@ -2,9 +2,11 @@
 
 class Views::Items::Show < Views::Items::Base
 
-  def initialize(item:, used_in:)
+  # +market_price+ is the signed-in user's own (maybe new) one, for a concrete item.
+  def initialize(item:, used_in:, market_price: nil)
     @item = item
     @used_in = used_in
+    @market_price = market_price
   end
 
   def view_template
@@ -85,6 +87,7 @@ class Views::Items::Show < Views::Items::Base
 
       div(class: "basis-1_2") do
         div(class: "flex flex-col gap-2") do
+          render Components::Items::MarketPrice.new(market_price: @market_price) if @market_price
           tile_with_heading("Effects") { formatted_body(@item.effects) } if @item.effects
           tile_with_heading("Notes") { formatted_body(@item.notes) } if @item.notes
           render Components::Finds::ForItem.new(item: @item) if policy(:finds).show?

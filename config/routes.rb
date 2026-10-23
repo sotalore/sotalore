@@ -118,7 +118,9 @@ Rails.application.routes.draw do
       get 'use/:use', to: 'items#by_use', as: 'by_use'
     end
     resources :comments, except: [ :new ]
+    resource :market_price, path: 'market-price', only: [ :update, :destroy ]
   end
+  resources :market_prices, path: 'market-prices', only: [ :index ]
 
   resources :item_salvages, only: [ :create, :destroy ]
 

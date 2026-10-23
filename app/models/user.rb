@@ -19,6 +19,7 @@ class User < ApplicationRecord
   has_many :user_recipes, dependent: :delete_all, inverse_of: :user
   has_many :recipes, through: :user_recipes
   has_many :plantings, inverse_of: :user, dependent: :delete_all
+  has_many :market_prices, inverse_of: :user, dependent: :delete_all
   has_many :api_tokens, -> { newest_first }, dependent: :delete_all, inverse_of: :user
 
   # root      - runs the site: the admin pages, users, imports
