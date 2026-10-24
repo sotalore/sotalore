@@ -14,7 +14,7 @@ module ProposalChanges
   REGISTRY = {}
 
   # What a change can be about, by name.
-  SUBJECTS = { 'Item' => 'Item', 'Recipe' => 'Recipe' }.freeze
+  SUBJECTS = { 'Item' => 'Item', 'Recipe' => 'Recipe', 'Collection' => 'Collection' }.freeze
 
   def self.register(change)
     REGISTRY[change.key] = change
@@ -37,7 +37,8 @@ module ProposalChanges
 
   def self.load_all
     [ ItemCreate, ItemKind, ItemRename, ItemAliasAdd, ItemAttributes, MembershipAdd, MembershipRemove,
-      RecipeRetire, RecipeUnretire ]
+      RecipeRetire, RecipeUnretire,
+      CollectionCreate, CollectionUpdate, CollectionAddItems, CollectionRemoveItems, CollectionLink, CollectionUnlink ]
   end
 
   class Base
@@ -68,7 +69,8 @@ module ProposalChanges
       # Adds errors to the proposal for anything wrong with it.
       def validate(proposal)
         unless suits_subject?(proposal)
-          proposal.errors.add(:subject, "must be an #{subject_type.underscore.humanize(capitalize: false)}")
+          noun = subject_type.underscore.humanize(capitalize: false)
+          proposal.errors.add(:subject, "must be #{noun.match?(/\A[aeiou]/) ? 'an' : 'a'} #{noun}")
           return
         end
         unknown = proposal.params.keys - parameters.keys.map(&:to_s)
@@ -112,6 +114,40 @@ module ProposalChanges
       def item(id, what)
         Item.find_by(id: id) or raise Invalid, "#{what} #{id.inspect} isn't an item"
       end
+
+      # A list of ids, as an Array of Integers; nil if left out.
+      def ids(proposal, name, required: false)
+        value = param(proposal, name)
+        if value.blank?
+          raise Invalid, "#{name} is required" if required
+          return
+        end
+        raise Invalid, "#{name} must be a list of ids" unless value.is_a?(Array) && value.all? { _1.to_s.match?(/\A\d+\z/) }
+        value.map(&:to_i).uniq
+      end
+
+      # The items with +item_ids+, in that order, each one a collection can list.
+      def collectable_items(item_ids, what)
+        found = Item.where(id: item_ids).index_by(&:id)
+        item_ids.map do |id|
+          item = found[id] or raise Invalid, "#{what} #{id} isn't an item"
+          unless item.concrete? || item.archetype?
+            raise Invalid, "#{item.name} is #{item.kind_label}; collections list concrete items and archetypes"
+          end
+          item
+        end
+      end
+
+      def collection(id, what)
+        Collection.find_by(id: id) or raise Invalid, "#{what} #{id.inspect} isn't a collection"
+      end
+
+      def collections(collection_ids, what)
+        found = Collection.where(id: collection_ids).index_by(&:id)
+        collection_ids.map { found[_1] or raise Invalid, "#{what} #{_1} isn't a collection" }
+      end
+
+      def names(records) = records.map(&:name).to_sentence
 
       def kind_param(proposal)
         kind = required(proposal, :kind).to_s
@@ -440,6 +476,216 @@ module ProposalChanges
 
       def check(proposal)
         raise Invalid, "#{proposal.subject.name} isn't retired" unless proposal.subject.retired?
+      end
+    end
+  end
+
+  # Makes a collection (see Collection), all at once: what it's inside and
+  # the items it lists, so one proposal can be judged as a whole.
+  class CollectionCreate < Base
+    change 'collection.create', subject: nil,
+           description: 'Make a collection, with the collections it sits inside and the items it lists',
+           parameters: { 'name' => 'the collection name, unique',
+                         'description' => 'optional: what belongs in it, shown on its page (Markdown)',
+                         'parent_ids' => 'optional: ids of the collections it sits inside',
+                         'item_ids' => 'optional: ids of the items it lists (concrete items and archetypes)' }
+
+    class << self
+      def summary(proposal) = "Make collection #{param(proposal, :name)}"
+
+      def differences(proposal)
+        parents = Collection.where(id: Array(param(proposal, :parent_ids))).by_name
+        items = Item.where(id: Array(param(proposal, :item_ids))).by_name
+        [ [ 'name', nil, param(proposal, :name) ],
+          ([ 'description', nil, param(proposal, :description) ] if param(proposal, :description).present?),
+          ([ 'inside', nil, names(parents) ] if parents.any?),
+          ([ 'items', nil, names(items) ] if items.any?) ].compact
+      end
+
+      def apply!(proposal, _reviewer)
+        parents, items = check(proposal)
+        collection = Collection.create!(name: param(proposal, :name).strip, description: param(proposal, :description))
+        parents.each { ::CollectionLink.create!(parent: _1, child: collection) }
+        items.each { collection.collection_items.create!(item: _1) }
+        proposal.subject = collection
+      end
+
+      protected
+
+      def check(proposal)
+        name = required(proposal, :name).to_s.strip
+        raise Invalid, "#{name} is already a collection" if Collection.exists?(name: name)
+        [ collections(ids(proposal, :parent_ids) || [], 'parent_ids'),
+          collectable_items(ids(proposal, :item_ids) || [], 'item_ids') ]
+      end
+    end
+  end
+
+  # Renames a collection or changes what it says it holds.
+  class CollectionUpdate < Base
+    ATTRIBUTES = %w[ name description ].freeze
+
+    change 'collection.update', subject: 'Collection',
+           description: "Change a collection's name or description",
+           parameters: { 'name' => 'the new name', 'description' => 'the new description (Markdown)' }
+
+    class << self
+      def before(proposal)
+        collection = proposal.subject or return {}
+        proposal.params.keys.intersection(ATTRIBUTES).to_h { [ _1, collection.public_send(_1) ] }
+      end
+
+      def summary(proposal) = "Change #{proposal.params.keys.to_sentence} of #{proposal.subject&.name}"
+
+      def differences(proposal)
+        proposal.params.map { |name, value| [ name, proposal.before[name], value ] }
+      end
+
+      def apply!(proposal, _reviewer)
+        collection = proposal.subject
+        collection.assign_attributes(proposal.params.slice(*ATTRIBUTES))
+        raise Invalid, collection.errors.full_messages.to_sentence unless collection.save
+      end
+
+      protected
+
+      def check(proposal)
+        raise Invalid, "Give at least one of #{ATTRIBUTES.to_sentence}" if proposal.params.empty?
+        fresh = Collection.find(proposal.subject.id)
+        fresh.assign_attributes(proposal.params.slice(*ATTRIBUTES))
+        raise Invalid, fresh.errors.full_messages.to_sentence unless fresh.valid?
+        raise Invalid, "#{proposal.subject.name} already says that" unless fresh.changed?
+      end
+    end
+  end
+
+  # Lists more items in a collection.
+  class CollectionAddItems < Base
+    change 'collection.add_items', subject: 'Collection',
+           description: 'List items in a collection',
+           parameters: { 'item_ids' => 'ids of the items to add (concrete items and archetypes)' }
+
+    class << self
+      def before(proposal) = { 'item_ids' => proposal.subject&.collection_items&.pluck(:item_id)&.sort }
+
+      def summary(proposal)
+        "Add #{names(Item.where(id: Array(param(proposal, :item_ids))).by_name)} to #{proposal.subject&.name}"
+      end
+
+      def differences(proposal)
+        [ [ 'items', nil, names(Item.where(id: Array(param(proposal, :item_ids))).by_name) ] ]
+      end
+
+      def apply!(proposal, _reviewer)
+        check(proposal).each { proposal.subject.collection_items.create!(item: _1) }
+      end
+
+      protected
+
+      def check(proposal)
+        items = collectable_items(ids(proposal, :item_ids, required: true), 'item_ids')
+        listed = proposal.subject.collection_items.where(item_id: items.map(&:id)).includes(:item).map(&:item)
+        raise Invalid, "#{names(listed)} already in #{proposal.subject.name}" if listed.any?
+        items
+      end
+    end
+  end
+
+  # Takes items out of a collection.
+  class CollectionRemoveItems < Base
+    change 'collection.remove_items', subject: 'Collection',
+           description: 'Take items out of a collection (only those listed in it directly)',
+           parameters: { 'item_ids' => 'ids of the items to take out' }
+
+    class << self
+      def before(proposal) = CollectionAddItems.before(proposal)
+
+      def summary(proposal)
+        "Remove #{names(Item.where(id: Array(param(proposal, :item_ids))).by_name)} from #{proposal.subject&.name}"
+      end
+
+      def differences(proposal)
+        [ [ 'items', names(Item.where(id: Array(param(proposal, :item_ids))).by_name), nil ] ]
+      end
+
+      def apply!(proposal, _reviewer)
+        check(proposal).each(&:destroy!)
+      end
+
+      protected
+
+      def check(proposal)
+        item_ids = ids(proposal, :item_ids, required: true)
+        entries = proposal.subject.collection_items.where(item_id: item_ids).to_a
+        missing = item_ids - entries.map(&:item_id)
+        if missing.any?
+          raise Invalid, "#{names(Item.where(id: missing).by_name).presence || missing.to_sentence} " \
+                         "not listed in #{proposal.subject.name}"
+        end
+        entries
+      end
+    end
+  end
+
+  # Puts a collection inside another.
+  class CollectionLink < Base
+    change 'collection.link', subject: 'Collection',
+           description: 'Put a collection inside another (it can be inside several)',
+           parameters: { 'parent_id' => 'the id of the collection to put it inside' }
+
+    class << self
+      def before(proposal) = { 'parent_ids' => proposal.subject&.parent_ids&.sort }
+
+      def summary(proposal)
+        "Put #{proposal.subject&.name} inside #{Collection.find_by(id: param(proposal, :parent_id))&.name}"
+      end
+
+      def differences(proposal)
+        [ [ 'inside', nil, Collection.find_by(id: param(proposal, :parent_id))&.name ] ]
+      end
+
+      def apply!(proposal, _reviewer)
+        check(proposal).save!
+      end
+
+      protected
+
+      def check(proposal)
+        parent = collection(required(proposal, :parent_id), 'parent_id')
+        link = ::CollectionLink.new(parent: parent, child: Collection.find(proposal.subject.id))
+        raise Invalid, link.errors.full_messages.to_sentence unless link.valid?
+        link
+      end
+    end
+  end
+
+  # Takes a collection out of another.
+  class CollectionUnlink < Base
+    change 'collection.unlink', subject: 'Collection',
+           description: 'Take a collection out of one it sits inside',
+           parameters: { 'parent_id' => 'the id of the collection to take it out of' }
+
+    class << self
+      def before(proposal) = CollectionLink.before(proposal)
+
+      def summary(proposal)
+        "Take #{proposal.subject&.name} out of #{Collection.find_by(id: param(proposal, :parent_id))&.name}"
+      end
+
+      def differences(proposal)
+        [ [ 'inside', Collection.find_by(id: param(proposal, :parent_id))&.name, nil ] ]
+      end
+
+      def apply!(proposal, _reviewer)
+        check(proposal).destroy!
+      end
+
+      protected
+
+      def check(proposal)
+        parent = collection(required(proposal, :parent_id), 'parent_id')
+        ::CollectionLink.find_by(parent: parent, child_id: proposal.subject.id) or
+          raise Invalid, "#{proposal.subject.name} isn't inside #{parent.name}"
       end
     end
   end

@@ -82,6 +82,11 @@ class Views::Adm::Proposals::Index < Views::Base
         a(href: recipe_path(subject), class: 'Link Link--primary') { subject.name }
         plain " (#{[ subject.craft_skill&.name, subject.kind, ('retired' if subject.retired?) ].compact.join(', ')})"
       end
+    when Collection
+      div(class: 'text-sm') do
+        a(href: collection_path(subject), class: 'Link Link--primary') { subject.name }
+        plain " (collection, #{pluralize(subject.collection_items.size, 'item')})"
+      end
     end
   end
 

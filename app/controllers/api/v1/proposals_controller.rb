@@ -47,12 +47,13 @@ class Api::V1::ProposalsController < Api::BaseController
 
   private
 
-  # Only the change's own parameters; any others are reported as unknown.
+  # Only the change's own parameters, each a value or a list of them; any
+  # others are reported as unknown.
   def change_params(change)
     raw = params[:params]
     return {} unless raw.respond_to?(:keys)
     known = change.parameters.keys
-    raw.permit(*known).to_h.merge(raw.keys.excluding(known).index_with { nil })
+    raw.permit(*known, known.index_with { [] }).to_h.merge(raw.keys.excluding(known).index_with { nil })
   end
 
   def serialize(proposal)

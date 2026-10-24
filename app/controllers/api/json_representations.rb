@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# How the API shows items and recipes, so every endpoint describes them the
-# same way. A "ref" is just enough to identify one and follow it up; a
-# summary is what a list shows; detail is everything for one.
+# How the API shows items, recipes and collections, so every endpoint
+# describes them the same way. A "ref" is just enough to identify one and
+# follow it up; a summary is what a list shows; detail is everything for one.
 module Api::JsonRepresentations
 
   MAX_PER_PAGE = 100
@@ -20,18 +20,49 @@ module Api::JsonRepresentations
     )
   end
 
+  # +tooltip_types+ are the type lines of the game's tooltips for it ("Leather
+  # Light Armor (Head)", "Longsword - Bladed"), from item catalog imports.
   def item_detail(item)
     recipes = ->(scope) { scope.map { recipe_ref(_1) } }
     makers, modifiers = item.recipes.to_a.partition { !_1.modification? }
     item_summary(item).merge(
       value: item.value, merchant_price: item.merchant_price,
+      effects: item.effects, notes: item.notes,
       aliases: item.aliases.map(&:name).sort,
       game_keys: item.game_keys.map { { key: _1.key, name: _1.name } },
+      tooltip_types: item.game_keys.flat_map { Array(_1.catalog&.dig('details', 'types')) }.uniq,
       members: item.members.map { item_ref(_1) },
       member_of: item.groups.map { item_ref(_1) },
+      collections: item.collections.map { collection_ref(_1) },
       made_by_recipes: recipes.(makers),
       modified_by_recipes: recipes.(modifiers),
       ingredient_of_recipes: recipes.(item.recipe_uses.distinct)
+    )
+  end
+
+  def collection_ref(collection)
+    { id: collection.id, name: collection.name }
+  end
+
+  # The whole tree comes from +parents+ and +children+; +items+ counts only
+  # those listed directly.
+  def collection_summary(collection)
+    collection_ref(collection).merge(
+      description: collection.description,
+      parents: collection.parents.map { collection_ref(_1) },
+      children: collection.children.map { collection_ref(_1) },
+      items: collection.collection_items.size, url: collection_url(collection)
+    )
+  end
+
+  # +items+ are listed directly; +all_items+ adds those of everything
+  # inside it, each with the collections it's listed in.
+  def collection_detail(collection)
+    collection_summary(collection).merge(
+      items: collection.items.map { item_ref(_1).merge(use: _1.use) },
+      all_items: collection.all_items.map do |item, listed_in|
+        item_ref(item).merge(use: item.use, listed_in: listed_in.map { collection_ref(_1) })
+      end
     )
   end
 

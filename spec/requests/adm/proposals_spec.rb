@@ -17,6 +17,16 @@ RSpec.describe "Adm::Proposals", type: :request do
                                      'Claude', 'Accept')
   end
 
+  it 'shows a collection proposal with its subject, and makes it when accepted' do
+    light = Collection.create!(name: 'Light Armor')
+    add = Proposal.create!(author: ai, change: 'collection.add_items', subject: light, params: { item_ids: [ wax.id ] },
+                           reason: 'Worn')
+    get adm_proposals_path
+    expect(response.body).to include('Add Wax to Light Armor', collection_path(light), '(collection, 0 items)')
+    post accept_adm_proposal_path(add)
+    expect(light.items).to eq [ wax ]
+  end
+
   it 'accepts a proposal' do
     post accept_adm_proposal_path(proposal), params: { note: 'checked' }
     expect(flash[:notice]).to eq 'Accepted: Change weight of Wax.'
