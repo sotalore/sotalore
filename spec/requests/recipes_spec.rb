@@ -103,6 +103,25 @@ RSpec.describe "Recipes", type: :request do
         expect(response.body).not_to include 'This is a template recipe'
       end
 
+      it "lists an archetype recipe's options, with their effects, and links to them from the item" do
+        blade  = create :item, name: 'Dagger Blade', kind: :group
+        hilt   = create :item, name: 'Metal Hilt', kind: :group
+        dagger = create :item, name: 'Dagger', kind: :archetype
+        { blade => [ 'Iron Dagger Blade', 'Bronze Dagger Blade' ], hilt => [ 'Copper Hilt' ] }.each do |group, names|
+          names.each { ItemMembership.create!(group: group, member: create(:item, name: _1)) }
+        end
+        Item.find_by!(name: 'Copper Hilt').update!(effects: '+1% Weapon Critical Chance')
+        recipe = create :recipe, name: 'Dagger', with_results: { dagger => 1 },
+                                 with_ingredients: { blade => 1, hilt => 1 }
+
+        get recipe_path(recipe)
+        expect(response.body).to include '2 Dagger Blade × 1 Metal Hilt, 2 combinations'
+        expect(response.body).to include 'Bronze Dagger Blade', '+1% Weapon Critical Chance'
+
+        get item_path(dagger)
+        expect(response.body).to include 'See every option', recipe_path(recipe)
+      end
+
       it 'explains a modification recipe, and lists it on the item' do
         equipable = create :item, name: 'Crafted Carpentry Equipable', kind: :category
         recipe = create :recipe, name: 'Masterwork Carpentry Upgrade', with_results: { equipable => 1 },

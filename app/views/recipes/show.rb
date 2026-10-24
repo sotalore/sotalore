@@ -2,10 +2,12 @@
 
 class Views::Recipes::Show < Views::Base
 
-  # +cost+ is what the recipe costs the user (see RecipeCost).
-  def initialize(recipe:, cost: nil)
+  # +cost+ is what the recipe costs the user (see RecipeCost); +options+ an
+  # archetype recipe's choices (see ArchetypeOptions).
+  def initialize(recipe:, cost: nil, options: nil)
     @recipe = recipe
     @cost = cost
+    @options = options
   end
 
   include Phlex::Rails::Helpers::ButtonTo
@@ -23,6 +25,7 @@ class Views::Recipes::Show < Views::Base
           tile_body do
             render Components::Recipes::Card.new(recipe: @recipe)
             render Components::Recipes::Variants.new(recipe: @recipe)
+            render Components::Recipes::Options.new(options: @options) if @options
             div(class: "grow flex flex-row justify-end") { render Views::Verifications::Controls.new(@recipe) }
             render Components::Comments::Subject.new(subject: @recipe)
           end

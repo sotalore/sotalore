@@ -30,7 +30,9 @@ class RecipesController < ApplicationController
   def show
     @recipe = find_recipe
     authorize @recipe
-    render Views::Recipes::Show.new(recipe: @recipe, cost: RecipeCost.new(@recipe, Current.user))
+    cost = RecipeCost.new(@recipe, Current.user)
+    options = ArchetypeOptions.new(@recipe, cost) if @recipe.archetype?
+    render Views::Recipes::Show.new(recipe: @recipe, cost: cost, options: options)
   end
 
   def show_partial

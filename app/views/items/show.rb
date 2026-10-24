@@ -100,6 +100,17 @@ class Views::Items::Show < Views::Items::Base
                 plain "Nothing in the game is named #{@item.name}. It's a kind of thing: which one "
                 plain "a recipe makes depends on the ingredients used."
               end
+              archetype_recipes = @item.recipes.reject { _1.retired? || _1.modification? }
+              if archetype_recipes.any?
+                p(class: "mt-2") do
+                  plain "See every option, and what each one adds, on "
+                  archetype_recipes.each_with_index do |recipe, i|
+                    plain ", " if i.positive?
+                    link_to("the #{recipe.name} recipe", recipe)
+                  end
+                  plain "."
+                end
+              end
             end
           elsif @item.category?
             tile_with_heading("Category") do

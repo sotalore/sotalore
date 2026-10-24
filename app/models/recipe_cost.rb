@@ -64,6 +64,11 @@ class RecipeCost
     result && @market[result.item_id]
   end
 
+  # What one of +item+ costs the user, costed as an ingredient of this recipe.
+  def cost_of_item(item)
+    cost_of(item, Set[recipe.id])
+  end
+
   private
 
   def consumed
