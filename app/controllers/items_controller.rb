@@ -23,7 +23,9 @@ class ItemsController < ApplicationController
     authorize item
     used_in = item.recipe_uses.includes(results: :item).page(params[:page])
     market_price = Current.user.market_prices.find_or_initialize_by(item: item) if Current.user.not_null? && item.concrete?
-    render Views::Items::Show.new(item: item, used_in: used_in, market_price: market_price)
+    collections = policy(Collection).update? ? Collection.by_name.to_a : []
+    render Views::Items::Show.new(item: item, used_in: used_in, market_price: market_price,
+                                  collections: collections)
   end
 
   def new

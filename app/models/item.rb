@@ -95,6 +95,10 @@ class Item < ApplicationRecord
            inverse_of: :member, dependent: :delete_all
   has_many :groups, -> { order(:name) }, through: :group_memberships
 
+  # The site's own groupings it's listed in (see Collection).
+  has_many :collection_items, dependent: :delete_all
+  has_many :collections, -> { order(:name) }, through: :collection_items
+
   # Where it can be found (see FindsImport).
   has_many :scene_finds, dependent: :delete_all
   has_many :found_in_scenes, -> { by_name }, through: :scene_finds, source: :scene

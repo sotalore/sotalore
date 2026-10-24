@@ -3,10 +3,12 @@
 class Views::Items::Show < Views::Items::Base
 
   # +market_price+ is the signed-in user's own (maybe new) one, for a concrete item.
-  def initialize(item:, used_in:, market_price: nil)
+  # +collections+ are those an editor could list it in (see Collection).
+  def initialize(item:, used_in:, market_price: nil, collections: [])
     @item = item
     @used_in = used_in
     @market_price = market_price
+    @collections = collections
   end
 
   def view_template
@@ -33,6 +35,9 @@ class Views::Items::Show < Views::Items::Base
           end
 
           render Components::Items::Groups.new(item: @item) if @item.concrete? || @item.archetype?
+          if @item.concrete? || @item.archetype?
+            render Components::Items::Collections.new(item: @item, choices: @collections)
+          end
         end
       end
     end

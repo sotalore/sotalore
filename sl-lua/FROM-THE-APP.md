@@ -57,6 +57,28 @@ code's ids as they are; nothing more compact is needed. The highest id is 13310 
 digits), so an entry is 5 characters and Gravidy's 338 skills fit in two pages. The file isn't needed
 to load the skill list any more, but it's still welcome for checking.
 
+### R6. Recipes the character doesn't know (open, 2026-10-24)
+
+The site has 301 active recipes with no game id, and 226 items that only those recipes make or use, so
+none of them has a game key. Some are real recipes no exporting character knows yet (Ring of Gaiaism,
+Bass Trophy, Process Bear); others are left over from older versions of the game (Iron Cutlass, Great
+Sword) and should be deleted. A recipe export settles both at once: every ingredient and result in it
+carries a key, and a recipe the game doesn't have is one to delete. But it only covers known recipes,
+and getting a key any other way means having the item in the bags.
+
+Could you find out whether the game can describe recipes the character **doesn't** know?
+
+- Does `ShroudGetRecipeBook(categoryKey)` list the whole book for a craft skill, or only known recipes?
+  (The plugin already reads it as a fallback for known recipes `ShroudGetRecipe` won't hand over.)
+- If it lists unknown ones too, could an export include them, marked as not known (`known: false`, say),
+  with the same fields as any other recipe? A separate scope (`"book"`) would keep `"all"` meaning
+  "everything this character knows", which is what makes it a full export.
+- If not, is there another way to get keys for items that aren't in the bags: a vendor's stock, the
+  bank, a chest, a crafting station's list?
+
+Any of these would let the importer key most of those items and settle which old recipes are real.
+`EXPORT-FORMAT.md` would be the place to say what's possible.
+
 ## How the site uses the exports today
 
 - **Recipes** match site recipes by the export's recipe `id` (stored as the recipe's game id), or
@@ -160,6 +182,15 @@ Item **kinds**:
 
 Which items are in a group, or are examples of a category. A group's list is complete and holds
 concrete items only. A category's list is examples only, and may include archetypes.
+
+### Collections
+
+The site's own ways of grouping items for browsing ("Potions", "Light Armor", "Fortified Leather
+Armor"), curated by editors; nothing in the game uses them. A collection lists concrete items and
+archetypes, and can sit inside other collections, more than one at a time ("Fortified Leather Armor" is
+in both "Light Armor" and "Leather Armor"); it holds the items of everything inside it. Tooltip type
+lines such as "Leather Light Armor (Head)" or "Longsword - Bladed" could one day fill some of them
+automatically.
 
 ### Recipes
 
