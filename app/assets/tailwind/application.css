@@ -192,6 +192,12 @@
     @apply dark:text-slorange-100 dark:placeholder:text-slorange-400;
   }
 
+  /* Stays wide while the results show: clicking one takes the input's focus,
+     and if it shrank, the results would narrow under the pointer and miss the click. */
+  .global-search[aria-expanded="true"] .global-search-input {
+    @apply w-96;
+  }
+
   /* Theme (light/dark/system) switcher, in the top bar */
   .theme-switcher {
     @apply flex flex-row items-center gap-1;

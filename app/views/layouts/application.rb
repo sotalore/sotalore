@@ -85,7 +85,9 @@ class Views::Layouts::Application < Views::Layouts::Base
                     input(id: "global-search", class: "global-search-input", name: "q", placeholder: "Search", type: "text", data: { "autocomplete-target" => "input" })
                     # Takes the chosen result's URL, so the search box keeps showing its name.
                     input(type: "hidden", data: { "autocomplete-target" => "hidden" })
-                    div(class: "global-search-results", data: { "autocomplete-target" => "results" })
+                    # Hidden as the autocomplete controller leaves it, so a morph
+                    # refresh doesn't show it again, empty.
+                    div(class: "global-search-results", hidden: true, data: { "autocomplete-target" => "results" })
                   end
                 end
 
