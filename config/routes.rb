@@ -112,6 +112,8 @@ Rails.application.routes.draw do
   direct(:verify) { |verifiable| "/verify/#{verifiable.class.to_s.underscore}/#{verifiable.id}" }
 
   resources :item_memberships, only: [ :create, :destroy ]
+  resources :collections
+  resources :collection_items, only: [ :create, :destroy ]
   resources :creatures, only: [ :index, :show ]
   resources :gathering_nodes, only: [ :index, :show ]
   resources :items, controller: 'items' do
