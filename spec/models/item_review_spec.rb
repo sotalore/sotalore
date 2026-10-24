@@ -62,6 +62,23 @@ RSpec.describe ItemReview do
     expect(ItemReview.counts['suspect']).to eq 1
   end
 
+  it 'suggests archetype for gear a game recipe makes from a group, but not for other things' do
+    leather = create(:item, name: 'Yard of Leather', kind: :group)
+    boots   = create(:item, name: 'Fortified Leather Boots', use: :armor)
+    cloak   = create(:item, name: 'Cloak')
+    chair   = create(:item, name: 'Arm Chair', use: :decoration)
+    unknown = create(:item, name: 'Leather Helm', use: :armor)
+    ItemMembership.create!(group: create(:item, name: 'Back Slot Equipment', kind: :category), member: cloak)
+    create(:recipe, name: 'Boots', game_id: 1, with_ingredients: { leather => 1 }, with_results: { boots => 1 })
+    create(:recipe, name: 'Cloak', game_id: 2, with_ingredients: { leather => 2 }, with_results: { cloak => 1 })
+    create(:recipe, name: 'Chair', game_id: 3, with_ingredients: { leather => 3 }, with_results: { chair => 1 })
+    create(:recipe, name: 'Helm', with_ingredients: { leather => 4 }, with_results: { unknown => 1 })
+
+    expect(ItemReview.likely_archetypes).to contain_exactly(boots, cloak)
+    expect(ItemReview.new(filter: 'suspect').rows.map(&:item)).to eq [ cloak, boots ]
+    expect(suggestions(row_for(boots, filter: 'suspect'))).to eq [ 'archetype' ]
+  end
+
   it 'suggests category for crafted-something names' do
     group = create(:item, name: 'Crafted Two-handed Weapon', kind: :group)
     concrete = create(:item, name: 'Crafted Chest Armor')

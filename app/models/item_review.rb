@@ -14,10 +14,15 @@ class ItemReview
   # Equipable" or "Crafted Two-handed Weapon".
   CATEGORY_NAME = /\ACrafted /i
 
+  # Categories of things worn or wielded: "Heavy Chest Armor Equipment",
+  # "Crafted Blacksmithing Equipable", "Tailoring Reshaped Item", "Shield".
+  GEAR_CATEGORY = '(Equipment|Equipable|Reshaped Item|Weapon|Armor|Shield)$'
+
   Row = Data.define(:item, :members, :groups, :ingredient_uses, :game_ingredient_uses,
                     :result_uses, :game_result_uses, :modified, :made_from_groups, :game_keys,
-                    :issues) do
+                    :likely_archetype, :issues) do
     def modified? = modified
+    def likely_archetype? = likely_archetype
     def issues? = issues.any?
   end
 
@@ -58,6 +63,25 @@ class ItemReview
     concrete = Item.kind_is_concrete
     concrete.where('items.name ILIKE ? OR items.name ILIKE ?', '% or %', 'Crafted %')
             .or(concrete.where(id: modified_item_ids))
+            .or(concrete.where(id: likely_archetypes.select(:id)))
+  end
+
+  # Concrete gear a game recipe makes from a group ("Fortified Leather Boots"
+  # from any Yard of Leather and Metal Binding). The game makes a different
+  # one for each material, so the recipe's result is an archetype. Things
+  # that aren't gear (a chair from any Wooden Board) are the same whatever
+  # they're made from, so they're left alone.
+  def self.likely_archetypes
+    from_groups = Result.joins(:recipe).merge(Recipe.active).where.not(recipes: { game_id: nil })
+                        .joins('JOIN ingredients ON ingredients.recipe_id = results.recipe_id')
+                        .joins('JOIN items slots ON slots.id = ingredients.item_id')
+                        .where(slots: { kind: Item.kinds[:group] })
+                        .where('ingredients.item_id <> results.item_id')
+                        .select(:item_id)
+    in_gear_category = ItemMembership.joins(:group).merge(Item.kind_is_category)
+                                     .where('items.name ~* ?', GEAR_CATEGORY).select(:member_id)
+    made = Item.kind_is_concrete.where(id: from_groups)
+    made.where(use: %w[ armor weapon ]).or(made.where(id: in_gear_category)).where.not(id: modified_item_ids)
   end
 
   # Items an active recipe uses or makes that have no game key (see
@@ -114,6 +138,7 @@ class ItemReview
                              .where.not(recipes: { game_id: nil }).group(:item_id).count
     modified = self.class.modified_item_ids.where(item_id: ids).distinct.pluck(:item_id).to_set
     game_keys = ItemGameKey.where(item_id: ids).group(:item_id).count
+    likely_archetypes = self.class.likely_archetypes.where(id: ids).pluck(:id).to_set
     made_from_groups = Result.where(item_id: ids)
                              .joins('JOIN ingredients ON ingredients.recipe_id = results.recipe_id')
                              .joins('JOIN items ON items.id = ingredients.item_id')
@@ -131,6 +156,7 @@ class ItemReview
                     modified: modified.include?(item.id),
                     made_from_groups: made_from_groups.fetch(item.id, []),
                     game_keys: game_keys[item.id].to_i,
+                    likely_archetype: likely_archetypes.include?(item.id),
                     issues: [])
       row.with(issues: issues_for(row))
     end
@@ -170,6 +196,9 @@ class ItemReview
                'category')
       elsif item.name.match?(CATEGORY_NAME)
         issue.('The name reads like a category', 'category')
+      elsif row.likely_archetype?
+        issue.('A game recipe makes this gear from a group, so the material decides which one you get',
+               'archetype')
       end
     end
     issue.('Has a merchant price, which abstract items can\'t') if item.abstract? && item.merchant_price
