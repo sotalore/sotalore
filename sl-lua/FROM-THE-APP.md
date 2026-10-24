@@ -170,7 +170,7 @@ concrete items only. A category's list is examples only, and may include archety
 | proficiency | The export's `requiredLevel`. |
 | game id | The export's recipe `id`. |
 | teachable | Whether it can be taught: teachable, re_teachable, not_teachable. Not in the export. |
-| retired | Kept but hidden: no longer in the game, judged from full exports. Never deleted. |
+| retired | Hidden: no longer in the game, judged from full exports. The site keeps only what's current, so old recipes the game doesn't have (such as per-material copies of an archetype recipe) are deleted. |
 
 A recipe's **kind** follows from what it makes: a **modification** gives back an item it takes;
 a **template** makes a group (curated on the site, showing the general recipe the game's per-material

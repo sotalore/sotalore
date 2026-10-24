@@ -56,6 +56,7 @@ Rails.application.routes.draw do
       resources :item_resolutions, only: [ :create ], controller: 'recipe_import_item_resolutions'
     end
     resources :item_reviews, only: [ :index, :update ]
+    resource :archetype_cleanup, only: [ :show, :destroy ]
     resources :scenes, only: [ :index ]
     resources :item_catalog_imports, only: [ :index, :show, :create, :destroy ] do
       member do
