@@ -8,6 +8,7 @@
 --   finds_ui.lua        the small finds window
 --   recipes_ui.lua      the recipe browser windows
 --   item_details.lua    what item tooltips say (quest item, tool, salvage...), captured by hovering (/sladmin capture)
+--   gear_samples.lua    what expanded gear tooltips say it is made of (components, enchantments, masterworks, sockets)
 --   hoverlog.lua        a diagnostic: writes an item's tooltip text to chat (/sladmin hoverlog)
 --   targetlog.lua       a diagnostic: writes what the game says about each new target to chat (/sladmin targetlog)
 --
@@ -21,6 +22,7 @@ local RecipesUI = SotaLoreAdmin.RecipesUI
 local HoverLog = SotaLoreAdmin.HoverLog
 local TargetLog = SotaLoreAdmin.TargetLog
 local ItemDetails = SotaLoreAdmin.ItemDetails
+local GearSamples = SotaLoreAdmin.GearSamples
 
 -- The /sladmin command: a word picks an action, any other text searches the recipes, and nothing at
 -- all opens or closes the recipe window. The key binding does the same as the bare command.
@@ -97,6 +99,7 @@ function ShroudOnUpdate()
     Items.step()
     HoverLog.tick()
     ItemDetails.tick()
+    GearSamples.save(false)
     FindsUI.tick()
     Finds.save(false)
 end
@@ -130,11 +133,13 @@ end
 -- The find list is saved to the saved variables on these.
 function ShroudOnLogOut()
     ItemDetails.save(true)
+    GearSamples.save(true)
     Finds.save(true)
 end
 
 function ShroudOnDisableScript()
     ItemDetails.save(true)
+    GearSamples.save(true)
     Finds.save(true)
 end
 
