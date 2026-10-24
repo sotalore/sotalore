@@ -207,6 +207,7 @@ Rails.application.routes.draw do
       resources :proposal_changes, only: [ :index ]
       resources :items, only: [ :index, :show ]
       resources :recipes, only: [ :index, :show ]
+      resources :collections, only: [ :index, :show ]
       resources :recipe_imports, only: [ :index, :show ] do
         member do
           get :entries
