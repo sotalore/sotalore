@@ -40,12 +40,13 @@ comment saying what it is for. This is the pattern the game's own multi-file exa
 |------|-----|
 | `core.lua` | creates the one global table `SotaLoreAdmin`; shared helpers in `SotaLoreAdmin.util` (JSON writing, text clipping, file writing, `perItem`) and file names in `SotaLoreAdmin.files` |
 | `recipes_export.lua` | `SotaLoreAdmin.RecipeExport`: known recipes to JSON files, the "already exported" list |
+| `gear_samples.lua` | `SotaLoreAdmin.GearSamples`: what expanded gear tooltips say a piece is made of (components, exceptional, enchantments, masterworks, failures, sockets), kept as distinct samples for the items file's `craftedSamples`; captured from gear anywhere while capture is on |
 | `item_details.lua` | `SotaLoreAdmin.ItemDetails`: captures what item tooltips say (quest item, tool, no trade, salvage lists) by hovering, `/sladmin capture` |
 | `items.lua` | `SotaLoreAdmin.Items`: the items file for the bags; exports only new or changed items (`new`), everything (`all`) or marks them exported (`baseline`), in time slices |
 | `finds_data.lua` | `SotaLoreAdmin.Finds`: the per-scene find list (items, creatures, nodes), saving it, writing the finds file |
 | `finds_ui.lua` | `SotaLoreAdmin.FindsUI`: the small finds window |
 | `recipes_ui.lua` | `SotaLoreAdmin.RecipesUI`: the recipe list and recipe windows, with the export buttons |
-| `hoverlog.lua` | `SotaLoreAdmin.HoverLog`: a diagnostic (`/sladmin hoverlog`) that writes the tooltip text of items under the mouse to chat |
+| `hoverlog.lua` | `SotaLoreAdmin.HoverLog`: a diagnostic (`/sladmin hoverlog`) that writes the tooltip text of items under the mouse to chat (shortened) and in full to `sotalore-hoverlog.txt` |
 | `targetlog.lua` | `SotaLoreAdmin.TargetLog`: a diagnostic (`/sladmin targetlog`) that writes each new target to chat (name, id, dead, health, focus, the stats Animal Lore shows, pet or party member), to learn whether targeting can add creatures to the finds that are never fought |
 | `main.lua` | the only file with `ShroudOn...` callbacks, the `/sladmin` command and the key binding; read it first |
 
@@ -140,6 +141,13 @@ Untested ideas:
 - **Saved variables are kept per slug**: `Lua\SavedVariables\<slug>.account.json` (and per character). Renaming
   a package starts it with empty saved data unless that file is copied to the new slug's name while the game
   is closed or logged out (the game writes it at logout). `sl-recipes.account.json` was the admin plugin's.
+- **A saved file over 256 KB is not written at all.** The game writes saved data at logout, at unload (`/lua reload`
+  and every scene change) and on `ShroudFlushSavedVars`, and skips a scope whose JSON is over 256 KB, with only a line
+  in the add-on console. On 2026-10-24 `sl-admin.account.json` had reached 256,011 bytes (210 KB of it item details
+  storing every parsed field and a long fingerprint), and a day of captures was lost at a reload. Since 0.12.0 the
+  item details are stored small (about 100 KB for 286 items), gear samples live in the character scope, and saving
+  calls `util.flush()`, which writes at once and warns in chat when the game refuses. Keep an eye on the size of
+  anything that grows with play. The files start with a UTF-8 byte-order mark.
 - **The game cannot be launched from this session.** A standalone Lua (5.5, installed with scoop; `lua` and
   `luac` on the PATH) is available on Darren's machine: use `luac -p file.lua` to syntax-check every file
   after an edit. For behaviour, write a throwaway fake-game script (stub `Shroud.UI`, `Shroud.Command`,
@@ -183,7 +191,9 @@ command from the plugin's name. For a plugin about `<name>`:
   windows. `sl-skills`: the skills window.
 - `sl-admin` account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
   `itemSigs` (a fingerprint per item for what was last exported; no catalog of items is kept), `itemDetails`
-  (captured tooltips), `finds` (the per-scene list), `track` (tracking toggle). `sl-skills` keeps none.
+  (captured tooltips; since 0.12.0 stored small: name, text, a short fingerprint `fp` and `rev`, everything else
+  worked out from the text), `finds` (the per-scene list), `track` (tracking toggle). Character scope: `gearSamples`
+  (gear breakdowns, a list, each with its tooltip text, key and an exported flag). `sl-skills` keeps none.
 ## API facts learned in play (docs are at https://catnipgames.net/lua/reference.html)
 
 - Read the docs by downloading the page, stripping the HTML to text and searching it; a summarising
@@ -200,6 +210,14 @@ command from the plugin's name. For a plugin about `<name>`:
   shows "Quantity: 638 | Stack Weight: 191.4 | Stack Value: 6,380" for a stack (so that potion is 0.3 and 10 gold).
   Before 0.8.1 it passed the raw stack total through. The tooltip's "Merchant pays" for a stack is also a whole-stack
   price (divided by the quantity), and tooltip numbers use thousands commas ("6,380").
+- **Gear tooltips, expanded with Ctrl, say where each effect comes from** (seen 2026-10-24 with the hover log): sections
+  separated by blank lines, one per component (a name such as "Bronze Weapon Blade" or "Bronze Sheet (2)", then its
+  effect lines), "Exceptional (+1)", "Enchantment(s):" and "Masterwork(s):" (each line ending "(-20 Maximum
+  Durability)", failures as "(3) Enchantment Failure (-75 Max Durability)"), "Socket: Blades (2)", "On Hit (10%): ...",
+  and "Durability: 48/49 (Max 165-135+30)" (base, lost, gained). Not expanded ("Hold control to expand"), all effects are
+  added up in one list. The component names on gear are role names, not always the item's ("Bronze Weapon Blade" for
+  Bronze Longsword Blade). A component item's own tooltip lists what it adds under "Material Crafting Bonus". Blank
+  lines matter here, but `item_details.lua` stores tooltip text without them.
 - **A crafted item's salvage list is its own** (it depends on the materials), not the kind's, although it shares
   the base item's `key`. The tooltip title of crafted gear ends with the base item's name in brackets; the plugin
   exports the title (`details.title`) so the site can use it.
@@ -259,6 +277,9 @@ command from the plugin's name. For a plugin about `<name>`:
 - The game has a hotkey that switches tooltips off. While they are off the `...UnderMouse` calls see nothing,
   so `/sladmin capture` and `/sladmin hoverlog` capture nothing, and the plugin can't tell that from "not pointing at
   an item". Nothing to do about it for now; the capture-on message in chat reminds the player.
+- **A file can't be opened for adding to its end** (`io.open(path, "a")` fails, found 2026-10-24 with the hover
+  log, which then wrote nothing and said "0 tooltips"). A file that grows is kept in memory and written whole with
+  `"w"` each time (`hoverlog.lua`). Whether `"r"` works is untested (`util.readFile` returns nil if not).
 - Lua cannot open the folder, run slash commands or reach the clipboard. `/lua path` (typed by the player)
   opens the output folder.
 

@@ -14,6 +14,9 @@
 -- was captured (see item_details.lua), or null. The API gives no "locked", "quest item" or item-type flag;
 -- the details are the only source for those.
 --
+-- After the items, the file carries "craftedSamples": what gear's expanded tooltips said it is made of
+-- (gear_samples.lua), all of them for "all", those not exported before for "new"; "baseline" marks them exported.
+--
 -- The work is cut into slices of a fraction of a second per frame (like the recipe export), because the game
 -- stops a callback that runs over a second, and a character can carry thousands of items.
 --
@@ -22,6 +25,7 @@
 local util = SotaLoreAdmin.util
 local jstr, jnum = util.jstr, util.jnum
 local ItemDetails = SotaLoreAdmin.ItemDetails
+local GearSamples = SotaLoreAdmin.GearSamples
 
 local M = {}
 SotaLoreAdmin.Items = M
@@ -123,18 +127,21 @@ local function finish()
     if st.mode == "baseline" then
         for id, sig in pairs(st.newSigs) do st.sigs[id] = sig end
         ShroudSetSavedVar("itemSigs", st.sigs, "account")
-        ShroudConsoleLog("Marked " .. st.total .. " items as already exported.")
+        GearSamples.markExported(nil)
+        ShroudConsoleLog("Marked " .. st.total .. " items and " .. GearSamples.count() .. " gear samples as already exported.")
         return
     end
 
-    if #parts == 0 then
+    local samples, sampled = GearSamples.forExport(st.mode)
+    if #parts == 0 and #samples == 0 then
         ShroudConsoleLog("No new or changed items since the last export (" .. st.total .. " in your bags).")
         return
     end
 
     local body = util.header("items")
         .. ',"scope":' .. jstr(st.mode)
-        .. ',"count":' .. #parts .. ',"items":[\n' .. table.concat(parts, ",\n") .. '\n]}\n'
+        .. ',"count":' .. #parts .. ',"items":[\n' .. table.concat(parts, ",\n") .. '\n]'
+        .. ',"craftedSamples":[\n' .. table.concat(samples, ",\n") .. '\n]}\n'
     local path, err = util.writeFile(SotaLoreAdmin.files.items, body)
     if not path then
         ShroudConsoleLog("Item export failed: " .. tostring(err))
@@ -142,7 +149,8 @@ local function finish()
     end
     for _, id in ipairs(sent) do st.sigs[id] = st.newSigs[id] end
     ShroudSetSavedVar("itemSigs", st.sigs, "account")
-    ShroudConsoleLog("Items: " .. #parts .. " of " .. st.total .. " written to " .. path
+    GearSamples.markExported(sampled)
+    ShroudConsoleLog("Items: " .. #parts .. " of " .. st.total .. " and " .. #samples .. " gear samples written to " .. path
         .. (st.skipped > 0 and (" (" .. st.skipped .. " without a key skipped)") or "")
         .. " (type /lua path to open the folder)")
 end

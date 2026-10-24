@@ -1,4 +1,4 @@
-# SotaLore plugin export format (sl-admin v0.11.1, sl-skills v0.2.0)
+# SotaLore plugin export format (sl-admin v0.12.0, sl-skills v0.2.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:
@@ -114,7 +114,7 @@ The tooltip is English text, so these flags depend on the game language.
 ```json
 "details": { "crafted": false, "types": ["Quest Item"], "questItem": true, "artifact": false, "tool": false, "consumable": false,
              "noTrade": true, "noSell": false, "noValue": false, "indestructible": false,
-             "merchantPays": null, "effects": [],
+             "merchantPays": null, "effects": [], "craftingBonus": [],
              "text": "Vigilante Plans Stage 2\nQuest Item\nValue: 0\nNo Trade",
              "yields": null, "salvage": [] }
 ```
@@ -142,7 +142,16 @@ The tooltip is English text, so these flags depend on the game language.
   6,380"), so the plugin divides it by the stack's quantity (8 - 10). Numbers with thousands commas are read correctly
   (plugin v0.8.1 and later; before that a stack's price was written whole, and a comma number was misread).
 - `effects` is the list under the tooltip's "Item Effects" heading, for example "+1 Double Slash Attack Count Bonus",
-  as plain strings; empty when there is no such heading.
+  as plain strings; empty when there is no such heading. For gear that was not crafted (a "Bandit Blade +2" drop) the
+  list can run on into its component sections, so component names ("Copper Hilt") appear in it among the effects;
+  `craftedSamples` (below) has those sections parsed properly.
+- `craftingBonus` (sl-admin v0.12.0 and later) is what a **crafting component** adds to gear made with it: the lines
+  under its tooltip's "Material Crafting Bonus" heading, for example Elven Hilt `["+3% Melee and Ranged Critical
+  Chance", "+3 Dexterity"]`, Bolt of Cotton Cloth `["+3 Focus"]`; empty for anything else (some components have no
+  bonus: Pine Board, Locking Mechanism). Because it is read from the stored text when the file is written, an "All
+  items" export fills it in for components captured by older versions too; a "New items" export only sends them once
+  they are hovered again. Before v0.12.0 the heading itself was wrongly listed in `types` ("Material Crafting
+  Bonus"); ignore that value in older files.
 - `text` is the whole tooltip, one line per line, for anything else (the type line such as "Dagger - Bladed", bonuses,
   the description). **It also holds state of the one item that was hovered**: "Quantity: 6", "Durability: 35/35",
   "Major Repairs: 0", masterwork and engraving lines. Treat those as noise, and the first hovered item of a kind is
@@ -160,10 +169,105 @@ The tooltip is English text, so these flags depend on the game language.
   Leather Gloves +12 give Yard of Supple Leather, Bronze Dagger +11 gives Bronze Hilt and Bronze Dagger Blade), although
   they share the base item's `key`, and a reshaped item's "Eternal Pattern" yields line is its own too. Only use a
   crafted item's salvage if its name, less "+N" and any "of ..." enchantment, is the base item's name.
-- An item that is not in the bags when hovered (a chest, a vendor) can't be tied to a key and is skipped.
+- An item that is not in the bags when hovered (a chest, a vendor) can't be tied to a key and is skipped (but gear
+  hovered anywhere still becomes a crafted sample, below).
 - Entries can appear for items that are no longer in the bags, if they were captured earlier.
 
-Not yet verified against a real file.
+#### Crafted samples (`craftedSamples`, sl-admin v0.12.0 and later)
+
+After `items`, the file has `craftedSamples`: what gear's **expanded** tooltips (Ctrl held) say each piece is made
+of. A piece's tooltip lays out where each of its effects comes from: the components it was made from, an exceptional
+craft, enchantments, masterworks, failures and the socket. A tooltip is about one piece, and pieces can't be told apart
+(copies share the `key`, and often the name), so **each sample is one distinct breakdown, whichever piece it came
+from**; pointing at the same piece again adds nothing. The samples are evidence about kinds: what each component,
+socket, enchantment and masterwork can add, and what failures cost. They are not a list of the player's gear.
+
+They are taken from gear pointed at **anywhere** (bags, worn, a chest, the bank) while capture is on. Not expanded,
+the tooltip only shows every effect added together, so it is not kept. Like the items, `"scope": "new"` carries only
+samples not exported before, `"all"` every one, and `/sladmin baselineitems` marks them all exported. A "new" file can
+have samples and no items. A file from before v0.12.0 has no `craftedSamples`. Unlike the items' export memory, the
+samples are kept **per character** (the game's saved-data size limit leaves no room for them in the account's), so a
+character's file carries only the samples captured on that character.
+
+```json
+"craftedSamples": [
+  {"key": "item:c42971179f152df4ba98a959a991e3ee", "title": "Bronze Longsword of Rending +14", "crafter": "Gravidy",
+   "types": ["Longsword - Bladed"], "durability": {"base": 165, "lost": 135, "gained": 30},
+   "stats": ["Hits 2 Targets", "Damage: 11 - 19 (average 15)", "Critical: 12%", "Charge: 0.8s",
+             "Strength Bonus: Average", "Parry: 11 damage reduction"],
+   "itemEffects": [],
+   "components": [{"name": "Bronze Weapon Blade", "count": 1, "effects": ["+3 Melee and Ranged Damage",
+                     "+5% Melee and Ranged Critical Chance", "+5% Melee and Ranged Critical Damage"]},
+                  {"name": "Meteoric Iron Hilt", "count": 1, "effects": ["+1 Melee and Ranged Damage"]}],
+   "exceptional": null,
+   "enchantments": [{"effect": "+6.8 Dexterity", "durability": -20}, {"effect": "+6.6 Strength", "durability": -20},
+                    {"effect": "+8% Weapon Durability Effectiveness", "durability": null}],
+   "enchantmentFailures": {"count": 3, "durability": -75},
+   "masterworks": [{"effect": "30 Durability", "durability": 30},
+                   {"effect": "+3.3% Melee and Ranged Critical Chance", "durability": -10},
+                   {"effect": "+8.4% Melee and Ranged Critical Damage", "durability": -10}],
+   "masterworkFailures": null,
+   "sockets": [{"name": "Blades", "count": 1, "effects": ["+20% Rend Damage"]}],
+   "onHit": [],
+   "text": "Bronze Longsword of Rending +14\nCrafted by Gravidy\n..."}
+]
+```
+
+- `key` is the item key when the piece was in the bags or worn at the time, otherwise `null`. It is the base item's
+  key, shared by every piece of that kind. A sample first seen in a chest gets its key (and is sent again) once the
+  same breakdown is seen in the bags.
+- `title` is the tooltip's first line (with the base item's name in brackets for reshaped gear, as in `details.title`);
+  `crafter` the "Crafted by" name, or `null` for gear that was not crafted (drops also show components). `types` as in
+  `details.types`.
+- `durability` is read from "Durability: 48/49 (Max 165-135+30)": `base` is the kind's maximum, `lost` what
+  enchantments, masterworks and failures took from it, `gained` what exceptional crafting and durability masterworks
+  added. A piece with no changes reads "(Max 105)": base 105, lost 0, gained 0. `null` when there is no such line
+  (indestructible). The piece's current durability is left out.
+- `stats` are the weapon's or armour's own figure lines as text (damage, critical, charge, parry, or damage
+  resistance, avoidance and durability multiplier). They are this piece's, with its bonuses in them
+  ("Damage Resistance: 5.2 (5+0.2) (Max 6.8%)").
+- `itemEffects` is the "Item Effects" section: what the kind of item has itself, not from its materials
+  ("+14% Magic Fizzle Chance" on plate, "+50% Poison Effectiveness Bonus" on a dagger).
+- `components` is one entry per component section, in tooltip order: `name`, `count` (from "Bronze Sheet (2)"; 1 when
+  there is no number) and `effects`. **The names are the game's names for the component's role, not always the
+  item's name**: a sword lists "Bronze Weapon Blade" where the item used is "Bronze Longsword Blade", "Bronze Large
+  Weapon Blade" for "Bronze Two-handed Sword Blade", "Constantan Coil of Wire" for "Coil of Constantan Wire", and a
+  necklace or ring lists its own base ("Copper Necklace", "Meteoric Iron Ring"). Some do match items ("Elven Hilt",
+  "Bronze Hilt", "Fustian Cloth Strap"). The effects agree with the component item's own `details.craftingBonus`
+  (Elven Hilt gives the same two lines in both), which makes `craftingBonus` the reliable place to learn what an item
+  adds, and these the place to learn which effects a kind of gear gets from which part.
+- `exceptional` is `{level, effects}` from "Exceptional (+1)", or `null`.
+- `enchantments` and `masterworks` list one `{effect, durability}` per line: `effect` is the text without the cost,
+  `durability` the change to the maximum durability ("(-20 Maximum Durability)" is -20, "(+30 Maximum Durability)"
+  is 30), or `null` when the line shows none (the durability-effectiveness enchantments, "+8% Weapon Durability
+  Effectiveness", have no cost shown). A piece with a single one can have it on the heading's line
+  ("Enchantment(s):+3.4 Strength (-10 Maximum Durability)"); it is read the same way from v0.12.0's final build
+  (a first test file had that one line's cost left inside `effect`). `enchantmentFailures` and `masterworkFailures` come from "(3)
+  Enchantment Failure (-75 Max Durability)": `{count, durability}` (the total for all of them), or `null`.
+- `sockets` is one entry per "Socket: Blades (2)" section: `name` (the socket's school or kind, not the gem's item
+  name: "Blades", "Gaiaism", "Physical", "Thaumaturgy", "Crafting", "Sorcery Ward"), `count` and `effects`.
+  The socketable gems and jewels are items with a `craftingBonus` of their own (all "Raw Material", named "... (Refined
+  Gemstone)"): Imbued Gem of Rending `["+20% Rend Damage"]`, Imbued Gaiaism Jewel `["+12 Earth Attunement"]`, Imbued
+  Thaumaturgy Jewel `["+12 Life Attunement"]`, Imbued Gem of the Death Summoner `["+20 Summon Lich Power", "+20 Summon
+  Skeleton Power"]`. **A socket's name is not the gem's name, and its effects are not always the gem's bonus**: in the
+  author's gear "Socket: Blades" gives +20% Rend Damage like the Gem of Rending (and "Blades (2)" +40%), but "Socket:
+  Gaiaism" gives +10 or +5 Earth Attunement and "Socket: Thaumaturgy" +10 Life Attunement where those jewels list +12.
+  Why is not known (the jewel's quality, or the kind of gear); treat a socket's effects as what that piece got.
+- `onHit` is the "On Hit (10%): Tremor" line and the lines under it, as text.
+- All effect strings are the tooltip's text ("+6.8 Dexterity", "+3.3% Melee and Ranged Critical Chance", "30
+  Durability"): a sign, a number, an optional %, then the stat's name.
+- `text` is the whole tooltip, with blank lines between its sections. It holds the piece's current durability too,
+  and lines no field carries: dyes ("Primary Dye: Black"), "Salvage or Reshape Yields: Eternal Pattern: ...", and
+  "Reshaped with Pattern: Wolf Mask (not Eternal, lost if reshaped, removed or salvaged)".
+  The other fields are worked out from it when the file is written, so later plugin versions can read old samples
+  better.
+
+The parser was checked against 163 tooltips from the author's gear (34 different breakdowns: swords, a dagger, a
+hammer, shields, plate, chain, leather and cloth armour, wings, a ring, necklaces), then against a real "All items"
+file from v0.12.0 (41 samples, adding a staff, a two-handed axe, artifacts such as Wolf Mask and Ring of the Frogkin,
+and taming necklaces; 7 of them pointed at outside the bags, so with `key` null). Every sample was read completely.
+A second real file (57 samples) added the socketable gems and jewels and a backpack. Untested so far: bows, and other
+languages than English.
 
 ### Finds file (items and creatures per scene)
 
@@ -244,10 +348,13 @@ figure can't be worked out from the file (the stack size isn't in it). From v0.1
 right ones; the finds list keeps the wrong numbers of items gained before the update until it is reset (a new gain
 of the same item corrects it). Files saved by plugins before 0.4.0 hold stack totals.
 
-**A real file:** `data/plugin-examples/sotalore-item-catalog.json` is an "All items" export from sl-admin v0.11.1 (API 44,
-2026-10-21): 302 items. Every weight that can be compared with a recipe stat-row weight matches it (63 of 63; Animal
-Hide 0.4 and 10). 134 items have `null` weight and value: items whose tooltip was captured earlier but that are no
-longer in the bags (the plugin reads weight and value only from the bags). A `null` there means "not known", never
+**A real file:** `data/plugin-examples/sotalore-item-catalog.json` is an "All items" export from sl-admin v0.12.0 (API 44,
+2026-10-24): 307 items and 51 `craftedSamples` (swords, a dagger, a hammer, a staff, an axe, shields, plate, chain,
+leather and cloth armour, wings, rings, necklaces, artifacts). 10 components have a `craftingBonus`, among them the
+socketable gems and jewels (Imbued Gem of Rending, Imbued Gaiaism Jewel...) and Elven Hilt. 149 items have `null`
+weight and value: items whose tooltip was captured earlier but that are no longer in the bags (the plugin reads weight
+and value only from the bags). (The 0.11.1 example it replaced had every comparable weight matching a recipe stat-row
+weight, 63 of 63.) A `null` there means "not known", never
 "weighs nothing": keep what the site already has. Such an item gets its numbers again when it is next in the bags
 during an export.
 

@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore Admin"
-local Version = "0.11.1"
+local Version = "0.12.0"
 local CreatorName = "Gravidy"
 local Description = "SotaLore site admin tools: recipe, item and find exports for upload to the site."
 
@@ -28,6 +28,7 @@ SotaLoreAdmin.files = {
     oneRecipe = "sotalore-recipes-one.json",
     items = "sotalore-item-catalog.json",
     finds = "sotalore-scene-finds.json",
+    hoverLog = "sotalore-hoverlog.txt",          -- not for upload: the hover log's full tooltips, to read
 }
 
 local util = {}
@@ -75,7 +76,8 @@ function util.jlist(list, encode)
     return '[' .. table.concat(parts, ',') .. ']'
 end
 
--- Writes a file into the game's Lua folder. Returns the path, or nil and the error.
+-- Writes a file into the game's Lua folder. Returns the path, or nil and the error. (The game does not let an
+-- add-on add to the end of a file, mode "a": that fails, so a growing file has to be written whole each time.)
 function util.writeFile(name, body)
     local root = ShroudLuaPath:gsub("[/\\]+$", "")
     local path = root .. "/" .. name
@@ -84,6 +86,48 @@ function util.writeFile(name, body)
     f:write(body)
     f:close()
     return path
+end
+
+-- What a file in the game's Lua folder holds, or nil when it can't be read (missing, or not allowed).
+function util.readFile(name)
+    local root = ShroudLuaPath:gsub("[/\\]+$", "")
+    local ok, f = pcall(io.open, root .. "/" .. name, "r")
+    if not ok or not f then return nil end
+    local body = f:read("*a")   -- "*a", not "a": the game's Lua is 5.2-style
+    f:close()
+    return body
+end
+
+-- A short fingerprint of a text: 8 hex digits. Only arithmetic (no bit operators), so it is the same on every Lua.
+function util.hash(s)
+    local h = 5381
+    for i = 1, #s do
+        h = (h * 33 + s:byte(i)) % 4294967296
+    end
+    return string.format("%08x", math.floor(h))
+end
+
+-- Saved variables. The game writes an add-on's saved data to disk only at logout, when the add-on is unloaded (which
+-- /lua reload and every scene change do) or on ShroudFlushSavedVars, and it refuses a scope's file whose JSON is over
+-- 256 KB: that file is then not written at all, so every change since the last good write is lost, with only a line
+-- in the add-on console (2026-10-24: the account file had reached 256,011 bytes, and a day's captures vanished at a
+-- reload). util.flush writes now and says so in chat when the game refused.
+local flushFailed = false
+
+function util.flush()
+    if not ShroudFlushSavedVars then return true end
+    local ok = ShroudFlushSavedVars()
+    if ok == false then
+        if not flushFailed then
+            ShroudConsoleLog("SotaLore Admin: WARNING, the game did not save the add-on's data (a saved file is over its "
+                .. "256 KB limit). New captures will be lost at the next reload.")
+        end
+        flushFailed = true
+    elseif flushFailed then
+        flushFailed = false
+        ShroudConsoleLog("SotaLore Admin: the add-on's data is being saved again.")
+    end
+    return ok ~= false
 end
 
 -- Time. The game stops any callback that runs longer than 1 second (5 seconds while the plugin starts), so
@@ -221,6 +265,27 @@ function util.itemsNamed(getList, name)
         end
     end
     return found
+end
+
+-- Tooltip lines that name a kind of item ("Quest Item", "Dread Artifact", "Necklace", "Leather Light Armor
+-- (Head)", "Longsword - Bladed", "Fishing Bait"...) all become "types": one item can have several (the Shroud
+-- of the Avatar is an artifact, a cloak and a quest item). There is no list of kinds to match against, so a
+-- type line is recognised by its shape: short, not the title, no colon, number, percent, plus, comma, full stop, ! or ?,
+-- and not one of the lines that are known not to be types. It is a heuristic; the tooltip is kept in "text".
+-- `index` is the line's place in the tooltip (1 is the title). Used by item_details.lua and gear_samples.lua.
+local NOT_TYPES = {
+    ["No Trade"] = true, ["No Value"] = true, ["Cannot be sold to merchants"] = true, ["Item Effects"] = true,
+    ["Equipped"] = true, ["Salvage Components"] = true,
+    ["Material Crafting Bonus"] = true,   -- a component's heading (was taken for a type before sl-admin 0.12.0)
+}
+
+function util.looksLikeType(line, index)
+    if index == 1 or #line > 40 or NOT_TYPES[line] then return false end
+    if line:match("[:%.%d%%%+,!%?\"]") then return false end
+    if line:match("^Hold ") or line:match("^Double%-click") or line:match("^Salvage") or line:match("^Crafted by") then
+        return false
+    end
+    return true
 end
 
 -- The weight or value of one item of a bag item (field "weight" or "value"), rounded to 4 decimals.

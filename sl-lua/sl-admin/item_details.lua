@@ -11,13 +11,16 @@
 --   "Quest Item", "Tool", "No Trade", "Cannot be sold to merchants", "No Value", "Durability: Indestructible",
 --   "Crafted by <name>", "Salvage or Reshape Yields: ...", and the "Salvage Components" list
 --   ("Metal Scrap  1 - 50  90.5%": what it gives back, how many, how often).
--- A crafted item's tooltip is about that one item, so only its salvage list is kept (that part is the
--- same for the kind of item); everything else about it is left out.
+-- A crafting component's "Material Crafting Bonus" (what it adds to gear made with it) is kept as "craftingBonus".
+-- A crafted item's tooltip is about that one item, so only its salvage list is kept here (that part is the
+-- same for the kind of item); what an expanded gear tooltip says the piece is made of goes to gear_samples.lua,
+-- which takes gear pointed at anywhere, not only in the bags.
 --
--- Used by: items.lua (the item file), main.lua (the command, the per-frame tick, saving).
+-- Uses: gear_samples.lua. Used by: items.lua (the item file), main.lua (the command, the per-frame tick, saving).
 
 local util = SotaLoreAdmin.util
 local jstr, jnum = util.jstr, util.jnum
+local GearSamples = SotaLoreAdmin.GearSamples
 
 local M = {}
 SotaLoreAdmin.ItemDetails = M
@@ -30,11 +33,24 @@ local dirty, lastSave = false, 0
 local lastSeen = nil     -- the last tooltip handled, so one hover captures once
 local captured = 0       -- captures this session
 local unmatched = 0      -- hovers that could not be tied to a bag item
+local sampled = 0        -- new gear samples this session (gear_samples.lua)
+local compact            -- (defined below) an entry as it is stored
 
+-- The saved data has a size limit (256 KB for all of the account's, see util.flush), so an item that has its tooltip
+-- text stored keeps little else: everything is worked out from the text again when the file is written. Entries
+-- stored before sl-admin 0.12.0 also kept every flag and list and a long fingerprint (about 210 KB for 286 items);
+-- they are made small when first read.
 local function all()
     if details == nil then
         local t = ShroudGetSavedVar("itemDetails", "account")
         details = type(t) == "table" and t or {}
+        for key, d in pairs(details) do
+            local small = compact(d)
+            if small ~= d then
+                details[key] = small
+                dirty = true
+            end
+        end
     end
     return details
 end
@@ -55,6 +71,7 @@ function M.save(force)
     if not force and ShroudTime - lastSave < 5 then return end
     local started = util.clock()
     ShroudSetSavedVar("itemDetails", all(), "account")
+    util.flush()
     util.slow("saving the item details", started)
     dirty = false
     lastSave = ShroudTime
@@ -62,24 +79,7 @@ end
 
 -- Reading a tooltip -------------------------------------------------------------------------
 
--- Tooltip lines that name a kind of item ("Quest Item", "Dread Artifact", "Necklace", "Leather Light Armor
--- (Head)", "Longsword - Bladed", "Fishing Bait"...) all become "types": one item can have several (the Shroud
--- of the Avatar is an artifact, a cloak and a quest item). There is no list of kinds to match against, so a
--- type line is recognised by its shape: short, not the title, no colon, number, percent, plus, comma, full stop, ! or ?,
--- and not one of the lines that are known not to be types. It is a heuristic; the tooltip is kept in "text".
-local NOT_TYPES = {
-    ["No Trade"] = true, ["No Value"] = true, ["Cannot be sold to merchants"] = true, ["Item Effects"] = true,
-    ["Equipped"] = true, ["Salvage Components"] = true,
-}
-
-local function looksLikeType(line, index)
-    if index == 1 or #line > 40 or NOT_TYPES[line] then return false end
-    if line:match("[:%.%d%%%+,!%?\"]") then return false end
-    if line:match("^Hold ") or line:match("^Double%-click") or line:match("^Salvage") or line:match("^Crafted by") then
-        return false
-    end
-    return true
-end
+local looksLikeType = util.looksLikeType
 
 -- A number as the tooltip writes it: thousands separators are commas ("6,380").
 local function num(s)
@@ -95,11 +95,11 @@ local function parse(desc)
     local d = {
         crafted = false, questItem = false, artifact = false, tool = false, consumable = false,
         noTrade = false, noSell = false, noValue = false, indestructible = false,
-        salvage = {}, effects = {}, types = {},
+        salvage = {}, effects = {}, types = {}, craftingBonus = {},
     }
     local seenTypes = {}
     local lines = {}
-    local inSalvage, inEffects = false, false
+    local inSalvage, inEffects, inBonus = false, false, false
     for raw in tostring(desc or ""):gmatch("[^\r\n]+") do
         local line = raw:match("^%s*(.-)%s*$")
         if line ~= "" then
@@ -135,13 +135,20 @@ local function parse(desc)
                 if lo then d.merchantPays = { min = num(lo), max = num(hi) } end
             end
 
-            -- The two lists that run over several lines end at the next section heading.
+            -- The lists that run over several lines end at the next section heading.
             local endsList = line == "Salvage Components" or line:match("^Salvage") or line:match("^Hold ")
                 or line:match("^Bonuses do not apply")
             if line == "Item Effects" then
                 inEffects = true
             elseif inEffects then
                 if endsList then inEffects = false else d.effects[#d.effects + 1] = line end
+            end
+            -- A crafting component (a hilt, a blade, a bow string, cloth...) lists what it adds to the gear made
+            -- with it under "Material Crafting Bonus".
+            if line == "Material Crafting Bonus" then
+                inBonus = true
+            elseif inBonus then
+                if endsList then inBonus = false else d.craftingBonus[#d.craftingBonus + 1] = line end
             end
 
             if line == "Salvage Components" then
@@ -194,8 +201,10 @@ function M.perItem(it, field)
     return nil
 end
 
--- A short text that changes whenever anything worth exporting about the item changes (not the quantities and
+-- A short code that changes whenever anything worth exporting about the item changes (not the quantities and
 -- durabilities in the tooltip text, which differ every time). Used to number the revisions of an item.
+-- (Before sl-admin 0.12.0 the text itself was stored; compact turns such a text into its code, which is the same
+-- code this gives for an unchanged item, so loading old entries does not count as a change.)
 local function fingerprint(d)
     local bits = { tostring(d.crafted), table.concat(d.types or {}, ","), tostring(d.questItem), tostring(d.artifact),
         tostring(d.tool), tostring(d.consumable), tostring(d.noTrade), tostring(d.noSell), tostring(d.noValue),
@@ -205,7 +214,34 @@ local function fingerprint(d)
     for _, s in ipairs(d.salvage or {}) do
         bits[#bits + 1] = tostring(s.name) .. ":" .. tostring(s.min) .. ":" .. tostring(s.max) .. ":" .. tostring(s.chance)
     end
-    return table.concat(bits, "|")
+    -- last, and only when there is one, so the code of an item without a bonus is what it was before 0.12.0
+    if d.craftingBonus and #d.craftingBonus > 0 then bits[#bits + 1] = table.concat(d.craftingBonus, ",") end
+    return util.hash(table.concat(bits, "|"))
+end
+
+-- The fields an entry is stored with. A crafted item has no text (only its title, salvage and yields are kept); any
+-- other item has its text, and its salvage and yields only when the text was cut short (they may be past the cut).
+local KEEP = { name = true, crafted = true, title = true, text = true, salvage = true, yields = true, fp = true, rev = true }
+
+compact = function(d)
+    local clipped = d.text and #d.text >= MAX_TEXT
+    local needed = d.crafted or clipped or not d.text
+    local small = { name = d.name, rev = d.rev, fp = d.fp }
+    if d.crafted then
+        small.crafted, small.title = true, d.title
+    else
+        small.text = d.text
+    end
+    if needed then small.salvage, small.yields = d.salvage, d.yields end
+    if type(small.fp) == "string" and #small.fp > 8 then small.fp = util.hash(small.fp) end
+
+    -- unchanged when it already was that small
+    local same = small.fp == d.fp
+    for k in pairs(d) do
+        if not KEEP[k] or (small[k] == nil) then same = false end
+    end
+    if same then return d end
+    return small
 end
 
 -- A short description of what was captured, for the chat line.
@@ -232,7 +268,8 @@ end
 local function report()
     local n = 0
     for _ in pairs(all()) do n = n + 1 end
-    return captured .. " captured this time, " .. unmatched .. " not in your bags (skipped), " .. n .. " items stored"
+    return captured .. " captured this time, " .. unmatched .. " not in your bags (skipped), " .. n .. " items stored; "
+        .. sampled .. " new gear samples, " .. GearSamples.count() .. " stored"
 end
 
 -- Turns capture on or off, and says so in chat. Returns the new state.
@@ -240,8 +277,8 @@ function M.toggle()
     on = not on
     lastSeen = nil
     if on then
-        captured, unmatched = 0, 0
-        ShroudConsoleLog("Item capture on: point at items in your bags (hold Ctrl for the full tooltip). "
+        captured, unmatched, sampled = 0, 0, 0
+        ShroudConsoleLog("Item capture on: point at items in your bags, and at gear anywhere (hold Ctrl for the full tooltip). "
             .. "The game's tooltips must be switched on, or nothing is seen.")
     else
         M.save(true)
@@ -268,8 +305,19 @@ function M.tick()
 
     -- The key comes from the bag item of that name; an item that is not in the bags can't be tied to one.
     local it = util.itemsNamed(ShroudGetInventoryItems, name)[1]
+
+    -- An expanded gear tooltip is also kept as a sample of what gear is made of (gear_samples.lua). That needs no
+    -- key, so it works for gear anywhere: worn, in a chest, in the bank.
+    local worn = not it and util.itemsNamed(ShroudGetEquipmentItems, name)[1]
+    local sample = GearSamples.capture(desc, (it and it.key) or (worn and worn.key) or nil)
+    if sample == "new" then sampled = sampled + 1 end
+
     if not it or not it.key then
-        unmatched = unmatched + 1
+        if sample == "new" then
+            ShroudConsoleLog("Captured gear sample: " .. tostring(name))
+        elseif not sample then
+            unmatched = unmatched + 1
+        end
         return
     end
 
@@ -292,10 +340,16 @@ function M.tick()
     else
         entry.rev = old.rev or 1
     end
-    all()[it.key] = entry
+    all()[it.key] = compact(entry)
     dirty = true
     captured = captured + 1
-    ShroudConsoleLog("Captured: " .. tostring(it.name) .. (summary(d) ~= "" and (" (" .. summary(d) .. ")") or ""))
+    local what = summary(d)
+    if sample == "new" then
+        what = what .. (what ~= "" and ", " or "") .. "gear sample"
+    elseif d.crafted and not sample and desc:find("Hold control to expand", 1, true) then
+        what = what .. (what ~= "" and ", " or "") .. "hold Ctrl for what it is made of"
+    end
+    ShroudConsoleLog("Captured: " .. tostring(it.name) .. (what ~= "" and (" (" .. what .. ")") or ""))
 end
 
 -- Writing it to the item file --------------------------------------------------------------
@@ -338,6 +392,7 @@ function M.toJson(key)
             .. ',"indestructible":' .. tostring(d.indestructible and true or false)
             .. ',"merchantPays":' .. (d.merchantPays and ('{"min":' .. jnum(d.merchantPays.min) .. ',"max":' .. jnum(d.merchantPays.max) .. '}') or "null")
             .. ',"effects":' .. util.jlist(d.effects, jstr)
+            .. ',"craftingBonus":' .. util.jlist(d.craftingBonus, jstr)
             .. ',"text":' .. jstr(d.text or "")
     end
     s = s .. ',"yields":' .. (d.yields and jstr(d.yields) or "null")
