@@ -348,10 +348,13 @@ figure can't be worked out from the file (the stack size isn't in it). From v0.1
 right ones; the finds list keeps the wrong numbers of items gained before the update until it is reset (a new gain
 of the same item corrects it). Files saved by plugins before 0.4.0 hold stack totals.
 
-**A real file:** `data/plugin-examples/sotalore-item-catalog.json` is an "All items" export from sl-admin v0.11.1 (API 44,
-2026-10-21): 302 items. Every weight that can be compared with a recipe stat-row weight matches it (63 of 63; Animal
-Hide 0.4 and 10). 134 items have `null` weight and value: items whose tooltip was captured earlier but that are no
-longer in the bags (the plugin reads weight and value only from the bags). A `null` there means "not known", never
+**A real file:** `data/plugin-examples/sotalore-item-catalog.json` is an "All items" export from sl-admin v0.12.0 (API 44,
+2026-10-24): 307 items and 51 `craftedSamples` (swords, a dagger, a hammer, a staff, an axe, shields, plate, chain,
+leather and cloth armour, wings, rings, necklaces, artifacts). 10 components have a `craftingBonus`, among them the
+socketable gems and jewels (Imbued Gem of Rending, Imbued Gaiaism Jewel...) and Elven Hilt. 149 items have `null`
+weight and value: items whose tooltip was captured earlier but that are no longer in the bags (the plugin reads weight
+and value only from the bags). (The 0.11.1 example it replaced had every comparable weight matching a recipe stat-row
+weight, 63 of 63.) A `null` there means "not known", never
 "weighs nothing": keep what the site already has. Such an item gets its numbers again when it is next in the bags
 during an export.
 
