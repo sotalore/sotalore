@@ -6,7 +6,9 @@
 --   items.lua           bag items -> item catalog file
 --   finds_data.lua      the per-scene find list: items, creatures, gathering nodes
 --   finds_ui.lua        the small finds window
+--   items_ui.lua        the small items window: capture and the item exports
 --   recipes_ui.lua      the recipe browser windows
+--   toolbar_ui.lua      the toolbar that opens the three windows above
 --   item_details.lua    what item tooltips say (quest item, tool, salvage...), captured by hovering (/sladmin capture)
 --   gear_samples.lua    what expanded gear tooltips say it is made of (components, enchantments, masterworks, sockets)
 --   hoverlog.lua        a diagnostic: writes an item's tooltip text to chat (/sladmin hoverlog)
@@ -19,15 +21,19 @@ local Items = SotaLoreAdmin.Items
 local Finds = SotaLoreAdmin.Finds
 local FindsUI = SotaLoreAdmin.FindsUI
 local RecipesUI = SotaLoreAdmin.RecipesUI
+local ItemsUI = SotaLoreAdmin.ItemsUI
+local ToolbarUI = SotaLoreAdmin.ToolbarUI
 local HoverLog = SotaLoreAdmin.HoverLog
 local TargetLog = SotaLoreAdmin.TargetLog
 local ItemDetails = SotaLoreAdmin.ItemDetails
 local GearSamples = SotaLoreAdmin.GearSamples
 
 -- The /sladmin command: a word picks an action, any other text searches the recipes, and nothing at
--- all opens or closes the recipe window. The key binding does the same as the bare command.
+-- all opens or closes the toolbar. The key binding does the same as the bare command.
 local function handleCommand(args)
-    if args == "export" then
+    if args == "recipes" then
+        RecipesUI.toggle()
+    elseif args == "export" then
         RecipeExport.start("new")
     elseif args == "exportall" then
         RecipeExport.start("all")
@@ -61,7 +67,7 @@ local function handleCommand(args)
     elseif args and args ~= "" then
         RecipesUI.showSearch(args)
     else
-        RecipesUI.toggle()
+        ToolbarUI.toggle()
     end
 end
 
@@ -72,6 +78,8 @@ function ShroudOnStart()
     Finds.load()
     RecipesUI.build()
     FindsUI.build()
+    ItemsUI.build()
+    ToolbarUI.build()
     RecipesUI.load()
     FindsUI.update()
 
@@ -79,14 +87,14 @@ function ShroudOnStart()
     -- "sota" is a reserved prefix).
     local ok, reason = Shroud.Command{
         name = "sladmin",
-        help = "Open SotaLore Admin. /sladmin <text> searches. Also: new export exportall items itemsall finds capture",
+        help = "Open the SotaLore Admin toolbar. /sladmin <text> searches recipes. Also: recipes finds new items capture",
         run = handleCommand,
     }
     if not ok then
         ShroudConsoleLog("/sladmin unavailable (" .. tostring(reason) .. ")")
     end
 
-    Shroud.Keybind{ id = "toggle", label = "SotaLore Admin: toggle list", onPress = function() handleCommand("") end }
+    Shroud.Keybind{ id = "toggle", label = "SotaLore Admin: toggle toolbar", onPress = function() handleCommand("") end }
 
     -- Last, so everything above is set up even if this is slow: read the recipe books that some recipes need
     -- (too slow for a normal callback; the game allows the start 5 seconds) and keep copies for the exports.
@@ -152,6 +160,7 @@ function ShroudOnRecipesChanged()
 end
 
 function ShroudOnInventoryChanged()
+    if ItemsUI.isBuilt() then ItemsUI.update() end
     if not RecipesUI.isBuilt() then return end
     RecipesUI.refreshDetails()
 end

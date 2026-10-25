@@ -4,7 +4,7 @@
 -- list (the list itself lives in finds_data.lua), and has Save (writes the file, keeps the list),
 -- Reset (empties the list, after a second click) and a Tracking toggle.
 --
--- Used by: recipes_ui.lua (the "Finds window" button), main.lua (build, update, toggle, tick).
+-- Used by: toolbar_ui.lua (the Finds button), main.lua (build, update, toggle, tick).
 
 local UI = Shroud.UI
 local util = SotaLoreAdmin.util

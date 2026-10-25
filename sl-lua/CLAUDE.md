@@ -45,7 +45,9 @@ comment saying what it is for. This is the pattern the game's own multi-file exa
 | `items.lua` | `SotaLoreAdmin.Items`: the items file for the bags; exports only new or changed items (`new`), everything (`all`) or marks them exported (`baseline`), in time slices |
 | `finds_data.lua` | `SotaLoreAdmin.Finds`: the per-scene find list (items, creatures, nodes), saving it, writing the finds file |
 | `finds_ui.lua` | `SotaLoreAdmin.FindsUI`: the small finds window |
-| `recipes_ui.lua` | `SotaLoreAdmin.RecipesUI`: the recipe list and recipe windows, with the export buttons |
+| `items_ui.lua` | `SotaLoreAdmin.ItemsUI`: the small items window (counts, the Capture switch, the item export buttons) |
+| `recipes_ui.lua` | `SotaLoreAdmin.RecipesUI`: the recipe list and recipe windows, with the recipe export buttons |
+| `toolbar_ui.lua` | `SotaLoreAdmin.ToolbarUI`: the toolbar `/sladmin` opens, with a button for each of the three windows above |
 | `hoverlog.lua` | `SotaLoreAdmin.HoverLog`: a diagnostic (`/sladmin hoverlog`) that writes the tooltip text of items under the mouse to chat (shortened) and in full to `sotalore-hoverlog.txt` |
 | `targetlog.lua` | `SotaLoreAdmin.TargetLog`: a diagnostic (`/sladmin targetlog`) that writes each new target to chat (name, id, dead, health, focus, the stats Animal Lore shows, pet or party member), to learn whether targeting can add creatures to the finds that are never fought |
 | `main.lua` | the only file with `ShroudOn...` callbacks, the `/sladmin` command and the key binding; read it first |
@@ -170,8 +172,8 @@ command from the plugin's name. For a plugin about `<name>`:
 | Folder and slug | `sl-<name>` | `sl-admin` | `sl-skills` |
 | Display name (manifest `name`, `ScriptName`) | `SotaLore <Name>` | SotaLore Admin | SotaLore Skills |
 | Slash command | `/sl<name>` (lower case, no hyphen; the game allows `[a-z][a-z0-9]{2,23}`) | `/sladmin` | `/slskills` |
-| Key binding label | `SotaLore <Name>: ...` | SotaLore Admin: toggle list | SotaLore Skills: toggle window |
-| Window titles | start `SotaLore` | SotaLore: Known Recipes, SotaLore Finds | SotaLore Skills |
+| Key binding label | `SotaLore <Name>: ...` | SotaLore Admin: toggle toolbar | SotaLore Skills: toggle window |
+| Window titles | start `SotaLore` | SotaLore Admin (the toolbar), SotaLore Finds, SotaLore Items, SotaLore Recipes | SotaLore Skills |
 | Chat lines | the game prefixes `[Add-on: <display name>]` itself | | |
 | Output files | `sotalore-<kind>.json`, the kind named after the site's navigation; `"plugin"` = the slug in the header | `sotalore-scene-finds.json` | `sotalore-skills.json` |
 | Global table (the only global the plugin defines besides its `ShroudOn...` callbacks) | `SotaLore<Name>` | `SotaLoreAdmin` | `SotaLoreSkills` |
@@ -181,14 +183,21 @@ command from the plugin's name. For a plugin about `<name>`:
 
 ## Slash commands, windows, saved data
 
-- `sl-admin`: `/sladmin` (until 2026-10-18 `/slore`). Subcommands: `export`,
+- `sl-admin`: `/sladmin` (until 2026-10-18 `/slore`) on its own, and the key binding, open the toolbar (since 0.13.0;
+  before, the recipe list). Subcommands: `recipes` (toggle the recipe list), `export`,
   `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items` (new or
   changed items), `itemsall`, `baselineitems`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
   `gatherlog`, `checkrecipes`, `capture`, `hoverlog`, `targetlog`; other text searches the recipe list. The command's help
   text must be at most 120 characters.
 - `sl-skills`: `/slskills` opens the skills window, `/slskills file` saves the skills file (not mentioned to players; the window has no button for it since 0.2.0).
-- An add-on may own at most **8 windows**. `sl-admin`: the list (1), the finds window (1) and up to 6 recipe
-  windows. `sl-skills`: the skills window.
+- An add-on may own at most **8 windows**. `sl-admin` (since 0.13.0): the toolbar, the finds, items and recipe list
+  windows (4), and up to 4 recipe windows (before: the list, the finds window and up to 6 recipe windows).
+  `sl-skills`: the skills window.
+- `sl-admin`'s windows (0.13.0): the toolbar "SotaLore Admin" has three buttons, Finds, Items and Recipes, each
+  opening or closing one window. "SotaLore Finds" tracks a scene; "SotaLore Items" (built like it) shows the bag,
+  capture and gear sample counts, with the Capture switch and the New items / All items buttons; "SotaLore Recipes"
+  is the searchable recipe list with the recipe export buttons. Each window's position and size are saved by the game
+  per window id, so the old ids (`recipelist`, `sotalorefinds`) were kept.
 - `sl-admin` account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
   `itemSigs` (a fingerprint per item for what was last exported; no catalog of items is kept), `itemDetails`
   (captured tooltips; since 0.12.0 stored small: name, text, a short fingerprint `fp` and `rev`, everything else

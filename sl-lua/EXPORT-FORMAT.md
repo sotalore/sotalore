@@ -1,4 +1,4 @@
-# SotaLore plugin export format (sl-admin v0.12.0, sl-skills v0.2.0)
+# SotaLore plugin export format (sl-admin v0.13.0, sl-skills v0.2.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:
@@ -107,7 +107,7 @@ So, for the 301 recipes with no game id:
 
 ### Items file
 
-`sotalore-item-catalog.json` (`sotalore-items.json` before v0.11.0; the "New items" and "All items" buttons, `/sladmin items`, `/sladmin itemsall`) lists the items in
+`sotalore-item-catalog.json` (`sotalore-items.json` before v0.11.0; the "New items" and "All items" buttons in the "SotaLore Items" window, `/sladmin items`, `/sladmin itemsall`) lists the items in
 the character's top-level bags (not worn gear, nested containers, bank or chests). The bags hold many things that
 never leave (gear, quest items, tools), so like the recipe files it has a `scope`:
 
@@ -140,7 +140,7 @@ apart from other items here. **Names can carry formatting markers** (for example
 that is the game's own text, passed through unchanged, so strip markers like `[u]`, `[/u]` before matching by name.
 
 **`details`** is what the item's tooltip said, captured while the player pointed at the item in the bags with
-capture on (the "Capture" toggle next to "Export my items", or `/sladmin capture`; the API has no field for any of it), or `null` for an item that was never hovered. It is keyed by
+capture on (the "Capture" switch in the "SotaLore Items" window, or `/sladmin capture`; the API has no field for any of it), or `null` for an item that was never hovered. It is keyed by
 the item `key`, so every entry of that key shares it. Holding Ctrl while hovering gives the full tooltip.
 The tooltip is English text, so these flags depend on the game language.
 
@@ -305,7 +305,7 @@ languages than English.
 ### Finds file (items and creatures per scene)
 
 `sotalore-scene-finds.json` (`sotalore-finds.json` before v0.11.0), written by the **Save** button of the "SotaLore Finds" window (open it with the
-list window's "Finds window" button or `/sladmin finds`; `/sladmin savefinds` also saves). The small window
+toolbar's "Finds" button or `/sladmin finds`; `/sladmin savefinds` also saves). The small window
 is meant to stay up during play: it shows the current scene, how many distinct items and creatures (fought, and only seen) are on
 the list, and has **Save** (writes the file, keeps the list), **Reset** (clears the list; needs a second
 click within 4 seconds) and a **Tracking** toggle (turn it off while banking or shopping, which the API
