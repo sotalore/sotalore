@@ -72,6 +72,39 @@ recipes because an older full export lacks them.
 - Nothing about the character is exported (carried counts are deliberately dropped).
 - Recipes that roll their product from a list have `results` = `[]` (no fixed yield).
 
+### Recipes the character doesn't know, and keys for items not in the bags (answer to R6, 2026-10-25)
+
+**No: the game describes only recipes the character has learned.** The API docs (Lua API 44) say so for both calls:
+`ShroudGetKnownRecipes` holds "only the recipes your recipe book holds. There is no call for recipes you have not
+learned", and `ShroudGetRecipeBook(categoryKey)` returns "every recipe you know" for that station, adding "There is
+still no way to read a recipe you have not learned." The plugin reads the book only as a fallback for known recipes
+that `ShroudGetRecipe` won't hand over; it holds nothing more. So a `"book"` scope with `known: false` recipes isn't
+possible.
+
+**Item keys come from three places only:**
+
+| Source | What it covers |
+|--------|----------------|
+| A known recipe (recipe files) | every ingredient and result of every recipe the exporting character knows |
+| `ShroudGetInventoryItems` (item catalog) | items in the **top-level** bags; not items inside a bag in the bags |
+| `ShroudGetEquipmentItems` | worn gear (sl-admin uses it only to key gear samples) |
+
+Nothing lists a vendor's stock, the bank, a chest, a crafting station or mail with keys. (There is no vendor API at
+all, and a vendor list's tooltip shows no price; Darren has asked the game's developers for one.) `ShroudOnItemsGained` reports loot, purchases and items taken from the bank or a chest, but only as
+`{name, quantity, icon}`, with no key, and those items land in the bags, where the item catalog then reads them.
+A tooltip pointed at outside the bags has no key either.
+
+So, for the 301 recipes with no game id:
+
+- **A recipe known by any character keys itself.** Recipe exports from several characters merge on the recipe `id`
+  (see "Hard limits"), so an export from an alt that knows Ring of Gaiaism or Bass Trophy keys those recipes and all
+  their items. Learning a recipe and exporting does the same.
+- **An item gets a key by being in the top-level bags during an item export**: take it from the bank or a chest, or
+  buy one, then run "New items". Only the item gets keyed this way, not the recipe.
+- **A recipe no character can learn any more can't be confirmed from the game.** Only its absence can be seen:
+  a recipe missing from a full export by a character who knows that skill's other recipes, at a level that should
+  teach it, is a good sign it's gone. That stays a judgement for the site; the plugin can't settle it.
+
 ### Items file
 
 `sotalore-item-catalog.json` (`sotalore-items.json` before v0.11.0; the "New items" and "All items" buttons, `/sladmin items`, `/sladmin itemsall`) lists the items in
