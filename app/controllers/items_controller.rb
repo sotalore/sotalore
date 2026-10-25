@@ -18,6 +18,15 @@ class ItemsController < ApplicationController
     render Views::Items::ByUse.new(items: items, use: use)
   end
 
+  # Armor, shields and weapons by what their tooltips say they are (see
+  # GearType), filtered by ?kind=, ?weight=, ?material=, ?slot=, ?damage=.
+  def gear
+    authorize Item
+    filters = GearType::FACETS.filter_map { |facet, values| [ facet, params[facet] ] if values.include?(params[facet]) }.to_h
+    gear = GearType.items.select { |_, type| type.matches?(filters) }
+    render Views::Items::Gear.new(gear: gear, filters: filters)
+  end
+
   def show
     item = find_item
     authorize item
@@ -25,7 +34,7 @@ class ItemsController < ApplicationController
     market_price = Current.user.market_prices.find_or_initialize_by(item: item) if Current.user.not_null? && item.concrete?
     collections = policy(Collection).update? ? Collection.by_name.to_a : []
     render Views::Items::Show.new(item: item, used_in: used_in, market_price: market_price,
-                                  collections: collections)
+                                  collections: collections, gear_type: GearType.for_item(item))
   end
 
   def new

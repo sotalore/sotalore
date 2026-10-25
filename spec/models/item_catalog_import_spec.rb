@@ -106,6 +106,23 @@ RSpec.describe ItemCatalogImport do
       expect(again.values_at(:salvage_added, :weights, :tools, :keys)).to all(eq 0)
     end
 
+    it 'makes gear of unknown use armor or weapons, from its type line' do
+      helm = create(:item, name: 'Ragged Leather Helm')
+      club = create(:item, name: 'Long Club')
+      wand = create(:item, name: 'Lesser Wand', use: :decoration)
+      gear = import_of(catalog_entry(name: 'Ragged Leather Helm', types: [ 'Leather Light Armor (Head)' ]),
+                       catalog_entry(name: 'Long Club', types: [ 'Artifact', 'Two-handed Mace - Bludgeon' ]),
+                       catalog_entry(name: 'Lesser Wand', types: [ 'Wand - Bludgeon' ]))
+      rows = gear.analysis.rows.index_by { _1.item.name }
+      expect(rows.transform_values(&:gear_use)).to eq('Ragged Leather Helm' => 'armor', 'Long Club' => 'weapon', 'Lesser Wand' => nil)
+      expect(gear.analysis.counts[:gear]).to eq 2
+
+      counts = gear.apply!(user)
+      expect([ counts[:gear], counts[:tools] ]).to eq [ 2, 0 ]
+      expect([ helm, club, wand ].map { _1.reload.use }).to eq %w[ armor weapon decoration ]
+      expect(helm.comments.revision.count).to eq 1
+    end
+
     it "updates weights to the game's, to 4 decimals" do
       fine = import_of(catalog_entry(name: 'Skinning Knife', weight: 0.0525))
       expect(fine.update_weights!(user)).to eq 1

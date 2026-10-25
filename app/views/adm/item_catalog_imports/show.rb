@@ -47,7 +47,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
     end
     p(class: 'my-2 max-w-prose text-sm') do
       plain 'Applying records the game\'s key and tooltip for each item the site knows, fills weights the site '
-      plain 'lacks, sets values from the tooltips, makes "Tool" items of unknown use tools, and adds or updates salvage. It doesn\'t remove '
+      plain 'lacks, sets values from the tooltips, makes "Tool" items of unknown use tools (and armor or weapons of gear whose type line says so), and adds or updates salvage. It doesn\'t remove '
       plain 'salvage, or change weights the site already has unless you ask. A crafted item (its '
       plain 'tooltip says "Crafted by") only gives its salvage, and only when it\'s the plain base item (materials '
       plain 'change what it salvages into).'
@@ -66,7 +66,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
       li { "#{@counts[:known]} items the site knows, #{@counts[:unknown]} it doesn't" }
       li { "#{@counts[:missing_weights]} weights to fill, #{@counts[:different_weights]} that differ (updated only on request)" }
       li { "#{@counts[:values]} values to set or change" }
-      li { "#{@counts[:tools]} to make tools" }
+      li { "#{@counts[:tools]} to make tools, #{@counts[:gear]} to make armor or weapons" }
       li { "Salvage: #{@counts[:salvage_to_add]} to add and #{@counts[:salvage_to_update]} to update, on #{@counts[:salvage_items]} items; #{@counts[:extra_salvage]} on the site the game doesn't list" }
     end
     div(class: 'mb-4 flex flex-row flex-wrap gap-2') do
@@ -106,6 +106,7 @@ class Views::Adm::ItemCatalogImports::Show < Views::Base
         a(href: item_path(row.item), class: 'Link Link--primary') { row.item.name }
         div(class: 'text-xs text-grey-500') { row.entry.name } unless row.entry.name.casecmp?(row.item.name)
         div(class: 'text-xs') { 'becomes a tool' } if row.tool?
+        div(class: 'text-xs') { "becomes #{row.gear_use} (#{row.entry.gear_type})" } if row.gear_use
       end
       td(class: 'pr-3 py-1') do
         if row.missing_weight? then plain "– → #{row.entry.weight}"

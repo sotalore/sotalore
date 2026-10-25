@@ -105,7 +105,9 @@ exports from other characters, items brought into the bags, and deleting what's 
   right. Weights the site lacks are filled (existing ones are left alone); only items files from plugin
   0.8.1 on are accepted (R4).
   Both scopes (`new`, `all`) are applied the same way: nothing is removed for an item a file leaves out.
-  Item `types` (plugin 0.6.2) aren't used yet: they'd suggest an item's `use`.
+  Item `types` give gear its kind: a line like "Leather Light Armor (Head)" or "Longsword - Bladed" makes an item
+  of unknown use armor or a weapon, and the site's Gear page lists and filters items by those lines (material,
+  light or heavy, slot, weapon and damage type). Other type lines aren't used yet.
 - **Skill codes** (sl-skills) are pasted by players on an avatar's skills page ("Import from game"):
   every page into one box, in any order, with anything around them ignored. The page checks each
   page's check as it's pasted and says which are missing; pages whose page count, id digits, offset
