@@ -2,7 +2,8 @@
 
 # The choices an archetype recipe offers ("Longsword": any Longsword Blade
 # and any Metal Hilt). Which longsword you get depends on them, and each
-# chosen component brings its own effects, so the game has no item for each
+# chosen component brings its own crafting bonus (see Item#crafting_bonus),
+# so the game has no item for each
 # combination and the site keeps none: they're worked out here, one slot per
 # group the recipe takes, with what each choice costs the user (see
 # RecipeCost).
@@ -43,7 +44,7 @@ class ArchetypeOptions
   private
 
   def slot_for(group, count)
-    choices = group.members.map { Choice.new(_1, @cost.cost_of_item(_1), count) }
+    choices = group.members.includes(:game_keys).map { Choice.new(_1, @cost.cost_of_item(_1), count) }
     Slot.new(group, count, choices)
   end
 

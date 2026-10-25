@@ -96,7 +96,8 @@ class Views::Items::Show < Views::Items::Base
       div(class: "basis-1_2") do
         div(class: "flex flex-col gap-2") do
           render Components::Items::MarketPrice.new(market_price: @market_price) if @market_price
-          tile_with_heading("Effects") { formatted_body(@item.effects) } if @item.effects
+          effects_tile
+          crafting_bonus_tile
           tile_with_heading("Notes") { formatted_body(@item.notes) } if @item.notes
           render Components::Finds::ForItem.new(item: @item) if policy(:finds).show?
 
@@ -141,6 +142,34 @@ class Views::Items::Show < Views::Items::Base
   end
 
   private
+
+  # What someone wrote, and what the game's tooltip lists, which may differ.
+  def effects_tile
+    game = @item.game_effects
+    return if @item.effects.nil? && game.empty?
+
+    tile_with_heading("Effects") do
+      formatted_body(@item.effects)
+      next if game.empty?
+
+      p(class: "mt-2 text-sm font-semibold") { "The game's tooltip:" } if @item.effects
+      ul(class: "list-disc ml-5 text-sm") { game.each { |line| li { line } } }
+    end
+  end
+
+  # What a crafting component adds to the gear it's made into.
+  def crafting_bonus_tile
+    bonus = @item.crafting_bonus
+    return if bonus.empty?
+
+    tile_with_heading("Crafting Bonus") do
+      p(class: "text-sm") { "Gear crafted with #{@item.name} gets:" }
+      ul(class: "list-disc ml-5 text-sm") { bonus.each { |line| li { line } } }
+      p(class: "mt-1 text-xs text-grey-600 dark:text-grey-300") do
+        "From the game's tooltip. How much a piece gets can depend on how many go into it."
+      end
+    end
+  end
 
   # What the game calls it, linking to gear like it.
   def gear_type_tag

@@ -108,6 +108,12 @@ exports from other characters, items brought into the bags, and deleting what's 
   Item `types` give gear its kind: a line like "Leather Light Armor (Head)" or "Longsword - Bladed" makes an item
   of unknown use armor or a weapon, and the site's Gear page lists and filters items by those lines (material,
   light or heavy, slot, weapon and damage type). Other type lines aren't used yet.
+  `effects` are shown on the item page, beside any effects someone wrote there, and `craftingBonus` is shown
+  on a component's page and in an archetype recipe's options, as what each choice adds to the gear made. Both
+  are read from the tooltip kept on the key, never copied, so a later capture replaces them. A component
+  whose kept tooltip has no `craftingBonus` field (captured before 0.12.0) shows as "not captured yet",
+  and one with an empty list as adding nothing. `craftedSamples` aren't read yet; they'd be evidence for
+  checking those bonuses.
 - **Skill codes** (sl-skills) are pasted by players on an avatar's skills page ("Import from game"):
   every page into one box, in any order, with anything around them ignored. The page checks each
   page's check as it's pasted and says which are missing; pages whose page count, id digits, offset
@@ -159,7 +165,7 @@ Each avatar has, per skill, a current and a target level, entered by the player.
 | merchant price | What a merchant **sells** it for, for concrete items only; maintained by hand, and many items have none. Not the value (garlic: value 3, merchant price 6). Called `price` before 2026-10-23, so where EXPORT-FORMAT.md says `merchantPays` "may be the site's `price`", it isn't. |
 | gathering skill | For gathered items: the gathering skill that yields it. |
 | game keys | The game's `item:...` keys (from the export), and `group:...` keys for groups and categories, each with the name the game last used and, for things recipes make, their base stats. |
-| notes, effects | Free text shown on the item page. |
+| notes, effects | Free text shown on the item page. The game's own effects and crafting bonus are shown beside them, read from the tooltip kept on the item's key. |
 
 Item **kinds**:
 
