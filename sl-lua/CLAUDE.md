@@ -24,8 +24,14 @@ Until 2026-10-18 there was one package, `sl-recipes`; it became `sl-admin` (the 
   - `EXPORT-FORMAT.md`: **the contract with the importer, and yours to keep accurate.** Change it in the
     same change as any export change, and flag breaking changes in it. The app side reads exactly what it
     describes.
-  - `FROM-THE-APP.md`: written by the app-side agent (requests, how the site uses exports, the site's data
-    model). **Read it, never edit it.** Answer requests by updating `EXPORT-FORMAT.md`.
+  - `FROM-THE-APP.md`: written by the app-side agent (how the site uses exports, the site's data model, and the
+    requests R1 to R6 from before issues). **Read it, never edit it.**
+- **Requests from the app are GitHub issues labelled `plugin`** (since 2026-10-25), on sotalore/sotalore:
+  `gh issue list -R sotalore/sotalore --label plugin`. See "Tracking work" in the repo-root `CLAUDE.md` for the
+  rest (tracking issues, sub-issues, labels, signing what you write). **Answer in the issue.** When the answer
+  changes an export, change the plugin and `EXPORT-FORMAT.md` in the same PR, with "Closes #N"; when nothing
+  changes (a question answered, something the game can't do), a comment on the issue is the whole answer. The
+  repo is public: nothing private in an issue.
 - Real example outputs are in `data/plugin-examples/` (repo root). `.gitignore` ignores `sotalore-*.json`
   everywhere else so game output is never committed by accident.
 
@@ -297,3 +303,6 @@ command from the plugin's name. For a plugin about `<name>`:
 - Keep `main.lua` in the plain style it has: local helpers, comments for the non-obvious "why".
 - One topic per PR. Do not commit or open a PR unless asked; describe in the PR what is verified in game
   and what is not.
+- Before starting plugin work, find or open its GitHub issue (labels `plugin` plus `bug` or `enhancement`), and
+  put "Closes #N" in the PR. `gh` is signed in as Darren, so end issues and comments with
+  `_Opened by Claude Code for @darrenboyd._` (or "Comment by Claude Code").
