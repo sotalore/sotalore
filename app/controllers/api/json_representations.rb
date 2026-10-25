@@ -21,13 +21,16 @@ module Api::JsonRepresentations
   end
 
   # +tooltip_types+ are the type lines of the game's tooltips for it ("Leather
-  # Light Armor (Head)", "Longsword - Bladed"), from item catalog imports.
+  # Light Armor (Head)", "Longsword - Bladed"), from item catalog imports;
+  # +game_effects+ and +crafting_bonus+ come from the same tooltips (see
+  # Item#game_effects).
   def item_detail(item)
     recipes = ->(scope) { scope.map { recipe_ref(_1) } }
     makers, modifiers = item.recipes.to_a.partition { !_1.modification? }
     item_summary(item).merge(
       value: item.value, merchant_price: item.merchant_price,
       effects: item.effects, notes: item.notes,
+      game_effects: item.game_effects, crafting_bonus: item.crafting_bonus,
       aliases: item.aliases.map(&:name).sort,
       game_keys: item.game_keys.map { { key: _1.key, name: _1.name } },
       tooltip_types: item.game_keys.flat_map { Array(_1.catalog&.dig('details', 'types')) }.uniq,

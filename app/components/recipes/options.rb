@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 # For an archetype recipe ("Longsword"): every choice it offers, one table
-# per group it takes, with each choice's effects (which go into what's made)
-# and what it costs the user (see ArchetypeOptions).
+# per group it takes, with what each choice adds to what's made (its
+# crafting bonus, else any effects written for it) and what it costs the
+# user (see ArchetypeOptions).
 #
 #   render Components::Recipes::Options.new(options: ArchetypeOptions.new(recipe, cost))
 class Components::Recipes::Options < Components::Recipes::Base
@@ -40,7 +41,7 @@ class Components::Recipes::Options < Components::Recipes::Base
 
   def slot_table(slot)
     cheapest = slot.cheapest
-    effects = slot.choices.any? { _1.item.effects }
+    effects = slot.choices.any? { adds(_1.item).present? || _1.item.crafting_bonus_known? }
     div(class: "mt-3 font-semibold") do
       plain "#{slot.count} "
       link_to(slot.group.name, slot.group)
@@ -54,7 +55,7 @@ class Components::Recipes::Options < Components::Recipes::Base
       thead do
         tr(class: "border-b-2 border-grey-300 dark:border-grey-600") do
           th(class: TH_CSS) { "Choice" }
-          th(class: TH_CSS) { "Effects" } if effects
+          th(class: TH_CSS) { "Adds" } if effects
           th(class: "#{TH_CSS} text-right") { "Cost" } if @options.costed?
         end
       end
@@ -77,12 +78,19 @@ class Components::Recipes::Options < Components::Recipes::Base
   end
 
   def effects_cell(item)
-    if item.effects
+    bonus = item.crafting_bonus
+    if bonus.any?
+      ul(class: "text-xs") { bonus.each { |line| li { line } } }
+    elsif item.effects
       div(class: "text-xs") { formatted_body(item.effects) }
+    elsif item.crafting_bonus_known?
+      span(class: "text-grey-500") { "nothing" }
     else
-      span(class: "text-grey-500") { "-" }
+      span(class: "text-xs text-grey-500") { "not captured yet" }
     end
   end
+
+  def adds(item) = item.crafting_bonus.presence || item.effects
 
   def gold(amount)
     amount ? amount.round(2).to_s("F").delete_suffix(".0") : "-"

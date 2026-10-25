@@ -39,7 +39,8 @@ RSpec.describe "API collections", type: :request do
   it "shows an item's collections, tooltip types and effects, and finds items by use" do
     expect(get_json(api_v1_item_path(boots))['collections']).to eq [ { 'id' => light.id, 'name' => 'Light Armor' } ]
     expect(get_json(api_v1_item_path(helm))).to include('tooltip_types' => [ 'Leather Light Armor (Head)' ],
-                                                        'effects' => '+2% Magic Fizzle Chance')
+                                                        'effects' => '+2% Magic Fizzle Chance',
+                                                        'game_effects' => [], 'crafting_bonus' => [])
     create(:item, name: 'Wax')
     expect(get_json(api_v1_items_path, use: 'armor')['items'].map { _1['name'] }).to eq [ boots.name, helm.name ]
   end

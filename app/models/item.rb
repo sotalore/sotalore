@@ -198,6 +198,20 @@ class Item < ApplicationRecord
     !!gathering_skill
   end
 
+  # What the game's tooltips say, as kept on its game keys by item catalog
+  # imports (see ItemCatalogImport): the lines under "Item Effects", and, for
+  # a crafting component, under "Material Crafting Bonus": what it adds to
+  # gear made with it ("+3% Melee and Ranged Critical Chance"). Read rather
+  # than copied into +effects+, so they follow the game and never overwrite
+  # what someone wrote there.
+  def game_effects = tooltip_lines('effects')
+  def crafting_bonus = tooltip_lines('craftingBonus')
+
+  # Whether a tooltip captured by a plugin that reads crafting bonuses
+  # (sl-admin 0.12.0 on) is kept, so an empty one means "none", not "not
+  # known yet".
+  def crafting_bonus_known? = game_keys.any? { _1.catalog&.dig('details')&.key?('craftingBonus') }
+
   def <=>(other)
     unless Item === other
       raise ArgumentError.new("Cannot compare an Item to a #{other.class}")
@@ -216,6 +230,11 @@ class Item < ApplicationRecord
   end
 
   private
+
+  def tooltip_lines(field)
+    game_keys.flat_map { Array(_1.catalog&.dig('details', field)) }.map(&:to_s).compact_blank.uniq
+  end
+
   def gathering_skill_is_gathering
     if gathering_skill && !gathering_skill.gathering?
       errors.add(:gathering_skill, 'must be a gathering skill')

@@ -62,3 +62,21 @@ RSpec.describe "Gear", type: :request do
     expect(response.body).to include 'Leather Light Armor (Head)', gear_items_path(kind: 'armor', weight: 'light', slot: 'head')
   end
 end
+
+RSpec.describe "Item effects from the game", type: :request do
+  it "shows the tooltip's effects beside what someone wrote, and a component's crafting bonus" do
+    dagger = create(:item, name: 'Rusty Dagger', effects: 'Found on bandits.')
+    dagger.game_keys.create!(key: item_key('dagger'), name: dagger.name,
+                             catalog: { 'details' => { 'effects' => [ '+40% Poison Effectiveness Bonus' ] } })
+    hilt = create(:item, name: 'Elven Hilt')
+    hilt.game_keys.create!(key: item_key('hilt'), name: hilt.name,
+                           catalog: { 'details' => { 'craftingBonus' => [ '+3 Dexterity' ] } })
+
+    get item_path(dagger)
+    expect(response.body).to include 'Found on bandits.', "The game&#39;s tooltip:", '+40% Poison Effectiveness Bonus'
+    expect(response.body).not_to include 'Crafting Bonus'
+
+    get item_path(hilt)
+    expect(response.body).to include 'Crafting Bonus', 'Gear crafted with Elven Hilt gets:', '+3 Dexterity'
+  end
+end

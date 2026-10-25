@@ -122,6 +122,22 @@ RSpec.describe "Recipes", type: :request do
         expect(response.body).to include 'See every option', recipe_path(recipe)
       end
 
+      it "shows each choice's crafting bonus, and says which aren't captured yet" do
+        blade  = create :item, name: 'Dagger Blade', kind: :group
+        dagger = create :item, name: 'Dagger', kind: :archetype
+        bronze, iron, pine = [ 'Bronze Dagger Blade', 'Iron Dagger Blade', 'Pine Dagger Blade' ].map do |name|
+          create(:item, name: name).tap { ItemMembership.create!(group: blade, member: _1) }
+        end
+        bronze.game_keys.create!(key: item_key('bronze'), name: bronze.name,
+                                 catalog: { 'details' => { 'craftingBonus' => [ '+3 Melee and Ranged Damage' ] } })
+        pine.game_keys.create!(key: item_key('pine'), name: pine.name, catalog: { 'details' => { 'craftingBonus' => [] } })
+        recipe = create :recipe, name: 'Dagger', with_results: { dagger => 1 }, with_ingredients: { blade => 1 }
+
+        get recipe_path(recipe)
+        expect(response.body).to include '>Adds<', '+3 Melee and Ranged Damage', 'not captured yet', '>nothing<'
+        expect(iron.crafting_bonus_known?).to be false
+      end
+
       it 'explains a modification recipe, and lists it on the item' do
         equipable = create :item, name: 'Crafted Carpentry Equipable', kind: :category
         recipe = create :recipe, name: 'Masterwork Carpentry Upgrade', with_results: { equipable => 1 },
