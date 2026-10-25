@@ -4,7 +4,7 @@
 # seen in a character's bags, and their tooltips. Reviewed (see
 # ItemCatalogAnalysis) and applied (see #apply!), which records the game's
 # keys and tooltips, fills weights the site lacks, sets values from tooltips, makes tools of unknown-use
-# items the tooltip calls tools, and brings in salvage lists with their
+# items the tooltip calls tools (and armor or weapons of those its type line calls gear), and brings in salvage lists with their
 # quantities and chances. A crafted item gives only its salvage list.
 # Applying is idempotent. Only files whose weights are per item, or null when
 # not known, are taken (see GameCatalog.problem).
@@ -70,10 +70,12 @@ class ItemCatalogImport < ApplicationRecord
         item.weight = entry.weight if row.missing_weight?
         item.value = entry.tooltip_value if row.value_change?
         item.use = 'tool' if row.tool?
+        item.use = row.gear_use if row.gear_use
         if item.changed?
           counts[:weights] += 1 if item.weight_changed?
           counts[:values] += 1 if item.value_changed?
-          counts[:tools] += 1 if item.use_changed?
+          counts[:tools] += 1 if item.use_changed? && item.use_is_tool?
+          counts[:gear] += 1 if item.use_changed? && !item.use_is_tool?
           item.save!
           RevisionRecorder.call(item, user)
         end

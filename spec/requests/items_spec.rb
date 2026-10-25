@@ -31,3 +31,34 @@ RSpec.describe "Items", type: :request do
   end
 
 end
+
+RSpec.describe "Gear", type: :request do
+  def gear(name, line)
+    create(:item, name: name).tap do |item|
+      item.game_keys.create!(key: item_key(name), name: name, catalog: { 'details' => { 'types' => [ line ] } })
+    end
+  end
+
+  let!(:helm)  { gear('Rusty Chainmail Helm', 'Chain Heavy Armor (Head)') }
+  let!(:hat)   { gear('Steampunk Top Hat', 'Leather Light Armor (Head)') }
+  let!(:sword) { gear('Rusty Sword +1', 'Longsword - Bladed') }
+
+  it 'lists gear by what the game calls it, filtered by facet' do
+    get gear_items_path
+    expect(response).to have_http_status(:ok)
+    expect(response.body).to include 'Rusty Chainmail Helm', 'Steampunk Top Hat', 'Rusty Sword +1', '3 items'
+
+    get gear_items_path(kind: 'armor', slot: 'head', weight: 'heavy')
+    expect(response.body).to include 'Rusty Chainmail Helm', 'Chain Heavy Armor (Head)'
+    expect(response.body).not_to include 'Steampunk Top Hat', 'Rusty Sword +1'
+
+    get gear_items_path(damage: 'bladed', weight: 'nonsense')
+    expect(response.body).to include 'Rusty Sword +1'
+    expect(response.body).not_to include 'Rusty Chainmail Helm'
+  end
+
+  it "tags an item with its type line, linking to gear like it" do
+    get item_path(hat)
+    expect(response.body).to include 'Leather Light Armor (Head)', gear_items_path(kind: 'armor', weight: 'light', slot: 'head')
+  end
+end

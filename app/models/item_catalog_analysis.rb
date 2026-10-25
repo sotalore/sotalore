@@ -3,7 +3,7 @@
 # What applying an ItemCatalogImport would do, item by item: which site item
 # each is (by key, then by name), whether its weight is missing or differs,
 # whether its value (from the tooltip) is new or changed, whether its use
-# should be tool, and how the tooltip's salvage list compares
+# should be tool, armor or weapon, and how the tooltip's salvage list compares
 # with the site's salvages.
 #
 # A crafted item ("Cotton Cloth Leggings +2") is one of a kind sharing its
@@ -37,13 +37,21 @@ class ItemCatalogAnalysis
 
     def tool? = known? && !entry.crafted? && entry.tool? && item.use_is_unknown?
 
+    # The use its type line gives gear of unknown use ("Leather Light Armor
+    # (Head)" is armor), or nil.
+    def gear_use
+      entry.gear_type&.use if known? && !entry.crafted? && !entry.tool? && item.use_is_unknown?
+    end
+
     # Only a concrete item has a value; an archetype's depends on its material.
     def value_change?
       known? && item.concrete? && !entry.crafted? && !entry.tooltip_value.nil? && item.value != entry.tooltip_value
     end
 
     def salvage_changes? = salvage.any? { _1.missing? || _1.changed? }
-    def interesting? = missing_weight? || different_weight? || value_change? || tool? || salvage_changes? || extra_salvage.any?
+    def interesting?
+      missing_weight? || different_weight? || value_change? || tool? || gear_use || salvage_changes? || extra_salvage.any?
+    end
   end
 
   UnknownItem = Data.define(:key, :name, :uses)
@@ -94,7 +102,7 @@ class ItemCatalogAnalysis
     {
       known: rows.count(&:known?), unknown: rows.count { !_1.known? }, skipped_crafted: skipped_crafted.size,
       missing_weights: rows.count(&:missing_weight?), different_weights: rows.count(&:different_weight?),
-      values: rows.count(&:value_change?), tools: rows.count(&:tool?), salvage_items: rows.count(&:salvage_changes?),
+      values: rows.count(&:value_change?), tools: rows.count(&:tool?), gear: rows.count(&:gear_use), salvage_items: rows.count(&:salvage_changes?),
       salvage_to_add: rows.sum { |r| r.salvage.count(&:missing?) },
       salvage_to_update: rows.sum { |r| r.salvage.count(&:changed?) },
       extra_salvage: rows.sum { _1.extra_salvage.size },

@@ -119,6 +119,7 @@ Rails.application.routes.draw do
   resources :items, controller: 'items' do
     collection do
       get 'use/:use', to: 'items#by_use', as: 'by_use'
+      get 'gear', to: 'items#gear', as: 'gear'
     end
     resources :comments, except: [ :new ]
     resource :market_price, path: 'market-price', only: [ :update, :destroy ]

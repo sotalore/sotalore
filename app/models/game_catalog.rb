@@ -28,6 +28,9 @@ class GameCatalog
     def tool? = !!details&.dig('tool')
     def quest_item? = !!details&.dig('questItem')
 
+    # The kind of gear its tooltip's type line names, or nil (see GearType).
+    def gear_type = GearType.parse(details&.dig('types'))
+
     # What salvaging gives: the tooltip's components, and what it "yields"
     # (an Eternal Pattern, say) as one of them. A crafted item's pattern is
     # its own (a reshaped one's especially), so only its components count.

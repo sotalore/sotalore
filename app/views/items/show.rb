@@ -4,11 +4,13 @@ class Views::Items::Show < Views::Items::Base
 
   # +market_price+ is the signed-in user's own (maybe new) one, for a concrete item.
   # +collections+ are those an editor could list it in (see Collection).
-  def initialize(item:, used_in:, market_price: nil, collections: [])
+  # +gear_type+ is what its tooltip says it is, if gear (see GearType).
+  def initialize(item:, used_in:, market_price: nil, collections: [], gear_type: nil)
     @item = item
     @used_in = used_in
     @market_price = market_price
     @collections = collections
+    @gear_type = gear_type
   end
 
   def view_template
@@ -25,6 +27,7 @@ class Views::Items::Show < Views::Items::Base
           div(class: "Callout Callout-primary flex flex-row flex-wrap gap-x-1 gap-y-2") do
             item_use_tag(@item, large: true)
             item_use_specific_tags(@item, large: true)
+            gear_type_tag if @gear_type
             item_abstract_tag(@item, large: true)
             item_basic_tag(@item, large: true)
             merchant_price_tag(@item, large: true)
@@ -138,6 +141,15 @@ class Views::Items::Show < Views::Items::Base
   end
 
   private
+
+  # What the game calls it, linking to gear like it.
+  def gear_type_tag
+    filters = { kind: @gear_type.kind, weight: @gear_type.weight, slot: @gear_type.slot, damage: @gear_type.damage }.compact
+    a(href: gear_items_path(filters), class: item_css('text-sky-800 dark:text-sky-300', large: true),
+      title: "More gear like this") do
+      plain @gear_type.line
+    end
+  end
 
   # Generating the group's items and recipes is on the template recipe(s) that
   # make the group (see TemplateExpansion).
