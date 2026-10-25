@@ -257,19 +257,28 @@ end
 
 -- Capturing --------------------------------------------------------------------------------
 
--- The UI sets this to hear when capture is switched on or off (including by the /sladmin command).
+-- The UI sets these to hear when capture is switched on or off (including by the /sladmin command), and when
+-- something was captured.
 M.onToggle = nil
+M.onChange = nil
 
 function M.isOn()
     return on
 end
 
--- A line for chat: how capture went, and how much is stored.
-local function report()
+-- How capture is going: items with a captured tooltip (stored), and since capture was last switched on the items
+-- captured, the new gear samples and the items skipped because they were not in the bags.
+function M.counts()
     local n = 0
     for _ in pairs(all()) do n = n + 1 end
-    return captured .. " captured this time, " .. unmatched .. " not in your bags (skipped), " .. n .. " items stored; "
-        .. sampled .. " new gear samples, " .. GearSamples.count() .. " stored"
+    return { stored = n, captured = captured, sampled = sampled, unmatched = unmatched }
+end
+
+-- A line for chat: how capture went, and how much is stored.
+local function report()
+    local c = M.counts()
+    return c.captured .. " captured this time, " .. c.unmatched .. " not in your bags (skipped), " .. c.stored
+        .. " items stored; " .. c.sampled .. " new gear samples, " .. GearSamples.count() .. " stored"
 end
 
 -- Turns capture on or off, and says so in chat. Returns the new state.
@@ -318,6 +327,7 @@ function M.tick()
         elseif not sample then
             unmatched = unmatched + 1
         end
+        if M.onChange then M.onChange() end
         return
     end
 
@@ -350,6 +360,7 @@ function M.tick()
         what = what .. (what ~= "" and ", " or "") .. "hold Ctrl for what it is made of"
     end
     ShroudConsoleLog("Captured: " .. tostring(it.name) .. (what ~= "" and (" (" .. what .. ")") or ""))
+    if M.onChange then M.onChange() end
 end
 
 -- Writing it to the item file --------------------------------------------------------------

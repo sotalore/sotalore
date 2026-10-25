@@ -246,9 +246,13 @@ function M.capture(desc, key)
     return "new"
 end
 
--- How many samples are kept.
+-- How many samples are kept, and how many of them have not been exported yet.
 function M.count()
-    return #all()
+    local waiting = 0
+    for _, s in ipairs(all()) do
+        if not s.exported then waiting = waiting + 1 end
+    end
+    return #all(), waiting
 end
 
 -- The samples for the item file: every one for "all", those not exported yet for "new". Returns a list of JSON

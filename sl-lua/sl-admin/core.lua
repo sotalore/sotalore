@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore Admin"
-local Version = "0.12.0"
+local Version = "0.13.0"
 local CreatorName = "Gravidy"
 local Description = "SotaLore site admin tools: recipe, item and find exports for upload to the site."
 

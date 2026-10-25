@@ -1,28 +1,24 @@
 -- recipes_ui.lua: the recipe browser. A searchable list of the recipes the character knows, and a
 -- window for each recipe you click, with its station, what it makes and its ingredients.
 --
--- The list window also holds the buttons for the exports (recipes_export.lua, items.lua) and the one
--- that opens the finds window (finds_ui.lua). It only shows data: the game reads it with
--- ShroudGetKnownRecipes and ShroudGetRecipe.
+-- The list window also holds the buttons for the recipe exports (recipes_export.lua). It only shows data: the
+-- game reads it with ShroudGetKnownRecipes and ShroudGetRecipe.
 --
--- An add-on may own 8 windows: the list is 1, the finds window is 1, and up to 6 recipe windows
--- stay open at once (opening a 7th closes the oldest).
+-- An add-on may own 8 windows: the toolbar, the finds and items windows and this list are 4, so up to 4 recipe
+-- windows stay open at once (opening a 5th closes the oldest).
 --
--- Used by: main.lua.
+-- Used by: toolbar_ui.lua (the Recipes button), main.lua.
 
 local UI = Shroud.UI
 local util = SotaLoreAdmin.util
 local clip = util.clip
 local RecipeExport = SotaLoreAdmin.RecipeExport
-local Items = SotaLoreAdmin.Items
-local ItemDetails = SotaLoreAdmin.ItemDetails
-local FindsUI = SotaLoreAdmin.FindsUI
 
 local M = {}
 SotaLoreAdmin.RecipesUI = M
 
 local MAX_ROWS = 60      -- pooled buttons in the list; refine the search to see more
-local MAX_DETAIL = 6     -- recipe windows open at once (8 windows in all: the list, finds and these)
+local MAX_DETAIL = 4     -- recipe windows open at once (8 windows in all: the toolbar, finds, items, the list and these)
 local ALL = "All"
 
 local recipes = {}       -- known recipes, sorted by name
@@ -31,8 +27,8 @@ local search = ""
 local category = ALL
 local newOnly = false    -- show only recipes "Export new" would export
 
-local listWin, searchField, catDrop, countLabel, newToggle, captureToggle
-local exportButton, exportAllButton, itemsNewButton, itemsAllButton
+local listWin, searchField, catDrop, countLabel, newToggle
+local exportButton, exportAllButton
 local rows = {}          -- the pooled list buttons
 local details = {}       -- recipe id -> { win, body }
 local detailOrder = {}   -- recipe ids, oldest first
@@ -236,32 +232,12 @@ function M.build()
         if newOnly then applyFilter() end
     end
 
-    -- Item capture (item_details.lua): while on, pointing at a bag item saves its tooltip. The same
-    -- switch as /sladmin capture, so the toggle follows the command.
-    captureToggle = UI.Toggle{
-        text = "Capture",
-        value = false,
-        tooltip = "Point at items in your bags to save what their tooltips say (the game's tooltips must be on)",
-        onChange = function(_, on)
-            if on ~= ItemDetails.isOn() then ItemDetails.toggle() end
-        end,
-    }
-    ItemDetails.onToggle = function(on) captureToggle:SetValue(on) end
-
     exportButton = UI.Button{ text = "New recipes", tooltip = "Write only recipes not exported before", onClick = function() RecipeExport.start("new") end }
     exportAllButton = UI.Button{ text = "All recipes", tooltip = "Write every known recipe", onClick = function() RecipeExport.start("all") end }
     -- While an export runs, show its progress on both buttons.
     RecipeExport.onProgress = function(text)
         exportButton:SetText(text or "New recipes")
         exportAllButton:SetText(text or "All recipes")
-    end
-
-    -- The same for the items in the bags (items.lua).
-    itemsNewButton = UI.Button{ text = "New items", tooltip = "Write only items not exported before, or changed since", onClick = function() Items.start("new") end }
-    itemsAllButton = UI.Button{ text = "All items", tooltip = "Write every item in your bags", onClick = function() Items.start("all") end }
-    Items.onProgress = function(text)
-        itemsNewButton:SetText(text or "New items")
-        itemsAllButton:SetText(text or "All items")
     end
 
     local scroll = UI.Scroll{ style = { flexGrow = 1 } }
@@ -280,23 +256,15 @@ function M.build()
 
     listWin = UI.Window{
         id = "recipelist",
-        title = "SotaLore: Known Recipes",
+        title = "SotaLore Recipes",
         width = 340, height = 480,
-        x = 20, y = 80,
+        x = 20, y = 110,
         escCloses = true,
         children = {
             UI.Row{ children = { searchField, catDrop } },
             newToggle,
             countLabel,
             UI.Row{ children = { exportButton, exportAllButton } },
-            UI.Row{ children = { itemsNewButton, itemsAllButton, captureToggle } },
-            UI.Row{ children = {
-                UI.Button{
-                    text = "Finds window",
-                    tooltip = "Show or hide the small window that tracks items and creatures per scene",
-                    onClick = FindsUI.toggle,
-                },
-            } },
             scroll,
         },
     }

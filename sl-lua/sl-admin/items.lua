@@ -20,7 +20,7 @@
 -- The work is cut into slices of a fraction of a second per frame (like the recipe export), because the game
 -- stops a callback that runs over a second, and a character can carry thousands of items.
 --
--- Used by: recipes_ui.lua (the item buttons), main.lua (the /sladmin commands and the per-frame step).
+-- Used by: items_ui.lua (the item buttons), main.lua (the /sladmin commands and the per-frame step).
 
 local util = SotaLoreAdmin.util
 local jstr, jnum = util.jstr, util.jnum
@@ -33,8 +33,10 @@ SotaLoreAdmin.Items = M
 local MAX_PER_SLICE = 400   -- most items handled in one frame; a slice also stops after util.sliceLimit seconds
 local state = nil           -- the export in progress, or nil
 
--- The UI sets this to hear about progress: fn(text) while running, fn(nil) when it is over.
+-- The UI sets these to hear about progress: fn(text) while running, fn(nil) when it is over; and onDone() after
+-- an export (or baseline) has finished, as what counts as exported has changed.
 M.onProgress = nil
+M.onDone = nil
 
 local function progress(text)
     if M.onProgress then M.onProgress(text) end
@@ -165,6 +167,7 @@ function M.step()
         local started = util.clock()
         finish()
         util.slow("writing the items file", started)
+        if M.onDone then M.onDone() end
         return
     end
 
