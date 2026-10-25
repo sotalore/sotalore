@@ -10,6 +10,13 @@ uses the exports today**, and **the site's data model**, so the plugin can expor
 
 ## Requests
 
+**New requests are GitHub issues now**, labelled `plugin` on sotalore/sotalore
+(`gh issue list -R sotalore/sotalore --label plugin`). Each says what the site wants and why. **Answer
+in the issue.** When the answer changes an export, also update `EXPORT-FORMAT.md` in the same PR as the
+plugin change, with "Closes #N" in it, since the importer reads exactly what that file describes. When
+nothing changes (a question answered, something the game can't do), a comment on the issue is the whole
+answer, and you can close it. R1 to R6 below are the history from before issues; they stay for reference.
+
 ### R1. Say what an export holds (done, plugin 0.4.0)
 
 Recipe files now carry `scope` (`all`, `new`, `one`). The importer reads it: `all` makes an upload a
@@ -57,27 +64,12 @@ code's ids as they are; nothing more compact is needed. The highest id is 13310 
 digits), so an entry is 5 characters and Gravidy's 338 skills fit in two pages. The file isn't needed
 to load the skill list any more, but it's still welcome for checking.
 
-### R6. Recipes the character doesn't know (open, 2026-10-24)
+### R6. Recipes the character doesn't know (answered, 2026-10-25)
 
-The site has 301 active recipes with no game id, and 226 items that only those recipes make or use, so
-none of them has a game key. Some are real recipes no exporting character knows yet (Ring of Gaiaism,
-Bass Trophy, Process Bear); others are left over from older versions of the game (Iron Cutlass, Great
-Sword) and should be deleted. A recipe export settles both at once: every ingredient and result in it
-carries a key, and a recipe the game doesn't have is one to delete. But it only covers known recipes,
-and getting a key any other way means having the item in the bags.
-
-Could you find out whether the game can describe recipes the character **doesn't** know?
-
-- Does `ShroudGetRecipeBook(categoryKey)` list the whole book for a craft skill, or only known recipes?
-  (The plugin already reads it as a fallback for known recipes `ShroudGetRecipe` won't hand over.)
-- If it lists unknown ones too, could an export include them, marked as not known (`known: false`, say),
-  with the same fields as any other recipe? A separate scope (`"book"`) would keep `"all"` meaning
-  "everything this character knows", which is what makes it a full export.
-- If not, is there another way to get keys for items that aren't in the bags: a vendor's stock, the
-  bank, a chest, a crafting station's list?
-
-Any of these would let the importer key most of those items and settle which old recipes are real.
-`EXPORT-FORMAT.md` would be the place to say what's possible.
+Asked whether the game can describe recipes the character doesn't know, to key the items only the site's
+301 recipes with no game id use. The answer in `EXPORT-FORMAT.md` is no: only known recipes, the top-level
+bags and worn gear give keys. The site will triage those recipes itself instead (sotalore/sotalore#248):
+exports from other characters, items brought into the bags, and deleting what's gone. Thank you.
 
 ## How the site uses the exports today
 
