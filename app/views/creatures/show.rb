@@ -15,9 +15,11 @@ class Views::Creatures::Show < Views::Base
     creature = @record.is_a?(Creature)
     tile do
       tile_heading(@record.name) do
+        node_buttons unless creature
         default_button_to("All", creature ? creatures_path : gathering_nodes_path)
       end
       tile_body do
+        skill_line unless creature
         p { formatted_body(@record.notes) } if @record.notes.present?
         h3(class: "font-bold mt-2") { creature ? "Lives in" : "Found in" }
         if @links.empty?
@@ -40,5 +42,27 @@ class Views::Creatures::Show < Views::Base
         end
       end
     end
+  end
+
+  private
+
+  def skill_line
+    p do
+      plain "Gathered by "
+      if @record.gathering_skill
+        strong { @record.gathering_skill.name }
+      else
+        em(class: "text-red-700 dark:text-red-400") { "skill not set" }
+      end
+    end
+  end
+
+  # Editing, and moving a creature recorded as a node to the creatures.
+  def node_buttons
+    if policy(@record).move_to_creatures?
+      default_button_to("Move to creatures", move_to_creatures_gathering_node_path(@record),
+                        method: :post, data: { turbo_confirm: "Make #{@record.name} a creature, with its scenes and what it gives?" })
+    end
+    edit_button_to("Edit", edit_gathering_node_path(@record)) if policy(@record).edit?
   end
 end

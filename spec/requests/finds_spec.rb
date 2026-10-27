@@ -108,6 +108,37 @@ RSpec.describe 'Finds', type: :request do
       expect(response.body).to include('Harvesting gives', 'nothing recorded yet')
     end
 
+    it 'sets the skill that gathers from a node' do
+      node = GatheringNode.create!(name: 'Copper Vein')
+      get gathering_nodes_path
+      expect(response.body).to include('Copper Vein', 'skill not set')
+      get edit_gathering_node_path(node)
+      expect(response.body).to include('Mining', 'Forestry')
+      expect(response.body).not_to include('Field Dressing')
+      patch gathering_node_path(node), params: { gathering_node: { gathering_skill: 'mining', notes: '' } }
+      expect(response).to redirect_to(gathering_node_path(node))
+      expect(node.reload.gathering_skill).to eq CraftSkill.find('mining')
+      get gathering_node_path(node)
+      expect(response.body).to include('Gathered by', 'Mining')
+
+      patch gathering_node_path(node), params: { gathering_node: { gathering_skill: 'field_dressing' } }
+      expect(response).to have_http_status(:unprocessable_content)
+      patch gathering_node_path(node), params: { gathering_node: { gathering_skill: '' } }
+      expect(node.reload.gathering_skill).to be_nil
+    end
+
+    it 'moves a creature recorded as a node to the creatures' do
+      node = GatheringNode.create!(name: 'Grizzly Bear')
+      HarvestYield.create!(source: node, item: hide)
+      get gathering_node_path(node)
+      expect(response.body).to include('Move to creatures')
+      post move_to_creatures_gathering_node_path(node)
+      bear = Creature.find_by!(name: 'Grizzly Bear')
+      expect(response).to redirect_to(creature_path(bear))
+      expect(flash[:notice]).to eq 'Moved Grizzly Bear to the creatures.'
+      expect(bear.yields).to eq [ hide ]
+    end
+
     it 'shows nobody else, yet' do
       sign_in create(:user, :editor)
       get item_path(hide)
@@ -116,6 +147,11 @@ RSpec.describe 'Finds', type: :request do
       expect(response.body).not_to include('Found Here')
       get creatures_path
       expect(response).to redirect_to(root_path)
+      node = GatheringNode.create!(name: 'Copper Vein')
+      patch gathering_node_path(node), params: { gathering_node: { gathering_skill: 'mining' } }
+      expect(node.reload.gathering_skill).to be_nil
+      post move_to_creatures_gathering_node_path(node)
+      expect(GatheringNode.exists?(node.id)).to be true
     end
   end
 
