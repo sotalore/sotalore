@@ -115,7 +115,9 @@ Rails.application.routes.draw do
   resources :collections
   resources :collection_items, only: [ :create, :destroy ]
   resources :creatures, only: [ :index, :show ]
-  resources :gathering_nodes, only: [ :index, :show ]
+  resources :gathering_nodes, only: [ :index, :show, :edit, :update ] do
+    post :move_to_creatures, on: :member
+  end
   resources :items, controller: 'items' do
     collection do
       get 'use/:use', to: 'items#by_use', as: 'by_use'
