@@ -59,7 +59,7 @@ Rails 8.1 monolith (app module `SotaLore`, Ruby 4.0.9) for *SotA Lore* (<www.sot
 
 Work and conversation live in **GitHub issues** on `sotalore/sotalore` (with `gh`); the repo's docs hold what must be versioned with the code (`EXPORT-FORMAT.md`, the data model, this file).
 
-- **A plan with several steps gets a tracking issue** (label `tracking`, pinned while it's active) whose sub-issues are the steps. It's where Darren looks to see where things stand, so keep its checklist current. The current one is sotalore/sotalore#250.
+- **A plan with several steps gets a tracking issue** (label `tracking`, pinned while it's active) whose sub-issues are the steps. It's where Darren looks to see where things stand, so keep its checklist current. Two are active: sotalore/sotalore#250 (the data model plan: archetypes, collections, facets, effects) and sotalore/sotalore#256 (the materials plan: gathering, refining and what they add to gear).
 - **Before starting work, find or open its issue.** Work that's part of a plan is a sub-issue of the tracking issue (`gh api -X POST repos/sotalore/sotalore/issues/<tracking>/sub_issues -F sub_issue_id=<issue id>`, where the id is `gh api repos/sotalore/sotalore/issues/<n> -q .id`).
 - **PRs say "Closes #N"** for the issue they finish. When a step lands, tick it on the tracking issue and add a one-line comment linking the PR.
 - **Labels say whose side it is:** `app` (this Rails app) or `plugin` (`sl-lua/`), plus `bug` or `enhancement`. Requests from the app to the plugin are `plugin` issues, answered in the issue; `EXPORT-FORMAT.md` changes only when an export does.
