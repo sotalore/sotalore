@@ -37,6 +37,24 @@ RSpec.describe "Items", type: :request do
       expect(response.body).to include('Made by Smelting')
       expect(response.body).not_to include('Used For')
     end
+
+    it 'says where an item stands among the materials' do
+      ore = create(:item, name: 'Copper Ore')
+      ingot = create(:item, name: 'Copper Ingot')
+      wire = create(:item, name: 'Coil of Copper Wire')
+      HarvestYield.create!(source: GatheringNode.create!(name: 'Copper Vein'), item: ore)
+      create(:recipe, craft_skill: 'smelting', with_ingredients: { ore => 4 }, with_results: { ingot => 1 })
+      create(:recipe, craft_skill: 'smelting', with_ingredients: { ingot => 2 }, with_results: { wire => 1 })
+      create(:recipe, craft_skill: 'blacksmithing', with_ingredients: { wire => 1 })
+      get item_path(ingot)
+      expect(response.body).to include('<h3>Material <', 'Common metal, refined from', 'Refined into')
+      get item_path(wire)
+      expect(response.body).to include('A form of', '(common metal)')
+      get item_path(ore)
+      expect(response.body).to include('Refined into', 'Copper Ingot</a> (common metal)')
+      get item_path(create(:item, name: 'Garlic'))
+      expect(response.body).not_to include('<h3>Material <')
+    end
   end
 
   describe 'GET by_use' do

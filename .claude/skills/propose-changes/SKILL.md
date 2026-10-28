@@ -38,7 +38,8 @@ All `GET`, all needing `read`. Lists are paged: `?page=`, `?per=` (at most 100),
 |----------|------|
 | `/proposal_changes` | **The kinds of change you can propose, with their parameters.** Read it first; it's the source of truth and grows over time. |
 | `/items?q=&kind=&use=` | Items by name, kind (`concrete`, `group`, `archetype`, `category`) or use (`armor`, `weapon`, `potion`, ...). |
-| `/items/:id` | Everything about one: game keys, `tooltip_types` (the game's type lines, such as "Leather Light Armor (Head)"), `effects`, groups and categories it's in (`member_of`), `collections`, recipes, and `sources` and `roles`: how it's obtained and what it's used for, read from the site's records. Trust those over `use` and `source`, which are old and often wrong. |
+| `/items/:id` | Everything about one: game keys, `tooltip_types` (the game's type lines, such as "Leather Light Armor (Head)"), `effects`, groups and categories it's in (`member_of`), `collections`, recipes, and `sources` and `roles`: how it's obtained and what it's used for, read from the site's records. Trust those over `use` and `source`, which are old and often wrong. `materials` says where it stands among the crafting materials, when it's among them. |
+| `/materials` | The crafting materials by family (metal, wood, leather, cloth) and tier: what each common one is refined from (`raw`), each uncommon one's `base` and `additives`, and their `forms`. Worked out from the refining recipes. |
 | `/collections` | Every collection, with `parents` and `children` (the tree) and how many items each lists. |
 | `/collections/:id` | One collection: `items` listed directly, and `all_items` including those inside it. |
 | `/recipes?q=&craft_skill=&status=&synced=` | Recipes; `synced=false` means no game id. |

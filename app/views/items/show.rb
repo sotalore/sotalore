@@ -6,8 +6,10 @@ class Views::Items::Show < Views::Items::Base
   # +collections+ are those an editor could list it in (see Collection).
   # +gear_type+ is what its tooltip says it is, if gear (see GearType).
   # +sources+ and +roles+ are how it's obtained and what it's used for (see
-  # ItemSources, ItemRoles), for a concrete item.
-  def initialize(item:, used_in:, market_price: nil, collections: [], gear_type: nil, sources: nil, roles: nil)
+  # ItemSources, ItemRoles), for a concrete item. +materials+ are the
+  # crafting materials (see Materials), when it could be among them.
+  def initialize(item:, used_in:, market_price: nil, collections: [], gear_type: nil, sources: nil, roles: nil,
+                 materials: nil)
     @item = item
     @used_in = used_in
     @market_price = market_price
@@ -15,6 +17,7 @@ class Views::Items::Show < Views::Items::Base
     @gear_type = gear_type
     @sources = sources
     @roles = roles
+    @materials = materials
   end
 
   def view_template
@@ -102,6 +105,7 @@ class Views::Items::Show < Views::Items::Base
           render Components::Items::MarketPrice.new(market_price: @market_price) if @market_price
           render Components::Items::Sources.new(sources: @sources) if @sources
           render Components::Items::Roles.new(roles: @roles) if @roles
+          render Components::Items::Material.new(item: @item, materials: @materials) if @materials
           effects_tile
           crafting_bonus_tile
           tile_with_heading("Notes") { formatted_body(@item.notes) } if @item.notes

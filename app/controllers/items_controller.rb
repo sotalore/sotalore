@@ -34,9 +34,10 @@ class ItemsController < ApplicationController
     market_price = Current.user.market_prices.find_or_initialize_by(item: item) if Current.user.not_null? && item.concrete?
     collections = policy(Collection).update? ? Collection.by_name.to_a : []
     sources, roles = (item.concrete? ? [ ItemSources.new(item), ItemRoles.new(item) ] : [])
+    materials = Materials.new if item.concrete? && Materials.involves?(item)
     render Views::Items::Show.new(item: item, used_in: used_in, market_price: market_price,
                                   collections: collections, gear_type: GearType.for_item(item),
-                                  sources: sources, roles: roles)
+                                  sources: sources, roles: roles, materials: materials)
   end
 
   def new
