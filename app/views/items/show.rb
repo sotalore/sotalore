@@ -7,9 +7,11 @@ class Views::Items::Show < Views::Items::Base
   # +gear_type+ is what its tooltip says it is, if gear (see GearType).
   # +sources+ and +roles+ are how it's obtained and what it's used for (see
   # ItemSources, ItemRoles), for a concrete item. +materials+ are the
-  # crafting materials (see Materials), when it could be among them.
+  # crafting materials (see Materials), when it could be among them, and
+  # +bonuses+ what components add by material and kind (see
+  # ComponentBonuses), when it's a component or a material.
   def initialize(item:, used_in:, market_price: nil, collections: [], gear_type: nil, sources: nil, roles: nil,
-                 materials: nil)
+                 materials: nil, bonuses: nil)
     @item = item
     @used_in = used_in
     @market_price = market_price
@@ -18,6 +20,7 @@ class Views::Items::Show < Views::Items::Base
     @sources = sources
     @roles = roles
     @materials = materials
+    @bonuses = bonuses
   end
 
   def view_template
@@ -105,7 +108,7 @@ class Views::Items::Show < Views::Items::Base
           render Components::Items::MarketPrice.new(market_price: @market_price) if @market_price
           render Components::Items::Sources.new(sources: @sources) if @sources
           render Components::Items::Roles.new(roles: @roles) if @roles
-          render Components::Items::Material.new(item: @item, materials: @materials) if @materials
+          render Components::Items::Material.new(item: @item, materials: @materials, bonuses: @bonuses) if @materials
           effects_tile
           crafting_bonus_tile
           tile_with_heading("Notes") { formatted_body(@item.notes) } if @item.notes
@@ -178,17 +181,35 @@ class Views::Items::Show < Views::Items::Base
 
   # What a crafting component adds to the gear it's made into.
   def crafting_bonus_tile
-    bonus = @item.crafting_bonus
-    return if bonus.empty?
+    bonus = @bonuses&.for_item(@item)
+    lines = bonus ? bonus.lines : @item.crafting_bonus
+    return if lines.empty?
 
     tile_with_heading("Crafting Bonus") do
       p(class: "text-sm") { "Gear crafted with #{@item.name} gets:" }
-      ul(class: "list-disc ml-5 text-sm") { bonus.each { |line| li { line } } }
+      ul(class: "list-disc ml-5 text-sm") { lines.each { |line| li { line } } }
       p(class: "mt-1 text-xs text-grey-600 dark:text-grey-300") do
-        "From the game's tooltip. How much a piece gets can depend on how many go into it."
+        if bonus&.inferred?(@item)
+          inferred_bonus_note(bonus)
+        else
+          plain "From the game's tooltip. How much a piece gets can depend on how many go into it."
+        end
       end
     end
   end
+
+  def inferred_bonus_note(bonus)
+    plain "Not captured from its own tooltip yet. "
+    link_to(bonus.from.item.name, bonus.from.item)
+    plain "'s says this, and "
+    if bonus.guessed
+      plain "it's a guess that a #{@bonuses.kind_for(@item).name} adds what a #{bonus_family_name} does for the same material."
+    else
+      plain "every #{bonus_family_name} adds the same for a material."
+    end
+  end
+
+  def bonus_family_name = @bonuses.family_for(@item).name
 
   # What the game calls it, linking to gear like it.
   def gear_type_tag
