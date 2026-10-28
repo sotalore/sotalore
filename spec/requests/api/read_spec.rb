@@ -48,6 +48,13 @@ RSpec.describe "Read-only API", type: :request do
       expect(body['ingredient_of_recipes'].map { _1['id'] }).to eq [ synced.id ]
       expect(get_json(api_v1_item_path(boards))['members'].map { _1['name'] }).to eq [ 'Wooden Board' ]
     end
+
+    it 'says how an item is obtained and what it is used for' do
+      expect(get_json(api_v1_item_path(chair))['sources']).to include('kinds' => [ 'crafted' ], 'crafting_skills' => [ 'carpentry' ])
+      roles = get_json(api_v1_item_path(board))['roles']
+      expect(roles).to include('kinds' => [ 'production' ], 'production' => { 'carpentry' => 2 })
+      expect(roles['through']).to eq [ { 'id' => boards.id, 'name' => 'Board Group', 'kind' => 'group', 'recipes' => 1 } ]
+    end
   end
 
   describe 'recipes' do

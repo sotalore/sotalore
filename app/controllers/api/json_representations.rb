@@ -23,7 +23,9 @@ module Api::JsonRepresentations
   # +tooltip_types+ are the type lines of the game's tooltips for it ("Leather
   # Light Armor (Head)", "Longsword - Bladed"), from item catalog imports;
   # +game_effects+ and +crafting_bonus+ come from the same tooltips (see
-  # Item#game_effects).
+  # Item#game_effects). +sources+ and +roles+ are how it's obtained and what
+  # it's used for, read from the site's records (see ItemSources, ItemRoles);
+  # trust them over +use+ and +source+, which are old and set by hand.
   def item_detail(item)
     recipes = ->(scope) { scope.map { recipe_ref(_1) } }
     makers, modifiers = item.recipes.to_a.partition { !_1.modification? }
@@ -39,8 +41,29 @@ module Api::JsonRepresentations
       collections: item.collections.map { collection_ref(_1) },
       made_by_recipes: recipes.(makers),
       modified_by_recipes: recipes.(modifiers),
-      ingredient_of_recipes: recipes.(item.recipe_uses.distinct)
+      ingredient_of_recipes: recipes.(item.recipe_uses.distinct),
+      sources: item_sources(ItemSources.new(item)),
+      roles: item_roles(ItemRoles.new(item))
     )
+  end
+
+  # Not where it's found: finds are shown only to admins (see FindsPolicy).
+  def item_sources(sources)
+    {
+      kinds: sources.kinds - [ :found ],
+      crafting_skills: sources.crafting_skills.map(&:key),
+      gathering_skills: sources.gathering_skills.map(&:key),
+      salvaged_from: sources.salvaged_from.map { item_ref(_1) }
+    }
+  end
+
+  def item_roles(roles)
+    {
+      kinds: roles.kinds,
+      refining: roles.refining_counts.transform_keys(&:key),
+      production: roles.production_counts.transform_keys(&:key),
+      through: roles.through.map { item_ref(_1.group).merge(recipes: _1.count) }
+    }
   end
 
   def collection_ref(collection)
