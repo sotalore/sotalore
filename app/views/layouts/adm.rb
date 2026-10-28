@@ -48,6 +48,7 @@ class Views::Layouts::Adm < Views::Layouts::Base
                 site_nav_link_to("Item Review", adm_item_reviews_path, "book")
                 site_nav_link_to("Archetype Cleanup", adm_archetype_cleanup_path, "book")
                 site_nav_link_to("Material Triage", adm_material_triage_path, "book")
+                site_nav_link_to("Component Bonuses", adm_component_bonuses_path, "book")
                 site_nav_link_to("Proposals", adm_proposals_path, "book")
                 site_nav_link_to("AI Access", adm_api_tokens_path, "key")
                 hr(class: "my-2")

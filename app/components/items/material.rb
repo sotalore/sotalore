@@ -3,12 +3,14 @@
 # On an item page: where it stands among the crafting materials (see
 # Materials). A material says its tier and family, what it's refined from
 # and into; a form says what it's a form of; a raw good or additive says
-# which materials it goes into.
+# which materials it goes into. With +bonuses+ (see ComponentBonuses), a
+# material also says what the components made from it add.
 class Components::Items::Material < Components::Base
 
-  def initialize(item:, materials:)
+  def initialize(item:, materials:, bonuses: nil)
     @item = item
     @materials = materials
+    @bonuses = bonuses
     @material = materials.find(item)
     @form_of = materials.form_of(item)
     @refined_into = materials.refined_into(item)
@@ -25,6 +27,7 @@ class Components::Items::Material < Components::Base
         li { plain "A form of "; material_link(@form_of) } if @form_of
         refined_into if @refined_into.any?
       end
+      crafting_bonuses if @material && @bonuses
     end
   end
 
@@ -44,6 +47,22 @@ class Components::Items::Material < Components::Base
     uncommon = @materials.uncommon_of(@material).map(&:item)
     li { plain "Uncommon versions: "; links(uncommon) } if uncommon.any?
     li { plain "Refined into "; links(@material.forms) } if @material.forms.any?
+  end
+
+  def crafting_bonuses
+    bonuses = @bonuses.for_material(@item)
+    return if bonuses.empty?
+
+    h4(class: "mt-2 font-semibold") { "Crafting bonus" }
+    ul(class: "list-disc ml-5 text-sm") do
+      bonuses.each do |family, bonus|
+        li do
+          plain "#{family.name}: #{bonus.lines.join(', ')} ("
+          link_to(bonus.from.item.name, bonus.from.item)
+          plain ")"
+        end
+      end
+    end
   end
 
   def refined_into

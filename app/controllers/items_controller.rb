@@ -35,9 +35,12 @@ class ItemsController < ApplicationController
     collections = policy(Collection).update? ? Collection.by_name.to_a : []
     sources, roles = (item.concrete? ? [ ItemSources.new(item), ItemRoles.new(item) ] : [])
     materials = Materials.new if item.concrete? && Materials.involves?(item)
+    if item.concrete? && (materials&.find(item) || ComponentBonuses.component?(item))
+      bonuses = ComponentBonuses.new(materials || Materials.new)
+    end
     render Views::Items::Show.new(item: item, used_in: used_in, market_price: market_price,
                                   collections: collections, gear_type: GearType.for_item(item),
-                                  sources: sources, roles: roles, materials: materials)
+                                  sources: sources, roles: roles, materials: materials, bonuses: bonuses)
   end
 
   def new
