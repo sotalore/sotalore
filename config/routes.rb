@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     end
     resources :item_reviews, only: [ :index, :update ]
     resource :archetype_cleanup, only: [ :show, :destroy ]
+    resource :material_triage, only: [ :show, :update ]
     resources :scenes, only: [ :index ]
     resources :item_catalog_imports, only: [ :index, :show, :create, :destroy ] do
       member do
