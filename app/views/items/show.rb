@@ -5,12 +5,16 @@ class Views::Items::Show < Views::Items::Base
   # +market_price+ is the signed-in user's own (maybe new) one, for a concrete item.
   # +collections+ are those an editor could list it in (see Collection).
   # +gear_type+ is what its tooltip says it is, if gear (see GearType).
-  def initialize(item:, used_in:, market_price: nil, collections: [], gear_type: nil)
+  # +sources+ and +roles+ are how it's obtained and what it's used for (see
+  # ItemSources, ItemRoles), for a concrete item.
+  def initialize(item:, used_in:, market_price: nil, collections: [], gear_type: nil, sources: nil, roles: nil)
     @item = item
     @used_in = used_in
     @market_price = market_price
     @collections = collections
     @gear_type = gear_type
+    @sources = sources
+    @roles = roles
   end
 
   def view_template
@@ -32,7 +36,7 @@ class Views::Items::Show < Views::Items::Base
             item_basic_tag(@item, large: true)
             merchant_price_tag(@item, large: true)
             item_value_tag(@item, large: true)
-            item_gathering_tag(@item, large: true)
+            gathering_tags
             item_weight_tag(@item, large: true)
             div(class: "grow flex flex-row justify-end") { render Views::Verifications::Controls.new(@item) }
           end
@@ -96,6 +100,8 @@ class Views::Items::Show < Views::Items::Base
       div(class: "basis-1_2") do
         div(class: "flex flex-col gap-2") do
           render Components::Items::MarketPrice.new(market_price: @market_price) if @market_price
+          render Components::Items::Sources.new(sources: @sources) if @sources
+          render Components::Items::Roles.new(roles: @roles) if @roles
           effects_tile
           crafting_bonus_tile
           tile_with_heading("Notes") { formatted_body(@item.notes) } if @item.notes
@@ -142,6 +148,15 @@ class Views::Items::Show < Views::Items::Base
   end
 
   private
+
+  # The skills that gather it, from what finds imports saw yield it; the
+  # stored one only when there's no such evidence.
+  def gathering_tags
+    skills = @sources&.gathering_skills || []
+    return item_gathering_tag(@item, large: true) if skills.empty?
+
+    skills.each { |skill| craft_skill_tag(skill, large: true) }
+  end
 
   # What someone wrote, and what the game's tooltip lists, which may differ.
   def effects_tile

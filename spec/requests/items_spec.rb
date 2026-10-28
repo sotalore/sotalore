@@ -23,6 +23,22 @@ RSpec.describe "Items", type: :request do
     end
   end
 
+  describe 'GET show' do
+    it 'says how to get an item and what it is used for' do
+      ore = create(:item, name: 'Copper Ore')
+      ingot = create(:item, name: 'Copper Ingot')
+      vein = GatheringNode.create!(name: 'Copper Vein', gathering_skill: CraftSkill.find('mining'))
+      HarvestYield.create!(source: vein, item: ore)
+      create(:recipe, craft_skill: 'smelting', with_ingredients: { ore => 4 }, with_results: { ingot => 1 })
+      get item_path(ore)
+      expect(response.body).to include('How to Get It', 'Gathered by Mining', 'Used For', 'Refining: Smelting (1)')
+      expect(response.body).not_to include('Copper Vein')
+      get item_path(ingot)
+      expect(response.body).to include('Made by Smelting')
+      expect(response.body).not_to include('Used For')
+    end
+  end
+
   describe 'GET by_use' do
     it 'works' do
       get by_use_items_path(use: 'food')
