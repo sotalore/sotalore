@@ -26,6 +26,8 @@ module Api::JsonRepresentations
   # Item#game_effects). +sources+ and +roles+ are how it's obtained and what
   # it's used for, read from the site's records (see ItemSources, ItemRoles);
   # trust them over +use+ and +source+, which are old and set by hand.
+  # +materials+ is where it stands among the crafting materials (see
+  # Materials), or nil when no refining recipe that makes them involves it.
   def item_detail(item)
     recipes = ->(scope) { scope.map { recipe_ref(_1) } }
     makers, modifiers = item.recipes.to_a.partition { !_1.modification? }
@@ -43,7 +45,40 @@ module Api::JsonRepresentations
       modified_by_recipes: recipes.(modifiers),
       ingredient_of_recipes: recipes.(item.recipe_uses.distinct),
       sources: item_sources(ItemSources.new(item)),
-      roles: item_roles(ItemRoles.new(item))
+      roles: item_roles(ItemRoles.new(item)),
+      materials: item_materials(item)
+    )
+  end
+
+  # The material it is, what it's a form of, and the materials it's refined
+  # into (as raw goods or an additive).
+  def item_materials(item)
+    return unless item.concrete? && Materials.involves?(item)
+    materials = Materials.new
+    material = materials.find(item)
+    form_of = materials.form_of(item)
+    {
+      material: material && material_json(material, materials),
+      form_of: form_of && material_ref(form_of),
+      refined_into: materials.refined_into(item).map do |into|
+        material_ref(into).merge(as: into.raw.include?(item) ? 'raw' : 'additive')
+      end
+    }
+  end
+
+  def material_ref(material)
+    item_ref(material.item).merge(family: material.family, tier: material.tier)
+  end
+
+  # +raw+ is what a common one is refined from; +base+ and +additives+ what
+  # an uncommon one is; +uncommon+ the uncommon ones refined from a common one.
+  def material_json(material, materials)
+    material_ref(material).merge(
+      raw: material.raw.map { item_ref(_1) },
+      base: material.base && item_ref(material.base),
+      additives: material.additives.map { item_ref(_1) },
+      forms: material.forms.map { item_ref(_1) },
+      uncommon: materials.uncommon_of(material).map { item_ref(_1.item) }
     )
   end
 

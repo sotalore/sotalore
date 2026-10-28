@@ -4,11 +4,9 @@
 # ItemRoles) next to what's stored on it by hand, and where the two
 # disagree, for an editor to fix one item at a time.
 #
-# A material is anything a refining recipe that feeds production takes or
-# makes. A refining recipe feeds production when a production recipe takes
-# what it makes (directly or as one of a group's items), or another refining
-# recipe that feeds production does. That leaves out refining that makes
-# only finished things: stone walls, rugs, mounted heads, jewelry upgrades.
+# Covers anything a refining recipe that feeds production takes or makes
+# (see Materials.refining_recipes), more than the materials themselves, so
+# the raw goods and forms are checked too.
 class MaterialTriage
 
   # A stored value that disagrees with the evidence. +fix+ is the value the
@@ -117,26 +115,8 @@ class MaterialTriage
     feeding_recipes.flat_map { |r| r.ingredients.map(&:item_id) + r.results.map(&:item_id) }.uniq
   end
 
-  # The refining recipes that feed production, not retired.
+  # The refining recipes that feed production (see Materials.refining_recipes).
   def feeding_recipes
-    @feeding_recipes ||= begin
-      recipes = Recipe.where(retired_at: nil).includes(:ingredients, :results).to_a
-      refining = self.class.refining_skills
-      takers = Hash.new { |h, k| h[k] = [] }
-      recipes.each { |r| r.ingredients.each { takers[_1.item_id] << r } }
-      groups = ItemMembership.pluck(:member_id, :group_id).group_by(&:first).transform_values { _1.map(&:last) }
-      users = ->(r) { r.results.flat_map { [ _1.item_id ] + groups.fetch(_1.item_id, []) }.flat_map { takers[_1] }.uniq - [ r ] }
-
-      candidates = recipes.select { refining.include?(_1.craft_skill) }
-      feeding = Set.new
-      loop do
-        added = candidates.reject { feeding.include?(_1) }.select do |r|
-          users.(r).any? { !refining.include?(_1.craft_skill) || feeding.include?(_1) }
-        end
-        break if added.empty?
-        feeding.merge(added)
-      end
-      candidates.select { feeding.include?(_1) }.sort_by { [ _1.proficiency.to_i, _1.name ] }
-    end
+    @feeding_recipes ||= Materials.refining_recipes
   end
 end

@@ -57,6 +57,37 @@ RSpec.describe "Read-only API", type: :request do
     end
   end
 
+  describe 'materials' do
+    let(:ore)    { create(:item, name: 'Copper Ore') }
+    let(:tin)    { create(:item, name: 'Tin Ore') }
+    let(:copper) { create(:item, name: 'Copper Ingot') }
+    let(:bronze) { create(:item, name: 'Bronze Ingot') }
+
+    before do
+      create(:recipe, craft_skill: 'smelting', with_ingredients: { ore => 4 }, with_results: { copper => 1 })
+      create(:recipe, craft_skill: 'smelting', with_ingredients: { copper => 2, tin => 2 }, with_results: { bronze => 1 })
+      create(:recipe, craft_skill: 'smelting', with_ingredients: { bronze => 2 }, with_results: { board => 1 })
+      vein = GatheringNode.create!(name: 'Copper Vein')
+      [ ore, tin ].each { HarvestYield.create!(source: vein, item: _1) }
+    end
+
+    it 'lists them by family and tier' do
+      common, uncommon = get_json(api_v1_materials_path)['materials']
+      expect(common).to include('name' => 'Copper Ingot', 'family' => 'metal', 'tier' => 'common',
+                                'raw' => [ include('name' => 'Copper Ore') ], 'uncommon' => [ include('name' => 'Bronze Ingot') ])
+      expect(uncommon).to include('name' => 'Bronze Ingot', 'base' => include('name' => 'Copper Ingot'),
+                                  'additives' => [ include('name' => 'Tin Ore') ], 'forms' => [ include('name' => 'Wooden Board') ])
+    end
+
+    it 'says where an item stands among them' do
+      expect(get_json(api_v1_item_path(bronze))['materials']).to include('material' => include('tier' => 'uncommon'), 'form_of' => nil)
+      expect(get_json(api_v1_item_path(board))['materials']['form_of']).to include('name' => 'Bronze Ingot')
+      expect(get_json(api_v1_item_path(tin))['materials']['refined_into'])
+        .to eq [ { 'id' => bronze.id, 'name' => 'Bronze Ingot', 'kind' => 'concrete', 'family' => 'metal', 'tier' => 'uncommon', 'as' => 'additive' } ]
+      expect(get_json(api_v1_item_path(chair))['materials']).to be_nil
+    end
+  end
+
   describe 'recipes' do
     it 'lists them, filtered by whether the game has them' do
       body = get_json(api_v1_recipes_path, synced: 'false')

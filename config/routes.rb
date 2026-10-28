@@ -212,6 +212,7 @@ Rails.application.routes.draw do
       resources :items, only: [ :index, :show ]
       resources :recipes, only: [ :index, :show ]
       resources :collections, only: [ :index, :show ]
+      resources :materials, only: [ :index ]
       resources :recipe_imports, only: [ :index, :show ] do
         member do
           get :entries
