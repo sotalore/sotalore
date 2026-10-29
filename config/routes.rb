@@ -120,6 +120,8 @@ Rails.application.routes.draw do
   resources :gathering_nodes, only: [ :index, :show, :edit, :update ] do
     post :move_to_creatures, on: :member
   end
+  get 'materials(/:family)', to: 'materials#show', as: :materials,
+                             defaults: { family: 'metal' }, constraints: { family: /metal|wood|leather|cloth/ }
   resources :items, controller: 'items' do
     collection do
       get 'use/:use', to: 'items#by_use', as: 'by_use'

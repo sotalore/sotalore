@@ -51,7 +51,7 @@ RSpec.describe ComponentBonuses do
     expect(bonuses.families.map { _1.kinds.map(&:name) }).to eq [ [ 'Dagger Blade', 'Mace Head' ], [ 'Metal Hilt' ] ]
 
     bonus = bonuses.for_item(item('Iron Mace Head'))
-    expect(bonus).to have_attributes(lines: [ '+2 Damage' ], guessed: false)
+    expect(bonus).to have_attributes(lines: [ '+2 Damage' ])
     expect(bonus.from.item).to eq item('Iron Dagger Blade')
     expect(bonus.inferred?(item('Iron Mace Head'))).to be true
     expect(bonuses.for_item(item('Iron Metal Hilt'))).to be_nil
@@ -62,17 +62,20 @@ RSpec.describe ComponentBonuses do
     kind('Dagger Blade', 'Copper' => [ '+1 Damage' ], 'Bronze' => [ '+3 Damage' ])
     kind('Mace Head', 'Copper' => [ '+1 Damage' ])
     expect(bonuses.families.map { _1.kinds.size }).to eq [ 1, 1 ]
-    expect(bonuses.comparisons.sole).to have_attributes(agree: [ ingots['Copper'] ], differ: [])
+    expect(bonuses.for_item(item('Bronze Mace Head'))).to be_nil
   end
 
-  it 'guesses for a kind with nothing captured, and stops when a capture disagrees' do
-    kind('Dagger Blade', 'Copper' => [ '+1 Damage' ], 'Bronze' => [ '+3 Damage' ])
-    kind('Hand Axe Blade', {})
-    expect(bonuses.for_item(item('Bronze Hand Axe Blade'))).to have_attributes(lines: [ '+3 Damage' ], guessed: true)
-
-    item('Copper Hand Axe Blade').game_keys.create!(key: item_key('axe'), name: 'Copper Hand Axe Blade',
-                                                    catalog: { 'details' => { 'craftingBonus' => [ '+9 Damage' ] } })
-    expect(ComponentBonuses.new.for_item(item('Bronze Hand Axe Blade'))).to be_nil
+  it 'compares families by the stats they add, whatever the amounts' do
+    kind('Dagger Blade', 'Copper' => [ '+1 Damage' ], 'Bronze' => [ '+3 Damage', '+5% Crit' ])
+    kind('Two-handed Sword Blade', 'Copper' => [ '+2 Damage' ], 'Bronze' => [ '+5 Damage', '+8% Crit' ])
+    kind('Metal Hilt', 'Copper' => [ '+1 Damage' ], 'Bronze' => [ '+3% Crit' ])
+    blades, hilts = bonuses.family_comparisons.map { |c| [ c.families.map(&:name), c.same_stats?, c.size, c.same_stats.to_set ] }
+                           .partition { _1[1] }
+    expect(blades).to contain_exactly([ [ 'Two-handed Sword Blade', 'Dagger Blade' ], true, 'larger', ingots.values_at('Copper', 'Bronze').to_set ])
+    expect(hilts).to contain_exactly(
+      [ [ 'Dagger Blade', 'Metal Hilt' ], false, nil, Set[ingots['Copper']] ],
+      [ [ 'Metal Hilt', 'Two-handed Sword Blade' ], false, nil, Set[ingots['Copper']] ]
+    )
   end
 
   it 'says what each family adds for a material' do

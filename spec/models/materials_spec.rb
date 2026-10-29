@@ -64,6 +64,13 @@ RSpec.describe Materials do
     expect(materials.all).to be_empty
   end
 
+  it 'says what one unit takes in gathered goods and fuel, through what it is refined from' do
+    scrap = create(:item, name: 'Metal Scrap')
+    smelt({ mold => 1, scrap => 12, ore => 2, coal => 1 }, { copper => 1 })
+    expect(materials.recipe_for(materials.find(copper)).ingredients.map(&:item)).to contain_exactly(mold, ore, coal)
+    expect(materials.takes_per_unit(materials.find(bronze))).to eq(ore => 8, tin => 2, coal => 4)
+  end
+
   it 'tells quickly whether an item could be involved' do
     expect(Materials.involves?(tin)).to be true
     expect(Materials.involves?(create(:item))).to be false

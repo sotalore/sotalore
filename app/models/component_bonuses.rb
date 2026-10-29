@@ -14,22 +14,14 @@
 #
 # Kinds go together into families on the evidence: two kinds whose captured
 # bonuses agree for at least MIN_AGREEING materials, and disagree for none.
-# Which go together is still being learned, so this is worked out when read;
-# kinds with nothing captured yet go with the kinds GUESSES names, and say so.
+# Which go together is still being learned, so this is worked out when read.
+#
+# Families that disagree often add the same stats in other amounts: a
+# two-handed blade adds what a one-handed one does for its material, but
+# more (see #family_comparisons).
 class ComponentBonuses
 
   MIN_AGREEING = 2
-
-  # Kinds with no bonus captured yet, and the kind each is guessed to add
-  # what the same material does. The game's gear breakdown calls them all a
-  # "Weapon Blade" or "Large Weapon Blade". Checked as captures come in: a
-  # captured bonus that disagrees ends the guess.
-  GUESSES = {
-    'Hand Axe Blade' => 'Dagger Blade', 'War Hammer Head' => 'Dagger Blade',
-    'Spear Head' => 'Dagger Blade', 'Trident Head' => 'Dagger Blade',
-    'Two-handed Axe Blade' => 'Two-handed Sword Blade', 'Two-handed Hammer Head' => 'Two-handed Sword Blade',
-    'Halberd Blade' => 'Two-handed Sword Blade'
-  }.freeze
 
   # +bonus+ is the captured tooltip's lines: [] when it has none, nil when
   # no tooltip that would say has been captured.
@@ -47,20 +39,26 @@ class ComponentBonuses
     end
   end
 
-  # Kinds whose components add the same for each material. +guessed+ are
-  # those in it only by GUESSES. +captured+ is { material item => Component }.
-  Family = Data.define(:kinds, :guessed, :captured) do
-    def name = (kinds - guessed).map(&:name).to_sentence
+  # Kinds whose components add the same for each material. +captured+ is
+  # { material item => Component }.
+  Family = Data.define(:kinds, :captured) do
+    def name = kinds.map(&:name).to_sentence
   end
 
   # What a component adds, and the component whose tooltip says so. Inferred
-  # when that's another component; +guessed+ when by GUESSES.
-  Bonus = Data.define(:lines, :from, :guessed) do
+  # when that's another component.
+  Bonus = Data.define(:lines, :from) do
     def inferred?(item) = from.item != item
   end
 
-  # A comparison of two kinds sharing captured materials.
-  Comparison = Data.define(:kinds, :agree, :differ)
+  # How two families sharing captured materials compare. +same_stats+ are
+  # the materials for which they add the same stats, whatever the amounts.
+  # When that's all of them, +size+ says how the first family's amounts
+  # compare with the second's: 'larger', 'equal' or 'mixed' (the larger
+  # family comes first).
+  FamilyComparison = Data.define(:families, :materials, :same_stats, :size) do
+    def same_stats? = same_stats.size == materials.size
+  end
 
   def initialize(materials = Materials.new)
     @materials = materials
@@ -105,11 +103,10 @@ class ComponentBonuses
   def for_item(item)
     kind = kind_for(item) or return
     component = kind.components.find { _1.item == item }
-    return Bonus.new(lines: component.bonus, from: component, guessed: false) if component.captured?
+    return Bonus.new(lines: component.bonus, from: component) if component.captured?
 
-    family = family_of(kind)
-    from = family.captured[component.material] or return
-    Bonus.new(lines: from.bonus, from:, guessed: family.guessed.include?(kind))
+    from = family_of(kind).captured[component.material] or return
+    Bonus.new(lines: from.bonus, from:)
   end
 
   # [ Family, Bonus ] for each family with a bonus captured for +material+
@@ -117,19 +114,22 @@ class ComponentBonuses
   def for_material(material)
     families.filter_map do |family|
       from = family.captured[material]
-      [ family, Bonus.new(lines: from.bonus, from:, guessed: false) ] if from&.bonus.present?
+      [ family, Bonus.new(lines: from.bonus, from:) ] if from&.bonus.present?
     end
   end
 
-  # How each pair of kinds sharing captured materials compares: the
-  # evidence families are made from.
-  def comparisons
-    kinds.combination(2).filter_map do |a, b|
+  # How each pair of families sharing captured materials compares, those
+  # adding the same stats first.
+  def family_comparisons
+    families.combination(2).filter_map do |a, b|
       shared = a.captured.keys & b.captured.keys
       next if shared.empty?
-      agree, differ = shared.partition { same?(a.captured[_1], b.captured[_1]) }
-      Comparison.new(kinds: [ a, b ], agree:, differ:)
-    end
+      amounts = shared.to_h { [ _1, [ amounts(a.captured[_1]), amounts(b.captured[_1]) ] ] }
+      same_stats = shared.select { |m| amounts[m].map(&:keys).map(&:sort).uniq.one? }
+      size = size(amounts.values) if same_stats.size == shared.size
+      a, b = b, a if size == 'smaller'
+      FamilyComparison.new(families: [ a, b ], materials: shared, same_stats:, size: size == 'smaller' ? 'larger' : size)
+    end.sort_by { [ _1.same_stats? ? 0 : 1, _1.families.map(&:name) ] }
   end
 
   private
@@ -172,17 +172,10 @@ class ComponentBonuses
   end
 
   def build_families
-    families = kinds.map { { kinds: [ _1 ], guessed: [], captured: _1.captured } }
+    families = kinds.map { { kinds: [ _1 ], captured: _1.captured } }
     while (pair = families.combination(2).find { |a, b| joinable?(a[:captured], b[:captured], MIN_AGREEING) })
       families -= pair
       families << merge(*pair)
-    end
-    GUESSES.each do |name, with|
-      alone = families.find { |f| f[:kinds].one? && f[:kinds].first.name == name } or next
-      target = families.find { |f| f[:kinds].any? { _1.name == with } } or next
-      next unless joinable?(alone[:captured], target[:captured], 0)
-      families -= [ alone, target ]
-      families << merge(target, alone).merge(guessed: target[:guessed] + alone[:kinds])
     end
     families.map { Family.new(**_1) }
   end
@@ -192,9 +185,29 @@ class ComponentBonuses
     shared.size >= minimum && shared.all? { same?(a[_1], b[_1]) }
   end
 
-  def merge(a, b)
-    { kinds: a[:kinds] + b[:kinds], guessed: a[:guessed] + b[:guessed], captured: b[:captured].merge(a[:captured]) }
-  end
+  def merge(a, b) = { kinds: a[:kinds] + b[:kinds], captured: b[:captured].merge(a[:captured]) }
 
   def same?(a, b) = a.bonus.sort == b.bonus.sort
+
+  # { stat => how much } a component adds: "+5% Melee and Ranged Critical
+  # Chance" is { "% Melee and Ranged Critical Chance" => 5 }. How much is
+  # its size, so -10% reagent use is 10; nil for a line with no amount.
+  def amounts(component)
+    component.bonus.to_h do |line|
+      amount, stat = line.match(/\A[+-]?(\d+(?:\.\d+)?)(%? .+)\z/)&.captures
+      amount ? [ stat, amount.to_f ] : [ line, nil ]
+    end
+  end
+
+  # How the first's amounts compare with the second's, over [ first,
+  # second ] pairs of amounts that have the same stats.
+  def size(pairs)
+    signs = pairs.flat_map { |a, b| a.filter_map { |stat, n| n && n <=> b[stat] } }.uniq - [ 0 ]
+    case signs
+    when [] then 'equal'
+    when [ 1 ] then 'larger'
+    when [ -1 ] then 'smaller'
+    else 'mixed'
+    end
+  end
 end

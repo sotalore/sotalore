@@ -87,6 +87,32 @@ class Materials
   # from, or an additive to an uncommon one.
   def refined_into(item) = all.select { _1.raw.include?(item) || _1.additives.include?(item) }
 
+  # The recipe that makes +material+ from what's gathered, rather than from
+  # scrap; the first to learn when there are several.
+  def recipe_for(material)
+    making = recipes_making(material.item).select do |recipe|
+      takes(recipe).all? { gathered?(_1) || find(_1)&.common? }
+    end
+    making.min_by { [ takes(_1).size, _1.proficiency.to_i ] }
+  end
+
+  # { item => how many } one +material+ takes in gathered goods and fuel,
+  # through the material it's refined from: one Bronze Ingot takes 8 Copper
+  # Ore, 2 Tin Ore and 4 Chunk of Coal. Tools aren't used up, so aren't
+  # counted. Counts can be fractions (one Leather takes ½ Curing Salt).
+  def takes_per_unit(material)
+    recipe = recipe_for(material) or return {}
+    made = recipe.results.find { _1.item_id == material.item.id }.count
+    recipe.ingredients.each_with_object(Hash.new(0)) do |ingredient, totals|
+      item = items[ingredient.item_id]
+      next if item.use_is_tool? || ItemRoles.new(item).tool?
+      count = Rational(ingredient.count, made)
+      base = find(item)
+      next totals[item] += count unless base
+      takes_per_unit(base).each { |taken, n| totals[taken] += n * count }
+    end
+  end
+
   private
 
   def build
