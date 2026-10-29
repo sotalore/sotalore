@@ -2,8 +2,8 @@
 
 # What gear components add by material and kind (see ComponentBonuses): a
 # table per family of kinds, with each kind's captured bonus for each
-# material, and the comparisons the families come from. For working out how
-# to keep this, once it's clearer which kinds go together.
+# material, and how the families compare. For working out how to keep
+# this, once it's clearer which kinds go together.
 class Views::Adm::ComponentBonuses::Show < Views::Base
 
   def initialize(bonuses:)
@@ -17,7 +17,7 @@ class Views::Adm::ComponentBonuses::Show < Views::Base
         intro
         coverage
         @bonuses.families.each { family(_1) }
-        agreements
+        family_comparisons
       end
     end
   end
@@ -30,8 +30,7 @@ class Views::Adm::ComponentBonuses::Show < Views::Base
         plain "A component's kind is a group an archetype recipe takes, and its material the one its recipe "
         plain 'takes (or its name starts with). Kinds go together when their captured bonuses agree for at least '
         plain "#{ComponentBonuses::MIN_AGREEING} materials and disagree for none, so one captured tooltip covers "
-        plain 'the whole family. Kinds with nothing captured are guessed to go with another; a captured bonus '
-        plain 'that disagrees ends the guess.'
+        plain 'the whole family.'
       end
       p { 'Grey bonuses come from another kind in the family; a ? is one nobody has captured.' }
     end
@@ -42,7 +41,7 @@ class Views::Adm::ComponentBonuses::Show < Views::Base
     counts = items.map { status(_1) }.tally
     p(class: 'mb-4 text-sm') do
       plain "#{items.size} components: "
-      plain %w[ captured inferred guessed unknown ].map { "#{counts.fetch(_1, 0)} #{_1}" }.join(', ')
+      plain %w[ captured inferred unknown ].map { "#{counts.fetch(_1, 0)} #{_1}" }.join(', ')
       plain '.'
     end
   end
@@ -51,7 +50,6 @@ class Views::Adm::ComponentBonuses::Show < Views::Base
     bonus = @bonuses.for_item(item)
     if bonus.nil? then 'unknown'
     elsif !bonus.inferred?(item) then 'captured'
-    elsif bonus.guessed then 'guessed'
     else 'inferred'
     end
   end
@@ -64,12 +62,7 @@ class Views::Adm::ComponentBonuses::Show < Views::Base
         thead do
           tr(class: 'border-b-2 border-grey-400 text-left align-bottom') do
             th(class: 'pr-3') { 'Material' }
-            family.kinds.each do |kind|
-              th(class: 'pr-3') do
-                plain kind.name
-                span(class: 'ml-1 text-xs font-normal text-yellow-800 dark:text-yellow-300') { 'guess' } if family.guessed.include?(kind)
-              end
-            end
+            family.kinds.each { |kind| th(class: 'pr-3') { kind.name } }
           end
         end
         tbody do
@@ -95,19 +88,40 @@ class Views::Adm::ComponentBonuses::Show < Views::Base
     end
   end
 
-  def agreements
-    comparisons = @bonuses.comparisons.select { _1.agree.any? }
+  def family_comparisons
+    same, different = @bonuses.family_comparisons.partition(&:same_stats?)
     section do
-      h2(class: 'text-lg font-bold') { 'Kinds that agree' }
-      p(class: 'text-sm mb-1') { 'Each pair of kinds whose captured bonuses agree for some material. Every other pair sharing a captured material differs.' }
-      ul(class: 'list-disc ml-5 text-sm') do
-        comparisons.each do |comparison|
-          li do
-            plain "#{comparison.kinds.map(&:name).join(' and ')}: agree for #{comparison.agree.map(&:name).to_sentence}"
-            plain "; differ for #{comparison.differ.map(&:name).to_sentence}" if comparison.differ.any?
-          end
-        end
+      h2(class: 'text-lg font-bold') { 'How families compare' }
+      p(class: 'text-sm mb-1') do
+        plain 'Each pair of families sharing captured materials, by the stats they add for them. Families '
+        plain 'adding the same stats in other amounts may be one kind of part at different sizes.'
       end
+      h3(class: 'font-semibold mt-2') { 'Same stats' }
+      ul(class: 'list-disc ml-5 text-sm') { same.each { |comparison| li { same_stats(comparison) } } }
+      h3(class: 'font-semibold mt-2') { 'Different stats' }
+      ul(class: 'list-disc ml-5 text-sm') { different.each { |comparison| li { different_stats(comparison) } } }
     end
   end
+
+  # Family names in bold, as a family's name lists its kinds.
+  def same_stats(comparison)
+    first, second = comparison.families
+    case comparison.size
+    when 'larger' then (strong { first.name }; plain ' adds more than '; strong { second.name })
+    when 'equal' then (strong { first.name }; plain ' adds the same as '; strong { second.name })
+    else (strong { first.name }; plain ' and '; strong { second.name }; plain ': some amounts larger, some smaller')
+    end
+    plain " (#{materials(comparison.materials.size)})"
+  end
+
+  def different_stats(comparison)
+    first, second = comparison.families
+    strong { first.name }
+    plain ' and '
+    strong { second.name }
+    same = comparison.same_stats.size
+    plain ": the same stats for #{same} of #{materials(comparison.materials.size)}" if same.positive?
+  end
+
+  def materials(count) = "#{count} #{'material'.pluralize(count)}"
 end

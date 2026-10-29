@@ -201,15 +201,8 @@ class Views::Items::Show < Views::Items::Base
   def inferred_bonus_note(bonus)
     plain "Not captured from its own tooltip yet. "
     link_to(bonus.from.item.name, bonus.from.item)
-    plain "'s says this, and "
-    if bonus.guessed
-      plain "it's a guess that a #{@bonuses.kind_for(@item).name} adds what a #{bonus_family_name} does for the same material."
-    else
-      plain "every #{bonus_family_name} adds the same for a material."
-    end
+    plain "'s says this, and every #{@bonuses.family_for(@item).name} adds the same for a material."
   end
-
-  def bonus_family_name = @bonuses.family_for(@item).name
 
   # What the game calls it, linking to gear like it.
   def gear_type_tag
