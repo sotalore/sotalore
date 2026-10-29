@@ -12,7 +12,6 @@ class Item < ApplicationRecord
     unknown: 0,
     armor: 4,
     artifact: 17,
-    component: 3,
     decoration: 6,
     dye: 13,
     'fishing-bait': 12,

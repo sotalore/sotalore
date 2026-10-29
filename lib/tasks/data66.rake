@@ -152,7 +152,7 @@ namespace :data do
                   .uniq
     ingredients.each do |i|
       if Item.where(name: i).empty?
-        item = Item.new(name: i, use: 'component')
+        item = Item.new(name: i)
         item.save!
         puts "Added Item from ingredient: #{i}"
       end

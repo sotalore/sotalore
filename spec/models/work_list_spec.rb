@@ -6,7 +6,7 @@ RSpec.describe WorkList do
   let(:fuel2) { create :item, name: 'Fuel 2', use: 'fuel' }
   let(:tool1) { create :item, name: 'Tool 1', use: 'tool' }
   let(:tool2) { create :item, name: 'Tool 2', use: 'tool' }
-  let(:item1) { create :item, name: 'Component 1', use: 'component' }
+  let(:item1) { create :item, name: 'Component 1' }
   let(:mat1)  { create :item, name: 'Mat 1', gathering_skill: 'forestry' }
   let(:mat2)  { create :item, name: 'Mat 2', gathering_skill: 'mining' }
 

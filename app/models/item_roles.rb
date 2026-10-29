@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # What an item is used for, read from the recipes rather than the item's
-# stored +use+ (whose "component" only ever meant some recipe takes it). A
+# stored +use+ (whose old "component" only ever meant some recipe took it). A
 # recipe that asks for a group or category the item is in ("Metal Ingot",
 # "Wooden Board") takes it too. An item can have several roles:
 #
