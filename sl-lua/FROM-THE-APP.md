@@ -158,7 +158,7 @@ Each avatar has, per skill, a current and a target level, entered by the player.
 |-------|---------|
 | name | Unique, ignoring case. Old names are kept as **aliases**, so exports using them still match. |
 | kind | What the name stands for (below). |
-| use | armor, artifact, component, decoration, dye, fishing-bait, food, fuel, house, instrument, pattern, pet-food, pet-gear, potion, scroll, socketable-gem, socketable-jewel, socketable-imbued-gem, socketable-imbued-jewel, seed, tool, weapon, or unknown. A recipe ingredient with `tool: true` is an item whose use is tool. |
+| use | armor, artifact, decoration, dye, fishing-bait, food, fuel, house, instrument, pattern, pet-food, pet-gear, potion, scroll, socketable-gem, socketable-jewel, socketable-imbued-gem, socketable-imbued-jewel, seed, tool, weapon, or unknown. A recipe ingredient with `tool: true` is an item whose use is tool. |
 | source | How it's obtained: agriculture, drop, gathering, merchant, quest, recipe, salvage, or unknown. |
 | weight | Per item, to 4 decimals (the game's UI shows 2; the site keeps the 4 the exports give, and rounds anything finer to 4). From the export (stat rows) and item catalogs. |
 | value | What a merchant **pays** for one, for concrete items: the tooltip's "Value" (or "Stack Value" over "Quantity"), and 0 for "No Value". Set by item catalog imports from the captured tooltip only; the file's `value` field isn't used, because files from before 0.11.1 left wrong ones behind. |

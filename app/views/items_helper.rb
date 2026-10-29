@@ -6,7 +6,6 @@ module Views::ItemsHelper
     'unknown' => 'question',
     'fuel' => 'fire',
     'tool' => 'wrench',
-    'component' => 'cogs',
     'armor' => 'shield',
     'weapon' => 'sword',
     'decoration' => 'photo',

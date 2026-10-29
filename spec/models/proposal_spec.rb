@@ -53,10 +53,10 @@ RSpec.describe Proposal do
 
   describe 'changes' do
     it 'makes items' do
-      proposal = propose('item.create', name: 'Dark Unicorn Horn', use: 'component', weight: '0.8')
+      proposal = propose('item.create', name: 'Dark Unicorn Horn', use: 'decoration', weight: '0.8')
       proposal.accept!(reviewer)
       item = proposal.reload.subject
-      expect(item).to have_attributes(name: 'Dark Unicorn Horn', kind: 'concrete', use: 'component')
+      expect(item).to have_attributes(name: 'Dark Unicorn Horn', kind: 'concrete', use: 'decoration')
       expect(item.weight).to eq BigDecimal('0.8')
       expect(propose('item.create', name: 'wax').errors.full_messages.join).to include 'already an item'
     end
