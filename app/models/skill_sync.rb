@@ -17,20 +17,23 @@ class SkillSync
 
   # Skills whose current level would change from the game's level (from is
   # nil for a skill the avatar has no level for yet). These lists are in the
-  # skills pages' (and the game's) order.
+  # skills pages' order.
   def changes
     @changes ||= game_levels.filter_map do |skill, level|
       from = earned(skill)&.current
       Change.new(skill, from, level) unless (from || 0) == level
-    end.sort_by { _1.skill.position }
+    end
   end
 
   # Skills with a current level on the site that the game doesn't list.
   def untrained
-    @untrained ||= avatar.skills.filter_map do |earned|
-      skill = earned.skill
-      Change.new(skill, earned.current, nil) if skill && earned.current.to_i.positive? && !game_levels.key?(skill)
-    end.sort_by { _1.skill.position }
+    @untrained ||= begin
+      earned = avatar.skills.select(&:skill).index_by(&:skill)
+      Skill.in_page_order(earned.keys).filter_map do |skill|
+        current = earned[skill].current
+        Change.new(skill, current, nil) if current.to_i.positive? && !game_levels.key?(skill)
+      end
+    end
   end
 
   # Skills whose target is below the game's level.
@@ -38,13 +41,12 @@ class SkillSync
     @above_target ||= game_levels.filter_map do |skill, level|
       target = earned(skill)&.target
       Change.new(skill, target, level) if target.to_i.positive? && target < level
-    end.sort_by { _1.skill.position }
+    end
   end
 
   # Ignored skills the game says are trained.
   def ignored_trained
     @ignored_trained ||= game_levels.keys.select { avatar.ignoring_skill?(_1) && game_levels[_1].positive? }
-                                         .sort_by(&:position)
   end
 
   # Game ids the site has no skill for.
@@ -82,10 +84,11 @@ class SkillSync
 
   private
 
-  # Skill => level, for the code's skills the site knows.
+  # Skill => level, for the code's skills the site knows, in the skills pages'
+  # order.
   def game_levels
-    @game_levels ||= code.levels.filter_map { |id, level| [ Skill.find_by_game_id(id), level ] if Skill.find_by_game_id(id) }
-                                .to_h
+    @game_levels ||= Skill.in_page_order(code.levels.keys.filter_map { Skill.find_by_game_id(_1) })
+                          .to_h { [ _1, code.levels[_1.game_id] ] }
   end
 
   def earned(skill)

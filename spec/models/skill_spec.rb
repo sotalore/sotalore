@@ -18,12 +18,12 @@ RSpec.describe Skill, type: :model do
       expect(Skill.new(xp_factor: 0.5).xp_to_level(50)).to eq 5_117
     end
 
-    it 'stays within rounding of the published values for every skill' do
-      CSV.foreach(Rails.root.join('data/skill-costs.csv'), headers: true) do |row|
-        skill = Skill.new(xp_factor: row['Exp Factor'].to_f)
-        [ 50, 80, 100, 120, 140, 160, 180, 200 ].each do |level|
-          expect(skill.xp_to_level(level)).to be_within(skill.xp_factor.ceil).of(row["Lv #{level}"].to_i)
-        end
+    it 'stays within rounding of the published values for every XP factor' do
+      published = { 50 => 10_233, 80 => 180_138, 100 => 1_212_424, 120 => 8_157_124,
+                    140 => 54_877_598, 160 => 369_189_582, 180 => 2_483_723_446, 200 => 16_709_249_906 }
+      [ 0.5, 1, 2, 3, 4, 5, 6, 8, 10, 20 ].each do |factor|
+        skill = Skill.new(xp_factor: factor.to_f)
+        published.each { |level, xp| expect(skill.xp_to_level(level)).to be_within(factor.ceil).of(xp * factor) }
       end
     end
   end
@@ -39,7 +39,7 @@ RSpec.describe Skill, type: :model do
     end
 
     it 'loads all the data from the json' do
-      skill = Skill::ADVENTURING['combat']['shield'].third
+      skill = Skill::ADVENTURING['combat']['shield'].first
       expect(skill.category).to eq 'combat'
       expect(skill.school).to eq 'shield'
       expect(skill.name).to eq 'Angles'
@@ -65,10 +65,17 @@ RSpec.describe Skill, type: :model do
     end
   end
 
-  describe 'position' do
-    it 'follows the skills pages: adventuring then crafting, by category, school and skill' do
+  describe 'order' do
+    it 'keeps each school by name, like the game\'s list view' do
+      [ Skill::ADVENTURING, Skill::CRAFTING ].flat_map { _1.values.flat_map(&:values) }.each do |skills|
+        names = skills.map { _1.name.downcase }
+        expect(names).to eq names.sort
+      end
+    end
+
+    it 'puts skills in the pages\' order: adventuring then crafting, by category, school and name' do
       in_page_order = [ Skill::ADVENTURING, Skill::CRAFTING ].flat_map { _1.values.flat_map(&:values).flatten }
-      expect(in_page_order.map(&:position)).to eq (0...in_page_order.size).to_a
+      expect(Skill.in_page_order(in_page_order.reverse)).to eq in_page_order
     end
   end
 
@@ -78,16 +85,6 @@ RSpec.describe Skill, type: :model do
     it 'gives every skill a different game id' do
       expect(skills.map(&:game_id)).to all(be_an(Integer))
       expect(skills.map(&:game_id).uniq.size).to eq skills.size
-    end
-
-    it 'agrees with the development team\'s skill list' do
-      rows = CSV.read(Rails.root.join('data/skill-costs.csv'), headers: true).index_by { _1['Skill ID'].to_i }
-      expect(rows.size).to eq skills.size
-      skills.each do |skill|
-        row = rows.fetch(skill.game_id)
-        expect([ row['Skill Name'].downcase, row['Internal Name'], row['Exp Factor'].to_f ])
-          .to eq([ skill.name.downcase, skill.game_key, skill.xp_factor ]), "#{skill.key} vs game id #{skill.game_id}"
-      end
     end
   end
 

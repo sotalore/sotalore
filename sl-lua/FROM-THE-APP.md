@@ -57,7 +57,7 @@ Boots +15 (Supple Fortified Leather Boots +15)"), could let the importer do bett
 ### R5. Skill codes: keep sending the game's ids (answer, 2026-10-18)
 
 An answer to the open question in `EXPORT-FORMAT.md`'s skills section, not a change. The development
-team's skill list (the site's `data/skill-costs.csv`, with "Skill ID" and "Internal Name") uses the same
+team's skill list (a CSV the site had then, with "Skill ID" and "Internal Name") uses the same
 ids and keys as `ShroudGetSkills()`: all 338 skills in Gravidy's `sotalore-skills.json` (sl-skills 0.1.0)
 match it, id, key and name. Every site skill now has its game id from that list, so the site can read the
 code's ids as they are; nothing more compact is needed. The highest id is 13310 (`a9q`, three base 36
@@ -147,9 +147,9 @@ Each has a primary tool on the site (`carpentry` uses a Carpentry Hammer, and so
 
 The full skill trees, for avatars' skill planning: adventuring (combat, magic, strategy) and
 crafting (gathering, refining, production), each split into schools, each school a list of skills
-with a name and an XP factor (how much a level costs relative to others). 360 skills. They have
+with a name and an XP factor (how much a level costs relative to others). 363 skills. They have
 site ids and keys (`gathering~mining~survey-mining`), and each also holds the game's id and internal
-name (`game_id`, `game_key`), from the development team's skill list. They're maintained by hand.
+name (`game_id`, `game_key`). `rails skills:sync` keeps them in step with `sotalore-game-skills.json`.
 Each avatar has, per skill, a current and a target level, entered by the player.
 
 ### Items

@@ -1836,6 +1836,22 @@
         "id": 224,
         "game_id": 3231,
         "game_key": "UnarmedAttack"
+      },
+      {
+        "name": "Trap Sense",
+        "xp_factor": 2.0,
+        "key": "strategy~tactics~trap-sense",
+        "id": 296,
+        "game_id": 4350,
+        "game_key": "TrapSense"
+      },
+      {
+        "name": "Gait Pacing",
+        "xp_factor": 10.0,
+        "key": "strategy~tactics~gait-pacing",
+        "id": 297,
+        "game_id": 5775,
+        "game_key": "HorseSprintCost"
       }
     ],
     "subterfuge": [
@@ -1966,6 +1982,14 @@
         "id": 286,
         "game_id": 3300,
         "game_key": "Obfuscate"
+      },
+      {
+        "name": "Set Trap",
+        "xp_factor": 2.0,
+        "key": "strategy~subterfuge~set-trap",
+        "id": 298,
+        "game_id": 4349,
+        "game_key": "SetTrap"
       }
     ],
     "bard": [
@@ -2230,7 +2254,7 @@
         "game_key": "TrainIntelligence"
       },
       {
-        "name": "Quick Swapping",
+        "name": "Efficient Swapping",
         "xp_factor": 4.0,
         "key": "strategy~focus~quick-swapping",
         "id": 268,

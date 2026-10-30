@@ -53,8 +53,6 @@ Rails 8.1 monolith (app module `SotaLore`, Ruby 4.0.9) for *SotA Lore* (<www.sot
 
 **A "+N" item name doesn't mean crafted.** Some creatures drop +N weapons as loot (elves drop "Elven Woodwind Bow +1"), and those are items in their own right. Only the tooltip's "Crafted by" (the item catalog's `details.crafted`) says an item is crafted; see `GameCatalog::Entry#crafted?`. Stripping "+N" is fine only for an item already known to be crafted, to compare it with its base item.
 
-**Domain-specific ETL:** `lib/tasks/data66.rake` and `lib/tasks/parse.rake` are bespoke rake tasks that import game crafting/recipe/item data from CSV/parsed sources into `Recipe`/`Item` records — not generic infrastructure, specific to this app's content pipeline.
-
 ## Tracking work
 
 Work and conversation live in **GitHub issues** on `sotalore/sotalore` (with `gh`); the repo's docs hold what must be versioned with the code (`EXPORT-FORMAT.md`, the data model, this file).

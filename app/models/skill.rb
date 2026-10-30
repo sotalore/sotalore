@@ -10,8 +10,9 @@ class Skill
     def load_skill_file(filename, container)
       JSON.parse(File.read(filename)).each do |category, schools|
         schools.each do |school, skills|
-          skills.each do |skill|
-            s = Skill.new(skill.merge({ category: category, school: school, position: BY_KEY.size }))
+          # By name, like the game's list view of a school's skills.
+          skills.sort_by { _1['name'].downcase }.each do |skill|
+            s = Skill.new(skill.merge({ category: category, school: school }))
             container[category] ||= {}
             container[category][school] ||= []
             container[category][school] << s
@@ -42,6 +43,12 @@ class Skill
     def find_by_game_id(game_id)
       BY_GAME_ID[game_id]
     end
+
+    # The given skills in the skills pages' order: adventuring then crafting,
+    # each by category, school and name.
+    def in_page_order(skills)
+      BY_KEY.values & skills
+    end
   end
 
   ADVENTURING = {}
@@ -52,14 +59,12 @@ class Skill
   BY_SCHOOL = {}
 
   # game_id and game_key are the game's id and internal name ("Deflect"), from
-  # the development team's data/skill-costs.csv (see `rails skills:game_ids`).
-  # position is the skill's place on the skills pages (adventuring then
-  # crafting, each by category, school and skill), which is the game's order.
-  attr_accessor :id, :key, :name, :xp_factor, :category, :school, :game_id, :game_key, :position
+  # the plugin's list of every skill (see `rails skills:sync`).
+  attr_accessor :id, :key, :name, :xp_factor, :category, :school, :game_id, :game_key
 
-  # Total XP needed to reach a level, fit to the game's published values
-  # (data/skill-costs.csv) for levels 50-200. The base curve grows 10% per
-  # level, and each skill's cost is that curve scaled by its xp_factor.
+  # Total XP needed to reach a level, fit to the game's published values for
+  # levels 50-200. The base curve grows 10% per level, and each skill's cost is
+  # that curve scaled by its xp_factor.
   # e.g. level 200 with a 1x factor is 16_709_249_906.
   def xp_to_level(level)
     return 0 if level <= 1
