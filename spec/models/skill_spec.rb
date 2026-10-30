@@ -39,7 +39,7 @@ RSpec.describe Skill, type: :model do
     end
 
     it 'loads all the data from the json' do
-      skill = Skill::ADVENTURING['combat']['shield'].third
+      skill = Skill::ADVENTURING['combat']['shield'].first
       expect(skill.category).to eq 'combat'
       expect(skill.school).to eq 'shield'
       expect(skill.name).to eq 'Angles'
@@ -65,10 +65,17 @@ RSpec.describe Skill, type: :model do
     end
   end
 
-  describe 'position' do
-    it 'follows the skills pages: adventuring then crafting, by category, school and skill' do
+  describe 'order' do
+    it 'keeps each school by name, like the game\'s list view' do
+      [ Skill::ADVENTURING, Skill::CRAFTING ].flat_map { _1.values.flat_map(&:values) }.each do |skills|
+        names = skills.map { _1.name.downcase }
+        expect(names).to eq names.sort
+      end
+    end
+
+    it 'puts skills in the pages\' order: adventuring then crafting, by category, school and name' do
       in_page_order = [ Skill::ADVENTURING, Skill::CRAFTING ].flat_map { _1.values.flat_map(&:values).flatten }
-      expect(in_page_order.map(&:position)).to eq (0...in_page_order.size).to_a
+      expect(Skill.in_page_order(in_page_order.reverse)).to eq in_page_order
     end
   end
 

@@ -3,8 +3,8 @@
 # Brings the site's skill lists (skills-adventuring.json and
 # skills-crafting.json, as parsed JSON) in step with the plugin's list of every
 # skill in the game (see sl-lua/EXPORT-FORMAT.md), matching on the game's id.
-# New skills are added at the end of their school; names, internal names and
-# XP factors are updated. A skill's site key and id never change, because
+# New skills are added to their school; names, internal names and XP factors
+# are updated. A skill's site key and id never change, because
 # players' levels and hidden skills are stored by them, so a skill that moved
 # school or left the game is only reported.
 class GameSkillSync
