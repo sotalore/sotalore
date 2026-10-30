@@ -233,6 +233,10 @@ command from the plugin's name. For a plugin about `<name>`:
   added up in one list. The component names on gear are role names, not always the item's ("Bronze Weapon Blade" for
   Bronze Longsword Blade). A component item's own tooltip lists what it adds under "Material Crafting Bonus". Blank
   lines matter here, but `item_details.lua` stores tooltip text without them.
+- **A bracket at the end of a name can be part of it.** "Focus Battery Necklace, Common (L)" and "... Common" are two
+  items with different keys (so are "Bolt of Cotton Cloth" and "... (Vintage)"), but a crafted item's tooltip title also
+  ends in brackets its name lacks ("Boots +15 (Leather Boots +15)", "ZRandom (Small Leather Bag)" for a renamed bag). So
+  `util.itemsNamed` tries the whole name first, and capture only drops the bracket for a crafted tooltip (0.13.1, #274).
 - **A crafted item's salvage list is its own** (it depends on the materials), not the kind's, although it shares
   the base item's `key`. The tooltip title of crafted gear ends with the base item's name in brackets; the plugin
   exports the title (`details.title`) so the site can use it.

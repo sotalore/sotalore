@@ -36,6 +36,22 @@ local unmatched = 0      -- hovers that could not be tied to a bag item
 local sampled = 0        -- new gear samples this session (gear_samples.lua)
 local compact            -- (defined below) an entry as it is stored
 
+-- Before sl-admin 0.13.1 a tooltip titled "Necklace, Common (L)" could be saved under the key of "Necklace, Common"
+-- when both were in the bags. A wrong entry shows itself: not crafted, and a title with a bracket that the entry's name
+-- lacks. Only a crafted item's title has a bracket its name lacks.
+local function savedUnderTwin(d)
+    if d.crafted or d.cleared or not d.name then return false end
+    local title = d.title or (d.text and d.text:match("^[^\n]*"))
+    if not title or not title:match("%b()%s*$") then return false end
+    return title ~= (d.name:gsub("%[/?%a+%]", ""))
+end
+
+-- What such an entry becomes: no details, and a new revision, so the next "New items" export replaces them, and so
+-- does the export after the item is pointed at again.
+local function cleared(d)
+    return { name = d.name, rev = (d.rev or 0) + 1, fp = "cleared", cleared = true }
+end
+
 -- The saved data has a size limit (256 KB for all of the account's, see util.flush), so an item that has its tooltip
 -- text stored keeps little else: everything is worked out from the text again when the file is written. Entries
 -- stored before sl-admin 0.12.0 also kept every flag and list and a long fingerprint (about 210 KB for 286 items);
@@ -44,12 +60,22 @@ local function all()
     if details == nil then
         local t = ShroudGetSavedVar("itemDetails", "account")
         details = type(t) == "table" and t or {}
+        local wrong = {}
         for key, d in pairs(details) do
             local small = compact(d)
+            if savedUnderTwin(d) then
+                small = cleared(d)
+                wrong[#wrong + 1] = d.name
+            end
             if small ~= d then
                 details[key] = small
                 dirty = true
             end
+        end
+        if #wrong > 0 then
+            table.sort(wrong)
+            ShroudConsoleLog("Item capture: cleared the tooltips of " .. #wrong .. " items, saved from a similarly named "
+                .. "item. Point at them again: " .. table.concat(wrong, ", "))
         end
     end
     return details
@@ -221,12 +247,13 @@ end
 
 -- The fields an entry is stored with. A crafted item has no text (only its title, salvage and yields are kept); any
 -- other item has its text, and its salvage and yields only when the text was cut short (they may be past the cut).
-local KEEP = { name = true, crafted = true, title = true, text = true, salvage = true, yields = true, fp = true, rev = true }
+local KEEP = { name = true, crafted = true, title = true, text = true, salvage = true, yields = true, fp = true, rev = true,
+    cleared = true }
 
 compact = function(d)
     local clipped = d.text and #d.text >= MAX_TEXT
     local needed = d.crafted or clipped or not d.text
-    local small = { name = d.name, rev = d.rev, fp = d.fp }
+    local small = { name = d.name, rev = d.rev, fp = d.fp, cleared = d.cleared }
     if d.crafted then
         small.crafted, small.title = true, d.title
     else
@@ -312,12 +339,15 @@ function M.tick()
     if signature == lastSeen then return end
     lastSeen = signature
 
-    -- The key comes from the bag item of that name; an item that is not in the bags can't be tied to one.
-    local it = util.itemsNamed(ShroudGetInventoryItems, name)[1]
+    -- The key comes from the bag item of that name; an item that is not in the bags can't be tied to one. Only a
+    -- crafted item's title can have a bracket its name lacks: for anything else the whole name must match, or an
+    -- "(L)" item in a chest would be saved under its twin in the bags.
+    local exactOnly = not ("\n" .. desc):find("\n%s*Crafted by ")
+    local it = util.itemsNamed(ShroudGetInventoryItems, name, exactOnly)[1]
 
     -- An expanded gear tooltip is also kept as a sample of what gear is made of (gear_samples.lua). That needs no
     -- key, so it works for gear anywhere: worn, in a chest, in the bank.
-    local worn = not it and util.itemsNamed(ShroudGetEquipmentItems, name)[1]
+    local worn = not it and util.itemsNamed(ShroudGetEquipmentItems, name, exactOnly)[1]
     local sample = GearSamples.capture(desc, (it and it.key) or (worn and worn.key) or nil)
     if sample == "new" then sampled = sampled + 1 end
 
@@ -377,7 +407,7 @@ end
 -- What was captured for this item key, as JSON, or null when nothing was.
 function M.toJson(key)
     local d = all()[key]
-    if not d then return "null" end
+    if not d or d.cleared then return "null" end
     if not d.crafted and d.text then
         -- Read the stored tooltip again with today's rules, so what an older plugin version captured gets
         -- later improvements without hovering the item again. (The stored text can be cut short, so the
