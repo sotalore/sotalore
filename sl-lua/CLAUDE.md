@@ -155,7 +155,12 @@ Untested ideas:
   storing every parsed field and a long fingerprint), and a day of captures was lost at a reload. Since 0.12.0 the
   item details are stored small (about 100 KB for 286 items), gear samples live in the character scope, and saving
   calls `util.flush()`, which writes at once and warns in chat when the game refuses. Keep an eye on the size of
-  anything that grows with play. The files start with a UTF-8 byte-order mark.
+  anything that grows with play. The files start with a UTF-8 byte-order mark. On 2026-10-30 the account file reached
+  260 KB and the game refused it again (620 items, 214 KB of item details), so since 0.14.0 the details are in a data file.
+- **Add-on data files (API 51)** hold what is too big for saved variables: `Lua/AddonData/<slug>/`, 1 MB of JSON per file,
+  16 files, written at once and whole. Each file takes one write every 10 seconds and an add-on 4 per 10 seconds, so
+  saves are spaced 11 seconds apart, and a forced save refused as `tooOften` (at unload) goes to a second file, which
+  is read first and removed by the next write of the main file. Whether a write works during unload is untested.
 - **The game cannot be launched from this session.** A standalone Lua (5.5, installed with scoop; `lua` and
   `luac` on the PATH) is available on Darren's machine: use `luac -p file.lua` to syntax-check every file
   after an edit. For behaviour, write a throwaway fake-game script (stub `Shroud.UI`, `Shroud.Command`,
@@ -205,10 +210,12 @@ command from the plugin's name. For a plugin about `<name>`:
   is the searchable recipe list with the recipe export buttons. Each window's position and size are saved by the game
   per window id, so the old ids (`recipelist`, `sotalorefinds`) were kept.
 - `sl-admin` account-scope saved variables: `exported` (recipe ids already exported; "Export new" = not in it),
-  `itemSigs` (a fingerprint per item for what was last exported; no catalog of items is kept), `itemDetails`
-  (captured tooltips; since 0.12.0 stored small: name, text, a short fingerprint `fp` and `rev`, everything else
-  worked out from the text), `finds` (the per-scene list), `track` (tracking toggle). Character scope: `gearSamples`
-  (gear breakdowns, a list, each with its tooltip text, key and an exported flag). `sl-skills` keeps none.
+  `itemSigs` (a fingerprint per item for what was last exported; no catalog of items is kept), `finds`
+  (the per-scene list), `track` (tracking toggle). Character scope: `gearSamples` (gear breakdowns, a list, each with
+  its tooltip text, key and an exported flag). `sl-skills` keeps none.
+- `sl-admin` data file (since 0.14.0, in `Lua/AddonData/sl-admin/`): `item_details.json`, `{ items = ... }`, the captured
+  tooltips (stored small: name, text, a short fingerprint `fp` and `rev`, everything else worked out from the text). Until
+  then it was the saved variable `itemDetails`, which the first save moves over and removes.
 ## API facts learned in play (docs are at https://catnipgames.net/lua/reference.html)
 
 - Read the docs by downloading the page, stripping the HTML to text and searching it; a summarising
