@@ -79,16 +79,6 @@ RSpec.describe Skill, type: :model do
       expect(skills.map(&:game_id)).to all(be_an(Integer))
       expect(skills.map(&:game_id).uniq.size).to eq skills.size
     end
-
-    it 'agrees with the development team\'s skill list' do
-      rows = CSV.read(Rails.root.join('data/skill-costs.csv'), headers: true).index_by { _1['Skill ID'].to_i }
-      expect(rows.size).to eq skills.size
-      skills.each do |skill|
-        row = rows.fetch(skill.game_id)
-        expect([ row['Skill Name'].downcase, row['Internal Name'], row['Exp Factor'].to_f ])
-          .to eq([ skill.name.downcase, skill.game_key, skill.xp_factor ]), "#{skill.key} vs game id #{skill.game_id}"
-      end
-    end
   end
 
   describe 'validating adventuring data' do

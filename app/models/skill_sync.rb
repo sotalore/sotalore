@@ -17,7 +17,7 @@ class SkillSync
 
   # Skills whose current level would change from the game's level (from is
   # nil for a skill the avatar has no level for yet). These lists are in the
-  # skills pages' (and the game's) order.
+  # skills pages' order.
   def changes
     @changes ||= game_levels.filter_map do |skill, level|
       from = earned(skill)&.current

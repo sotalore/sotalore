@@ -52,9 +52,9 @@ class Skill
   BY_SCHOOL = {}
 
   # game_id and game_key are the game's id and internal name ("Deflect"), from
-  # the development team's data/skill-costs.csv (see `rails skills:game_ids`).
-  # position is the skill's place on the skills pages (adventuring then
-  # crafting, each by category, school and skill), which is the game's order.
+  # the plugin's list of every skill (see `rails skills:sync`). position is the
+  # skill's place on the skills pages (adventuring then crafting, each by
+  # category, school and skill).
   attr_accessor :id, :key, :name, :xp_factor, :category, :school, :game_id, :game_key, :position
 
   # Total XP needed to reach a level, fit to the game's published values

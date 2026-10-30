@@ -147,9 +147,9 @@ Each has a primary tool on the site (`carpentry` uses a Carpentry Hammer, and so
 
 The full skill trees, for avatars' skill planning: adventuring (combat, magic, strategy) and
 crafting (gathering, refining, production), each split into schools, each school a list of skills
-with a name and an XP factor (how much a level costs relative to others). 360 skills. They have
+with a name and an XP factor (how much a level costs relative to others). 363 skills. They have
 site ids and keys (`gathering~mining~survey-mining`), and each also holds the game's id and internal
-name (`game_id`, `game_key`), from the development team's skill list. They're maintained by hand.
+name (`game_id`, `game_key`). `rails skills:sync` keeps them in step with `sotalore-game-skills.json`.
 Each avatar has, per skill, a current and a target level, entered by the player.
 
 ### Items
