@@ -1,4 +1,4 @@
-# SotaLore plugin export format (sl-admin v0.13.1, sl-skills v0.2.0)
+# SotaLore plugin export format (sl-admin v0.14.0, sl-skills v0.2.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:

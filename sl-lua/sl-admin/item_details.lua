@@ -2,7 +2,7 @@
 --
 -- The API gives no quest, tool, trade or salvage information for an item, but the tooltip shows it. While
 -- capture is on (/sladmin capture), pointing the mouse at an item in the bags saves what its tooltip says,
--- under the item's key, in the account saved variable "itemDetails". items.lua adds it to the item file.
+-- under the item's key, in the add-on's data file (below). items.lua adds it to the item file.
 -- Sweep the mouse over the bags to fill it in. Holding Ctrl expands a tooltip; the longer text is then
 -- captured too. The game has a hotkey that switches tooltips off; while they are off, the API reports
 -- nothing under the mouse and this sees nothing (it cannot tell the difference from not pointing at an item).
@@ -52,14 +52,50 @@ local function cleared(d)
     return { name = d.name, rev = (d.rev or 0) + 1, fp = "cleared", cleared = true }
 end
 
--- The saved data has a size limit (256 KB for all of the account's, see util.flush), so an item that has its tooltip
--- text stored keeps little else: everything is worked out from the text again when the file is written. Entries
+-- Where it is kept: the data file item_details.json, in Lua/AddonData/sl-admin/ (API 51), which may hold 1 MB. Until
+-- sl-admin 0.14.0 it was the account saved variable "itemDetails", and it filled the 256 KB those files may hold; the
+-- first save to the data file removes that variable. A file takes one write every 10 seconds, so a save that must
+-- happen at once (the add-on is being unloaded) and is refused goes to a second file, item_details_last.json. That one is
+-- newer whenever it exists, and the next write of the main file removes it.
+local DATA_FILE = "item_details.json"
+local LAST_FILE = "item_details_last.json"
+local SAVE_EVERY = 11    -- seconds between ordinary writes; the game allows one every 10
+local lastFileExists = false
+local inSavedVar = false -- the old saved variable still holds the details
+local saveFailed = false -- a failed write was said in chat
+
+-- The stored tooltips, from the newest place that has them, or nil when none does. A file is { items = {...} }.
+local function readStored()
+    local last = ShroudReadDataFile(LAST_FILE)
+    local main, why = ShroudReadDataFile(DATA_FILE)
+    local old = ShroudGetSavedVar("itemDetails", "account")
+    inSavedVar = old ~= nil
+    if type(last) == "table" and type(last.items) == "table" then
+        lastFileExists = true
+        dirty = true
+        return last.items
+    end
+    if type(main) == "table" and type(main.items) == "table" then
+        if inSavedVar then dirty = true end   -- the next save removes the old variable
+        return main.items
+    end
+    if why ~= "notFound" then
+        ShroudConsoleLog("Item capture: could not read " .. DATA_FILE .. " (" .. tostring(why) .. ").")
+    end
+    if type(old) == "table" then
+        dirty = true
+        return old
+    end
+    return nil
+end
+
+-- An item that has its tooltip text stored keeps little else, to keep the file small: everything is worked out from
+-- the text again when the file is written. Entries
 -- stored before sl-admin 0.12.0 also kept every flag and list and a long fingerprint (about 210 KB for 286 items);
 -- they are made small when first read.
 local function all()
     if details == nil then
-        local t = ShroudGetSavedVar("itemDetails", "account")
-        details = type(t) == "table" and t or {}
+        details = readStored() or {}
         local wrong = {}
         for key, d in pairs(details) do
             local small = compact(d)
@@ -94,13 +130,36 @@ end
 
 function M.save(force)
     if not dirty then return end
-    if not force and ShroudTime - lastSave < 5 then return end
+    if not force and ShroudTime - lastSave < SAVE_EVERY then return end
     local started = util.clock()
-    ShroudSetSavedVar("itemDetails", all(), "account")
-    util.flush()
-    util.slow("saving the item details", started)
-    dirty = false
     lastSave = ShroudTime
+    local body = { items = all() }
+    local ok, why = ShroudWriteDataFile(DATA_FILE, body)
+    if ok then
+        if lastFileExists then
+            ShroudDeleteDataFile(LAST_FILE)
+            lastFileExists = false
+        end
+        -- Only now is the old saved variable no longer needed.
+        if inSavedVar then
+            ShroudDeleteSavedVar("itemDetails", "account")
+            inSavedVar = false
+            util.flush()
+        end
+    elseif force and why == "tooOften" then
+        ok, why = ShroudWriteDataFile(LAST_FILE, body)
+        if ok then lastFileExists = true end
+    end
+    util.slow("saving the item details", started)
+    if ok then
+        dirty = false
+        if saveFailed then ShroudConsoleLog("Item capture: the captured tooltips are being saved again.") end
+        saveFailed = false
+    elseif why ~= "tooOften" and not saveFailed then
+        -- still dirty, so it is tried again at the next save
+        saveFailed = true
+        ShroudConsoleLog("Item capture: WARNING, could not save the captured tooltips (" .. tostring(why) .. ").")
+    end
 end
 
 -- Reading a tooltip -------------------------------------------------------------------------
