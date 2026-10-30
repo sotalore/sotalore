@@ -36,15 +36,6 @@ class Views::Items::ByUse < Views::Items::Base
               h4 { "Effects" }
               formatted_body(item.effects)
             end
-
-            if @use == "artifact" && item.salvage_as_source_count > 0
-              h4 { "Salvages to:" }
-              ul do
-                item.salvages_to.each do |i|
-                  li { link_to(i, i) }
-                end
-              end
-            end
           end
         end
       end

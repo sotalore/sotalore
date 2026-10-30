@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_30_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -18,34 +18,34 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
   enable_extension "pg_trgm"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
-    t.text "body"
-    t.datetime "created_at", null: false
     t.string "name", null: false
-    t.bigint "record_id", null: false
+    t.text "body"
     t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", null: false
-    t.string "name", null: false
-    t.bigint "record_id", null: false
-    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.bigint "byte_size", null: false
-    t.string "checksum"
-    t.string "content_type"
-    t.datetime "created_at", null: false
-    t.string "filename", null: false
     t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
     t.text "metadata"
     t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -56,65 +56,65 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
   end
 
   create_table "api_tokens", force: :cascade do |t|
-    t.datetime "created_at", null: false
+    t.integer "user_id", null: false
     t.integer "created_by_id", null: false
+    t.string "name", null: false
+    t.string "token_digest", null: false
+    t.string "scopes", default: [], null: false, array: true
     t.datetime "expires_at"
     t.datetime "last_used_at"
-    t.string "name", null: false
     t.datetime "revoked_at"
-    t.string "scopes", default: [], null: false, array: true
-    t.string "token_digest", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
     t.index ["created_by_id"], name: "index_api_tokens_on_created_by_id"
     t.index ["token_digest"], name: "index_api_tokens_on_token_digest", unique: true
     t.index ["user_id"], name: "index_api_tokens_on_user_id"
   end
 
   create_table "avatars", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "ignored_skills", default: [], null: false, array: true
-    t.boolean "is_default", default: false, null: false
-    t.string "name", null: false
-    t.datetime "skills_synced_at"
-    t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "is_default", default: false, null: false
+    t.integer "ignored_skills", default: [], null: false, array: true
+    t.datetime "skills_synced_at"
     t.index ["user_id"], name: "index_avatars_on_user_id"
   end
 
   create_table "collection_items", force: :cascade do |t|
     t.bigint "collection_id", null: false
-    t.datetime "created_at", null: false
     t.integer "item_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["collection_id", "item_id"], name: "index_collection_items_on_collection_id_and_item_id", unique: true
     t.index ["item_id"], name: "index_collection_items_on_item_id"
   end
 
   create_table "collection_links", force: :cascade do |t|
+    t.bigint "parent_id", null: false
     t.bigint "child_id", null: false
     t.datetime "created_at", null: false
-    t.bigint "parent_id", null: false
     t.datetime "updated_at", null: false
     t.index ["child_id"], name: "index_collection_links_on_child_id"
     t.index ["parent_id", "child_id"], name: "index_collection_links_on_parent_id_and_child_id", unique: true
   end
 
   create_table "collections", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.text "description"
     t.citext "name", null: false
+    t.text "description"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_collections_on_name", unique: true
   end
 
   create_table "comments", id: :serial, force: :cascade do |t|
-    t.integer "author_id"
-    t.text "body"
-    t.integer "comment_type", default: 0, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.integer "subject_id"
     t.string "subject_type"
+    t.integer "subject_id"
+    t.integer "author_id"
+    t.integer "comment_type", default: 0, null: false
+    t.text "body"
+    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "user_key"
     t.boolean "visible", default: true, null: false
@@ -123,210 +123,210 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
   end
 
   create_table "creatures", force: :cascade do |t|
-    t.datetime "created_at", null: false
     t.citext "name", null: false
     t.text "notes"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_creatures_on_name", unique: true
   end
 
   create_table "earned_skills", force: :cascade do |t|
     t.bigint "avatar_id", null: false
-    t.datetime "created_at", null: false
-    t.integer "current", limit: 2
     t.string "skill_key", null: false
+    t.integer "current", limit: 2
     t.integer "target", limit: 2
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["avatar_id"], name: "index_earned_skills_on_avatar_id"
   end
 
   create_table "finds_imports", force: :cascade do |t|
+    t.integer "uploaded_by_id"
+    t.string "filename"
     t.integer "api_version"
+    t.string "plugin_version"
+    t.jsonb "payload", default: {}, null: false
     t.datetime "applied_at"
     t.datetime "created_at", null: false
-    t.string "filename"
-    t.jsonb "payload", default: {}, null: false
-    t.string "plugin_version"
     t.datetime "updated_at", null: false
-    t.integer "uploaded_by_id"
     t.index ["uploaded_by_id"], name: "index_finds_imports_on_uploaded_by_id"
   end
 
   create_table "gathering_nodes", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.string "gathering_skill"
     t.citext "name", null: false
     t.text "notes"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "gathering_skill"
     t.index ["name"], name: "index_gathering_nodes_on_name", unique: true
   end
 
   create_table "harvest_yields", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "item_id", null: false
-    t.bigint "source_id", null: false
     t.string "source_type", null: false
+    t.bigint "source_id", null: false
+    t.integer "item_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_harvest_yields_on_item_id"
     t.index ["source_type", "source_id", "item_id"], name: "index_harvest_yields_on_source_type_and_source_id_and_item_id", unique: true
   end
 
   create_table "ignored_sightings", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.citext "name", null: false
     t.integer "scene_id", null: false
+    t.citext "name", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["scene_id", "name"], name: "index_ignored_sightings_on_scene_id_and_name", unique: true
   end
 
   create_table "ingredients", id: :serial, force: :cascade do |t|
+    t.integer "recipe_id", null: false
+    t.integer "item_id", null: false
     t.integer "count", default: 1, null: false
     t.datetime "created_at", precision: nil, null: false
-    t.integer "item_id", null: false
-    t.integer "recipe_id", null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["item_id"], name: "index_ingredients_on_item_id"
     t.index ["recipe_id", "item_id"], name: "index_ingredients_on_recipe_id_and_item_id", unique: true
   end
 
   create_table "item_aliases", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "item_id", null: false
     t.citext "name", null: false
+    t.integer "item_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_item_aliases_on_item_id"
     t.index ["name"], name: "index_item_aliases_on_name", unique: true
   end
 
   create_table "item_catalog_imports", force: :cascade do |t|
+    t.integer "uploaded_by_id"
+    t.string "filename"
     t.integer "api_version"
+    t.string "plugin_version"
+    t.jsonb "payload", default: {}, null: false
     t.datetime "applied_at"
     t.datetime "created_at", null: false
-    t.string "filename"
-    t.jsonb "payload", default: {}, null: false
-    t.string "plugin_version"
     t.datetime "updated_at", null: false
-    t.integer "uploaded_by_id"
     t.index ["uploaded_by_id"], name: "index_item_catalog_imports_on_uploaded_by_id"
   end
 
   create_table "item_game_keys", force: :cascade do |t|
-    t.jsonb "catalog"
-    t.datetime "catalog_seen_at"
-    t.datetime "created_at", null: false
     t.integer "item_id", null: false
     t.string "key", null: false
     t.string "name", null: false
     t.jsonb "stats"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "catalog"
+    t.datetime "catalog_seen_at"
     t.index ["item_id"], name: "index_item_game_keys_on_item_id"
     t.index ["key"], name: "index_item_game_keys_on_key", unique: true
   end
 
   create_table "item_memberships", force: :cascade do |t|
-    t.datetime "created_at", null: false
     t.integer "group_id", null: false
     t.integer "member_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["group_id", "member_id"], name: "index_item_memberships_on_group_id_and_member_id", unique: true
     t.index ["member_id"], name: "index_item_memberships_on_member_id"
   end
 
   create_table "item_salvages", force: :cascade do |t|
-    t.decimal "chance", precision: 5, scale: 2
-    t.datetime "game_synced_at"
-    t.integer "max_count", limit: 2
-    t.integer "min_count", limit: 2
     t.bigint "salvage_from_id", null: false
     t.bigint "salvage_to_id", null: false
+    t.integer "min_count", limit: 2
+    t.integer "max_count", limit: 2
+    t.decimal "chance", precision: 5, scale: 2
+    t.datetime "game_synced_at"
     t.index ["salvage_from_id", "salvage_to_id"], name: "index_item_salvages_on_salvage_from_id_and_salvage_to_id", unique: true
     t.index ["salvage_to_id"], name: "index_item_salvages_on_salvage_to_id"
   end
 
   create_table "items", id: :serial, force: :cascade do |t|
-    t.boolean "crafting_input", default: false, null: false
-    t.datetime "created_at", precision: nil, null: false
-    t.text "effects"
-    t.string "gathering_skill"
-    t.integer "ingredients_count", default: 0, null: false
-    t.integer "kind", limit: 2, default: 0, null: false
-    t.datetime "last_verified_at", precision: nil
-    t.integer "last_verified_by_id"
     t.citext "name"
-    t.text "notes"
-    t.integer "merchant_price"
-    t.integer "results_count", default: 0, null: false
-    t.integer "salvage_as_result_count", limit: 2, default: 0, null: false
-    t.integer "salvage_as_source_count", limit: 2, default: 0, null: false
+    t.integer "use", default: 0, null: false
+    t.boolean "crafting_input", default: false, null: false
     t.integer "source", default: 0, null: false
+    t.integer "merchant_price"
+    t.string "gathering_skill"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "ingredients_count", default: 0, null: false
+    t.integer "results_count", default: 0, null: false
+    t.integer "last_verified_by_id"
+    t.datetime "last_verified_at", precision: nil
     t.string "type", default: "Item", null: false
     t.jsonb "type_data", default: {}, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.integer "use", default: 0, null: false
-    t.integer "value"
     t.decimal "weight", precision: 8, scale: 4
+    t.text "effects"
+    t.text "notes"
+    t.integer "salvage_as_result_count", limit: 2, default: 0, null: false
+    t.integer "salvage_as_source_count", limit: 2, default: 0, null: false
+    t.integer "kind", limit: 2, default: 0, null: false
+    t.integer "value"
     t.index ["kind"], name: "index_items_on_kind"
   end
 
   create_table "market_prices", force: :cascade do |t|
-    t.datetime "created_at", null: false
+    t.integer "user_id", null: false
     t.integer "item_id", null: false
     t.decimal "price", precision: 12, scale: 2, null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id", null: false
     t.index ["item_id", "user_id"], name: "index_market_prices_on_item_id_and_user_id", unique: true
     t.index ["user_id"], name: "index_market_prices_on_user_id"
   end
 
   create_table "pg_search_documents", id: :serial, force: :cascade do |t|
     t.text "content"
-    t.datetime "created_at", precision: nil, null: false
-    t.integer "searchable_id"
     t.string "searchable_type"
+    t.integer "searchable_id"
+    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
   end
 
   create_table "plantings", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", precision: nil, null: false
-    t.boolean "greenhouse", default: false, null: false
-    t.integer "location_type", default: 0, null: false
-    t.text "notes"
-    t.datetime "planted_at", precision: nil
-    t.integer "seed_id", null: false
-    t.datetime "updated_at", precision: nil, null: false
     t.integer "user_id", null: false
+    t.integer "seed_id", null: false
+    t.boolean "greenhouse", default: false, null: false
+    t.datetime "planted_at", precision: nil
+    t.text "notes"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "location_type", default: 0, null: false
     t.index ["user_id"], name: "index_plantings_on_user_id"
   end
 
   create_table "posts", force: :cascade do |t|
-    t.bigint "author_id", null: false
     t.datetime "created_at", null: false
-    t.integer "parent_id"
-    t.string "parent_type"
-    t.integer "status", limit: 2, default: 0
-    t.string "title"
     t.datetime "updated_at", null: false
+    t.bigint "author_id", null: false
+    t.string "title"
+    t.integer "status", limit: 2, default: 0
+    t.string "parent_type"
+    t.integer "parent_id"
     t.index ["author_id"], name: "index_posts_on_author_id"
     t.index ["parent_type", "parent_id"], name: "index_posts_on_parent_type_and_parent_id"
   end
 
   create_table "proposals", force: :cascade do |t|
-    t.bigint "api_token_id"
     t.integer "author_id", null: false
-    t.jsonb "before", default: {}, null: false
-    t.string "change", null: false
-    t.datetime "created_at", null: false
-    t.text "error"
-    t.text "evidence"
-    t.jsonb "params", default: {}, null: false
-    t.text "reason", null: false
-    t.text "review_note"
-    t.datetime "reviewed_at"
-    t.integer "reviewed_by_id"
-    t.integer "status", limit: 2, default: 0, null: false
-    t.integer "subject_id"
+    t.bigint "api_token_id"
     t.string "subject_type"
+    t.integer "subject_id"
+    t.string "change", null: false
+    t.jsonb "params", default: {}, null: false
+    t.jsonb "before", default: {}, null: false
+    t.text "reason", null: false
+    t.text "evidence"
+    t.integer "status", limit: 2, default: 0, null: false
+    t.integer "reviewed_by_id"
+    t.datetime "reviewed_at"
+    t.text "review_note"
+    t.text "error"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["api_token_id"], name: "index_proposals_on_api_token_id"
     t.index ["author_id"], name: "index_proposals_on_author_id"
@@ -336,18 +336,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
   end
 
   create_table "recipe_import_entries", force: :cascade do |t|
-    t.datetime "applied_at"
-    t.datetime "created_at", null: false
-    t.jsonb "diff", default: {}, null: false
+    t.bigint "recipe_import_id", null: false
     t.bigint "game_id", null: false
-    t.boolean "manual_match", default: false, null: false
-    t.string "match_method"
     t.string "name", null: false
     t.jsonb "payload", default: {}, null: false
-    t.jsonb "problems", default: [], null: false
     t.integer "recipe_id"
-    t.bigint "recipe_import_id", null: false
+    t.string "match_method"
+    t.boolean "manual_match", default: false, null: false
     t.integer "status", limit: 2, default: 0, null: false
+    t.jsonb "diff", default: {}, null: false
+    t.jsonb "problems", default: [], null: false
+    t.datetime "applied_at"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["recipe_id"], name: "index_recipe_import_entries_on_recipe_id"
     t.index ["recipe_import_id", "game_id"], name: "index_recipe_import_entries_on_recipe_import_id_and_game_id", unique: true
@@ -356,44 +356,44 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
   end
 
   create_table "recipe_imports", force: :cascade do |t|
-    t.datetime "analyzed_at"
-    t.integer "api_version"
-    t.datetime "created_at", null: false
-    t.integer "entries_count", default: 0, null: false
-    t.string "export_scope"
-    t.string "filename"
-    t.boolean "full_export", default: false, null: false
-    t.jsonb "groups_payload", default: [], null: false
-    t.string "plugin_version"
-    t.datetime "updated_at", null: false
     t.integer "uploaded_by_id"
+    t.string "filename"
+    t.integer "api_version"
+    t.boolean "full_export", default: false, null: false
+    t.integer "entries_count", default: 0, null: false
+    t.datetime "analyzed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "groups_payload", default: [], null: false
+    t.string "export_scope"
+    t.string "plugin_version"
     t.index ["uploaded_by_id"], name: "index_recipe_imports_on_uploaded_by_id"
   end
 
   create_table "recipes", id: :serial, force: :cascade do |t|
+    t.string "name", null: false
     t.string "craft_skill", null: false
     t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "recipe_key"
+    t.integer "ingredients_count", default: 0, null: false
+    t.integer "results_count", default: 0, null: false
+    t.integer "last_verified_by_id"
+    t.datetime "last_verified_at", precision: nil
+    t.integer "proficiency"
+    t.integer "teachable", limit: 2
     t.bigint "game_id"
     t.datetime "game_synced_at"
-    t.integer "ingredients_count", default: 0, null: false
-    t.datetime "last_verified_at", precision: nil
-    t.integer "last_verified_by_id"
-    t.string "name", null: false
-    t.integer "proficiency"
-    t.string "recipe_key"
-    t.integer "results_count", default: 0, null: false
     t.datetime "retired_at"
-    t.integer "teachable", limit: 2
-    t.datetime "updated_at", precision: nil, null: false
     t.index ["game_id"], name: "index_recipes_on_game_id", unique: true
     t.index ["retired_at"], name: "index_recipes_on_retired_at"
   end
 
   create_table "results", id: :serial, force: :cascade do |t|
+    t.integer "recipe_id", null: false
+    t.integer "item_id", null: false
     t.integer "count", default: 1, null: false
     t.datetime "created_at", precision: nil, null: false
-    t.integer "item_id", null: false
-    t.integer "recipe_id", null: false
     t.datetime "updated_at", precision: nil, null: false
     t.index ["item_id"], name: "index_results_on_item_id"
     t.index ["recipe_id", "item_id"], name: "index_results_on_recipe_id_and_item_id", unique: true
@@ -401,87 +401,87 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_120000) do
   end
 
   create_table "scene_creatures", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "creature_id", null: false
-    t.integer "level_max", limit: 2
-    t.integer "level_min", limit: 2
     t.integer "scene_id", null: false
+    t.bigint "creature_id", null: false
+    t.integer "level_min", limit: 2
+    t.integer "level_max", limit: 2
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["creature_id"], name: "index_scene_creatures_on_creature_id"
     t.index ["scene_id", "creature_id"], name: "index_scene_creatures_on_scene_id_and_creature_id", unique: true
   end
 
   create_table "scene_finds", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.integer "item_id", null: false
     t.integer "scene_id", null: false
+    t.integer "item_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_scene_finds_on_item_id"
     t.index ["scene_id", "item_id"], name: "index_scene_finds_on_scene_id_and_item_id", unique: true
   end
 
   create_table "scene_nodes", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.bigint "gathering_node_id", null: false
     t.integer "scene_id", null: false
+    t.bigint "gathering_node_id", null: false
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["gathering_node_id"], name: "index_scene_nodes_on_gathering_node_id"
     t.index ["scene_id", "gathering_node_id"], name: "index_scene_nodes_on_scene_id_and_gathering_node_id", unique: true
   end
 
   create_table "scenes", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "finds_imported_at"
-    t.string "game_name"
-    t.integer "level_id"
-    t.boolean "level_plus", default: false, null: false
     t.string "name"
-    t.integer "parent_id"
-    t.boolean "pvp", default: false, null: false
-    t.integer "region_id"
+    t.integer "level_id"
     t.integer "scene_type_id"
+    t.integer "region_id"
+    t.integer "parent_id"
     t.integer "sota_map_id"
     t.integer "sota_map_parent_poi_id"
+    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.boolean "pvp", default: false, null: false
+    t.boolean "level_plus", default: false, null: false
+    t.string "game_name"
+    t.datetime "finds_imported_at"
     t.index ["game_name"], name: "index_scenes_on_game_name", unique: true
     t.index ["sota_map_id"], name: "index_scenes_on_sota_map_id", unique: true
     t.index ["sota_map_parent_poi_id"], name: "index_scenes_on_sota_map_parent_poi_id", unique: true
   end
 
   create_table "user_recipes", id: :serial, force: :cascade do |t|
-    t.datetime "created_at", precision: nil, null: false
-    t.integer "recipe_id"
-    t.datetime "updated_at", precision: nil, null: false
     t.integer "user_id"
+    t.integer "recipe_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.index ["recipe_id"], name: "index_user_recipes_on_recipe_id"
     t.index ["user_id", "recipe_id"], name: "index_user_recipes_on_user_id_and_recipe_id", unique: true
     t.index ["user_id"], name: "index_user_recipes_on_user_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.boolean "bot", default: false, null: false
-    t.datetime "confirmation_sent_at", precision: nil
-    t.string "confirmation_token"
-    t.datetime "confirmed_at", precision: nil
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "current_sign_in_at", precision: nil
-    t.inet "current_sign_in_ip"
-    t.datetime "disabled_at", precision: nil
+    t.string "name", null: false
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.datetime "last_request_at", precision: nil
-    t.datetime "last_sign_in_at", precision: nil
-    t.inet "last_sign_in_ip"
-    t.string "name", null: false
-    t.string "provider", default: "email", null: false
-    t.datetime "remember_created_at", precision: nil
-    t.datetime "reset_password_sent_at", precision: nil
     t.string "reset_password_token"
-    t.string "roles", default: [], null: false, array: true
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
     t.integer "sign_in_count", default: 0, null: false
-    t.string "uid"
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
     t.string "unconfirmed_email"
+    t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.string "roles", default: [], null: false, array: true
+    t.datetime "disabled_at", precision: nil
+    t.datetime "last_request_at", precision: nil
+    t.string "provider", default: "email", null: false
+    t.string "uid"
+    t.boolean "bot", default: false, null: false
     t.index "lower((email)::text)", name: "index_users_on_lower_email", unique: true
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true

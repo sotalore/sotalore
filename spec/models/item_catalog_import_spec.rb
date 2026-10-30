@@ -109,7 +109,7 @@ RSpec.describe ItemCatalogImport do
     it 'makes gear of unknown use armor or weapons, from its type line' do
       helm = create(:item, name: 'Ragged Leather Helm')
       club = create(:item, name: 'Long Club')
-      wand = create(:item, name: 'Lesser Wand', use: :decoration)
+      wand = create(:item, name: 'Lesser Wand', use: :food)
       gear = import_of(catalog_entry(name: 'Ragged Leather Helm', types: [ 'Leather Light Armor (Head)' ]),
                        catalog_entry(name: 'Long Club', types: [ 'Artifact', 'Two-handed Mace - Bludgeon' ]),
                        catalog_entry(name: 'Lesser Wand', types: [ 'Wand - Bludgeon' ]))
@@ -119,7 +119,7 @@ RSpec.describe ItemCatalogImport do
 
       counts = gear.apply!(user)
       expect([ counts[:gear], counts[:tools] ]).to eq [ 2, 0 ]
-      expect([ helm, club, wand ].map { _1.reload.use }).to eq %w[ armor weapon decoration ]
+      expect([ helm, club, wand ].map { _1.reload.use }).to eq %w[ armor weapon food ]
       expect(helm.comments.revision.count).to eq 1
     end
 

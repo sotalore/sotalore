@@ -94,7 +94,7 @@ class Views::Collections::Show < Views::Base
               whitespace
               item_abstract_tag(item)
             end
-            td(class: "py-1 pr-4") { item_use_tag(item, hide_unknown: true) }
+            td(class: "py-1 pr-4") { item_use_tag(item) }
             td(class: "py-1 pr-4") { listed_in(collections) } if via_others
             td(class: "py-1 text-right") { remove_button(item) } if editable?
           end

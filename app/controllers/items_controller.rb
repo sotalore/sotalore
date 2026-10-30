@@ -8,12 +8,9 @@ class ItemsController < ApplicationController
   end
 
   def by_use
-    use = params[:use]
+    use = params[:use].presence_in(Item.uses.keys) or raise ActiveRecord::RecordNotFound
     items = Item.where(use: use)
     items = items.by_name.page(params[:page]).per(200)
-    if use == 'artifact'
-      items = items.includes(:salvages_to)
-    end
     authorize Item
     render Views::Items::ByUse.new(items: items, use: use)
   end
