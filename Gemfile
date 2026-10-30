@@ -48,7 +48,6 @@ gem 'faraday'
 gem "honeybadger"
 
 gem 'icalendar'
-gem 'csv'
 
 
 group :production do

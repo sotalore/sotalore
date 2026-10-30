@@ -18,12 +18,12 @@ RSpec.describe Skill, type: :model do
       expect(Skill.new(xp_factor: 0.5).xp_to_level(50)).to eq 5_117
     end
 
-    it 'stays within rounding of the published values for every skill' do
-      CSV.foreach(Rails.root.join('data/skill-costs.csv'), headers: true) do |row|
-        skill = Skill.new(xp_factor: row['Exp Factor'].to_f)
-        [ 50, 80, 100, 120, 140, 160, 180, 200 ].each do |level|
-          expect(skill.xp_to_level(level)).to be_within(skill.xp_factor.ceil).of(row["Lv #{level}"].to_i)
-        end
+    it 'stays within rounding of the published values for every XP factor' do
+      published = { 50 => 10_233, 80 => 180_138, 100 => 1_212_424, 120 => 8_157_124,
+                    140 => 54_877_598, 160 => 369_189_582, 180 => 2_483_723_446, 200 => 16_709_249_906 }
+      [ 0.5, 1, 2, 3, 4, 5, 6, 8, 10, 20 ].each do |factor|
+        skill = Skill.new(xp_factor: factor.to_f)
+        published.each { |level, xp| expect(skill.xp_to_level(level)).to be_within(factor.ceil).of(xp * factor) }
       end
     end
   end

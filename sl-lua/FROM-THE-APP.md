@@ -57,7 +57,7 @@ Boots +15 (Supple Fortified Leather Boots +15)"), could let the importer do bett
 ### R5. Skill codes: keep sending the game's ids (answer, 2026-10-18)
 
 An answer to the open question in `EXPORT-FORMAT.md`'s skills section, not a change. The development
-team's skill list (the site's `data/skill-costs.csv`, with "Skill ID" and "Internal Name") uses the same
+team's skill list (a CSV the site had then, with "Skill ID" and "Internal Name") uses the same
 ids and keys as `ShroudGetSkills()`: all 338 skills in Gravidy's `sotalore-skills.json` (sl-skills 0.1.0)
 match it, id, key and name. Every site skill now has its game id from that list, so the site can read the
 code's ids as they are; nothing more compact is needed. The highest id is 13310 (`a9q`, three base 36

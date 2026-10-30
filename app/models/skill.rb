@@ -62,9 +62,9 @@ class Skill
   # the plugin's list of every skill (see `rails skills:sync`).
   attr_accessor :id, :key, :name, :xp_factor, :category, :school, :game_id, :game_key
 
-  # Total XP needed to reach a level, fit to the game's published values
-  # (data/skill-costs.csv) for levels 50-200. The base curve grows 10% per
-  # level, and each skill's cost is that curve scaled by its xp_factor.
+  # Total XP needed to reach a level, fit to the game's published values for
+  # levels 50-200. The base curve grows 10% per level, and each skill's cost is
+  # that curve scaled by its xp_factor.
   # e.g. level 200 with a 1x factor is 16_709_249_906.
   def xp_to_level(level)
     return 0 if level <= 1
