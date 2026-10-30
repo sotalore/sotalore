@@ -37,7 +37,7 @@ All `GET`, all needing `read`. Lists are paged: `?page=`, `?per=` (at most 100),
 | Endpoint | What |
 |----------|------|
 | `/proposal_changes` | **The kinds of change you can propose, with their parameters.** Read it first; it's the source of truth and grows over time. |
-| `/items?q=&kind=&use=` | Items by name, kind (`concrete`, `group`, `archetype`, `category`) or use (`armor`, `weapon`, `potion`, ...). |
+| `/items?q=&kind=&use=` | Items by name, kind (`concrete`, `group`, `archetype`, `category`) or use (`armor`, `weapon`, `food`, ...). |
 | `/items/:id` | Everything about one: game keys, `tooltip_types` (the game's type lines, such as "Leather Light Armor (Head)"), `effects`, groups and categories it's in (`member_of`), `collections`, recipes, and `sources` and `roles`: how it's obtained and what it's used for, read from the site's records. Trust those over `use` and `source`, which are old and often wrong. `materials` says where it stands among the crafting materials, when it's among them. |
 | `/materials` | The crafting materials by family (metal, wood, leather, cloth) and tier: what each common one is refined from (`raw`), each uncommon one's `base` and `additives`, and their `forms`. Worked out from the refining recipes. |
 | `/collections` | Every collection, with `parents` and `children` (the tree) and how many items each lists. |
@@ -100,7 +100,7 @@ Evidence for where an item belongs, best first:
    "One-Handed Blade Equipment" say a lot.
 3. Sets named alike: Fortified Leather Boots, Chest Armor, Chest Quarter-Armor, Gloves, Helm and
    Leggings are one set.
-4. The item's `use` (`armor`, `weapon`, `potion`).
+4. The item's `use` (`armor`, `weapon`).
 
 Before making a collection, read `/collections` to see the tree, so a new one fits it and doesn't
 duplicate one that exists under another name.

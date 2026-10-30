@@ -62,6 +62,11 @@ RSpec.describe "Items", type: :request do
       get by_use_items_path(use: 'food')
       expect(response).to have_http_status(:ok)
     end
+
+    it 'finds nothing for a use that is not one' do
+      get by_use_items_path(use: 'artifact')
+      expect(response).to have_http_status(:not_found)
+    end
   end
 
 end

@@ -66,7 +66,7 @@ RSpec.describe ItemReview do
     leather = create(:item, name: 'Yard of Leather', kind: :group)
     boots   = create(:item, name: 'Fortified Leather Boots', use: :armor)
     cloak   = create(:item, name: 'Cloak')
-    chair   = create(:item, name: 'Arm Chair', use: :decoration)
+    chair   = create(:item, name: 'Arm Chair')
     unknown = create(:item, name: 'Leather Helm', use: :armor)
     ItemMembership.create!(group: create(:item, name: 'Back Slot Equipment', kind: :category), member: cloak)
     create(:recipe, name: 'Boots', game_id: 1, with_ingredients: { leather => 1 }, with_results: { boots => 1 })

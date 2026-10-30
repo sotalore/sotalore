@@ -3,15 +3,11 @@
 module Views::ItemsHelper
 
   USE_ICONS = {
-    'unknown' => 'question',
     'fuel' => 'fire',
     'tool' => 'wrench',
     'armor' => 'shield',
     'weapon' => 'sword',
-    'decoration' => 'photo',
     'food' => 'apple_alt',
-    'potion' => 'flask',
-    'house' => 'home',
     'seed' => 'seedling',
     'pet-food' => 'bone',
   }.freeze
@@ -74,14 +70,12 @@ module Views::ItemsHelper
   end
 
   def item_use_tag(item, options={})
-    return if item.use_is_unknown? && options[:hide_unknown]
     return unless icon = USE_ICONS[item.use]
 
-    label = item.use_is_unknown? ? 'unknown use' : item.use
     icon_size = options[:large] || options[:size] == :lg ? :md : :xs
     span(class: item_css('text-sky-700 dark:text-sky-300 inline-flex gap-x-1', options)) do
       render_icon(icon, size: icon_size, color: :current)
-      span { label }
+      span { item.use }
     end
   end
 
