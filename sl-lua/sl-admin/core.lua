@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore Admin"
-local Version = "0.13.0"
+local Version = "0.13.1"
 local CreatorName = "Gravidy"
 local Description = "SotaLore site admin tools: recipe, item and find exports for upload to the site."
 
@@ -254,17 +254,22 @@ end
 -- The items with this name from a list function such as ShroudGetInventoryItems. A name read from a
 -- tooltip can differ from the list's: the list may add markers ("[u]Letter[/u]"), and a tooltip title
 -- can end with the base item's name in brackets ("Boots +15 (Leather Boots +15)"). Several items can
--- share a name, so all matches are returned.
-function util.itemsNamed(getList, name)
-    local found = {}
-    local short = name:gsub("%s*%b()%s*$", "")
+-- share a name, so all matches are returned. A bracket can also be part of the name: "Focus Battery Necklace,
+-- Common (L)" and "Focus Battery Necklace, Common" are two items. So the whole name is tried first, and without its
+-- bracket only when nothing has the whole name and `exactOnly` is not set.
+function util.itemsNamed(getList, name, exactOnly)
+    local found, short = {}, {}
+    local shortName = name:gsub("%s*%b()%s*$", "")
     for _, it in ipairs(getList() or {}) do
         local plain = it.name and it.name:gsub("%[/?%a+%]", "")
-        if it.name == name or plain == name or it.name == short or plain == short then
+        if it.name == name or plain == name then
             found[#found + 1] = it
+        elseif it.name == shortName or plain == shortName then
+            short[#short + 1] = it
         end
     end
-    return found
+    if #found > 0 or exactOnly then return found end
+    return short
 end
 
 -- Tooltip lines that name a kind of item ("Quest Item", "Dread Artifact", "Necklace", "Leather Light Armor

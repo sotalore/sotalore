@@ -2,7 +2,7 @@
   "manifest_version": 1,
   "slug": "sl-admin",
   "name": "SotaLore Admin",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "SotaLore site admin tools: recipe, item and per-scene find exports for upload to the site.",
   "author": "Darren",
   "files": ["core.lua", "recipes_export.lua", "gear_samples.lua", "item_details.lua", "items.lua", "finds_data.lua", "finds_ui.lua", "items_ui.lua", "recipes_ui.lua", "toolbar_ui.lua", "hoverlog.lua", "targetlog.lua", "main.lua"],

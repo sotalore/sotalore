@@ -1,4 +1,4 @@
-# SotaLore plugin export format (sl-admin v0.13.0, sl-skills v0.2.0)
+# SotaLore plugin export format (sl-admin v0.13.1, sl-skills v0.2.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:
@@ -142,6 +142,13 @@ that is the game's own text, passed through unchanged, so strip markers like `[u
 **`details`** is what the item's tooltip said, captured while the player pointed at the item in the bags with
 capture on (the "Capture" switch in the "SotaLore Items" window, or `/sladmin capture`; the API has no field for any of it), or `null` for an item that was never hovered. It is keyed by
 the item `key`, so every entry of that key shares it. Holding Ctrl while hovering gives the full tooltip.
+Crafted pieces of one kind share a key, whatever they're called, so `details` is about whichever piece was hovered
+last, and `name` is the first piece of that key in the bags. That's why a title can differ from the name ("Bronze Dagger +10"
+with the title "Bronze Dagger +11").
+**Fixed in v0.13.1:** before it, an item whose name ends in a bracket ("Necklace, Common (L)", "Bolt of Cotton Cloth (Vintage)")
+could have its tooltip saved under the key of its twin without the bracket, with the twin's own tooltip lost. An item not crafted
+whose `title` has a bracket its `name` lacks is such a case: don't trust files from before v0.13.1 for these. On load, v0.13.1
+clears the wrong entries, so the next "New items" export gives each `details: null` until it's hovered again.
 The tooltip is English text, so these flags depend on the game language.
 
 ```json
