@@ -1,4 +1,4 @@
-# SotaLore plugin export format (sl-admin v0.14.0, sl-skills v0.2.0)
+# SotaLore plugin export format (sl-admin v0.15.0, sl-skills v0.2.0)
 
 Context for an AI session working on importing this data into a fansite database for the game
 *Shroud of the Avatar*. The data comes from two in-game Lua add-ons, whose code is in this folder:
@@ -488,6 +488,33 @@ one box. Measured on 2026-10-18: the game's skill ids are the same as the develo
 (`data/skill-costs.csv`, "Skill ID"), the highest is 13310 (`a9q`), so `<id digits>` is 3 and an entry is 5
 characters; a character with 338 trained skills needs **two pages**. Copying from the plugin's text box with
 Ctrl+A, Ctrl+C works in the game. The format stays as described; a change to it would be `SLS2`.
+
+### Every skill in the game, from `sl-admin` v0.15.0 (not uploaded)
+
+`sotalore-game-skills.json`, written by `/sladmin gameskills`. **Not for upload:** it's copied into the repo, and the
+app's code is built from it. It lists every skill the game's skills window draws, trained or not, from
+`ShroudGetAllSkills` (API 55), in the game's order (by school, then id). It's the same for every character.
+
+```json
+{ "apiVersion": 56, "plugin": "sl-admin", "pluginVersion": "0.15.0", "type": "gameSkills", "count": 1, "skills": [
+  {"id": 12, "key": "DoubleThrust", "name": "Double Slash", "schoolKey": "Blades", "school": "Blades",
+   "subcategory": "Combat", "xpMultiplier": 1} ] }
+```
+
+`id`, `key` (the game's stable identifiers; `id` is the id `sl-skills` exports), `name`, `school` and `subcategory` (as the
+skills window shows them, in the player's language), `schoolKey` (the school's stable key), `xpMultiplier` (how many times
+the standard experience the skill needs per level: 1 is standard, 0.5 half). Experience costs per level aren't in the API.
+
+**A real file:** `data/plugin-examples/sotalore-game-skills.json` (sl-admin v0.15.0, API 56, 363 skills).
+
+**Compared with `data/skill-costs.csv`** (360 skills, 2026-10-30): its columns are `subcategory` (Category), `school`, `name`
+(Skill Name), `id` (Skill ID), `key` (Internal Name) and `xpMultiplier` (Exp Factor). All 360 are in the file, and every value
+agrees except one name. What's new or different in the game:
+
+- New: Trap Sense (4350, Tactics, 2), Gait Pacing (5775, Tactics, 10) and Set Trap (4349, Subterfuge, 2).
+- Renamed: skill 180 is "Efficient Swapping" in the game and "Quick Swapping" in the CSV. Its `key` and other values agree.
+
+`schoolKey` isn't always the school's name without spaces: the Moon school's key is `Lunar`.
 
 ## Every file starts the same way
 

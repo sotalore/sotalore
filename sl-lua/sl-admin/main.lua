@@ -13,6 +13,7 @@
 --   gear_samples.lua    what expanded gear tooltips say it is made of (components, enchantments, masterworks, sockets)
 --   hoverlog.lua        a diagnostic: writes an item's tooltip text to chat (/sladmin hoverlog)
 --   targetlog.lua       a diagnostic: writes what the game says about each new target to chat (/sladmin targetlog)
+--   game_skills.lua     every skill in the game -> a file for the repo (/sladmin gameskills)
 --
 -- The files run in the order the manifest lists them.
 
@@ -27,6 +28,7 @@ local HoverLog = SotaLoreAdmin.HoverLog
 local TargetLog = SotaLoreAdmin.TargetLog
 local ItemDetails = SotaLoreAdmin.ItemDetails
 local GearSamples = SotaLoreAdmin.GearSamples
+local GameSkills = SotaLoreAdmin.GameSkills
 
 -- The /sladmin command: a word picks an action, any other text searches the recipes, and nothing at
 -- all opens or closes the toolbar. The key binding does the same as the bare command.
@@ -62,6 +64,8 @@ local function handleCommand(args)
     elseif args == "clearfinds" then
         Finds.reset()
         ShroudConsoleLog("Cleared all recorded finds.")
+    elseif args == "gameskills" then
+        GameSkills.export()
     elseif args == "gatherlog" then
         ShroudConsoleLog("Gather log " .. (Finds.toggleGatherLog() and "on" or "off"))
     elseif args and args ~= "" then
@@ -87,7 +91,7 @@ function ShroudOnStart()
     -- "sota" is a reserved prefix).
     local ok, reason = Shroud.Command{
         name = "sladmin",
-        help = "Open the SotaLore Admin toolbar. /sladmin <text> searches recipes. Also: recipes finds new items capture",
+        help = "Open the SotaLore Admin toolbar. /sladmin <text> searches recipes. Also: recipes finds new items capture gameskills",
         run = handleCommand,
     }
     if not ok then
