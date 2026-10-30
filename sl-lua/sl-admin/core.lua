@@ -11,7 +11,7 @@
 -- file is loading. So files only define things at load time and use the game's API inside functions.
 
 local ScriptName = "SotaLore Admin"
-local Version = "0.14.0"
+local Version = "0.15.0"
 local CreatorName = "Gravidy"
 local Description = "SotaLore site admin tools: recipe, item and find exports for upload to the site."
 
@@ -28,6 +28,7 @@ SotaLoreAdmin.files = {
     oneRecipe = "sotalore-recipes-one.json",
     items = "sotalore-item-catalog.json",
     finds = "sotalore-scene-finds.json",
+    gameSkills = "sotalore-game-skills.json",    -- not for upload: copied into the repo for the app's code
     hoverLog = "sotalore-hoverlog.txt",          -- not for upload: the hover log's full tooltips, to read
 }
 

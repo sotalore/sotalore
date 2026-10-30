@@ -56,6 +56,7 @@ comment saying what it is for. This is the pattern the game's own multi-file exa
 | `toolbar_ui.lua` | `SotaLoreAdmin.ToolbarUI`: the toolbar `/sladmin` opens, with a button for each of the three windows above |
 | `hoverlog.lua` | `SotaLoreAdmin.HoverLog`: a diagnostic (`/sladmin hoverlog`) that writes the tooltip text of items under the mouse to chat (shortened) and in full to `sotalore-hoverlog.txt` |
 | `targetlog.lua` | `SotaLoreAdmin.TargetLog`: a diagnostic (`/sladmin targetlog`) that writes each new target to chat (name, id, dead, health, focus, the stats Animal Lore shows, pet or party member), to learn whether targeting can add creatures to the finds that are never fought |
+| `game_skills.lua` | `SotaLoreAdmin.GameSkills`: every skill in the game (`ShroudGetAllSkills`) to `sotalore-game-skills.json`, `/sladmin gameskills`; not uploaded, copied into the repo for the app's code |
 | `main.lua` | the only file with `ShroudOn...` callbacks, the `/sladmin` command and the key binding; read it first |
 
 `sl-skills/`:
@@ -198,7 +199,7 @@ command from the plugin's name. For a plugin about `<name>`:
   before, the recipe list). Subcommands: `recipes` (toggle the recipe list), `export`,
   `exportall`, `baseline`, `new` (open the list showing only recipes "Export new" would export), `items` (new or
   changed items), `itemsall`, `baselineitems`, `finds` (toggle the finds window), `savefinds`, `clearfinds`,
-  `gatherlog`, `checkrecipes`, `capture`, `hoverlog`, `targetlog`; other text searches the recipe list. The command's help
+  `gatherlog`, `checkrecipes`, `capture`, `hoverlog`, `targetlog`, `gameskills`; other text searches the recipe list. The command's help
   text must be at most 120 characters.
 - `sl-skills`: `/slskills` opens the skills window, `/slskills file` saves the skills file (not mentioned to players; the window has no button for it since 0.2.0).
 - An add-on may own at most **8 windows**. `sl-admin` (since 0.13.0): the toolbar, the finds, items and recipe list
