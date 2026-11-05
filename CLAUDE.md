@@ -14,6 +14,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Security scan (Brakeman): `bin/brakeman`
 - Importmap JS dependency audit: `bin/importmap audit`
 - DB prepare/migrate: `bin/rails db:prepare` / `bin/rails db:migrate`
+- `CODING_STANDARDS.md` holds the rules code here follows. Read it before writing or reviewing code, and update it when a change sets or retires a rule.
+- `REVIEW.md` holds how code review works here. Read it before reviewing code.
 
 There is no hosted CI (no `.github/workflows/`, no CircleCI/GitLab config). `bin/ci` (backed by `config/ci.rb`, Rails 8's built-in CI runner) exists as a local convenience script, but **its test steps (`bin/rails test`, `bin/rails test:system`) are stale Minitest boilerplate that silently no-op** — this project has no `test/` directory and uses RSpec exclusively. Always verify changes with `bundle exec rspec`, not `bin/ci`, and pair it with `bin/rubocop` / `bin/brakeman` for style/security.
 
@@ -63,3 +65,6 @@ Work and conversation live in **GitHub issues** on `sotalore/sotalore` (with `gh
 - **Labels say whose side it is:** `app` (this Rails app) or `plugin` (`sl-lua/`), plus `bug` or `enhancement`. Requests from the app to the plugin are `plugin` issues, answered in the issue; `EXPORT-FORMAT.md` changes only when an export does.
 - **The repo is public, so issues are too.** Never put credentials, tokens or anything about users in one.
 - `gh` is signed in as Darren, so end issues and comments you write with `_Opened by Claude Code for @darrenboyd._` (or "Comment by Claude Code") so it's clear who wrote them.
+- `docs/solutions/` holds documented solutions to past problems (bugs, best practices, workflow patterns), organized by category with YAML frontmatter (`module`, `tags`, `problem_type`); it's relevant when implementing or debugging in an area it covers.
+- After a solved, verified problem, offer once to invoke the `ce-compound` skill at the completion checkpoint only when the work produced durable project reasoning that is not readily recoverable from the final code, tests, types, comments, or existing documentation, and losing it would plausibly cause recurrence, material risk, or substantial rediscovery. Apply this counterfactual: if the learning document disappeared, would a future engineer reading the final implementation still be likely to repeat the mistake or redo substantial investigation? If not, do not offer. Completion, effort, and diff size alone are not enough. Offer at the checkpoint so a qualifying learning can ship in the PR that produced it, and only where the repository treats captured learnings as tracked, committed knowledge.
+- Write every report, summary, or handoff to the user through the `ce-noslop` skill. This applies when you are the top-level agent writing to the user, not when you are a subagent reporting to its caller. Do not apply it to code, config, verbatim quotes, or text the user asked to post as written.
