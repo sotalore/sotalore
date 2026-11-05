@@ -41,3 +41,6 @@ coverage/
 
 sotalore-*.json
 !/data/plugin-examples/*.json
+
+# Compound Engineering scratch space
+.context/compound-engineering/
