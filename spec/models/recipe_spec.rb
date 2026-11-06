@@ -31,7 +31,7 @@ RSpec.describe Recipe do
     context 'With a recipe to find' do
       let!(:recipe) { create :recipe }
       it 'returns some of them' do
-        expect(Recipe.random).to eq [recipe]
+        expect(Recipe.random).to eq [ recipe ]
       end
     end
   end

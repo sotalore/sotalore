@@ -5,6 +5,6 @@ class AddParentToPosts < ActiveRecord::Migration[7.0]
     add_column :posts, :parent_type, :string
     add_column :posts, :parent_id, :integer
 
-    add_index :posts, [:parent_type, :parent_id]
+    add_index :posts, [ :parent_type, :parent_id ]
   end
 end

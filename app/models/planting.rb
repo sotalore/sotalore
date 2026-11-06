@@ -25,7 +25,7 @@ class Planting < ApplicationRecord
     WATERING_STEPS.times.map do |idx|
       begins = (idx) * total_growing_time
       ends   = (idx + 1) * total_growing_time
-      [ planted_at + begins.hours, planted_at + ends.hours]
+      [ planted_at + begins.hours, planted_at + ends.hours ]
     end
   end
 

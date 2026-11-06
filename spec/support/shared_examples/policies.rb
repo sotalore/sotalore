@@ -38,4 +38,3 @@ RSpec.shared_examples "a standard root-only editable policy" do |model|
     end
   end
 end
-

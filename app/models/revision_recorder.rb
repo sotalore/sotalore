@@ -25,7 +25,7 @@ class RevisionRecorder
         model.comments.create!(
           author: current_user,
           comment_type: 'revision',
-          body: {changes: what_changed}.to_json
+          body: { changes: what_changed }.to_json
         )
       end
     end

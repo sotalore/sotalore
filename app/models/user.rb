@@ -5,7 +5,7 @@ class User < ApplicationRecord
   include PasswordValidation
   alias_attribute :password_digest, :encrypted_password
 
-  normalizes :email, with: -> given_value { given_value.strip.downcase }
+  normalizes :email, with: ->(given_value) { given_value.strip.downcase }
 
   generates_token_for :confirmation, expires_in: 2.days { email }
   generates_token_for :password_reset, expires_in: 1.hour do
@@ -15,7 +15,7 @@ class User < ApplicationRecord
 
   has_one_attached :picture
 
-  has_many :avatars, -> { order(:id)}, dependent: :destroy, inverse_of: :user
+  has_many :avatars, -> { order(:id) }, dependent: :destroy, inverse_of: :user
   has_many :user_recipes, dependent: :delete_all, inverse_of: :user
   has_many :recipes, through: :user_recipes
   has_many :plantings, inverse_of: :user, dependent: :delete_all

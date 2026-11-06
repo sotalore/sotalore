@@ -92,7 +92,7 @@ class RecipeForm < ApplicationForm
     return unless recipe.recipe_key
     other = Recipe.find_by(recipe_key: recipe.recipe_key)
     if other && other.id != recipe.id
-      errors.add(:base, %Q{This recipe already exists as "#{other.name}"})
+      errors.add(:base, %Q(This recipe already exists as "#{other.name}"))
     end
   end
 
@@ -115,7 +115,7 @@ class RecipeForm < ApplicationForm
     if cs = what_changed[:craft_skill]
       what_changed[:craft_skill] = cs.map { |c| c&.name }
     end
-    all_changes = {changes: what_changed}
+    all_changes = { changes: what_changed }
 
     if ingredient_changes.any?
       all_changes[:ingredient_changes] = ingredient_changes

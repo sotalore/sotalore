@@ -40,7 +40,7 @@ class Components::Icons::Base < Components::Base
   WRAPPER_CLASSES = 'inline-flex items-center'
 
   def wrapper(&block)
-    span(class: [WRAPPER_CLASSES, @size_class, @color_class, @given_class], &block)
+    span(class: [ WRAPPER_CLASSES, @size_class, @color_class, @given_class ], &block)
   end
 
 end

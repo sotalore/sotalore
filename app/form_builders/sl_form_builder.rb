@@ -144,7 +144,7 @@ class SLFormBuilder < BasicFormBuilder
 
   def form_group_with_label(method=nil, options={}, &block)
     skip_label = method.nil? || options.fetch(:skip_label, false)
-    label = skip_label ? "".html_safe : label(*[method, options[:label]].compact)
+    label = skip_label ? "".html_safe : label(*[ method, options[:label] ].compact)
 
     if options[:required]
       tag = content_tag(:span, "*", class: "Field-required")

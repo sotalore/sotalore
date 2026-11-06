@@ -30,9 +30,9 @@ class CommentPolicy < ApplicationPolicy
 
   def permitted_attributes
     if user.has_role?('root')
-      [:body, :visible]
+      [ :body, :visible ]
     else
-      [:body]
+      [ :body ]
     end
   end
 

@@ -8,7 +8,7 @@ class Ingredient < ApplicationRecord
            to: :item, allow_nil: true
 
   def to_s
-    "%5d %s" % [ count || 1, name]
+    "%5d %s" % [ count || 1, name ]
   end
 
   def fuel_price

@@ -19,15 +19,15 @@ RSpec.describe WorkList do
     let(:recipe)      { create :recipe, with_results: { item => 3 }, with_ingredients: ingredients }
 
     it 'has the fuels' do
-      expect(subject.fuels).to eq([[fuel1, 1]])
+      expect(subject.fuels).to eq([ [ fuel1, 1 ] ])
     end
 
     it 'has the recursive requirements' do
-      expect(subject.recursive).to eq([item])
+      expect(subject.recursive).to eq([ item ])
     end
 
     it 'has the single recipe' do
-      expect(subject.recipes).to eq([[recipe, 1]])
+      expect(subject.recipes).to eq([ [ recipe, 1 ] ])
     end
   end
 
@@ -56,7 +56,7 @@ RSpec.describe WorkList do
     let(:recipe) { create :recipe, with_ingredients: ingredients }
 
     it 'has the gathered_materials' do
-      expect(subject.gathered).to eq([[mat1, 2]])
+      expect(subject.gathered).to eq([ [ mat1, 2 ] ])
     end
   end
 
@@ -67,7 +67,7 @@ RSpec.describe WorkList do
     let(:recipe) { create :recipe, with_ingredients: ingredients }
 
     it 'has the components' do
-      expect(subject.components).to eq([[item1, 2]])
+      expect(subject.components).to eq([ [ item1, 2 ] ])
     end
   end
 
@@ -76,11 +76,11 @@ RSpec.describe WorkList do
     let(:recipe) { create :recipe, with_ingredients: ingredients }
 
     it 'contains the fuels' do
-      expect(subject.fuels).to contain_exactly([ fuel2, 2 ], [fuel1, 1])
+      expect(subject.fuels).to contain_exactly([ fuel2, 2 ], [ fuel1, 1 ])
     end
 
     it 'contains the tool1' do
-      expect(subject.tools).to eq([tool1])
+      expect(subject.tools).to eq([ tool1 ])
     end
   end
 
@@ -96,7 +96,7 @@ RSpec.describe WorkList do
     let!(:recipe)          { create :recipe, with_ingredients: ingredients }
 
     it 'contains all fuels' do
-      expect(subject.fuels).to contain_exactly([fuel1, 3], [fuel2, 6])
+      expect(subject.fuels).to contain_exactly([ fuel1, 3 ], [ fuel2, 6 ])
     end
 
     it 'contains just the tools' do
@@ -104,11 +104,11 @@ RSpec.describe WorkList do
     end
 
     it 'contains the components' do
-      expect(subject.components).to eq([[ item1, 8 ]])
+      expect(subject.components).to eq([ [ item1, 8 ] ])
     end
 
     it 'contains the sub_recipe' do
-      expect(subject.recipes).to eq([ [recipe, 1], [sub_recipe, 2] ])
+      expect(subject.recipes).to eq([ [ recipe, 1 ], [ sub_recipe, 2 ] ])
     end
   end
 

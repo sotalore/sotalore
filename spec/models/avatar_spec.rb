@@ -23,7 +23,7 @@ RSpec.describe Avatar, type: :model do
 
     it "ignores the skill" do
       expect { avatar.ignore_skill!(skill) }
-        .to change { avatar.reload.ignored_skills }.from([]).to([skill.id])
+        .to change { avatar.reload.ignored_skills }.from([]).to([ skill.id ])
     end
   end
 
@@ -68,7 +68,7 @@ RSpec.describe Avatar, type: :model do
     it "ignores the skill" do
       avatar.ignore_skill!(skill)
       expect { avatar.reveal_skill!(skill) }
-        .to change { avatar.reload.ignored_skills }.from([skill.id]).to([])
+        .to change { avatar.reload.ignored_skills }.from([ skill.id ]).to([])
     end
   end
 

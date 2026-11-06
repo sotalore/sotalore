@@ -34,10 +34,10 @@ RSpec.describe CountedItemList do
     end
 
     context 'When comparing to a list with one additional' do
-      before { subject.compare_to([one_one]) }
+      before { subject.compare_to([ one_one ]) }
 
       it 'has an added item' do
-        expect(subject.added).to eq([one_one])
+        expect(subject.added).to eq([ one_one ])
       end
 
       it 'has no removed' do
@@ -52,7 +52,7 @@ RSpec.describe CountedItemList do
   end
 
   context 'Given a list with one item' do
-    subject { CountedItemList.new([one_one]) }
+    subject { CountedItemList.new([ one_one ]) }
 
     context 'When comparing to an empty list' do
       before { subject.compare_to([]) }
@@ -62,7 +62,7 @@ RSpec.describe CountedItemList do
       end
 
       it 'has one removed' do
-        expect(subject.removed).to eq([one_one])
+        expect(subject.removed).to eq([ one_one ])
       end
 
       it 'has no changes' do
@@ -71,7 +71,7 @@ RSpec.describe CountedItemList do
     end
 
     context 'When comparing to an identical list' do
-      before { subject.compare_to([one_one]) }
+      before { subject.compare_to([ one_one ]) }
 
       it 'has no added' do
         expect(subject.added).to be_empty
@@ -87,7 +87,7 @@ RSpec.describe CountedItemList do
     end
 
     context 'When comparing to the same item different count' do
-      before { subject.compare_to([two_one]) }
+      before { subject.compare_to([ two_one ]) }
 
       it 'has no added' do
         expect(subject.added).to be_empty
@@ -98,29 +98,29 @@ RSpec.describe CountedItemList do
       end
 
       it 'has one changes' do
-        expect(subject.changes).to eq([[one_one, two_one]])
+        expect(subject.changes).to eq([ [ one_one, two_one ] ])
       end
     end
 
   end
 
   context 'Given two items' do
-    subject { CountedItemList.new([one_one, two_two]) }
+    subject { CountedItemList.new([ one_one, two_two ]) }
     context 'When comparing to a change, an addition and a removal' do
 
-      before { subject.compare_to([two_one, one_three])}
+      before { subject.compare_to([ two_one, one_three ]) }
 
 
       it 'has one added' do
-        expect(subject.added).to eq([one_three])
+        expect(subject.added).to eq([ one_three ])
       end
 
       it 'has one removed' do
-        expect(subject.removed).to eq([two_two])
+        expect(subject.removed).to eq([ two_two ])
       end
 
       it 'has one changes' do
-        expect(subject.changes).to eq([[one_one, two_one]])
+        expect(subject.changes).to eq([ [ one_one, two_one ] ])
       end
 
       it 'provides appropriate hash for json' do
@@ -128,7 +128,7 @@ RSpec.describe CountedItemList do
           .to eq({
                    added: [ [ 'three', 1 ] ],
                    removed: [ [ 'two', 2 ] ],
-                   changes: { 'one' => [1, 2] }
+                   changes: { 'one' => [ 1, 2 ] }
                  })
       end
 

@@ -12,7 +12,7 @@ class Clock
   EPOCH = Time.zone.parse('January 1, 2013 00:00:00 -0000')
   BEGINNING_OF_PC = EPOCH - (400 * NB_YEAR)
 
-  MONTHS = %w(Janus Februa Marse Apru Maia Juno Julius Augus Septembre Octobre Novembre Decembre)
+  MONTHS = %w[Janus Februa Marse Apru Maia Juno Julius Augus Septembre Octobre Novembre Decembre]
 
   class << self
 

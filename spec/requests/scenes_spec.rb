@@ -50,7 +50,7 @@ RSpec.describe "Scenes", type: :request do
       end
     end
 
-    it_behaves_like "an editable resource", except: [:destroy] do
+    it_behaves_like "an editable resource", except: [ :destroy ] do
       let(:model) { Scene }
       let(:fixture) { :scene }
       let(:invalid_attributes) { { name: '' } }

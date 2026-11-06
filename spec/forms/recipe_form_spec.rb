@@ -32,7 +32,7 @@ RSpec.describe RecipeForm do
     subject(:form) { RecipeForm.new(recipe, user) }
 
     it 'creates a Recipe' do
-      expect { subject.save(valid_attrs)}
+      expect { subject.save(valid_attrs) }
         .to change { Recipe.count }.by(1)
 
       recipe = Recipe.last
@@ -95,15 +95,15 @@ RSpec.describe RecipeForm do
     it 'creates a revision comment' do
       valid_attrs[:name] = 'New Thing'
       valid_attrs[:ingredients_attributes]['1'][:count] = 0
-      expect {subject.save(valid_attrs) }
+      expect { subject.save(valid_attrs) }
         .to change { Comment.count }.by(1)
 
       comment = Comment.last
       expect(comment.subject).to eq recipe
       expect(comment.author).to eq user
-      expected = { changes: {name:['Thing', 'New Thing'],},
+      expected = { changes: { name: [ 'Thing', 'New Thing' ], },
                    ingredient_changes: {
-                     removed: [[ item_2.name, 2 ]]
+                     removed: [ [ item_2.name, 2 ] ]
                    }
                  }.to_json
       expect(comment.body).to eq(expected)

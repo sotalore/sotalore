@@ -25,7 +25,7 @@ class PostsController < ApplicationController
     @post.author = Current.user
     authorize @post
     if @post.save
-      redirect_to polymorphic_path([@parent, @post])
+      redirect_to polymorphic_path([ @parent, @post ])
     else
       render Views::Posts::New.new(post: @post), status: :unprocessable_content
     end

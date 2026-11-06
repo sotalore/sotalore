@@ -40,8 +40,8 @@ RSpec.describe Planting, type: :model do
       day1 = subject.planted_at.to_date
       expect { subject.location_type = :greenhouse }
         .to change { subject.days_of_growing }
-             .from([day1, day1 + 1, day1 + 2])
-             .to([day1, day1 + 1])
+             .from([ day1, day1 + 1, day1 + 2 ])
+             .to([ day1, day1 + 1 ])
     end
 
     it 'calculates buffer_width' do

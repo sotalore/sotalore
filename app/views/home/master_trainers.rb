@@ -47,7 +47,7 @@ class Views::Home::MasterTrainers < Views::Base
       tile_body do
         p do
           plain "For more details, see this "
-          a(href: 'https://sotawiki.net/sota/Master_Trainer') {'SotA wiki article'}
+          a(href: 'https://sotawiki.net/sota/Master_Trainer') { 'SotA wiki article' }
           plain "."
         end
       end

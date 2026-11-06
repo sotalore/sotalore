@@ -13,7 +13,7 @@ class UserMailer < ApplicationMailer
 
   def password_reset(user)
     @user = user
-    #ensure the user has a password, otherwise generate a random one
+    # ensure the user has a password, otherwise generate a random one
     if user.password_salt.blank?
       user.password = SecureRandom.hex(20)
       user.save(validate: false) # Skip validations to avoid issues with password requirements

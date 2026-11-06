@@ -47,7 +47,7 @@ class Scene < ApplicationRecord
   REGION_NAMES = REGIONS.invert.freeze
 
   has_many_attached :images do |attachable|
-    attachable.variant :preview, resize_to_limit: [640, 480]
+    attachable.variant :preview, resize_to_limit: [ 640, 480 ]
   end
 
   belongs_to :parent, class_name: 'Scene'

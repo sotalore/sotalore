@@ -3,14 +3,14 @@
 class Views::Home::LunarRifts < Views::Base
 
   RIFTS = [
-    { name: 'Blood River', style: ['bottom: 28%', 'left: 10%'] },
-    { name: 'Solace Bridge', style: ['bottom: 17%', 'right: 22%'] },
-    { name: 'Highvale', style: ['bottom: 40%', 'left: 25%'] },
-    { name: 'Brookside', style: ['top: 45%', 'right: 20%'] },
-    { name: "Owl's Head", style: ['top: 5%', 'right: 15%'] },
-    { name: 'Westend', style: ['bottom: 40%', 'left: 4%'] },
-    { name: 'Brittany<br>Graveyard', style: ['bottom: 40%', 'right: 45%'] },
-    { name: 'Etceter', style: ['bottom: 15%', 'left: 28%'] }
+    { name: 'Blood River', style: [ 'bottom: 28%', 'left: 10%' ] },
+    { name: 'Solace Bridge', style: [ 'bottom: 17%', 'right: 22%' ] },
+    { name: 'Highvale', style: [ 'bottom: 40%', 'left: 25%' ] },
+    { name: 'Brookside', style: [ 'top: 45%', 'right: 20%' ] },
+    { name: "Owl's Head", style: [ 'top: 5%', 'right: 15%' ] },
+    { name: 'Westend', style: [ 'bottom: 40%', 'left: 4%' ] },
+    { name: 'Brittany<br>Graveyard', style: [ 'bottom: 40%', 'right: 45%' ] },
+    { name: 'Etceter', style: [ 'bottom: 15%', 'left: 28%' ] }
   ]
 
   def view_template

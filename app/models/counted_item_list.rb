@@ -46,7 +46,7 @@ class CountedItemList
     @initial.map do |from|
       if to = @others.find { |i| from.name == i.name }
         if from.count != to.count
-          [from, to]
+          [ from, to ]
         end
       end
     end.compact
@@ -57,7 +57,7 @@ class CountedItemList
       added: added.as_json,
       removed: removed.as_json,
       changes: changes.inject({}) { |m,(from,to)|
-        m[from.name] = [from.count, to.count]
+        m[from.name] = [ from.count, to.count ]
         m
       }
     }.reject { |k,v| v.blank? }

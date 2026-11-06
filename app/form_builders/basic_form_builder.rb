@@ -151,7 +151,7 @@ class BasicFormBuilder < ActionView::Helpers::FormBuilder
       lines = value.scan("\n").count + 1
     end
 
-    [3, lines].max
+    [ 3, lines ].max
   end
 
   def translate_label(method)

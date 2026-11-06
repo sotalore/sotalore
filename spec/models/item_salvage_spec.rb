@@ -21,10 +21,10 @@ RSpec.describe ItemSalvage, type: :model do
       expect(item1.salvage_as_result_count).to eq 0
       expect(item1.salvages_from).to be_empty
       expect(item1.salvage_as_source_count).to eq 1
-      expect(item1.salvages_to).to eq [item2]
+      expect(item1.salvages_to).to eq [ item2 ]
 
       expect(item2.salvage_as_result_count).to eq 1
-      expect(item2.salvages_from).to eq [item1]
+      expect(item2.salvages_from).to eq [ item1 ]
       expect(item2.salvage_as_source_count).to eq 0
       expect(item2.salvages_to).to be_empty
     end

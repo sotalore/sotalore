@@ -65,7 +65,7 @@ Rails.application.configure do
   }
 
   # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
-  config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.default charset: "utf-8"
   config.action_mailer.smtp_settings = {
     address: ENV['SMTP_ADDRESS'],
     port: (ENV['SMTP_PORT'] || 587),

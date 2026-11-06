@@ -7,7 +7,7 @@ epoch = Time.parse("January 1, 2013 00:00:00 -0000")
 def minutes_and_seconds(i)
   s = i % 60
   m = (i - s) / 60
-  "%02d:%02d" % [ m, s]
+  "%02d:%02d" % [ m, s ]
 end
 
 # 8:45 per lunar "cycle"

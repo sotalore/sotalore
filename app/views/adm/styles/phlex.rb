@@ -9,7 +9,7 @@ class Views::Adm::Styles::Phlex < Views::Base
         tile.controls do
           button(class: 'Button Button--small') { 'Edit' }
         end
-        p(class: 'text-red-500') { 'This is a p tag in the tile.'}
+        p(class: 'text-red-500') { 'This is a p tag in the tile.' }
       end
     end
   end

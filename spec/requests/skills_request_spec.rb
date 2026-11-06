@@ -40,7 +40,7 @@ RSpec.describe 'Skills', type: :request do
       it 'creates a new EarnedSkill' do
         expect(avatar.skills).to be_empty
 
-        patch avatar_skill_path(avatar, id: skill.key), params: { skill: { current: 123 }}
+        patch avatar_skill_path(avatar, id: skill.key), params: { skill: { current: 123 } }
         expect(response).to have_http_status(:ok)
 
         earned_skill = avatar.skills.reload.first
@@ -51,7 +51,7 @@ RSpec.describe 'Skills', type: :request do
       it 'does not create an EarnedSkill for a bad key' do
         expect(avatar.skills).to be_empty
 
-        patch avatar_skill_path(avatar, id: 'bad~key'), params: { skill: { current: 123 }}
+        patch avatar_skill_path(avatar, id: 'bad~key'), params: { skill: { current: 123 } }
         expect(response).to have_http_status(:bad_request)
 
         expect(avatar.skills.select(&:persisted?)).to be_empty

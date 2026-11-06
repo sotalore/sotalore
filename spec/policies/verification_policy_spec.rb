@@ -9,7 +9,7 @@ RSpec.describe VerificationPolicy, type: :policy do
 
   permissions :index? do
     context 'Given root' do
-      let(:user) { User.new(roles: ['root']) }
+      let(:user) { User.new(roles: [ 'root' ]) }
       it 'grants access' do
         expect(subject).to permit(user)
       end

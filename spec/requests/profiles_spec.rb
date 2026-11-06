@@ -15,13 +15,13 @@ RSpec.describe "Profiles", type: :request do
 
     describe 'PATCH update' do
       it 'works' do
-        patch profile_path, params: {user: {name: 'new name'}}
+        patch profile_path, params: { user: { name: 'new name' } }
         expect(response).to redirect_to(profile_path)
         expect(user.reload.name).to eq 'new name'
       end
 
       it 'handles invalid attributes' do
-        patch profile_path, params: {user: {name: ''}}
+        patch profile_path, params: { user: { name: '' } }
         expect(response).to have_http_status(:unprocessable_content)
       end
 
