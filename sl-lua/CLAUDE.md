@@ -137,17 +137,23 @@ Untested ideas:
 
 ## Environment
 
-- The game loads a package only from `Lua/<slug>/`. Each package folder here is linked into the game's Lua
-  folder with a **Windows junction**: `...\Catnip Games\Shroud of the Avatar(DEV)\Lua\sl-admin` to
-  `C:\dev\sotalore\sl-lua\sl-admin`, and `...\Lua\sl-skills` to `C:\dev\sotalore\sl-lua\sl-skills` (before the
-  split a single junction `Lua\sl-recipes` pointed at `sl-lua`). Edit here (`C:\dev\sotalore\sl-lua`), never
-  through the game's path: that once failed with odd "file already exists" errors. Remove a junction with
-  `cmd /c rmdir <path>`, which removes only the link; a recursive delete can go through it into the repo.
-- The plugins' output files are written to the game's `Lua/` folder, **one level above the plugin folders**
+- **Each game client has its own Lua folder** under `%APPDATA%\Catnip Games\`: `Shroud of the Avatar\Lua` for the
+  regular client and `Shroud of the Avatar(DEV)\Lua` for the QA client. Until 2026-11-04 both clients used the
+  `(DEV)` one; since 2026-11-05 (API 57) the regular client has its own, with its own saved data, add-on data files and
+  output files (started as copies of the `(DEV)` ones that day). So check which client Darren is playing before
+  reading his files; `/lua path` in the game opens that client's folder.
+- The game loads a package only from `Lua/<slug>/`. In **both** clients' Lua folders, each package folder is a
+  **Windows junction** to the repo: `...\Lua\sl-admin` to `C:\dev\sotalore\sl-lua\sl-admin`, and `...\Lua\sl-skills`
+  to `C:\dev\sotalore\sl-lua\sl-skills`, so both clients always run the plugins as they are here (the regular client's
+  were plain copies until 2026-11-06; before the split a single junction `Lua\sl-recipes` pointed at `sl-lua`). Edit
+  here (`C:\dev\sotalore\sl-lua`), never through the game's path: that once failed with odd "file already exists"
+  errors. Remove a junction with `cmd /c rmdir <path>`, which removes only the link; a recursive delete can go through
+  it into the repo.
+- The plugins' output files are written to the client's `Lua/` folder, **one level above the plugin folders**
   (`sotalore-recipes-new.json`, `-recipes-all.json`, `-recipes-one.json`, `-item-catalog.json`, `-scene-finds.json`,
   `-skills.json`; named after the site's navigation since sl-admin 0.11.0), not into `sl-lua/`. To
   use one as an example, copy it from there into `data/plugin-examples/`.
-- **Saved variables are kept per slug**: `Lua\SavedVariables\<slug>.account.json` (and per character). Renaming
+- **Saved variables are kept per slug** (and per client): `Lua\SavedVariables\<slug>.account.json` (and per character). Renaming
   a package starts it with empty saved data unless that file is copied to the new slug's name while the game
   is closed or logged out (the game writes it at logout). `sl-recipes.account.json` was the admin plugin's.
 - **A saved file over 256 KB is not written at all.** The game writes saved data at logout, at unload (`/lua reload`
