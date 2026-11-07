@@ -30,6 +30,23 @@ module SotaLore
 
     config.action_view.field_error_proc = Proc.new { |html_tag, instance| html_tag }
 
+    # Requests reach the app through Cloudflare, then Heroku's router. In
+    # production the cloudflare-rails gem trusts Cloudflare's ranges, so
+    # request.remote_ip is the last X-Forwarded-For entry before Cloudflare's:
+    # the visitor's address, which a client can't fake.
+    #
+    # Neither Cloudflare nor Heroku sets the Forwarded header, they pass along
+    # whatever the client sent. Rack reads it ahead of X-Forwarded-For by
+    # default, which would let a client choose its own address, so read only
+    # X-Forwarded-For.
+    Rack::Request.forwarded_priority = [ :x_forwarded ]
+
+    # Scanners send fake Client-IP and Forwarded headers, and the spoofing check
+    # turned each of those requests into an IpSpoofAttackError. With Forwarded
+    # ignored, remote_ip doesn't use the values a client can fake, so the check
+    # adds nothing.
+    config.action_dispatch.ip_spoofing_check = false
+
     if Rails.env.development?
       config.hosts << 'gaffer.local'
     end
