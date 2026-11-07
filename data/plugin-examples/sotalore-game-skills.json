@@ -1,4 +1,4 @@
-{"apiVersion":56,"plugin":"sl-admin","pluginVersion":"0.15.0","type":"gameSkills","count":363,"skills":[
+{"apiVersion":57,"plugin":"sl-admin","pluginVersion":"0.15.0","type":"gameSkills","count":378,"skills":[
 {"id":10,"key":"Thrust","name":"Thrust","schoolKey":"Blades","school":"Blades","subcategory":"Combat","xpMultiplier":1},
 {"id":12,"key":"DoubleThrust","name":"Double Slash","schoolKey":"Blades","school":"Blades","subcategory":"Combat","xpMultiplier":1},
 {"id":13,"key":"VitalPoints","name":"Vital Points","schoolKey":"Blades","school":"Blades","subcategory":"Combat","xpMultiplier":1},
@@ -72,7 +72,7 @@
 {"id":135,"key":"Charge","name":"Charge","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":1},
 {"id":136,"key":"Testudo","name":"Testudo","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":1},
 {"id":137,"key":"Angles","name":"Angles","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
-{"id":138,"key":"Redirection","name":"Redirection","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
+{"id":138,"key":"Balance","name":"Redirection","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
 {"id":139,"key":"ShieldPreservation","name":"Shield Preservation","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
 {"id":140,"key":"StandYourGround","name":"Stand Your Ground","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
 {"id":2514,"key":"MasteryShield","name":"Shield Specialization","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":20},
@@ -105,7 +105,6 @@
 {"id":50,"key":"MummifiedUndead","name":"Mummified Undead","schoolKey":"Death","school":"Death","subcategory":"Magic","xpMultiplier":4},
 {"id":450,"key":"TapSoul","name":"Tap Soul","schoolKey":"Death","school":"Death","subcategory":"Magic","xpMultiplier":2},
 {"id":2505,"key":"MasteryDeath","name":"Death Magic Specialization","schoolKey":"Death","school":"Death","subcategory":"Magic","xpMultiplier":20},
-{"id":3757,"key":"WardLife","name":"Life Warding","schoolKey":"Death","school":"Death","subcategory":"Magic","xpMultiplier":20},
 {"id":4348,"key":"RevenantStance","name":"Revenant Stance","schoolKey":"Death","school":"Death","subcategory":"Magic","xpMultiplier":8},
 {"id":141,"key":"SearingRay","name":"Searing Ray","schoolKey":"Sun","school":"Sun","subcategory":"Magic","xpMultiplier":1},
 {"id":142,"key":"Light","name":"Light","schoolKey":"Sun","school":"Sun","subcategory":"Magic","xpMultiplier":1},
@@ -229,7 +228,9 @@
 {"id":172,"key":"MindWipe","name":"Mind Wipe","schoolKey":"Focus","school":"Focus","subcategory":"Strategy","xpMultiplier":1},
 {"id":173,"key":"TrainIntelligence","name":"Train Intelligence","schoolKey":"Focus","school":"Focus","subcategory":"Strategy","xpMultiplier":10},
 {"id":175,"key":"Concentration","name":"Tranquility","schoolKey":"Focus","school":"Focus","subcategory":"Strategy","xpMultiplier":4},
+{"id":176,"key":"EideticMemory","name":"Eidetic Memory","schoolKey":"Focus","school":"Focus","subcategory":"Strategy","xpMultiplier":1},
 {"id":177,"key":"MindLock","name":"Mind Lock","schoolKey":"Focus","school":"Focus","subcategory":"Strategy","xpMultiplier":1},
+{"id":178,"key":"MentalReflex","name":"Mental Reflex","schoolKey":"Focus","school":"Focus","subcategory":"Strategy","xpMultiplier":4},
 {"id":180,"key":"QuickSwapping","name":"Efficient Swapping","schoolKey":"Focus","school":"Focus","subcategory":"Strategy","xpMultiplier":4},
 {"id":181,"key":"HightenedAwareness","name":"Heightened Awareness","schoolKey":"Focus","school":"Focus","subcategory":"Strategy","xpMultiplier":5},
 {"id":182,"key":"InnerCalm","name":"Inner Calm","schoolKey":"Focus","school":"Focus","subcategory":"Strategy","xpMultiplier":4},
@@ -361,5 +362,19 @@
 {"id":4333,"key":"Dance","name":"Dance","schoolKey":"Bard","school":"Bard","subcategory":"Strategy","xpMultiplier":1},
 {"id":4334,"key":"GroupDance","name":"Group Dance","schoolKey":"Bard","school":"Bard","subcategory":"Strategy","xpMultiplier":1},
 {"id":4339,"key":"DirgeOfDissonance","name":"Dirge of Dissonance","schoolKey":"Bard","school":"Bard","subcategory":"Strategy","xpMultiplier":1},
-{"id":4340,"key":"RequiemOfRuin","name":"Requiem of Ruin","schoolKey":"Bard","school":"Bard","subcategory":"Strategy","xpMultiplier":1}
+{"id":4340,"key":"RequiemOfRuin","name":"Requiem of Ruin","schoolKey":"Bard","school":"Bard","subcategory":"Strategy","xpMultiplier":1},
+{"id":16000,"key":"MasterySeafaring","name":"Seafaring Specialization","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":20},
+{"id":16001,"key":"Seamanship","name":"Seamanship","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16002,"key":"GroundTackle","name":"Ground Tackle","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16003,"key":"Navigation","name":"Navigation","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16004,"key":"Spyglass","name":"Spyglass","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":1},
+{"id":16005,"key":"DeadReckoning","name":"Dead Reckoning","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16006,"key":"GrapplingHook","name":"Grappling Hook","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16007,"key":"CutLines","name":"Cut Lines","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16008,"key":"SeaLegs","name":"Sea Legs","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16009,"key":"StrongSwimmer","name":"Strong Swimmer","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16010,"key":"TreadWater","name":"Tread Water","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16011,"key":"HullPatching","name":"Hull Patching","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":1},
+{"id":16012,"key":"CrewDrill","name":"Crew Drill","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16013,"key":"Gunnery","name":"Gunnery","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5}
 ]}
