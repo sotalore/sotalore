@@ -18,7 +18,7 @@ RSpec.describe GameSkillSync do
   it 'changes nothing when the lists agree' do
     result = sync(game_thrust, game_mining)
     expect(result).not_to be_changed
-    expect(result.moved + result.gone).to be_empty
+    expect(result.moved).to be_empty
   end
 
   it 'adds a new skill to its school with the next id of its list' do
@@ -45,12 +45,29 @@ RSpec.describe GameSkillSync do
     expect(sync(game_thrust, game_mining, game(111, 'Thrust', 'Thrust', 'Polearms', 'Combat')).moved).to be_empty
   end
 
-  it 'only reports a skill that moved school or left the game' do
-    result = sync(game(10, 'Thrust', 'Thrust', 'Fire', 'Combat'))
+  it 'updates the internal name of a skill matched on its id' do
+    result = sync(game(10, 'Lunge', 'Thrust', 'Blades', 'Combat'), game_mining)
+    expect(thrust).to include('game_key' => 'Lunge', 'key' => 'combat~blade~thrust')
+    expect(result.updated).to eq [ 'Thrust: game_key "Thrust" to "Lunge"' ]
+  end
+
+  it 'only reports a skill that moved school' do
+    result = sync(game(10, 'Thrust', 'Thrust', 'Fire', 'Combat'), game_mining)
     expect(result.moved).to eq [ 'Thrust: blades to fire' ]
-    expect(result.gone).to eq [ 'Mining' ]
     expect(result).not_to be_changed
-    expect(lists['crafting']['gathering']['mining']).to eq [ mining ]
+    expect(lists['adventuring']['combat']['blades']).to eq [ thrust ]
+  end
+
+  it 'removes a skill that left the game' do
+    result = sync(game_thrust)
+    expect(result.removed).to eq [ 'Mining (mining)' ]
+    expect(result).to be_changed
+    expect(lists['crafting']['gathering']['mining']).to be_empty
+  end
+
+  it 'adds before it removes, so a new skill never takes a removed one\'s id' do
+    sync(game_mining, game(4349, 'SetTrap', 'Set Trap', 'Blades', 'Combat'))
+    expect(lists['adventuring']['combat']['blades'].map { _1['id'] }).to eq [ 6 ]
   end
 
   it 'refuses a new skill in a category it does not know' do
@@ -62,6 +79,6 @@ RSpec.describe GameSkillSync do
     site = GameSkillSync::FILES.keys.index_with { JSON.parse(Rails.root.join("app/models/skills-#{_1}.json").read) }
     result = described_class.new(game_skills, site).call
     expect(result).not_to be_changed
-    expect(result.moved + result.gone).to be_empty
+    expect(result.moved).to be_empty
   end
 end
