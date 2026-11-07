@@ -505,7 +505,7 @@ app's code is built from it. It lists every skill the game's skills window draws
 skills window shows them, in the player's language), `schoolKey` (the school's stable key), `xpMultiplier` (how many times
 the standard experience the skill needs per level: 1 is standard, 0.5 half). Experience costs per level aren't in the API.
 
-**A real file:** `data/plugin-examples/sotalore-game-skills.json` (sl-admin v0.15.0, API 56, 363 skills).
+**A real file:** `data/plugin-examples/sotalore-game-skills.json` (sl-admin v0.15.0, API 57, 378 skills, 2026-11-07). Since the first file (API 56, 363 skills, 2026-10-30) the game added the Seafaring school (ids 16000 to 16013) and two Focus skills (Eidetic Memory 176, Mental Reflex 178), removed Life Warding (3757), and changed skill 138's `key` from `Redirection` to `Balance`: a `key` can change, so match skills on `id`.
 
 **Compared with `data/skill-costs.csv`** (360 skills, 2026-10-30): its columns are `subcategory` (Category), `school`, `name`
 (Skill Name), `id` (Skill ID), `key` (Internal Name) and `xpMultiplier` (Exp Factor). All 360 are in the file, and every value
