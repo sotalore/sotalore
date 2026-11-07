@@ -47,7 +47,7 @@
         "key": "combat~shield~redirection",
         "id": 6,
         "game_id": 138,
-        "game_key": "Redirection"
+        "game_key": "Balance"
       },
       {
         "name": "Shield Preservation",
@@ -1062,14 +1062,6 @@
         "id": 127,
         "game_id": 2505,
         "game_key": "MasteryDeath"
-      },
-      {
-        "name": "Life Warding",
-        "xp_factor": 20.0,
-        "key": "magic~death~life-warding",
-        "id": 128,
-        "game_id": 3757,
-        "game_key": "WardLife"
       },
       {
         "name": "Summon Lich",
@@ -2348,6 +2340,136 @@
         "id": 279,
         "game_id": 175,
         "game_key": "Concentration"
+      },
+      {
+        "name": "Eidetic Memory",
+        "xp_factor": 1.0,
+        "key": "strategy~focus~eidetic-memory",
+        "id": 299,
+        "game_id": 176,
+        "game_key": "EideticMemory"
+      },
+      {
+        "name": "Mental Reflex",
+        "xp_factor": 4.0,
+        "key": "strategy~focus~mental-reflex",
+        "id": 300,
+        "game_id": 178,
+        "game_key": "MentalReflex"
+      }
+    ],
+    "seafaring": [
+      {
+        "name": "Seafaring Specialization",
+        "xp_factor": 20.0,
+        "key": "strategy~seafaring~seafaring-specialization",
+        "id": 301,
+        "game_id": 16000,
+        "game_key": "MasterySeafaring"
+      },
+      {
+        "name": "Seamanship",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~seamanship",
+        "id": 302,
+        "game_id": 16001,
+        "game_key": "Seamanship"
+      },
+      {
+        "name": "Ground Tackle",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~ground-tackle",
+        "id": 303,
+        "game_id": 16002,
+        "game_key": "GroundTackle"
+      },
+      {
+        "name": "Navigation",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~navigation",
+        "id": 304,
+        "game_id": 16003,
+        "game_key": "Navigation"
+      },
+      {
+        "name": "Spyglass",
+        "xp_factor": 1.0,
+        "key": "strategy~seafaring~spyglass",
+        "id": 305,
+        "game_id": 16004,
+        "game_key": "Spyglass"
+      },
+      {
+        "name": "Dead Reckoning",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~dead-reckoning",
+        "id": 306,
+        "game_id": 16005,
+        "game_key": "DeadReckoning"
+      },
+      {
+        "name": "Grappling Hook",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~grappling-hook",
+        "id": 307,
+        "game_id": 16006,
+        "game_key": "GrapplingHook"
+      },
+      {
+        "name": "Cut Lines",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~cut-lines",
+        "id": 308,
+        "game_id": 16007,
+        "game_key": "CutLines"
+      },
+      {
+        "name": "Sea Legs",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~sea-legs",
+        "id": 309,
+        "game_id": 16008,
+        "game_key": "SeaLegs"
+      },
+      {
+        "name": "Strong Swimmer",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~strong-swimmer",
+        "id": 310,
+        "game_id": 16009,
+        "game_key": "StrongSwimmer"
+      },
+      {
+        "name": "Tread Water",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~tread-water",
+        "id": 311,
+        "game_id": 16010,
+        "game_key": "TreadWater"
+      },
+      {
+        "name": "Hull Patching",
+        "xp_factor": 1.0,
+        "key": "strategy~seafaring~hull-patching",
+        "id": 312,
+        "game_id": 16011,
+        "game_key": "HullPatching"
+      },
+      {
+        "name": "Crew Drill",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~crew-drill",
+        "id": 313,
+        "game_id": 16012,
+        "game_key": "CrewDrill"
+      },
+      {
+        "name": "Gunnery",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~gunnery",
+        "id": 314,
+        "game_id": 16013,
+        "game_key": "Gunnery"
       }
     ]
   }

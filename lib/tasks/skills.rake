@@ -15,7 +15,7 @@ namespace :skills do
     puts "Added: #{result.added.join('; ')}" if result.added.any?
     puts "Updated: #{result.updated.join('; ')}" if result.updated.any?
     puts "In another school, not changed: #{result.moved.join('; ')}" if result.moved.any?
-    puts "Not in the game any more, not removed: #{result.gone.join('; ')}" if result.gone.any?
-    puts 'Already in step.' unless result.changed? || result.moved.any? || result.gone.any?
+    puts "Removed, not in the game any more: #{result.removed.join('; ')}" if result.removed.any?
+    puts 'Already in step.' unless result.changed? || result.moved.any?
   end
 end

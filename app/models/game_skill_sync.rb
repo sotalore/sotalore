@@ -4,16 +4,18 @@
 # skills-crafting.json, as parsed JSON) in step with the plugin's list of every
 # skill in the game (see sl-lua/EXPORT-FORMAT.md), matching on the game's id.
 # New skills are added to their school; names, internal names and XP factors
-# are updated. A skill's site key and id never change, because
-# players' levels and hidden skills are stored by them, so a skill that moved
-# school or left the game is only reported.
+# are updated; skills that left the game are removed, since the site shows the
+# game as it is now. A skill's site key and id never change, because players'
+# levels and hidden skills are stored by them, so a skill that moved school is
+# only reported. A removed skill's levels are left in the database, where
+# nothing reads them.
 class GameSkillSync
 
   FILES = { 'adventuring' => %w[ combat magic strategy ], 'crafting' => %w[ gathering refining production ] }.freeze
   SCHOOLS = { 'polearms' => 'polearm', 'moon' => 'lunar' }.freeze # the game's name => the site's
 
-  Result = Data.define(:added, :updated, :moved, :gone) do
-    def changed? = added.any? || updated.any?
+  Result = Data.define(:added, :updated, :moved, :removed) do
+    def changed? = added.any? || updated.any? || removed.any?
   end
 
   # +lists+ is { 'adventuring' => data, 'crafting' => data }, changed in place.
@@ -35,9 +37,9 @@ class GameSkillSync
         added << add(game, category, school)
       end
     end
-    game_ids = @game_skills.map { _1['id'] }
-    gone = site.reject { |id, _| game_ids.include?(id) }.values.map { _1[:skill]['name'] }
-    Result.new(added, updated, moved, gone)
+    game_ids = @game_skills.map { _1['id'] }.to_set
+    removed = site.reject { |id, _| game_ids.include?(id) }.values.map { remove(_1) }
+    Result.new(added, updated, moved, removed)
   end
 
   private
@@ -45,9 +47,14 @@ class GameSkillSync
   def site_skills
     @lists.values.flat_map do |list|
       list.values.flat_map do |schools|
-        schools.flat_map { |school, skills| skills.map { { skill: _1, school: school } } }
+        schools.flat_map { |school, skills| skills.map { { skill: _1, school: school, skills: skills } } }
       end
     end.index_by { _1[:skill]['game_id'] }
+  end
+
+  def remove(found)
+    found[:skills].delete(found[:skill])
+    "#{found[:skill]['name']} (#{found[:school]})"
   end
 
   # The site's category and school for a game skill.
