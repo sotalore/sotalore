@@ -47,6 +47,11 @@ module SotaLore
     # adds nothing.
     config.action_dispatch.ip_spoofing_check = false
 
+    # The database runs on a shared Heroku server (essential-0) that sometimes
+    # refuses connections for a few minutes. Answer with public/503.html, which
+    # tells visitors and crawlers to come back, rather than a 500.
+    config.action_dispatch.rescue_responses["ActiveRecord::ConnectionNotEstablished"] = :service_unavailable
+
     if Rails.env.development?
       config.hosts << 'gaffer.local'
     end
