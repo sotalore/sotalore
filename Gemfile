@@ -33,6 +33,8 @@ gem 'bootsnap'
 
 gem "phlex-rails"
 gem "phlex"
+# refract 1.1.0 (used by phlex) still references Prism::MissingNode, which prism 2 removed.
+gem "prism", "< 2"
 
 gem 'kaminari'
 gem 'local_time'
