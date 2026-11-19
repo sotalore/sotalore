@@ -1,6 +1,6 @@
 source 'https://rubygems.org', cooldown: 7
 
-ruby "4.0.9"
+ruby "4.0.10"
 
 gem "ostruct" # silence deprecation warning
 
