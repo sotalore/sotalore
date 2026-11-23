@@ -7,6 +7,7 @@
 # idempotent, so an import can be applied again after resolving more of it.
 class FindsImport < ApplicationRecord
   include GameItemResolution
+  include PluginUpload
 
   belongs_to :uploaded_by, class_name: 'User', optional: true
 
@@ -19,7 +20,7 @@ class FindsImport < ApplicationRecord
     finds = GameFinds.parse(data)
     raise ArgumentError, 'No scenes found' if finds.scenes.empty?
     create!(filename: filename, api_version: finds.api_version, plugin_version: finds.plugin_version,
-            payload: data, uploaded_by: user)
+            payload: data, uploaded_by: user, content_digest: content_digest(json))
   end
 
   def finds

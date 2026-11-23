@@ -4,6 +4,8 @@
 # becomes a RecipeImportEntry, which is matched against site recipes and
 # analyzed (see RecipeImportAnalyzer) for an admin to review and apply.
 class RecipeImport < ApplicationRecord
+  include PluginUpload
+
   belongs_to :uploaded_by, class_name: 'User', optional: true
   has_many :entries, class_name: 'RecipeImportEntry', inverse_of: :recipe_import,
            dependent: :delete_all
@@ -35,7 +37,7 @@ class RecipeImport < ApplicationRecord
     end
     transaction do
       import = create!(filename: filename, api_version: export.api_version, export_scope: export.scope,
-                       plugin_version: export.plugin_version,
+                       plugin_version: export.plugin_version, content_digest: content_digest(json),
                        full_export: full_from_file?(export) && game_recipes.size > 1,
                        uploaded_by: user,
                        groups_payload: export.groups.map(&:payload))

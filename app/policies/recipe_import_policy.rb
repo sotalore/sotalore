@@ -1,8 +1,13 @@
 # frozen-string-literal: true
 
-# Root manages imports; AI accounts can look at them (through the read-only
-# API) to find what needs cleaning up.
+# Root manages imports; AI accounts can look at them (through the API) to
+# find what needs cleaning up, and upload export files as new imports (with a
+# token's upload scope) for root to review and apply.
 class RecipeImportPolicy < DefaultAdminPolicy
+
+  def create?
+    super || user.bot?
+  end
 
   def index?
     super || user.bot?
