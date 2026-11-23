@@ -294,6 +294,34 @@ curl -s -H "Authorization: Bearer $TOKEN" -F file=@sotalore-recipes-all.json \
   https://www.sotalore.com/api/v1/recipe_imports
 ```
 
+### Skills
+
+#### `GET /skills`
+
+Every skill the site knows, under `skills`, in the skills pages' order (adventuring, then crafting; each by
+category, school and name). No paging. Scope `read`.
+
+The site's skill list is built from sl-admin's list of every skill in the game (`sotalore-game-skills.json`) by
+`rails skills:sync`, which is a code change and a deploy, not an upload. Use this endpoint to see whether the
+site is in step with a newer file: match on `game_id`, which is the file's `id`.
+
+Each skill:
+
+| Field | | In the game-skills file |
+|---|---|---|
+| `id`, `key` | the site's own id and key, which never change (players' levels are stored by them) | none |
+| `name` | | `name` |
+| `activity` | `adventuring` or `crafting` | none |
+| `category` | `combat`, `magic`, `strategy`, `gathering`, `refining` or `production` | `subcategory`, lowercased |
+| `school` | the site's school | `school`, lowercased, then renamed by `game_schools` |
+| `xp_factor` | a number | `xpMultiplier` |
+| `game_id` | the game's id, or `null` | `id` |
+| `game_key` | the game's internal name, or `null` | `key` |
+
+`game_schools` maps the game's school names (lowercased) to the site's where they differ:
+`{ "polearms": "polearm", "moon": "lunar" }`. A skill whose school differs after that has moved school in the
+game; `skills:sync` reports it but doesn't move it, since its site key names the school.
+
 ### Item review
 
 #### `GET /item_reviews`
@@ -373,6 +401,7 @@ plugins' export files (that's the game's Lua API).
 
 ## Changelog
 
+- **2026-11-23**: `GET /skills` (sotalore/sotalore#303).
 - **2026-11-23**: Uploads: `POST /recipe_imports`, `/item_catalog_imports` and `/finds_imports`, the `upload`
   scope, and `review_url` on recipe imports (sotalore/sotalore#300).
 - **2026-11-23**: First written (sotalore/sotalore#300), describing `v1` as it stands: `/me`, items, materials,
