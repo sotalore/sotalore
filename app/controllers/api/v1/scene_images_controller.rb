@@ -4,7 +4,8 @@
 # "file". It goes live at once, as when root adds one on the scene's page; the
 # client asks its user before sending. The same file sent to the same scene
 # again returns the image already there, so a client can retry. Who sent it
-# (and +taken_at+, if given) is kept in the blob's custom metadata.
+# (and +taken_at+, if given) is kept in the blob's custom metadata, which S3
+# stores as object metadata, so every value is a String.
 class Api::V1::SceneImagesController < Api::BaseController
   before_action -> { require_scope!('images') }
 
@@ -29,10 +30,8 @@ class Api::V1::SceneImagesController < Api::BaseController
     taken_at = params[:taken_at].presence && parse_time(params[:taken_at])
     return error('taken_at must be an ISO 8601 time', :unprocessable_content) if taken_at == false
 
-    blob = ActiveStorage::Blob.create_and_upload!(
-      io: StringIO.new(bytes), filename: file.original_filename.presence || 'screenshot', content_type: content_type,
-      identify: false, metadata: { custom: { uploaded_by_id: Current.user.id, taken_at: taken_at&.iso8601 }.compact }
-    )
+    blob = upload_blob(bytes, filename: file.original_filename.presence || 'screenshot', content_type: content_type,
+                            custom: { uploaded_by_id: Current.user.id.to_s, taken_at: taken_at&.iso8601 }.compact)
     scene.images.attach(blob)
     render json: image_json(scene.images_attachments.find_by!(blob: blob)), status: :created
   end
@@ -50,6 +49,17 @@ class Api::V1::SceneImagesController < Api::BaseController
     { id: image.id, scene: scene_ref(image.record).merge(url: scene_url(image.record)),
       url: rails_blob_url(image), preview_url: rails_representation_url(image.variant(:preview)),
       content_type: image.blob.content_type, byte_size: image.blob.byte_size, created_at: image.created_at.iso8601 }
+  end
+
+  # Stores the file, then saves its blob, so a failed upload leaves no blob
+  # without a file (Blob.create_and_upload! saves first).
+  def upload_blob(bytes, filename:, content_type:, custom:)
+    io = StringIO.new(bytes)
+    blob = ActiveStorage::Blob.build_after_unfurling(io: io, filename: filename, content_type: content_type,
+                                                     metadata: { custom: custom }, identify: false)
+    blob.upload_without_unfurling(io)
+    blob.save!
+    blob
   end
 
   # The time, or false if +value+ isn't one.
