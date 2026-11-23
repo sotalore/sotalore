@@ -47,7 +47,7 @@
         "key": "combat~shield~redirection",
         "id": 6,
         "game_id": 138,
-        "game_key": "Balance"
+        "game_key": "Redirection"
       },
       {
         "name": "Shield Preservation",
@@ -1982,6 +1982,14 @@
         "id": 298,
         "game_id": 4349,
         "game_key": "SetTrap"
+      },
+      {
+        "name": "Pick Locks",
+        "xp_factor": 2.0,
+        "key": "strategy~subterfuge~pick-locks",
+        "id": 315,
+        "game_id": 519,
+        "game_key": "PickLock"
       }
     ],
     "bard": [
@@ -2470,6 +2478,22 @@
         "id": 314,
         "game_id": 16013,
         "game_key": "Gunnery"
+      },
+      {
+        "name": "Repel Boarders",
+        "xp_factor": 5.0,
+        "key": "strategy~seafaring~repel-boarders",
+        "id": 316,
+        "game_id": 16014,
+        "game_key": "RepelBoarders"
+      },
+      {
+        "name": "Boarding Party",
+        "xp_factor": 1.0,
+        "key": "strategy~seafaring~boarding-party",
+        "id": 317,
+        "game_id": 16015,
+        "game_key": "BoardingParty"
       }
     ]
   }

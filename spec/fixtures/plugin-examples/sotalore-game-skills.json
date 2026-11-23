@@ -1,4 +1,4 @@
-{"apiVersion":57,"plugin":"sl-admin","pluginVersion":"0.15.0","type":"gameSkills","count":378,"skills":[
+{"apiVersion":58,"plugin":"sl-admin","pluginVersion":"0.16.0","type":"gameSkills","count":381,"skills":[
 {"id":10,"key":"Thrust","name":"Thrust","schoolKey":"Blades","school":"Blades","subcategory":"Combat","xpMultiplier":1},
 {"id":12,"key":"DoubleThrust","name":"Double Slash","schoolKey":"Blades","school":"Blades","subcategory":"Combat","xpMultiplier":1},
 {"id":13,"key":"VitalPoints","name":"Vital Points","schoolKey":"Blades","school":"Blades","subcategory":"Combat","xpMultiplier":1},
@@ -72,7 +72,7 @@
 {"id":135,"key":"Charge","name":"Charge","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":1},
 {"id":136,"key":"Testudo","name":"Testudo","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":1},
 {"id":137,"key":"Angles","name":"Angles","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
-{"id":138,"key":"Balance","name":"Redirection","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
+{"id":138,"key":"Redirection","name":"Redirection","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
 {"id":139,"key":"ShieldPreservation","name":"Shield Preservation","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
 {"id":140,"key":"StandYourGround","name":"Stand Your Ground","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":4},
 {"id":2514,"key":"MasteryShield","name":"Shield Specialization","schoolKey":"Shield","school":"Shield","subcategory":"Combat","xpMultiplier":20},
@@ -267,6 +267,7 @@
 {"id":516,"key":"Sap","name":"Sap","schoolKey":"Subterfuge","school":"Subterfuge","subcategory":"Strategy","xpMultiplier":2},
 {"id":517,"key":"PoisonWeapon","name":"Poison Weapon","schoolKey":"Subterfuge","school":"Subterfuge","subcategory":"Strategy","xpMultiplier":2},
 {"id":518,"key":"PickPocket","name":"Pick Pockets","schoolKey":"Subterfuge","school":"Subterfuge","subcategory":"Strategy","xpMultiplier":2},
+{"id":519,"key":"PickLock","name":"Pick Locks","schoolKey":"Subterfuge","school":"Subterfuge","subcategory":"Strategy","xpMultiplier":2},
 {"id":521,"key":"Engage","name":"Engage Opponent","schoolKey":"Subterfuge","school":"Subterfuge","subcategory":"Strategy","xpMultiplier":1},
 {"id":522,"key":"Distract","name":"Distract","schoolKey":"Subterfuge","school":"Subterfuge","subcategory":"Strategy","xpMultiplier":2},
 {"id":934,"key":"SafeFall","name":"Safe Fall","schoolKey":"Subterfuge","school":"Subterfuge","subcategory":"Strategy","xpMultiplier":5},
@@ -376,5 +377,7 @@
 {"id":16010,"key":"TreadWater","name":"Tread Water","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
 {"id":16011,"key":"HullPatching","name":"Hull Patching","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":1},
 {"id":16012,"key":"CrewDrill","name":"Crew Drill","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
-{"id":16013,"key":"Gunnery","name":"Gunnery","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5}
+{"id":16013,"key":"Gunnery","name":"Gunnery","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16014,"key":"RepelBoarders","name":"Repel Boarders","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":5},
+{"id":16015,"key":"BoardingParty","name":"Boarding Party","schoolKey":"Seafaring","school":"Seafaring","subcategory":"Strategy","xpMultiplier":1}
 ]}
