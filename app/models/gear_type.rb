@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # What kind of gear the game says an item is, from its tooltip's type line
-# (the item catalog's details.types; see sl-lua/EXPORT-FORMAT.md):
+# (the item catalog's details.types; see sotalore/sladmin EXPORT-FORMAT.md):
 #
 #   "Leather Light Armor (Head)"   armor: leather, light, head
 #   "Universal Heavy Armor (Head)" armor: any material, heavy, head

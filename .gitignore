@@ -40,7 +40,7 @@ coverage/
 /.claude/settings.local.json
 
 sotalore-*.json
-!/data/plugin-examples/*.json
+!/spec/fixtures/plugin-examples/*.json
 
 # Compound Engineering scratch space
 .context/compound-engineering/

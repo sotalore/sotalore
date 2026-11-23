@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Builds finds files shaped like the game plugin's (see sl-lua/EXPORT-FORMAT.md).
+# Builds finds files shaped like the game plugin's (see sotalore/sladmin EXPORT-FORMAT.md).
 module FindsHelpers
   # +items+ is { name => key }; +creatures+ { name => [min, max] }; +nodes+
   # { name => [item names] }.

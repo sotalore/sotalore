@@ -75,7 +75,7 @@ RSpec.describe GameSkillSync do
   end
 
   it 'finds the site in step with the example export' do
-    game_skills = JSON.parse(Rails.root.join('data/plugin-examples/sotalore-game-skills.json').read)['skills']
+    game_skills = JSON.parse(Rails.root.join('spec/fixtures/plugin-examples/sotalore-game-skills.json').read)['skills']
     site = GameSkillSync::FILES.keys.index_with { JSON.parse(Rails.root.join("app/models/skills-#{_1}.json").read) }
     result = described_class.new(game_skills, site).call
     expect(result).not_to be_changed

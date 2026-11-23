@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-# The header every file from the game plugin starts with (plugin 0.7.1+; see
-# sl-lua/EXPORT-FORMAT.md): the game's API version, the plugin's version, and
-# the file's type ("recipes", "items" or "finds"). Older files have neither
-# of the last two.
+# The header every file from a game plugin starts with (plugin 0.7.1+; see
+# "Every file starts the same way" in the plugins' EXPORT-FORMAT.md): the
+# game's API version, the plugin's version, and the file's type ("recipes",
+# "items" or "finds"). Older files have neither of the last two.
 module PluginFile
   # A full recipe export from a plugin before this is missing ~100 recipes.
   COMPLETE_FULL_EXPORTS = Gem::Version.new('0.5.2')

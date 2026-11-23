@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# A read-only view over the plugin's item catalog (see sl-lua/EXPORT-FORMAT.md):
+# A read-only view over the plugin's item catalog (see sotalore/sladmin EXPORT-FORMAT.md):
 # items seen in a character's bags, each with its key, weight, gold value and,
 # when the player hovered it with capture on, what its tooltip said, e.g.
 #
