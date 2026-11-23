@@ -50,7 +50,30 @@ RSpec.describe "Api::V1 scenes and their images", type: :request do
         'content_type' => 'image/jpeg', 'byte_size' => image.blob.byte_size, 'url' => rails_blob_url(image)
       )
       expect(response.parsed_body['preview_url']).to be_present
-      expect(image.blob.metadata['custom']).to eq('uploaded_by_id' => ai.id, 'taken_at' => '2026-11-23T10:15:00-08:00')
+      expect(image.blob.metadata['custom']).to eq('uploaded_by_id' => ai.id.to_s, 'taken_at' => '2026-11-23T10:15:00-08:00')
+    end
+
+    # S3 (R2 in production) refuses object metadata that isn't a String; the
+    # Disk service used here takes anything, so check what it's given.
+    it 'gives the storage service only String metadata, as S3 needs' do
+      service = ActiveStorage::Blob.service
+      allow(service).to receive(:upload).and_wrap_original do |upload, *args, **options|
+        expect(options[:custom_metadata]).to be_present
+        expect(options[:custom_metadata].values).to all(be_a(String))
+        upload.call(*args, **options)
+      end
+      post api_v1_scene_images_path(ravenswood), params: { file: jpeg, taken_at: '2026-11-23T10:15:00-08:00' },
+                                                 headers: headers
+      expect(response).to have_http_status(:created)
+      expect(service).to have_received(:upload)
+    end
+
+    it 'leaves no blob behind when storing the file fails' do
+      allow(ActiveStorage::Blob.service).to receive(:upload).and_raise(ArgumentError, 'refused')
+      auth = headers
+      expect { post api_v1_scene_images_path(ravenswood), params: { file: jpeg }, headers: auth }
+        .to raise_error(ArgumentError, 'refused')
+      expect([ ActiveStorage::Blob.count, ravenswood.images.count ]).to eq [ 0, 0 ]
     end
 
     it 'takes PNG and WebP, by what the bytes are, not the name' do
