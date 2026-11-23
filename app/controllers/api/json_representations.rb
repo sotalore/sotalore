@@ -101,6 +101,10 @@ module Api::JsonRepresentations
     }
   end
 
+  def scene_ref(scene)
+    { id: scene.id, name: scene.name }
+  end
+
   def collection_ref(collection)
     { id: collection.id, name: collection.name }
   end
