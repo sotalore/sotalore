@@ -2,8 +2,12 @@
 
 # Recipe exports uploaded from the game, how their recipes matched the
 # site's, and which site recipes the latest full one doesn't account for.
+# Uploading one (see Api::Uploads) needs the upload scope.
 class Api::V1::RecipeImportsController < Api::BaseController
-  before_action -> { require_scope!('read') }
+  include Api::Uploads
+
+  before_action -> { require_scope!('read') }, except: :create
+  before_action -> { require_scope!('upload') }, only: :create
 
   def index
     authorize(RecipeImport)
@@ -11,8 +15,13 @@ class Api::V1::RecipeImportsController < Api::BaseController
   end
 
   def show
-    import = find_import
-    render json: import_json(import).merge(unknown_items: import.unresolved_item_names.size)
+    render json: import_detail(find_import)
+  end
+
+  # A multipart "file": a recipe export (sotalore-recipes-*.json).
+  def create
+    authorize(RecipeImport)
+    create_upload(RecipeImport, 'recipes') { import_detail(_1) }
   end
 
   # ?status= (addition, unchanged, outdated, blocked, applied, skipped), ?q=,
@@ -59,7 +68,11 @@ class Api::V1::RecipeImportsController < Api::BaseController
     { id: import.id, filename: import.filename, full_export: import.full_export?, scope: import.export_scope,
       api_version: import.api_version, created_at: import.created_at.iso8601,
       analyzed_at: import.analyzed_at&.iso8601, entries: import.entries_count,
-      statuses: import.status_counts }
+      statuses: import.status_counts, review_url: adm_recipe_import_url(import) }
+  end
+
+  def import_detail(import)
+    import_json(import).merge(unknown_items: import.unresolved_item_names.size)
   end
 
   def entry_json(entry)

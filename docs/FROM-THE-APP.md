@@ -73,6 +73,10 @@ exports from other characters, items brought into the bags, and deleting what's 
 
 ## How the site uses the exports today
 
+- **Files arrive two ways**: an admin chooses one on the ADM import pages, or a client (the companion app)
+  uploads it through the API (`docs/api.md`, "Uploads"). Either way it becomes an import an admin reviews
+  and applies. The API tells files apart only by `type` and refuses a file without one, so `type` must stay
+  in every file the site imports. The same file uploaded twice gives back the first import.
 - **Recipes** match site recipes by the export's recipe `id` (stored as the recipe's game id), or
   the first time by name, ingredients or result. An admin reviews each difference before it's applied.
   Only a full export (`scope: "all"`) can mark site recipes missing from it as candidates to retire.

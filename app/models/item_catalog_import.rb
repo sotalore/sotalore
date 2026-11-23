@@ -10,6 +10,7 @@
 # not known, are taken (see GameCatalog.problem).
 class ItemCatalogImport < ApplicationRecord
   include GameItemResolution
+  include PluginUpload
 
   belongs_to :uploaded_by, class_name: 'User', optional: true
 
@@ -22,7 +23,7 @@ class ItemCatalogImport < ApplicationRecord
     catalog = GameCatalog.parse(data)
     raise ArgumentError, 'No items found' if catalog.entries.empty?
     create!(filename: filename, api_version: catalog.api_version, plugin_version: catalog.plugin_version,
-            payload: data, uploaded_by: user)
+            payload: data, uploaded_by: user, content_digest: content_digest(json))
   end
 
   # Parsed without the version check, so an import stored before it (or from

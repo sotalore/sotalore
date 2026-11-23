@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_07_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_23_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -149,6 +149,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_120000) do
     t.datetime "applied_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "content_digest"
+    t.index ["content_digest"], name: "index_finds_imports_on_content_digest"
     t.index ["uploaded_by_id"], name: "index_finds_imports_on_uploaded_by_id"
   end
 
@@ -207,6 +209,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_120000) do
     t.datetime "applied_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "content_digest"
+    t.index ["content_digest"], name: "index_item_catalog_imports_on_content_digest"
     t.index ["uploaded_by_id"], name: "index_item_catalog_imports_on_uploaded_by_id"
   end
 
@@ -367,6 +371,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_07_120000) do
     t.jsonb "groups_payload", default: [], null: false
     t.string "export_scope"
     t.string "plugin_version"
+    t.string "content_digest"
+    t.index ["content_digest"], name: "index_recipe_imports_on_content_digest"
     t.index ["uploaded_by_id"], name: "index_recipe_imports_on_uploaded_by_id"
   end
 
