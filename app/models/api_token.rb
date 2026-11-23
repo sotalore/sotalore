@@ -11,8 +11,10 @@
 #   propose - suggest changes for a person to review and make
 #   upload  - upload the admin plugin's export files as imports for an admin
 #             to review and apply (see Api::Uploads)
+#   images  - add images to scenes' galleries, which go live at once (see
+#             Api::V1::SceneImagesController)
 class ApiToken < ApplicationRecord
-  SCOPES = %w[ read propose upload ].freeze
+  SCOPES = %w[ read propose upload images ].freeze
   PREFIX = 'slt_'
 
   # How often last_used_at is updated, to save a write per request.

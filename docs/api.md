@@ -4,9 +4,10 @@ This file is the contract for the site's API at `https://www.sotalore.com/api/v1
 companion app and AI agent sessions read it. Only the app's agent changes it, and it changes in the same PR as
 the code that changes the API (see "Versions" below).
 
-The API lets AI accounts read the site's data, propose changes for an editor to review, and upload the admin
-plugin's export files as imports for an admin to review. Nothing sent through it changes what players see until a
-person accepts or applies it. How an agent session should use it to propose changes is in the
+The API lets AI accounts read the site's data, propose changes for an editor to review, upload the admin
+plugin's export files as imports for an admin to review, and add screenshots to scenes' galleries. Only the
+screenshots go live at once; nothing else sent through it changes what players see until a person accepts or
+applies it. How an agent session should use it to propose changes is in the
 `propose-changes` skill (`.claude/skills/propose-changes/SKILL.md`); this file is the reference.
 
 ## Tokens
@@ -25,6 +26,7 @@ person accepts or applies it. How an agent session should use it to propose chan
   | `read` | every `GET` below except `/me` |
   | `propose` | `POST /proposals` and `POST /proposals/:id/withdraw` |
   | `upload` | `POST /recipe_imports`, `POST /item_catalog_imports` and `POST /finds_imports` |
+  | `images` | `POST /scenes/:id/images` (the image goes live at once) |
 
 - `GET /me` needs no scope: use it to check a token works.
 
@@ -58,7 +60,7 @@ A page past the end returns an empty list, not an error. Lists that say "no pagi
 | `403` | The account isn't allowed to do it (a policy said no) | `{ "error": "Not allowed" }` |
 | `404` | No record with that id | `{ "error": "Not found" }` |
 | `400` | An upload has no `file` field | `{ "error": "..." }` |
-| `413` | An upload is over 10 MB | `{ "error": "..." }` |
+| `413` | An upload is too big: 10 MB for export files, 20 MB for images | `{ "error": "..." }` |
 | `422` | The request can't be done as asked | `{ "error": "..." }` or `{ "errors": [ "...", ... ] }`, as each endpoint says |
 
 A path that isn't in the API at all gets the site's ordinary 404, which isn't JSON.
@@ -321,6 +323,54 @@ Each skill:
 `game_schools` maps the game's school names (lowercased) to the site's where they differ:
 `{ "polearms": "polearm", "moon": "lunar" }`. A skill whose school differs after that has moved school in the
 game; `skills:sync` reports it but doesn't move it, since its site key names the school.
+### Scenes and their galleries
+
+#### `GET /scenes`
+
+Paged scenes, by name, under `scenes`. Scope `read`. Use it to find the scene a screenshot belongs to before
+adding it, and show the user which one it'll go to.
+
+| Param | |
+|---|---|
+| `game_name` | the game's internal name, exactly (`HiddenVale_Forest02_Tier2`, the finds file's `rawName`); at most one scene has it |
+| `name` | the site's name, ignoring case (`West Ravenswood`) |
+| `q` | name contains, ignoring case |
+
+Each scene: `id`, `name`, `game_name` (or `null` until a finds import links it), `region`, `scene_type`, `level`
+(`Tier 2`), `level_plus` (true for "Tier 2+"), `parent` (`{ id, name }`, `null` for the top-level map),
+`images` (how many in its gallery) and `url`.
+
+No match gives an empty list. The API doesn't create scenes. Applying a finds file that has the scene records
+its internal name on the matching site scene, or an admin links it on the finds import page, and from then on
+`game_name` finds it.
+
+#### `POST /scenes/:id/images`
+
+Adds one image to the scene's gallery. **It goes live at once**, as when root adds one on the scene's page, so
+the client should ask its user before sending. Root deletes a wrong one on the scene's page. Scope `images`.
+
+Send `multipart/form-data` with:
+
+- `file`: a PNG, JPEG or WebP image, at most 20 MB. The type is worked out from the bytes, not the name. It's
+  stored as sent; the scene page shows a 640×480 preview that opens the full image.
+- `taken_at` (optional): when the screenshot was taken, ISO 8601 with an offset. Kept with the image, as is
+  the account that sent it, for admins; neither is shown on the page.
+
+Responses:
+
+- **`201 Created`**: the image, below.
+- **`200 OK`**: this scene already has an image with exactly these bytes. The response is that image, and
+  nothing is added, so a client can retry safely. The same image can go to a different scene.
+- `400` with no `file`, `404` with no such scene, `413` over 20 MB, `422 { "error": "..." }` if it isn't PNG,
+  JPEG or WebP or `taken_at` isn't a time.
+
+The image: `id` (the attachment's id), `scene` (`{ id, name, url }`), `url` (the full image), `preview_url`,
+`content_type`, `byte_size` and `created_at`. Image links redirect to the file's storage and work for anyone.
+
+```bash
+curl -s -H "Authorization: Bearer $TOKEN" -F file=@screenshot.png -F taken_at=2026-11-23T10:15:00-08:00 \
+  https://www.sotalore.com/api/v1/scenes/41/images
+```
 
 ### Item review
 
@@ -342,7 +392,7 @@ Each row: an item ref, plus `members`, `groups`, `ingredient_of`, `ingredient_of
 ### Proposals
 
 An AI account proposes a change; an editor accepts or rejects it at ADM → Proposals. Accepting runs the same
-code as editing on the site. Nothing an AI account sends changes the site until someone accepts it.
+code as editing on the site. A proposal changes nothing until someone accepts it.
 
 #### `GET /proposal_changes`
 
@@ -401,6 +451,7 @@ plugins' export files (that's the game's Lua API).
 
 ## Changelog
 
+- **2026-11-23**: `GET /scenes`, `POST /scenes/:id/images` and the `images` scope (sotalore/sotalore#304).
 - **2026-11-23**: `GET /skills` (sotalore/sotalore#303).
 - **2026-11-23**: Uploads: `POST /recipe_imports`, `/item_catalog_imports` and `/finds_imports`, the `upload`
   scope, and `review_url` on recipe imports (sotalore/sotalore#300).
