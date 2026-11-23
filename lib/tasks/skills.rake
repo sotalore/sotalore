@@ -4,7 +4,7 @@ namespace :skills do
   #   rails 'skills:sync[path/to/sotalore-game-skills.json]'
   desc 'Bring the skills JSON in step with the plugin\'s list of every skill in the game'
   task :sync, [ :path ] => :environment do |_, args|
-    source = args[:path] || Rails.root.join('data/plugin-examples/sotalore-game-skills.json')
+    source = args[:path] || Rails.root.join('spec/fixtures/plugin-examples/sotalore-game-skills.json')
     game_skills = JSON.parse(File.read(source, encoding: 'bom|utf-8')).fetch('skills')
     paths = GameSkillSync::FILES.keys.index_with { Rails.root.join("app/models/skills-#{_1}.json") }
     lists = paths.transform_values { JSON.parse(File.read(_1)) }

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# A read-only view over the plugin's finds file (see sl-lua/EXPORT-FORMAT.md):
+# A read-only view over the plugin's finds file (see sotalore/sladmin EXPORT-FORMAT.md):
 # per scene, the items gained there, the creatures fought there, what was
 # targeted there but never fought (+seen+, from plugin 0.11.0: creatures, but
 # also NPCs, players and pets, for review), and the nodes gathered from

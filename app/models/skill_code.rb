@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # The skill code the sl-skills plugin shows for a player to paste in (see
-# sl-lua/EXPORT-FORMAT.md): one or more pages, in any order, each
+# sotalore/slskills EXPORT-FORMAT.md): one or more pages, in any order, each
 #
 #   SLS1|<page>/<pages>|<id digits>|<o or ->|<character>|<entries>|<check>
 #

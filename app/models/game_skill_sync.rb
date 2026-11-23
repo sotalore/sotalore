@@ -2,7 +2,7 @@
 
 # Brings the site's skill lists (skills-adventuring.json and
 # skills-crafting.json, as parsed JSON) in step with the plugin's list of every
-# skill in the game (see sl-lua/EXPORT-FORMAT.md), matching on the game's id.
+# skill in the game (see sotalore/sladmin EXPORT-FORMAT.md), matching on the game's id.
 # New skills are added to their school; names, internal names and XP factors
 # are updated; skills that left the game are removed, since the site shows the
 # game as it is now. A skill's site key and id never change, because players'

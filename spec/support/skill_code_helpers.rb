@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Builds skill codes the way the sl-skills plugin does (sl-lua/sl-skills/skills.lua).
+# Builds skill codes the way the sl-skills plugin does (sotalore/slskills: sl-skills/skills.lua).
 module SkillCodeHelpers
   # +levels+ is { game id => level }; returns the pages, with +per_page+
   # skills on each.
