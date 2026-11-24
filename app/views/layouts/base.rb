@@ -44,7 +44,8 @@ class Views::Layouts::Base < Views::Base
     end
   end
 
-  def site_nav_link_to(text, url, icon, options={})
+  # Without an +icon+ (as in ADM), the text shows at every width.
+  def site_nav_link_to(text, url, icon = nil, options={})
     options = {
       active: options.fetch(:active, nil),
       class: "site-nav-link",
@@ -61,8 +62,7 @@ class Views::Layouts::Base < Views::Base
     end
 
     active_link_to(url, options) do
-      render_icon(icon, color: :current)
-      span(class: 'hidden lg:inline') { text }
+      nav_label(text, icon)
     end
   end
 
@@ -74,11 +74,19 @@ class Views::Layouts::Base < Views::Base
   end
 
   # Signing out changes state, so it's a form (DELETE) rather than a link.
-  def sign_out_nav_button
+  def sign_out_nav_button(icon: "sign_out")
     button_to(user_session_path, method: :delete, class: "site-nav-link w-full cursor-pointer", title: "Sign Out",
               form: { class: "contents" }) do
-      render_icon("sign_out", color: :current)
-      span(class: 'hidden lg:inline') { "Sign Out" }
+      nav_label("Sign Out", icon)
+    end
+  end
+
+  def nav_label(text, icon)
+    if icon
+      render_icon(icon, color: :current)
+      span(class: 'hidden lg:inline') { text }
+    else
+      span { text }
     end
   end
 

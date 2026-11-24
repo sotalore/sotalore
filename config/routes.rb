@@ -59,7 +59,11 @@ Rails.application.routes.draw do
     resource :archetype_cleanup, only: [ :show, :destroy ]
     resource :material_triage, only: [ :show, :update ]
     resource :component_bonuses, only: [ :show ]
-    resources :scenes, only: [ :index ]
+    resources :scenes do
+      get :delete, on: :member
+      resources :images, only: [ :create, :destroy ], controller: 'scene_images'
+      resources :notes, only: [ :destroy ], controller: 'scene_notes'
+    end
     resources :item_catalog_imports, only: [ :index, :show, :create, :destroy ] do
       member do
         post :apply
@@ -157,9 +161,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :scenes do
+  # Scenes are managed in ADM (#314); these keep old links working. Before
+  # resources :scenes, so show doesn't take "new".
+  get 'scenes/new', to: redirect('/adm/scenes/new')
+  get 'scenes/:id/edit', to: redirect('/adm/scenes/%{id}/edit')
+  resources :scenes, only: [ :index, :show ] do
     resources :comments, except: [ :new ]
-    resources :notes, only: [ :destroy ], controller: 'scene_notes'
     resources :posts
   end
 

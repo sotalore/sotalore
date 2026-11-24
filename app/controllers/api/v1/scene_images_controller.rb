@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Adding an image (a screenshot) to a scene's gallery, sent as a multipart
-# "file". It goes live at once, as when root adds one on the scene's page; the
+# "file". It goes live at once, as when root adds one in ADM; the
 # client asks its user before sending. The same file sent to the same scene
 # again returns the image already there, so a client can retry. Who sent it
 # (and +taken_at+, if given) is kept in the blob's custom metadata, which S3

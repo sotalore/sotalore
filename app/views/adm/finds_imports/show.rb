@@ -57,8 +57,9 @@ class Views::Adm::FindsImports::Show < Views::Base
     return if rows.empty?
     h2(id: 'scenes', class: 'mt-6 mb-1 text-lg font-bold') { "Scenes not on the site (#{rows.size})" }
     p(class: 'mb-2 text-sm max-w-prose') do
-      plain 'Link each to the site\'s scene (recording the game\'s internal name for it), or add the scene on '
-      plain 'the Scenes page first.'
+      plain 'Link each to the site\'s scene (recording the game\'s internal name for it), or '
+      a(href: new_adm_scene_path, class: 'Link') { 'add the scene' }
+      plain ' first.'
     end
     rows.each do |row|
       form(action: resolve_adm_finds_import_path(@import), method: 'post',

@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
-class Views::Scenes::Form < Views::Form
+# Adding or editing a scene's details, in ADM.
+class Views::Adm::Scenes::Form < Views::Form
 
   def initialize(scene:)
     @scene = scene
   end
 
   def view_template
-    render form_builder(model: @scene) do |f|
+    cancel = @scene.persisted? ? adm_scene_path(@scene) : adm_scenes_path
+    render form_builder(model: [ :adm, @scene ], cancel_url: cancel) do |f|
       f.text_field(:name, autofocus: true)
 
       f.select_field(:level_id) do |select|

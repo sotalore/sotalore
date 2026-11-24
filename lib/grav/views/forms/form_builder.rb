@@ -5,7 +5,7 @@
 # SLFormBuilder) does -- instead of `include`ing Grav::Views::Forms::Base
 # directly into your own view class.
 #
-#   class Views::Scenes::Form < Views::Scenes::Base
+#   class Views::Adm::Scenes::Form < Views::Form
 #     def view_template
 #       render Grav::Views::Forms::FormBuilder.new(model: @scene) do |f|
 #         f.text_field(:name, autofocus: true)

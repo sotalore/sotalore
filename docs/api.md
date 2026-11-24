@@ -347,8 +347,8 @@ its internal name on the matching site scene, or an admin links it on the finds 
 
 #### `POST /scenes/:id/images`
 
-Adds one image to the scene's gallery. **It goes live at once**, as when root adds one on the scene's page, so
-the client should ask its user before sending. Root deletes a wrong one on the scene's page. Scope `images`.
+Adds one image to the scene's gallery. **It goes live at once**, as when root adds one at ADM → Scenes, so
+the client should ask its user before sending. Root deletes a wrong one there. Scope `images`.
 
 Send `multipart/form-data` with:
 
@@ -377,8 +377,8 @@ curl -s -H "Authorization: Bearer $TOKEN" -F file=@screenshot.png -F taken_at=20
 
 Private transcripts of what was said about a scene while playing: the companion records and transcribes them,
 and an agent later writes the scene's narrative from them. **Notes are private.** Only root sees them on the
-site (on the scene's page, where root deletes them), and only a token with the `notes` scope reads them; `read`
-doesn't. The site keeps only the text, never audio, and keeps it out of its logs.
+site (on the scene's page at ADM → Scenes, where root deletes them), and only a token with the `notes` scope
+reads them; `read` doesn't. The site keeps only the text, never audio, and keeps it out of its logs.
 
 #### `POST /scenes/:id/notes`
 

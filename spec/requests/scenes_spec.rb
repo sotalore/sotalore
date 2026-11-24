@@ -1,102 +1,71 @@
 require 'rails_helper'
 
+# The public scene pages only show scenes; they're managed in ADM → Scenes
+# (spec/requests/adm/scenes_spec.rb).
 RSpec.describe "Scenes", type: :request do
 
   let!(:overworld) { create :scene, :overworld }
+  let!(:scene) { create :scene, name: 'West Ravenswood', parent: overworld }
+  let(:ai) { User.create_ai_account!(name: 'Companion') }
 
-  context 'Given current_user is root' do
-    let(:current_user) { create :user, :root }
-    before { sign_in current_user }
+  before do
+    scene.images.attach(io: file_fixture('hawk-on-agave.jpg').open, filename: 'hawk-on-agave.jpg',
+                        content_type: 'image/jpeg')
+    scene.notes.create!(user: ai, text: 'A locked chest in the ruins.', recorded_at: Time.current, client_id: 'n1')
+  end
 
-    describe "DELETE /scenes/:id" do
-      let!(:scene) { create :scene, parent: overworld }
+  { 'signed out' => nil, 'a player' => [], 'an editor' => [ :editor ], 'root' => [ :root ] }.each do |who, traits|
+    context "for #{who}" do
+      before { sign_in create(:user, *traits) if traits }
 
-      it "won't delete a scene" do
-        # we don't support this ... yet
-        delete scene_path(scene)
-        expect(response).to redirect_to(scene_path(scene))
-        expect(scene.reload).to be_present
-      end
+      it "lists scenes and shows one, with its gallery, but no controls or notes" do
+        get scenes_path
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('West Ravenswood')
+        expect(response.body).not_to include('New Scene', "/scenes/#{scene.id}/edit")
 
-      context 'Given an attachment_id' do
-        let(:image) { file_fixture('hawk-on-agave.jpg') }
-        before do
-          scene.images.attach(io: File.open(image), filename: 'hawk-on-agave.jpg', content_type: 'image/jpeg')
-        end
-
-        it 'deletes the attachment' do
-          delete scene_path(scene, attachment_id: scene.images.first.id)
-          expect(response).to redirect_to(scene_path(scene))
-          expect(response).to have_http_status(:see_other)
-          expect(scene.reload.images).to be_empty
-        end
-      end
-    end
-
-    describe "the gallery" do
-      let!(:scene) { create :scene, parent: overworld }
-
-      it "has the upload form, which takes pasted images" do
         get scene_path(scene)
-        expect(response.body).to include('data-controller="image-upload"')
-        expect(response.body).to include('accept="image/*"')
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('Gallery', 'gallery-image')
+        expect(response.body).not_to include('data-controller="image-upload"', 'A locked chest', 'Edit')
       end
-
-      it "uploads images" do
-        image = fixture_file_upload('hawk-on-agave.jpg', 'image/jpeg')
-        patch scene_path(scene), params: { scene: { images: [ image ] } }
-        expect(response).to redirect_to(scene_path(scene))
-        expect(scene.reload.images.map { _1.filename.to_s }).to eq([ 'hawk-on-agave.jpg' ])
-      end
-    end
-
-    it_behaves_like "an editable resource", except: [ :destroy ] do
-      let(:model) { Scene }
-      let(:fixture) { :scene }
-      let(:invalid_attributes) { { name: '' } }
     end
   end
 
-  context 'Given current_user is a regular user' do
-    it_behaves_like "a non-editable resource" do
-      let(:model) { Scene }
-      let(:fixture) { :scene }
-      let(:invalid_attributes) { { name: '' } }
-    end
+  it "links root, and only root, to managing scenes in ADM" do
+    get scene_path(scene)
+    expect(response.body).not_to include(adm_scene_path(scene))
+
+    sign_in create(:user, :editor)
+    get scene_path(scene)
+    expect(response.body).not_to include(adm_scene_path(scene))
+
+    sign_in create(:user, :root)
+    get scene_path(scene)
+    expect(response.body).to include(%(href="#{adm_scene_path(scene)}"))
+    get scenes_path
+    expect(response.body).to include(%(href="#{adm_scenes_path}"))
   end
 
-  describe "a scene's private notes" do
-    let!(:scene) { create :scene, parent: overworld }
-    let(:ai) { User.create_ai_account!(name: 'Companion') }
-    let!(:note) do
-      scene.notes.create!(user: ai, text: 'A locked chest in the ruins.', recorded_at: Time.current,
-                          duration: 75, client_id: 'n1')
-    end
+  it "has no gallery without images" do
+    scene.images.purge
+    get scene_path(scene)
+    expect(response.body).not_to include('Gallery')
+  end
 
-    it "shows them to root, who can delete one" do
-      sign_in create(:user, :root)
-      get scene_path(scene)
-      expect(response.body).to include('A locked chest in the ruins.', '1:15 long')
+  it "sends the old new and edit pages to ADM" do
+    get '/scenes/new'
+    expect(response).to redirect_to('/adm/scenes/new')
+    get "/scenes/#{scene.id}/edit"
+    expect(response).to redirect_to("/adm/scenes/#{scene.id}/edit")
+  end
 
-      delete scene_note_path(scene, note)
-      expect(response).to redirect_to(scene_path(scene))
-      expect(scene.notes.reload).to be_empty
-    end
-
-    it "hides them from editors and players, who can't delete them" do
-      [ create(:user, :editor), create(:user) ].each do |user|
-        sign_in user
-        get scene_path(scene)
-        expect(response.body).not_to include('A locked chest')
-
-        delete scene_note_path(scene, note)
-        expect(note.reload).to be_present
-      end
-    end
-
-    it "hides them when signed out" do
-      get scene_path(scene)
-      expect(response.body).not_to include('A locked chest')
-    end
+  it "no longer changes scenes" do
+    sign_in create(:user, :root)
+    patch scene_path(scene), params: { scene: { name: 'Renamed' } }
+    expect(response).to have_http_status(:not_found)
+    delete scene_path(scene)
+    expect(response).to have_http_status(:not_found)
+    expect(scene.reload.name).to eq 'West Ravenswood'
   end
 end
