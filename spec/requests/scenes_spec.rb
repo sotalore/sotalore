@@ -64,4 +64,39 @@ RSpec.describe "Scenes", type: :request do
       let(:invalid_attributes) { { name: '' } }
     end
   end
+
+  describe "a scene's private notes" do
+    let!(:scene) { create :scene, parent: overworld }
+    let(:ai) { User.create_ai_account!(name: 'Companion') }
+    let!(:note) do
+      scene.notes.create!(user: ai, text: 'A locked chest in the ruins.', recorded_at: Time.current,
+                          duration: 75, client_id: 'n1')
+    end
+
+    it "shows them to root, who can delete one" do
+      sign_in create(:user, :root)
+      get scene_path(scene)
+      expect(response.body).to include('A locked chest in the ruins.', '1:15 long')
+
+      delete scene_note_path(scene, note)
+      expect(response).to redirect_to(scene_path(scene))
+      expect(scene.notes.reload).to be_empty
+    end
+
+    it "hides them from editors and players, who can't delete them" do
+      [ create(:user, :editor), create(:user) ].each do |user|
+        sign_in user
+        get scene_path(scene)
+        expect(response.body).not_to include('A locked chest')
+
+        delete scene_note_path(scene, note)
+        expect(note.reload).to be_present
+      end
+    end
+
+    it "hides them when signed out" do
+      get scene_path(scene)
+      expect(response.body).not_to include('A locked chest')
+    end
+  end
 end

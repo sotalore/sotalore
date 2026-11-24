@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_23_120000) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_23_130000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pg_catalog.plpgsql"
@@ -435,6 +435,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_120000) do
     t.index ["scene_id", "gathering_node_id"], name: "index_scene_nodes_on_scene_id_and_gathering_node_id", unique: true
   end
 
+  create_table "scene_notes", force: :cascade do |t|
+    t.integer "scene_id", null: false
+    t.integer "user_id", null: false
+    t.text "text", null: false
+    t.datetime "recorded_at", null: false
+    t.integer "duration"
+    t.string "transcriber"
+    t.string "client_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_scene_notes_on_created_at"
+    t.index ["scene_id"], name: "index_scene_notes_on_scene_id"
+    t.index ["user_id", "client_id"], name: "index_scene_notes_on_user_id_and_client_id", unique: true
+    t.index ["user_id"], name: "index_scene_notes_on_user_id"
+  end
+
   create_table "scenes", id: :serial, force: :cascade do |t|
     t.string "name"
     t.integer "level_id"
@@ -536,6 +552,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_23_120000) do
   add_foreign_key "scene_finds", "scenes"
   add_foreign_key "scene_nodes", "gathering_nodes"
   add_foreign_key "scene_nodes", "scenes"
+  add_foreign_key "scene_notes", "scenes"
+  add_foreign_key "scene_notes", "users"
   add_foreign_key "user_recipes", "recipes"
   add_foreign_key "user_recipes", "users"
 end

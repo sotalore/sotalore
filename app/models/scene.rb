@@ -58,6 +58,9 @@ class Scene < ApplicationRecord
   has_many :scene_finds, dependent: :delete_all
   has_many :found_items, -> { by_name }, through: :scene_finds, source: :item
   has_many :scene_creatures, dependent: :delete_all
+
+  # Private transcripts of what was said about the scene while playing.
+  has_many :notes, -> { oldest_first }, class_name: 'SceneNote', dependent: :delete_all
   has_many :creatures, -> { by_name }, through: :scene_creatures
   has_many :scene_nodes, dependent: :delete_all
   has_many :ignored_sightings, dependent: :delete_all

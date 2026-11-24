@@ -159,6 +159,7 @@ Rails.application.routes.draw do
 
   resources :scenes do
     resources :comments, except: [ :new ]
+    resources :notes, only: [ :destroy ], controller: 'scene_notes'
     resources :posts
   end
 
@@ -219,7 +220,9 @@ Rails.application.routes.draw do
       resources :skills, only: [ :index ]
       resources :scenes, only: [ :index ] do
         resources :images, only: [ :create ], controller: 'scene_images'
+        resources :notes, only: [ :create ], controller: 'scene_notes'
       end
+      resources :notes, only: [ :index ], controller: 'scene_notes'
       resources :recipe_imports, only: [ :index, :show, :create ] do
         member do
           get :entries
