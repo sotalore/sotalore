@@ -242,6 +242,10 @@ The game's places, for the map and the finds:
 
 170 scenes. Curated by hand, except the game's internal name (`rawName`), recorded from finds.
 
+A scene can also have **notes**: private transcripts of what was said about it while playing, which the
+companion adds through the API. Only root and AI accounts with the `notes` scope see them; they're the source
+for the scene's narrative, not shown to players.
+
 ### Creatures and gathering nodes
 
 From finds. A **creature** is a name the combat lines print (creatures of one name are one creature);

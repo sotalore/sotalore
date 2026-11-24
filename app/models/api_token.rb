@@ -13,8 +13,10 @@
 #             to review and apply (see Api::Uploads)
 #   images  - add images to scenes' galleries, which go live at once (see
 #             Api::V1::SceneImagesController)
+#   notes   - add and read scenes' private transcript notes (see SceneNote);
+#             read alone doesn't reach them
 class ApiToken < ApplicationRecord
-  SCOPES = %w[ read propose upload images ].freeze
+  SCOPES = %w[ read propose upload images notes ].freeze
   PREFIX = 'slt_'
 
   # How often last_used_at is updated, to save a write per request.

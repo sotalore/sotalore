@@ -5,8 +5,8 @@ companion app and AI agent sessions read it. Only the app's agent changes it, an
 the code that changes the API (see "Versions" below).
 
 The API lets AI accounts read the site's data, propose changes for an editor to review, upload the admin
-plugin's export files as imports for an admin to review, and add screenshots to scenes' galleries. Only the
-screenshots go live at once; nothing else sent through it changes what players see until a person accepts or
+plugin's export files as imports for an admin to review, add screenshots to scenes' galleries, and keep
+private transcript notes on scenes. Only the screenshots go live at once (notes are never shown to players); nothing else sent through it changes what players see until a person accepts or
 applies it. How an agent session should use it to propose changes is in the
 `propose-changes` skill (`.claude/skills/propose-changes/SKILL.md`); this file is the reference.
 
@@ -23,10 +23,11 @@ applies it. How an agent session should use it to propose changes is in the
 
   | Scope | Allows |
   |---|---|
-  | `read` | every `GET` below except `/me` |
+  | `read` | every `GET` below except `/me` and `/notes` |
   | `propose` | `POST /proposals` and `POST /proposals/:id/withdraw` |
   | `upload` | `POST /recipe_imports`, `POST /item_catalog_imports` and `POST /finds_imports` |
   | `images` | `POST /scenes/:id/images` (the image goes live at once) |
+  | `notes` | `POST /scenes/:id/notes` and `GET /notes`, scenes' private notes, which `read` doesn't reach |
 
 - `GET /me` needs no scope: use it to check a token works.
 
@@ -372,6 +373,57 @@ curl -s -H "Authorization: Bearer $TOKEN" -F file=@screenshot.png -F taken_at=20
   https://www.sotalore.com/api/v1/scenes/41/images
 ```
 
+### Scene notes
+
+Private transcripts of what was said about a scene while playing: the companion records and transcribes them,
+and an agent later writes the scene's narrative from them. **Notes are private.** Only root sees them on the
+site (on the scene's page, where root deletes them), and only a token with the `notes` scope reads them; `read`
+doesn't. The site keeps only the text, never audio, and keeps it out of its logs.
+
+#### `POST /scenes/:id/notes`
+
+Adds a note to the scene. Scope `notes`. Find the scene first with `GET /scenes`, as for images. Send JSON:
+
+| Field | |
+|---|---|
+| `text` | the transcript, plain text, at most 20,000 characters (required) |
+| `recorded_at` | when recording started, ISO 8601 with an offset (required) |
+| `client_id` | the client's own id for the note, at most 100 characters, unique for this account (required); make it when recording starts and send the same one on every retry |
+| `duration` | the recording's length in whole seconds (optional) |
+| `transcriber` | what made the text, such as `whisper-large-v3`, at most 100 characters (optional) |
+
+Responses:
+
+- **`201 Created`**: the note, below.
+- **`200 OK`**: this account already sent this `client_id` for this scene with the same text. The response is
+  that note and nothing is added, so a client can retry safely.
+- **`409 Conflict`** `{ "error": "...", "note": {...} }`: the `client_id` was already sent with a different
+  scene or text; `note` is the one already there. Don't retry: it's a bug in the client, and the API doesn't
+  overwrite.
+- `404` with no such scene, `422 { "errors": [...] }` for a missing or invalid field (or
+  `{ "error": "..." }` if `recorded_at` isn't a time).
+
+The note: `id`, `scene` (`{ id, name, url }`), `text`, `recorded_at`, `duration` (or `null`), `transcriber` (or
+`null`), `client_id` and `created_at` (when the site got it).
+
+```bash
+curl -s -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
+  -d '{"text":"...","recorded_at":"2026-11-23T10:15:00-08:00","duration":42,"client_id":"7f3c..."}' \
+  https://www.sotalore.com/api/v1/scenes/41/notes
+```
+
+#### `GET /notes`
+
+Paged notes, oldest first (by when the site got them), under `notes`, in the shape above. Scope `notes`.
+
+| Param | |
+|---|---|
+| `scene_id` | only this scene's notes |
+| `since` | only notes the site got at or after this time, ISO 8601 (`422` if it isn't one) |
+
+To pick up what's new, keep the latest `created_at` seen and pass it as `since` next time. That note comes back
+again (`since` includes it), so skip ids already seen.
+
 ### Item review
 
 #### `GET /item_reviews`
@@ -451,6 +503,8 @@ plugins' export files (that's the game's Lua API).
 
 ## Changelog
 
+- **2026-11-23**: Scene notes: `POST /scenes/:id/notes`, `GET /notes` and the `notes` scope
+  (sotalore/sotalore#311).
 - **2026-11-23**: `GET /scenes`, `POST /scenes/:id/images` and the `images` scope (sotalore/sotalore#304).
 - **2026-11-23**: `GET /skills` (sotalore/sotalore#303).
 - **2026-11-23**: Uploads: `POST /recipe_imports`, `/item_catalog_imports` and `/finds_imports`, the `upload`

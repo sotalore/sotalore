@@ -28,6 +28,7 @@ class Views::Scenes::Show < Views::Scenes::Base
       render Components::Finds::ForScene.new(scene: @scene) if policy(:finds).show?
       posts_section if @scene.posts.any?
       gallery_section if policy(@scene).edit? || @scene.images.any?
+      notes_section if policy(SceneNote).index? && @scene.notes.any?
       comments_section
     end
   end
@@ -175,6 +176,28 @@ class Views::Scenes::Show < Views::Scenes::Base
                data: { action: "image-upload#remove" }) { render_icon(:trash, size: :xs) }
       end
     end
+  end
+
+  # Private: only root sees these (SceneNotePolicy). The companion adds them
+  # through the API, for the agent that writes the scene's narrative.
+  def notes_section
+    tile_with_heading("Notes (only root sees these)", class: "col-span-6") do
+      @scene.notes.each do |note|
+        div(id: dom_id(note), class: "mb-4 border-b border-gray-200 pb-4 last:mb-0 last:border-b-0 last:pb-0") do
+          div(class: "mb-1 flex flex-row items-center gap-x-2 text-sm text-gray-500") do
+            span(class: "grow") { note_heading(note) }
+            destroy_icon_to(scene_note_path(@scene, note), size: :xs) if policy(note).destroy?
+          end
+          p(class: "whitespace-pre-line") { note.text }
+        end
+      end
+    end
+  end
+
+  def note_heading(note)
+    plain l(note.recorded_at, format: :long)
+    plain Kernel.format(", %d:%02d long", *note.duration.divmod(60)) if note.duration
+    plain " (#{note.transcriber})" if note.transcriber
   end
 
   def comments_section
