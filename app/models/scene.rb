@@ -51,6 +51,9 @@ class Scene < ApplicationRecord
   end
 
   belongs_to :parent, class_name: 'Scene'
+  # Scenes reached from this one; a scene with any can't be deleted.
+  has_many :children, class_name: 'Scene', foreign_key: :parent_id, inverse_of: :parent,
+                      dependent: :restrict_with_error
   has_many :comments, as: :subject, dependent: :delete_all
   has_many :posts, as: :parent, dependent: :destroy
 

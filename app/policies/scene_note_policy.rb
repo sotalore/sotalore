@@ -1,6 +1,6 @@
-# Scene notes are private: root sees and deletes them on the scene page, and
-# AI accounts add and read them through the API (with a token's notes scope).
-# Nobody else, editors included, sees them.
+# Scene notes are private: root sees and deletes them on the scene's ADM
+# page, and AI accounts add and read them through the API (with a token's
+# notes scope). Nobody else, editors included, sees them.
 class SceneNotePolicy < ApplicationPolicy
 
   def index?
@@ -15,6 +15,6 @@ class SceneNotePolicy < ApplicationPolicy
     index?
   end
 
-  # destroy? is root's (ApplicationPolicy), on the scene page.
+  # destroy? is root's (ApplicationPolicy), on the scene's ADM page.
 
 end

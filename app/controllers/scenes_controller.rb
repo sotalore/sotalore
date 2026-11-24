@@ -1,3 +1,5 @@
+# The public scene pages, which only show scenes; they're managed in ADM →
+# Scenes (Adm::ScenesController).
 class ScenesController < ApplicationController
   def index
     authorize Scene
@@ -7,72 +9,12 @@ class ScenesController < ApplicationController
   end
 
   def show
-    @scene = find_scene
+    @scene = Scene.find(params[:id])
     authorize @scene
     render Views::Scenes::Show.new(scene: @scene)
   end
 
-  def new
-    @scene = Scene.new
-    authorize @scene
-    # defaults
-    @scene.parent = Scene.find_by(parent_id: nil)
-    @scene.scene_type_id = Scene::SCENE_TYPES['Adventure']
-    @scene.region_id = params[:region_id]
-    render Views::Scenes::New.new(scene: @scene)
-  end
-
-  def create
-    @scene = Scene.new(permitted_params)
-    authorize @scene
-    if @scene.save
-      flash.notice = "Scene: '#{@scene.name}' added successfully."
-      redirect_to @scene
-    else
-      render Views::Scenes::New.new(scene: @scene), status: :unprocessable_content
-    end
-  end
-
-  def edit
-    @scene = find_scene
-    authorize @scene
-    render Views::Scenes::Edit.new(scene: @scene)
-  end
-
-  def update
-    @scene = find_scene
-    authorize @scene
-    images = params[:scene][:images]
-    if @scene.update(permitted_params)
-      if images
-        images.each { |image| @scene.images.attach(image) }
-      end
-      flash.notice = "Scene: '#{@scene.name}' updated successfully."
-      redirect_to @scene
-    else
-      render Views::Scenes::Edit.new(scene: @scene), status: :unprocessable_content
-    end
-  end
-
-  # Deletes one of the scene's images (+attachment_id+); scenes themselves
-  # aren't deleted. Back on the scene's page, Turbo morphs the image away.
-  def destroy
-    @scene = authorize find_scene
-    @scene.images.find(params[:attachment_id]).purge if params[:attachment_id]
-    redirect_to @scene, status: :see_other
-  end
-
   private
-  def permitted_params
-    params.require(:scene).permit(
-      :name, :level_id, :level_plus, :scene_type_id, :region_id, :parent_id,
-      :pvp, :sota_map_id, :sota_map_parent_poi_id
-    )
-  end
-
-  def find_scene
-    Scene.find(params[:id])
-  end
 
   def filter_params
     if params.key?(:scene_filter)

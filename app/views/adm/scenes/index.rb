@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-# Which scenes still need their finds imported, to choose where to play next.
-# The scene links open the public site in a new tab, where scenes are edited.
+# ADM → Scenes: every scene, with which still need their finds imported (to
+# choose where to play next) and what each has. A name opens the scene's ADM
+# page, where it's managed.
 class Views::Adm::Scenes::Index < Views::Base
 
   SELECT_CSS = 'border border-grey-400 rounded px-2 py-1 text-sm dark:bg-grey-700'
@@ -13,12 +14,16 @@ class Views::Adm::Scenes::Index < Views::Base
   def view_template
     scenes = @report.scenes.to_a
     div(class: 'm-2 p-4 bg-white dark:bg-grey-800') do
-      h1(class: 'text-2xl font-bold') { 'Scene Finds' }
+      div(class: 'flex flex-row flex-wrap items-baseline gap-x-4') do
+        h1(class: 'text-2xl font-bold') { 'Scenes' }
+        a(href: new_adm_scene_path, class: 'Button Button--sm Button--primary') { 'New scene' }
+      end
       p(class: 'my-2 max-w-prose text-sm') do
         plain 'Which scenes have had their items, creatures and gathering nodes imported from a finds file, '
-        plain 'and when it was last done. Play the ones not imported yet (lower tiers are easiest) and upload '
-        plain 'the finds. Scene names open the scene on the site in a new tab, to edit it there.'
+        plain 'and when it was last done, with how many images and notes each has. Play the ones not imported '
+        plain 'yet (lower tiers are easiest) and upload the finds. A name opens the scene, to manage it.'
       end
+      search
       filters
       done, total = @report.progress
       p(class: 'my-2 text-sm') { "#{done} of #{total} scenes have finds imported. Showing #{scenes.size}." }
@@ -32,7 +37,9 @@ class Views::Adm::Scenes::Index < Views::Base
             th(class: 'pr-3') { 'Finds imported' }
             th(class: 'pr-3 text-right') { 'Items' }
             th(class: 'pr-3 text-right') { 'Creatures' }
-            th(class: 'text-right') { 'Nodes' }
+            th(class: 'pr-3 text-right') { 'Nodes' }
+            th(class: 'pr-3 text-right') { 'Images' }
+            th(class: 'text-right') { 'Notes' }
           end
         end
         tbody { scenes.each { scene_row(_1) } }
@@ -42,12 +49,24 @@ class Views::Adm::Scenes::Index < Views::Base
 
   private
 
+  # On its own, so a search shows every status (see SceneFindsReport).
+  def search
+    form(action: adm_scenes_path, method: 'get', class: 'my-4 flex flex-row items-end gap-2') do
+      label(class: 'flex flex-col text-xs font-bold') do
+        plain 'Name'
+        input(type: 'search', name: 'q', value: @report.q, placeholder: 'Part of a name', class: SELECT_CSS)
+      end
+      button(type: 'submit', class: 'Button Button--sm Button--default') { 'Search' }
+    end
+  end
+
   def filters
     form(action: adm_scenes_path, method: 'get', class: 'my-4 flex flex-row flex-wrap items-end gap-4') do
       filter('Region', 'region', Scene::REGIONS.sort_by(&:first), @report.region, blank: 'Any region')
       filter('Type', 'scene_type', Scene::SCENE_TYPES, @report.scene_type, blank: 'Any type')
       filter('Show', 'status', SceneFindsReport::STATUSES.invert, @report.status)
       filter('Sort by', 'sort', SceneFindsReport::SORTS.invert, @report.sort)
+      input(type: 'hidden', name: 'q', value: @report.q) if @report.q
       button(type: 'submit', class: 'Button Button--sm Button--primary') { 'Filter' }
     end
   end
@@ -68,8 +87,7 @@ class Views::Adm::Scenes::Index < Views::Base
   def scene_row(scene)
     tr(class: "border-b border-grey-200 dark:border-grey-700#{' bg-slorange-50 dark:bg-grey-900' unless scene.finds_imported_at}") do
       td(class: 'pr-3 py-1') do
-        a(href: scene_path(scene), target: '_blank', rel: 'noopener', class: 'Link Link--primary') { scene.name }
-        a(href: edit_scene_path(scene), target: '_blank', rel: 'noopener', class: 'Link ml-2 text-xs') { 'edit' }
+        a(href: adm_scene_path(scene), class: 'Link Link--primary') { scene.name }
       end
       td(class: 'pr-3') { scene.level_id.nil? ? '–' : scene.level_id.to_s }
       td(class: 'pr-3 whitespace-nowrap') { Scene::REGION_NAMES[scene.region_id] || '–' }
@@ -77,7 +95,9 @@ class Views::Adm::Scenes::Index < Views::Base
       td(class: 'pr-3') { scene.finds_imported_at ? time_ago_tag(scene.finds_imported_at) : plain('never') }
       td(class: 'pr-3 text-right') { count(scene.items_count) }
       td(class: 'pr-3 text-right') { count(scene.creatures_count) }
-      td(class: 'text-right') { count(scene.nodes_count) }
+      td(class: 'pr-3 text-right') { count(scene.nodes_count) }
+      td(class: 'pr-3 text-right') { count(scene.images_count) }
+      td(class: 'text-right') { count(scene.notes_count) }
     end
   end
 

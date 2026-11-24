@@ -12,7 +12,7 @@ class Views::Scenes::Index < Views::Scenes::Base
 
     tile do
       tile_heading("All Scenes") do
-        new_button_to("New Scene", new_scene_path) if policy(Scene).new?
+        default_button_to("Manage", adm_scenes_path) if policy(Scene).manage?
       end
 
       tile_body do
@@ -32,7 +32,6 @@ class Views::Scenes::Index < Views::Scenes::Base
         th { "PVP" }
         th { "Region" }
         th { "Type" }
-        th { } if policy(Scene).edit?
       end
 
       tbody do
@@ -43,9 +42,6 @@ class Views::Scenes::Index < Views::Scenes::Base
             td { render(Components::Icons::BadgeCheck.new) if scene.pvp }
             td { scene.region }
             td { scene.scene_type }
-            if policy(Scene).edit?
-              td(class: "u-textRight") { edit_icon_to(edit_scene_path(scene)) }
-            end
           end
         end
       end

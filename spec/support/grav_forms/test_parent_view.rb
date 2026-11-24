@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# A stand-in for a real app view (like Views::Scenes::Form), used only to
+# A stand-in for a real app view (like Views::Adm::Scenes::Form), used only to
 # prove that Grav::Views::Forms::FormBuilder works the way it's meant to be
 # consumed: `render`ed with a block from inside another Phlex component,
 # rather than `include`d into it. It deliberately defines its own #model,

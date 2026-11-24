@@ -29,32 +29,34 @@ class Views::Layouts::Adm < Views::Layouts::Base
         # The window scrolls the page (so Turbo restores its position going
         # back, and keeps it when morphing); the sidebar stays put beside it.
         div(class: "flex min-h-dvh") do
-          div(class: "sticky top-0 h-dvh shrink-0 overflow-y-auto bg-slorange-700 dark:bg-grey-800 w-16 lg:w-40") do
+          div(class: "sticky top-0 h-dvh shrink-0 overflow-y-auto bg-slorange-700 dark:bg-grey-800 w-40") do
             div(class: "h-12 p-3 text-center") do
               link_to("/", class: "text-xl font-bold text-zinc-200 dark:text-slorange-300") do
-                span(class: "hidden lg:inline") { "SOTA LORE" }
-                span(class: "inline lg:hidden") { "SL" }
+                plain "SOTA LORE"
               end
             end
             div do
-              nav(class: "main-navigation text-center lg:text-left") do
-                site_nav_link_to("Users", adm_users_path, "book")
-                site_nav_link_to("Recipe Imports", adm_recipe_imports_path, "book")
-                site_nav_link_to("Finds Imports", adm_finds_imports_path, "book")
-                site_nav_link_to("Scene Finds", adm_scenes_path, "book")
-                site_nav_link_to("Item Catalogs", adm_item_catalog_imports_path, "book")
-                site_nav_link_to("Creatures", creatures_path, "book")
-                site_nav_link_to("Gathering Nodes", gathering_nodes_path, "book")
-                site_nav_link_to("Item Review", adm_item_reviews_path, "book")
-                site_nav_link_to("Archetype Cleanup", adm_archetype_cleanup_path, "book")
-                site_nav_link_to("Material Triage", adm_material_triage_path, "book")
-                site_nav_link_to("Component Bonuses", adm_component_bonuses_path, "book")
-                site_nav_link_to("Proposals", adm_proposals_path, "book")
-                site_nav_link_to("AI Access", adm_api_tokens_path, "key")
+              nav(class: "main-navigation text-left") do
+                site_nav_link_to("Users", adm_users_path)
+                site_nav_link_to("Scenes", adm_scenes_path)
                 hr(class: "my-2")
-                site_nav_link_to("Styles", adm_styles_path, "key")
+                site_nav_link_to("Recipe Imports", adm_recipe_imports_path)
+                site_nav_link_to("Finds Imports", adm_finds_imports_path)
+                site_nav_link_to("Item Catalogs", adm_item_catalog_imports_path)
                 hr(class: "my-2")
-                sign_out_nav_button
+                site_nav_link_to("Creatures", creatures_path)
+                site_nav_link_to("Gathering Nodes", gathering_nodes_path)
+                site_nav_link_to("Item Review", adm_item_reviews_path)
+                site_nav_link_to("Archetype Cleanup", adm_archetype_cleanup_path)
+                site_nav_link_to("Material Triage", adm_material_triage_path)
+                site_nav_link_to("Comp. Bonuses", adm_component_bonuses_path)
+                hr(class: "my-2")
+                site_nav_link_to("Proposals", adm_proposals_path)
+                site_nav_link_to("AI Access", adm_api_tokens_path)
+                hr(class: "my-2")
+                site_nav_link_to("Styles", adm_styles_path)
+                hr(class: "my-2")
+                sign_out_nav_button(icon: nil)
               end
             end
           end
